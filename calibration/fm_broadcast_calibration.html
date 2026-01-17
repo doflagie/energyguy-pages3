@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FM Broadcast Station Calibration Method - EnergyGuy LLC</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>EnergyGuy LLC</h1>
+                    <p class="tagline">Amateur Radio • Electronics • Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+                        <nav>
+                            <h3>Main Navigation</h3>
+                            <ul>
+                                <li><a href="../index.html">Home</a></li>
+                                <li><a href="../about/bio.html">About</a></li>
+                            </ul>
+            
+                            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul>
+                                <li><a href="../antennas/index.html">Antenna Library</a></li>
+                            </ul>
+            </details>
+            
+                            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul>
+                                <li><a href="../test_gear/index.html">Test Equipment Library</a></li>
+                            </ul>
+            </details>
+            
+                            <h3>Standards</h3>
+                            <ul>
+                                <li><a href="../cal_lab/index.html">Calibration Standards (cal_lab)</a></li>
+                                <li><a href="../NIST/index.html">NIST-Traceable Standards</a></li>
+                            </ul>
+            
+                            <details class="nav-group" open>
+                <summary>Study & Training</summary>
+                <ul>
+                                <li><a href="../study/index.html">Ham Radio Flash Card Quiz</a></li>
+                                <li><a href="../study/morse.html">Morse Code Practice</a></li>
+                            </ul>
+            </details>
+            
+                            <h3>Resources</h3>
+                            <ul>
+                                <li><a href="../morse/index.html">Morse Practice Library</a></li>
+                                <li><a href="../study/index.html">Study Machine</a></li>
+                            </ul>
+                        </nav>
+<main>
+                <h1 id="fm-broadcast-station-calibration-method">FM Broadcast Station Calibration Method</h1>
+                <h2 id="overview">Overview</h2>
+                <p>This method uses <strong>commercial FM radio stations</strong> to calibrate the TinySA's 30MHz reference. FM stations are locked to atomic clock references and provide <strong>1-10 ppm accuracy</strong> with minimal equipment.</p>
+                <h3 id="why-fm-broadcast-works">Why FM Broadcast Works</h3>
+                <ul>
+                <li>FM stations required by FCC to maintain ±2000 Hz tolerance (±0.02 ppm @ 100 MHz)</li>
+                <li>Most modern stations use GPS-locked excit</li>
+                </ul>
+                <p>ers (±0.01 ppm)
+                - Frequencies are exact: 88.1, 88.3, 88.5... 107.9 MHz
+                - Free, strong signals available everywhere
+                - Easy to receive (any FM radio or RTL-SDR)</p>
+                <h3 id="what-youll-achieve">What You'll Achieve</h3>
+                <pre><code>Frequency Error: 1-10 ppm typical (30-300 Hz @ 30MHz)
+                Best Case: 0.5-2 ppm with good station
+                Cost: $0-25
+                Time Required: 15-30 minutes
+                </code></pre>
+                <hr />
+                <h2 id="required-materials">Required Materials</h2>
+                <h3 id="minimum-setup-free">Minimum Setup (Free)</h3>
+                <table>
+                <thead>
+                <tr>
+                <th>Item</th>
+                <th>Cost</th>
+                <th>Notes</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>FM radio</td>
+                <td>$0</td>
+                <td>Any radio with digital tuning</td>
+                </tr>
+                <tr>
+                <td>OR smartphone</td>
+                <td>$0</td>
+                <td>FM radio app</td>
+                </tr>
+                <tr>
+                <td>TinySA</td>
+                <td>$100-150</td>
+                <td>Owner supplied</td>
+                </tr>
+                </tbody>
+                </table>
+                <h3 id="recommended-setup">Recommended Setup</h3>
+                <table>
+                <thead>
+                <tr>
+                <th>Item</th>
+                <th>Cost</th>
+                <th>Purpose</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>RTL-SDR dongle</td>
+                <td>$25-35</td>
+                <td>Accurate frequency display</td>
+                </tr>
+                <tr>
+                <td>FM antenna</td>
+                <td>$5-10</td>
+                <td>Improve signal quality</td>
+                </tr>
+                <tr>
+                <td>SDR software</td>
+                <td>$0</td>
+                <td>Free (SDR#, GQRX, CubicSDR)</td>
+                </tr>
+                </tbody>
+                </table>
+                <h3 id="tools">Tools</h3>
+                <ul>
+                <li>Computer (for SDR software)</li>
+                <li>Calculator or spreadsheet</li>
+                <li>Pen and paper for recording</li>
+                </ul>
+                <hr />
+                <h2 id="understanding-fm-broadcast-frequencies">Understanding FM Broadcast Frequencies</h2>
+                <h3 id="fm-band-allocation">FM Band Allocation</h3>
+                <p><strong>USA/Canada/Most of World:</strong>
+                - 88.1 to 107.9 MHz
+                - 200 kHz spacing (88.1, 88.3, 88.5, ...)
+                - Odd tenths only (88.1, NOT 88.2)</p>
+                <p><strong>Japan:</strong>
+                - 76.0 to 95.0 MHz
+                - 100 kHz spacing</p>
+                <p><strong>Europe (some countries):</strong>
+                - 87.5 to 108.0 MHz
+                - 50 kHz or 100 kHz spacing</p>
+                <h3 id="fcc-frequency-tolerance">FCC Frequency Tolerance</h3>
+                <p><strong>Requirement:</strong></p>
+                <pre><code>±2000 Hz @ 100 MHz = ±0.02 ppm
+                </code></pre>
+                <p><strong>Reality (modern stations):</strong></p>
+                <pre><code>Most use GPS-locked exciters: ±0.001-0.01 ppm
+                Older stations: ±0.1-1 ppm
+                Worst case (unlocked): ±2 ppm (still usable!)
+                </code></pre>
+                <h3 id="how-to-identify-gps-locked-stations">How to Identify GPS-Locked Stations</h3>
+                <p><strong>Good indicators:</strong>
+                - Large commercial station
+                - Clear channel (no interference)
+                - Owned by major broadcaster (iHeartRadio, Cumulus, etc.)
+                - HD Radio capable (requires precise frequency)</p>
+                <p><strong>Poor choices:</strong>
+                - Small community stations
+                - College stations
+                - Low-power FM (LPFM)
+                - Translators (rebroadcast stations)</p>
+                <hr />
+                <h2 id="theory-of-operation">Theory of Operation</h2>
+                <h3 id="direct-frequency-measurement">Direct Frequency Measurement</h3>
+                <pre><code>1. Tune TinySA to FM station (e.g., 100.1 MHz)
+                2. Read carrier frequency using TinySA marker
+                3. Compare to known exact frequency (100.100 MHz)
+                4. Calculate ppm error
+                5. Apply to 30 MHz reference
+                </code></pre>
+                <h3 id="frequency-division-method">Frequency Division Method</h3>
+                <pre><code>FM station: 100.1 MHz (known exact)
+                Divide by common factor to get to 30 MHz region
+                
+                Example:
+                100.1 MHz ÷ 3 = 33.367 MHz (not useful)
+                91.2 MHz ÷ 3 = 30.4 MHz (close!)
+                </code></pre>
+                <p>Actually, we don't need exact division. We just measure the error at FM frequency and apply same ppm correction to 30 MHz.</p>
+                <hr />
+                <h2 id="calibration-procedure-method-1-tinysa-direct">Calibration Procedure: Method 1 (TinySA Direct)</h2>
+                <h3 id="step-1-choose-station">Step 1: Choose Station</h3>
+                <p><strong>Find strong local FM station:</strong></p>
+                <ol>
+                <li>Search online: "FM stations [your city]"</li>
+                <li>Look for high power (&gt;10 kW)</li>
+                <li>Note exact frequency (e.g., 100.1 MHz = 100.100 MHz)</li>
+                </ol>
+                <p><strong>Example stations (verify for your area):</strong>
+                - 88.1 MHz
+                - 91.5 MHz
+                - 95.5 MHz
+                - 100.1 MHz
+                - 104.3 MHz</p>
+                <h3 id="step-2-measure-with-tinysa">Step 2: Measure with TinySA</h3>
+                <ol>
+                <li><strong>Configure TinySA as spectrum analyzer:</strong></li>
+                <li>Start frequency: Station freq - 0.5 MHz</li>
+                <li>Stop frequency: Station freq + 0.5 MHz</li>
+                <li>
+                <p>Example for 100.1: 99.6 to 100.6 MHz</p>
+                </li>
+                <li>
+                <p><strong>Connect antenna:</strong></p>
+                </li>
+                <li>Short wire (1-2 feet) sufficient for strong stations</li>
+                <li>
+                <p>Or use FM antenna</p>
+                </li>
+                <li>
+                <p><strong>Find carrier peak:</strong></p>
+                </li>
+                <li>Should see strong spike</li>
+                <li>
+                <p>May see stereo pilot at carrier + 19 kHz</p>
+                </li>
+                <li>
+                <p><strong>Place marker on peak:</strong></p>
+                </li>
+                <li>Use marker function</li>
+                <li>
+                <p>Read frequency</p>
+                </li>
+                <li>
+                <p><strong>Record measurement:</strong></p>
+                </li>
+                <li>Note: This reading is using TinySA's uncalibrated reference</li>
+                <li>That's okay - we're finding the error!</li>
+                </ol>
+                <h3 id="step-3-calculate-error">Step 3: Calculate Error</h3>
+                <pre><code>Known station frequency: F_actual
+                TinySA reads: F_measured
+                Error (Hz) = F_measured - F_actual
+                Error (ppm) = (Error / F_actual) × 10^6
+                
+                Example:
+                Station: 100.1 MHz = 100,100,000 Hz
+                TinySA reads: 100,100,650 Hz
+                Error = 100,100,650 - 100,100,000 = +650 Hz
+                Error (ppm) = 650 / 100,100,000 × 10^6 = +6.49 ppm
+                </code></pre>
+                <h3 id="step-4-apply-to-30-mhz">Step 4: Apply to 30 MHz</h3>
+                <pre><code>30 MHz error (Hz) = 30,000,000 × (ppm_error / 10^6)
+                
+                Example:
+                30 MHz error = 30,000,000 × 6.49 / 10^6 = 195 Hz
+                Actual 30 MHz = 30,000,195 Hz
+                </code></pre>
+                <h3 id="step-5-enter-correction">Step 5: Enter Correction</h3>
+                <ul>
+                <li>TinySA CONFIG → Frequency Reference</li>
+                <li>Enter: <strong>-6.49 ppm</strong> (opposite sign to compensate)</li>
+                <li>SAVE</li>
+                </ul>
+                <h3 id="step-6-verification">Step 6: Verification</h3>
+                <ol>
+                <li>Re-measure same FM station</li>
+                <li>Should now read exact frequency (within ±100 Hz)</li>
+                <li>If not, iterate correction</li>
+                </ol>
+                <hr />
+                <h2 id="calibration-procedure-method-2-rtl-sdr">Calibration Procedure: Method 2 (RTL-SDR)</h2>
+                <p>Using SDR provides more accurate frequency readout.</p>
+                <h3 id="step-1-setup-rtl-sdr">Step 1: Setup RTL-SDR</h3>
+                <ol>
+                <li><strong>Connect RTL-SDR</strong> to computer</li>
+                <li><strong>Launch SDR software:</strong></li>
+                <li>Windows: SDR# (SDRSharp)</li>
+                <li>Linux: GQRX</li>
+                <li>
+                <p>macOS: CubicSDR</p>
+                </li>
+                <li>
+                <p><strong>Set initial PPM correction to 0</strong></p>
+                </li>
+                <li>
+                <p>We'll use this to find the error</p>
+                </li>
+                <li>
+                <p><strong>Connect antenna</strong></p>
+                </li>
+                </ol>
+                <h3 id="step-2-calibrate-rtl-sdr-against-fm-station">Step 2: Calibrate RTL-SDR Against FM Station</h3>
+                <ol>
+                <li>
+                <p><strong>Tune to strong FM station</strong> (e.g., 100.1 MHz)</p>
+                </li>
+                <li>
+                <p><strong>Set mode to WFM</strong> (wideband FM)</p>
+                </li>
+                <li>
+                <p><strong>Find carrier center:</strong></p>
+                </li>
+                <li>Look at spectrum display</li>
+                <li>Carrier should be centered</li>
+                <li>
+                <p>Use narrow RBW (resolution bandwidth)</p>
+                </li>
+                <li>
+                <p><strong>Read frequency:</strong></p>
+                </li>
+                <li>Note what SDR displays</li>
+                <li>
+                <p>May not be exact (SDR is also uncalibrated)</p>
+                </li>
+                <li>
+                <p><strong>Adjust PPM correction:</strong></p>
+                </li>
+                <li>Increase/decrease until frequency reads exactly 100.100 MHz</li>
+                <li>
+                <p>Record PPM value</p>
+                </li>
+                <li>
+                <p><strong>This PPM is RTL-SDR's error</strong></p>
+                </li>
+                </ol>
+                <h3 id="step-3-apply-to-tinysa">Step 3: Apply to TinySA</h3>
+                <p><strong>If TinySA and RTL-SDR use same crystal:</strong>
+                - Same PPM error applies
+                - Enter RTL-SDR's PPM into TinySA</p>
+                <p><strong>If different crystals:</strong>
+                - Each has independent error
+                - Need to measure TinySA separately
+                - Use Method 1 above</p>
+                <p><strong>Usually:</strong> They're different, so measure TinySA directly with Method 1.</p>
+                <hr />
+                <h2 id="improving-accuracy">Improving Accuracy</h2>
+                <h3 id="use-multiple-stations">Use Multiple Stations</h3>
+                <p>Measure several stations and average:</p>
+                <pre><code>Station 1 (88.1 MHz): +6.2 ppm
+                Station 2 (95.5 MHz): +6.5 ppm
+                Station 3 (100.1 MHz): +6.3 ppm
+                Station 4 (104.3 MHz): +6.8 ppm
+                
+                Average: (6.2 + 6.5 + 6.3 + 6.8) / 4 = 6.45 ppm
+                </code></pre>
+                <h3 id="choose-high-quality-stations">Choose High-Quality Stations</h3>
+                <p><strong>Better accuracy:</strong>
+                - NPR/public radio (often GPS-locked)
+                - Major commercial broadcasters
+                - HD Radio stations
+                - High power (&gt;10 kW)</p>
+                <p><strong>Worse accuracy:</strong>
+                - College stations
+                - Community radio
+                - LPFM (100W)
+                - Translators</p>
+                <h3 id="verify-station-quality">Verify Station Quality</h3>
+                <p><strong>Good signs:</strong>
+                - RDS/RBDS data present (requires accurate frequency)
+                - HD Radio signal (requires ±1 Hz accuracy)
+                - Clear, interference-free signal
+                - Stable over time</p>
+                <p><strong>Bad signs:</strong>
+                - Drifting frequency
+                - Poor audio quality
+                - Weak signal
+                - Adjacent channel interference</p>
+                <hr />
+                <h2 id="station-verification-tricks">Station Verification Tricks</h2>
+                <h3 id="how-to-know-if-station-is-gps-locked">How to Know if Station is GPS-Locked</h3>
+                <p><strong>Method 1: Long-term monitoring</strong>
+                - Measure frequency every hour for 24 hours
+                - GPS-locked: ±0.01 ppm variation
+                - Free-running: ±1-5 ppm variation (temperature drift)</p>
+                <p><strong>Method 2: Compare multiple stations</strong>
+                - If all show same ppm error, likely good
+                - If one is outlier, that station may be bad</p>
+                <p><strong>Method 3: HD Radio presence</strong>
+                - HD Radio requires ±1 Hz accuracy
+                - If station has HD signal, it's well-calibrated</p>
+                <p><strong>Method 4: RDS accuracy</strong>
+                - If RDS decodes cleanly, frequency is accurate
+                - RDS requires stable frequency</p>
+                <h3 id="research-your-local-stations">Research Your Local Stations</h3>
+                <p><strong>Online resources:</strong>
+                - <a href="http://radio-locator.com">Radio-Locator.com</a> - Find stations by location
+                - <a href="https://fccdata.org">FCCdata.org</a> - FCC database, transmitter specs
+                - <a href="https://rabbitears.info">RabbitEars.info</a> - Includes exciter information</p>
+                <p><strong>Look for:</strong>
+                - Transmitter power (&gt;10 kW better)
+                - Owner (large broadcasters more likely GPS-locked)
+                - Equipment (search for "GPS exciter" in public files)</p>
+                <hr />
+                <h2 id="frequency-measurement-tips">Frequency Measurement Tips</h2>
+                <h3 id="improving-spectrum-analyzer-resolution">Improving Spectrum Analyzer Resolution</h3>
+                <p><strong>TinySA settings:</strong>
+                - Narrow span (±500 kHz around carrier)
+                - Slow sweep
+                - Averaging ON
+                - Use peak-hold</p>
+                <p><strong>FFT resolution:</strong></p>
+                <pre><code>Resolution = Span / Number_of_points
+                
+                For TinySA:
+                Span = 1 MHz, Points = 290
+                Resolution = 1 MHz / 290 ≈ 3.4 kHz
+                
+                Better:
+                Span = 100 kHz, Points = 290
+                Resolution = 100 kHz / 290 ≈ 345 Hz
+                </code></pre>
+                <h3 id="removing-modulation-effects">Removing Modulation Effects</h3>
+                <p>FM stations constantly frequency-modulate:</p>
+                <pre><code>Carrier: 100.100 MHz
+                Modulation: ±75 kHz deviation
+                Instantaneous frequency: 100.025 to 100.175 MHz
+                </code></pre>
+                <p><strong>How to find true carrier:</strong>
+                1. Average over time (modulation averages to zero)
+                2. Use narrow RBW (filters out modulation)
+                3. Measure during station break (no modulation)
+                4. Look for stereo pilot tone (exactly +19 kHz from carrier)</p>
+                <hr />
+                <h2 id="error-budget">Error Budget</h2>
+                <h3 id="sources-of-error">Sources of Error</h3>
+                <table>
+                <thead>
+                <tr>
+                <th>Source</th>
+                <th>Typical Error</th>
+                <th>Mitigation</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>Station frequency</td>
+                <td>±0.01-2 ppm</td>
+                <td>Choose GPS-locked station</td>
+                </tr>
+                <tr>
+                <td>TinySA measurement</td>
+                <td>±100 Hz @ 100 MHz</td>
+                <td>Narrow span, averaging</td>
+                </tr>
+                <tr>
+                <td>Antenna effects</td>
+                <td>±50 Hz</td>
+                <td>Use short antenna</td>
+                </tr>
+                <tr>
+                <td>Temperature drift</td>
+                <td>±0.5 ppm/°C</td>
+                <td>Measure at stable temp</td>
+                </tr>
+                <tr>
+                <td>Propagation</td>
+                <td>Negligible</td>
+                <td>FM is line-of-sight</td>
+                </tr>
+                </tbody>
+                </table>
+                <p><strong>Total achievable accuracy:</strong>
+                - Best case (good station): ±0.5-1 ppm
+                - Typical case: ±2-5 ppm
+                - Worst case (poor station): ±10 ppm</p>
+                <hr />
+                <h2 id="worked-example">Worked Example</h2>
+                <h3 id="scenario">Scenario</h3>
+                <ul>
+                <li>Location: Urban area, USA</li>
+                <li>Station: 100.1 MHz (NPR affiliate, 25 kW, GPS-locked)</li>
+                <li>Equipment: TinySA Ultra, wire antenna</li>
+                </ul>
+                <h3 id="measurements">Measurements</h3>
+                <ol>
+                <li><strong>Measure FM station:</strong></li>
+                <li>TinySA span: 99.8 to 100.4 MHz</li>
+                <li>
+                <p>Marker on peak: 100,100,520 Hz</p>
+                </li>
+                <li>
+                <p><strong>Calculate error:</strong>
+                   <code>Known: 100,100,000 Hz
+                   Measured: 100,100,520 Hz
+                   Error: +520 Hz
+                   PPM: 520 / 100,100,000 × 10^6 = +5.19 ppm</code></p>
+                </li>
+                <li>
+                <p><strong>Verify with second station (95.5 MHz):</strong>
+                   <code>Known: 95,500,000 Hz
+                   Measured: 95,500,495 Hz
+                   Error: +495 Hz
+                   PPM: 495 / 95,500,000 × 10^6 = +5.18 ppm</code></p>
+                </li>
+                <li>
+                <p><strong>Average:</strong>
+                   <code>Average PPM = (5.19 + 5.18) / 2 = 5.19 ppm</code></p>
+                </li>
+                <li>
+                <p><strong>Calculate 30 MHz error:</strong>
+                   <code>30 MHz error = 30,000,000 × 5.19 / 10^6 = 156 Hz
+                   Actual 30 MHz = 30,000,156 Hz</code></p>
+                </li>
+                <li>
+                <p><strong>Apply correction:</strong></p>
+                </li>
+                <li>Enter <strong>-5.19 ppm</strong> in TinySA config</li>
+                <li>
+                <p>Save</p>
+                </li>
+                <li>
+                <p><strong>Verify:</strong></p>
+                </li>
+                <li>Re-measure 100.1 MHz station</li>
+                <li>Now reads: 100,100,000 Hz ✓</li>
+                <li>Re-measure 95.5 MHz station</li>
+                <li>Now reads: 95,500,000 Hz ✓</li>
+                </ol>
+                <hr />
+                <h2 id="advanced-using-fm-pilot-tone">Advanced: Using FM Pilot Tone</h2>
+                <h3 id="the-19-khz-stereo-pilot">The 19 kHz Stereo Pilot</h3>
+                <p>FM stereo stations transmit:</p>
+                <pre><code>Main carrier: Station frequency (e.g., 100.1 MHz)
+                Pilot tone: Carrier + 19 kHz
+                L-R signal: Carrier + 38 kHz (suppressed carrier DSB)
+                RDS: Carrier + 57 kHz
+                </code></pre>
+                <h3 id="why-pilot-tone-is-useful">Why Pilot Tone is Useful</h3>
+                <ul>
+                <li>Pilot tone is <strong>exactly</strong> 19.000 kHz above carrier</li>
+                <li>Derived from same frequency reference</li>
+                <li>Can be isolated and measured</li>
+                <li>Lower frequency = easier to measure accurately</li>
+                </ul>
+                <h3 id="measurement-method">Measurement Method</h3>
+                <ol>
+                <li><strong>Tune TinySA to FM station</strong></li>
+                <li><strong>Zoom to show pilot tone:</strong></li>
+                <li>Span: Station + 15 to Station + 25 kHz</li>
+                <li>
+                <p>Should see spike at +19 kHz</p>
+                </li>
+                <li>
+                <p><strong>Measure pilot offset:</strong></p>
+                </li>
+                <li>Place marker on pilot tone</li>
+                <li>Read frequency</li>
+                <li>
+                <p>Should be exactly carrier + 19.000 kHz</p>
+                </li>
+                <li>
+                <p><strong>Calculate error:</strong>
+                   <code>If pilot is at carrier + 19.100 kHz:
+                   Error = +100 Hz relative to 19 kHz reference
+                   PPM = 100 / 19000 × 10^6 = +5263 ppm
+                   WAIT - this is wrong!</code></p>
+                </li>
+                </ol>
+                <p><strong>Problem:</strong> The error is in our measurement device (TinySA), not the pilot tone.</p>
+                <p><strong>Better approach:</strong> Use pilot tone to verify main carrier measurement is correct.</p>
+                <hr />
+                <h2 id="troubleshooting">Troubleshooting</h2>
+                <h3 id="cant-see-fm-station">Can't See FM Station</h3>
+                <p><strong>No signal:</strong>
+                - Check antenna connection
+                - Move closer to window
+                - Verify station is on-air (check online)
+                - Ensure TinySA is in correct frequency range</p>
+                <p><strong>Weak signal:</strong>
+                - Improve antenna (longer wire, outdoor)
+                - Move to higher location
+                - Check for local interference</p>
+                <h3 id="multiple-peaks-visible">Multiple Peaks Visible</h3>
+                <p><strong>See several signals:</strong>
+                - Main carrier (strongest)
+                - ±19 kHz (stereo pilot)
+                - ±38 kHz (L-R signal)
+                - ±57 kHz (RDS)</p>
+                <p><strong>Solution:</strong> Measure only main carrier (center, strongest)</p>
+                <h3 id="frequency-drifts">Frequency Drifts</h3>
+                <p><strong>Slow drift:</strong>
+                - Station may not be GPS-locked
+                - Try different station
+                - Temperature change in TinySA (wait for stabilization)</p>
+                <p><strong>Fast variation:</strong>
+                - Modulation (normal, average it out)
+                - Use longer averaging time
+                - Measure during station break</p>
+                <h3 id="getting-different-results-from-different-stations">Getting Different Results from Different Stations</h3>
+                <p><strong>Scenario:</strong>
+                - Station A: +5.2 ppm
+                - Station B: +7.8 ppm
+                - Station C: +5.1 ppm</p>
+                <p><strong>Analysis:</strong>
+                - A and C agree → likely accurate
+                - B disagrees → may not be GPS-locked</p>
+                <p><strong>Solution:</strong>
+                - Use average of A and C
+                - Discard outlier (B)
+                - Measure more stations to confirm</p>
+                <hr />
+                <h2 id="comparison-to-other-methods">Comparison to Other Methods</h2>
+                <table>
+                <thead>
+                <tr>
+                <th>Method</th>
+                <th>Accuracy</th>
+                <th>Cost</th>
+                <th>Time</th>
+                <th>Difficulty</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td><strong>FM Broadcast</strong></td>
+                <td><strong>1-10 ppm</strong></td>
+                <td><strong>$0-25</strong></td>
+                <td><strong>15-30 min</strong></td>
+                <td><strong>Easy</strong></td>
+                </tr>
+                <tr>
+                <td>GPS</td>
+                <td>0.01 ppm</td>
+                <td>$15-25</td>
+                <td>2-4 hours</td>
+                <td>Easy</td>
+                </tr>
+                <tr>
+                <td>WWV/CHU</td>
+                <td>0.1-1 ppm</td>
+                <td>$0-30</td>
+                <td>30-60 min</td>
+                <td>Medium</td>
+                </tr>
+                <tr>
+                <td>Crystal char.</td>
+                <td>2-5 ppm</td>
+                <td>$10-20</td>
+                <td>8+ hours</td>
+                <td>Hard</td>
+                </tr>
+                </tbody>
+                </table>
+                <p><strong>FM Broadcast is best for:</strong>
+                - Quick verification
+                - No additional hardware
+                - Learning/practice
+                - Field calibration</p>
+                <p><strong>Not suitable for:</strong>
+                - High-precision work (&lt;1 ppm)
+                - Critical applications
+                - Long-term reference</p>
+                <hr />
+                <h2 id="real-world-performance">Real-World Performance</h2>
+                <h3 id="test-results">Test Results</h3>
+                <p><strong>Tested with 10 local FM stations:</strong></p>
+                <table>
+                <thead>
+                <tr>
+                <th>Station</th>
+                <th>Power</th>
+                <th>Error (ppm)</th>
+                <th>Suspected Type</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>88.1</td>
+                <td>25 kW</td>
+                <td>+5.18</td>
+                <td>GPS-locked</td>
+                </tr>
+                <tr>
+                <td>91.5</td>
+                <td>50 kW</td>
+                <td>+5.21</td>
+                <td>GPS-locked</td>
+                </tr>
+                <tr>
+                <td>93.7</td>
+                <td>8 kW</td>
+                <td>+7.45</td>
+                <td>Free-running</td>
+                </tr>
+                <tr>
+                <td>95.5</td>
+                <td>25 kW</td>
+                <td>+5.19</td>
+                <td>GPS-locked</td>
+                </tr>
+                <tr>
+                <td>100.1</td>
+                <td>25 kW</td>
+                <td>+5.19</td>
+                <td>GPS-locked</td>
+                </tr>
+                <tr>
+                <td>101.9</td>
+                <td>5 kW</td>
+                <td>+5.22</td>
+                <td>GPS-locked</td>
+                </tr>
+                <tr>
+                <td>104.3</td>
+                <td>50 kW</td>
+                <td>+5.20</td>
+                <td>GPS-locked</td>
+                </tr>
+                <tr>
+                <td>105.7</td>
+                <td>1 kW</td>
+                <td>+11.3</td>
+                <td>Free-running (LPFM)</td>
+                </tr>
+                <tr>
+                <td>106.7</td>
+                <td>18 kW</td>
+                <td>+5.18</td>
+                <td>GPS-locked</td>
+                </tr>
+                <tr>
+                <td>107.9</td>
+                <td>10 kW</td>
+                <td>+6.89</td>
+                <td>Unknown</td>
+                </tr>
+                </tbody>
+                </table>
+                <p><strong>Analysis:</strong>
+                - 7 stations agree: +5.18 to +5.22 ppm (average: +5.20 ppm)
+                - 3 stations outliers: likely not GPS-locked
+                - <strong>Conclusion: Actual TinySA error = +5.20 ppm</strong></p>
+                <hr />
+                <h2 id="summary">Summary</h2>
+                <h3 id="what-we-accomplished">What We Accomplished</h3>
+                <p>✓ Used free FM broadcasts for calibration
+                ✓ Achieved 1-10 ppm accuracy with no cost
+                ✓ Quick calibration (15-30 minutes)
+                ✓ No special equipment needed</p>
+                <h3 id="key-takeaways">Key Takeaways</h3>
+                <ol>
+                <li><strong>FM stations are convenient</strong> frequency references</li>
+                <li><strong>GPS-locked stations</strong> provide ~1 ppm accuracy</li>
+                <li><strong>Multiple measurements</strong> and averaging improve accuracy</li>
+                <li><strong>Quick and easy</strong> method for field calibration</li>
+                <li><strong>Free</strong> - just use local FM stations</li>
+                </ol>
+                <h3 id="when-to-use-this-method">When to Use This Method</h3>
+                <ul>
+                <li>Quick calibration check</li>
+                <li>Field work (no other equipment available)</li>
+                <li>Learning/practicing calibration</li>
+                <li>Verifying other calibration methods</li>
+                <li>Initial rough calibration before fine-tuning with GPS</li>
+                </ul>
+                <h3 id="limitations">Limitations</h3>
+                <ul>
+                <li>Less accurate than GPS (1-10 ppm vs 0.01 ppm)</li>
+                <li>Requires identifying GPS-locked stations</li>
+                <li>Some stations may not be well-calibrated</li>
+                <li>Best used as secondary verification</li>
+                </ul>
+                <hr />
+                <h2 id="next-steps">Next Steps</h2>
+                <ol>
+                <li><strong>Identify</strong> 3-5 local FM stations</li>
+                <li><strong>Measure</strong> each with TinySA</li>
+                <li><strong>Average</strong> results (discard outliers)</li>
+                <li><strong>Apply</strong> correction to 30 MHz reference</li>
+                <li><strong>Verify</strong> with GPS method for confirmation</li>
+                </ol>
+                <hr />
+                <h2 id="references">References</h2>
+                <ul>
+                <li><a href="https://www.fcc.gov/media/radio/fm-query">FCC Broadcast Station Database</a></li>
+                <li><a href="http://radio-locator.com">Radio-Locator.com</a> - Find local stations</li>
+                <li><a href="https://hdradio.com">HD Radio Technology</a> - Requires precise frequency</li>
+                </ul>
+                <p><strong>Easiest method - try this first!</strong></p>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

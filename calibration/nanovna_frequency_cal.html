@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NanoVNA Frequency Calibration - EnergyGuy LLC</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>EnergyGuy LLC</h1>
+                    <p class="tagline">Amateur Radio • Electronics • Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+                        <nav>
+                            <h3>Main Navigation</h3>
+                            <ul>
+                                <li><a href="../index.html">Home</a></li>
+                                <li><a href="../about/bio.html">About</a></li>
+                            </ul>
+            
+                            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul>
+                                <li><a href="../antennas/index.html">Antenna Library</a></li>
+                            </ul>
+            </details>
+            
+                            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul>
+                                <li><a href="../test_gear/index.html">Test Equipment Library</a></li>
+                            </ul>
+            </details>
+            
+                            <h3>Standards</h3>
+                            <ul>
+                                <li><a href="../cal_lab/index.html">Calibration Standards (cal_lab)</a></li>
+                                <li><a href="../NIST/index.html">NIST-Traceable Standards</a></li>
+                            </ul>
+            
+                            <details class="nav-group" open>
+                <summary>Study & Training</summary>
+                <ul>
+                                <li><a href="../study/index.html">Ham Radio Flash Card Quiz</a></li>
+                                <li><a href="../study/morse.html">Morse Code Practice</a></li>
+                            </ul>
+            </details>
+            
+                            <h3>Resources</h3>
+                            <ul>
+                                <li><a href="../morse/index.html">Morse Practice Library</a></li>
+                                <li><a href="../study/index.html">Study Machine</a></li>
+                            </ul>
+                        </nav>
+<main>
+                <h1 id="nanovna-frequency-calibration">NanoVNA Frequency Calibration</h1>
+                <h2 id="overview">Overview</h2>
+                <p>The NanoVNA's frequency accuracy depends on its internal crystal oscillator. Like the TinySA, this crystal needs calibration for accurate measurements.</p>
+                <p><strong>Good news:</strong> The same methods used for TinySA calibration work for NanoVNA!</p>
+                <h3 id="quick-reference">Quick Reference</h3>
+                <p><strong>For detailed calibration methods, see:</strong>
+                - <strong><a href="../cal_lab/gps-reference/gps_calibration.html">gps_calibration.md</a></strong> - GPS 1PPS method (0.01 ppm)
+                - <strong><a href="../cal_lab/radio_standard_calibration.html">radio_standard_calibration.md</a></strong> - WWV/CHU (0.1-1 ppm)
+                - <strong><a href="../cal_lab/fm_broadcast_calibration.html">fm_broadcast_calibration.md</a></strong> - FM stations (1-10 ppm)</p>
+                <p>This document covers NanoVNA-specific aspects and quick calibration procedures.</p>
+                <hr />
+                <h2 id="nanovna-frequency-architecture">NanoVNA Frequency Architecture</h2>
+                <h3 id="crystal-oscillator">Crystal Oscillator</h3>
+                <p><strong>NanoVNA v1 (Original):</strong>
+                - Crystal: 8 MHz
+                - PLL multiplication: up to 900 MHz
+                - Typical uncalibrated error: ±20-50 ppm</p>
+                <p><strong>NanoVNA-H/H4:</strong>
+                - Crystal: 8 MHz or TCXO
+                - Better stability: ±5-20 ppm uncalibrated
+                - Higher frequency range (up to 4.4 GHz)</p>
+                <h3 id="why-calibration-matters">Why Calibration Matters</h3>
+                <p><strong>Example at 146 MHz (2m ham band):</strong></p>
+                <pre><code>Uncalibrated (+30 ppm):
+                Display shows: 146.000 MHz
+                Actually measuring: 146.004 MHz
+                Error: 4.4 kHz
+                
+                After GPS calibration (+0.01 ppm):
+                Display shows: 146.000 MHz
+                Actually measuring: 146.0000015 MHz
+                Error: 1.5 Hz
+                </code></pre>
+                <p><strong>Impact on measurements:</strong>
+                - Antenna appears resonant at wrong frequency
+                - Filter peaks shifted
+                - Crystal filter tuning incorrect
+                - SAW filter characterization wrong</p>
+                <hr />
+                <h2 id="quick-calibration-methods">Quick Calibration Methods</h2>
+                <h3 id="method-1-fm-broadcast-easiest-15-minutes">Method 1: FM Broadcast (Easiest, 15 minutes)</h3>
+                <p><strong>Equipment:</strong>
+                - NanoVNA
+                - Known FM station frequency</p>
+                <p><strong>Procedure:</strong></p>
+                <ol>
+                <li><strong>Find strong local FM station</strong></li>
+                <li>Example: 100.1 MHz</li>
+                <li>
+                <p>Verify online: <a href="http://radio-locator.com">radio-locator.com</a></p>
+                </li>
+                <li>
+                <p><strong>Configure NanoVNA:</strong></p>
+                </li>
+                <li>Start: 100.0 MHz</li>
+                <li>Stop: 100.2 MHz</li>
+                <li>Format: LOGMAG</li>
+                <li>
+                <p>Connect short wire antenna to CH0</p>
+                </li>
+                <li>
+                <p><strong>Find carrier peak:</strong></p>
+                </li>
+                <li>Look for strong spike</li>
+                <li>Place marker on peak</li>
+                <li>
+                <p>Read frequency</p>
+                </li>
+                <li>
+                <p><strong>Calculate error:</strong>
+                   <code>Known frequency: 100.100 MHz = 100,100,000 Hz
+                   NanoVNA reads: 100,100,520 Hz
+                   Error: +520 Hz
+                   PPM: 520 / 100,100,000 × 10^6 = +5.19 ppm</code></p>
+                </li>
+                <li>
+                <p><strong>Apply correction in NanoVNA:</strong></p>
+                </li>
+                <li>Press <strong>CONFIG</strong></li>
+                <li>Select <strong>EXPERT CONFIG</strong></li>
+                <li>Find <strong>TCXO</strong> or <strong>XTAL</strong></li>
+                <li>Current: 8000000 Hz</li>
+                <li>Calculate new value:
+                     <code>New TCXO = 8000000 × (1 + ppm/10^6)
+                     New TCXO = 8000000 × (1 + 5.19/10^6)
+                     New TCXO = 8000000 × 1.00000519
+                     New TCXO = 8000041.52 Hz
+                     Round to: 8000042 Hz</code></li>
+                <li>Enter: <strong>8000042</strong></li>
+                <li>
+                <p>Press <strong>SAVE</strong></p>
+                </li>
+                <li>
+                <p><strong>Verify:</strong></p>
+                </li>
+                <li>Re-measure FM station</li>
+                <li>Should now read 100.100 MHz exactly</li>
+                </ol>
+                <p><strong>Accuracy:</strong> ±1-5 ppm (good enough for most uses)</p>
+                <hr />
+                <h3 id="method-2-gps-1pps-best-2-4-hours-first-time">Method 2: GPS 1PPS (Best, 2-4 hours first time)</h3>
+                <p><strong>Equipment:</strong>
+                - GPS module (NEO-6M/7M/8M) - $10-20
+                - Arduino Nano - $10
+                - Breadboard and wires - $5</p>
+                <p><strong>Procedure:</strong></p>
+                <p><strong>If you already built GPS counter for TinySA:</strong>
+                - Same hardware works!
+                - Just connect to NanoVNA instead</p>
+                <p><strong>New build:</strong>
+                - Follow complete instructions in <a href="../cal_lab/gps-reference/gps_calibration.html">gps_calibration.md</a>
+                - Adapt for NanoVNA's 8 MHz crystal</p>
+                <p><strong>Key difference:</strong>
+                - TinySA: measure 30 MHz
+                - NanoVNA: measure 8 MHz</p>
+                <p><strong>Modified frequency counter:</strong></p>
+                <pre><code class="language-cpp">// Same Arduino code, but:
+                double expected = 8000000.0;  // 8 MHz for NanoVNA
+                
+                // Then in output:
+                double error_ppm = (freq - expected) / expected * 1e6;
+                </code></pre>
+                <p><strong>Accessing NanoVNA's 8 MHz:</strong></p>
+                <p><strong>Option A: Test point (requires opening case)</strong>
+                - Open NanoVNA case (4 screws)
+                - Locate 8 MHz crystal
+                - Find test point or solder to crystal pin
+                - Connect to Arduino D5 via 0.1µF cap</p>
+                <p><strong>Option B: Use NanoVNA's output</strong>
+                - Set NanoVNA to CW mode at 8 MHz
+                - Connect CH0 to Arduino
+                - Not ideal (goes through synthesizer)</p>
+                <p><strong>Option C: Indirect measurement</strong>
+                - Set NanoVNA to 100 MHz output
+                - Measure with GPS counter
+                - Calculate back to 8 MHz error</p>
+                <p><strong>Recommended:</strong> Option C (easiest, no disassembly)</p>
+                <p><strong>Example:</strong></p>
+                <pre><code>Set NanoVNA to CW mode, 100.000 MHz output
+                Connect CH0 to GPS frequency counter
+                Counter reads: 100,000,520 Hz
+                Error: +520 Hz at 100 MHz
+                PPM: 520 / 100,000,000 × 10^6 = +5.20 ppm
+                
+                This same error applies to 8 MHz crystal:
+                8 MHz error = 8,000,000 × 5.20/10^6 = 41.6 Hz
+                Actual 8 MHz = 8,000,041.6 Hz
+                
+                Enter in TCXO setting: 8000042 Hz
+                </code></pre>
+                <p><strong>Accuracy:</strong> ±0.01 ppm</p>
+                <hr />
+                <h3 id="method-3-wwvchu-time-standard-good-30-60-min">Method 3: WWV/CHU Time Standard (Good, 30-60 min)</h3>
+                <p><strong>Equipment:</strong>
+                - Shortwave receiver or RTL-SDR
+                - NanoVNA
+                - Computer</p>
+                <p><strong>Best frequency:</strong> CHU 7.850 MHz or WWV 5 MHz</p>
+                <p><strong>Procedure:</strong></p>
+                <ol>
+                <li>
+                <p><strong>Receive CHU 7.850 MHz</strong> with SDR</p>
+                </li>
+                <li>
+                <p><strong>Set NanoVNA to measure CHU:</strong></p>
+                </li>
+                <li>Start: 7.800 MHz</li>
+                <li>Stop: 7.900 MHz</li>
+                <li>Connect antenna to CH0</li>
+                <li>
+                <p>Find CHU carrier</p>
+                </li>
+                <li>
+                <p><strong>Place marker on carrier</strong></p>
+                </li>
+                <li>
+                <p><strong>Read frequency:</strong>
+                   <code>Known: 7,850,000 Hz
+                   NanoVNA: 7,850,123 Hz
+                   Error: +123 Hz
+                   PPM: 123 / 7,850,000 × 10^6 = +15.67 ppm</code></p>
+                </li>
+                <li>
+                <p><strong>Calculate new TCXO value:</strong>
+                   <code>New = 8,000,000 × (1 + 15.67/10^6)
+                   New = 8,000,125 Hz</code></p>
+                </li>
+                <li>
+                <p><strong>Apply in CONFIG → EXPERT CONFIG → TCXO</strong></p>
+                </li>
+                </ol>
+                <p><strong>Accuracy:</strong> ±0.1-1 ppm (depends on propagation)</p>
+                <hr />
+                <h2 id="nanovna-specific-considerations">NanoVNA-Specific Considerations</h2>
+                <h3 id="firmware-differences">Firmware Differences</h3>
+                <p><strong>Different firmwares have different calibration methods:</strong></p>
+                <p><strong>edy555 original firmware:</strong>
+                - CONFIG → EXPERT CONFIG → TCXO
+                - Enter frequency in Hz
+                - Example: 8000042 for +5.25 ppm</p>
+                <p><strong>NanoVNA-App / DiSlord firmware:</strong>
+                - CONFIG → CALIBRATION → PPM CORRECTION
+                - Enter PPM directly
+                - Example: -5.25 for +5.25 ppm error (note sign)</p>
+                <p><strong>Check your firmware:</strong>
+                - Press <strong>CONFIG</strong>, look at menu options
+                - Different menus = different firmware
+                - Consult firmware documentation</p>
+                <h3 id="temperature-effects">Temperature Effects</h3>
+                <p><strong>NanoVNA gets warm during use:</strong>
+                - First 10-15 minutes: frequency drifts
+                - After warmup: stabilizes
+                - <strong>Always calibrate after warmup!</strong></p>
+                <p><strong>Procedure:</strong>
+                1. Turn on NanoVNA
+                2. Run a sweep (any frequency)
+                3. Wait 15 minutes
+                4. Now calibrate frequency
+                5. Now calibrate ports (SOL/SOLT)</p>
+                <h3 id="verification">Verification</h3>
+                <p><strong>Quick check:</strong></p>
+                <ol>
+                <li><strong>Set NanoVNA to receive FM station</strong></li>
+                <li>Known frequency: 100.1 MHz</li>
+                <li>
+                <p>Should show carrier at exactly 100.100 MHz</p>
+                </li>
+                <li>
+                <p><strong>Measure crystal filter</strong></p>
+                </li>
+                <li>Known center frequency: 10.695 MHz (IF filter)</li>
+                <li>
+                <p>Should measure at 10.695 MHz ± 0.001 MHz</p>
+                </li>
+                <li>
+                <p><strong>Cross-check with TinySA</strong></p>
+                </li>
+                <li>If you have calibrated TinySA</li>
+                <li>Both should agree on frequency</li>
+                </ol>
+                <hr />
+                <h2 id="calibration-storage">Calibration Storage</h2>
+                <h3 id="saving-calibration">Saving Calibration</h3>
+                <p><strong>Most firmwares:</strong>
+                - Frequency correction saved in flash
+                - Survives power cycle
+                - Persists through firmware update (usually)</p>
+                <p><strong>To verify calibration was saved:</strong>
+                1. Note TCXO value after calibration
+                2. Power cycle NanoVNA
+                3. Check CONFIG → EXPERT CONFIG → TCXO
+                4. Should show same value</p>
+                <p><strong>If calibration doesn't save:</strong>
+                - Firmware bug (update firmware)
+                - Flash memory issue
+                - Battery backup needed (some models)</p>
+                <h3 id="multiple-nanovnas">Multiple NanoVNAs</h3>
+                <p><strong>If you have multiple NanoVNAs:</strong>
+                - Each needs individual calibration
+                - Crystal tolerance varies ±50 ppm unit-to-unit
+                - Label each unit with its calibration date
+                - Keep log of each unit's PPM error</p>
+                <hr />
+                <h2 id="advanced-measuring-8-mhz-directly">Advanced: Measuring 8 MHz Directly</h2>
+                <h3 id="building-8-mhz-tap">Building 8 MHz Tap</h3>
+                <p><strong>If you want best accuracy:</strong></p>
+                <ol>
+                <li>
+                <p><strong>Open NanoVNA case</strong> (warranty void!)</p>
+                </li>
+                <li>
+                <p><strong>Locate 8 MHz crystal</strong> (usually near center)</p>
+                </li>
+                <li>
+                <p><strong>Find crystal pin or test point</strong></p>
+                </li>
+                <li>May be labeled "XTAL", "8M", or "REF"</li>
+                <li>
+                <p>Or solder thin wire to crystal package</p>
+                </li>
+                <li>
+                <p><strong>Add buffer (optional but recommended):</strong>
+                   <code>8MHz signal → 74HC04 inverter → Output to counter
+                                 (prevents loading crystal)</code></p>
+                </li>
+                <li>
+                <p><strong>Connect to GPS frequency counter</strong></p>
+                </li>
+                <li>
+                <p><strong>Measure directly:</strong>
+                   ```
+                   Expected: 8,000,000 Hz
+                   Measured: 8,000,123 Hz
+                   Error: +123 Hz
+                   PPM: 123 / 8,000,000 × 10^6 = +15.375 ppm</p>
+                </li>
+                </ol>
+                <p>New TCXO: 8,000,123 Hz (enter directly)
+                   ```</p>
+                <p><strong>Advantage:</strong> Most direct, most accurate
+                <strong>Disadvantage:</strong> Requires disassembly, potential for damage</p>
+                <hr />
+                <h2 id="temperature-compensation">Temperature Compensation</h2>
+                <h3 id="characterizing-temperature-coefficient">Characterizing Temperature Coefficient</h3>
+                <p><strong>Same procedure as TinySA:</strong></p>
+                <ol>
+                <li><strong>Cool NanoVNA</strong> (refrigerator, 30 min, to ~5°C)</li>
+                <li><strong>Measure frequency error</strong> with GPS or FM</li>
+                <li><strong>Warm to room temp</strong> (natural, 45 min, to ~22°C)</li>
+                <li><strong>Measure at intervals</strong></li>
+                <li><strong>Heat gently</strong> (hair dryer, to ~40°C)</li>
+                <li><strong>Plot error vs. temperature</strong></li>
+                </ol>
+                <p><strong>Example data:</strong></p>
+                <table>
+                <thead>
+                <tr>
+                <th>Temp (°C)</th>
+                <th>Error (ppm)</th>
+                <th>TCXO Hz</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>5</td>
+                <td>+3.2</td>
+                <td>8000026</td>
+                </tr>
+                <tr>
+                <td>15</td>
+                <td>+4.8</td>
+                <td>8000038</td>
+                </tr>
+                <tr>
+                <td>25</td>
+                <td>+5.1</td>
+                <td>8000041</td>
+                </tr>
+                <tr>
+                <td>35</td>
+                <td>+5.9</td>
+                <td>8000047</td>
+                </tr>
+                <tr>
+                <td>45</td>
+                <td>+7.2</td>
+                <td>8000058</td>
+                </tr>
+                </tbody>
+                </table>
+                <p><strong>Temperature coefficient:</strong></p>
+                <pre><code>TC = Δppm / ΔT = (7.2 - 3.2) / (45 - 5) = +0.1 ppm/°C
+                </code></pre>
+                <p><strong>Compensation:</strong>
+                - Calibrate at typical operating temperature (after warmup)
+                - Re-calibrate if ambient changes significantly
+                - Some firmwares support temperature compensation (needs sensor)</p>
+                <hr />
+                <h2 id="troubleshooting">Troubleshooting</h2>
+                <h3 id="frequency-wont-save">Frequency Won't Save</h3>
+                <p><strong>Problem:</strong> Enter new TCXO, but reverts after power cycle</p>
+                <p><strong>Solutions:</strong>
+                1. Check firmware version (old versions had bugs)
+                2. Update to latest firmware
+                3. Some models need explicit SAVE command
+                4. Battery backup missing (some variants)</p>
+                <h3 id="calibration-makes-it-worse">Calibration Makes It Worse</h3>
+                <p><strong>Problem:</strong> After calibration, frequencies more wrong</p>
+                <p><strong>Cause:</strong> Sign error</p>
+                <p><strong>Fix:</strong>
+                - If entered +5 ppm, try -5 ppm
+                - Different firmwares use different sign conventions
+                - Check if you need to invert sign</p>
+                <h3 id="frequency-drifts">Frequency Drifts</h3>
+                <p><strong>Problem:</strong> Calibration good initially, then drifts</p>
+                <p><strong>Causes:</strong>
+                1. Temperature change (wait for warmup)
+                2. Aging crystal (re-calibrate monthly)
+                3. Poor quality crystal (upgrade unit)</p>
+                <p><strong>Solution:</strong>
+                - Always warm up before measurements
+                - Recalibrate periodically
+                - Monitor temperature</p>
+                <h3 id="cant-access-crystal">Can't Access Crystal</h3>
+                <p><strong>Problem:</strong> No test point, can't open case</p>
+                <p><strong>Solution:</strong>
+                - Use indirect method (measure NanoVNA's output at known frequency)
+                - Set to CW mode, pick a frequency
+                - Measure with calibrated receiver or TinySA
+                - Calculate error</p>
+                <hr />
+                <h2 id="real-world-example">Real-World Example</h2>
+                <h3 id="calibrating-nanovna-v1-with-fm-broadcast">Calibrating NanoVNA v1 with FM Broadcast</h3>
+                <p><strong>Equipment:</strong>
+                - NanoVNA v1
+                - 6-inch wire (antenna)</p>
+                <p><strong>Station:</strong>
+                - WBUR 90.9 MHz (Boston NPR, GPS-locked)</p>
+                <p><strong>Procedure:</strong></p>
+                <p><strong>Step 1: Measure FM station (before calibration)</strong></p>
+                <pre><code>NanoVNA settings:
+                - Start: 90.8 MHz
+                - Stop: 91.0 MHz
+                - Format: LOGMAG
+                
+                Marker on peak: 90.902.3 MHz
+                Known frequency: 90.900.0 MHz
+                Error: +2.3 kHz = +2300 Hz
+                PPM: 2300 / 90,900,000 × 10^6 = +25.30 ppm
+                </code></pre>
+                <p><strong>Step 2: Calculate new TCXO</strong></p>
+                <pre><code>Current TCXO: 8,000,000 Hz (default)
+                Error: +25.30 ppm
+                
+                New TCXO = 8,000,000 × (1 + 25.30/10^6)
+                         = 8,000,000 × 1.00002530
+                         = 8,000,202.4 Hz
+                Round to: 8,000,202 Hz
+                </code></pre>
+                <p><strong>Step 3: Apply</strong></p>
+                <pre><code>CONFIG → EXPERT CONFIG → TCXO
+                Enter: 8000202
+                SAVE
+                </code></pre>
+                <p><strong>Step 4: Verify</strong></p>
+                <pre><code>Re-measure 90.9 MHz station:
+                Marker: 90.900.1 MHz
+                Error: +100 Hz = +1.1 ppm
+                
+                Much better! (25 ppm → 1 ppm)
+                
+                For even better accuracy:
+                Iterate: New TCXO = 8,000,202 × (1 + 1.1/10^6) = 8,000,211 Hz
+                
+                After second iteration:
+                Marker: 90.900.0 MHz
+                Error: 0 Hz! Perfect.
+                </code></pre>
+                <p><strong>Time:</strong> 15 minutes
+                <strong>Result:</strong> 25 ppm → 0 ppm error</p>
+                <hr />
+                <h2 id="summary">Summary</h2>
+                <h3 id="frequency-calibration-achieved">Frequency Calibration Achieved</h3>
+                <p>✓ GPS method: ±0.01 ppm (best)
+                ✓ WWV/CHU: ±0.1-1 ppm (good)
+                ✓ FM broadcast: ±1-5 ppm (quick and easy)</p>
+                <h3 id="key-points">Key Points</h3>
+                <ol>
+                <li><strong>Same methods as TinySA</strong> - GPS, WWV, FM all work</li>
+                <li><strong>Measure 8 MHz</strong> directly or indirectly</li>
+                <li><strong>Calculate PPM error</strong> from any known frequency</li>
+                <li><strong>Enter new TCXO value</strong> in CONFIG</li>
+                <li><strong>Verify</strong> with multiple sources</li>
+                <li><strong>Recalibrate</strong> after temperature changes or annually</li>
+                </ol>
+                <h3 id="next-step">Next Step</h3>
+                <p><strong>Now that frequency is calibrated, proceed to port calibration:</strong>
+                → <a href="nanovna_cal_standards.html">nanovna_cal_standards.md</a></p>
+                <hr />
+                <p><strong>Frequency calibration complete! Your NanoVNA now knows what frequency it's really measuring.</strong></p>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

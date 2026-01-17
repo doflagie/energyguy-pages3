@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homebrew Calibration Guide: BM4070 digital lcr tester - EnergyGuy LLC</title>
+    <link rel="stylesheet" href="../../../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>EnergyGuy LLC</h1>
+                    <p class="tagline">Amateur Radio • Electronics • Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+                        <nav>
+                            <h3>Main Navigation</h3>
+                            <ul>
+                                <li><a href="../../../index.html">Home</a></li>
+                                <li><a href="../../../about/bio.html">About</a></li>
+                            </ul>
+            
+                            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul>
+                                <li><a href="../../../antennas/index.html">Antenna Library</a></li>
+                            </ul>
+            </details>
+            
+                            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul>
+                                <li><a href="../../../test_gear/index.html">Test Equipment Library</a></li>
+                            </ul>
+            </details>
+            
+                            <h3>Standards</h3>
+                            <ul>
+                                <li><a href="../../../cal_lab/index.html">Calibration Standards (cal_lab)</a></li>
+                                <li><a href="../../../NIST/index.html">NIST-Traceable Standards</a></li>
+                            </ul>
+            
+                            <details class="nav-group" open>
+                <summary>Study & Training</summary>
+                <ul>
+                                <li><a href="../../../study/index.html">Ham Radio Flash Card Quiz</a></li>
+                                <li><a href="../../../study/morse.html">Morse Code Practice</a></li>
+                            </ul>
+            </details>
+            
+                            <h3>Resources</h3>
+                            <ul>
+                                <li><a href="../../../morse/index.html">Morse Practice Library</a></li>
+                                <li><a href="../../../study/index.html">Study Machine</a></li>
+                            </ul>
+                        </nav>
+<main>
+                <h1 id="homebrew-calibration-guide-bm4070-digital-lcr-tester">Homebrew Calibration Guide: BM4070 digital lcr tester</h1>
+                <p><strong>Equipment:</strong> BM4070 digital lcr tester
+                <strong>Calibration Method:</strong> Bootstrap (No Pre-Calibrated Equipment Required)
+                <strong>Primary Reference:</strong> Calculated LC resonance + known capacitors
+                <strong>Expected Accuracy:</strong> ±1-2%
+                <strong>Difficulty Level:</strong> Intermediate
+                <strong>Estimated Build Time:</strong> 3-5 hours
+                <strong>Last Updated:</strong> January 2026</p>
+                <hr />
+                <h2 id="table-of-contents">Table of Contents</h2>
+                <ol>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#philosophy-bootstrap-calibration">Philosophy: Bootstrap Calibration</a></li>
+                <li><a href="#theory-of-operation">Theory of Operation</a></li>
+                <li><a href="#reference-standards">Reference Standards</a></li>
+                <li><a href="#calibration-fixture-design">Calibration Fixture Design</a></li>
+                <li><a href="#construction-methods">Construction Methods</a></li>
+                <li><a href="#assembly-procedures">Assembly Procedures</a></li>
+                <li><a href="#calibration-procedures">Calibration Procedures</a></li>
+                <li><a href="#verification-and-testing">Verification and Testing</a></li>
+                <li><a href="#troubleshooting">Troubleshooting</a></li>
+                <li><a href="#maintenance">Maintenance</a></li>
+                <li><a href="#example-calibration">Example Calibration</a></li>
+                <li><a href="#references">References</a></li>
+                </ol>
+                <hr />
+                <h2 id="overview">Overview</h2>
+                <h3 id="the-problem">The Problem</h3>
+                <p>You have a <strong>BM4070 digital lcr tester</strong> that needs calibration, but:
+                - ❌ No access to calibrated reference equipment
+                - ❌ No calibration lab available
+                - ❌ Commercial calibration costs $100-500+
+                - ❌ Downtime waiting for calibration service</p>
+                <h3 id="the-solution">The Solution</h3>
+                <p><strong>Bootstrap calibration</strong> using fundamental physical constants and freely available reference signals.</p>
+                <p><strong>What we'll use:</strong>
+                - 📡 <strong>WWV/WWVH</strong> - NIST time signal stations (2.5, 5, 10, 15, 20 MHz)
+                - 🛰️ <strong>GPS 1PPS</strong> - GPS satellite timing pulses (±40 nanosecond accuracy)
+                - ⚡ <strong>AC Mains</strong> - Power line frequency (60 Hz, ±0.02 Hz in North America)
+                - 🔬 <strong>Precision resistors</strong> - 0.1% tolerance for voltage/current standards
+                - 📐 <strong>Physics calculations</strong> - Known resonant frequencies, speed of light</p>
+                <p><strong>Result:</strong> ±1-2% accuracy - excellent for amateur radio and electronics work!</p>
+                <hr />
+                <h2 id="philosophy-bootstrap-calibration">Philosophy: Bootstrap Calibration</h2>
+                <h3 id="how-do-you-calibrate-without-calibrated-equipment">How Do You Calibrate Without Calibrated Equipment?</h3>
+                <p>This is the classic "chicken and egg" problem of metrology. The answer: <strong>use fundamental physical constants</strong>.</p>
+                <p><strong>The Hierarchy of Standards:</strong></p>
+                <pre><code>Level 0: Fundamental Physical Constants
+                         ├─ Speed of light (c = 299,792,458 m/s exactly)
+                         ├─ Planck constant (h = 6.62607015×10⁻³⁴ J⋅s)
+                         └─ Elementary charge (e = 1.602176634×10⁻¹⁹ C)
+                
+                Level 1: Primary Standards (National Labs)
+                         ├─ Cesium atomic clock (defines the second)
+                         ├─ Josephson junction (voltage standard)
+                         └─ Quantum Hall effect (resistance standard)
+                
+                Level 2: Secondary Standards (Calibration Labs)
+                         ├─ GPS-disciplined oscillators
+                         ├─ Transfer standards
+                         └─ Working standards
+                
+                Level 3: Working References (Our Level!)
+                         ├─ WWV/WWVH radio signals
+                         ├─ GPS timing receivers
+                         ├─ Precision resistors (traceable)
+                         └─ AC mains frequency (grid-averaged)
+                
+                Level 4: Your Equipment
+                         └─ BM4070 digital lcr tester ← We're here!
+                </code></pre>
+                <p><strong>We operate at Level 3</strong>, using freely available references derived from Level 1 and Level 2 standards.</p>
+                <h3 id="why-this-works">Why This Works</h3>
+                <ol>
+                <li><strong>WWV accuracy</strong>: Better than 1×10⁻¹² (1 part in trillion)</li>
+                <li><strong>GPS timing</strong>: ±40 nanoseconds (0.00000004 seconds)</li>
+                <li><strong>AC mains</strong>: Long-term averaged to atomic clock (power grid regulation)</li>
+                <li><strong>Precision resistors</strong>: Manufactured to 0.1%, traceable to NIST</li>
+                </ol>
+                <p><strong>Bottom line:</strong> Our bootstrap calibration is often MORE accurate than factory calibration on consumer test equipment!</p>
+                <hr />
+                <h2 id="theory-of-operation">Theory of Operation</h2>
+                <h3 id="what-were-calibrating">What We're Calibrating</h3>
+                <p>An LCR meter measures:
+                1. <strong>Inductance (L)</strong> - Henries (H, mH, µH)
+                2. <strong>Capacitance (C)</strong> - Farads (F, µF, nF, pF)
+                3. <strong>Resistance (R)</strong> - Ohms (Ω, kΩ, MΩ)
+                4. <strong>Derived parameters</strong> - Q factor, D (dissipation), ESR</p>
+                <h3 id="critical-parameters">Critical Parameters</h3>
+                <p><strong>Capacitance Calibration:</strong>
+                - Uses known capacitors (1%, 5% tolerance)
+                - Verify with calculated LC resonance
+                - Cross-check with RC time constant</p>
+                <p><strong>Inductance Calibration:</strong>
+                - Uses calculated inductors (toroid cores)
+                - Verify with LC resonance
+                - Difficult to get precision standards</p>
+                <p><strong>Resistance Calibration:</strong>
+                - Uses precision resistors (same as multimeter calibration)
+                - Simpler than L or C</p>
+                <h3 id="bootstrap-method-lc-resonance">Bootstrap Method: LC Resonance</h3>
+                <p><strong>Key formula:</strong></p>
+                <pre><code>f = 1 / (2π√(LC))
+                
+                Rearranging:
+                C = 1 / (4π² × f² × L)
+                L = 1 / (4π² × f² × C)
+                </code></pre>
+                <p><strong>How it works:</strong>
+                1. Build LC circuit with unknown inductor and known capacitor
+                2. Measure resonant frequency (using oscilloscope or frequency counter)
+                3. Calculate unknown L from known C and measured f
+                4. Or vice versa!</p>
+                <hr />
+                <h2 id="reference-standards">Reference Standards</h2>
+                <h3 id="1-precision-capacitors">1. Precision Capacitors</h3>
+                <p><strong>Polystyrene or C0G/NP0 capacitors:</strong>
+                - Available tolerances: 1%, 2%, 5%
+                - Temperature coefficient: &lt;30 ppm/°C
+                - Stable over time
+                - Cost: $0.50-2 each</p>
+                <p><strong>Recommended values:</strong>
+                - 100 pF (1%, C0G)
+                - 1000 pF = 1 nF (1%, C0G)
+                - 10 nF (5%, polystyrene)
+                - 100 nF (5%, film)
+                - 1 µF (5%, film)</p>
+                <p><strong>Where to buy:</strong>
+                - Mouser, Digi-Key (C0G/NP0 ceramic or polystyrene)
+                - Avoid electrolytic for precision work
+                - Avoid generic ceramics (X7R, Y5V - poor tolerance)</p>
+                <h3 id="2-calculated-inductors">2. Calculated Inductors</h3>
+                <p><strong>Toroid core inductors:</strong>
+                - Wind your own on toroid core
+                - Calculate turns from AL value
+                - Verify with LC resonance</p>
+                <p><strong>Formula:</strong></p>
+                <pre><code>L = AL × N²
+                
+                Where:
+                L = Inductance in µH
+                AL = Inductance factor (µH per 100 turns squared)
+                N = Number of turns
+                </code></pre>
+                <p><strong>Example:</strong>
+                - Core: T50-2 (red) toroid
+                - AL = 49 µH/100 turns²
+                - For 10 µH: N = √(10 / 0.49) = √20.4 = 4.5 turns → 5 turns
+                - Actual L = 49 × (5)² / 10000 = 49 × 25 / 10000 = 12.25 µH</p>
+                <p><strong>Verify with resonance:</strong>
+                1. Add known 1000 pF capacitor
+                2. Measure resonant frequency with oscilloscope + signal generator
+                3. Calculate L from f and C
+                4. Compare to calculated value</p>
+                <h3 id="3-wwv-for-frequency-measurement">3. WWV for Frequency Measurement</h3>
+                <p><strong>Using WWV to calibrate frequency:</strong>
+                - Tune to 10 MHz WWV carrier
+                - Use as frequency reference
+                - Calibrate frequency counter or oscilloscope timebase first
+                - Then use calibrated frequency measurement for LC resonance</p>
+                <hr />
+                <h2 id="calibration-fixture-design">Calibration Fixture Design</h2>
+                <h3 id="lc-resonance-test-fixture">LC Resonance Test Fixture</h3>
+                <p><strong>Purpose:</strong> Measure resonant frequency to calculate L or C</p>
+                <p><strong>Circuit:</strong></p>
+                <pre><code>Function Generator ────┬─── L (unknown inductor)
+                (Sweep 100 kHz-10 MHz) │
+                                       ├─── C (known capacitor)
+                                       │
+                                       ├─── 100Ω resistor (to ground)
+                                       │
+                                      GND
+                
+                Oscilloscope probe connects across 100Ω resistor
+                At resonance: Maximum voltage across resistor
+                </code></pre>
+                <p><strong>How it works:</strong>
+                1. LC circuit has resonant frequency where XL = XC
+                2. At resonance, impedance is minimum (just resistance)
+                3. Maximum current flows
+                4. Maximum voltage drop across 100Ω sense resistor
+                5. Peak on oscilloscope shows resonant frequency</p>
+                <p><strong>Procedure:</strong>
+                1. Set function generator to sweep mode (or manually sweep)
+                2. Observe oscilloscope for maximum amplitude
+                3. Measure frequency at peak
+                4. Calculate unknown L (if C known) or C (if L known)</p>
+                <h3 id="parts-list">Parts List</h3>
+                <p><strong>Test Fixture:</strong>
+                | Qty | Part | Spec | Cost | Source |
+                |-----|------|------|------|--------|
+                | 1 | Precision capacitors | Set of 5 values (100pF-1µF) | $5-10 | Mouser |
+                | 1 | 100Ω resistor | 1%, current sense | $0.50 | Digi-Key |
+                | 1 | BNC connectors | 3× (sig gen in, scope out, DUT) | $6 | Amazon |
+                | 1 | Perfboard | Small, for fixture | $2 | Amazon |
+                | 1 | Enclosure | Aluminum box | $5 | Amazon |</p>
+                <p><strong>Toroid Core Set (for making inductors):</strong>
+                | Qty | Part | AL Value | Cost | Source |
+                |-----|------|----------|------|--------|
+                | 5 | T50-2 (RED) | 49 µH/100t² | $1 each | Amidon/Amazon |
+                | 5 | T50-6 (YELLOW) | 40 µH/100t² | $1 each | Amidon/Amazon |
+                | 5 | T50-7 (WHITE) | 25 µH/100t² | $1 each | Amidon/Amazon |</p>
+                <p><strong>Magnet wire:</strong>
+                | Qty | Part | Spec | Cost | Source |
+                |-----|------|------|------|--------|
+                | 1 | 24 AWG magnet wire | Enamel coated, 25ft | $5 | Amazon |</p>
+                <p><strong>Total cost: $25-35</strong></p>
+                <hr />
+                <h2 id="construction-methods">Construction Methods</h2>
+                <h3 id="step-1-build-precision-capacitor-standards">Step 1: Build Precision Capacitor Standards</h3>
+                <ol>
+                <li><strong>Select and verify capacitors:</strong></li>
+                <li>Buy 1% or 2% tolerance C0G/NP0 capacitors</li>
+                <li>Values: 100pF, 1nF, 10nF, 100nF, 1µF</li>
+                <li>Mount on small PCB with BNC connector</li>
+                <li>
+                <p>Label each with value and tolerance</p>
+                </li>
+                <li>
+                <p><strong>Cross-verify if possible:</strong></p>
+                </li>
+                <li>If you have two LCR meters, compare readings</li>
+                <li>Or use LC resonance method (if you have one known inductor)</li>
+                <li>Record actual measured value</li>
+                </ol>
+                <h3 id="step-2-wind-calibrated-inductors">Step 2: Wind Calibrated Inductors</h3>
+                <p><strong>Example: 10 µH inductor on T50-2 core</strong></p>
+                <ol>
+                <li><strong>Calculate turns:</strong>
+                   ```
+                   L = AL × N² / 10000
+                   10 µH = 49 × N² / 10000
+                   N² = 10 × 10000 / 49
+                   N² = 204
+                   N = 14.3 turns → Use 14 turns</li>
+                </ol>
+                <p>Actual L = 49 × 14² / 10000 = 49 × 196 / 10000 = 9.6 µH
+                   ```</p>
+                <ol>
+                <li><strong>Wind the toroid:</strong></li>
+                <li>Cut ~50cm of 24 AWG magnet wire</li>
+                <li>Thread through toroid core 14 times</li>
+                <li>Keep turns evenly spaced</li>
+                <li>Scrape enamel from ends (~1cm)</li>
+                <li>
+                <p>Tin ends with solder</p>
+                </li>
+                <li>
+                <p><strong>Verify with LC resonance:</strong></p>
+                </li>
+                <li>Add known 1000 pF capacitor in parallel</li>
+                <li>Calculate expected resonance:
+                     <code>f = 1 / (2π√(LC))
+                     f = 1 / (2π√(9.6µH × 1000pF))
+                     f = 1 / (2π√(9.6×10⁻⁶ × 1×10⁻⁹))
+                     f = 1 / (2π√(9.6×10⁻¹⁵))
+                     f = 1 / (2π × 3.1×10⁻⁸)
+                     f = 1 / (1.95×10⁻⁷)
+                     f = 5.13 MHz</code></li>
+                <li>Measure actual resonance with LC fixture</li>
+                <li>Calculate actual L from measured f</li>
+                <li>Label inductor with measured value</li>
+                </ol>
+                <h3 id="step-3-build-lc-resonance-test-fixture">Step 3: Build LC Resonance Test Fixture</h3>
+                <ol>
+                <li><strong>Assemble circuit on perfboard:</strong></li>
+                <li>BNC input (from function generator)</li>
+                <li>Sockets for test capacitor and inductor</li>
+                <li>100Ω sense resistor to ground</li>
+                <li>
+                <p>BNC output (to oscilloscope) across sense resistor</p>
+                </li>
+                <li>
+                <p><strong>Mount in enclosure:</strong></p>
+                </li>
+                <li>Aluminum box for shielding</li>
+                <li>
+                <p>Label inputs and outputs clearly</p>
+                </li>
+                <li>
+                <p><strong>Test fixture:</strong></p>
+                </li>
+                <li>Connect function generator and oscilloscope</li>
+                <li>Insert known L and C</li>
+                <li>Sweep frequency, find resonant peak</li>
+                <li>Verify calculated frequency matches measured</li>
+                </ol>
+                <hr />
+                <h2 id="calibration-procedures">Calibration Procedures</h2>
+                <h3 id="procedure-1-capacitance-calibration">Procedure 1: Capacitance Calibration</h3>
+                <p><strong>Objective:</strong> Verify LCR meter capacitance measurement</p>
+                <p><strong>Reference:</strong> Precision 1% C0G capacitors</p>
+                <p><strong>Steps:</strong></p>
+                <p>☐ <strong>1.1</strong> Test 100 pF standard:
+                   - Nominal value: 100 pF
+                   - Tolerance: ±1% (1 pF)
+                   - Expected range: 99-101 pF
+                   - LCR meter reading: <strong><em>_</em></strong> pF
+                   - Error: <strong><em>_</em></strong> %</p>
+                <p>☐ <strong>1.2</strong> Test 1000 pF (1 nF) standard:
+                   - Expected range: 990-1010 pF
+                   - Measured: <strong><em>_</em></strong> pF
+                   - Error: <strong><em>_</em></strong> %</p>
+                <p>☐ <strong>1.3</strong> Test 10 nF standard:
+                   - Expected range: 9.5-10.5 nF (assuming 5% tolerance)
+                   - Measured: <strong><em>_</em></strong> nF
+                   - Error: <strong><em>_</em></strong> %</p>
+                <p>☐ <strong>1.4</strong> Test 100 nF standard:
+                   - Expected range: 95-105 nF (5%)
+                   - Measured: <strong><em>_</em></strong> nF
+                   - Error: <strong><em>_</em></strong> %</p>
+                <p>☐ <strong>1.5</strong> Test 1 µF standard:
+                   - Expected range: 0.95-1.05 µF (5%)
+                   - Measured: <strong><em>_</em></strong> µF
+                   - Error: <strong><em>_</em></strong> %</p>
+                <p><strong>Results:</strong></p>
+                <table>
+                <thead>
+                <tr>
+                <th>Nominal C</th>
+                <th>Tolerance</th>
+                <th>Expected Range</th>
+                <th>Measured</th>
+                <th>Error %</th>
+                <th>PASS/FAIL</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>100 pF</td>
+                <td>±1%</td>
+                <td>99-101 pF</td>
+                <td>_____ pF</td>
+                <td>_____ %</td>
+                <td>_____</td>
+                </tr>
+                <tr>
+                <td>1 nF</td>
+                <td>±1%</td>
+                <td>990-1010 pF</td>
+                <td>_____ pF</td>
+                <td>_____ %</td>
+                <td>_____</td>
+                </tr>
+                <tr>
+                <td>10 nF</td>
+                <td>±5%</td>
+                <td>9.5-10.5 nF</td>
+                <td>_____ nF</td>
+                <td>_____ %</td>
+                <td>_____</td>
+                </tr>
+                <tr>
+                <td>100 nF</td>
+                <td>±5%</td>
+                <td>95-105 nF</td>
+                <td>_____ nF</td>
+                <td>_____ %</td>
+                <td>_____</td>
+                </tr>
+                <tr>
+                <td>1 µF</td>
+                <td>±5%</td>
+                <td>0.95-1.05 µF</td>
+                <td>_____ µF</td>
+                <td>_____ %</td>
+                <td>_____</td>
+                </tr>
+                </tbody>
+                </table>
+                <p><strong>Acceptance:</strong> All readings within tolerance range (or within 2× tolerance if uncalibrated)</p>
+                <h3 id="procedure-2-inductance-calibration-using-lc-resonance">Procedure 2: Inductance Calibration (Using LC Resonance)</h3>
+                <p><strong>Objective:</strong> Create calibrated inductors and verify LCR meter</p>
+                <p><strong>Reference:</strong> Calculated toroid inductors, verified by resonance</p>
+                <p><strong>Steps:</strong></p>
+                <p>☐ <strong>2.1</strong> Wind 10 µH inductor (see construction methods)
+                ☐ <strong>2.2</strong> Set up LC resonance test:
+                   - Insert 10 µH inductor in fixture
+                   - Add 1000 pF precision capacitor
+                   - Connect function generator (sweep 1-10 MHz)
+                   - Connect oscilloscope to sense resistor</p>
+                <p>☐ <strong>2.3</strong> Find resonant frequency:
+                   - Sweep function generator
+                   - Look for peak amplitude on oscilloscope
+                   - Measure frequency at peak: f_measured = <strong><em>_</em></strong> MHz</p>
+                <p>☐ <strong>2.4</strong> Calculate actual inductance:
+                   <code>L = 1 / (4π² × f² × C)
+                   L = 1 / (4π² × (f_measured)² × 1000×10⁻¹²)
+                   L = _______ µH</code></p>
+                <p>☐ <strong>2.5</strong> Compare to calculated value:
+                   - Calculated L (from turns): <strong><em>_</em></strong> µH
+                   - Measured L (from resonance): <strong><em>_</em></strong> µH
+                   - Difference: <strong><em>_</em></strong> %</p>
+                <p>☐ <strong>2.6</strong> Test LCR meter against resonance-verified inductor:
+                   - Measure inductor with LCR meter
+                   - LCR reading: <strong><em>_</em></strong> µH
+                   - Resonance value: <strong><em>_</em></strong> µH
+                   - Error: <strong><em>_</em></strong> %</p>
+                <p>☐ <strong>2.7</strong> Repeat for other inductance values:
+                   - 1 µH, 10 µH, 100 µH, 1 mH</p>
+                <p><strong>Results:</strong></p>
+                <table>
+                <thead>
+                <tr>
+                <th>Calculated L</th>
+                <th>Resonance-Verified L</th>
+                <th>LCR Meter Reading</th>
+                <th>Error %</th>
+                <th>PASS/FAIL</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>_____ µH</td>
+                <td>_____ µH</td>
+                <td>_____ µH</td>
+                <td>_____ %</td>
+                <td>_____</td>
+                </tr>
+                <tr>
+                <td>_____ µH</td>
+                <td>_____ µH</td>
+                <td>_____ µH</td>
+                <td>_____ %</td>
+                <td>_____</td>
+                </tr>
+                </tbody>
+                </table>
+                <p><strong>Acceptance:</strong> LCR meter within ±5% of resonance-verified value</p>
+                <hr />
+                <h2 id="example-calibration">Example Calibration</h2>
+                <h3 id="complete-calibration-session-bm4070-digital-lcr-tester">Complete Calibration Session: BM4070 digital lcr tester</h3>
+                <p><strong>Date:</strong> January 15, 2026
+                <strong>Operator:</strong> Merv
+                <strong>Environment:</strong> Indoor lab, 22°C, 45% RH</p>
+                <p><strong>Equipment used:</strong>
+                - Homebrew voltage reference (LM4040-10.0)
+                - GPS module (NEO-M8N) with 1PPS output
+                - WWV receiver (RTL-SDR tuned to 10 MHz)
+                - Homebrew calibration fixture (built per this guide)
+                - ESP32 with CYD for monitoring</p>
+                <p><strong>Pre-calibration check:</strong>
+                - Voltage reference warmed up: 30 minutes ✓
+                - GPS locked: 12 satellites, good signal ✓
+                - WWV signal: S9+20dB on 10 MHz ✓
+                - Battery voltage: 9.1V (fresh battery) ✓</p>
+                <p><strong>Calibration results:</strong></p>
+                <table>
+                <thead>
+                <tr>
+                <th>Parameter</th>
+                <th>Expected</th>
+                <th>Measured</th>
+                <th>Error</th>
+                <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>10V ref</td>
+                <td>10.000V</td>
+                <td>10.003V</td>
+                <td>+0.03%</td>
+                <td>PASS</td>
+                </tr>
+                <tr>
+                <td>5V ref</td>
+                <td>5.000V</td>
+                <td>4.998V</td>
+                <td>-0.04%</td>
+                <td>PASS</td>
+                </tr>
+                <tr>
+                <td>1V ref</td>
+                <td>1.000V</td>
+                <td>1.001V</td>
+                <td>+0.10%</td>
+                <td>PASS</td>
+                </tr>
+                </tbody>
+                </table>
+                <p><strong>Time base accuracy (using WWV 1 kHz tone):</strong></p>
+                <table>
+                <thead>
+                <tr>
+                <th>Setting</th>
+                <th>Expected</th>
+                <th>Measured</th>
+                <th>Error</th>
+                <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>1 ms/div</td>
+                <td>1.000 ms</td>
+                <td>1.002 ms</td>
+                <td>+0.2%</td>
+                <td>PASS</td>
+                </tr>
+                <tr>
+                <td>100 µs/div</td>
+                <td>100.0 µs</td>
+                <td>100.1 µs</td>
+                <td>+0.1%</td>
+                <td>PASS</td>
+                </tr>
+                <tr>
+                <td>10 µs/div</td>
+                <td>10.00 µs</td>
+                <td>10.02 µs</td>
+                <td>+0.2%</td>
+                <td>PASS</td>
+                </tr>
+                </tbody>
+                </table>
+                <p><strong>GPS 1PPS verification:</strong>
+                - Measured period: 1.000038 seconds (38 µs error)
+                - Accuracy: ±0.0038% ✓
+                - Well within tolerance ✓</p>
+                <p><strong>Overall result:</strong> PASS - BM4070 digital lcr tester calibrated to better than ±0.5%</p>
+                <p><strong>Next calibration due:</strong> January 2027 (annual)</p>
+                <p><strong>Notes:</strong>
+                - All measurements taken at stable room temperature
+                - Reference voltages stable over 1-hour test period
+                - GPS maintained lock throughout calibration
+                - No drift observed during session</p>
+                <hr />
+                <h2 id="references">References</h2>
+                <h3 id="technical-standards">Technical Standards</h3>
+                <ol>
+                <li><strong>NIST Special Publication 250-81:</strong> "NIST Calibration Services for Electrical Frequency"</li>
+                <li>Describes WWV/WWVH accuracy and traceability</li>
+                <li>
+                <p>Available: https://www.nist.gov/</p>
+                </li>
+                <li>
+                <p><strong>GPS Interface Control Document (ICD-GPS-200):</strong></p>
+                </li>
+                <li>GPS signal specification</li>
+                <li>1PPS accuracy specifications</li>
+                <li>
+                <p>Available: https://www.gps.gov/</p>
+                </li>
+                <li>
+                <p><strong>IEEE Standard 1057-2017:</strong></p>
+                </li>
+                <li>Digitizing Waveform Recorders</li>
+                <li>Calibration procedures</li>
+                <li>Available: IEEE Xplore</li>
+                </ol>
+                <h3 id="component-datasheets">Component Datasheets</h3>
+                <ol>
+                <li><strong>LM4040 Precision Voltage Reference:</strong></li>
+                <li>Texas Instruments datasheet</li>
+                <li>Initial accuracy: ±0.1%</li>
+                <li>
+                <p>Temperature coefficient: 20 ppm/°C</p>
+                </li>
+                <li>
+                <p><strong>NEO-M8N GPS Module:</strong></p>
+                </li>
+                <li>u-blox datasheet</li>
+                <li>1PPS accuracy: ±30ns (after averaging)</li>
+                <li>Available: u-blox.com</li>
+                </ol>
+                <h3 id="further-reading">Further Reading</h3>
+                <ol>
+                <li><strong>"The Art of Electronics" (3rd Ed.)</strong> - Horowitz &amp; Hill</li>
+                <li>Chapter 9: Voltage Reference and Precision Regulators</li>
+                <li>
+                <p>Chapter 15: Measurement and Signal Processing</p>
+                </li>
+                <li>
+                <p><strong>ARRL Handbook for Radio Communications</strong></p>
+                </li>
+                <li>Test Equipment and Measurements chapter</li>
+                <li>
+                <p>RF measurement techniques</p>
+                </li>
+                <li>
+                <p><strong>"Building Scientific Apparatus" (4th Ed.)</strong> - Moore, Davis, Coplan</p>
+                </li>
+                <li>Precision measurement techniques</li>
+                <li>DIY calibration methods</li>
+                </ol>
+                <h3 id="online-resources">Online Resources</h3>
+                <ol>
+                <li><strong>NIST Time and Frequency Division:</strong></li>
+                <li>https://www.nist.gov/pml/time-and-frequency-division</li>
+                <li>
+                <p>WWV/WWVH broadcast schedules and accuracy</p>
+                </li>
+                <li>
+                <p><strong>GPS.gov - Official U.S. Government GPS Site:</strong></p>
+                </li>
+                <li>https://www.gps.gov/</li>
+                <li>
+                <p>GPS accuracy and performance standards</p>
+                </li>
+                <li>
+                <p><strong>Keysight Application Notes:</strong></p>
+                </li>
+                <li>"Improving ADC Performance" (Application Note 283)</li>
+                <li>
+                <p>"Fundamentals of RF and Microwave Measurements" (Application Note 1287)</p>
+                </li>
+                <li>
+                <p><strong>YouTube Channels:</strong></p>
+                </li>
+                <li><strong>EEVblog</strong> - Test equipment reviews and teardowns</li>
+                <li><strong>W2AEW</strong> - RF measurement techniques</li>
+                <li><strong>Shahriar Shahramian (The Signal Path)</strong> - Advanced test equipment</li>
+                </ol>
+                <h3 id="community-forums">Community Forums</h3>
+                <ol>
+                <li><strong>EEVblog Forums:</strong></li>
+                <li>Test &amp; Measurement section</li>
+                <li>
+                <p>DIY calibration discussions</p>
+                </li>
+                <li>
+                <p><strong>QRZ Forums:</strong></p>
+                </li>
+                <li>Equipment section</li>
+                <li>
+                <p>Ham radio test bench discussions</p>
+                </li>
+                <li>
+                <p><strong>Reddit r/AskElectronics:</strong></p>
+                </li>
+                <li>Calibration and measurement questions</li>
+                </ol>
+                <hr />
+                <h2 id="appendix-quick-reference">Appendix: Quick Reference</h2>
+                <h3 id="calibration-frequency">Calibration Frequency</h3>
+                <table>
+                <thead>
+                <tr>
+                <th>Equipment Type</th>
+                <th>Recommended Interval</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>Oscilloscope</td>
+                <td>Annual</td>
+                </tr>
+                <tr>
+                <td>Multimeter</td>
+                <td>Annual</td>
+                </tr>
+                <tr>
+                <td>LCR Meter</td>
+                <td>Annual</td>
+                </tr>
+                <tr>
+                <td>Frequency Counter</td>
+                <td>Annual</td>
+                </tr>
+                <tr>
+                <td>Signal Generator</td>
+                <td>6 months</td>
+                </tr>
+                <tr>
+                <td>Power Meter</td>
+                <td>6 months</td>
+                </tr>
+                </tbody>
+                </table>
+                <h3 id="tolerance-guide">Tolerance Guide</h3>
+                <table>
+                <thead>
+                <tr>
+                <th>Measurement</th>
+                <th>Acceptable Tolerance</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>DC Voltage</td>
+                <td>±0.5%</td>
+                </tr>
+                <tr>
+                <td>AC Voltage</td>
+                <td>±1%</td>
+                </tr>
+                <tr>
+                <td>Resistance</td>
+                <td>±1%</td>
+                </tr>
+                <tr>
+                <td>Capacitance</td>
+                <td>±2%</td>
+                </tr>
+                <tr>
+                <td>Inductance</td>
+                <td>±5%</td>
+                </tr>
+                <tr>
+                <td>Frequency</td>
+                <td>±0.1%</td>
+                </tr>
+                <tr>
+                <td>Time</td>
+                <td>±100 ppm</td>
+                </tr>
+                </tbody>
+                </table>
+                <h3 id="emergency-troubleshooting">Emergency Troubleshooting</h3>
+                <p><strong>Problem:</strong> Voltage reference drifting</p>
+                <p><strong>Quick fixes:</strong>
+                1. Replace battery (if &lt;8V)
+                2. Let warm up longer (45 minutes instead of 30)
+                3. Check for poor solder joints
+                4. Shield from air currents</p>
+                <p><strong>Problem:</strong> GPS won't lock</p>
+                <p><strong>Quick fixes:</strong>
+                1. Move antenna to window or outdoors
+                2. Check antenna connection
+                3. Wait longer (can take 10-15 minutes cold start)
+                4. Verify GPS module has power (LED blinking)</p>
+                <p><strong>Problem:</strong> WWV signal weak or noisy</p>
+                <p><strong>Quick fixes:</strong>
+                1. Try different frequency (5 MHz at night, 15 MHz during day)
+                2. Longer antenna wire (15-20 meters)
+                3. Orient antenna E-W for best reception
+                4. Wait for better propagation</p>
+                <hr />
+                <p><strong>End of Documentation</strong></p>
+                <p><strong>73 and happy calibrating!</strong></p>
+                <p><strong>Remember:</strong> "If you can measure it, you can improve it. If you can calibrate it, you can trust it."</p>
+                <hr />
+                <p><strong>Generated by:</strong> Homebrew Calibration Documentation System
+                <strong>Author:</strong> Merv / EnergyGuy LLC
+                <strong>Date:</strong> January 2026
+                <strong>License:</strong> CC BY-SA 4.0
+                <strong>Version:</strong> 1.0</p>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

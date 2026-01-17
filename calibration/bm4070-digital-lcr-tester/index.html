@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EnergyGuy LLC - BM4070 Digital LCR Tester Calibration Guide">
+    <meta name="keywords" content="calibration, BM4070 Digital LCR Tester, test equipment, precision measurement">
+    <meta name="author" content="Mervyn Martin">
+    <title>BM4070 Digital LCR Tester Calibration - EnergyGuy LLC</title>
+    <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>EnergyGuy LLC</h1>
+                    <p class="tagline">Amateur Radio • Electronics • Engineering</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-wrapper">
+            <nav>
+                <h3>Main Navigation</h3>
+                <ul>
+                    <li><a href="../../index.html">Home</a></li>
+                    <li><a href="../index.html">Calibration Lab</a></li>
+                </ul>
+
+                <h3>BM4070 Digital LCR Tester</h3>
+                <ul>
+                    <li><a href="index.html">Complete Calibration Guide</a></li>
+                    <li><a href="README.html">README.md</a></li>
+                </ul>
+
+                <details class="nav-group" open>
+    <summary>Calibration Topics</summary>
+    <ul>
+                    <li><a href="../nanovna/index.html">NanoVNA Calibration</a></li>
+                    <li><a href="../oscilloscope-general/index.html">Oscilloscope Theory</a></li>
+                    <li><a href="../multimeter-general/index.html">Multimeter Theory</a></li>
+                    <li><a href="../lcr-meter-general/index.html">LCR Meter Theory</a></li>
+                    <li><a href="../../cal_lab/gps-reference/index.html">GPS Reference</a></li>
+                    <li><a href="../../cal_lab/radio_standard_calibration.html">WWV/WWVH Standards</a></li>
+                </ul>
+</details>
+            </nav>
+
+            <main>
+                <h1>BM4070 Digital LCR Tester</h1>
+
+                <p class="intro-text">Homebrew calibration guide for BM4070 Digital LCR Tester using fundamental physical constants and freely available reference signals - no expensive calibrated equipment needed!</p>
+
+                <div class="note">
+                    <h3>Equipment Specifications</h3>
+                    <p><strong>Primary Reference:</strong> LC resonance calculations</p>
+                    <p><strong>Expected Accuracy:</strong> ±1-2% capacitance/inductance</p>
+                    <p><strong>Difficulty:</strong> Intermediate</p>
+                    <p><strong>Build Time:</strong> 3-5 hours</p>
+                    <p><strong>ESP32/CYD:</strong> No</p>
+                </div>
+
+                <h2>What We'll Use</h2>
+                <ul>
+                    <li><strong>WWV/WWVH</strong> - NIST time signal stations (better than 1×10⁻¹² accuracy)</li>
+                    <li><strong>GPS 1PPS</strong> - GPS satellite timing (±40 nanosecond accuracy)</li>
+                    <li><strong>AC Mains</strong> - Power line frequency (60 Hz ±0.02 Hz)</li>
+                    <li><strong>Precision Resistors</strong> - 0.1% tolerance, NIST-traceable</li>
+                    <li><strong>Physics Calculations</strong> - Known resonant frequencies, Ohm's law</li>
+                </ul>
+
+                <h2>What You'll Build</h2>
+                <p>A complete calibration fixture including:</p>
+                <ul>
+                    <li>Precision voltage references (multiple tap points)</li>
+                    <li>Frequency reference receiver (WWV or GPS)</li>
+                    <li>Measurement circuits designed for bootstrap calibration</li>
+                </ul>
+
+                <div class="note">
+                    <h3>⚡ Safety First!</h3>
+                    <p>Some calibration methods involve AC mains voltage. Always use proper isolation, work in well-ventilated areas, and never work on live circuits unless absolutely necessary. When in doubt, consult a qualified professional.</p>
+                </div>
+
+                <h2>Cost Breakdown</h2>
+                <p>Total parts cost: <strong>$40-75</strong></p>
+                <ul>
+                    <li>Precision voltage references: $5-10</li>
+                    <li>Precision resistors (set of 5): $5</li>
+                    <li>GPS module with 1PPS: $10-15</li>
+                    <li>Enclosure and connectors: $10-20</li>
+                    <li>Miscellaneous (perfboard, wire, etc.): $5</li>
+                </ul>
+
+                <p style="margin-top: 20px;"><strong>Compare to:</strong> Professional calibration service costs $100-500+ per instrument!</p>
+
+                <h2>Results You Can Expect</h2>
+                <p>Using these homebrew calibration methods, you can achieve:</p>
+                <ul>
+                    <li><strong>±1-2% capacitance/inductance</strong> - Better than many factory calibrations!</li>
+                    <li>Long-term stability when using quality components</li>
+                    <li>Traceable to NIST standards (through WWV and GPS)</li>
+                    <li>Repeatable measurements for ongoing equipment verification</li>
+                </ul>
+
+                <div class="project-card">
+                    <h3>Ready to Get Started?</h3>
+                    <p style="margin-bottom: 20px;">Download the complete documentation and start building your calibration fixture today!</p>
+                    <a href="readme/index.html" class="btn">View Full Calibration Guide →</a>
+                </div>
+
+                <h2>What's Included in the Guide</h2>
+                <ul>
+                    <li>Complete theory of operation</li>
+                    <li>Detailed reference standard descriptions (WWV, GPS, precision components)</li>
+                    <li>Full schematics and parts lists with sources</li>
+                    <li>Step-by-step construction procedures</li>
+                    <li>Assembly instructions with photos/diagrams</li>
+                    <li>Complete calibration procedures with datasheets</li>
+                    <li>Troubleshooting guide</li>
+                    <li>Example calibration runs with actual measurements</li>
+                </ul>
+
+                <h2>Bootstrap Philosophy</h2>
+                <p><strong>"How do you calibrate test equipment when you have no calibrated equipment?"</strong></p>
+                <p>This is the classic metrology "chicken and egg" problem. The answer is to use <strong>fundamental physical constants</strong> and references derived from national standards laboratories.</p>
+                <p>WWV radio stations are synchronized to NIST's atomic clocks with better than 1 part per trillion accuracy. GPS satellites carry atomic clocks synchronized to USNO master clocks. These signals are freely available and provide references accurate enough to calibrate virtually any consumer or amateur radio test equipment.</p>
+                <p>Combined with precision components (0.1% resistors, calculated inductors, precision capacitors), we can build calibration fixtures that are often MORE accurate than factory calibrations!</p>
+
+                <p style="margin-top: 40px;">
+                    <a href="../index.html" class="btn">← Back to Calibration Lab</a>
+                    <a href="../../index.html" class="btn">Home</a>
+                </p>
+            </main>
+        </div>
+
+        <footer>
+            <div class="address-block">
+                <h3>EnergyGuy LLC</h3>
+                <p>Mervyn Martin (Merv), Proprietor</p>
+                <p>GMRS Callsign: WRXN788</p>
+                <p>Merced, California 95340</p>
+
+                <div class="copyright">
+                    <p>&copy; 2026 EnergyGuy LLC. All rights reserved.</p>
+                    <p>Documentation shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></p>
+                    <p>Bootstrap Calibration | No Calibrated Equipment Required</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

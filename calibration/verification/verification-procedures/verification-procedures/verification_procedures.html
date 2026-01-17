@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verification and Measurement Procedures - EnergyGuy LLC</title>
+    <link rel="stylesheet" href="../../../../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>EnergyGuy LLC</h1>
+                    <p class="tagline">Amateur Radio • Electronics • Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+                        <nav>
+                            <h3>Main Navigation</h3>
+                            <ul>
+                                <li><a href="../../../../index.html">Home</a></li>
+                                <li><a href="../../../../about/bio.html">About</a></li>
+                            </ul>
+            
+                            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul>
+                                <li><a href="../../../../antennas/index.html">Antenna Library</a></li>
+                            </ul>
+            </details>
+            
+                            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul>
+                                <li><a href="../../../../test_gear/index.html">Test Equipment Library</a></li>
+                            </ul>
+            </details>
+            
+                            <h3>Standards</h3>
+                            <ul>
+                                <li><a href="../../../../cal_lab/index.html">Calibration Standards (cal_lab)</a></li>
+                                <li><a href="../../../../NIST/index.html">NIST-Traceable Standards</a></li>
+                            </ul>
+            
+                            <details class="nav-group" open>
+                <summary>Study & Training</summary>
+                <ul>
+                                <li><a href="../../../../study/index.html">Ham Radio Flash Card Quiz</a></li>
+                                <li><a href="../../../../study/morse.html">Morse Code Practice</a></li>
+                            </ul>
+            </details>
+            
+                            <h3>Resources</h3>
+                            <ul>
+                                <li><a href="../../../../morse/index.html">Morse Practice Library</a></li>
+                                <li><a href="../../../../study/index.html">Study Machine</a></li>
+                            </ul>
+                        </nav>
+<main>
+                <h1 id="verification-and-measurement-procedures">Verification and Measurement Procedures</h1>
+                <h2 id="overview">Overview</h2>
+                <p>After calibrating your TinySA using GPS, time standard broadcasts, or FM stations, you need to <strong>verify</strong> the calibration worked and <strong>characterize</strong> long-term performance.</p>
+                <p>This document provides:
+                1. Immediate verification procedures
+                2. Cross-checking against multiple references
+                3. Long-term stability testing
+                4. Temperature characterization
+                5. Uncertainty analysis</p>
+                <hr />
+                <h2 id="immediate-verification-post-calibration">Immediate Verification (Post-Calibration)</h2>
+                <h3 id="quick-check-5-minutes">Quick Check (5 minutes)</h3>
+                <p><strong>Purpose:</strong> Confirm calibration was applied correctly</p>
+                <p><strong>Procedure:</strong></p>
+                <ol>
+                <li><strong>Re-measure calibration source:</strong></li>
+                <li>GPS 1PPS → Should read 1.000000 Hz (±0.001 Hz)</li>
+                <li>CHU 7.850 MHz → Should read 7,850,000 Hz (±10 Hz)</li>
+                <li>
+                <p>FM 100.1 MHz → Should read 100,100,000 Hz (±100 Hz)</p>
+                </li>
+                <li>
+                <p><strong>Check for improvement:</strong>
+                   ```
+                   BEFORE calibration:
+                   CHU measured: 7,850,152 Hz
+                   Error: +152 Hz (+19.4 ppm)</p>
+                </li>
+                </ol>
+                <p>AFTER calibration:
+                   CHU measured: 7,850,003 Hz
+                   Error: +3 Hz (+0.38 ppm)
+                   ```</p>
+                <ol>
+                <li><strong>Verify correction was saved:</strong></li>
+                <li>Power cycle TinySA</li>
+                <li>Re-measure</li>
+                <li>Should still be accurate</li>
+                </ol>
+                <p><strong>Success Criteria:</strong>
+                - ✓ Error reduced by &gt;90%
+                - ✓ Final error &lt; 1 ppm (&lt; 30 Hz @ 30MHz)
+                - ✓ Calibration survives power cycle</p>
+                <hr />
+                <h2 id="cross-reference-validation-30-minutes">Cross-Reference Validation (30 minutes)</h2>
+                <h3 id="multiple-independent-sources">Multiple Independent Sources</h3>
+                <p><strong>Purpose:</strong> Confirm calibration against different references</p>
+                <p><strong>Procedure:</strong></p>
+                <ol>
+                <li><strong>GPS vs. WWV/CHU:</strong>
+                   ```
+                   Method A (GPS):</li>
+                <li>Measured 30MHz error: +5.2 ppm</li>
+                <li>Applied correction: -5.2 ppm</li>
+                </ol>
+                <p>Method B (CHU 7.850 MHz):
+                   - Measure CHU frequency
+                   - Calculate ppm error
+                   - Should read ±0.5 ppm of GPS result
+                   ```</p>
+                <ol>
+                <li><strong>GPS vs. FM Broadcast:</strong>
+                   ```
+                   After GPS calibration, measure FM station:</li>
+                <li>Should read exact frequency (±1 ppm)</li>
+                <li>
+                <p>Example: 100.1 MHz → 100,100,000 Hz ±100 Hz
+                   ```</p>
+                </li>
+                <li>
+                <p><strong>Multiple FM Stations:</strong>
+                   <code>Measure 3-5 different FM stations
+                   All should read exact frequency
+                   If one is off, that station is poorly calibrated</code></p>
+                </li>
+                </ol>
+                <h3 id="acceptance-criteria">Acceptance Criteria</h3>
+                <p><strong>All methods should agree within:</strong>
+                - GPS vs. Time Standard: ±0.1-0.5 ppm
+                - GPS vs. FM Broadcast: ±1-2 ppm
+                - FM vs. FM: ±0.5 ppm (same market)</p>
+                <p><strong>Example Results (Good):</strong></p>
+                <table>
+                <thead>
+                <tr>
+                <th>Method</th>
+                <th>Error (ppm)</th>
+                <th>Agreement</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>GPS</td>
+                <td>+5.23</td>
+                <td>Reference</td>
+                </tr>
+                <tr>
+                <td>CHU</td>
+                <td>+5.19</td>
+                <td>±0.04 ppm ✓</td>
+                </tr>
+                <tr>
+                <td>FM 1</td>
+                <td>+5.21</td>
+                <td>±0.02 ppm ✓</td>
+                </tr>
+                <tr>
+                <td>FM 2</td>
+                <td>+5.18</td>
+                <td>±0.05 ppm ✓</td>
+                </tr>
+                </tbody>
+                </table>
+                <p><strong>Example Results (Problem):</strong></p>
+                <table>
+                <thead>
+                <tr>
+                <th>Method</th>
+                <th>Error (ppm)</th>
+                <th>Agreement</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>GPS</td>
+                <td>+5.23</td>
+                <td>Reference</td>
+                </tr>
+                <tr>
+                <td>CHU</td>
+                <td>+5.22</td>
+                <td>±0.01 ppm ✓</td>
+                </tr>
+                <tr>
+                <td>FM 1</td>
+                <td>+8.45</td>
+                <td>±3.22 ppm ✗ Bad station</td>
+                </tr>
+                <tr>
+                <td>FM 2</td>
+                <td>+5.19</td>
+                <td>±0.04 ppm ✓</td>
+                </tr>
+                </tbody>
+                </table>
+                <hr />
+                <h2 id="short-term-stability-test-1-hour">Short-Term Stability Test (1 hour)</h2>
+                <h3 id="allan-deviation-simplified">Allan Deviation (Simplified)</h3>
+                <p><strong>Purpose:</strong> Measure frequency stability over short time scales</p>
+                <p><strong>Equipment Needed:</strong>
+                - GPS frequency counter (from construction guide)
+                - TinySA 30MHz signal
+                - Computer for logging</p>
+                <p><strong>Procedure:</strong></p>
+                <ol>
+                <li><strong>Set up continuous measurement:</strong></li>
+                <li>GPS 1PPS gates TinySA 30MHz</li>
+                <li>Measure every second</li>
+                <li>
+                <p>Log to file</p>
+                </li>
+                <li>
+                <p><strong>Run for 1 hour (3600 measurements)</strong></p>
+                </li>
+                <li>
+                <p><strong>Calculate statistics:</strong>
+                   ```python
+                   import numpy as np
+                   import pandas as pd</p>
+                </li>
+                </ol>
+                <p># Load data
+                   data = pd.read_csv('frequency_log.csv')
+                   freq = data['Frequency_Hz'].values</p>
+                <p># Calculate Allan deviation for τ = 1s
+                   expected = 30000000
+                   y = (freq - expected) / expected  # Fractional frequency</p>
+                <p>allan_1s = np.std(y)
+                   print(f"Allan deviation (1s): {allan_1s*1e6:.3f} ppm")</p>
+                <p># Calculate for τ = 10s (average groups of 10)
+                   y_10s = []
+                   for i in range(0, len(y)-10, 10):
+                       y_10s.append(np.mean(y[i:i+10]))
+                   allan_10s = np.std(y_10s) / np.sqrt(2)
+                   print(f"Allan deviation (10s): {allan_10s*1e6:.3f} ppm")
+                   ```</p>
+                <h3 id="typical-results">Typical Results</h3>
+                <p><strong>Good TCXO:</strong></p>
+                <pre><code>Allan deviation (1s):  0.1-0.5 ppm
+                Allan deviation (10s): 0.01-0.1 ppm
+                Allan deviation (100s): 0.005-0.05 ppm
+                </code></pre>
+                <p><strong>Poor crystal:</strong></p>
+                <pre><code>Allan deviation (1s):  1-5 ppm
+                Allan deviation (10s): 0.5-2 ppm
+                </code></pre>
+                <p><strong>Interpretation:</strong>
+                - Lower = better
+                - Should improve with longer averaging
+                - If increases with time → drift problem
+                - If flat → hitting measurement noise floor</p>
+                <hr />
+                <h2 id="long-term-stability-test-24-hours">Long-Term Stability Test (24 hours)</h2>
+                <h3 id="24-hour-frequency-log">24-Hour Frequency Log</h3>
+                <p><strong>Purpose:</strong> Characterize drift, temperature effects, aging</p>
+                <p><strong>Setup:</strong></p>
+                <ol>
+                <li><strong>Stable environment:</strong></li>
+                <li>Indoors, away from windows</li>
+                <li>Minimize temperature swings</li>
+                <li>
+                <p>Avoid moving equipment</p>
+                </li>
+                <li>
+                <p><strong>Continuous logging:</strong></p>
+                </li>
+                <li>Measure every 1-5 minutes</li>
+                <li>Log frequency, temperature</li>
+                <li>
+                <p>Save to CSV file</p>
+                </li>
+                <li>
+                <p><strong>Run for 24+ hours</strong></p>
+                </li>
+                </ol>
+                <h3 id="python-logging-script">Python Logging Script</h3>
+                <pre><code class="language-python">import serial
+                import time
+                from datetime import datetime
+                
+                ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
+                time.sleep(2)
+                
+                log_file = open('24hr_stability.csv', 'w')
+                log_file.write('Timestamp,Frequency_Hz,Error_ppm,Temperature_C\n')
+                
+                print(&quot;24-Hour Stability Test Started&quot;)
+                print(&quot;Logging every 60 seconds&quot;)
+                print(&quot;Press Ctrl+C to stop\n&quot;)
+                
+                try:
+                    while True:
+                        line = ser.readline().decode('utf-8').strip()
+                
+                        if 'Frequency:' in line and 'Error:' in line:
+                            # Parse frequency and error from Arduino output
+                            # Example: &quot;Frequency: 30000150 Hz Error: +5.000 ppm&quot;
+                
+                            parts = line.split()
+                            freq_hz = float(parts[1])
+                            error_ppm = float(parts[4])
+                
+                            timestamp = datetime.now().isoformat()
+                
+                            log_file.write(f'{timestamp},{freq_hz},{error_ppm},25.0\n')
+                            log_file.flush()
+                
+                            print(f'{timestamp}: {freq_hz} Hz ({error_ppm:+.3f} ppm)')
+                
+                        time.sleep(60)  # Log every minute
+                
+                except KeyboardInterrupt:
+                    print(&quot;\n\nTest stopped by user&quot;)
+                    log_file.close()
+                    ser.close()
+                
+                    print(&quot;Generating report...&quot;)
+                
+                    # Generate summary
+                    import pandas as pd
+                    import matplotlib.pyplot as plt
+                
+                    df = pd.read_csv('24hr_stability.csv')
+                
+                    print(&quot;\n24-Hour Stability Report&quot;)
+                    print(&quot;=&quot; * 50)
+                    print(f&quot;Measurements: {len(df)}&quot;)
+                    print(f&quot;Mean frequency: {df['Frequency_Hz'].mean():.1f} Hz&quot;)
+                    print(f&quot;Std deviation: {df['Frequency_Hz'].std():.1f} Hz&quot;)
+                    print(f&quot;Min frequency: {df['Frequency_Hz'].min():.1f} Hz&quot;)
+                    print(f&quot;Max frequency: {df['Frequency_Hz'].max():.1f} Hz&quot;)
+                    print(f&quot;Peak-peak drift: {df['Frequency_Hz'].max() - df['Frequency_Hz'].min():.1f} Hz&quot;)
+                    print(f&quot;Mean error: {df['Error_ppm'].mean():.3f} ppm&quot;)
+                    print(f&quot;Error std dev: {df['Error_ppm'].std():.3f} ppm&quot;)
+                    print(&quot;=&quot; * 50)
+                
+                    # Plot
+                    df['Timestamp'] = pd.to_datetime(df['Timestamp'])
+                
+                    plt.figure(figsize=(12, 8))
+                
+                    plt.subplot(2, 1, 1)
+                    plt.plot(df['Timestamp'], df['Frequency_Hz'])
+                    plt.ylabel('Frequency (Hz)')
+                    plt.title('TinySA 30MHz Stability - 24 Hours')
+                    plt.grid(True)
+                
+                    plt.subplot(2, 1, 2)
+                    plt.plot(df['Timestamp'], df['Error_ppm'])
+                    plt.ylabel('Error (ppm)')
+                    plt.xlabel('Time')
+                    plt.grid(True)
+                
+                    plt.tight_layout()
+                    plt.savefig('24hr_stability.png', dpi=150)
+                    print(&quot;\nPlot saved as: 24hr_stability.png&quot;)
+                </code></pre>
+                <h3 id="interpreting-results">Interpreting Results</h3>
+                <p><strong>Good Result:</strong></p>
+                <pre><code>Peak-peak drift: &lt; 30 Hz (&lt; 1 ppm)
+                Standard deviation: &lt; 10 Hz (&lt; 0.3 ppm)
+                Trend: Flat or slow linear drift
+                Temperature sensitivity: &lt; 0.5 ppm/°C
+                </code></pre>
+                <p><strong>Typical Result:</strong></p>
+                <pre><code>Peak-peak drift: 30-150 Hz (1-5 ppm)
+                Standard deviation: 10-50 Hz (0.3-1.7 ppm)
+                Trend: Follows temperature
+                Temperature sensitivity: 0.5-2 ppm/°C
+                </code></pre>
+                <p><strong>Poor Result:</strong></p>
+                <pre><code>Peak-peak drift: &gt; 300 Hz (&gt; 10 ppm)
+                Standard deviation: &gt; 100 Hz (&gt; 3 ppm)
+                Trend: Erratic or large jumps
+                → Possible crystal problem or loose connection
+                </code></pre>
+                <hr />
+                <h2 id="temperature-characterization">Temperature Characterization</h2>
+                <h3 id="temperature-coefficient-measurement">Temperature Coefficient Measurement</h3>
+                <p><strong>Purpose:</strong> Quantify frequency vs. temperature relationship</p>
+                <p><strong>Equipment:</strong>
+                - Temperature sensor (DS18B20 or thermistor)
+                - GPS frequency counter
+                - Refrigerator and hair dryer</p>
+                <p><strong>Procedure:</strong></p>
+                <ol>
+                <li><strong>Cold soak:</strong></li>
+                <li>Place TinySA in refrigerator</li>
+                <li>Wait 30 minutes</li>
+                <li>
+                <p>Measure frequency at 5°C</p>
+                </li>
+                <li>
+                <p><strong>Warm-up:</strong></p>
+                </li>
+                <li>Remove from fridge</li>
+                <li>Measure frequency every 2 minutes</li>
+                <li>Record temperature simultaneously</li>
+                <li>
+                <p>Until reaches room temp (20°C)</p>
+                </li>
+                <li>
+                <p><strong>Heat test:</strong></p>
+                </li>
+                <li>Use hair dryer (gentle, low heat)</li>
+                <li>Measure frequency every 2 minutes</li>
+                <li>Record temperature</li>
+                <li>
+                <p>Up to 40°C (don't overheat!)</p>
+                </li>
+                <li>
+                <p><strong>Cool-down:</strong></p>
+                </li>
+                <li>Turn off heat</li>
+                <li>Measure as it cools</li>
+                <li>Back to room temp</li>
+                </ol>
+                <h3 id="data-analysis">Data Analysis</h3>
+                <pre><code class="language-python">import pandas as pd
+                import numpy as np
+                import matplotlib.pyplot as plt
+                from scipy import stats
+                
+                # Load data
+                df = pd.read_csv('temperature_test.csv')
+                
+                temp = df['Temperature_C'].values
+                error_ppm = df['Error_ppm'].values
+                
+                # Linear fit
+                slope, intercept, r_value, p_value, std_err = stats.linregress(temp, error_ppm)
+                
+                print(&quot;Temperature Coefficient Analysis&quot;)
+                print(&quot;=&quot; * 50)
+                print(f&quot;Temperature range: {temp.min():.1f} to {temp.max():.1f} °C&quot;)
+                print(f&quot;Frequency range: {error_ppm.min():.2f} to {error_ppm.max():.2f} ppm&quot;)
+                print(f&quot;Slope: {slope:.3f} ppm/°C&quot;)
+                print(f&quot;R²: {r_value**2:.4f}&quot;)
+                print(&quot;=&quot; * 50)
+                
+                # Plot
+                plt.figure(figsize=(10, 6))
+                plt.scatter(temp, error_ppm, alpha=0.5, label='Measurements')
+                plt.plot(temp, slope*temp + intercept, 'r-', label=f'Fit: {slope:.3f} ppm/°C')
+                plt.xlabel('Temperature (°C)')
+                plt.ylabel('Frequency Error (ppm)')
+                plt.title('Crystal Temperature Coefficient')
+                plt.legend()
+                plt.grid(True)
+                plt.savefig('temperature_coefficient.png', dpi=150)
+                plt.show()
+                </code></pre>
+                <h3 id="typical-coefficients">Typical Coefficients</h3>
+                <table>
+                <thead>
+                <tr>
+                <th>Crystal Type</th>
+                <th>Temp Coefficient</th>
+                <th>Frequency Change (0-40°C)</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>AT-cut (room temp)</td>
+                <td>-0.035 ppm/°C/°C</td>
+                <td>±1-2 ppm</td>
+                </tr>
+                <tr>
+                <td>TCXO (cheap)</td>
+                <td>-0.5 to -2 ppm/°C</td>
+                <td>±10-40 ppm</td>
+                </tr>
+                <tr>
+                <td>TCXO (good)</td>
+                <td>-0.1 to -0.5 ppm/°C</td>
+                <td>±2-10 ppm</td>
+                </tr>
+                <tr>
+                <td>OCXO</td>
+                <td>-0.001 to -0.01 ppm/°C</td>
+                <td>±0.02-0.2 ppm</td>
+                </tr>
+                </tbody>
+                </table>
+                <h3 id="temperature-compensation">Temperature Compensation</h3>
+                <p>Once you know TC, compensate manually:</p>
+                <pre><code>Current temp: 35°C
+                Reference temp: 25°C
+                Temperature coefficient: -0.8 ppm/°C
+                ΔT = 35 - 25 = +10°C
+                
+                Frequency shift = -0.8 ppm/°C × 10°C = -8 ppm
+                Apply correction: +8 ppm to compensate
+                </code></pre>
+                <hr />
+                <h2 id="measurement-uncertainty-analysis">Measurement Uncertainty Analysis</h2>
+                <h3 id="sources-of-uncertainty">Sources of Uncertainty</h3>
+                <p><strong>GPS Method:</strong></p>
+                <table>
+                <thead>
+                <tr>
+                <th>Source</th>
+                <th>Uncertainty (ppm)</th>
+                <th>Notes</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>GPS 1PPS jitter</td>
+                <td>±0.001</td>
+                <td>Negligible</td>
+                </tr>
+                <tr>
+                <td>Counter resolution</td>
+                <td>±0.00003</td>
+                <td>1 count in 30M</td>
+                </tr>
+                <tr>
+                <td>Temperature drift</td>
+                <td>±0.1-1.0</td>
+                <td>During measurement</td>
+                </tr>
+                <tr>
+                <td>Short-term noise</td>
+                <td>±0.01</td>
+                <td>Average multiple</td>
+                </tr>
+                </tbody>
+                </table>
+                <p><strong>Total (RSS):</strong> ±0.1-1.0 ppm (dominated by temperature)</p>
+                <p><strong>WWV/CHU Method:</strong></p>
+                <table>
+                <thead>
+                <tr>
+                <th>Source</th>
+                <th>Uncertainty (ppm)</th>
+                <th>Notes</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>Transmitter</td>
+                <td>±0.00001</td>
+                <td>Atomic clock</td>
+                </tr>
+                <tr>
+                <td>Ionosphere</td>
+                <td>±0.01-0.1</td>
+                <td>Doppler shift</td>
+                </tr>
+                <tr>
+                <td>Multipath</td>
+                <td>±0.05-0.5</td>
+                <td>Fading</td>
+                </tr>
+                <tr>
+                <td>Receiver</td>
+                <td>±0.1-1.0</td>
+                <td>Measurement</td>
+                </tr>
+                </tbody>
+                </table>
+                <p><strong>Total (RSS):</strong> ±0.1-1.0 ppm</p>
+                <p><strong>FM Broadcast:</strong></p>
+                <table>
+                <thead>
+                <tr>
+                <th>Source</th>
+                <th>Uncertainty (ppm)</th>
+                <th>Notes</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>Station accuracy</td>
+                <td>±0.01-2.0</td>
+                <td>GPS-locked vs. free</td>
+                </tr>
+                <tr>
+                <td>TinySA resolution</td>
+                <td>±0.1-1.0</td>
+                <td>At 100 MHz</td>
+                </tr>
+                <tr>
+                <td>Averaging</td>
+                <td>±0.5</td>
+                <td>Multiple stations</td>
+                </tr>
+                </tbody>
+                </table>
+                <p><strong>Total (RSS):</strong> ±1-5 ppm (depends on station quality)</p>
+                <h3 id="reducing-uncertainty">Reducing Uncertainty</h3>
+                <ol>
+                <li><strong>Average multiple measurements:</strong>
+                   ```
+                   σ_average = σ / sqrt(N)</li>
+                </ol>
+                <p>Example:
+                   Single measurement: ±1 ppm
+                   Average 10 measurements: ±0.32 ppm
+                   Average 100 measurements: ±0.1 ppm
+                   ```</p>
+                <ol>
+                <li><strong>Temperature stabilization:</strong></li>
+                <li>Let equipment warm up 30+ minutes</li>
+                <li>Measure in stable environment</li>
+                <li>
+                <p>Correct for temperature coefficient</p>
+                </li>
+                <li>
+                <p><strong>Multiple methods:</strong></p>
+                </li>
+                <li>GPS (primary)</li>
+                <li>WWV/CHU (verify)</li>
+                <li>FM (quick check)</li>
+                <li>All should agree within combined uncertainty</li>
+                </ol>
+                <hr />
+                <h2 id="acceptance-testing">Acceptance Testing</h2>
+                <h3 id="final-validation-checklist">Final Validation Checklist</h3>
+                <p>Before considering calibration complete:</p>
+                <p><strong>Immediate Checks:</strong>
+                - [ ] Error reduced from &gt;10 ppm to &lt;1 ppm
+                - [ ] Calibration survives power cycle
+                - [ ] Verified against second independent source
+                - [ ] No unexpected jumps or instabilities</p>
+                <p><strong>Short-Term Checks (1 hour):</strong>
+                - [ ] Frequency stable to ±0.5 ppm over 1 hour
+                - [ ] No large temperature swings
+                - [ ] Measurements repeatable</p>
+                <p><strong>Long-Term Checks (24 hours):</strong>
+                - [ ] Drift &lt; 1 ppm over 24 hours
+                - [ ] Temperature correlation understood
+                - [ ] No sudden frequency jumps</p>
+                <p><strong>Documentation:</strong>
+                - [ ] Recorded calibration date
+                - [ ] Noted calibration method
+                - [ ] Documented temperature coefficient
+                - [ ] Saved reference measurements
+                - [ ] Planned re-calibration date (1 year)</p>
+                <hr />
+                <h2 id="periodic-re-calibration">Periodic Re-Calibration</h2>
+                <h3 id="when-to-re-calibrate">When to Re-Calibrate</h3>
+                <p><strong>Mandatory:</strong>
+                - After firmware update (may reset cal)
+                - After opening case (may affect crystal)
+                - After drop or impact
+                - If measurements show &gt;2 ppm error</p>
+                <p><strong>Recommended:</strong>
+                - Every 6-12 months (crystal aging)
+                - After extreme temperature exposure
+                - Before critical measurements</p>
+                <p><strong>Optional:</strong>
+                - Before each use (paranoid)
+                - Monthly (if doing precision work)</p>
+                <h3 id="quick-cal-check">Quick Cal Check</h3>
+                <p>Don't need full re-calibration - just verify:</p>
+                <pre><code>1. Measure GPS 1PPS or CHU
+                2. Note error
+                3. If &lt; 1 ppm: OK, no action
+                4. If 1-3 ppm: Minor adjustment
+                5. If &gt; 3 ppm: Full re-calibration needed
+                </code></pre>
+                <hr />
+                <h2 id="documentation-template">Documentation Template</h2>
+                <h3 id="calibration-record">Calibration Record</h3>
+                <pre><code>TinySA Calibration Record
+                =========================
+                
+                Date: _____________
+                Operator: _____________
+                Method: [ ] GPS  [ ] WWV/CHU  [ ] FM  [ ] Other:_______
+                
+                Initial Error: _______ Hz (_______ ppm) @ 30MHz
+                Final Error: _______ Hz (_______ ppm) @ 30MHz
+                
+                Reference Source(s):
+                1. __________________________
+                2. __________________________
+                3. __________________________
+                
+                Measurements:
+                Before: _______ Hz
+                After:  _______ Hz
+                
+                Temperature During Cal: _______°C
+                Temperature Coefficient: _______ ppm/°C
+                
+                Verification:
+                Method 1: _______ ppm error
+                Method 2: _______ ppm error
+                Agreement: ✓ / ✗
+                
+                24-Hour Stability: _______ ppm p-p
+                
+                Notes:
+                _____________________________________________
+                _____________________________________________
+                
+                Next Calibration Due: _____________
+                
+                Signature: _____________ Date: _____________
+                </code></pre>
+                <hr />
+                <h2 id="troubleshooting-verification-failures">Troubleshooting Verification Failures</h2>
+                <h3 id="problem-large-discrepancy-between-methods">Problem: Large Discrepancy Between Methods</h3>
+                <p><strong>Example:</strong></p>
+                <pre><code>GPS shows: +5.2 ppm
+                CHU shows: +11.8 ppm
+                Difference: 6.6 ppm (too large!)
+                </code></pre>
+                <p><strong>Possible causes:</strong>
+                1. GPS not locked (check 1PPS is blinking)
+                2. CHU propagation poor (multipath, fading)
+                3. Measurement error (recheck connections)
+                4. Temperature changed between measurements</p>
+                <p><strong>Solution:</strong>
+                - Re-measure with stable conditions
+                - Use third method (FM) to arbitrate
+                - Trust GPS if all other checks pass</p>
+                <h3 id="problem-frequency-jumps">Problem: Frequency Jumps</h3>
+                <p><strong>Example:</strong></p>
+                <pre><code>Measurement 1: 30,000,150 Hz
+                Measurement 2: 30,000,148 Hz
+                Measurement 3: 30,002,580 Hz ← Jump!
+                Measurement 4: 30,000,149 Hz
+                </code></pre>
+                <p><strong>Possible causes:</strong>
+                1. Loose connection (intermittent)
+                2. Power supply noise
+                3. Counter overflow (if using 16-bit counter)
+                4. Software bug</p>
+                <p><strong>Solution:</strong>
+                - Check all connections
+                - Add decoupling capacitors
+                - Use 32-bit counter
+                - Re-upload firmware</p>
+                <h3 id="problem-temperature-sensitivity-too-high">Problem: Temperature Sensitivity Too High</h3>
+                <p><strong>Example:</strong></p>
+                <pre><code>Measured TC: -5.2 ppm/°C
+                Expected: -0.5 to -2 ppm/°C
+                </code></pre>
+                <p><strong>Possible causes:</strong>
+                1. Poor quality crystal
+                2. Aging crystal
+                3. Measurement error
+                4. Other temperature-sensitive component</p>
+                <p><strong>Solution:</strong>
+                - Re-measure carefully
+                - Consider replacing crystal (if accessible)
+                - Use tighter temperature control
+                - Apply software compensation</p>
+                <hr />
+                <h2 id="advanced-verification-beat-frequency-method">Advanced Verification: Beat Frequency Method</h2>
+                <h3 id="concept">Concept</h3>
+                <p>Mix TinySA 30MHz with GPS-locked 30MHz reference, listen to beat note.</p>
+                <p><strong>Setup:</strong></p>
+                <pre><code>GPS-locked 30MHz ──┐
+                                   ├──→ Mixer ──→ Low-pass filter ──→ Audio amp ──→ Speaker
+                TinySA 30MHz ──────┘
+                
+                Beat frequency = |f1 - f2|
+                </code></pre>
+                <p><strong>If calibration perfect:</strong>
+                - Beat frequency = 0 Hz (silence)</p>
+                <p><strong>If error exists:</strong>
+                - Beat frequency = error in Hz
+                - Example: 150 Hz error → hear 150 Hz tone</p>
+                <p><strong>Advantages:</strong>
+                - Very sensitive (can hear 1 Hz difference)
+                - Real-time monitoring
+                - No counter needed</p>
+                <p><strong>Disadvantages:</strong>
+                - Requires building mixer circuit
+                - Need GPS-locked 30MHz reference
+                - Can't measure sign of error (only magnitude)</p>
+                <hr />
+                <h2 id="summary">Summary</h2>
+                <h3 id="verification-completed">Verification Completed</h3>
+                <p>✓ Immediate post-calibration check
+                ✓ Cross-reference against multiple sources
+                ✓ Short-term stability (1 hour)
+                ✓ Long-term stability (24 hours)
+                ✓ Temperature characterization
+                ✓ Uncertainty analysis
+                ✓ Acceptance testing
+                ✓ Documentation</p>
+                <h3 id="key-metrics">Key Metrics</h3>
+                <p><strong>Good Calibration:</strong>
+                - Final error: &lt; 1 ppm
+                - Agreement between methods: &lt; 0.5 ppm
+                - 1-hour stability: &lt; 0.5 ppm
+                - 24-hour drift: &lt; 1 ppm
+                - Temperature coefficient: Known and compensated</p>
+                <p><strong>Next Steps:</strong>
+                - Use calibrated TinySA with confidence
+                - Re-calibrate annually
+                - Document all measurements</p>
+                <hr />
+                <p><strong>Your TinySA is now calibrated to atomic clock accuracy!</strong></p>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

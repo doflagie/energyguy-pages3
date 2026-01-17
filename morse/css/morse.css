@@ -1,0 +1,97 @@
+.morse-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 40px;
+}
+
+.morse-container h2 {
+    color: #2c5f8d;
+    font-size: 2em;
+    margin-top: 0;
+    border-bottom: 2px solid #4a7ba7;
+    padding-bottom: 12px;
+}
+
+.morse-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin: 20px 0 10px 0;
+}
+
+.morse-control label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #2c5f8d;
+}
+
+.morse-control select,
+.morse-control input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #cfd8e3;
+    font-size: 0.95em;
+}
+
+.morse-player {
+    background-color: #f5f5f0;
+    padding: 14px;
+    border-radius: 6px;
+    margin: 20px 0;
+}
+
+.morse-player strong {
+    color: #2c5f8d;
+}
+
+.morse-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.morse-table th,
+.morse-table td {
+    padding: 10px 8px;
+    border-bottom: 1px solid #e4e4e4;
+    vertical-align: top;
+}
+
+.morse-table th {
+    text-align: left;
+    color: #2c5f8d;
+    font-weight: 600;
+    background-color: #f9f9f6;
+}
+
+.morse-play {
+    background-color: #4a7ba7;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 10px;
+    cursor: pointer;
+}
+
+.morse-link {
+    color: #2c5f8d;
+    text-decoration: none;
+    font-size: 0.9em;
+}
+
+.morse-meta {
+    color: #666;
+    font-size: 0.9em;
+    margin-top: 6px;
+}
+
+@media (max-width: 900px) {
+    .morse-controls {
+        grid-template-columns: 1fr;
+    }
+}

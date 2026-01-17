@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morse Code Practice Library - EnergyGuy LLC</title>
+    <meta name="description" content="Morse code practice audio library with answer keys.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/morse.css">
+</head>
+<body>
+    <div class="morse-container">
+        <h2>Morse Code Practice Library</h2>
+        <p>
+            Select a word-count group and a WPM/Farnsworth setting, then choose files to
+            play. Each line includes the answer key text.
+        </p>
+
+        <div class="morse-controls">
+            <div class="morse-control">
+                <label for="groupSelect">Word count group</label>
+                <select id="groupSelect"></select>
+            </div>
+            <div class="morse-control">
+                <label for="folderSelect">WPM / Farnsworth</label>
+                <select id="folderSelect"></select>
+            </div>
+            <div class="morse-control">
+                <label for="searchInput">Search answer key</label>
+                <input id="searchInput" type="text" placeholder="Type a word or line number">
+            </div>
+        </div>
+
+        <div class="morse-player">
+            <div><strong id="nowPlaying">Now playing: none</strong></div>
+            <audio id="audioPlayer" controls preload="none"></audio>
+            <div class="morse-meta" id="statusText">Loading...</div>
+        </div>
+
+        <table class="morse-table">
+            <thead>
+                <tr>
+                    <th>Line</th>
+                    <th>Answer key</th>
+                    <th>Audio</th>
+                </tr>
+            </thead>
+            <tbody id="resultsBody"></tbody>
+        </table>
+    </div>
+
+    <script src="js/morse.js" defer></script>
+</body>
+</html>

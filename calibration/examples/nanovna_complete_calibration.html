@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete NanoVNA Calibration Example - EnergyGuy LLC</title>
+    <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>EnergyGuy LLC</h1>
+                    <p class="tagline">Amateur Radio • Electronics • Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+                        <nav>
+                            <h3>Main Navigation</h3>
+                            <ul>
+                                <li><a href="../../index.html">Home</a></li>
+                                <li><a href="../../about/bio.html">About</a></li>
+                            </ul>
+            
+                            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul>
+                                <li><a href="../../antennas/index.html">Antenna Library</a></li>
+                            </ul>
+            </details>
+            
+                            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul>
+                                <li><a href="../../test_gear/index.html">Test Equipment Library</a></li>
+                            </ul>
+            </details>
+            
+                            <h3>Standards</h3>
+                            <ul>
+                                <li><a href="../../cal_lab/index.html">Calibration Standards (cal_lab)</a></li>
+                                <li><a href="../../NIST/index.html">NIST-Traceable Standards</a></li>
+                            </ul>
+            
+                            <details class="nav-group" open>
+                <summary>Study & Training</summary>
+                <ul>
+                                <li><a href="../../study/index.html">Ham Radio Flash Card Quiz</a></li>
+                                <li><a href="../../study/morse.html">Morse Code Practice</a></li>
+                            </ul>
+            </details>
+            
+                            <h3>Resources</h3>
+                            <ul>
+                                <li><a href="../../morse/index.html">Morse Practice Library</a></li>
+                                <li><a href="../../study/index.html">Study Machine</a></li>
+                            </ul>
+                        </nav>
+<main>
+                <h1 id="complete-nanovna-calibration-example">Complete NanoVNA Calibration Example</h1>
+                <h2 id="project-overview">Project Overview</h2>
+                <p>This is a <strong>complete worked example</strong> of calibrating a NanoVNA from scratch, including:
+                1. Frequency calibration (GPS method)
+                2. Building DIY calibration standards
+                3. Port calibration (SOL)
+                4. Verification with real measurements</p>
+                <p><strong>Hardware:</strong> NanoVNA v1 (original)
+                <strong>Goal:</strong> Calibrate for 2-meter ham band antenna work (144-148 MHz)
+                <strong>Budget:</strong> $30
+                <strong>Time:</strong> 1 weekend</p>
+                <hr />
+                <h2 id="day-1-frequency-calibration">Day 1: Frequency Calibration</h2>
+                <h3 id="equipment-available">Equipment Available</h3>
+                <ul>
+                <li>NanoVNA v1 (uncalibrated)</li>
+                <li>GPS module + Arduino (from TinySA project - already built!)</li>
+                <li>Multimeter</li>
+                <li>Soldering iron</li>
+                </ul>
+                <h3 id="step-1-verify-frequency-error-30-min">Step 1: Verify Frequency Error (30 min)</h3>
+                <p><strong>Used FM broadcast method for quick check:</strong></p>
+                <ol>
+                <li><strong>Tuned to local NPR station:</strong></li>
+                <li>Known frequency: 90.9 MHz (WBUR Boston)</li>
+                <li>
+                <p>Confirmed GPS-locked online</p>
+                </li>
+                <li>
+                <p><strong>NanoVNA settings:</strong>
+                   <code>START: 90.8 MHz
+                   STOP: 91.0 MHz
+                   Format: LOGMAG
+                   Connected 6" wire as antenna</code></p>
+                </li>
+                <li>
+                <p><strong>Found carrier peak:</strong>
+                   <code>Marker: 90.927.8 MHz
+                   Known: 90.900.0 MHz
+                   Error: +27.8 kHz
+                   PPM: 27,800 / 90,900,000 × 10^6 = +30.58 ppm</code></p>
+                </li>
+                </ol>
+                <p><strong>Conclusion:</strong> NanoVNA is 30.6 ppm fast - needs calibration!</p>
+                <h3 id="step-2-gps-calibration-1-hour">Step 2: GPS Calibration (1 hour)</h3>
+                <p><strong>Reused GPS frequency counter from TinySA project:</strong></p>
+                <ol>
+                <li><strong>Modified for 8 MHz measurement:</strong></li>
+                <li>Changed Arduino code: <code>expected = 8000000.0</code></li>
+                <li>Set NanoVNA to CW mode at 100 MHz</li>
+                <li>
+                <p>Connected CH0 output to Arduino</p>
+                </li>
+                <li>
+                <p><strong>Measurements:</strong>
+                   <code>Frequency: 100,003,060 Hz
+                   Expected:  100,000,000 Hz
+                   Error: +3,060 Hz
+                   PPM: +30.60 ppm</code></p>
+                </li>
+                </ol>
+                <p><strong>Matches FM measurement!</strong> ✓</p>
+                <ol>
+                <li><strong>Calculate new TCXO value:</strong>
+                   ```
+                   Current TCXO: 8,000,000 Hz (default)
+                   Error: +30.60 ppm</li>
+                </ol>
+                <p>New TCXO = 8,000,000 × (1 + 30.60/10^6)
+                            = 8,000,000 × 1.00003060
+                            = 8,000,245 Hz
+                   ```</p>
+                <ol>
+                <li>
+                <p><strong>Apply to NanoVNA:</strong>
+                   <code>CONFIG → EXPERT CONFIG → TCXO
+                   Enter: 8000245
+                   SAVE
+                   Power cycle</code></p>
+                </li>
+                <li>
+                <p><strong>Verify:</strong>
+                   ```
+                   Re-measured FM station:
+                   Marker: 90.900.1 MHz
+                   Error: +100 Hz = +1.1 ppm</p>
+                </li>
+                </ol>
+                <p>Much better! (30.6 → 1.1 ppm)</p>
+                <p>Second iteration:
+                   New TCXO = 8,000,245 × (1 + 1.1/10^6) = 8,000,254 Hz</p>
+                <p>Final result:
+                   FM station: 90.900.0 MHz exact
+                   Error: 0 ppm! ✓
+                   ```</p>
+                <p><strong>Frequency calibration complete: 30.6 ppm → 0 ppm</strong></p>
+                <hr />
+                <h2 id="day-2-building-calibration-standards">Day 2: Building Calibration Standards</h2>
+                <h3 id="shopping-list">Shopping List</h3>
+                <p>Went to local electronics store:
+                - 10× 51Ω resistors, 1%, metal film: $2.50
+                - 2× SMA panel mount connectors: $6.00
+                - SMA male-male adapter: $3.50
+                - Copper wire, solder (had)</p>
+                <p><strong>Total spent: $12.00</strong></p>
+                <h3 id="building-short-30-min">Building SHORT (30 min)</h3>
+                <p><strong>Method:</strong> Copper wire in SMA connector</p>
+                <ol>
+                <li><strong>Prepared SMA connector:</strong></li>
+                <li>Removed outer insulator</li>
+                <li>
+                <p>Exposed center pin and shell</p>
+                </li>
+                <li>
+                <p><strong>Created short:</strong></p>
+                </li>
+                <li>Cut 1/2" of solid copper wire (18 AWG)</li>
+                <li>Stripped clean</li>
+                <li>Flattened with hammer (reduce inductance)</li>
+                <li>
+                <p>Soldered center pin to shell</p>
+                </li>
+                <li>
+                <p><strong>Tested:</strong>
+                   <code>DMM: 0.05Ω ✓
+                   Visual: Clean solder joint ✓</code></p>
+                </li>
+                </ol>
+                <h3 id="building-open-5-min">Building OPEN (5 min)</h3>
+                <p><strong>Method:</strong> Empty SMA female</p>
+                <ol>
+                <li>Took spare SMA panel connector</li>
+                <li>Left center socket empty</li>
+                <li>That's it!</li>
+                </ol>
+                <p><strong>Tested:</strong></p>
+                <pre><code>DMM: &gt;10 MΩ ✓
+                Visual: No contamination ✓
+                </code></pre>
+                <h3 id="building-load-45-min">Building LOAD (45 min)</h3>
+                <p><strong>Method:</strong> Through-hole resistor in SMA</p>
+                <ol>
+                <li><strong>Measured all 10 resistors with DMM:</strong>
+                   <code>R1: 50.8Ω
+                   R2: 51.3Ω
+                   R3: 50.6Ω
+                   R4: 51.0Ω
+                   R5: 50.2Ω ← Best!
+                   R6: 51.4Ω
+                   R7: 50.9Ω
+                   R8: 51.2Ω
+                   R9: 50.7Ω
+                   R10: 51.1Ω</code></li>
+                </ol>
+                <p><strong>Selected R5: 50.2Ω</strong> (only +0.4% error)</p>
+                <ol>
+                <li><strong>Installed in SMA connector:</strong></li>
+                <li>Trimmed leads to 3mm total</li>
+                <li>Soldered center pin to one resistor lead</li>
+                <li>Soldered other lead to shell</li>
+                <li>
+                <p>Added heat shrink for strain relief</p>
+                </li>
+                <li>
+                <p><strong>Tested:</strong>
+                   <code>DMM (4-wire): 50.3Ω (lead resistance added 0.1Ω)
+                   Close enough! ✓</code></p>
+                </li>
+                </ol>
+                <h3 id="verifying-thru-sma-adapter">Verifying THRU (SMA adapter)</h3>
+                <p><strong>Bought SMA male-male barrel adapter</strong></p>
+                <p><strong>Tested:</strong>
+                - Visual: Good quality, gold plated
+                - Mechanical: Tight connections
+                - Ready to use ✓</p>
+                <p><strong>Total build time: 2 hours</strong>
+                <strong>Total cost: $12</strong></p>
+                <hr />
+                <h2 id="day-2-continued-port-calibration">Day 2 (continued): Port Calibration</h2>
+                <h3 id="goal-calibrate-for-2m-band">Goal: Calibrate for 2m Band</h3>
+                <p><strong>Target range:</strong> 144-148 MHz (2-meter amateur band)</p>
+                <h3 id="procedure-10-minutes">Procedure (10 minutes)</h3>
+                <ol>
+                <li><strong>Warm up NanoVNA:</strong></li>
+                <li>Turned on</li>
+                <li>Ran sweep 1-900 MHz</li>
+                <li>
+                <p>Waited 15 minutes</p>
+                </li>
+                <li>
+                <p><strong>Set frequency range:</strong>
+                   <code>STIMULUS → START: 140 MHz
+                   STIMULUS → STOP: 150 MHz
+                   (Slightly wider than target for margin)</code></p>
+                </li>
+                <li>
+                <p><strong>Started SOL calibration:</strong>
+                   <code>CAL → CALIBRATE → S11 (1-port)</code></p>
+                </li>
+                <li>
+                <p><strong>Connected SHORT:</strong></p>
+                </li>
+                <li>Attached DIY SHORT to CH0</li>
+                <li>Finger-tightened</li>
+                <li>Pressed <strong>SHORT</strong> on screen</li>
+                <li>Waited for sweep (2 seconds)</li>
+                <li>
+                <p><strong>Green checkmark appeared</strong> ✓</p>
+                </li>
+                <li>
+                <p><strong>Connected OPEN:</strong></p>
+                </li>
+                <li>Removed SHORT</li>
+                <li>Attached DIY OPEN to CH0</li>
+                <li>Pressed <strong>OPEN</strong></li>
+                <li>Waited for sweep</li>
+                <li>
+                <p><strong>Green checkmark</strong> ✓</p>
+                </li>
+                <li>
+                <p><strong>Connected LOAD:</strong></p>
+                </li>
+                <li>Removed OPEN</li>
+                <li>Attached DIY 50Ω LOAD</li>
+                <li>Pressed <strong>LOAD</strong></li>
+                <li>Waited for sweep</li>
+                <li>
+                <p><strong>Green checkmark</strong> ✓</p>
+                </li>
+                <li>
+                <p><strong>Finished:</strong></p>
+                </li>
+                <li>Pressed <strong>DONE</strong></li>
+                <li>Message: "Calibration applied"</li>
+                <li><strong>CAL → SAVE → Slot 1</strong> (saved for future)</li>
+                </ol>
+                <p><strong>Calibration complete!</strong></p>
+                <hr />
+                <h2 id="verification-tests">Verification Tests</h2>
+                <h3 id="test-1-50-load-baseline">Test 1: 50Ω LOAD (Baseline)</h3>
+                <p><strong>Connected 50Ω LOAD (the one used for cal):</strong></p>
+                <pre><code>Format: SWR
+                Reading: 1.00:1 across 140-150 MHz ✓
+                
+                Format: Smith Chart
+                Position: Dead center ✓
+                
+                Format: LOGMAG (S11)
+                Reading: -45 dB (excellent) ✓
+                
+                Format: IMPEDANCE
+                Reading: 50.0 + j0.0 Ω ✓
+                </code></pre>
+                <p><strong>Perfect! Cal standard measures as expected.</strong></p>
+                <h3 id="test-2-known-resistor">Test 2: Known Resistor</h3>
+                <p><strong>Measured 100Ω 1% resistor (not used in cal):</strong></p>
+                <pre><code>DMM reading: 99.8Ω
+                
+                NanoVNA @ 145 MHz:
+                Impedance: 100.2 + j2.1 Ω
+                
+                Real part: 100.2Ω ✓ (matches DMM)
+                Imaginary: +j2.1Ω (small inductance from leads - expected)
+                </code></pre>
+                <p><strong>Excellent agreement!</strong></p>
+                <h3 id="test-3-supplied-cal-kit-load">Test 3: Supplied Cal Kit LOAD</h3>
+                <p><strong>Measured the LOAD that came with NanoVNA:</strong></p>
+                <pre><code>DMM: 49.1Ω (hmm, slightly low)
+                
+                NanoVNA @ 145 MHz:
+                Impedance: 49.3 + j0.8 Ω
+                SWR: 1.02:1
+                
+                Close, but not perfect.
+                My DIY load (50.2Ω) is actually more accurate!
+                </code></pre>
+                <h3 id="test-4-real-antenna">Test 4: Real Antenna</h3>
+                <p><strong>Measured my 2m dipole antenna:</strong></p>
+                <p><strong>Before calibration (uncal NanoVNA):</strong></p>
+                <pre><code>Resonance appeared at: 144.8 MHz
+                SWR minimum: 1.3:1 (seemed high)
+                </code></pre>
+                <p><strong>After frequency + port calibration:</strong></p>
+                <pre><code>Resonance: 146.1 MHz
+                SWR minimum: 1.05:1
+                
+                Much better! Makes sense - antenna was cut for 146 MHz.
+                </code></pre>
+                <p><strong>Cross-checked with calibrated TinySA:</strong></p>
+                <pre><code>TinySA return loss sweep: Minimum at 146.0 MHz
+                NanoVNA: 146.1 MHz
+                
+                Agreement within 100 kHz! ✓
+                </code></pre>
+                <h3 id="test-5-commercial-filter">Test 5: Commercial Filter</h3>
+                <p><strong>Measured Minicircuits SLP-150+ low-pass filter:</strong></p>
+                <p><strong>Datasheet specs:</strong></p>
+                <pre><code>3dB cutoff: 165 MHz
+                Insertion loss: &lt;1.5 dB (DC-150 MHz)
+                Stopband rejection: &gt;30 dB (200+ MHz)
+                </code></pre>
+                <p><strong>NanoVNA measurements (S21):</strong></p>
+                <pre><code>@ 145 MHz: -0.8 dB (good, within spec)
+                @ 165 MHz: -3.2 dB (3dB point, matches datasheet!)
+                @ 200 MHz: -28 dB (good stopband)
+                @ 250 MHz: -35 dB (excellent)
+                </code></pre>
+                <p><strong>Matches datasheet within ±0.5 dB!</strong> ✓</p>
+                <hr />
+                <h2 id="results-summary">Results Summary</h2>
+                <h3 id="frequency-calibration">Frequency Calibration</h3>
+                <p><strong>Before:</strong>
+                - Error: +30.6 ppm
+                - At 146 MHz: +4.5 kHz error</p>
+                <p><strong>After:</strong>
+                - Error: 0 ppm (GPS-calibrated)
+                - At 146 MHz: &lt;10 Hz error</p>
+                <p><strong>Improvement: 3000× better accuracy</strong></p>
+                <h3 id="port-calibration">Port Calibration</h3>
+                <p><strong>With DIY standards:</strong>
+                - 50Ω LOAD: Measures 50.0Ω ✓
+                - 100Ω resistor: Measures 100.2Ω ✓
+                - Commercial filter: Matches datasheet ✓</p>
+                <p><strong>Estimated impedance accuracy: ±2-5%</strong></p>
+                <h3 id="total-cost">Total Cost</h3>
+                <table>
+                <thead>
+                <tr>
+                <th>Item</th>
+                <th>Cost</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>GPS module (reused from TinySA)</td>
+                <td>$0</td>
+                </tr>
+                <tr>
+                <td>Arduino (reused)</td>
+                <td>$0</td>
+                </tr>
+                <tr>
+                <td>Resistors, SMA connectors</td>
+                <td>$12</td>
+                </tr>
+                <tr>
+                <td><strong>Total</strong></td>
+                <td><strong>$12</strong></td>
+                </tr>
+                </tbody>
+                </table>
+                <h3 id="total-time">Total Time</h3>
+                <table>
+                <thead>
+                <tr>
+                <th>Task</th>
+                <th>Time</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>Frequency cal (FM check)</td>
+                <td>30 min</td>
+                </tr>
+                <tr>
+                <td>Frequency cal (GPS)</td>
+                <td>1 hour</td>
+                </tr>
+                <tr>
+                <td>Build cal standards</td>
+                <td>2 hours</td>
+                </tr>
+                <tr>
+                <td>Port calibration</td>
+                <td>10 min</td>
+                </tr>
+                <tr>
+                <td>Verification tests</td>
+                <td>1 hour</td>
+                </tr>
+                <tr>
+                <td><strong>Total</strong></td>
+                <td><strong>4.7 hours</strong></td>
+                </tr>
+                </tbody>
+                </table>
+                <hr />
+                <h2 id="lessons-learned">Lessons Learned</h2>
+                <h3 id="what-went-well">What Went Well</h3>
+                <ol>
+                <li><strong>GPS method works perfectly</strong> - Same hardware as TinySA</li>
+                <li><strong>DIY load actually better</strong> than supplied kit</li>
+                <li><strong>Frequency cal made huge difference</strong> - Resonances now at correct frequency</li>
+                <li><strong>Verification critical</strong> - Measuring known components builds confidence</li>
+                </ol>
+                <h3 id="challenges">Challenges</h3>
+                <ol>
+                <li><strong>Finding 8 MHz test point</strong> - Used 100 MHz output instead (easier)</li>
+                <li><strong>Resistor selection</strong> - Bought 10, needed to measure all</li>
+                <li><strong>SHORT inductance</strong> - First attempt with wire loop was inductive, rebuilt with flat copper</li>
+                </ol>
+                <h3 id="would-do-differently">Would Do Differently</h3>
+                <ol>
+                <li><strong>Buy SMD resistors</strong> - Lower inductance for future high-freq work</li>
+                <li><strong>Build multiple LOADs</strong> - Having backup would be nice</li>
+                <li><strong>Label standards</strong> - Which is which? Marked them now.</li>
+                </ol>
+                <h3 id="unexpected-discoveries">Unexpected Discoveries</h3>
+                <ol>
+                <li><strong>Supplied kit LOAD was 49Ω</strong> not 50Ω - Good thing I verified!</li>
+                <li><strong>Antenna resonance shifted 1.3 MHz</strong> after proper calibration</li>
+                <li><strong>NanoVNA quite stable</strong> after warmup (drift &lt;0.5 ppm/hour)</li>
+                </ol>
+                <hr />
+                <h2 id="applications">Applications</h2>
+                <h3 id="what-i-can-now-measure-accurately">What I Can Now Measure Accurately</h3>
+                <p><strong>Antennas:</strong>
+                - Resonant frequency (±100 kHz)
+                - Feedpoint impedance (±2Ω)
+                - SWR across band (±0.05)
+                - Bandwidth</p>
+                <p><strong>Filters:</strong>
+                - Insertion loss (±0.5 dB)
+                - Cutoff frequency (±1%)
+                - Stopband rejection
+                - Group delay</p>
+                <p><strong>Components:</strong>
+                - Resistor values at RF
+                - Inductor L and Q
+                - Capacitor C and ESR
+                - Transformer ratios</p>
+                <p><strong>Transmission Lines:</strong>
+                - Cable loss (±0.2 dB)
+                - Velocity factor (±2%)
+                - Impedance (±2Ω)
+                - Connector quality</p>
+                <hr />
+                <h2 id="before-and-after-comparison">Before and After Comparison</h2>
+                <h3 id="before-calibration">Before Calibration</h3>
+                <pre><code>Measuring 2m dipole:
+                - Resonance: 144.8 MHz (WRONG!)
+                - SWR minimum: 1.3:1
+                - Feedpoint Z: 44Ω (seems low)
+                - Confidence level: Low
+                
+                Measuring 100Ω resistor:
+                - Reads: 87Ω (way off!)
+                </code></pre>
+                <h3 id="after-calibration">After Calibration</h3>
+                <pre><code>Same dipole:
+                - Resonance: 146.1 MHz (correct!)
+                - SWR minimum: 1.05:1 (realistic)
+                - Feedpoint Z: 52Ω (good)
+                - Confidence level: High
+                
+                Same 100Ω resistor:
+                - Reads: 100.2Ω (spot on!)
+                </code></pre>
+                <hr />
+                <h2 id="maintaining-calibration">Maintaining Calibration</h2>
+                <h3 id="regular-tasks">Regular Tasks</h3>
+                <p><strong>Monthly:</strong>
+                - Check frequency with FM station
+                - Re-calibrate if drifted &gt;5 ppm</p>
+                <p><strong>Each measurement session:</strong>
+                - Power on, wait 15 minutes (warmup)
+                - Load saved port cal OR recalibrate
+                - Verify with 50Ω load before measuring</p>
+                <p><strong>Annually:</strong>
+                - Full frequency calibration (GPS)
+                - Verify all cal standards (measure with DMM)
+                - Temperature coefficient characterization</p>
+                <h3 id="documentation">Documentation</h3>
+                <p><strong>Created calibration log:</strong></p>
+                <pre><code>Date: 2026-01-02
+                NanoVNA: v1, Serial 12345
+                Frequency cal: GPS, 0 ppm
+                Cal standards: DIY, verified
+                Port cal slots:
+                - Slot 0: 1-30 MHz (HF)
+                - Slot 1: 140-150 MHz (2m) ← current
+                - Slot 2: 420-450 MHz (70cm)
+                - Slot 3: Reserved
+                - Slot 4: Temporary
+                
+                Next cal due: 2026-02-01
+                </code></pre>
+                <hr />
+                <h2 id="conclusion">Conclusion</h2>
+                <h3 id="success-criteria-all-met">Success Criteria - All Met!</h3>
+                <p>✓ Frequency accurate to 0 ppm (GPS)
+                ✓ Impedance accurate to ±5%
+                ✓ Total cost: $12
+                ✓ Build time: &lt;5 hours
+                ✓ Verified with multiple methods
+                ✓ Matches commercial filter datasheet
+                ✓ Matches calibrated TinySA readings</p>
+                <h3 id="key-achievement">Key Achievement</h3>
+                <p><strong>Turned a $50 uncalibrated NanoVNA into a precision RF measurement tool for $12 and 5 hours of work.</strong></p>
+                <h3 id="confidence-level">Confidence Level</h3>
+                <p><strong>Before:</strong> "Is this reading even close?"
+                <strong>After:</strong> "I trust these measurements for real design work."</p>
+                <hr />
+                <h2 id="recommendations">Recommendations</h2>
+                <h3 id="for-others-doing-this">For Others Doing This</h3>
+                <ol>
+                <li><strong>Start with frequency cal</strong> - Makes everything else make sense</li>
+                <li><strong>Buy extra resistors</strong> - Select best match</li>
+                <li><strong>Verify everything</strong> - Trust but verify</li>
+                <li><strong>Document</strong> your calibration</li>
+                <li><strong>Cross-check</strong> with known components</li>
+                </ol>
+                <h3 id="next-projects">Next Projects</h3>
+                <ol>
+                <li><strong>Design matching network</strong> for 2m antenna</li>
+                <li><strong>Build bandpass filter</strong> for 70cm</li>
+                <li><strong>Characterize ferrite cores</strong></li>
+                <li><strong>Measure coaxial cable</strong> velocity factors</li>
+                <li><strong>Build directional coupler</strong> and verify</li>
+                </ol>
+                <hr />
+                <p><strong>Total project success! NanoVNA now calibrated and ready for precision RF work.</strong></p>
+                <p><strong>73 and enjoy your calibrated VNA!</strong></p>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

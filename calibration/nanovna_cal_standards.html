@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building Homebrew NanoVNA Calibration Standards - EnergyGuy LLC</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>EnergyGuy LLC</h1>
+                    <p class="tagline">Amateur Radio • Electronics • Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+                        <nav>
+                            <h3>Main Navigation</h3>
+                            <ul>
+                                <li><a href="../index.html">Home</a></li>
+                                <li><a href="../about/bio.html">About</a></li>
+                            </ul>
+            
+                            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul>
+                                <li><a href="../antennas/index.html">Antenna Library</a></li>
+                            </ul>
+            </details>
+            
+                            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul>
+                                <li><a href="../test_gear/index.html">Test Equipment Library</a></li>
+                            </ul>
+            </details>
+            
+                            <h3>Standards</h3>
+                            <ul>
+                                <li><a href="../cal_lab/index.html">Calibration Standards (cal_lab)</a></li>
+                                <li><a href="../NIST/index.html">NIST-Traceable Standards</a></li>
+                            </ul>
+            
+                            <details class="nav-group" open>
+                <summary>Study & Training</summary>
+                <ul>
+                                <li><a href="../study/index.html">Ham Radio Flash Card Quiz</a></li>
+                                <li><a href="../study/morse.html">Morse Code Practice</a></li>
+                            </ul>
+            </details>
+            
+                            <h3>Resources</h3>
+                            <ul>
+                                <li><a href="../morse/index.html">Morse Practice Library</a></li>
+                                <li><a href="../study/index.html">Study Machine</a></li>
+                            </ul>
+                        </nav>
+<main>
+                <h1 id="building-homebrew-nanovna-calibration-standards">Building Homebrew NanoVNA Calibration Standards</h1>
+                <h2 id="overview">Overview</h2>
+                <p>For accurate impedance measurements, the NanoVNA needs three calibration standards:
+                1. <strong>SHORT</strong> - 0Ω (as close as possible)
+                2. <strong>OPEN</strong> - ∞Ω (nothing connected)
+                3. <strong>LOAD</strong> - exactly 50Ω, non-inductive</p>
+                <p>This guide shows how to <strong>build or verify</strong> these standards using <strong>cheap, homebrew methods</strong> without calibrated equipment.</p>
+                <hr />
+                <h2 id="understanding-calibration-standards">Understanding Calibration Standards</h2>
+                <h3 id="what-nanovna-needs-to-know">What NanoVNA Needs to Know</h3>
+                <p>During calibration, NanoVNA measures known standards and calculates error correction factors:</p>
+                <p><strong>SHORT (0Ω):</strong>
+                - Reflection coefficient: Γ = -1
+                - All power reflected, inverted phase
+                - Smith chart: Far left</p>
+                <p><strong>OPEN (∞Ω):</strong>
+                - Reflection coefficient: Γ = +1
+                - All power reflected, same phase
+                - Smith chart: Far right</p>
+                <p><strong>LOAD (50Ω):</strong>
+                - Reflection coefficient: Γ = 0
+                - No reflection, all power absorbed
+                - Smith chart: Dead center</p>
+                <h3 id="real-world-imperfections">Real-World Imperfections</h3>
+                <p><strong>No standard is perfect:</strong></p>
+                <p><strong>SHORT:</strong>
+                - Has tiny inductance (~0.1-1 nH)
+                - Matters above 1 GHz
+                - Good enough: &lt;0.5 nH for &lt;1 GHz</p>
+                <p><strong>OPEN:</strong>
+                - Has stray capacitance (~0.05-0.2 pF)
+                - Connector adds ~0.05 pF
+                - PCB adds more
+                - Good enough: &lt;0.1 pF total</p>
+                <p><strong>LOAD:</strong>
+                - Resistors have inductance
+                - Lead length matters
+                - Tolerance: ±1% is good, ±5% acceptable
+                - Temperature coefficient
+                - Power rating</p>
+                <hr />
+                <h2 id="part-1-evaluating-supplied-cal-kit">Part 1: Evaluating Supplied Cal Kit</h2>
+                <h3 id="what-comes-with-nanovna">What Comes with NanoVNA</h3>
+                <p>Most NanoVNAs include basic cal kit:
+                - SHORT: SMA plug with center pin shorted to ground
+                - OPEN: SMA plug with nothing connected
+                - LOAD: SMA plug with 50Ω resistor inside</p>
+                <p><strong>Quality varies widely:</strong> Some are excellent, some are terrible</p>
+                <h3 id="visual-inspection">Visual Inspection</h3>
+                <p><strong>SHORT:</strong>
+                - Remove outer shell
+                - Inspect solder joint
+                - Should be low-inductance (wide, flat connection)
+                - No wire loop!</p>
+                <p><strong>Good SHORT:</strong></p>
+                <pre><code> Pin
+                  │
+                  └─┬─ Wide copper strap
+                    │
+                   GND
+                </code></pre>
+                <p><strong>Bad SHORT (has inductance):</strong></p>
+                <pre><code> Pin
+                  │
+                  └─┐  Wire loop = inductor!
+                    └─ GND
+                </code></pre>
+                <p><strong>LOAD:</strong>
+                - Open carefully (non-destructively if possible)
+                - Identify resistor
+                - Read color codes or markings
+                - Check if surface mount or through-hole
+                - Note lead length</p>
+                <p><strong>Common LOAD types:</strong>
+                1. Single 51Ω resistor (cheap, okay to 500 MHz)
+                2. Two 100Ω in parallel (better)
+                3. SMD resistors (best, lowest inductance)</p>
+                <hr />
+                <h2 id="part-2-building-diy-short">Part 2: Building DIY SHORT</h2>
+                <h3 id="method-1-sma-connector-short-best">Method 1: SMA Connector Short (Best)</h3>
+                <p><strong>Parts:</strong>
+                - SMA male connector (panel mount or cable end)
+                - Copper tape or braid
+                - Solder, soldering iron</p>
+                <p><strong>Construction:</strong></p>
+                <ol>
+                <li>
+                <p><strong>Strip SMA connector</strong> to access center pin</p>
+                </li>
+                <li>
+                <p><strong>Create low-inductance connection:</strong>
+                   ```
+                   Method A: Copper tape</p>
+                </li>
+                <li>Cut copper tape (1/4" wide, 1/2" long)</li>
+                <li>Solder one end to center pin</li>
+                <li>Wrap around and solder to outer shell</li>
+                </ol>
+                <p>Method B: Copper braid
+                   - Cut braid from coax shield (1/2" long)
+                   - Flatten with hammer
+                   - Solder center pin to shell via braid
+                   ```</p>
+                <ol>
+                <li>
+                <p><strong>Keep it flat and wide</strong> (minimizes inductance)</p>
+                </li>
+                <li>
+                <p><strong>Test:</strong></p>
+                </li>
+                <li>Should measure &lt;0.1Ω with DMM</li>
+                <li>No loose connections</li>
+                </ol>
+                <p><strong>Inductance:</strong> ~0.1-0.3 nH (excellent to 2 GHz)</p>
+                <h3 id="method-2-modified-sma-cap">Method 2: Modified SMA Cap</h3>
+                <p><strong>Parts:</strong>
+                - SMA female cap
+                - Copper wire or foil</p>
+                <p><strong>Construction:</strong></p>
+                <ol>
+                <li><strong>Drill out center</strong> of SMA cap</li>
+                <li><strong>Insert copper foil or wire</strong> through hole</li>
+                <li><strong>Solder to shell</strong> on both sides</li>
+                <li><strong>Keep connection short and wide</strong></li>
+                </ol>
+                <p><strong>Easier but slightly higher inductance</strong></p>
+                <h3 id="method-3-pcb-short">Method 3: PCB SHORT</h3>
+                <p><strong>Parts:</strong>
+                - Small piece of PCB (FR4)
+                - SMA edge mount connector
+                - Copper cladding</p>
+                <p><strong>Construction:</strong></p>
+                <ol>
+                <li><strong>Mount SMA to PCB edge</strong></li>
+                <li><strong>Leave copper</strong> around center pin</li>
+                <li><strong>Solder center pin to copper pour</strong></li>
+                <li><strong>Cut PCB to size</strong></li>
+                </ol>
+                <p><strong>Advantage:</strong> Very repeatable, professional
+                <strong>Disadvantage:</strong> Needs PCB tools</p>
+                <h3 id="verifying-short-quality">Verifying SHORT Quality</h3>
+                <p><strong>Test 1: DC Resistance</strong>
+                - Measure with DMM
+                - Should be &lt;0.1Ω
+                - If &gt;1Ω, connection is poor</p>
+                <p><strong>Test 2: NanoVNA Test</strong>
+                - Connect SHORT to NanoVNA
+                - Sweep 1-900 MHz
+                - Format: Smith chart
+                - Should stay at left edge
+                - If it curls inward → too much inductance</p>
+                <p><strong>Test 3: Return Loss</strong>
+                - Format: LOGMAG
+                - Should show &gt;40 dB return loss
+                - If &lt;30 dB → poor short</p>
+                <hr />
+                <h2 id="part-3-building-diy-open">Part 3: Building DIY OPEN</h2>
+                <h3 id="the-problem-with-open">The Problem with OPEN</h3>
+                <p><strong>OPEN is tricky:</strong>
+                - Connector itself has capacitance (~0.05 pF)
+                - Exposed center pin radiates
+                - PCB adds capacitance
+                - Air gap dielectric</p>
+                <p><strong>Good news:</strong> Small capacitance doesn't matter much below 500 MHz</p>
+                <h3 id="method-1-sma-female-connector-simplest">Method 1: SMA Female Connector (Simplest)</h3>
+                <p><strong>Parts:</strong>
+                - SMA female panel mount connector
+                - Nothing else!</p>
+                <p><strong>Construction:</strong>
+                1. Install SMA connector on enclosure or PCB
+                2. Leave center socket empty
+                3. That's it!</p>
+                <p><strong>Capacitance:</strong> ~0.05-0.1 pF (connector only)
+                <strong>Good for:</strong> &lt;1 GHz</p>
+                <h3 id="method-2-calibrated-open-with-defined-capacitance">Method 2: Calibrated OPEN with Defined Capacitance</h3>
+                <p><strong>For better accuracy at high frequency:</strong></p>
+                <ol>
+                <li><strong>Build or buy OPEN</strong></li>
+                <li><strong>Measure capacitance:</strong></li>
+                <li>Use NanoVNA in capacitance mode</li>
+                <li>Or use LCR meter</li>
+                <li>
+                <p>Or calculate from geometry</p>
+                </li>
+                <li>
+                <p><strong>Enter in NanoVNA cal:</strong></p>
+                </li>
+                <li>Some firmwares allow OPEN capacitance specification</li>
+                <li>Improves accuracy &gt;500 MHz</li>
+                </ol>
+                <p><strong>Typical values:</strong> 0.02-0.15 pF</p>
+                <h3 id="method-3-delayed-open">Method 3: Delayed OPEN</h3>
+                <p><strong>For microwave frequencies (&gt;1 GHz):</strong></p>
+                <p><strong>Concept:</strong> Add known length of transmission line before OPEN</p>
+                <p><strong>Construction:</strong></p>
+                <pre><code>NanoVNA → SMA cable (known length) → OPEN
+                
+                Example:
+                50mm coax (VF=0.66) → OPEN
+                
+                Electrical delay = length / (c × VF)
+                                 = 0.05 / (3e8 × 0.66)
+                                 = 253 ps
+                </code></pre>
+                <p><strong>Enter delay in NanoVNA cal parameters</strong></p>
+                <h3 id="verifying-open-quality">Verifying OPEN Quality</h3>
+                <p><strong>Test 1: Visual</strong>
+                - Center pin should not touch anything
+                - No solder bridges
+                - Clean connector</p>
+                <p><strong>Test 2: DMM</strong>
+                - Infinite resistance
+                - If &lt;1 MΩ → contamination or leakage</p>
+                <p><strong>Test 3: NanoVNA</strong>
+                - Smith chart: Should stay at right edge
+                - If curls inward → too much capacitance (still usable)</p>
+                <hr />
+                <h2 id="part-4-building-diy-50-load">Part 4: Building DIY 50Ω LOAD</h2>
+                <p>This is the <strong>most critical</strong> and <strong>most challenging</strong> standard.</p>
+                <h3 id="understanding-the-challenge">Understanding the Challenge</h3>
+                <p><strong>50Ω resistor must be:</strong>
+                - Exactly 50Ω (±1% or better)
+                - Non-inductive (no spirals or long leads)
+                - Stable with temperature
+                - Capable of handling signal power
+                - Broadband (works DC to GHz)</p>
+                <p><strong>Problem:</strong> Most resistors fail at RF!</p>
+                <h3 id="method-1-through-hole-resistor-simple-good-to-200-mhz">Method 1: Through-Hole Resistor (Simple, Good to 200 MHz)</h3>
+                <p><strong>Parts:</strong>
+                - 51Ω resistor, 1/4W, 1% or better metal film
+                - OR 100Ω resistors × 2 in parallel
+                - SMA connector
+                - Short leads</p>
+                <p><strong>Construction:</strong></p>
+                <ol>
+                <li><strong>Choose resistor:</strong></li>
+                <li>51Ω 1% metal film (best)</li>
+                <li>
+                <p>Or two 100Ω in parallel (= 50Ω)</p>
+                </li>
+                <li>
+                <p><strong>Measure actual value with DMM:</strong>
+                   <code>Example:
+                   Resistor marked 51Ω
+                   DMM reads: 50.8Ω ✓ Good enough</code></p>
+                </li>
+                <li>
+                <p><strong>Install in SMA connector:</strong>
+                   <code>SMA center pin → Resistor lead (trimmed SHORT)
+                                    ↓
+                                 Resistor body
+                                    ↓
+                   SMA shell ← Resistor lead (trimmed SHORT)</code></p>
+                </li>
+                <li>
+                <p><strong>Keep leads &lt;5mm total</strong></p>
+                </li>
+                <li>Long leads = inductance</li>
+                <li>Trim resistor leads</li>
+                <li>
+                <p>Solder directly to connector</p>
+                </li>
+                <li>
+                <p><strong>Strain relief:</strong></p>
+                </li>
+                <li>Add epoxy or heat shrink</li>
+                <li>Don't stress resistor body</li>
+                </ol>
+                <p><strong>Performance:</strong>
+                - DC - 200 MHz: Excellent
+                - 200-500 MHz: Good
+                - &gt;500 MHz: Inductance matters</p>
+                <p><strong>Lead inductance:</strong></p>
+                <pre><code>L ≈ 1 nH per mm of lead length
+                
+                5mm leads = 5 nH
+                Reactance at 500 MHz: XL = 2πfL = 2π × 500e6 × 5e-9 = 15.7Ω
+                Impedance: Z = √(50² + 15.7²) = 52.4Ω
+                Error: +2.4Ω (still acceptable)
+                </code></pre>
+                <h3 id="method-2-smd-resistor-best-good-to-2-ghz">Method 2: SMD Resistor (Best, Good to 2 GHz)</h3>
+                <p><strong>Parts:</strong>
+                - 50.0Ω SMD resistor (0805 or 1206 size)
+                - OR two 100Ω in parallel
+                - SMA connector
+                - Small PCB or connector adapter</p>
+                <p><strong>Construction:</strong></p>
+                <ol>
+                <li><strong>Choose resistor:</strong></li>
+                <li>49.9Ω, 0805, 1% (ideal)</li>
+                <li>Or 50.0Ω ±1%</li>
+                <li>
+                <p>Or two 100Ω in parallel</p>
+                </li>
+                <li>
+                <p><strong>Mount to SMA:</strong>
+                   ```
+                   Method A: Direct solder
+                   SMA pin → SMD pad → SMD resistor → SMD pad → SMA shell</p>
+                </li>
+                </ol>
+                <p>Method B: Small PCB
+                   [PCB]
+                     │
+                   [SMA connector]─[trace]─[SMD]─[trace]─[ground plane]
+                   ```</p>
+                <ol>
+                <li><strong>Keep traces short and wide</strong></li>
+                <li>Minimize trace inductance</li>
+                <li>
+                <p>Wide traces reduce inductance</p>
+                </li>
+                <li>
+                <p><strong>Ground plane</strong> on bottom of PCB</p>
+                </li>
+                </ol>
+                <p><strong>Performance:</strong>
+                - DC - 1 GHz: Excellent
+                - 1-2 GHz: Very good
+                - &gt;2 GHz: Usable</p>
+                <p><strong>Inductance:</strong> ~0.5-1 nH total (very low)</p>
+                <h3 id="method-3-parallel-resistor-stack-advanced-best-performance">Method 3: Parallel Resistor Stack (Advanced, Best Performance)</h3>
+                <p><strong>Concept:</strong> Multiple resistors in parallel reduces inductance</p>
+                <p><strong>Parts:</strong>
+                - Multiple 100Ω resistors (4-8 pieces)
+                - SMA connector or PCB
+                - Careful layout</p>
+                <p><strong>Construction:</strong></p>
+                <p><strong>Example: 4× 200Ω resistors</strong></p>
+                <pre><code>200Ω  200Ω  200Ω  200Ω
+                  │     │     │     │
+                  └─────┴─────┴─────┘  = 50Ω total
+                </code></pre>
+                <p><strong>Layout:</strong></p>
+                <pre><code>SMA center pin
+                    │
+                    ├─[R1 200Ω]─┐
+                    ├─[R2 200Ω]─┤
+                    ├─[R3 200Ω]─┤
+                    └─[R4 200Ω]─┘
+                                 │
+                            SMA shell
+                </code></pre>
+                <p><strong>Advantages:</strong>
+                - Lower inductance (paralleling reduces L)
+                - Higher power handling
+                - Better RF performance</p>
+                <p><strong>Inductance:</strong> ~0.2-0.4 nH (each resistor ~1.5 nH, divided by 4)</p>
+                <h3 id="method-4-commercial-50-terminator-best-but-costs-money">Method 4: Commercial 50Ω Terminator (Best, but costs money)</h3>
+                <p><strong>If you have budget:</strong></p>
+                <p><strong>Good ($10-20):</strong>
+                - Mini-Circuits BLK-89-S+ (DC-18 GHz, SMA)
+                - Amphenol 132169 (DC-4 GHz)</p>
+                <p><strong>Excellent ($30-50):</strong>
+                - Keysight/Agilent 909D (DC-18 GHz)
+                - Pasternack PE6TR1001 (DC-40 GHz)</p>
+                <p><strong>Advantage:</strong> Calibrated, very low inductance, very flat 50Ω
+                <strong>Disadvantage:</strong> Costs money (defeats "homebrew" goal)</p>
+                <h3 id="selecting-through-hole-resistors">Selecting Through-Hole Resistors</h3>
+                <p><strong>Resistor types ranked:</strong></p>
+                <table>
+                <thead>
+                <tr>
+                <th>Type</th>
+                <th>RF Performance</th>
+                <th>Cost</th>
+                <th>Availability</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>Carbon composition</td>
+                <td>Poor</td>
+                <td>Low</td>
+                <td>Common</td>
+                </tr>
+                <tr>
+                <td>Carbon film</td>
+                <td>Poor-Fair</td>
+                <td>Low</td>
+                <td>Common</td>
+                </tr>
+                <tr>
+                <td>Metal film</td>
+                <td>Good</td>
+                <td>Low</td>
+                <td>Common</td>
+                </tr>
+                <tr>
+                <td>Metal oxide</td>
+                <td>Fair-Good</td>
+                <td>Medium</td>
+                <td>Common</td>
+                </tr>
+                <tr>
+                <td>Wire-wound</td>
+                <td><strong>Terrible</strong></td>
+                <td>Low</td>
+                <td>Common</td>
+                </tr>
+                <tr>
+                <td>Non-inductive</td>
+                <td>Excellent</td>
+                <td>High</td>
+                <td>Rare</td>
+                </tr>
+                </tbody>
+                </table>
+                <p><strong>Never use wire-wound!</strong> (pure inductor at RF)</p>
+                <p><strong>Best choice:</strong> Metal film, short leads, 1% or better</p>
+                <h3 id="measuring-resistor-values">Measuring Resistor Values</h3>
+                <p><strong>Without LCR meter:</strong></p>
+                <ol>
+                <li><strong>Use quality DMM</strong></li>
+                <li>4-wire (Kelvin) measurement if available</li>
+                <li>Let resistor stabilize (temp)</li>
+                <li>
+                <p>Read in Ω with 0.1Ω resolution</p>
+                </li>
+                <li>
+                <p><strong>Multiple resistors:</strong></p>
+                </li>
+                <li>Buy 10× 51Ω resistors</li>
+                <li>Measure all</li>
+                <li>Pick closest to 50.0Ω</li>
+                <li>Or select matched pair for parallel</li>
+                </ol>
+                <p><strong>Example measurements:</strong></p>
+                <pre><code>Bought 10× 51Ω ±1% resistors:
+                R1: 50.6Ω
+                R2: 51.2Ω
+                R3: 50.8Ω
+                R4: 51.0Ω
+                R5: 50.4Ω ← Best, use this one
+                R6: 51.4Ω
+                R7: 50.9Ω
+                R8: 51.1Ω
+                R9: 50.7Ω
+                R10: 51.3Ω
+                
+                Choose R5 (50.4Ω, only +0.8% error)
+                </code></pre>
+                <h3 id="verifying-load-quality">Verifying LOAD Quality</h3>
+                <p><strong>Test 1: DC Resistance</strong></p>
+                <pre><code>DMM measurement:
+                Target: 50.0Ω
+                Acceptable: 49.5-50.5Ω (±1%)
+                Good: 49.75-50.25Ω (±0.5%)
+                Excellent: 49.9-50.1Ω (±0.2%)
+                </code></pre>
+                <p><strong>Test 2: SWR on NanoVNA</strong></p>
+                <pre><code>Connect LOAD to NanoVNA
+                Sweep 1-900 MHz
+                Format: SWR
+                
+                Should read: 1.00:1 to 1.05:1 across band
+                If &gt;1.1:1 → resistor not 50Ω or too inductive
+                </code></pre>
+                <p><strong>Test 3: Smith Chart</strong></p>
+                <pre><code>Format: Smith chart
+                Should stay dead center (or very close)
+                If drifts right (capacitive) → lead capacitance
+                If drifts left (inductive) → lead inductance
+                </code></pre>
+                <p><strong>Test 4: Return Loss</strong></p>
+                <pre><code>Format: LOGMAG (S11)
+                Should show &lt;-26 dB (SWR 1.1:1)
+                Better: &lt;-32 dB (SWR 1.05:1)
+                Excellent: &lt;-40 dB (SWR 1.02:1)
+                </code></pre>
+                <p><strong>Test 5: Frequency Response</strong></p>
+                <pre><code>Sweep 10-1000 MHz
+                Impedance should stay 50Ω ±2Ω
+                If impedance rises with frequency → inductive
+                If impedance falls → capacitive
+                </code></pre>
+                <hr />
+                <h2 id="part-5-building-diy-thru">Part 5: Building DIY THRU</h2>
+                <p><strong>Purpose:</strong> Connects PORT 1 to PORT 2 for 2-port calibration</p>
+                <h3 id="method-1-sma-male-male-adapter">Method 1: SMA Male-Male Adapter</h3>
+                <p><strong>Parts:</strong>
+                - SMA male to male barrel adapter ($2-5)</p>
+                <p><strong>That's it!</strong> Just a simple adapter.</p>
+                <p><strong>Verification:</strong>
+                - Should have low insertion loss (&lt;0.3 dB to 1 GHz)
+                - Return loss &gt;20 dB</p>
+                <h3 id="method-2-sma-cable">Method 2: SMA Cable</h3>
+                <p><strong>Parts:</strong>
+                - Short SMA cable (3-6 inches)
+                - Known good quality</p>
+                <p><strong>Advantage:</strong> Can specify cable parameters in cal
+                <strong>Disadvantage:</strong> Cable loss, cable flex affects cal</p>
+                <p><strong>Better for:</strong> Lower frequencies (&lt;500 MHz)</p>
+                <h3 id="method-3-pcb-thru">Method 3: PCB THRU</h3>
+                <p><strong>Parts:</strong>
+                - PCB with two SMA connectors
+                - 50Ω trace between them</p>
+                <p><strong>Construction:</strong></p>
+                <pre><code>[SMA 1]───────[50Ω microstrip]───────[SMA 2]
+                       ╱                           ╲
+                  [Ground plane]               [Ground plane]
+                </code></pre>
+                <p><strong>Microstrip calculator:</strong>
+                - Dielectric: FR4, εᵣ = 4.3
+                - Thickness: 1.6mm
+                - Target: 50Ω
+                - Result: ~3mm trace width</p>
+                <p><strong>Advantage:</strong> Very repeatable, low loss
+                <strong>Disadvantage:</strong> Requires PCB fabrication</p>
+                <h3 id="verifying-thru-quality">Verifying THRU Quality</h3>
+                <p><strong>Test 1: Insertion Loss (S21)</strong></p>
+                <pre><code>Format: LOGMAG S21
+                Should show: 0 dB (±0.5 dB) DC-1 GHz
+                
+                Barrel adapter: ~0.1-0.2 dB typical
+                Cable (6&quot;): ~0.3-0.5 dB typical
+                </code></pre>
+                <p><strong>Test 2: Return Loss (S11)</strong></p>
+                <pre><code>Should show: &lt;-20 dB (good matching)
+                </code></pre>
+                <hr />
+                <h2 id="part-6-testing-and-verification">Part 6: Testing and Verification</h2>
+                <h3 id="cross-checking-standards">Cross-Checking Standards</h3>
+                <p><strong>Use known good components to verify:</strong></p>
+                <p><strong>Test 1: 100Ω Resistor</strong></p>
+                <pre><code>1. Calibrate NanoVNA with your standards
+                2. Measure 100Ω resistor (1% metal film)
+                3. Should read 100Ω ±5Ω
+                4. If reads 90Ω or 110Ω → LOAD standard is wrong
+                </code></pre>
+                <p><strong>Test 2: Series Capacitor</strong></p>
+                <pre><code>Known: 100pF capacitor @100MHz
+                Reactance: Xc = 1/(2πfC) = 1/(2π×100e6×100e-12) = 15.9Ω
+                Impedance: ~16Ω -j at 100MHz
+                
+                Measure with NanoVNA:
+                Should show ~16Ω capacitive reactance
+                </code></pre>
+                <p><strong>Test 3: Known Filter</strong></p>
+                <pre><code>If you have commercial filter with known specs:
+                - Measure with NanoVNA
+                - Compare to datasheet
+                - Should match within ±0.5 dB
+                </code></pre>
+                <h3 id="comparing-to-supplied-cal-kit">Comparing to Supplied Cal Kit</h3>
+                <p><strong>If you have original cal kit:</strong></p>
+                <ol>
+                <li><strong>Calibrate with supplied kit</strong></li>
+                <li><strong>Measure 50Ω LOAD</strong></li>
+                <li>
+                <p><strong>Note reading</strong></p>
+                </li>
+                <li>
+                <p><strong>Calibrate with DIY kit</strong></p>
+                </li>
+                <li><strong>Measure same 50Ω LOAD</strong></li>
+                <li><strong>Compare readings</strong></li>
+                </ol>
+                <p><strong>Should agree within ±5%</strong></p>
+                <hr />
+                <h2 id="summary-table">Summary Table</h2>
+                <table>
+                <thead>
+                <tr>
+                <th>Standard</th>
+                <th>Difficulty</th>
+                <th>Cost</th>
+                <th>Performance</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td><strong>SHORT</strong></td>
+                <td>Easy</td>
+                <td>$0-2</td>
+                <td>Excellent</td>
+                </tr>
+                <tr>
+                <td>- SMA short</td>
+                <td>Very easy</td>
+                <td>$2</td>
+                <td>Good to 2 GHz</td>
+                </tr>
+                <tr>
+                <td>- Copper tape</td>
+                <td>Easy</td>
+                <td>$1</td>
+                <td>Good to 1 GHz</td>
+                </tr>
+                <tr>
+                <td><strong>OPEN</strong></td>
+                <td>Very easy</td>
+                <td>$0-2</td>
+                <td>Excellent</td>
+                </tr>
+                <tr>
+                <td>- SMA female</td>
+                <td>Very easy</td>
+                <td>$2</td>
+                <td>Good to 1 GHz</td>
+                </tr>
+                <tr>
+                <td>- Nothing!</td>
+                <td>Very easy</td>
+                <td>$0</td>
+                <td>Fair</td>
+                </tr>
+                <tr>
+                <td><strong>LOAD</strong></td>
+                <td>Medium</td>
+                <td>$2-15</td>
+                <td>Varies</td>
+                </tr>
+                <tr>
+                <td>- Through-hole</td>
+                <td>Easy</td>
+                <td>$2</td>
+                <td>Good to 200 MHz</td>
+                </tr>
+                <tr>
+                <td>- SMD</td>
+                <td>Medium</td>
+                <td>$5</td>
+                <td>Good to 2 GHz</td>
+                </tr>
+                <tr>
+                <td>- Parallel stack</td>
+                <td>Hard</td>
+                <td>$10</td>
+                <td>Excellent to 2 GHz</td>
+                </tr>
+                <tr>
+                <td>- Commercial</td>
+                <td>Easy</td>
+                <td>$15-50</td>
+                <td>Excellent to 18 GHz</td>
+                </tr>
+                <tr>
+                <td><strong>THRU</strong></td>
+                <td>Easy</td>
+                <td>$2-5</td>
+                <td>Good</td>
+                </tr>
+                <tr>
+                <td>- SMA adapter</td>
+                <td>Very easy</td>
+                <td>$3</td>
+                <td>Good to 2 GHz</td>
+                </tr>
+                <tr>
+                <td>- Cable</td>
+                <td>Very easy</td>
+                <td>$5</td>
+                <td>Good to 1 GHz</td>
+                </tr>
+                </tbody>
+                </table>
+                <hr />
+                <h2 id="recommended-starter-kit">Recommended Starter Kit</h2>
+                <h3 id="budget-build-10">Budget Build ($10)</h3>
+                <p><strong>Buy:</strong>
+                - 10× 51Ω resistors 1% metal film ($1)
+                - 2× SMA connectors ($4)
+                - SMA male-male adapter ($3)
+                - Solder, wire (have)</p>
+                <p><strong>Build:</strong>
+                - SHORT: Solder wire in SMA
+                - OPEN: Empty SMA female
+                - LOAD: Best 51Ω resistor in SMA
+                - THRU: Adapter</p>
+                <p><strong>Time:</strong> 1-2 hours
+                <strong>Performance:</strong> Good to 500 MHz</p>
+                <h3 id="better-build-25">Better Build ($25)</h3>
+                <p><strong>Buy:</strong>
+                - SMD resistors 0805 50Ω ($2)
+                - 4× SMA connectors ($8)
+                - Small PCB ($5)
+                - Commercial 50Ω terminator ($10)</p>
+                <p><strong>Build:</strong>
+                - SHORT: Low-inductance copper strap
+                - OPEN: SMA with defined capacitance
+                - LOAD: Commercial + DIY backup
+                - THRU: Barrel adapter</p>
+                <p><strong>Time:</strong> 2-3 hours
+                <strong>Performance:</strong> Good to 1 GHz</p>
+                <hr />
+                <h2 id="next-steps">Next Steps</h2>
+                <ol>
+                <li><strong>Build or verify your calibration standards</strong></li>
+                <li><strong>Test each standard</strong> with methods above</li>
+                <li><strong>Document</strong> actual values (LOAD resistance, OPEN capacitance)</li>
+                <li><strong>Proceed to calibration procedure:</strong>
+                   → <a href="nanovna_port_calibration.html">nanovna_port_calibration.md</a></li>
+                </ol>
+                <hr />
+                <p><strong>Now you have high-quality calibration standards for $10-25!</strong></p>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

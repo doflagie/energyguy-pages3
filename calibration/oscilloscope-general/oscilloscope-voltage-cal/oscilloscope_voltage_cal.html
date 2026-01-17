@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oscilloscope Voltage Calibration - EnergyGuy LLC</title>
+    <link rel="stylesheet" href="../../../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>EnergyGuy LLC</h1>
+                    <p class="tagline">Amateur Radio • Electronics • Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+                        <nav>
+                            <h3>Main Navigation</h3>
+                            <ul>
+                                <li><a href="../../../index.html">Home</a></li>
+                                <li><a href="../../../about/bio.html">About</a></li>
+                            </ul>
+            
+                            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul>
+                                <li><a href="../../../antennas/index.html">Antenna Library</a></li>
+                            </ul>
+            </details>
+            
+                            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul>
+                                <li><a href="../../../test_gear/index.html">Test Equipment Library</a></li>
+                            </ul>
+            </details>
+            
+                            <h3>Standards</h3>
+                            <ul>
+                                <li><a href="../../../cal_lab/index.html">Calibration Standards (cal_lab)</a></li>
+                                <li><a href="../../../NIST/index.html">NIST-Traceable Standards</a></li>
+                            </ul>
+            
+                            <details class="nav-group" open>
+                <summary>Study & Training</summary>
+                <ul>
+                                <li><a href="../../../study/index.html">Ham Radio Flash Card Quiz</a></li>
+                                <li><a href="../../../study/morse.html">Morse Code Practice</a></li>
+                            </ul>
+            </details>
+            
+                            <h3>Resources</h3>
+                            <ul>
+                                <li><a href="../../../morse/index.html">Morse Practice Library</a></li>
+                                <li><a href="../../../study/index.html">Study Machine</a></li>
+                            </ul>
+                        </nav>
+<main>
+                <h1 id="oscilloscope-voltage-calibration">Oscilloscope Voltage Calibration</h1>
+                <h2 id="overview">Overview</h2>
+                <p>Voltage calibration ensures accurate amplitude measurements. We'll build precision voltage references using cheap ICs and measure scope accuracy at each voltage range.</p>
+                <p><strong>Key Idea:</strong> Use $2 precision voltage reference ICs as "voltage rulers" to check scope accuracy.</p>
+                <hr />
+                <h2 id="building-precision-voltage-references">Building Precision Voltage References</h2>
+                <h3 id="parts-list">Parts List</h3>
+                <table>
+                <thead>
+                <tr>
+                <th>Qty</th>
+                <th>Part</th>
+                <th>Voltage</th>
+                <th>Accuracy</th>
+                <th>Cost</th>
+                <th>Source</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>1</td>
+                <td>LM4040-1.2</td>
+                <td>1.225V</td>
+                <td>±0.1%</td>
+                <td>$1.50</td>
+                <td>Mouser, Digikey</td>
+                </tr>
+                <tr>
+                <td>1</td>
+                <td>LM4040-2.5</td>
+                <td>2.500V</td>
+                <td>±0.1%</td>
+                <td>$1.50</td>
+                <td>Mouser, Digikey</td>
+                </tr>
+                <tr>
+                <td>1</td>
+                <td>LM4040-5.0</td>
+                <td>5.000V</td>
+                <td>±0.1%</td>
+                <td>$2.00</td>
+                <td>Mouser, Digikey</td>
+                </tr>
+                <tr>
+                <td>2</td>
+                <td>Resistor 10kΩ 0.1%</td>
+                <td>-</td>
+                <td>±0.1%</td>
+                <td>$1.00</td>
+                <td>Mouser, Digikey</td>
+                </tr>
+                <tr>
+                <td>1</td>
+                <td>9V battery</td>
+                <td>~9V</td>
+                <td>±5%</td>
+                <td>$1.00</td>
+                <td>Local store</td>
+                </tr>
+                <tr>
+                <td>1</td>
+                <td>Breadboard</td>
+                <td>-</td>
+                <td>-</td>
+                <td>$3.00</td>
+                <td>Local store</td>
+                </tr>
+                </tbody>
+                </table>
+                <p><strong>Total:</strong> ~$10-15</p>
+                <h3 id="circuit-schematic">Circuit Schematic</h3>
+                <p><strong>LM4040 Basic Circuit:</strong></p>
+                <pre><code>        9V Battery (+)
+                            │
+                            ├─────→ To other refs
+                            │
+                         10kΩ
+                            │
+                            ├────→ OUTPUT (1.225V, 2.5V, or 5V)
+                            │       │
+                        ┌───┴───┐   │
+                        │ LM4040│   ├───→ Scope probe
+                        │       │   │
+                        └───┬───┘   │
+                            │       │
+                           GND ─────┴───→ Scope ground
+                </code></pre>
+                <p><strong>Complete Reference Board (4 voltages):</strong></p>
+                <pre><code>9V Battery
+                   │
+                   ├─ 10kΩ ─┬─ LM4040-1.2 ─→ 1.225V output ─→ Banana jack RED
+                   │        │    │
+                   ├─ 10kΩ ─┼─ LM4040-2.5 ─→ 2.500V output ─→ Banana jack YEL
+                   │        │    │
+                   ├─ 10kΩ ─┼─ LM4040-5.0 ─→ 5.000V output ─→ Banana jack GRN
+                   │        │    │
+                   │        │    │
+                   │    Precision voltage divider:
+                   │        │
+                   │      10kΩ (0.1%) ─┬─→ 10.00V output ─→ Banana jack BLU
+                   │                   │   (from 5V ref × 2)
+                   │                 10kΩ (0.1%)
+                   │                   │
+                   └──────────────── GND ─────────────────→ Banana jack BLK
+                </code></pre>
+                <h3 id="building-the-circuit">Building the Circuit</h3>
+                <p><strong>Step 1: LM4040 Connections</strong> (30 minutes)</p>
+                <ol>
+                <li><strong>Identify LM4040 pins:</strong>
+                   ```
+                   LM4040 (TO-92 package, looking at flat side):</li>
+                </ol>
+                <p>[Cathode] [Anode] [NC]
+                       1        2      3</p>
+                <p>Pin 1 (Cathode) = Output voltage
+                   Pin 2 (Anode) = Ground
+                   Pin 3 (NC) = Not connected
+                   ```</p>
+                <ol>
+                <li><strong>Breadboard layout:</strong>
+                   ```
+                   Row 1: 9V+
+                   Row 2: 10kΩ → LM4040-1.2 cathode → 1.225V output
+                   Row 3: LM4040-1.2 anode → GND</li>
+                </ol>
+                <p>Row 5: 9V+
+                   Row 6: 10kΩ → LM4040-2.5 cathode → 2.500V output
+                   Row 7: LM4040-2.5 anode → GND</p>
+                <p>Row 9: 9V+
+                   Row 10: 10kΩ → LM4040-5.0 cathode → 5.000V output
+                   Row 11: LM4040-5.0 anode → GND
+                   ```</p>
+                <ol>
+                <li><strong>Connect outputs to binding posts</strong> (for easy scope connection)</li>
+                </ol>
+                <p><strong>Step 2: 10V Divider</strong> (15 minutes)</p>
+                <p><strong>From 5V reference to 10V:</strong></p>
+                <pre><code>Actually, easier method: Use two 5V refs in series!
+                
+                9V+ ─ 10kΩ ─ LM4040-5.0 (REF1) ─┬─ 5V output
+                                                  │
+                             10kΩ ─ LM4040-5.0 (REF2) ─┬─ 10V output (REF1+REF2)
+                                                        │
+                                                       GND
+                </code></pre>
+                <p><strong>Or use precision divider:</strong></p>
+                <pre><code>5V reference ─ 10kΩ (0.1%) ─┬─ 10V output
+                                             │
+                              10kΩ (0.1%) ──┴─ GND
+                
+                Wait, this gives 2.5V, not 10V!
+                
+                Correct circuit:
+                Need op-amp to create 10V from 5V, or use two refs in series.
+                
+                Simplest: Two LM4040-5.0 in series = 10V
+                </code></pre>
+                <h3 id="testing-references-with-dmm">Testing References with DMM</h3>
+                <p><strong>Verify each reference:</strong></p>
+                <ol>
+                <li>
+                <p><strong>1.225V reference:</strong>
+                   <code>DMM reading: 1.224V to 1.226V (±0.1%)</code></p>
+                </li>
+                <li>
+                <p><strong>2.500V reference:</strong>
+                   <code>DMM reading: 2.498V to 2.502V (±0.1%)</code></p>
+                </li>
+                <li>
+                <p><strong>5.000V reference:</strong>
+                   <code>DMM reading: 4.995V to 5.005V (±0.1%)</code></p>
+                </li>
+                <li>
+                <p><strong>10.00V (if built):</strong>
+                   <code>Two 5V in series: 9.99V to 10.01V (±0.1%)</code></p>
+                </li>
+                </ol>
+                <p><strong>If readings are off:</strong> Check wiring, polarity, battery voltage &gt;7V</p>
+                <hr />
+                <h2 id="calibration-procedure">Calibration Procedure</h2>
+                <h3 id="step-1-prepare-oscilloscope">Step 1: Prepare Oscilloscope</h3>
+                <ol>
+                <li><strong>Warm up:</strong> 15-30 minutes powered on</li>
+                <li><strong>Probe:</strong> 10:1 probe (or 1:1 for low voltages)</li>
+                <li><strong>Settings:</strong></li>
+                <li>Coupling: DC</li>
+                <li>Bandwidth: Full (not limited)</li>
+                <li>Trigger: Normal, not Auto</li>
+                </ol>
+                <h3 id="step-2-measure-each-reference">Step 2: Measure Each Reference</h3>
+                <p><strong>1.225V Reference:</strong></p>
+                <ol>
+                <li><strong>Connect:</strong></li>
+                <li>Scope probe to 1.225V output</li>
+                <li>
+                <p>Ground clip to GND</p>
+                </li>
+                <li>
+                <p><strong>Scope settings:</strong></p>
+                </li>
+                <li>V/div: 500 mV/div (to see ~1.2V signal)</li>
+                <li>
+                <p>Timebase: Doesn't matter (DC signal)</p>
+                </li>
+                <li>
+                <p><strong>Read voltage:</strong></p>
+                </li>
+                <li>Use MEASURE → DC voltage</li>
+                <li>
+                <p>Or use cursor at trace level</p>
+                </li>
+                <li>
+                <p><strong>Record:</strong>
+                   <code>Reference: 1.225V
+                   Scope reads: _____ V
+                   Error: _____ V
+                   Error %: _____ %</code></p>
+                </li>
+                </ol>
+                <p><strong>Repeat for all references:</strong>
+                - 2.500V
+                - 5.000V
+                - 10.00V (if built)</p>
+                <p><strong>Test multiple V/div settings:</strong></p>
+                <p>For 5V reference, test:
+                - 1V/div (scope reading: <strong><em>)
+                - 2V/div (scope reading: </em></strong>)
+                - 5V/div (scope reading: ___)</p>
+                <p><strong>Each setting may have different error!</strong></p>
+                <h3 id="step-3-calculate-errors">Step 3: Calculate Errors</h3>
+                <p><strong>Example measurements:</strong></p>
+                <pre><code>Reference: 5.000V
+                V/div Setting    Scope Reads    Error (V)    Error (%)
+                ─────────────────────────────────────────────────────
+                1V/div           5.12V          +0.12        +2.4%
+                2V/div           5.08V          +0.08        +1.6%
+                5V/div           5.05V          +0.05        +1.0%
+                
+                Conclusion: Error varies by V/div setting!
+                Scope is generally reading HIGH (+1 to +2.4%)
+                </code></pre>
+                <h3 id="step-4-document-corrections">Step 4: Document Corrections</h3>
+                <p><strong>Create calibration table:</strong></p>
+                <pre><code>DSO1013D CH1 Voltage Calibration
+                
+                Reference    V/div    Reading    Error    Correction
+                ─────────────────────────────────────────────────────
+                1.225V       500mV    1.24V      +1.2%    ×0.988
+                2.500V       1V       2.54V      +1.6%    ×0.984
+                5.000V       2V       5.08V      +1.6%    ×0.984
+                5.000V       5V       5.05V      +1.0%    ×0.990
+                
+                Average error: +1.35%
+                Average correction factor: ×0.987
+                
+                CONCLUSION: Scope reads 1.35% HIGH
+                Multiply displayed voltage by 0.987 for actual voltage
+                </code></pre>
+                <p><strong>Repeat for CH2!</strong> (Each channel may differ)</p>
+                <hr />
+                <h2 id="probe-compensation">Probe Compensation</h2>
+                <p><strong>Critical for AC measurements!</strong></p>
+                <h3 id="using-built-in-cal-signal">Using Built-in Cal Signal</h3>
+                <p><strong>Most scopes have ~1 kHz square wave output:</strong></p>
+                <ol>
+                <li><strong>Locate cal output:</strong></li>
+                <li>Usually labeled "CAL", "PROBE COMP", or "1kHz"</li>
+                <li>
+                <p>Typically 1 kHz, 5V peak-to-peak square wave</p>
+                </li>
+                <li>
+                <p><strong>Connect probe:</strong></p>
+                </li>
+                <li>Probe tip to CAL signal</li>
+                <li>
+                <p>Ground clip to GND</p>
+                </li>
+                <li>
+                <p><strong>Observe square wave:</strong>
+                   ```
+                   Good (compensated):
+                   ┌──┐  ┌──┐
+                   │  │  │  │
+                   ┘  └──┘  └──</p>
+                </li>
+                </ol>
+                <p>Under-compensated:
+                   ┌──┐  ┌──┐
+                   ╱  │  ╱  │
+                   ┘  └──┘  └──
+                   (Rounded edges, looks like RC filter)</p>
+                <p>Over-compensated:
+                   ┌─┐   ┌─┐
+                   │ ╲╱  │ ╲╱
+                   ┘  └──┘  └──
+                   (Overshoot, ringing)
+                   ```</p>
+                <ol>
+                <li><strong>Adjust probe:</strong></li>
+                <li>Find small trimmer capacitor on probe body</li>
+                <li>Use plastic screwdriver</li>
+                <li>Adjust until square wave has flat top</li>
+                <li>Should look crisp, no overshoot</li>
+                </ol>
+                <p><strong>Do this for EVERY probe, EVERY time you connect it!</strong></p>
+                <h3 id="without-built-in-cal">Without Built-in Cal</h3>
+                <p><strong>Build external square wave:</strong></p>
+                <p><strong>Simple 555 timer circuit:</strong></p>
+                <pre><code>555 timer configured as astable
+                Frequency: ~1 kHz
+                Output: 5V square wave
+                
+                       +5V
+                        │
+                     ┌──┴──┐
+                     │ 555 │
+                     │timer│
+                     └──┬──┘
+                        │
+                     Output → Scope
+                </code></pre>
+                <p><strong>Or use function generator</strong> (if available)</p>
+                <hr />
+                <h2 id="verification">Verification</h2>
+                <h3 id="cross-check-with-known-voltages">Cross-Check with Known Voltages</h3>
+                <p><strong>Battery voltage:</strong></p>
+                <pre><code>Fresh AA battery: 1.5V - 1.65V
+                Measure with scope and DMM:
+                Should agree within ±3%
+                </code></pre>
+                <p><strong>USB 5V:</strong></p>
+                <pre><code>USB port: 4.75V - 5.25V (spec)
+                Measure with scope
+                Compare to DMM
+                </code></pre>
+                <p><strong>Known signal:</strong></p>
+                <pre><code>If you have signal generator:
+                Set to 1V RMS sine wave
+                Scope should show 2.83V peak-to-peak (1V × 2√2)
+                </code></pre>
+                <hr />
+                <h2 id="complete-example">Complete Example</h2>
+                <h3 id="calibrating-dso1013d-voltage">Calibrating DSO1013D Voltage</h3>
+                <p><strong>Equipment:</strong>
+                - DSO1013D oscilloscope
+                - LM4040-2.5 reference (built)
+                - DMM (for verification)</p>
+                <p><strong>Procedure:</strong></p>
+                <ol>
+                <li><strong>Built 2.5V reference</strong></li>
+                <li>LM4040AIZ-2.5</li>
+                <li>9V battery, 10kΩ resistor</li>
+                <li>
+                <p>Breadboard</p>
+                </li>
+                <li>
+                <p><strong>Verified with DMM:</strong>
+                   <code>DMM reading: 2.501V ✓
+                   (within ±0.1% spec)</code></p>
+                </li>
+                <li>
+                <p><strong>Connected to scope CH1:</strong></p>
+                </li>
+                <li>10:1 probe</li>
+                <li>V/div: 1V (to see ~2.5V clearly)</li>
+                <li>
+                <p>Coupling: DC</p>
+                </li>
+                <li>
+                <p><strong>Measured on scope:</strong>
+                   <code>Scope reading: 2.58V</code></p>
+                </li>
+                <li>
+                <p><strong>Calculated error:</strong>
+                   <code>Reference: 2.501V (DMM-verified)
+                   Scope: 2.58V
+                   Error: +0.079V
+                   Error %: (0.079 / 2.501) × 100 = +3.2%</code></p>
+                </li>
+                <li>
+                <p><strong>Tested other V/div settings:</strong>
+                   ```
+                   V/div    Scope Reading    Error %
+                   500mV    2.56V            +2.4%
+                   1V       2.58V            +3.2%
+                   2V       2.54V            +1.6%
+                   5V       2.52V            +0.8%</p>
+                </li>
+                </ol>
+                <p>Average error: +2.0%
+                   ```</p>
+                <ol>
+                <li><strong>Created correction table:</strong>
+                   ```
+                   CH1: Reads ~2% HIGH
+                   Correction: Multiply by 0.98</li>
+                </ol>
+                <p>Example:
+                   Scope shows 5.0V → Actual is 4.9V
+                   Scope shows 3.3V → Actual is 3.23V
+                   ```</p>
+                <ol>
+                <li><strong>Labeled scope:</strong>
+                   <code>"CH1: +2.0% error
+                    CH2: (test separately)
+                    Multiply readings by 0.98"</code></li>
+                </ol>
+                <p><strong>Result:</strong> Know voltage accuracy to ±0.5%!</p>
+                <hr />
+                <h2 id="alternative-zener-diode-references">Alternative: Zener Diode References</h2>
+                <p><strong>If can't get LM4040:</strong></p>
+                <p><strong>Common zener voltages:</strong>
+                - 3.3V zener diode (cheap, ~5% accuracy)
+                - 5.1V zener diode (cheap, ~5% accuracy)</p>
+                <p><strong>Circuit:</strong></p>
+                <pre><code>9V ─ 1kΩ ─┬─ 5.1V zener ─ GND
+                           │
+                        Output (≈5.1V ±5%)
+                </code></pre>
+                <p><strong>Less accurate but usable for rough calibration</strong></p>
+                <hr />
+                <h2 id="summary">Summary</h2>
+                <h3 id="voltage-calibration-achieved">Voltage Calibration Achieved</h3>
+                <p>✓ Built precision references (±0.1%)
+                ✓ Measured scope at multiple voltages
+                ✓ Documented errors per V/div setting
+                ✓ Created correction table
+                ✓ Probe compensation verified</p>
+                <h3 id="key-findings">Key Findings</h3>
+                <ol>
+                <li><strong>Scope errors typical:</strong> ±2-5% uncalibrated</li>
+                <li><strong>Each V/div setting different:</strong> Must test all</li>
+                <li><strong>CH1 and CH2 differ:</strong> Calibrate separately</li>
+                <li><strong>Probe compensation critical:</strong> Do every time!</li>
+                </ol>
+                <h3 id="accuracy-achieved">Accuracy Achieved</h3>
+                <p><strong>Before calibration:</strong> Unknown, possibly ±5%
+                <strong>After calibration:</strong> Known to ±0.5-1%</p>
+                <hr />
+                <p><strong>Next:</strong> <a href="../../dso1013d_complete_calibration.html">Complete example</a></p>
+                <p><strong>Voltage calibration complete!</strong></p>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

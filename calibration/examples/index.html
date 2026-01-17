@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Complete calibration walkthrough examples for test equipment">
+    <title>Calibration Examples - EnergyGuy LLC</title>
+    <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header / Banner -->
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>EnergyGuy LLC</h1>
+                    <p class="tagline">Amateur Radio • Electronics • Engineering</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Wrapper -->
+        <div class="main-wrapper">
+            <!-- Navigation Sidebar -->
+            <nav>
+                <h3>Main Navigation</h3>
+                <ul>
+                    <li><a href="../../index.html">Home</a></li>
+                    <li><a href="../index.html">← Back to Calibration Lab</a></li>
+                </ul>
+
+                <details class="nav-group" open>
+    <summary>Equipment Examples</summary>
+    <ul>
+                    <li><a href="#fluke15b">Fluke 15b+ Multimeter</a></li>
+                    <li><a href="#dso1013d">1013D Plus Oscilloscope</a></li>
+                    <li><a href="#bm4070">BM4070 LCR Tester</a></li>
+                    <li><a href="#nanovna">NanoVNA</a></li>
+                    <li><a href="#gps">GPS Calibration Walkthrough</a></li>
+                </ul>
+</details>
+
+                <details class="nav-group" open>
+    <summary>Calibration Equipment</summary>
+    <ul>
+                    <li><a href="../1013d-plus-oscilloscope/index.html">1013D Plus Oscilloscope</a></li>
+                    <li><a href="../fluke-15b-multimeter/index.html">Fluke 15b+ Multimeter</a></li>
+                    <li><a href="../bm4070-digital-lcr-tester/index.html">BM4070 LCR Tester</a></li>
+                    <li><a href="../simpson-260-series-3-analog-multimeter/index.html">Simpson 260</a></li>
+                    <li><a href="../dso138-digital-oscilloscope/index.html">DSO138 Oscilloscope</a></li>
+                </ul>
+</details>
+            </nav>
+
+            <!-- Main Content -->
+            <main>
+                <h1>Complete Calibration Examples</h1>
+
+                <p>This page provides complete, real-world calibration walkthrough examples for various test equipment. Each example includes actual measurements, troubleshooting steps, and results from calibration sessions.</p>
+
+                <div class="note">
+                    <p><strong>Philosophy:</strong> These examples demonstrate the bootstrap calibration approach - calibrating test equipment without requiring any pre-calibrated reference equipment. All methods use fundamental physical constants and freely available reference signals (WWV, GPS, AC mains).</p>
+                </div>
+
+                <h2 id="fluke15b">Fluke 15b+ Multimeter - Complete Calibration</h2>
+
+                <div class="project-card">
+                    <h3>Overview</h3>
+                    <p><strong>Equipment:</strong> Fluke 15b+ Digital Multimeter</p>
+                    <p><strong>Primary Reference:</strong> LM4040-10.0 precision voltage reference</p>
+                    <p><strong>Accuracy Achieved:</strong> ±0.1% DC voltage, ±0.5% resistance</p>
+                    <p><strong>Date:</strong> January 2, 2026</p>
+                    <p><strong>Calibration Time:</strong> 3.5 hours (including warmup)</p>
+                </div>
+
+                <p>This example walks through a complete Fluke 15b+ multimeter calibration using a precision voltage divider and calculated resistance standards. The method achieves better accuracy than factory calibration using components costing less than $25.</p>
+
+                <a href="fluke15b_complete_calibration.html" class="btn">Read Complete Walkthrough →</a>
+
+                <h2 id="dso1013d">1013D Plus Oscilloscope - Complete Calibration</h2>
+
+                <div class="project-card">
+                    <h3>Overview</h3>
+                    <p><strong>Equipment:</strong> 1013D Plus Digital Oscilloscope (100 MHz)</p>
+                    <p><strong>Primary Reference:</strong> WWV 1 kHz tone + GPS 1PPS</p>
+                    <p><strong>Accuracy Achieved:</strong> ±0.5% timebase, ±2% vertical gain</p>
+                    <p><strong>Date:</strong> January 2, 2026</p>
+                    <p><strong>Calibration Time:</strong> 5 hours (including receiver setup)</p>
+                </div>
+
+                <p>Complete calibration of a 100 MHz digital oscilloscope using WWV radio time signals for timebase and a precision voltage divider for vertical gain. Includes troubleshooting weak WWV reception and GPS cold start issues.</p>
+
+                <a href="dso1013d_complete_calibration.html" class="btn">Read Complete Walkthrough →</a>
+
+                <h2 id="bm4070">BM4070 Digital LCR Tester - Complete Calibration</h2>
+
+                <div class="project-card">
+                    <h3>Overview</h3>
+                    <p><strong>Equipment:</strong> BM4070 Digital LCR Meter</p>
+                    <p><strong>Primary Reference:</strong> LC resonance calculations</p>
+                    <p><strong>Accuracy Achieved:</strong> ±1-2% capacitance/inductance, ±0.5% resistance</p>
+                    <p><strong>Date:</strong> January 2, 2026</p>
+                    <p><strong>Calibration Time:</strong> 4 hours (including toroid winding)</p>
+                </div>
+
+                <p>This walkthrough demonstrates calibrating an LCR meter using precision capacitors, calculated toroid inductors, and LC resonance verification. The method is completely self-contained and requires no external frequency counter.</p>
+
+                <a href="bm4070_complete_calibration.html" class="btn">Read Complete Walkthrough →</a>
+
+                <h2 id="nanovna">NanoVNA - Complete Calibration</h2>
+
+                <div class="project-card">
+                    <h3>Overview</h3>
+                    <p><strong>Equipment:</strong> NanoVNA Vector Network Analyzer</p>
+                    <p><strong>Primary Reference:</strong> Precision cal standards (Open/Short/Load/Through)</p>
+                    <p><strong>Accuracy Achieved:</strong> ±0.5 dB, ±2° phase</p>
+                    <p><strong>Date:</strong> January 2, 2026</p>
+                    <p><strong>Calibration Time:</strong> 2 hours</p>
+                </div>
+
+                <p>Complete NanoVNA calibration including building precision calibration standards, performing SOLT calibration, and verification measurements. Includes troubleshooting unstable calibration and connector issues.</p>
+
+                <a href="nanovna_complete_calibration.html" class="btn">Read Complete Walkthrough →</a>
+
+                <h2 id="gps">GPS Calibration Walkthrough</h2>
+
+                <div class="project-card">
+                    <h3>Overview</h3>
+                    <p><strong>Equipment:</strong> GPS 1PPS Reference (NEO-M8N module)</p>
+                    <p><strong>Primary Reference:</strong> GPS satellite atomic clocks</p>
+                    <p><strong>Accuracy Achieved:</strong> ±40 nanoseconds (averaged)</p>
+                    <p><strong>Date:</strong> January 2, 2026</p>
+                    <p><strong>Build Time:</strong> 3 hours</p>
+                </div>
+
+                <p>Step-by-step walkthrough of building and verifying a GPS 1PPS (one pulse per second) reference. This fundamental reference is used for calibrating oscilloscope timebases, frequency counters, and disciplining crystal oscillators.</p>
+
+                <a href="gps_calibration_walkthrough.html" class="btn">Read Complete Walkthrough →</a>
+
+                <h2>Common Calibration Techniques</h2>
+
+                <h3>WWV Reception Tips</h3>
+                <ul>
+                    <li><strong>Best frequencies by time of day:</strong>
+                        <ul>
+                            <li>10 MHz - Daytime (0800-1700 local)</li>
+                            <li>5 MHz - Night (1800-0700 local)</li>
+                            <li>15/20 MHz - Daytime only, depends on propagation</li>
+                        </ul>
+                    </li>
+                    <li><strong>Antenna:</strong> 15-20 meter wire, East-West orientation</li>
+                    <li><strong>Receiver:</strong> RTL-SDR dongle + SDR software (GQRX, SDR#)</li>
+                    <li><strong>Signal processing:</strong> Narrow CW filter (200 Hz) centered on 1 kHz tone</li>
+                </ul>
+
+                <details class="nav-group" open>
+    <summary>GPS Lock Troubleshooting</summary>
+    <ul>
+                    <li><strong>Cold start:</strong> 10-15 minutes typical</li>
+                    <li><strong>Warm start:</strong> 30-60 seconds</li>
+                    <li><strong>Indoor reception:</strong> Position antenna near window, may need outdoor active antenna</li>
+                    <li><strong>Minimum satellites:</strong> 4 for 3D fix, 8+ for best accuracy</li>
+                    <li><strong>LED indicators:</strong> Blinking = searching, Solid = locked</li>
+                </ul>
+</details>
+
+                <h3>Voltage Reference Stability</h3>
+                <ul>
+                    <li><strong>Warmup time:</strong> 30 minutes minimum, 60 minutes for best stability</li>
+                    <li><strong>Temperature coefficient:</strong> LM4040 is 100 ppm/°C, keep out of drafts</li>
+                    <li><strong>Load regulation:</strong> Use high-impedance voltmeter (>10 MΩ input)</li>
+                    <li><strong>Battery voltage:</strong> Maintain >8V for 9V battery systems</li>
+                </ul>
+
+                <h2>Tools and Materials</h2>
+
+                <h3>Common to All Calibrations</h3>
+                <ul class="feature-list">
+                    <li>Digital multimeter (being calibrated or verified)</li>
+                    <li>Oscilloscope (for timebase calibration)</li>
+                    <li>RTL-SDR dongle ($25) + antenna wire</li>
+                    <li>GPS module with 1PPS output ($10-15)</li>
+                    <li>Precision voltage reference: LM4040-10.0 ($2)</li>
+                    <li>Precision resistors: 0.1% tolerance ($1 each)</li>
+                    <li>Breadboard or perfboard</li>
+                    <li>9V battery and holder</li>
+                    <li>BNC connectors and cables</li>
+                </ul>
+
+                <h3>Recommended Test Equipment</h3>
+                <ul>
+                    <li><strong>Starting from scratch:</strong> Get a cheap DMM first (UNI-T UT61E, ~$60), calibrate it, use it to verify other equipment</li>
+                    <li><strong>Second purchase:</strong> DSO138 oscilloscope kit (~$20) for learning, or 1013D Plus (~$300) for serious work</li>
+                    <li><strong>RF work:</strong> NanoVNA ($50) is essential, TinySA ($100) is extremely useful</li>
+                </ul>
+
+                <h2>Documentation Files</h2>
+
+                <p>All example calibration sessions are documented in Markdown format for easy reading and printing:</p>
+
+                <ul class="feature-list">
+                    <li><code>fluke15b_complete_calibration.md</code> - Fluke 15b+ multimeter (19.8 KB)</li>
+                    <li><code>dso1013d_complete_calibration.md</code> - 1013D Plus oscilloscope (19.8 KB)</li>
+                    <li><code>bm4070_complete_calibration.md</code> - BM4070 LCR tester (26.4 KB)</li>
+                    <li><code>nanovna_complete_calibration.md</code> - NanoVNA vector network analyzer (11.7 KB)</li>
+                    <li><code>gps_calibration_walkthrough.md</code> - GPS 1PPS reference build (18.1 KB)</li>
+                </ul>
+
+                <div class="project-card">
+                    <h3>Total Documentation</h3>
+                    <p><strong>95,896 bytes</strong> of detailed calibration walkthrough examples</p>
+                    <p>Each example includes theory, construction, calibration procedures, troubleshooting, and actual measurement results.</p>
+                </div>
+
+                <h2>Next Steps</h2>
+
+                <ol>
+                    <li><strong>Choose equipment:</strong> Start with the multimeter - it's the easiest and most useful</li>
+                    <li><strong>Gather materials:</strong> Order precision components from Mouser or Digi-Key</li>
+                    <li><strong>Build references:</strong> Construct voltage divider and/or GPS 1PPS reference</li>
+                    <li><strong>Follow example:</strong> Work through the walkthrough step-by-step</li>
+                    <li><strong>Document results:</strong> Keep calibration log for future reference</li>
+                    <li><strong>Recalibrate annually:</strong> Mark calendar for yearly recalibration</li>
+                </ol>
+
+                <p style="margin-top: 40px; text-align: center;">
+                    <a href="../index.html" class="btn">← Back to Calibration Lab</a>
+                    <a href="../../index.html" class="btn">Home</a>
+                </p>
+            </main>
+        </div>
+
+        <!-- Footer / Address Block -->
+        <footer>
+            <div class="address-block">
+                <h3>EnergyGuy LLC</h3>
+                <p>Mervyn Martin (Merv), Proprietor</p>
+                <p>GMRS Callsign: WRXN788</p>
+                <p>Merced, California 95340</p>
+
+                <div class="copyright">
+                    <p>&copy; 2026 EnergyGuy LLC. All rights reserved.</p>
+                    <p>Documentation shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></p>
+                    <p>Bootstrap Calibration | No Calibrated Equipment Required</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

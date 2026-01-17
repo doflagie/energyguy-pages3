@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSO1013D Plus Oscilloscope Calibration - Complete Guide - EnergyGuy LLC</title>
+    <link rel="stylesheet" href="../../../../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>EnergyGuy LLC</h1>
+                    <p class="tagline">Amateur Radio • Electronics • Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+                        <nav>
+                            <h3>Main Navigation</h3>
+                            <ul>
+                                <li><a href="../../../../index.html">Home</a></li>
+                                <li><a href="../../../../about/bio.html">About</a></li>
+                            </ul>
+            
+                            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul>
+                                <li><a href="../../../../antennas/index.html">Antenna Library</a></li>
+                            </ul>
+            </details>
+            
+                            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul>
+                                <li><a href="../../../../test_gear/index.html">Test Equipment Library</a></li>
+                            </ul>
+            </details>
+            
+                            <h3>Standards</h3>
+                            <ul>
+                                <li><a href="../../../../cal_lab/index.html">Calibration Standards (cal_lab)</a></li>
+                                <li><a href="../../../../NIST/index.html">NIST-Traceable Standards</a></li>
+                            </ul>
+            
+                            <details class="nav-group" open>
+                <summary>Study & Training</summary>
+                <ul>
+                                <li><a href="../../../../study/index.html">Ham Radio Flash Card Quiz</a></li>
+                                <li><a href="../../../../study/morse.html">Morse Code Practice</a></li>
+                            </ul>
+            </details>
+            
+                            <h3>Resources</h3>
+                            <ul>
+                                <li><a href="../../../../morse/index.html">Morse Practice Library</a></li>
+                                <li><a href="../../../../study/index.html">Study Machine</a></li>
+                            </ul>
+                        </nav>
+<main>
+                <h1 id="dso1013d-plus-oscilloscope-calibration-complete-guide">DSO1013D Plus Oscilloscope Calibration - Complete Guide</h1>
+                <h2 id="overview">Overview</h2>
+                <p>The DSO1013D Plus (Hantek/Owon) oscilloscope requires calibration for accurate measurements. This guide provides <strong>cheap, homebrew methods</strong> using <strong>no calibrated test equipment</strong>.</p>
+                <h3 id="what-needs-calibration">What Needs Calibration</h3>
+                <p><strong>Oscilloscopes have three main calibration aspects:</strong></p>
+                <ol>
+                <li><strong>Timebase (Horizontal)</strong> - Time/frequency accuracy</li>
+                <li><strong>Voltage (Vertical)</strong> - Amplitude accuracy</li>
+                <li><strong>Probe Compensation</strong> - Probe frequency response</li>
+                </ol>
+                <hr />
+                <h2 id="calibration-requirements">Calibration Requirements</h2>
+                <h3 id="1-timebase-calibration">1. Timebase Calibration</h3>
+                <p><strong>What it affects:</strong>
+                - Time measurements (period, pulse width)
+                - Frequency measurements
+                - Phase measurements
+                - Bode plot accuracy</p>
+                <p><strong>Typical uncalibrated error:</strong> ±50-100 ppm (±0.005-0.01%)</p>
+                <p><strong>Goal:</strong> Calibrate to ±1 ppm or better</p>
+                <p><strong>Method:</strong> GPS 1PPS (same as TinySA/NanoVNA)</p>
+                <hr />
+                <h3 id="2-voltage-calibration">2. Voltage Calibration</h3>
+                <p><strong>What it affects:</strong>
+                - Amplitude measurements
+                - DC level measurements
+                - Peak-to-peak voltage
+                - RMS calculations</p>
+                <p><strong>Typical uncalibrated error:</strong> ±3-5%</p>
+                <p><strong>Goal:</strong> Calibrate to ±1% or better</p>
+                <p><strong>Method:</strong> Precision voltage references</p>
+                <hr />
+                <h3 id="3-probe-compensation">3. Probe Compensation</h3>
+                <p><strong>What it affects:</strong>
+                - Square wave shape
+                - Rise time measurements
+                - High-frequency response</p>
+                <p><strong>Typical state:</strong> Needs adjustment every time probe is connected</p>
+                <p><strong>Goal:</strong> Flat frequency response, no overshoot/undershoot</p>
+                <p><strong>Method:</strong> Built-in cal signal (if available) or external square wave</p>
+                <hr />
+                <h2 id="quick-summary">Quick Summary</h2>
+                <table>
+                <thead>
+                <tr>
+                <th>Calibration</th>
+                <th>Accuracy Goal</th>
+                <th>Cost</th>
+                <th>Time</th>
+                <th>Difficulty</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td><strong>Timebase</strong></td>
+                <td>±1 ppm</td>
+                <td>$15-25</td>
+                <td>2-4 hours</td>
+                <td>Easy</td>
+                </tr>
+                <tr>
+                <td><strong>Voltage</strong></td>
+                <td>±1%</td>
+                <td>$5-15</td>
+                <td>1-2 hours</td>
+                <td>Easy</td>
+                </tr>
+                <tr>
+                <td><strong>Probe Comp</strong></td>
+                <td>Flat response</td>
+                <td>$0</td>
+                <td>5 min</td>
+                <td>Very Easy</td>
+                </tr>
+                </tbody>
+                </table>
+                <p><strong>Total: $20-40, one weekend</strong></p>
+                <hr />
+                <h2 id="understanding-the-dso1013d-plus">Understanding the DSO1013D Plus</h2>
+                <h3 id="specifications">Specifications</h3>
+                <p><strong>Typical specs:</strong>
+                - Bandwidth: 100 MHz
+                - Sample Rate: 1 GSa/s max
+                - Channels: 2
+                - Vertical: 2 mV/div to 5 V/div
+                - Horizontal: 2 ns/div to 50 s/div
+                - Timebase crystal: Usually 25 MHz or 100 MHz
+                - Input impedance: 1 MΩ || 15-20 pF</p>
+                <h3 id="internal-architecture">Internal Architecture</h3>
+                <p><strong>Timebase:</strong></p>
+                <pre><code>Crystal Oscillator (25 MHz typical)
+                    ↓
+                PLL (multiplies to higher frequencies)
+                    ↓
+                Sample clock (up to 1 GHz)
+                    ↓
+                ADC sampling
+                </code></pre>
+                <p><strong>Vertical:</strong></p>
+                <pre><code>Input → Attenuator → Amplifier → ADC → DSP → Display
+                         (Voltage divider calibrated in firmware)
+                </code></pre>
+                <hr />
+                <h2 id="calibration-access">Calibration Access</h2>
+                <h3 id="internal-calibration-firmware">Internal Calibration (Firmware)</h3>
+                <p>Most DSO1013D scopes have internal calibration menus:</p>
+                <p><strong>Accessing calibration mode:</strong>
+                1. Power off scope
+                2. Hold down specific button while powering on
+                3. Or navigate to hidden UTILITY → CAL menu</p>
+                <p><strong>Warning:</strong> Different firmware versions have different access methods. Check manual or online forums for your specific model.</p>
+                <p><strong>What can be calibrated:</strong>
+                - DC offset (each channel, each V/div setting)
+                - AC gain (each channel, each V/div setting)
+                - Timebase frequency
+                - Trigger levels</p>
+                <h3 id="our-approach">Our Approach</h3>
+                <p><strong>We'll use external reference methods:</strong>
+                - Don't need to access internal cal menus
+                - Verify scope's existing calibration
+                - If scope is off, we'll know by how much
+                - Can document errors and apply mental corrections
+                - Or: Note corrections in label on scope</p>
+                <hr />
+                <h2 id="calibration-strategy">Calibration Strategy</h2>
+                <h3 id="phase-1-timebase-frequency">Phase 1: Timebase (Frequency)</h3>
+                <p><strong>Method:</strong> GPS 1PPS (reuse from TinySA project)</p>
+                <p><strong>Procedure:</strong>
+                1. Generate GPS-locked 1 Hz signal (1 PPS)
+                2. Measure pulse width or period on scope
+                3. Should read exactly 1.000000 seconds
+                4. Calculate error
+                5. Apply correction (if possible) or document</p>
+                <p><strong>Accuracy:</strong> ±0.01 ppm</p>
+                <hr />
+                <h3 id="phase-2-voltage-references">Phase 2: Voltage References</h3>
+                <p><strong>Method:</strong> Precision voltage references</p>
+                <p><strong>Build 4 reference voltages:</strong>
+                1. <strong>1.25V</strong> - LM4040-1.25 (±0.1%)
+                2. <strong>2.50V</strong> - LM4040-2.5 (±0.1%)
+                3. <strong>5.00V</strong> - LM4040-5.0 (±0.1%)
+                4. <strong>10.0V</strong> - Precision divider from 5V</p>
+                <p><strong>Procedure:</strong>
+                1. Build reference circuit
+                2. Measure on scope at various V/div settings
+                3. Compare to known reference values
+                4. Calculate errors
+                5. Document or apply corrections</p>
+                <p><strong>Accuracy:</strong> ±0.5-1%</p>
+                <hr />
+                <h3 id="phase-3-probe-compensation">Phase 3: Probe Compensation</h3>
+                <p><strong>Method:</strong> Built-in cal output or external square wave</p>
+                <p><strong>Procedure:</strong>
+                1. Connect probe to cal signal (usually 1 kHz square wave)
+                2. Adjust probe compensation trimmer
+                3. Square wave should have flat top, no overshoot
+                4. Repeat for each probe</p>
+                <p><strong>Time:</strong> 2 minutes per probe</p>
+                <hr />
+                <h2 id="cost-breakdown">Cost Breakdown</h2>
+                <h3 id="minimum-budget-5">Minimum Budget: $5</h3>
+                <p><strong>If reusing GPS from TinySA calibration:</strong>
+                - Voltage references: LM4040 ICs × 3 ($3)
+                - Resistors for divider ($1)
+                - Breadboard (have)
+                - <strong>Total: $5</strong></p>
+                <h3 id="recommended-budget-25">Recommended Budget: $25</h3>
+                <p><strong>New build:</strong>
+                - GPS module + Arduino ($20 - reuse from TinySA)
+                - Voltage references ($5)
+                - Components, breadboard ($5)
+                - <strong>Total: $30</strong></p>
+                <h3 id="deluxe-budget-50">Deluxe Budget: $50</h3>
+                <p><strong>For best accuracy:</strong>
+                - GPS module ($15)
+                - Arduino ($10)
+                - Precision voltage references × 4 ($10)
+                - REF02 +10V reference ($5)
+                - 0.1% resistors for dividers ($5)
+                - Enclosure, connectors ($10)
+                - <strong>Total: $55</strong></p>
+                <hr />
+                <h2 id="what-youll-achieve">What You'll Achieve</h2>
+                <h3 id="before-calibration">Before Calibration</h3>
+                <p><strong>Timebase:</strong>
+                - Unknown error (could be ±100 ppm)
+                - Example: 1 ms measures as 1.0001 ms
+                - At 1 MHz: Could be off by 100 Hz</p>
+                <p><strong>Voltage:</strong>
+                - Unknown error (could be ±5%)
+                - Example: 5.00V measures as 5.25V
+                - Can't trust amplitude measurements</p>
+                <p><strong>Probes:</strong>
+                - Frequency-dependent errors
+                - Overshoot on square waves
+                - Poor rise time</p>
+                <h3 id="after-calibration">After Calibration</h3>
+                <p><strong>Timebase:</strong>
+                - Error known to ±0.01 ppm
+                - Example: 1 ms measures 1.000000 ms ±10 ns
+                - Frequency measurements accurate to ±1 Hz</p>
+                <p><strong>Voltage:</strong>
+                - Error known to ±1%
+                - Example: 5.00V measures 5.00V ±0.05V
+                - Can trust amplitude within ±1%</p>
+                <p><strong>Probes:</strong>
+                - Flat frequency response
+                - Clean square waves
+                - Accurate rise time measurements</p>
+                <hr />
+                <h2 id="tools-needed">Tools Needed</h2>
+                <h3 id="essential">Essential</h3>
+                <ul>
+                <li>DSO1013D oscilloscope (obviously!)</li>
+                <li>Computer</li>
+                <li>Soldering iron</li>
+                <li>Multimeter (any quality, for assembly)</li>
+                <li>Breadboard</li>
+                <li>Wire, components</li>
+                </ul>
+                <h3 id="from-previous-projects">From Previous Projects</h3>
+                <ul>
+                <li>GPS module + Arduino (TinySA calibration)</li>
+                <li>Frequency counter (if built)</li>
+                </ul>
+                <h3 id="optional">Optional</h3>
+                <ul>
+                <li>Good quality DMM (for voltage verification)</li>
+                <li>Second oscilloscope (cross-checking)</li>
+                <li>Signal generator (verification)</li>
+                </ul>
+                <hr />
+                <h2 id="project-files-structure">Project Files Structure</h2>
+                <h3 id="documentation">Documentation</h3>
+                <ol>
+                <li><strong>oscilloscope_calibration_overview.md</strong> (this file)</li>
+                <li><strong>oscilloscope_timebase_cal.md</strong> - Timebase calibration</li>
+                <li><strong>oscilloscope_voltage_cal.md</strong> - Voltage reference building</li>
+                <li><strong>oscilloscope_probe_comp.md</strong> - Probe compensation</li>
+                <li><strong>oscilloscope_verification.md</strong> - Testing and verification</li>
+                </ol>
+                <h3 id="examples">Examples</h3>
+                <ol>
+                <li><strong>examples/dso1013d_complete_calibration.md</strong> - Full worked example</li>
+                </ol>
+                <hr />
+                <h2 id="typical-errors-found">Typical Errors Found</h2>
+                <h3 id="common-issues">Common Issues</h3>
+                <p><strong>Timebase errors:</strong>
+                - ±20-50 ppm typical for uncalibrated scope
+                - ±100 ppm for very cheap scopes
+                - Temperature-dependent drift</p>
+                <p><strong>Voltage errors:</strong>
+                - DC offset: ±50-100 mV
+                - Gain error: ±2-5% per channel
+                - Different error for each V/div setting
+                - Nonlinearity at low voltages</p>
+                <p><strong>Probe issues:</strong>
+                - Under-compensated: rounded edges, slow rise time
+                - Over-compensated: overshoot, ringing
+                - Damaged probes: total distortion</p>
+                <hr />
+                <h2 id="calibration-frequency">Calibration Frequency</h2>
+                <h3 id="how-often-to-calibrate">How Often to Calibrate</h3>
+                <p><strong>Timebase:</strong>
+                - Initial: Full GPS calibration
+                - Check: Monthly with FM broadcast (5 min)
+                - Re-calibrate: Annually or if suspected drift</p>
+                <p><strong>Voltage:</strong>
+                - Initial: Full calibration with references
+                - Check: Before critical measurements
+                - Re-calibrate: Every 6 months</p>
+                <p><strong>Probe Compensation:</strong>
+                - <strong>Every time you connect a probe!</strong>
+                - After moving probe
+                - After temperature change
+                - Takes 30 seconds - no excuse not to do it</p>
+                <hr />
+                <h2 id="limitations">Limitations</h2>
+                <h3 id="what-we-cant-calibrate">What We Can't Calibrate</h3>
+                <p><strong>Without opening scope:</strong>
+                - Internal ADC linearity
+                - Sample rate accuracy (beyond timebase)
+                - Bandwidth (3dB point)
+                - Input protection circuits</p>
+                <p><strong>What requires factory calibration:</strong>
+                - Non-linearity correction
+                - Temperature compensation tables
+                - Trigger level DAC
+                - Attenuator switching</p>
+                <p><strong>Good news:</strong> Our external calibration catches most errors!</p>
+                <hr />
+                <h2 id="safety-notes">Safety Notes</h2>
+                <h3 id="working-with-oscilloscopes">Working with Oscilloscopes</h3>
+                <p><strong>Safe:</strong>
+                - External calibration circuits (5-10V max)
+                - Probe compensation
+                - Timebase measurement</p>
+                <p><strong>Caution:</strong>
+                - Opening scope case (capacitors retain charge)
+                - High voltage probes (&gt;50V)
+                - Mains-powered circuits</p>
+                <p><strong>Never:</strong>
+                - Connect scope to mains voltage directly
+                - Short scope inputs
+                - Apply &gt;300V (typical input limit)</p>
+                <p><strong>For this project:</strong> Everything is low voltage (≤10V), very safe.</p>
+                <hr />
+                <h2 id="success-criteria">Success Criteria</h2>
+                <h3 id="well-calibrated-oscilloscope">Well-Calibrated Oscilloscope</h3>
+                <p><strong>Timebase:</strong>
+                - ✓ 1 second GPS pulse measures 1.000 s ±1 ms
+                - ✓ 1 kHz signal measures 1.000 kHz ±1 Hz
+                - ✓ Frequency measurements match counter</p>
+                <p><strong>Voltage:</strong>
+                - ✓ 5.00V reference measures 5.00V ±0.05V
+                - ✓ 1.25V reference measures 1.25V ±0.01V
+                - ✓ All channels agree ±1%</p>
+                <p><strong>Probes:</strong>
+                - ✓ Square wave has flat top
+                - ✓ No overshoot or ringing
+                - ✓ Fast, clean edges</p>
+                <hr />
+                <h2 id="applications-after-calibration">Applications After Calibration</h2>
+                <h3 id="what-you-can-now-measure-accurately">What You Can Now Measure Accurately</h3>
+                <p><strong>Time domain:</strong>
+                - Pulse widths (±1%)
+                - Period/frequency (±0.01%)
+                - Rise/fall times
+                - Phase shifts
+                - Timing diagrams</p>
+                <p><strong>Voltage:</strong>
+                - DC levels (±1%)
+                - AC amplitudes (±1-2%)
+                - Peak-to-peak voltages
+                - RMS values (if scope calculates)</p>
+                <p><strong>Waveforms:</strong>
+                - PWM duty cycle
+                - Signal integrity
+                - Noise measurements
+                - Transient response</p>
+                <p><strong>Digital:</strong>
+                - Logic levels
+                - Setup/hold times
+                - Clock jitter (if low enough)</p>
+                <hr />
+                <h2 id="comparison-to-professional-calibration">Comparison to Professional Calibration</h2>
+                <h3 id="commercial-calibration-service">Commercial Calibration Service</h3>
+                <p><strong>Cost:</strong> $100-300
+                <strong>Time:</strong> 2-4 weeks turnaround
+                <strong>Accuracy:</strong> ±0.5% voltage, ±1 ppm timebase
+                <strong>Includes:</strong> Certificate, traceable to NIST</p>
+                <h3 id="our-diy-calibration">Our DIY Calibration</h3>
+                <p><strong>Cost:</strong> $20-40
+                <strong>Time:</strong> 1 weekend
+                <strong>Accuracy:</strong> ±1% voltage, ±0.01 ppm timebase
+                <strong>Includes:</strong> Documentation, understanding</p>
+                <p><strong>Conclusion:</strong> DIY is 10× cheaper, comparable accuracy, you keep your scope!</p>
+                <hr />
+                <h2 id="learning-outcomes">Learning Outcomes</h2>
+                <h3 id="technical-knowledge">Technical Knowledge</h3>
+                <ul>
+                <li>How oscilloscopes work internally</li>
+                <li>Voltage reference circuits</li>
+                <li>GPS timing applications</li>
+                <li>Probe loading effects</li>
+                <li>Calibration methodology</li>
+                </ul>
+                <h3 id="practical-skills">Practical Skills</h3>
+                <ul>
+                <li>Building precision circuits</li>
+                <li>Voltage reference design</li>
+                <li>Oscilloscope operation</li>
+                <li>Measurement uncertainty</li>
+                <li>Troubleshooting techniques</li>
+                </ul>
+                <h3 id="confidence">Confidence</h3>
+                <ul>
+                <li>Trust your measurements</li>
+                <li>Understand error sources</li>
+                <li>Design reliable circuits</li>
+                <li>Debug effectively</li>
+                </ul>
+                <hr />
+                <h2 id="next-steps">Next Steps</h2>
+                <ol>
+                <li><strong>Read:</strong> <a href="../../oscilloscope_timebase_cal.html">oscilloscope_timebase_cal.md</a></li>
+                <li><strong>Build:</strong> GPS timebase reference (or reuse from TinySA)</li>
+                <li><strong>Read:</strong> <a href="../../oscilloscope_voltage_cal.html">oscilloscope_voltage_cal.md</a></li>
+                <li><strong>Build:</strong> Voltage reference circuit</li>
+                <li><strong>Calibrate:</strong> Follow procedures</li>
+                <li><strong>Verify:</strong> Test with known signals</li>
+                <li><strong>Document:</strong> Record calibration data</li>
+                </ol>
+                <hr />
+                <h2 id="quick-start-options">Quick Start Options</h2>
+                <h3 id="option-a-timebase-only-2-hours">Option A: Timebase Only (2 hours)</h3>
+                <p><strong>If you already have GPS setup:</strong>
+                1. Connect GPS 1PPS to scope
+                2. Measure pulse period
+                3. Calculate error
+                4. <strong>Done</strong> - know timebase accuracy</p>
+                <p><strong>Cost:</strong> $0 (reuse GPS)
+                <strong>Result:</strong> Know frequency errors</p>
+                <hr />
+                <h3 id="option-b-voltage-only-2-hours">Option B: Voltage Only (2 hours)</h3>
+                <p><strong>Build simple reference:</strong>
+                1. Buy LM4040-5.0 ($2)
+                2. Build basic circuit
+                3. Measure on scope
+                4. Calculate errors</p>
+                <p><strong>Cost:</strong> $5
+                <strong>Result:</strong> Know voltage errors</p>
+                <hr />
+                <h3 id="option-c-complete-calibration-1-weekend">Option C: Complete Calibration (1 weekend)</h3>
+                <p><strong>Full system:</strong>
+                1. Timebase with GPS (4 hours)
+                2. Voltage references (2 hours)
+                3. Probe compensation (30 min)
+                4. Verification (2 hours)</p>
+                <p><strong>Cost:</strong> $20-40
+                <strong>Result:</strong> Fully calibrated scope!</p>
+                <hr />
+                <h2 id="summary">Summary</h2>
+                <h3 id="the-challenge">The Challenge</h3>
+                <p>DSO1013D needs calibration for accurate measurements, but factory calibration costs $100-300 and takes weeks.</p>
+                <h3 id="the-solution">The Solution</h3>
+                <ul>
+                <li><strong>Timebase:</strong> GPS provides atomic clock accuracy ($15-25)</li>
+                <li><strong>Voltage:</strong> Precision references are cheap ($5-15)</li>
+                <li><strong>Probes:</strong> Built-in cal signal (free)</li>
+                <li><strong>Total:</strong> $20-40, one weekend</li>
+                </ul>
+                <h3 id="the-result">The Result</h3>
+                <ul>
+                <li>Timebase accurate to ±0.01 ppm</li>
+                <li>Voltage accurate to ±1%</li>
+                <li>Probes properly compensated</li>
+                <li>Confidence in measurements</li>
+                <li>Deep understanding of oscilloscope operation</li>
+                </ul>
+                <hr />
+                <p><strong>Ready to calibrate? Continue to <a href="../../oscilloscope_timebase_cal.html">oscilloscope_timebase_cal.md</a>!</strong></p>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

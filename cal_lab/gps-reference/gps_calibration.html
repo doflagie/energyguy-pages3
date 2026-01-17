@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPS-Based 30MHz Calibration Method - EnergyGuy LLC</title>
+    <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>EnergyGuy LLC</h1>
+
+                <p class="intro-text">Homebrew calibration standards traceable to NIST, used to verify calibration results.</p>
+                    <p class="tagline">Amateur Radio • Electronics • Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+                        <nav>
+                            <h3>Main Navigation</h3>
+                            <ul>
+                                <li><a href="../../index.html">Home</a></li>
+                                <li><a href="../../about/bio.html">About</a></li>
+                            </ul>
+            
+                            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul>
+                                <li><a href="../../antennas/index.html">Antenna Library</a></li>
+                            </ul>
+            </details>
+            
+                            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul>
+                                <li><a href="../../test_gear/index.html">Test Equipment Library</a></li>
+                            </ul>
+            </details>
+            
+                            <h3>Standards</h3>
+                            <ul>
+                                <li><a href="index.html">Calibration Standards (cal_lab)</a></li>
+                                <li><a href="../../NIST/index.html">NIST-Traceable Standards</a></li>
+                            </ul>
+            
+                            <details class="nav-group" open>
+                <summary>Study & Training</summary>
+                <ul>
+                                <li><a href="../../study/index.html">Ham Radio Flash Card Quiz</a></li>
+                                <li><a href="../../study/morse.html">Morse Code Practice</a></li>
+                            </ul>
+            </details>
+            
+                            <h3>Resources</h3>
+                            <ul>
+                                <li><a href="../../morse/index.html">Morse Practice Library</a></li>
+                                <li><a href="../../study/index.html">Study Machine</a></li>
+                            </ul>
+                        </nav>
+<main>
+                <h1 id="gps-based-30mhz-calibration-method">GPS-Based 30MHz Calibration Method</h1>
+                <h2 id="overview">Overview</h2>
+                <p>This method uses a <strong>$10-20 GPS module</strong> to calibrate the TinySA's 30MHz internal reference to <strong>atomic clock accuracy</strong> (±0.01 ppm).</p>
+                <h3 id="why-gps-works">Why GPS Works</h3>
+                <ul>
+                <li>GPS satellites carry atomic clocks (rubidium and cesium)</li>
+                <li>Accuracy: 1 × 10⁻¹³ (0.00001 ppm)</li>
+                <li>GPS module outputs 1PPS (1 Pulse Per Second) synchronized to atomic time</li>
+                <li>1PPS accuracy: ±50 nanoseconds = ±0.01 ppm</li>
+                <li><strong>Result: Atomic clock accuracy for $10</strong></li>
+                </ul>
+                <h3 id="what-youll-achieve">What You'll Achieve</h3>
+                <pre><code>Frequency Error: &lt; 0.3 Hz @ 30MHz (0.01 ppm)
+                Short-term Stability: ±0.01 ppm (1 hour)
+                Long-term Stability: ±0.05 ppm (24 hours)
+                Temperature Coefficient: Measured and compensated
+                </code></pre>
+                <hr />
+                <h2 id="required-materials">Required Materials</h2>
+                <h3 id="essential-components">Essential Components</h3>
+                <table>
+                <thead>
+                <tr>
+                <th>Item</th>
+                <th>Specs</th>
+                <th>Cost</th>
+                <th>Source</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>GPS Module</td>
+                <td>NEO-6M/7M/8M with 1PPS</td>
+                <td>$10-20</td>
+                <td>eBay, Amazon, AliExpress</td>
+                </tr>
+                <tr>
+                <td>TinySA</td>
+                <td>Ultra or Basic</td>
+                <td>$100-150</td>
+                <td>Owner supplied</td>
+                </tr>
+                <tr>
+                <td>Breadboard</td>
+                <td>Standard size</td>
+                <td>$3</td>
+                <td>Local electronics</td>
+                </tr>
+                <tr>
+                <td>Jumper wires</td>
+                <td>Male-male, male-female</td>
+                <td>$2</td>
+                <td>Local electronics</td>
+                </tr>
+                <tr>
+                <td>Resistor</td>
+                <td>1kΩ 1/4W</td>
+                <td>$0.10</td>
+                <td>Local electronics</td>
+                </tr>
+                <tr>
+                <td>LED</td>
+                <td>Red 5mm</td>
+                <td>$0.10</td>
+                <td>Local electronics</td>
+                </tr>
+                <tr>
+                <td>USB cable</td>
+                <td>Mini or Micro USB</td>
+                <td>$2</td>
+                <td>Local electronics</td>
+                </tr>
+                </tbody>
+                </table>
+                <p><strong>Total Cost: $15-25</strong></p>
+                <h3 id="optional-but-recommended">Optional But Recommended</h3>
+                <table>
+                <thead>
+                <tr>
+                <th>Item</th>
+                <th>Purpose</th>
+                <th>Cost</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>Arduino Nano/Uno</td>
+                <td>Frequency counter</td>
+                <td>$10</td>
+                </tr>
+                <tr>
+                <td>OLED display</td>
+                <td>Show measurements</td>
+                <td>$5</td>
+                </tr>
+                <tr>
+                <td>Frequency counter module</td>
+                <td>Direct measurement</td>
+                <td>$10</td>
+                </tr>
+                <tr>
+                <td>Logic analyzer</td>
+                <td>Verify 1PPS</td>
+                <td>$5</td>
+                </tr>
+                <tr>
+                <td>GPS antenna</td>
+                <td>Better signal</td>
+                <td>$10</td>
+                </tr>
+                </tbody>
+                </table>
+                <h3 id="tools-required">Tools Required</h3>
+                <ul>
+                <li>Soldering iron (if headers not pre-installed)</li>
+                <li>Multimeter (verify connections)</li>
+                <li>Computer with USB port</li>
+                <li>TinySA software or phone app</li>
+                </ul>
+                <hr />
+                <h2 id="gps-module-selection">GPS Module Selection</h2>
+                <h3 id="recommended-modules">Recommended Modules</h3>
+                <p><strong>Budget Choice: NEO-6M ($10-12)</strong>
+                - 1PPS accuracy: ±60 ns
+                - Update rate: 1 Hz
+                - Cold start: 27s
+                - Good enough for 0.01 ppm</p>
+                <p><strong>Better Choice: NEO-7M ($15-18)</strong>
+                - 1PPS accuracy: ±30 ns
+                - Update rate: 10 Hz capable
+                - Cold start: 26s
+                - Improved accuracy</p>
+                <p><strong>Best Choice: NEO-8M ($18-22)</strong>
+                - 1PPS accuracy: ±30 ns
+                - Update rate: 18 Hz capable
+                - Cold start: 26s
+                - Better in weak signal areas</p>
+                <p><strong>Overkill: NEO-M9N ($35-45)</strong>
+                - 1PPS accuracy: ±20 ns
+                - Concurrent GNSS (GPS+Galileo+GLONASS+BeiDou)
+                - Faster fix
+                - Not necessary for this project</p>
+                <h3 id="module-features-to-look-for">Module Features to Look For</h3>
+                <p><strong>Must Have:</strong>
+                - 1PPS output pin
+                - 3.3V or 5V operation
+                - UART interface
+                - Passive ceramic antenna (or external antenna connector)</p>
+                <p><strong>Nice to Have:</strong>
+                - Pre-soldered headers
+                - On-board voltage regulator (for 5V operation)
+                - Battery backup (faster subsequent fixes)
+                - External antenna connector</p>
+                <h3 id="verifying-1pps-output">Verifying 1PPS Output</h3>
+                <p>When you receive your module:</p>
+                <ol>
+                <li><strong>Visual Check:</strong> Look for pin labeled "PPS", "1PPS", or "PULSE"</li>
+                <li><strong>Datasheet:</strong> Confirm 1PPS is available on your specific board</li>
+                <li><strong>LED Test:</strong> Connect LED + 1kΩ resistor to 1PPS pin → should blink once per second after GPS lock</li>
+                </ol>
+                <hr />
+                <h2 id="theory-of-operation">Theory of Operation</h2>
+                <h3 id="method-1-period-measurement-simplest">Method 1: Period Measurement (Simplest)</h3>
+                <pre><code>1. GPS outputs 1PPS pulse (exactly 1 second period)
+                2. Use TinySA's 30MHz to measure the period
+                3. If period = 1.000000 seconds, 30MHz is perfect
+                4. If period ≠ 1.000000 seconds, calculate error
+                </code></pre>
+                <p><strong>Example:</strong></p>
+                <pre><code>Measured period: 1.000001 seconds
+                Expected period: 1.000000 seconds
+                Error: +1 μs per second = +1 ppm
+                30MHz is 1 ppm too fast
+                Actual frequency: 30.000030 MHz
+                </code></pre>
+                <h3 id="method-2-frequency-counting-more-accurate">Method 2: Frequency Counting (More Accurate)</h3>
+                <pre><code>1. Count TinySA 30MHz cycles during GPS 1PPS gate
+                2. Should count exactly 30,000,000 cycles in 1 second
+                3. Difference from 30M is the error
+                </code></pre>
+                <p><strong>Example:</strong></p>
+                <pre><code>Counted cycles: 30,000,300 in 1 second
+                Expected cycles: 30,000,000
+                Error: +300 counts = +10 ppm
+                Actual frequency: 30.000300 MHz
+                </code></pre>
+                <h3 id="method-3-phase-locked-loop-most-complex">Method 3: Phase-Locked Loop (Most Complex)</h3>
+                <pre><code>1. Build PLL that locks to GPS 1PPS
+                2. PLL generates 30MHz locked to GPS
+                3. Compare TinySA's 30MHz to GPS-locked 30MHz
+                4. Measure frequency difference
+                </code></pre>
+                <p>We'll focus on <strong>Method 1</strong> and <strong>Method 2</strong> as they're simplest and don't require building hardware.</p>
+                <hr />
+                <h2 id="calibration-procedure-method-1-period-measurement">Calibration Procedure: Method 1 (Period Measurement)</h2>
+                <p>This method uses the TinySA to measure the GPS 1PPS period.</p>
+                <h3 id="step-1-gps-module-setup">Step 1: GPS Module Setup</h3>
+                <ol>
+                <li><strong>Connect GPS to power:</strong></li>
+                <li>VCC → 3.3V or 5V (check your module spec)</li>
+                <li>
+                <p>GND → Ground</p>
+                </li>
+                <li>
+                <p><strong>Connect 1PPS indicator LED:</strong></p>
+                </li>
+                <li>1PPS pin → 1kΩ resistor → LED anode (+)</li>
+                <li>
+                <p>LED cathode (-) → Ground</p>
+                </li>
+                <li>
+                <p><strong>Power on and wait for GPS lock:</strong></p>
+                </li>
+                <li>Red LED should start blinking (power)</li>
+                <li>Blue LED should start blinking after 30-60 seconds (GPS lock)</li>
+                <li>1PPS LED should blink once per second after GPS lock</li>
+                </ol>
+                <p><strong>Important:</strong> GPS needs <strong>clear view of sky</strong>:
+                - Near window or outdoors
+                - Away from metal objects
+                - Not inside shielded enclosure
+                - Cold start: 30-120 seconds to first fix</p>
+                <h3 id="step-2-extract-30mhz-from-tinysa">Step 2: Extract 30MHz from TinySA</h3>
+                <p><strong>TinySA has two options:</strong></p>
+                <p><strong>Option A: Use internal 30MHz directly (if accessible)</strong>
+                - Some TinySA models have test point for 30MHz
+                - Check your PCB for "30MHz", "TCXO", or "REF" label
+                - Solder wire to test point</p>
+                <p><strong>Option B: Use frequency counter mode</strong>
+                - TinySA Ultra has built-in frequency counter
+                - Feed external signal to INPUT
+                - Displays frequency with internal 30MHz as timebase</p>
+                <p><strong>Option C: Use external frequency reference (requires building)</strong>
+                - Build frequency counter using TinySA's 30MHz
+                - Feed 1PPS into counter
+                - Measure period or frequency</p>
+                <p>For this example, we'll assume you can <strong>access the 30MHz signal</strong> directly.</p>
+                <h3 id="step-3-measure-gps-1pps-period">Step 3: Measure GPS 1PPS Period</h3>
+                <p>Since we're calibrating and don't have calibrated equipment, we need a clever workaround:</p>
+                <p><strong>The Clever Trick: Self-Referencing</strong></p>
+                <ol>
+                <li>Connect 1PPS to TinySA INPUT</li>
+                <li>TinySA measures 1PPS frequency using its 30MHz reference</li>
+                <li>TinySA displays "1.000000 Hz" (but this might be wrong!)</li>
+                <li>The ratio of displayed vs. actual tells us the error</li>
+                </ol>
+                <p><strong>Math:</strong></p>
+                <pre><code>Displayed frequency: F_display
+                Actual frequency: 1.000000 Hz (GPS is perfect)
+                Error: (F_display - 1.0) / 1.0 × 10^6 ppm
+                
+                If F_display = 1.000010 Hz:
+                Error = (1.000010 - 1.0) / 1.0 × 10^6 = +10 ppm
+                TinySA's 30MHz is 10 ppm too fast
+                </code></pre>
+                <h3 id="step-4-calculate-correction">Step 4: Calculate Correction</h3>
+                <pre><code>ppm_error = (measured_frequency - 1.000000) × 1,000,000
+                
+                If measured = 1.000005 Hz:
+                ppm_error = 0.000005 × 1,000,000 = +5 ppm
+                
+                Actual 30MHz frequency = 30,000,000 × (1 + ppm_error/10^6)
+                                        = 30,000,000 × 1.000005
+                                        = 30,000,150 Hz
+                                        = 30.000150 MHz
+                </code></pre>
+                <h3 id="step-5-apply-correction-in-tinysa">Step 5: Apply Correction in TinySA</h3>
+                <p><strong>TinySA Basic:</strong>
+                1. Press CONFIG
+                2. Find "XTAL" or "TCXO" calibration
+                3. Enter ppm correction value
+                4. Save to flash</p>
+                <p><strong>TinySA Ultra:</strong>
+                1. Press CONFIG → MORE
+                2. Find "Reference" or "Cal"
+                3. Enter frequency correction
+                4. Save</p>
+                <p><strong>Example:</strong></p>
+                <pre><code>Measured error: +5 ppm
+                Enter in TinySA: -5 ppm (opposite sign to compensate)
+                </code></pre>
+                <h3 id="step-6-verification">Step 6: Verification</h3>
+                <ol>
+                <li>Re-measure GPS 1PPS frequency</li>
+                <li>Should now read 1.000000 Hz (within ±0.001 Hz)</li>
+                <li>If not, iterate correction</li>
+                </ol>
+                <p><strong>Iteration:</strong></p>
+                <pre><code>Iteration 1: Measured 1.000005 Hz → Apply -5 ppm
+                Iteration 2: Measured 0.999998 Hz → Apply +2 ppm
+                Iteration 3: Measured 1.000000 Hz → Done!
+                </code></pre>
+                <hr />
+                <h2 id="calibration-procedure-method-2-frequency-counter">Calibration Procedure: Method 2 (Frequency Counter)</h2>
+                <p>This method builds a simple frequency counter using Arduino.</p>
+                <h3 id="required-additional-hardware">Required Additional Hardware</h3>
+                <ul>
+                <li>Arduino Nano or Uno ($10)</li>
+                <li>Breadboard</li>
+                <li>Jumper wires</li>
+                </ul>
+                <h3 id="arduino-frequency-counter-circuit">Arduino Frequency Counter Circuit</h3>
+                <pre><code>GPS Module              Arduino Nano
+                ────────────────────────────────────
+                1PPS pin    ─────────→  D2 (INT0)
+                GND         ─────────→  GND
+                VCC         ─────────→  5V
+                
+                
+                TinySA 30MHz            Arduino Nano
+                ────────────────────────────────────
+                30MHz output ────────→  D5 (T1)
+                (via test point)
+                
+                GND          ────────→  GND
+                
+                
+                Optional LED indicator:
+                D13 ─→ 330Ω ─→ LED ─→ GND
+                (Blinks each 1PPS)
+                </code></pre>
+                <h3 id="arduino-code">Arduino Code</h3>
+                <p>Save as <code>gps_frequency_counter.ino</code>:</p>
+                <pre><code class="language-cpp">/*
+                 * GPS-Based Frequency Counter for TinySA Calibration
+                 * Measures frequency of signal on D5 (Timer1) using GPS 1PPS gate
+                 */
+                
+                #define PPS_PIN 2        // GPS 1PPS input (INT0)
+                #define LED_PIN 13       // Measurement indicator
+                #define GATE_TIME 1      // Gate time in seconds (1 for GPS 1PPS)
+                
+                volatile unsigned long count = 0;
+                volatile bool measureComplete = false;
+                
+                void setup() {
+                  Serial.begin(115200);
+                  pinMode(LED_PIN, OUTPUT);
+                  pinMode(PPS_PIN, INPUT);
+                
+                  // Configure Timer1 for external counting on T1 pin (D5)
+                  TCCR1A = 0;
+                  TCCR1B = 0;
+                  TCNT1 = 0;
+                  // External clock on T1 (D5), increment on rising edge
+                  TCCR1B = (1 &lt;&lt; CS12) | (1 &lt;&lt; CS11) | (1 &lt;&lt; CS10);
+                
+                  // Attach interrupt to GPS 1PPS signal
+                  attachInterrupt(digitalPinToInterrupt(PPS_PIN), pps_interrupt, RISING);
+                
+                  Serial.println(&quot;GPS Frequency Counter Ready&quot;);
+                  Serial.println(&quot;Waiting for GPS 1PPS signal...&quot;);
+                  Serial.println();
+                }
+                
+                void loop() {
+                  if (measureComplete) {
+                    measureComplete = false;
+                
+                    // Calculate frequency
+                    double frequency = count;
+                    double expected = 30000000.0;  // Expected 30 MHz
+                    double error_hz = frequency - expected;
+                    double error_ppm = (error_hz / expected) * 1e6;
+                
+                    // Display results
+                    Serial.print(&quot;Frequency: &quot;);
+                    Serial.print(frequency, 0);
+                    Serial.println(&quot; Hz&quot;);
+                
+                    Serial.print(&quot;Expected:  &quot;);
+                    Serial.print(expected, 0);
+                    Serial.println(&quot; Hz&quot;);
+                
+                    Serial.print(&quot;Error:     &quot;);
+                    if (error_hz &gt;= 0) Serial.print(&quot;+&quot;);
+                    Serial.print(error_hz, 1);
+                    Serial.println(&quot; Hz&quot;);
+                
+                    Serial.print(&quot;Error:     &quot;);
+                    if (error_ppm &gt;= 0) Serial.print(&quot;+&quot;);
+                    Serial.print(error_ppm, 3);
+                    Serial.println(&quot; ppm&quot;);
+                
+                    Serial.print(&quot;Actual:    &quot;);
+                    Serial.print(frequency / 1000000.0, 6);
+                    Serial.println(&quot; MHz&quot;);
+                
+                    Serial.println(&quot;─────────────────────────────&quot;);
+                    Serial.println();
+                  }
+                
+                  delay(100);
+                }
+                
+                void pps_interrupt() {
+                  static bool gate_open = false;
+                
+                  if (!gate_open) {
+                    // First PPS: Start counting
+                    TCNT1 = 0;  // Reset counter
+                    gate_open = true;
+                    digitalWrite(LED_PIN, HIGH);
+                  } else {
+                    // Second PPS: Stop counting, read value
+                    count = TCNT1;  // Read count
+                    gate_open = false;
+                    measureComplete = true;
+                    digitalWrite(LED_PIN, LOW);
+                  }
+                }
+                </code></pre>
+                <h3 id="using-the-frequency-counter">Using the Frequency Counter</h3>
+                <ol>
+                <li><strong>Upload code</strong> to Arduino</li>
+                <li><strong>Connect GPS</strong> and wait for lock (1PPS blinking)</li>
+                <li><strong>Connect TinySA 30MHz</strong> to Arduino D5</li>
+                <li><strong>Open Serial Monitor</strong> (115200 baud)</li>
+                <li><strong>Read measurements:</strong></li>
+                </ol>
+                <pre><code>GPS Frequency Counter Ready
+                Waiting for GPS 1PPS signal...
+                
+                Frequency: 30000150 Hz
+                Expected:  30000000 Hz
+                Error:     +150.0 Hz
+                Error:     +5.000 ppm
+                Actual:    30.000150 MHz
+                ─────────────────────────────
+                
+                Frequency: 30000148 Hz
+                Expected:  30000000 Hz
+                Error:     +148.0 Hz
+                Error:     +4.933 ppm
+                Actual:    30.000148 MHz
+                ─────────────────────────────
+                </code></pre>
+                <ol>
+                <li><strong>Average</strong> 10-20 measurements</li>
+                <li><strong>Apply correction</strong> to TinySA</li>
+                </ol>
+                <hr />
+                <h2 id="temperature-compensation">Temperature Compensation</h2>
+                <p>GPS modules work over wide temperature range, but TinySA's crystal is temperature-sensitive.</p>
+                <h3 id="temperature-coefficient-measurement">Temperature Coefficient Measurement</h3>
+                <ol>
+                <li><strong>Cool down</strong> TinySA (refrigerator, 10°C)</li>
+                <li><strong>Measure</strong> frequency error vs GPS</li>
+                <li><strong>Warm up</strong> to room temp (20°C)</li>
+                <li><strong>Measure</strong> again</li>
+                <li><strong>Heat up</strong> (hair dryer, 40°C)</li>
+                <li><strong>Measure</strong> again</li>
+                </ol>
+                <p><strong>Example Data:</strong></p>
+                <table>
+                <thead>
+                <tr>
+                <th>Temp (°C)</th>
+                <th>Error (ppm)</th>
+                <th>Frequency (Hz)</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>10</td>
+                <td>+2.5</td>
+                <td>30,000,075</td>
+                </tr>
+                <tr>
+                <td>20</td>
+                <td>0.0</td>
+                <td>30,000,000</td>
+                </tr>
+                <tr>
+                <td>30</td>
+                <td>-1.8</td>
+                <td>29,999,946</td>
+                </tr>
+                <tr>
+                <td>40</td>
+                <td>-3.2</td>
+                <td>29,999,904</td>
+                </tr>
+                </tbody>
+                </table>
+                <p><strong>Temperature Coefficient:</strong></p>
+                <pre><code>TC = Δppm / ΔT = (−3.2 − 2.5) / (40 − 10) = −0.19 ppm/°C
+                </code></pre>
+                <h3 id="applying-temperature-compensation">Applying Temperature Compensation</h3>
+                <p><strong>Manual Method:</strong>
+                - Note current temperature
+                - Apply correction based on TC
+                - Re-calibrate periodically</p>
+                <p><strong>Automatic Method (Advanced):</strong>
+                - Add temperature sensor to TinySA
+                - Build lookup table
+                - Apply correction in software</p>
+                <hr />
+                <h2 id="long-term-stability-testing">Long-Term Stability Testing</h2>
+                <h3 id="24-hour-test">24-Hour Test</h3>
+                <ol>
+                <li><strong>Set up GPS</strong> with good sky view</li>
+                <li><strong>Connect TinySA</strong> 30MHz to frequency counter</li>
+                <li><strong>Log measurements</strong> every minute for 24 hours</li>
+                <li><strong>Plot results</strong> to see drift</li>
+                </ol>
+                <p><strong>Python logging script</strong> (save as <code>long_term_logger.py</code>):</p>
+                <pre><code class="language-python">import serial
+                import time
+                from datetime import datetime
+                
+                # Open serial connection to Arduino
+                ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
+                time.sleep(2)  # Wait for Arduino reset
+                
+                # Open log file
+                log_file = open('frequency_log.csv', 'w')
+                log_file.write('Timestamp,Frequency_Hz,Error_ppm\n')
+                
+                print(&quot;Starting 24-hour frequency logging...&quot;)
+                print(&quot;Press Ctrl+C to stop&quot;)
+                
+                try:
+                    while True:
+                        line = ser.readline().decode('utf-8').strip()
+                
+                        if 'Frequency:' in line:
+                            freq = float(line.split(':')[1].replace('Hz', '').strip())
+                            timestamp = datetime.now().isoformat()
+                            error_ppm = (freq - 30000000) / 30000000 * 1e6
+                
+                            log_file.write(f'{timestamp},{freq},{error_ppm:.3f}\n')
+                            log_file.flush()
+                
+                            print(f'{timestamp}: {freq} Hz ({error_ppm:+.3f} ppm)')
+                
+                        time.sleep(60)  # Log every minute
+                
+                except KeyboardInterrupt:
+                    print(&quot;\nLogging stopped&quot;)
+                    log_file.close()
+                    ser.close()
+                </code></pre>
+                <h3 id="plotting-results">Plotting Results</h3>
+                <pre><code class="language-python">import pandas as pd
+                import matplotlib.pyplot as plt
+                
+                # Read log file
+                df = pd.read_csv('frequency_log.csv')
+                df['Timestamp'] = pd.to_datetime(df['Timestamp'])
+                
+                # Plot frequency over time
+                plt.figure(figsize=(12, 6))
+                plt.subplot(2, 1, 1)
+                plt.plot(df['Timestamp'], df['Frequency_Hz'])
+                plt.ylabel('Frequency (Hz)')
+                plt.title('TinySA 30MHz Frequency Stability (24 hours)')
+                plt.grid(True)
+                
+                plt.subplot(2, 1, 2)
+                plt.plot(df['Timestamp'], df['Error_ppm'])
+                plt.ylabel('Error (ppm)')
+                plt.xlabel('Time')
+                plt.grid(True)
+                
+                plt.tight_layout()
+                plt.savefig('frequency_stability.png')
+                plt.show()
+                
+                # Statistics
+                print(&quot;24-Hour Stability Report&quot;)
+                print(&quot;=&quot; * 40)
+                print(f&quot;Mean frequency: {df['Frequency_Hz'].mean():.1f} Hz&quot;)
+                print(f&quot;Std deviation: {df['Frequency_Hz'].std():.1f} Hz&quot;)
+                print(f&quot;Min frequency: {df['Frequency_Hz'].min():.1f} Hz&quot;)
+                print(f&quot;Max frequency: {df['Frequency_Hz'].max():.1f} Hz&quot;)
+                print(f&quot;Peak-peak drift: {df['Frequency_Hz'].max() - df['Frequency_Hz'].min():.1f} Hz&quot;)
+                print(f&quot;Mean error: {df['Error_ppm'].mean():.3f} ppm&quot;)
+                print(f&quot;Std deviation: {df['Error_ppm'].std():.3f} ppm&quot;)
+                </code></pre>
+                <hr />
+                <h2 id="accuracy-limitations">Accuracy Limitations</h2>
+                <h3 id="gps-1pps-accuracy-factors">GPS 1PPS Accuracy Factors</h3>
+                <table>
+                <thead>
+                <tr>
+                <th>Factor</th>
+                <th>Typical</th>
+                <th>Effect on 30MHz</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>Satellite clock error</td>
+                <td>±5 ns</td>
+                <td>±0.00015 ppm</td>
+                </tr>
+                <tr>
+                <td>Atmospheric delay</td>
+                <td>±10 ns</td>
+                <td>±0.0003 ppm</td>
+                </tr>
+                <tr>
+                <td>Receiver jitter</td>
+                <td>±30 ns</td>
+                <td>±0.001 ppm</td>
+                </tr>
+                <tr>
+                <td>Antenna cable delay</td>
+                <td>±50 ns</td>
+                <td>±0.0015 ppm</td>
+                </tr>
+                <tr>
+                <td><strong>Total</strong></td>
+                <td><strong>±60 ns</strong></td>
+                <td><strong>±0.002 ppm</strong></td>
+                </tr>
+                </tbody>
+                </table>
+                <p><strong>Conclusion:</strong> GPS contributes negligible error. Your limit is TinySA crystal stability.</p>
+                <h3 id="tinysa-crystal-limitations">TinySA Crystal Limitations</h3>
+                <p><strong>Short-term (1 second):</strong>
+                - TCXO noise: ±0.01 ppm typical
+                - Measurement resolution limited</p>
+                <p><strong>Long-term (24 hours):</strong>
+                - Temperature drift: ±1-5 ppm (uncalibrated)
+                - After compensation: ±0.1-0.5 ppm
+                - Aging: ±1 ppm/year</p>
+                <p><strong>Conclusion:</strong> You can calibrate to ±0.01 ppm with GPS, but drift requires periodic re-calibration.</p>
+                <hr />
+                <h2 id="troubleshooting">Troubleshooting</h2>
+                <h3 id="gps-wont-lock">GPS Won't Lock</h3>
+                <p><strong>Symptoms:</strong> 1PPS LED never blinks, no fix after 5 minutes</p>
+                <p><strong>Solutions:</strong>
+                - Move GPS near window or outdoors
+                - Check antenna connection
+                - Verify 3.3V or 5V power (check module specs)
+                - Try different location (away from metal, electronics)
+                - Wait longer (cold start can take 2-15 minutes)</p>
+                <h3 id="1pps-not-visible">1PPS Not Visible</h3>
+                <p><strong>Symptoms:</strong> GPS has lock, but no 1PPS pulse</p>
+                <p><strong>Solutions:</strong>
+                - Check 1PPS pin identification (PPS, PULSE, T_PULSE)
+                - Verify with multimeter (should see ~3V pulse once per second)
+                - Check module datasheet (some need configuration via UART)
+                - Try different GPS module</p>
+                <h3 id="frequency-counter-shows-zero">Frequency Counter Shows Zero</h3>
+                <p><strong>Symptoms:</strong> Arduino shows 0 Hz or very low count</p>
+                <p><strong>Solutions:</strong>
+                - Verify 30MHz signal level (should be 0.5-3V)
+                - Check Timer1 input (D5 on Arduino Nano/Uno)
+                - Verify ground connection between TinySA and Arduino
+                - Add AC coupling capacitor (0.1µF) if DC offset present
+                - Check 30MHz signal on oscilloscope</p>
+                <h3 id="measurements-jump-around">Measurements Jump Around</h3>
+                <p><strong>Symptoms:</strong> Frequency varies by &gt;10 ppm between readings</p>
+                <p><strong>Solutions:</strong>
+                - Wait for GPS warm-up (first 10 minutes less accurate)
+                - Check for temperature changes
+                - Verify good GPS signal (needs 4+ satellites)
+                - Average multiple measurements (10-20)
+                - Check for RF interference</p>
+                <h3 id="tinysa-wont-save-calibration">TinySA Won't Save Calibration</h3>
+                <p><strong>Symptoms:</strong> Calibration resets after power cycle</p>
+                <p><strong>Solutions:</strong>
+                - Ensure you select "SAVE" after entering correction
+                - Some models require "SAVE CONFIG" from menu
+                - Update TinySA firmware to latest version
+                - Check battery (some models need battery for EEPROM)</p>
+                <hr />
+                <h2 id="advanced-topics">Advanced Topics</h2>
+                <h3 id="dual-gnss-for-improved-accuracy">Dual-GNSS for Improved Accuracy</h3>
+                <p>Use module that supports GPS + Galileo + GLONASS:
+                - More satellites visible
+                - Better averaging
+                - Improved accuracy in urban areas
+                - Faster fix times</p>
+                <h3 id="gpsdo-gps-disciplined-oscillator">GPSDO (GPS-Disciplined Oscillator)</h3>
+                <p>Build a PLL that locks TCXO to GPS:
+                - Continuous 30MHz output locked to GPS
+                - Better short-term stability than free-running GPS
+                - Can run for hours without GPS (flywheel effect)
+                - Requires additional hardware (PLL IC, loop filter)</p>
+                <h3 id="allan-deviation-measurement">Allan Deviation Measurement</h3>
+                <p>Characterize oscillator stability vs. averaging time:
+                - Shows noise characteristics
+                - Identifies optimal averaging period
+                - Used in professional frequency standards
+                - Requires specialized software (e.g., TimeLab, Stable32)</p>
+                <hr />
+                <h2 id="summary">Summary</h2>
+                <h3 id="what-we-accomplished">What We Accomplished</h3>
+                <p>✓ Calibrated TinySA 30MHz reference to GPS atomic clocks
+                ✓ Achieved ±0.01 ppm accuracy (±0.3 Hz @ 30MHz)
+                ✓ Total cost: ~$15-25
+                ✓ Characterized temperature coefficient
+                ✓ Verified long-term stability</p>
+                <h3 id="key-takeaways">Key Takeaways</h3>
+                <ol>
+                <li><strong>GPS provides atomic clock accuracy</strong> for price of cheap module</li>
+                <li><strong>1PPS signal</strong> is the key to precision timing</li>
+                <li><strong>Frequency counting</strong> over 1PPS gate directly measures error</li>
+                <li><strong>Temperature compensation</strong> is necessary for best accuracy</li>
+                <li><strong>Long-term monitoring</strong> reveals aging and drift</li>
+                </ol>
+                <h3 id="next-steps">Next Steps</h3>
+                <ol>
+                <li>Apply calibration to your TinySA</li>
+                <li>Verify against other methods (WWV, FM broadcast)</li>
+                <li>Build permanent frequency reference</li>
+                <li>Share your results with community</li>
+                </ol>
+                <hr />
+                <h2 id="references">References</h2>
+                <ul>
+                <li><a href="https://www.gps.gov/systems/gps/">GPS.gov - How GPS Works</a></li>
+                <li><a href="https://www.u-blox.com">U-blox NEO-6 Datasheet</a></li>
+                <li><a href="https://tinysa.org/wiki/pmwiki.php?n=Main.Calibration">TinySA Calibration Guide</a></li>
+                <li><a href="https://www.nist.gov/pml/time-and-frequency-division">NIST Time and Frequency Division</a></li>
+                </ul>
+                <hr />
+                <p><strong>Ready to start? Order your GPS module and build the frequency counter!</strong></p>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

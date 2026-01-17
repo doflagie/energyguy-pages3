@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oscilloscope Timebase Calibration - EnergyGuy LLC</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>EnergyGuy LLC</h1>
+                    <p class="tagline">Amateur Radio • Electronics • Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+                        <nav>
+                            <h3>Main Navigation</h3>
+                            <ul>
+                                <li><a href="../index.html">Home</a></li>
+                                <li><a href="../about/bio.html">About</a></li>
+                            </ul>
+            
+                            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul>
+                                <li><a href="../antennas/index.html">Antenna Library</a></li>
+                            </ul>
+            </details>
+            
+                            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul>
+                                <li><a href="../test_gear/index.html">Test Equipment Library</a></li>
+                            </ul>
+            </details>
+            
+                            <h3>Standards</h3>
+                            <ul>
+                                <li><a href="../cal_lab/index.html">Calibration Standards (cal_lab)</a></li>
+                                <li><a href="../NIST/index.html">NIST-Traceable Standards</a></li>
+                            </ul>
+            
+                            <details class="nav-group" open>
+                <summary>Study & Training</summary>
+                <ul>
+                                <li><a href="../study/index.html">Ham Radio Flash Card Quiz</a></li>
+                                <li><a href="../study/morse.html">Morse Code Practice</a></li>
+                            </ul>
+            </details>
+            
+                            <h3>Resources</h3>
+                            <ul>
+                                <li><a href="../morse/index.html">Morse Practice Library</a></li>
+                                <li><a href="../study/index.html">Study Machine</a></li>
+                            </ul>
+                        </nav>
+<main>
+                <h1 id="oscilloscope-timebase-calibration">Oscilloscope Timebase Calibration</h1>
+                <h2 id="overview">Overview</h2>
+                <p>The oscilloscope's timebase determines how accurately it measures time and frequency. This guide shows how to calibrate using GPS atomic clock accuracy.</p>
+                <p><strong>Key Insight:</strong> Same GPS methods used for TinySA/NanoVNA work perfectly for oscilloscopes!</p>
+                <hr />
+                <h2 id="quick-method-gps-1pps">Quick Method: GPS 1PPS</h2>
+                <h3 id="if-you-already-built-gps-setup">If You Already Built GPS Setup</h3>
+                <p><strong>From TinySA/NanoVNA calibration:</strong>
+                - GPS module with 1PPS output: Ready ✓
+                - Arduino (optional): Not needed for scope!</p>
+                <p><strong>New procedure:</strong>
+                1. Connect GPS 1PPS to oscilloscope input
+                2. Measure pulse characteristics
+                3. Calculate timebase error
+                4. Document or apply correction</p>
+                <p><strong>Time:</strong> 15-30 minutes
+                <strong>Cost:</strong> $0 (reuse existing GPS)</p>
+                <hr />
+                <h2 id="step-by-step-procedure">Step-by-Step Procedure</h2>
+                <h3 id="step-1-gps-setup-if-not-already-built">Step 1: GPS Setup (if not already built)</h3>
+                <p><strong>See:</strong> <a href="../cal_lab/gps-reference/gps_calibration.html">gps_calibration.md</a> for detailed GPS module setup</p>
+                <p><strong>Quick version:</strong>
+                1. GPS module (NEO-6M/7M/8M): $10-20
+                2. Power: 3.3V or 5V
+                3. Antenna: Included ceramic patch
+                4. Wait for lock: 30-120 seconds
+                5. 1PPS output: Blinks once per second</p>
+                <p><strong>1PPS signal characteristics:</strong>
+                - Frequency: 1 Hz (period = 1.000000 seconds)
+                - Pulse width: Typically 100-200 ms
+                - Voltage: 3.3V or 5V TTL
+                - Accuracy: ±50 nanoseconds (±0.00005 ppm!)</p>
+                <h3 id="step-2-connect-to-oscilloscope">Step 2: Connect to Oscilloscope</h3>
+                <p><strong>Connection:</strong></p>
+                <pre><code>GPS Module          Oscilloscope
+                ──────────────────────────────────
+                1PPS output    →    CH1 input
+                GND            →    GND (scope ground clip)
+                VCC (5V)       →    USB power or bench supply
+                </code></pre>
+                <p><strong>Scope settings:</strong>
+                1. <strong>Channel 1:</strong>
+                   - Coupling: DC
+                   - V/div: 1V or 2V (to see ~3-5V signal clearly)
+                   - Position: Center</p>
+                <ol>
+                <li><strong>Timebase:</strong></li>
+                <li>Time/div: 200 ms/div (to see ~1 second period)</li>
+                <li>Trigger: CH1, rising edge</li>
+                <li>
+                <p>Trigger level: ~1.5V (mid-level)</p>
+                </li>
+                <li>
+                <p><strong>Acquisition:</strong></p>
+                </li>
+                <li>Mode: Normal or Auto</li>
+                <li>Average: 16 or 32 (reduces jitter)</li>
+                </ol>
+                <h3 id="step-3-measure-period">Step 3: Measure Period</h3>
+                <p><strong>Method A: Cursor Measurement</strong></p>
+                <ol>
+                <li><strong>Enable cursors:</strong></li>
+                <li>Press CURSOR button</li>
+                <li>
+                <p>Select TIME cursors</p>
+                </li>
+                <li>
+                <p><strong>Place cursors on rising edges:</strong>
+                   <code>Cursor 1 → First rising edge
+                   Cursor 2 → Second rising edge (one pulse later)</code></p>
+                </li>
+                <li>
+                <p><strong>Read delta time (ΔT):</strong>
+                   <code>Display shows: ΔT = 1.0023 s (example - your scope will differ)
+                   Expected: 1.000000 s
+                   Error: +2.3 ms = +2300 ppm!</code></p>
+                </li>
+                </ol>
+                <p><strong>Method B: Frequency Measurement</strong></p>
+                <ol>
+                <li><strong>Enable frequency counter (if scope has one):</strong></li>
+                <li>Press MEASURE</li>
+                <li>Select Frequency</li>
+                <li>
+                <p>Source: CH1</p>
+                </li>
+                <li>
+                <p><strong>Read frequency:</strong>
+                   <code>Display shows: Freq = 0.9977 Hz (example)
+                   Expected: 1.0000 Hz
+                   Error: -0.0023 Hz = -2300 ppm</code></p>
+                </li>
+                </ol>
+                <p><strong>Method C: Pulse Width</strong></p>
+                <ol>
+                <li><strong>Measure pulse width:</strong></li>
+                <li>MEASURE → Width+ (positive pulse width)</li>
+                <li>
+                <p>Should be stable value</p>
+                </li>
+                <li>
+                <p><strong>Calculate period:</strong>
+                   <code>If pulse width = 100.0 ms
+                   And duty cycle is known (typically 10% for GPS 1PPS)
+                   Period = width / duty_cycle</code></p>
+                </li>
+                </ol>
+                <p><strong>Note:</strong> Period measurement is better than width.</p>
+                <h3 id="step-4-calculate-timebase-error">Step 4: Calculate Timebase Error</h3>
+                <p><strong>From period measurement:</strong></p>
+                <pre><code>Measured period: T_measured (from scope)
+                Actual period: T_actual = 1.000000 s (GPS is atomic clock)
+                
+                Error (seconds) = T_measured - T_actual
+                Error (ppm) = (Error / T_actual) × 10^6
+                
+                Example:
+                T_measured = 1.000025 s
+                T_actual = 1.000000 s
+                Error = +0.000025 s = +25 μs
+                Error (ppm) = 0.000025 / 1.0 × 10^6 = +25 ppm
+                
+                Interpretation: Scope timebase is 25 ppm FAST
+                </code></pre>
+                <p><strong>From frequency measurement:</strong></p>
+                <pre><code>Measured frequency: F_measured
+                Actual frequency: F_actual = 1.000000 Hz
+                
+                Error (ppm) = (F_actual - F_measured) / F_actual × 10^6
+                
+                Example:
+                F_measured = 0.999975 Hz
+                F_actual = 1.000000 Hz
+                Error = (1.0 - 0.999975) / 1.0 × 10^6 = +25 ppm
+                
+                Same result: Scope is 25 ppm fast
+                </code></pre>
+                <hr />
+                <h2 id="alternative-mains-frequency">Alternative: Mains Frequency</h2>
+                <p><strong>If no GPS available:</strong></p>
+                <h3 id="using-5060-hz-mains">Using 50/60 Hz Mains</h3>
+                <p><strong>Warning:</strong> This is less accurate but free!</p>
+                <p><strong>Mains frequency accuracy:</strong>
+                - Short term (seconds): ±0.1 Hz
+                - Long term (hours): ±0.01 Hz
+                - Utility companies maintain accurate frequency
+                - Not as good as GPS, but usable</p>
+                <p><strong>Procedure:</strong></p>
+                <ol>
+                <li><strong>Build isolation circuit (IMPORTANT - SAFETY!):</strong>
+                   ```
+                   NEVER connect scope directly to mains!</li>
+                </ol>
+                <p>Instead: Use transformer
+                   Mains → Small transformer (12V or 9V output) → Scope input</p>
+                <p>Or: Use phone charger
+                   Mains → USB charger → Monitor 5V ripple (120Hz in US)
+                   ```</p>
+                <ol>
+                <li><strong>Measure frequency:</strong></li>
+                <li>Expected: 60.000 Hz (US) or 50.000 Hz (EU)</li>
+                <li>
+                <p>Scope reading: Compare</p>
+                </li>
+                <li>
+                <p><strong>Calculate error</strong> (same as GPS method)</p>
+                </li>
+                </ol>
+                <p><strong>Accuracy:</strong> ±100 ppm (okay for rough check)</p>
+                <hr />
+                <h2 id="applying-corrections">Applying Corrections</h2>
+                <h3 id="method-1-document-the-error">Method 1: Document the Error</h3>
+                <p><strong>Simplest approach:</strong></p>
+                <ol>
+                <li><strong>Measure timebase error:</strong> (e.g., +25 ppm)</li>
+                <li><strong>Create correction table:</strong>
+                   ```
+                   Timebase Error: +25 ppm
+                   Scope displays 1.000 s → Actual is 0.999975 s
+                   Scope displays 1.000 ms → Actual is 0.999975 ms
+                   Scope displays 1.000 μs → Actual is 0.999975 μs</li>
+                </ol>
+                <p>Correction factor: 0.999975
+                   ```</p>
+                <ol>
+                <li><strong>Label scope:</strong>
+                   <code>Stick label on scope:
+                   "TIMEBASE: +25 ppm
+                    Multiply displayed time by 0.999975 for actual time"</code></li>
+                </ol>
+                <h3 id="method-2-internal-calibration-if-accessible">Method 2: Internal Calibration (if accessible)</h3>
+                <p><strong>Some DSO1013D models have calibration menu:</strong></p>
+                <ol>
+                <li><strong>Enter cal mode:</strong></li>
+                <li>Power off</li>
+                <li>Hold RUN/STOP while powering on</li>
+                <li>
+                <p>Or: UTILITY → CAL (hidden menu)</p>
+                </li>
+                <li>
+                <p><strong>Find timebase cal:</strong></p>
+                </li>
+                <li>
+                <p>Look for "TIMEBASE CAL" or "FREQUENCY CAL"</p>
+                </li>
+                <li>
+                <p><strong>Adjust:</strong></p>
+                </li>
+                <li>Usually a numerical entry</li>
+                <li>Enter PPM correction</li>
+                <li>Save</li>
+                </ol>
+                <p><strong>Consult your specific firmware documentation!</strong></p>
+                <h3 id="method-3-mental-math">Method 3: Mental Math</h3>
+                <p><strong>For quick measurements:</strong></p>
+                <pre><code>Error is +25 ppm
+                
+                If scope shows 1.000 ms:
+                Actual = 1.000 × (1 - 25/10^6) = 0.999975 ms
+                
+                Usually ignore for rough work
+                Apply correction for precision measurements
+                </code></pre>
+                <hr />
+                <h2 id="verification-methods">Verification Methods</h2>
+                <h3 id="cross-check-1-known-frequency">Cross-Check 1: Known Frequency</h3>
+                <p><strong>Use calibrated signal generator (if available):</strong>
+                - Set to 1.000 MHz
+                - Measure on scope
+                - Should read 1.000 MHz ± your ppm error</p>
+                <p><strong>Or use calibrated TinySA:</strong>
+                - Set TinySA to CW mode, 1 MHz
+                - Feed to scope
+                - Measure frequency</p>
+                <h3 id="cross-check-2-crystal-oscillator">Cross-Check 2: Crystal Oscillator</h3>
+                <p><strong>Build simple crystal oscillator:</strong></p>
+                <pre><code>Materials:
+                - 32.768 kHz watch crystal ($0.50)
+                - CD4060 divider IC ($0.50)
+                - Resistor, capacitors
+                
+                Output: Exact 1 Hz from watch crystal
+                Accuracy: ±20 ppm (watch crystal)
+                
+                Measure on scope, should match GPS within ±50 ppm
+                </code></pre>
+                <h3 id="cross-check-3-multiple-gps-modules">Cross-Check 3: Multiple GPS Modules</h3>
+                <p><strong>If you have two GPS modules:</strong>
+                - Both produce 1 Hz
+                - Should agree to within ±0.1 ppm
+                - If scope shows difference → scope error</p>
+                <hr />
+                <h2 id="temperature-effects">Temperature Effects</h2>
+                <h3 id="characterizing-temperature-coefficient">Characterizing Temperature Coefficient</h3>
+                <p><strong>Same procedure as TinySA:</strong></p>
+                <ol>
+                <li><strong>Cold soak:</strong> Refrigerator, 30 min, ~5°C</li>
+                <li><strong>Measure period</strong> at cold temperature</li>
+                <li><strong>Warm up</strong> naturally to room temp (~22°C)</li>
+                <li><strong>Measure periodically</strong></li>
+                <li><strong>Heat</strong> gently to ~40°C</li>
+                <li><strong>Plot error vs. temperature</strong></li>
+                </ol>
+                <p><strong>Typical results:</strong></p>
+                <pre><code>Temp (°C)   Period (s)   Error (ppm)
+                5           1.000035     +35
+                15          1.000028     +28
+                25          1.000025     +25
+                35          1.000030     +30
+                45          1.000038     +38
+                </code></pre>
+                <p><strong>Conclusion:</strong> Scope timebase drifts with temperature. Calibrate after warmup!</p>
+                <hr />
+                <h2 id="advanced-10-mhz-reference-input">Advanced: 10 MHz Reference Input</h2>
+                <p><strong>Some scopes have external reference input:</strong></p>
+                <p><strong>If your scope has 10 MHz REF IN:</strong>
+                1. Build GPS-locked 10 MHz reference
+                2. Connect to REF IN
+                3. Scope locks to GPS
+                4. Continuous GPS accuracy!</p>
+                <p><strong>Building GPS-locked 10 MHz:</strong>
+                - PLL locks 10 MHz VCXO to GPS 1PPS
+                - See advanced projects in <a href="../cal_lab/gps-reference/gps_calibration.html">gps_calibration.md</a>
+                - Cost: $50-100
+                - Result: Continuous atomic clock lock</p>
+                <hr />
+                <h2 id="real-world-example">Real-World Example</h2>
+                <h3 id="calibrating-dso1013d">Calibrating DSO1013D</h3>
+                <p><strong>Equipment:</strong>
+                - DSO1013D oscilloscope
+                - NEO-6M GPS module (from TinySA project)
+                - 5V USB power supply</p>
+                <p><strong>Procedure:</strong></p>
+                <ol>
+                <li>
+                <p><strong>Connected GPS 1PPS to CH1</strong></p>
+                </li>
+                <li>
+                <p><strong>Scope settings:</strong>
+                   <code>CH1: 1V/div, DC coupling
+                   Timebase: 200 ms/div
+                   Trigger: CH1, rising, 1.5V level
+                   Average: 16</code></p>
+                </li>
+                <li>
+                <p><strong>Enabled cursors, measured period:</strong>
+                   <code>ΔT = 1.000027 s</code></p>
+                </li>
+                <li>
+                <p><strong>Calculated error:</strong>
+                   <code>Error = 1.000027 - 1.000000 = +27 μs
+                   PPM = 27/10^6 = +27 ppm</code></p>
+                </li>
+                <li>
+                <p><strong>Interpretation:</strong></p>
+                </li>
+                <li>Scope timebase runs 27 ppm FAST</li>
+                <li>At 1 second: reads 1.000027 s (27 μs error)</li>
+                <li>At 1 ms: reads 1.000027 ms (27 ns error)</li>
+                <li>
+                <p>At 1 MHz: reads 1.000027 MHz (27 Hz error)</p>
+                </li>
+                <li>
+                <p><strong>Applied correction:</strong>
+                   <code>Correction factor: 1.000000 / 1.000027 = 0.999973
+                   Multiply all scope time readings by 0.999973</code></p>
+                </li>
+                <li>
+                <p><strong>Created label:</strong>
+                   <code>"TIMEBASE: +27 ppm FAST
+                    Correction: × 0.999973
+                    Cal date: 2026-01-02"</code></p>
+                </li>
+                </ol>
+                <p><strong>Result:</strong> Know scope accuracy to atomic clock standards!</p>
+                <hr />
+                <h2 id="summary">Summary</h2>
+                <h3 id="what-we-achieved">What We Achieved</h3>
+                <p>✓ Measured scope timebase error using GPS
+                ✓ Accuracy limited by GPS: ±0.01 ppm
+                ✓ Documented correction factor
+                ✓ Can now make accurate time measurements</p>
+                <h3 id="key-points">Key Points</h3>
+                <ol>
+                <li><strong>GPS 1PPS is perfect reference</strong> - atomic clock accuracy</li>
+                <li><strong>Scope measures period</strong> - compare to exact 1.000000 s</li>
+                <li><strong>Calculate PPM error</strong> - quantify timebase accuracy</li>
+                <li><strong>Apply correction</strong> - mental math or label on scope</li>
+                <li><strong>Verify regularly</strong> - monthly check, annual full cal</li>
+                </ol>
+                <h3 id="next-step">Next Step</h3>
+                <p><strong>Voltage calibration:</strong> <a href="oscilloscope_voltage_cal.html">oscilloscope_voltage_cal.md</a></p>
+                <hr />
+                <p><strong>Timebase now calibrated to GPS atomic clock accuracy!</strong></p>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

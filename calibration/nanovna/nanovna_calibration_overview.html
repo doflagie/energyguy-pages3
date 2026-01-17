@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NanoVNA Calibration - Complete Guide - EnergyGuy LLC</title>
+    <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>EnergyGuy LLC</h1>
+                    <p class="tagline">Amateur Radio • Electronics • Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+                        <nav>
+                            <h3>Main Navigation</h3>
+                            <ul>
+                                <li><a href="../../index.html">Home</a></li>
+                                <li><a href="../../about/bio.html">About</a></li>
+                            </ul>
+            
+                            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul>
+                                <li><a href="../../antennas/index.html">Antenna Library</a></li>
+                            </ul>
+            </details>
+            
+                            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul>
+                                <li><a href="../../test_gear/index.html">Test Equipment Library</a></li>
+                            </ul>
+            </details>
+            
+                            <h3>Standards</h3>
+                            <ul>
+                                <li><a href="../../cal_lab/index.html">Calibration Standards (cal_lab)</a></li>
+                                <li><a href="../../NIST/index.html">NIST-Traceable Standards</a></li>
+                            </ul>
+            
+                            <details class="nav-group" open>
+                <summary>Study & Training</summary>
+                <ul>
+                                <li><a href="../../study/index.html">Ham Radio Flash Card Quiz</a></li>
+                                <li><a href="../../study/morse.html">Morse Code Practice</a></li>
+                            </ul>
+            </details>
+            
+                            <h3>Resources</h3>
+                            <ul>
+                                <li><a href="../../morse/index.html">Morse Practice Library</a></li>
+                                <li><a href="../../study/index.html">Study Machine</a></li>
+                            </ul>
+                        </nav>
+<main>
+                <h1 id="nanovna-calibration-complete-guide">NanoVNA Calibration - Complete Guide</h1>
+                <h2 id="overview">Overview</h2>
+                <p>The NanoVNA requires <strong>two types of calibration</strong>:</p>
+                <ol>
+                <li><strong>Frequency Calibration</strong> - Timebase accuracy (similar to TinySA)</li>
+                <li><strong>Port Calibration</strong> - SOL/SOLT for impedance measurements</li>
+                </ol>
+                <p>This guide covers <strong>cheap, homebrew methods</strong> to calibrate your NanoVNA <strong>without any calibrated test equipment</strong>.</p>
+                <hr />
+                <h2 id="two-part-calibration-system">Two-Part Calibration System</h2>
+                <h3 id="part-1-frequency-calibration-timebase">Part 1: Frequency Calibration (Timebase)</h3>
+                <p><strong>Problem:</strong> NanoVNA's crystal oscillator may be off frequency</p>
+                <p><strong>Effect:</strong>
+                - Frequency display incorrect
+                - Measurements at wrong frequencies
+                - Resonances appear shifted</p>
+                <p><strong>Solution:</strong> Same as TinySA calibration
+                - Use GPS 1PPS, WWV/CHU, or FM broadcasts
+                - Measure crystal error
+                - Apply PPM correction
+                - <strong>See:</strong> <a href="../../cal_lab/gps-reference/gps_calibration.html">gps_calibration.md</a> for methods</p>
+                <p><strong>Accuracy Achievable:</strong> ±0.01 ppm (GPS method)</p>
+                <hr />
+                <h3 id="part-2-port-calibration-impedance">Part 2: Port Calibration (Impedance)</h3>
+                <p><strong>Problem:</strong> NanoVNA needs reference standards to measure impedance accurately</p>
+                <p><strong>Standards Needed:</strong>
+                - <strong>SHORT</strong> - 0Ω, direct connection
+                - <strong>OPEN</strong> - infinite Ω, nothing connected
+                - <strong>LOAD</strong> - exactly 50Ω non-inductive
+                - <strong>THRU</strong> - direct connection between ports (optional)</p>
+                <p><strong>Effect of Poor Calibration:</strong>
+                - SWR readings incorrect
+                - Impedance measurements wrong
+                - Smith chart distorted
+                - Filter responses skewed</p>
+                <p><strong>Solution:</strong> Build or verify calibration standards
+                - Homebrew 50Ω loads
+                - Verify SHORT quality
+                - Characterize OPEN capacitance
+                - Build THRU adapters</p>
+                <p><strong>Accuracy Achievable:</strong> ±5% (good), ±1% (excellent)</p>
+                <hr />
+                <h2 id="quick-start-summary">Quick Start Summary</h2>
+                <h3 id="for-most-users-recommended-path">For Most Users (Recommended Path)</h3>
+                <p><strong>Step 1: Frequency Calibration (1-2 hours)</strong>
+                1. Use GPS or FM broadcast method
+                2. Apply PPM correction to NanoVNA
+                3. Verify with multiple sources</p>
+                <p><strong>Step 2: Port Calibration (30 minutes)</strong>
+                1. Use supplied calibration kit (if you have one)
+                2. OR build homebrew standards
+                3. Perform SOL or SOLT calibration
+                4. Verify with known components</p>
+                <p><strong>Total Time:</strong> 2-3 hours
+                <strong>Total Cost:</strong> $15-30 (if building everything)</p>
+                <hr />
+                <h3 id="when-you-need-calibration">When You Need Calibration</h3>
+                <p><strong>Frequency Calibration:</strong>
+                - After purchasing NanoVNA (check error)
+                - Every 6-12 months (crystal aging)
+                - After firmware update
+                - Before precision measurements</p>
+                <p><strong>Port Calibration:</strong>
+                - <strong>Before every measurement session</strong>
+                - After changing cables
+                - After changing frequency range
+                - When measurements look wrong</p>
+                <p><strong>Key Difference:</strong>
+                - Frequency cal: Occasional (like tuning a guitar)
+                - Port cal: Every time (like zeroing a scale)</p>
+                <hr />
+                <h2 id="understanding-nanovna-calibration-types">Understanding NanoVNA Calibration Types</h2>
+                <h3 id="solt-calibration-full-2-port">SOLT Calibration (Full 2-Port)</h3>
+                <p><strong>Standards:</strong>
+                - <strong>S</strong>hort
+                - <strong>O</strong>pen
+                - <strong>L</strong>oad (50Ω)
+                - <strong>T</strong>hru</p>
+                <p><strong>Measures:</strong> S11, S21, S12, S22
+                <strong>Use For:</strong> Filters, amplifiers, transmission lines
+                <strong>Time:</strong> 2-3 minutes</p>
+                <h3 id="sol-calibration-1-port">SOL Calibration (1-Port)</h3>
+                <p><strong>Standards:</strong>
+                - <strong>S</strong>hort
+                - <strong>O</strong>pen
+                - <strong>L</strong>oad (50Ω)</p>
+                <p><strong>Measures:</strong> S11 only
+                <strong>Use For:</strong> Antennas, impedance measurements, SWR
+                <strong>Time:</strong> 1-2 minutes</p>
+                <h3 id="through-only-calibration">Through-Only Calibration</h3>
+                <p><strong>Standard:</strong>
+                - <strong>T</strong>hru only</p>
+                <p><strong>Measures:</strong> S21 transmission
+                <strong>Use For:</strong> Quick filter checks, cable loss
+                <strong>Time:</strong> 30 seconds</p>
+                <hr />
+                <h2 id="nanovna-models-and-differences">NanoVNA Models and Differences</h2>
+                <h3 id="nanovna-original-v1">NanoVNA Original (v1)</h3>
+                <ul>
+                <li>Frequency: 50 kHz - 900 MHz</li>
+                <li>Crystal: 8 MHz (needs calibration)</li>
+                <li>Ports: CH0 and CH1</li>
+                <li>Calibration storage: 5 slots</li>
+                <li><strong>Typical error:</strong> ±20-50 ppm uncalibrated</li>
+                </ul>
+                <h3 id="nanovna-h-v2">NanoVNA-H (v2)</h3>
+                <ul>
+                <li>Frequency: 50 kHz - 1.5 GHz</li>
+                <li>Crystal: Better stability</li>
+                <li>Same calibration procedure</li>
+                <li><strong>Typical error:</strong> ±10-20 ppm uncalibrated</li>
+                </ul>
+                <h3 id="nanovna-h4-v2plus4">NanoVNA-H4 (v2plus4)</h3>
+                <ul>
+                <li>Frequency: 50 kHz - 4.4 GHz</li>
+                <li>Crystal: TCXO (better)</li>
+                <li>Higher frequency needs better standards</li>
+                <li><strong>Typical error:</strong> ±2-5 ppm uncalibrated</li>
+                </ul>
+                <h3 id="nanovna-f-v2-variant">NanoVNA-F (v2 variant)</h3>
+                <ul>
+                <li>Similar to H4</li>
+                <li>Different firmware</li>
+                <li>Same calibration methods</li>
+                </ul>
+                <hr />
+                <h2 id="calibration-files-structure">Calibration Files Structure</h2>
+                <p>This guide is organized as:</p>
+                <h3 id="core-documents">Core Documents</h3>
+                <ol>
+                <li><strong>nanovna_calibration_overview.md</strong> (this file) - Overview</li>
+                <li><strong>nanovna_frequency_cal.md</strong> - Timebase calibration</li>
+                <li><strong>nanovna_cal_standards.md</strong> - Building calibration standards</li>
+                <li><strong>nanovna_port_calibration.md</strong> - SOL/SOLT procedures</li>
+                <li><strong>nanovna_verification.md</strong> - Testing calibration quality</li>
+                </ol>
+                <h3 id="examples">Examples</h3>
+                <ol>
+                <li><strong>examples/nanovna_complete_calibration.md</strong> - Full worked example</li>
+                <li><strong>examples/homebrew_50ohm_load.md</strong> - Building precision loads</li>
+                </ol>
+                <hr />
+                <h2 id="cost-breakdown">Cost Breakdown</h2>
+                <h3 id="frequency-calibration">Frequency Calibration</h3>
+                <p><strong>Option 1: FM Broadcast (Free)</strong>
+                - Cost: $0
+                - Uses: TinySA or RTL-SDR (if you have)
+                - Accuracy: ±1-5 ppm
+                - Time: 15-30 minutes</p>
+                <p><strong>Option 2: GPS Method ($15-25)</strong>
+                - Cost: $15-25
+                - Accuracy: ±0.01 ppm
+                - Time: 2-4 hours (includes build)
+                - <strong>Reuses:</strong> TinySA GPS setup from earlier project</p>
+                <h3 id="port-calibration-standards">Port Calibration Standards</h3>
+                <p><strong>Minimum (Using Supplied Kit):</strong>
+                - Cost: $0 (use kit that came with NanoVNA)
+                - Quality: Fair to good
+                - Verification: Needed</p>
+                <p><strong>DIY Homebrew Standards:</strong>
+                - SHORT: $0-2 (SMA connector, copper)
+                - OPEN: $0 (SMA female, nothing)
+                - LOAD: $5-15 (precision resistors, SMA)
+                - THRU: $2-5 (SMA adapters)
+                - <strong>Total: $10-25</strong></p>
+                <p><strong>Commercial Cal Kit:</strong>
+                - Basic: $30-50 (SMA cal kit)
+                - Good: $100-200 (Keysight, Mini-Circuits)
+                - Excellent: $500+ (professional)</p>
+                <p><strong>Recommendation:</strong> Use supplied kit, verify with known components, build DIY backup</p>
+                <hr />
+                <h2 id="calibration-quality-levels">Calibration Quality Levels</h2>
+                <h3 id="level-1-basic-good-enough-for-most">Level 1: Basic (Good Enough for Most)</h3>
+                <p><strong>Frequency:</strong>
+                - FM broadcast calibration
+                - ±5 ppm accuracy
+                - 15 minutes</p>
+                <p><strong>Port:</strong>
+                - Supplied calibration kit
+                - No verification
+                - 2 minutes per calibration</p>
+                <p><strong>Total Time:</strong> 30 minutes
+                <strong>Cost:</strong> $0
+                <strong>Suitable For:</strong> Antenna tuning, SWR checks, filter response</p>
+                <hr />
+                <h3 id="level-2-good-recommended">Level 2: Good (Recommended)</h3>
+                <p><strong>Frequency:</strong>
+                - GPS calibration
+                - ±0.01 ppm accuracy
+                - 2-4 hours (one-time build)</p>
+                <p><strong>Port:</strong>
+                - Supplied kit + verification
+                - Check LOAD with multimeter
+                - Build DIY backup standards
+                - 1 hour (one-time build)</p>
+                <p><strong>Total Time:</strong> 3-5 hours (one-time)
+                <strong>Cost:</strong> $20-40
+                <strong>Suitable For:</strong> Precision impedance, component characterization, filter design</p>
+                <hr />
+                <h3 id="level-3-excellent-for-critical-work">Level 3: Excellent (For Critical Work)</h3>
+                <p><strong>Frequency:</strong>
+                - GPS + temperature compensation
+                - Long-term logging
+                - ±0.005 ppm accuracy
+                - 8+ hours (full characterization)</p>
+                <p><strong>Port:</strong>
+                - Commercial cal kit
+                - DIY verification standards
+                - Multiple cross-checks
+                - TRL (Thru-Reflect-Line) calibration
+                - 2-3 hours</p>
+                <p><strong>Total Time:</strong> 10+ hours
+                <strong>Cost:</strong> $100-300
+                <strong>Suitable For:</strong> Research, RF design, critical measurements</p>
+                <hr />
+                <h2 id="common-calibration-mistakes">Common Calibration Mistakes</h2>
+                <h3 id="mistake-1-skipping-frequency-calibration">Mistake 1: Skipping Frequency Calibration</h3>
+                <p><strong>Problem:</strong> Measurements at wrong frequencies</p>
+                <p><strong>Example:</strong>
+                - Design filter for 147.0 MHz
+                - NanoVNA is +30 ppm fast
+                - Actually measures at 147.0044 MHz
+                - Filter appears off-frequency</p>
+                <p><strong>Solution:</strong> Check and calibrate timebase first</p>
+                <hr />
+                <h3 id="mistake-2-not-re-calibrating-ports">Mistake 2: Not Re-Calibrating Ports</h3>
+                <p><strong>Problem:</strong> Port cal is NOT permanent</p>
+                <p><strong>Wrong:</strong>
+                - Calibrate once
+                - Measure for days/weeks
+                - Wonder why readings drift</p>
+                <p><strong>Right:</strong>
+                - Calibrate before each session
+                - Calibrate after cable change
+                - Calibrate for each frequency range</p>
+                <p><strong>Why:</strong> Temperature, cable flex, connector wear all affect calibration</p>
+                <hr />
+                <h3 id="mistake-3-poor-quality-short">Mistake 3: Poor Quality SHORT</h3>
+                <p><strong>Problem:</strong> SHORT isn't really 0Ω at high frequency</p>
+                <p><strong>Symptoms:</strong>
+                - SWR not infinite at 1:1
+                - Smith chart doesn't center
+                - Return loss limited to 40 dB</p>
+                <p><strong>Solution:</strong>
+                - Use low-inductance SHORT
+                - Keep connection short
+                - Verify with known good short</p>
+                <hr />
+                <h3 id="mistake-4-incorrect-load-value">Mistake 4: Incorrect LOAD Value</h3>
+                <p><strong>Problem:</strong> "50Ω" resistor is actually 47Ω or 56Ω, or inductive</p>
+                <p><strong>Symptoms:</strong>
+                - SWR shows 1.1:1 instead of 1.0:1
+                - Smith chart offset from center
+                - Impedance readings consistently off</p>
+                <p><strong>Solution:</strong>
+                - Measure LOAD with good DMM
+                - Use 1% tolerance resistors
+                - Verify non-inductive (measure at multiple frequencies)
+                - Build and test DIY loads</p>
+                <hr />
+                <h3 id="mistake-5-calibrating-wrong-frequency-range">Mistake 5: Calibrating Wrong Frequency Range</h3>
+                <p><strong>Problem:</strong> Calibrate 1-100 MHz, measure at 1 GHz</p>
+                <p><strong>Why It Fails:</strong>
+                - Calibration only valid for calibrated range
+                - Must re-calibrate for different frequency span</p>
+                <p><strong>Solution:</strong>
+                - Calibrate the exact frequency range you'll measure
+                - For sweeps: Calibrate full sweep range
+                - For spot frequency: Calibrate narrow span around frequency</p>
+                <hr />
+                <h2 id="verification-methods">Verification Methods</h2>
+                <h3 id="quick-checks">Quick Checks</h3>
+                <p><strong>50Ω Load:</strong>
+                - Should measure exactly 50.0Ω
+                - SWR should be 1.00:1
+                - Smith chart: Dead center</p>
+                <p><strong>SHORT:</strong>
+                - Should measure 0Ω (or very low)
+                - SWR should be infinite (&gt;100:1)
+                - Smith chart: Far left</p>
+                <p><strong>OPEN:</strong>
+                - Should measure infinite Ω
+                - SWR should be infinite
+                - Smith chart: Far right</p>
+                <h3 id="advanced-verification">Advanced Verification</h3>
+                <p><strong>Known Components:</strong>
+                - Measure 100Ω resistor (should be 100Ω)
+                - Measure quarter-wave stub (should be resonant)
+                - Measure commercial filter (compare to datasheet)</p>
+                <p><strong>Cross-Check:</strong>
+                - Measure same component with TinySA
+                - Compare to another NanoVNA
+                - Measure known transmission line length</p>
+                <hr />
+                <h2 id="typical-accuracy-expectations">Typical Accuracy Expectations</h2>
+                <h3 id="frequency-accuracy">Frequency Accuracy</h3>
+                <table>
+                <thead>
+                <tr>
+                <th>Calibration Method</th>
+                <th>Accuracy</th>
+                <th>At 1 GHz</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>Uncalibrated</td>
+                <td>±50 ppm</td>
+                <td>±50 kHz</td>
+                </tr>
+                <tr>
+                <td>FM broadcast</td>
+                <td>±5 ppm</td>
+                <td>±5 kHz</td>
+                </tr>
+                <tr>
+                <td>GPS</td>
+                <td>±0.01 ppm</td>
+                <td>±10 Hz</td>
+                </tr>
+                </tbody>
+                </table>
+                <h3 id="impedance-accuracy">Impedance Accuracy</h3>
+                <table>
+                <thead>
+                <tr>
+                <th>Calibration Quality</th>
+                <th>Impedance</th>
+                <th>SWR</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>No calibration</td>
+                <td>±50%</td>
+                <td>±0.5</td>
+                </tr>
+                <tr>
+                <td>Basic SOL</td>
+                <td>±10%</td>
+                <td>±0.1</td>
+                </tr>
+                <tr>
+                <td>Good SOL</td>
+                <td>±5%</td>
+                <td>±0.05</td>
+                </tr>
+                <tr>
+                <td>Excellent SOL + verification</td>
+                <td>±1%</td>
+                <td>±0.01</td>
+                </tr>
+                </tbody>
+                </table>
+                <h3 id="frequency-response-accuracy">Frequency Response Accuracy</h3>
+                <table>
+                <thead>
+                <tr>
+                <th>Calibration</th>
+                <th>Amplitude</th>
+                <th>Phase</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>Basic</td>
+                <td>±1 dB</td>
+                <td>±10°</td>
+                </tr>
+                <tr>
+                <td>Good</td>
+                <td>±0.5 dB</td>
+                <td>±5°</td>
+                </tr>
+                <tr>
+                <td>Excellent</td>
+                <td>±0.2 dB</td>
+                <td>±2°</td>
+                </tr>
+                </tbody>
+                </table>
+                <hr />
+                <h2 id="what-youll-learn">What You'll Learn</h2>
+                <h3 id="frequency-calibration_1">Frequency Calibration</h3>
+                <ul>
+                <li>Crystal oscillator stability</li>
+                <li>GPS timing technology</li>
+                <li>Parts-per-million (ppm) calculations</li>
+                <li>Temperature effects</li>
+                <li>Long-term drift</li>
+                </ul>
+                <h3 id="port-calibration">Port Calibration</h3>
+                <ul>
+                <li>Vector network analyzer theory</li>
+                <li>S-parameters (S11, S21, S12, S22)</li>
+                <li>Smith chart interpretation</li>
+                <li>Calibration standard requirements</li>
+                <li>Error correction math (hidden from user, but you'll understand it)</li>
+                </ul>
+                <h3 id="practical-skills">Practical Skills</h3>
+                <ul>
+                <li>Building precision 50Ω loads</li>
+                <li>SMA connector assembly</li>
+                <li>Impedance measurement</li>
+                <li>Filter characterization</li>
+                <li>Transmission line analysis</li>
+                <li>Troubleshooting RF circuits</li>
+                </ul>
+                <hr />
+                <h2 id="tools-needed">Tools Needed</h2>
+                <h3 id="for-frequency-calibration">For Frequency Calibration</h3>
+                <p><strong>Minimum:</strong>
+                - NanoVNA
+                - Computer
+                - FM radio or RTL-SDR</p>
+                <p><strong>Recommended:</strong>
+                - GPS module ($10)
+                - Arduino ($10)
+                - Breadboard ($3)</p>
+                <h3 id="for-port-calibration">For Port Calibration</h3>
+                <p><strong>Minimum:</strong>
+                - NanoVNA
+                - Supplied calibration kit
+                - Computer (optional but helpful)</p>
+                <p><strong>Recommended:</strong>
+                - Digital multimeter (check resistors)
+                - Soldering iron
+                - SMA connectors and tools
+                - Precision resistors (1%)
+                - Heat shrink tubing</p>
+                <p><strong>Advanced:</strong>
+                - Oscilloscope
+                - TinySA (for cross-checking)
+                - Second NanoVNA (comparison)
+                - Vector impedance meter</p>
+                <hr />
+                <h2 id="project-organization">Project Organization</h2>
+                <h3 id="phase-1-frequency-calibration">Phase 1: Frequency Calibration</h3>
+                <p><strong>Document:</strong> nanovna_frequency_cal.md</p>
+                <p><strong>Tasks:</strong>
+                1. Choose method (GPS, WWV, FM)
+                2. Build hardware (if GPS)
+                3. Measure crystal error
+                4. Apply correction
+                5. Verify</p>
+                <p><strong>Time:</strong> 2-4 hours (first time)
+                <strong>Result:</strong> Accurate frequency display</p>
+                <hr />
+                <h3 id="phase-2-build-calibration-standards">Phase 2: Build Calibration Standards</h3>
+                <p><strong>Document:</strong> nanovna_cal_standards.md</p>
+                <p><strong>Tasks:</strong>
+                1. Inventory supplied kit
+                2. Build DIY SHORT
+                3. Build DIY OPEN
+                4. Build DIY LOAD (50Ω)
+                5. Build DIY THRU
+                6. Verify all standards</p>
+                <p><strong>Time:</strong> 2-3 hours
+                <strong>Result:</strong> Verified calibration standards</p>
+                <hr />
+                <h3 id="phase-3-port-calibration-procedure">Phase 3: Port Calibration Procedure</h3>
+                <p><strong>Document:</strong> nanovna_port_calibration.md</p>
+                <p><strong>Tasks:</strong>
+                1. Connect calibration standards
+                2. Perform SOL or SOLT
+                3. Save calibration
+                4. Verify with known components</p>
+                <p><strong>Time:</strong> 5-10 minutes (each measurement session)
+                <strong>Result:</strong> Accurate impedance measurements</p>
+                <hr />
+                <h3 id="phase-4-verification-and-testing">Phase 4: Verification and Testing</h3>
+                <p><strong>Document:</strong> nanovna_verification.md</p>
+                <p><strong>Tasks:</strong>
+                1. Measure known resistors
+                2. Check commercial filters
+                3. Measure transmission lines
+                4. Cross-check with TinySA
+                5. Document accuracy limits</p>
+                <p><strong>Time:</strong> 1-2 hours (one-time)
+                <strong>Result:</strong> Confidence in measurements</p>
+                <hr />
+                <h2 id="example-applications">Example Applications</h2>
+                <h3 id="after-calibration-you-can">After Calibration, You Can:</h3>
+                <p><strong>Antenna Work:</strong>
+                - Measure antenna impedance
+                - Tune antenna to exact frequency
+                - Measure feedline loss
+                - Check SWR across band
+                - Design matching networks</p>
+                <p><strong>Filter Design:</strong>
+                - Verify filter response
+                - Measure insertion loss
+                - Check bandwidth
+                - Characterize rejection
+                - Tune crystal filters</p>
+                <p><strong>Component Characterization:</strong>
+                - Measure inductors (L and Q)
+                - Measure capacitors (C and ESR)
+                - Check resistor values at RF
+                - Characterize transformers
+                - Test baluns</p>
+                <p><strong>Transmission Lines:</strong>
+                - Measure cable loss
+                - Find cable faults (TDR)
+                - Check connector quality
+                - Measure velocity factor
+                - Verify impedance</p>
+                <p><strong>Amplifier Testing:</strong>
+                - Measure gain (S21)
+                - Check input/output match
+                - Measure return loss
+                - Characterize bandwidth</p>
+                <hr />
+                <h2 id="success-criteria">Success Criteria</h2>
+                <h3 id="your-nanovna-is-well-calibrated-if">Your NanoVNA is Well-Calibrated If:</h3>
+                <p><strong>Frequency:</strong>
+                - ✓ Known frequency reads within 1 kHz (at 1 GHz)
+                - ✓ Filter resonances match design frequency
+                - ✓ Stable over temperature
+                - ✓ Repeatable measurements</p>
+                <p><strong>Impedance:</strong>
+                - ✓ 50Ω load measures 50.0Ω ± 2.5Ω
+                - ✓ SWR 1.00:1 on good load
+                - ✓ SHORT shows &lt;1Ω
+                - ✓ OPEN shows &gt;1000Ω
+                - ✓ Smith chart centers properly</p>
+                <p><strong>S-Parameters:</strong>
+                - ✓ Through cable shows expected loss
+                - ✓ Filter matches datasheet ± 0.5 dB
+                - ✓ Phase measurements reasonable
+                - ✓ Reciprocal measurements agree (S12 = S21)</p>
+                <hr />
+                <h2 id="next-steps">Next Steps</h2>
+                <h3 id="recommended-learning-path">Recommended Learning Path</h3>
+                <ol>
+                <li><strong>Read this overview</strong> - Understand what's needed ✓</li>
+                <li><strong>Start with frequency cal</strong> - See <a href="nanovna_frequency_cal.html">nanovna_frequency_cal.md</a></li>
+                <li><strong>Build standards</strong> - See <a href="nanovna_cal_standards.html">nanovna_cal_standards.md</a></li>
+                <li><strong>Learn port cal</strong> - See <a href="nanovna_port_calibration.html">nanovna_port_calibration.md</a></li>
+                <li><strong>Practice and verify</strong> - See nanovna_verification.md</li>
+                <li><strong>Study complete example</strong> - See <a href="nanovna_complete_calibration.html">examples/nanovna_complete_calibration.md</a></li>
+                </ol>
+                <h3 id="quick-start-options">Quick Start Options</h3>
+                <p><strong>Option A: Just Want It To Work (2 hours)</strong>
+                - FM frequency cal (30 min)
+                - Use supplied cal kit (5 min per session)
+                - Basic verification (30 min)
+                - Start measuring!</p>
+                <p><strong>Option B: Best Accuracy (1 weekend)</strong>
+                - GPS frequency cal (4 hours)
+                - Build DIY standards (3 hours)
+                - Full verification (2 hours)
+                - Professional-grade results</p>
+                <p><strong>Option C: Deep Learning (1 week)</strong>
+                - All methods, all standards
+                - Temperature characterization
+                - Cross-checking everything
+                - Understand VNA theory deeply</p>
+                <hr />
+                <h2 id="summary">Summary</h2>
+                <h3 id="the-challenge">The Challenge</h3>
+                <p>NanoVNA is an amazing $50 tool, but needs calibration for accurate measurements.</p>
+                <h3 id="the-solution">The Solution</h3>
+                <ul>
+                <li><strong>Frequency:</strong> Use GPS/WWV/FM (same as TinySA) - $0-25</li>
+                <li><strong>Port:</strong> Build or verify calibration standards - $0-25</li>
+                <li><strong>Total:</strong> $0-50, 2-8 hours</li>
+                </ul>
+                <h3 id="the-result">The Result</h3>
+                <ul>
+                <li>Measurements as good as $5000 VNA</li>
+                <li>Confidence in your data</li>
+                <li>Deep understanding of RF measurement</li>
+                <li>Capability to design and verify RF circuits</li>
+                </ul>
+                <hr />
+                <p><strong>Ready to start? Continue to <a href="nanovna_frequency_cal.html">nanovna_frequency_cal.md</a>!</strong></p>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

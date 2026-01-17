@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyd Esp32 Optional - EnergyGuy LLC</title>
+    <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>EnergyGuy LLC</h1>
+                    <p class="tagline">Amateur Radio • Electronics • Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+                        <nav>
+                            <h3>Main Navigation</h3>
+                            <ul>
+                                <li><a href="../../index.html">Home</a></li>
+                                <li><a href="../../about/bio.html">About</a></li>
+                            </ul>
+            
+                            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul>
+                                <li><a href="../../antennas/index.html">Antenna Library</a></li>
+                            </ul>
+            </details>
+            
+                            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul>
+                                <li><a href="../index.html">Test Equipment Library</a></li>
+                            </ul>
+            </details>
+            
+                            <h3>Standards</h3>
+                            <ul>
+                                <li><a href="../../cal_lab/index.html">Calibration Standards (cal_lab)</a></li>
+                                <li><a href="../../NIST/index.html">NIST-Traceable Standards</a></li>
+                            </ul>
+            
+                            <details class="nav-group" open>
+                <summary>Study & Training</summary>
+                <ul>
+                                <li><a href="../../study/index.html">Ham Radio Flash Card Quiz</a></li>
+                                <li><a href="../../study/morse.html">Morse Code Practice</a></li>
+                            </ul>
+            </details>
+            
+                            <h3>Resources</h3>
+                            <ul>
+                                <li><a href="../../morse/index.html">Morse Practice Library</a></li>
+                                <li><a href="../../study/index.html">Study Machine</a></li>
+                            </ul>
+                        </nav>
+<main>
+                <h1 id="optional-esp32cyd-helper">Optional ESP32/CYD Helper</h1>
+                <p>Some SWR meter calibrations are easier with a Cheap Yellow Display (ESP32-2432S028R). This sketch counts pulses and shows a stable readout for comparisons.</p>
+                <pre><code class="language-cpp">#include &lt;Arduino.h&gt;
+                
+                const int inputPin = 34;  // frequency input
+                volatile uint32_t edges = 0;
+                
+                void IRAM_ATTR onEdge() {
+                  edges++;
+                }
+                
+                void setup() {
+                  Serial.begin(115200);
+                  pinMode(inputPin, INPUT);
+                  attachInterrupt(digitalPinToInterrupt(inputPin), onEdge, RISING);
+                }
+                
+                void loop() {
+                  edges = 0;
+                  uint32_t start = millis();
+                  delay(1000);
+                  uint32_t elapsed = millis() - start;
+                  uint32_t hz = (edges * 1000UL) / (elapsed ? elapsed : 1);
+                  Serial.print(&quot;Freq: &quot;);
+                  Serial.print(hz);
+                  Serial.println(&quot; Hz&quot;);
+                }
+                </code></pre>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Homebrew Test Equipment Calibration - Bootstrap calibration using WWV, GPS, and fundamental physical constants">
+    <meta name="keywords" content="calibration, test equipment, oscilloscope, multimeter, WWV, GPS, precision measurement">
+    <meta name="author" content="Mervyn Martin">
+    <title>Test Equipment Calibration Lab - EnergyGuy LLC</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header / Banner -->
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>EnergyGuy LLC</h1>
+                    <p class="tagline">Amateur Radio • Electronics • Engineering</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Wrapper -->
+        <div class="main-wrapper">
+            <!-- Navigation Sidebar -->
+            <nav>
+                <h3>Main Navigation</h3>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="index.html">Getting Started Guide</a></li>
+                </ul>
+
+                <details class="nav-group" open>
+    <summary>Calibration Equipment</summary>
+    <ul>
+                    <li><a href="index.html">decade resistance box</a></li>
+                    <li><a href="index.html">Antenna Analyzer</a></li>
+                
+                    <li><a href="../cal_lab/frequency-standard-gpsdo/index.html">Frequency Standard Gpsdo</a></li>
+                    <li><a href="index.html">Nanovna Vector Network Analyzer</a></li>
+                    <li><a href="index.html">Tinysa Spectrum Analyzer</a></li>
+                    <li><a href="index.html">Audio Oscillator</a></li>
+                    <li><a href="index.html">Capacitance Meter</a></li>
+                    <li><a href="index.html">Current Source</a></li>
+                    <li><a href="index.html">Decade Capacitance Box</a></li>
+                    <li><a href="index.html">Decade Inductance Box</a></li>
+                    <li><a href="index.html">Dip Meter Grid Dip Oscillator</a></li>
+                    <li><a href="index.html">Dummy Load 50 Ohm</a></li>
+                    <li><a href="index.html">Field Strength Meter</a></li>
+                    <li><a href="index.html">Frequency Counter</a></li>
+                    <li><a href="index.html">Function Generator</a></li>
+                    <li><a href="../cal_lab/impedance-bridge/index.html">Impedance Bridge</a></li>
+                    <li><a href="index.html">Inductance Meter</a></li>
+                    <li><a href="index.html">Lcr Meter</a></li>
+                    <li><a href="index.html">Modulation Analyzer</a></li>
+                    <li><a href="index.html">Multimeter Dmm</a></li>
+                    <li><a href="index.html">Noise Figure Meter</a></li>
+                    <li><a href="index.html">Oscilloscope</a></li>
+                    <li><a href="index.html">Q Meter</a></li>
+                    <li><a href="index.html">Rf Attenuator Set</a></li>
+                    <li><a href="index.html">Rf Power Meter</a></li>
+                    <li><a href="index.html">Rf Probe Detector</a></li>
+                    <li><a href="index.html">Rf Signal Tracer</a></li>
+                    <li><a href="index.html">Signal Generator</a></li>
+                    <li><a href="index.html">Swr Meter</a></li>
+                    <li><a href="index.html">Voltage Reference</a></li>
+                </ul>
+</details>
+
+                <details class="nav-group" open>
+    <summary>Calibration Topics</summary>
+    <ul>
+                    <li><a href="index.html">NanoVNA Calibration</a></li>
+                    <li><a href="index.html">Oscilloscope Overview</a></li>
+                    <li><a href="index.html">Multimeter Overview</a></li>
+                    <li><a href="index.html">LCR Meter Overview</a></li>
+                    <li><a href="../cal_lab/gps-reference/index.html">GPS 1PPS Reference</a></li>
+                    <li><a href="../cal_lab/radio_standard_calibration.html">WWV/WWVH Standards</a></li>
+                    <li><a href="../cal_lab/fm_broadcast_calibration.html">FM Broadcast Cal</a></li>
+                    <li><a href="../cal_lab/construction_guide.html">Construction Guide</a></li>
+                    <li><a href="index.html">Verification Procedures</a></li>
+                </ul>
+</details>
+
+                <h3>Examples & Resources</h3>
+                <ul>
+                    <li><a href="index.html">Complete Walkthroughs</a></li>
+                    <li><a href="index.html">Project Summary</a></li>
+                </ul>
+            </nav>
+
+            <!-- Main Content -->
+            <main>
+                <h1>Homebrew Test Equipment Calibration</h1>
+
+                <p class="intro-text">Welcome to the bootstrap calibration lab. This project provides detailed, homebrew calibration procedures for common test equipment <strong>without requiring any pre-calibrated reference equipment</strong>.</p>
+
+                <div class="note">
+                    <h3>The Bootstrap Calibration Philosophy</h3>
+                    <p><strong>"How do you calibrate test equipment when you have no calibrated equipment?"</strong></p>
+                    <p>We use fundamental physical constants and freely available reference signals:</p>
+                    <ul>
+                        <li><strong>WWV/WWVH</strong> - NIST time signals (2.5, 5, 10, 15, 20 MHz) - frequency accuracy better than 1×10⁻¹²</li>
+                        <li><strong>GPS 1PPS</strong> - GPS satellites provide 1 pulse-per-second timing (±40 ns accuracy)</li>
+                        <li><strong>AC Mains</strong> - Power line frequency (60 Hz in North America, ±0.02 Hz)</li>
+                        <li><strong>Precision resistors</strong> - 0.1% tolerance resistors as voltage/current references</li>
+                        <li><strong>Crystal oscillators</strong> - Can be disciplined against WWV or GPS</li>
+                        <li><strong>Known physics</strong> - Speed of light, resonant frequency calculations</li>
+                    </ul>
+                    <p style="margin-top: 15px;">These methods achieve <strong>0.1% - 1% accuracy</strong>, which is excellent for amateur radio work and often better than commercial "calibrated" instruments!</p>
+                </div>
+
+                <h2>Equipment Calibrated</h2>
+
+                <div class="project-grid">
+                    <div class="project-card">
+                        <h3>decade resistance box</h3>
+                        <p>Complete calibration guide with theory, construction, and procedures.</p>
+                        <a href="decade-resistance-box/index.html">View Calibration Guide →</a>
+                    </div>
+                </div>
+
+                <h2>What You'll Build</h2>
+
+                <p>The calibration fixtures described in these guides use common, inexpensive components:</p>
+
+                <h3>Common Materials Needed</h3>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Cost</th>
+                            <th>Source</th>
+                            <th>Used For</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>GPS Module (NEO-M8N)</td>
+                            <td>$10-15</td>
+                            <td>Amazon/AliExpress</td>
+                            <td>Frequency reference (1PPS)</td>
+                        </tr>
+                        <tr>
+                            <td>RTL-SDR Dongle</td>
+                            <td>$20-30</td>
+                            <td>Amazon</td>
+                            <td>WWV receiver</td>
+                        </tr>
+                        <tr>
+                            <td>Precision Resistors (0.1%)</td>
+                            <td>$1 each × 5</td>
+                            <td>Mouser/Digi-Key</td>
+                            <td>Voltage dividers</td>
+                        </tr>
+                        <tr>
+                            <td>LM4040-10.0 Voltage Ref</td>
+                            <td>$2</td>
+                            <td>Mouser</td>
+                            <td>10V precision reference</td>
+                        </tr>
+                        <tr>
+                            <td>ESP32-2432S028R (CYD)</td>
+                            <td>$12-15</td>
+                            <td>AliExpress</td>
+                            <td>Display & control</td>
+                        </tr>
+                        <tr>
+                            <td>Perfboard + Enclosure</td>
+                            <td>$10</td>
+                            <td>Amazon</td>
+                            <td>Assembly</td>
+                        </tr>
+                        <tr>
+                            <td>9V Battery</td>
+                            <td>$2</td>
+                            <td>Local store</td>
+                            <td>Power</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p style="margin-top: 20px;"><strong>Total startup cost: $60-85</strong> for a complete calibration lab!</p>
+
+                <p>Once built, these fixtures can be used to calibrate all your test equipment, forever. Compare this to professional calibration services that cost $100-500+ per instrument!</p>
+
+                <h2 id="topics">Calibration Topics</h2>
+
+                <div class="project-grid">
+                    <div class="project-card">
+                        <h3>NanoVNA Calibration</h3>
+                        <p>Complete calibration procedures for NanoVNA vector network analyzer including SOLT calibration and building precision cal standards.</p>
+                        <a href="nanovna/index.html">View Topic →</a>
+                    </div>
+
+                    <div class="project-card">
+                        <h3>Oscilloscope Theory</h3>
+                        <p>General oscilloscope calibration theory including timebase and vertical gain calibration using WWV and GPS.</p>
+                        <a href="oscilloscope-general/index.html">View Topic →</a>
+                    </div>
+
+                    <div class="project-card">
+                        <h3>Multimeter Theory</h3>
+                        <p>General multimeter calibration methodology using precision voltage references and calculated resistor networks.</p>
+                        <a href="multimeter-general/index.html">View Topic →</a>
+                    </div>
+
+                    <div class="project-card">
+                        <h3>LCR Meter Theory</h3>
+                        <p>LCR meter calibration using LC resonance calculations and precision components.</p>
+                        <a href="lcr-meter-general/index.html">View Topic →</a>
+                    </div>
+
+                    <div class="project-card">
+                        <h3>GPS 1PPS Reference</h3>
+                        <p>Building and using GPS 1 pulse-per-second timing reference for frequency calibration.</p>
+                        <a href="../cal_lab/gps-reference/index.html">View Topic →</a>
+                    </div>
+
+                    <div class="project-card">
+                        <h3>WWV/WWVH Standards</h3>
+                        <p>Using NIST time signal stations for precision frequency and time calibration.</p>
+                        <a href="../cal_lab/radio_standard_calibration.html">View Topic →</a>
+                    </div>
+
+                    <div class="project-card">
+                        <h3>Construction Guide</h3>
+                        <p>General construction techniques for building precision calibration fixtures.</p>
+                        <a href="../cal_lab/construction_guide.html">View Topic →</a>
+                    </div>
+
+                    <div class="project-card">
+                        <h3>Verification Procedures</h3>
+                        <p>How to verify calibration accuracy and maintain calibration records.</p>
+                        <a href="verification/index.html">View Topic →</a>
+                    </div>
+                </div>
+
+                <h2>Getting Started</h2>
+
+                <ol>
+                    <li><strong>Read the Overview:</strong> Start with <a href="00-readme-first/index.html">Getting Started Guide</a> for a complete introduction</li>
+                    <li><strong>Choose Equipment:</strong> Pick the first instrument you want to calibrate</li>
+                    <li><strong>Gather Materials:</strong> Order precision components (see parts lists in each guide)</li>
+                    <li><strong>Build Fixtures:</strong> Follow construction procedures step-by-step</li>
+                    <li><strong>Calibrate:</strong> Perform calibration procedures and record results</li>
+                    <li><strong>Verify:</strong> Test your newly-calibrated equipment</li>
+                </ol>
+
+                <h2>Quick Stats</h2>
+
+                <div class="project-grid">
+                    <div class="project-card">
+                        <h3>1 Equipment Types</h3>
+                        <p>Oscilloscopes, multimeters, and LCR meters covered</p>
+                    </div>
+
+                    <div class="project-card">
+                        <h3>Complete Documentation</h3>
+                        <p>Theory, construction, calibration, and troubleshooting for each</p>
+                    </div>
+
+                    <div class="project-card">
+                        <h3>ESP32/CYD Code</h3>
+                        <p>Complete Arduino code for Cheap Yellow Display (where applicable)</p>
+                    </div>
+
+                    <div class="project-card">
+                        <h3>$60-85 Cost</h3>
+                        <p>Build complete calibration lab from scratch</p>
+                    </div>
+                </div>
+
+                <div class="note">
+                    <h3>Cost vs. Professional Calibration</h3>
+                    <p><strong>DIY Calibration Lab:</strong> $60-85 one-time cost, reusable forever</p>
+                    <p><strong>Professional Service:</strong> $100-500 per instrument, annual recurring cost</p>
+                    <p><strong>Break-even:</strong> After calibrating just 1-2 instruments, your DIY lab has paid for itself!</p>
+                </div>
+
+                <p style="margin-top: 40px; text-align: center; font-size: 1.2em;">
+                    <strong>Bootstrap your way to precision!</strong><br>
+                    <em>73 and happy calibrating - Merv</em>
+                </p>
+            </main>
+        </div>
+
+        <!-- Footer / Address Block -->
+        <footer>
+            <div class="address-block">
+                <h3>EnergyGuy LLC</h3>
+                <p>Mervyn Martin (Merv), Proprietor</p>
+                <p>GMRS Callsign: WRXN788</p>
+                <p>Merced, California 95340</p>
+
+                <div class="copyright">
+                    <p>&copy; 2026 EnergyGuy LLC. All rights reserved.</p>
+                    <p>Documentation shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></p>
+                    <p>Bootstrap Calibration | No Calibrated Equipment Required</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

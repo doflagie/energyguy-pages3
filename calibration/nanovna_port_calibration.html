@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NanoVNA Port Calibration Procedures - EnergyGuy LLC</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>EnergyGuy LLC</h1>
+                    <p class="tagline">Amateur Radio • Electronics • Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+                        <nav>
+                            <h3>Main Navigation</h3>
+                            <ul>
+                                <li><a href="../index.html">Home</a></li>
+                                <li><a href="../about/bio.html">About</a></li>
+                            </ul>
+            
+                            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul>
+                                <li><a href="../antennas/index.html">Antenna Library</a></li>
+                            </ul>
+            </details>
+            
+                            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul>
+                                <li><a href="../test_gear/index.html">Test Equipment Library</a></li>
+                            </ul>
+            </details>
+            
+                            <h3>Standards</h3>
+                            <ul>
+                                <li><a href="../cal_lab/index.html">Calibration Standards (cal_lab)</a></li>
+                                <li><a href="../NIST/index.html">NIST-Traceable Standards</a></li>
+                            </ul>
+            
+                            <details class="nav-group" open>
+                <summary>Study & Training</summary>
+                <ul>
+                                <li><a href="../study/index.html">Ham Radio Flash Card Quiz</a></li>
+                                <li><a href="../study/morse.html">Morse Code Practice</a></li>
+                            </ul>
+            </details>
+            
+                            <h3>Resources</h3>
+                            <ul>
+                                <li><a href="../morse/index.html">Morse Practice Library</a></li>
+                                <li><a href="../study/index.html">Study Machine</a></li>
+                            </ul>
+                        </nav>
+<main>
+                <h1 id="nanovna-port-calibration-procedures">NanoVNA Port Calibration Procedures</h1>
+                <h2 id="overview">Overview</h2>
+                <p>Port calibration corrects for NanoVNA's internal imperfections and allows accurate impedance measurements. This must be done <strong>before each measurement session</strong>.</p>
+                <hr />
+                <h2 id="quick-start-sol-calibration-1-port">Quick Start: SOL Calibration (1-Port)</h2>
+                <p><strong>Use for:</strong> Antenna tuning, impedance measurements, SWR</p>
+                <p><strong>Time:</strong> 2 minutes</p>
+                <h3 id="step-by-step-procedure">Step-by-Step Procedure</h3>
+                <ol>
+                <li><strong>Set frequency range:</strong></li>
+                <li>Press <strong>STIMULUS</strong></li>
+                <li>Set START: (your min frequency, e.g., 1 MHz)</li>
+                <li>Set STOP: (your max frequency, e.g., 300 MHz)</li>
+                <li>
+                <p><strong>Important:</strong> Only calibrate the range you'll measure!</p>
+                </li>
+                <li>
+                <p><strong>Start calibration:</strong></p>
+                </li>
+                <li>Press <strong>CAL</strong></li>
+                <li>Select <strong>CALIBRATE</strong></li>
+                <li>
+                <p>Choose <strong>S11</strong> (1-port)</p>
+                </li>
+                <li>
+                <p><strong>Connect SHORT:</strong></p>
+                </li>
+                <li>Attach SHORT standard to CH0</li>
+                <li>Press <strong>SHORT</strong> on screen</li>
+                <li>
+                <p>Wait for sweep to complete</p>
+                </li>
+                <li>
+                <p><strong>Connect OPEN:</strong></p>
+                </li>
+                <li>Remove SHORT</li>
+                <li>Attach OPEN standard to CH0</li>
+                <li>Press <strong>OPEN</strong> on screen</li>
+                <li>
+                <p>Wait for sweep</p>
+                </li>
+                <li>
+                <p><strong>Connect LOAD:</strong></p>
+                </li>
+                <li>Remove OPEN</li>
+                <li>Attach 50Ω LOAD to CH0</li>
+                <li>Press <strong>LOAD</strong> on screen</li>
+                <li>
+                <p>Wait for sweep</p>
+                </li>
+                <li>
+                <p><strong>Done:</strong></p>
+                </li>
+                <li>Press <strong>DONE</strong> or <strong>APPLY</strong></li>
+                <li>Cal is now active</li>
+                <li>Save to slot: <strong>CAL → SAVE → Select slot 0-4</strong></li>
+                </ol>
+                <h3 id="verification">Verification</h3>
+                <p><strong>Connect 50Ω LOAD:</strong>
+                - Should show SWR 1.00:1
+                - Impedance should show 50Ω +j0</p>
+                <p><strong>If not perfect:</strong>
+                - Re-calibrate
+                - Check standards quality
+                - Ensure tight connections</p>
+                <hr />
+                <h2 id="solt-calibration-2-port">SOLT Calibration (2-Port)</h2>
+                <p><strong>Use for:</strong> Filters, amplifiers, attenuators, cables</p>
+                <p><strong>Time:</strong> 3 minutes</p>
+                <h3 id="procedure">Procedure</h3>
+                <ol>
+                <li>
+                <p><strong>Set frequency range</strong> (both ports)</p>
+                </li>
+                <li>
+                <p><strong>Start 2-port cal:</strong></p>
+                </li>
+                <li>
+                <p><strong>CAL → CALIBRATE → S11+S21+S22+S12</strong> (full 2-port)</p>
+                </li>
+                <li>
+                <p><strong>CH0 (PORT1) Standards:</strong></p>
+                </li>
+                <li>Connect SHORT to CH0 → Press <strong>SHORT</strong></li>
+                <li>Connect OPEN to CH0 → Press <strong>OPEN</strong></li>
+                <li>
+                <p>Connect LOAD to CH0 → Press <strong>LOAD</strong></p>
+                </li>
+                <li>
+                <p><strong>Connect THRU:</strong></p>
+                </li>
+                <li>Connect CH0 to CH1 with THRU adapter</li>
+                <li>
+                <p>Press <strong>THRU</strong></p>
+                </li>
+                <li>
+                <p><strong>CH1 (PORT2) Standards:</strong></p>
+                </li>
+                <li>Disconnect THRU</li>
+                <li>Connect SHORT to CH1 → Press <strong>SHORT</strong>(continue)</li>
+                <li>Connect OPEN to CH1 → Press <strong>OPEN</strong></li>
+                <li>
+                <p>Connect LOAD to CH1 → Press <strong>LOAD</strong></p>
+                </li>
+                <li>
+                <p><strong>Done:</strong></p>
+                </li>
+                <li>Press <strong>APPLY</strong></li>
+                <li>Save calibration</li>
+                </ol>
+                <h3 id="what-you-can-measure">What You Can Measure</h3>
+                <ul>
+                <li><strong>S11:</strong> Input return loss / impedance</li>
+                <li><strong>S21:</strong> Forward transmission / gain / insertion loss</li>
+                <li><strong>S12:</strong> Reverse transmission (isolation)</li>
+                <li><strong>S22:</strong> Output return loss</li>
+                </ul>
+                <hr />
+                <h2 id="calibration-tips">Calibration Tips</h2>
+                <h3 id="frequency-range">Frequency Range</h3>
+                <p><strong>Critical rule:</strong> Calibrate EXACTLY the range you'll measure</p>
+                <p><strong>Wrong:</strong>
+                - Calibrate 1-900 MHz
+                - Measure at 1.5 GHz ✗ (cal invalid!)</p>
+                <p><strong>Right:</strong>
+                - Will measure 144-148 MHz (2m ham band)
+                - Calibrate 140-150 MHz ✓</p>
+                <h3 id="temperature">Temperature</h3>
+                <p><strong>Let NanoVNA warm up:</strong>
+                1. Turn on
+                2. Run any sweep
+                3. Wait 10-15 minutes
+                4. NOW calibrate</p>
+                <p><strong>Why:</strong> Crystal frequency drifts while warming up</p>
+                <h3 id="connector-care">Connector Care</h3>
+                <p><strong>Before calibrating:</strong>
+                - Clean all connectors (IPA alcohol)
+                - Tighten finger-tight (don't overtighten!)
+                - No cross-threading
+                - Inspect for damage</p>
+                <h3 id="saving-calibrations">Saving Calibrations</h3>
+                <p><strong>NanoVNA has multiple cal slots:</strong>
+                - Slot 0: 1-30 MHz (HF)
+                - Slot 1: 140-150 MHz (2m)
+                - Slot 2: 420-450 MHz (70cm)
+                - Slot 3: 50-900 MHz (wideband)
+                - Slot 4: Temporary/test</p>
+                <p><strong>Load saved cal:</strong>
+                - <strong>CAL → RECALL → Select slot</strong></p>
+                <hr />
+                <h2 id="troubleshooting">Troubleshooting</h2>
+                <h3 id="calibration-doesnt-save">Calibration Doesn't Save</h3>
+                <p><strong>Fix:</strong>
+                - After <strong>DONE</strong>, must press <strong>CAL → SAVE → slot</strong>
+                - Some firmwares auto-save
+                - Check firmware documentation</p>
+                <h3 id="swr-still-wrong-after-cal">SWR Still Wrong After Cal</h3>
+                <p><strong>Possible causes:</strong>
+                1. LOAD not 50Ω → Measure with DMM
+                2. Forgot to press DONE → Redo calibration
+                3. Wrong frequency range → Recal correct range
+                4. Cable moved → Recalibrate</p>
+                <h3 id="smith-chart-doesnt-center">Smith Chart Doesn't Center</h3>
+                <p><strong>On 50Ω LOAD:</strong>
+                - Should be dead center
+                - If offset → LOAD is not 50Ω
+                - If rotating → frequency drift</p>
+                <hr />
+                <h2 id="advanced-enhanced-response-calibration">Advanced: Enhanced Response Calibration</h2>
+                <p><strong>For filter measurements requiring high dynamic range:</strong></p>
+                <p><strong>ERR (Enhanced Response) Cal:</strong>
+                - Measures NanoVNA's directivity
+                - Improves return loss measurements
+                - Gives better accuracy for high VSWR</p>
+                <p><strong>Procedure:</strong>
+                - Similar to SOL
+                - Additional REFLECT standard (usually same as SHORT)</p>
+                <p><strong>When to use:</strong>
+                - Measuring very high or very low impedances
+                - Need &gt;40 dB dynamic range
+                - Critical filter work</p>
+                <hr />
+                <h2 id="summary">Summary</h2>
+                <p>✓ <strong>SOL</strong> for 1-port (antennas, impedances)
+                ✓ <strong>SOLT</strong> for 2-port (filters, amplifiers)
+                ✓ Calibrate before each session
+                ✓ Calibrate exact frequency range
+                ✓ Warm up first
+                ✓ Save to slots
+                ✓ Verify with known good component</p>
+                <hr />
+                <p><strong>Next:</strong> nanovna_verification.md - Testing calibration quality</p>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

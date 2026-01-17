@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Standard Radio Broadcast Calibration Method - EnergyGuy LLC</title>
+    <link rel="stylesheet" href="../../../../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>EnergyGuy LLC</h1>
+                    <p class="tagline">Amateur Radio • Electronics • Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+                        <nav>
+                            <h3>Main Navigation</h3>
+                            <ul>
+                                <li><a href="../../../../index.html">Home</a></li>
+                                <li><a href="../../../../about/bio.html">About</a></li>
+                            </ul>
+            
+                            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul>
+                                <li><a href="../../../../antennas/index.html">Antenna Library</a></li>
+                            </ul>
+            </details>
+            
+                            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul>
+                                <li><a href="../../../../test_gear/index.html">Test Equipment Library</a></li>
+                            </ul>
+            </details>
+            
+                            <h3>Standards</h3>
+                            <ul>
+                                <li><a href="../../../../cal_lab/index.html">Calibration Standards (cal_lab)</a></li>
+                                <li><a href="../../../../NIST/index.html">NIST-Traceable Standards</a></li>
+                            </ul>
+            
+                            <details class="nav-group" open>
+                <summary>Study & Training</summary>
+                <ul>
+                                <li><a href="../../../../study/index.html">Ham Radio Flash Card Quiz</a></li>
+                                <li><a href="../../../../study/morse.html">Morse Code Practice</a></li>
+                            </ul>
+            </details>
+            
+                            <h3>Resources</h3>
+                            <ul>
+                                <li><a href="../../../../morse/index.html">Morse Practice Library</a></li>
+                                <li><a href="../../../../study/index.html">Study Machine</a></li>
+                            </ul>
+                        </nav>
+<main>
+                <h1 id="time-standard-radio-broadcast-calibration-method">Time Standard Radio Broadcast Calibration Method</h1>
+                <h2 id="overview">Overview</h2>
+                <p>This method uses <strong>free, over-the-air time standard broadcasts</strong> (WWV, CHU, MSF, DCF77, etc.) to calibrate the TinySA's 30MHz reference with <strong>0.1-1 ppm accuracy</strong>.</p>
+                <h3 id="why-radio-time-standards-work">Why Radio Time Standards Work</h3>
+                <ul>
+                <li>Transmitted from atomic clock-controlled transmitters</li>
+                <li>Frequencies are <strong>exact</strong> within ±1×10⁻¹² (0.00001 ppm)</li>
+                <li>Free, continuous broadcasts</li>
+                <li>No special equipment needed (just a receiver)</li>
+                <li><strong>Worldwide coverage</strong> from multiple stations</li>
+                </ul>
+                <h3 id="what-youll-achieve">What You'll Achieve</h3>
+                <pre><code>Frequency Error: &lt; 3 Hz @ 30MHz (0.1 ppm)
+                Accuracy: Limited by propagation and receiver quality
+                Cost: $0-20 (if you have receiver/SDR)
+                Time Required: 30-60 minutes
+                </code></pre>
+                <hr />
+                <h2 id="available-time-standard-broadcasts">Available Time Standard Broadcasts</h2>
+                <h3 id="worldwide-time-standard-stations">Worldwide Time Standard Stations</h3>
+                <table>
+                <thead>
+                <tr>
+                <th>Station</th>
+                <th>Country</th>
+                <th>Frequencies</th>
+                <th>Power</th>
+                <th>Coverage</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td><strong>WWV</strong></td>
+                <td>USA (Colorado)</td>
+                <td>2.5, 5, 10, 15, 20, 25 MHz</td>
+                <td>2.5-10 kW</td>
+                <td>North America, Pacific</td>
+                </tr>
+                <tr>
+                <td><strong>WWVH</strong></td>
+                <td>USA (Hawaii)</td>
+                <td>2.5, 5, 10, 15 MHz</td>
+                <td>5-10 kW</td>
+                <td>Pacific, Asia</td>
+                </tr>
+                <tr>
+                <td><strong>CHU</strong></td>
+                <td>Canada</td>
+                <td>3.330, 7.850, 14.670 MHz</td>
+                <td>3-10 kW</td>
+                <td>North America</td>
+                </tr>
+                <tr>
+                <td><strong>MSF</strong></td>
+                <td>UK</td>
+                <td>60 kHz</td>
+                <td>60 kW</td>
+                <td>Europe</td>
+                </tr>
+                <tr>
+                <td><strong>DCF77</strong></td>
+                <td>Germany</td>
+                <td>77.5 kHz</td>
+                <td>50 kW</td>
+                <td>Europe</td>
+                </tr>
+                <tr>
+                <td><strong>JJY</strong></td>
+                <td>Japan</td>
+                <td>40/60 kHz</td>
+                <td>50 kW</td>
+                <td>Japan, East Asia</td>
+                </tr>
+                <tr>
+                <td><strong>BPC</strong></td>
+                <td>China</td>
+                <td>68.5 kHz</td>
+                <td>90 kW</td>
+                <td>China, Asia</td>
+                </tr>
+                <tr>
+                <td><strong>RBU</strong></td>
+                <td>Russia</td>
+                <td>66.66 kHz</td>
+                <td>10 kW</td>
+                <td>Russia</td>
+                </tr>
+                </tbody>
+                </table>
+                <p><strong>Note:</strong> WWV at 10 MHz was discontinued in 2023 to save costs. Only 2.5, 5, 15, 20, and 25 MHz remain operational.</p>
+                <h3 id="best-stations-for-calibration">Best Stations for Calibration</h3>
+                <p><strong>North America:</strong>
+                - <strong>CHU</strong> (Canada) - 7.850 MHz or 14.670 MHz (best)
+                - <strong>WWV</strong> - 5 MHz or 15 MHz
+                - <strong>WWVH</strong> - 5 MHz or 15 MHz</p>
+                <p><strong>Europe:</strong>
+                - <strong>DCF77</strong> - 77.5 kHz (strongest in Europe)
+                - <strong>MSF</strong> - 60 kHz (UK and Western Europe)</p>
+                <p><strong>Asia:</strong>
+                - <strong>JJY</strong> - 40 or 60 kHz
+                - <strong>BPC</strong> - 68.5 kHz</p>
+                <p><strong>Worldwide:</strong>
+                - Any station you can receive clearly
+                - HF stations (3-20 MHz) work best for long distance
+                - LF stations (60-77 kHz) work best locally</p>
+                <hr />
+                <h2 id="required-materials">Required Materials</h2>
+                <h3 id="minimum-setup-free-if-you-have-equipment">Minimum Setup (Free if you have equipment)</h3>
+                <table>
+                <thead>
+                <tr>
+                <th>Item</th>
+                <th>Cost</th>
+                <th>Notes</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>Shortwave receiver</td>
+                <td>$0-50</td>
+                <td>Or any HF-capable radio</td>
+                </tr>
+                <tr>
+                <td>OR RTL-SDR dongle</td>
+                <td>$25-35</td>
+                <td>USB SDR receiver</td>
+                </tr>
+                <tr>
+                <td>Wire antenna</td>
+                <td>$0-5</td>
+                <td>Random wire, 20-50 feet</td>
+                </tr>
+                <tr>
+                <td>TinySA</td>
+                <td>$100-150</td>
+                <td>Owner supplied</td>
+                </tr>
+                <tr>
+                <td>3.5mm audio cable</td>
+                <td>$2</td>
+                <td>Receiver to TinySA</td>
+                </tr>
+                </tbody>
+                </table>
+                <h3 id="recommended-setup">Recommended Setup</h3>
+                <table>
+                <thead>
+                <tr>
+                <th>Item</th>
+                <th>Cost</th>
+                <th>Purpose</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>RTL-SDR v3</td>
+                <td>$30</td>
+                <td>Clean, stable reception</td>
+                </tr>
+                <tr>
+                <td>Upconverter (for LF)</td>
+                <td>$20</td>
+                <td>Receive 60-77 kHz stations</td>
+                </tr>
+                <tr>
+                <td>Antenna wire</td>
+                <td>$5</td>
+                <td>50-100 ft wire</td>
+                </tr>
+                <tr>
+                <td>Audio interface</td>
+                <td>$10</td>
+                <td>Clean signal connection</td>
+                </tr>
+                </tbody>
+                </table>
+                <h3 id="tools">Tools</h3>
+                <ul>
+                <li>Computer (for SDR software)</li>
+                <li>Basic audio editing software (Audacity, free)</li>
+                <li>Calculator or spreadsheet</li>
+                </ul>
+                <hr />
+                <h2 id="theory-of-operation">Theory of Operation</h2>
+                <h3 id="how-time-standard-broadcasts-work">How Time Standard Broadcasts Work</h3>
+                <ol>
+                <li><strong>Master Clock:</strong> Atomic clock at transmitter site (cesium or hydrogen maser)</li>
+                <li><strong>Frequency Synthesis:</strong> Atomic clock generates exact carrier frequency</li>
+                <li><strong>Transmission:</strong> High-power transmitter broadcasts on precise frequency</li>
+                <li><strong>Reception:</strong> You receive the signal and use it as frequency reference</li>
+                </ol>
+                <h3 id="carrier-frequency-as-reference">Carrier Frequency as Reference</h3>
+                <p>The <strong>carrier frequency itself</strong> is the atomic clock reference:
+                - WWV 5 MHz = exactly 5,000,000.00 Hz
+                - CHU 7.850 MHz = exactly 7,850,000.00 Hz
+                - DCF77 77.5 kHz = exactly 77,500.00 Hz</p>
+                <h3 id="zero-beat-method">Zero-Beat Method</h3>
+                <p><strong>Concept:</strong>
+                1. Use TinySA to generate local reference frequency
+                2. Tune to match broadcast carrier
+                3. Listen for zero-beat (no audible tone = perfect match)
+                4. Measure frequency difference</p>
+                <hr />
+                <h2 id="calibration-methods">Calibration Methods</h2>
+                <h3 id="method-1-direct-frequency-measurement-simplest">Method 1: Direct Frequency Measurement (Simplest)</h3>
+                <p>Use TinySA as spectrum analyzer to measure broadcast carrier.</p>
+                <h4 id="procedure">Procedure</h4>
+                <ol>
+                <li><strong>Tune TinySA to time standard:</strong></li>
+                <li>WWV: 5 MHz or 15 MHz</li>
+                <li>CHU: 7.850 MHz or 14.670 MHz</li>
+                <li>
+                <p>DCF77: 77.5 kHz</p>
+                </li>
+                <li>
+                <p><strong>Connect antenna to TinySA</strong></p>
+                </li>
+                <li>
+                <p><strong>Find carrier peak</strong> on spectrum display</p>
+                </li>
+                <li>
+                <p><strong>Read frequency</strong> using TinySA's marker</p>
+                </li>
+                <li>
+                <p><strong>Compare to known frequency:</strong>
+                   <code>Known CHU: 7,850,000.00 Hz
+                   TinySA reads: 7,850,050 Hz
+                   Error: +50 Hz = +6.4 ppm</code></p>
+                </li>
+                <li>
+                <p><strong>Calculate correction:</strong>
+                   <code>ppm_error = (measured - actual) / actual × 10^6
+                   ppm_error = (7,850,050 - 7,850,000) / 7,850,000 × 10^6
+                   ppm_error = +6.37 ppm</code></p>
+                </li>
+                <li>
+                <p><strong>Apply to 30MHz reference:</strong>
+                   ```
+                   If TinySA is 6.37 ppm fast at 7.850 MHz,
+                   it's also 6.37 ppm fast at 30 MHz</p>
+                </li>
+                </ol>
+                <p>30 MHz error = 30,000,000 × 6.37/10^6 = 191 Hz
+                   Actual frequency = 30,000,191 Hz
+                   ```</p>
+                <ol>
+                <li><strong>Enter correction</strong> in TinySA config: <strong>-6.37 ppm</strong></li>
+                </ol>
+                <h4 id="advantages">Advantages</h4>
+                <ul>
+                <li>Simplest method</li>
+                <li>Direct measurement</li>
+                <li>No additional hardware</li>
+                </ul>
+                <h4 id="disadvantages">Disadvantages</h4>
+                <ul>
+                <li>Limited by TinySA's uncalibrated reference (circular problem)</li>
+                <li>Need good signal strength</li>
+                <li>Propagation effects can cause error</li>
+                </ul>
+                <hr />
+                <h3 id="method-2-receiver-tinysa-beat-frequency-more-accurate">Method 2: Receiver + TinySA Beat Frequency (More Accurate)</h3>
+                <p>Use a receiver to heterodyne against TinySA's tracking generator.</p>
+                <h4 id="setup">Setup</h4>
+                <pre><code>Antenna → Receiver → Audio Out → Computer/Oscilloscope
+                                ↑
+                            TinySA → Signal Generator Mode
+                </code></pre>
+                <h4 id="procedure_1">Procedure</h4>
+                <ol>
+                <li><strong>Configure TinySA as signal generator:</strong></li>
+                <li>Set frequency to CHU: 7.850 MHz</li>
+                <li>Set output power: -10 dBm</li>
+                <li>
+                <p>Connect to receiver antenna input (via attenuator or loose coupling)</p>
+                </li>
+                <li>
+                <p><strong>Tune receiver to CHU 7.850 MHz</strong></p>
+                </li>
+                <li>
+                <p><strong>Adjust TinySA frequency</strong> until you hear zero-beat:</p>
+                </li>
+                <li>High tone: TinySA frequency too high</li>
+                <li>Low tone: TinySA frequency too low</li>
+                <li>
+                <p>Silence (zero-beat): Perfect match</p>
+                </li>
+                <li>
+                <p><strong>Fine-tune for null:</strong></p>
+                </li>
+                <li>Adjust in 1 Hz steps</li>
+                <li>Listen in SSB or CW mode</li>
+                <li>
+                <p>Find quietest point</p>
+                </li>
+                <li>
+                <p><strong>Read TinySA frequency</strong> when zero-beat achieved</p>
+                </li>
+                <li>
+                <p><strong>Calculate error:</strong>
+                   <code>CHU actual: 7,850,000 Hz
+                   TinySA setting at zero-beat: 7,850,045 Hz
+                   Error: +45 Hz = +5.73 ppm</code></p>
+                </li>
+                <li>
+                <p><strong>Apply correction</strong> to 30 MHz reference</p>
+                </li>
+                </ol>
+                <h4 id="advantages_1">Advantages</h4>
+                <ul>
+                <li>More accurate than direct measurement</li>
+                <li>Less affected by propagation</li>
+                <li>Works with weak signals</li>
+                </ul>
+                <h4 id="disadvantages_1">Disadvantages</h4>
+                <ul>
+                <li>Requires receiver</li>
+                <li>More setup complexity</li>
+                <li>Skill needed to find zero-beat</li>
+                </ul>
+                <hr />
+                <h3 id="method-3-audio-tone-method-most-accurate">Method 3: Audio Tone Method (Most Accurate)</h3>
+                <p>Use WWV/CHU's audio tones as secondary reference.</p>
+                <h4 id="background">Background</h4>
+                <p>WWV and CHU broadcast:
+                - <strong>1000 Hz audio tone</strong> (except top of minute)
+                - <strong>500 Hz tone</strong> (first hour tone, WWV only)
+                - Tone frequency accurate to ±0.001 Hz</p>
+                <h4 id="procedure_2">Procedure</h4>
+                <ol>
+                <li><strong>Record 1000 Hz tone</strong> from WWV or CHU:</li>
+                <li>Use SDR software</li>
+                <li>Or connect receiver audio to computer</li>
+                <li>
+                <p>Record 30-60 seconds of clean tone</p>
+                </li>
+                <li>
+                <p><strong>Analyze in audio software:</strong></p>
+                </li>
+                <li>Use Audacity: Analyze → Plot Spectrum</li>
+                <li>Find peak frequency</li>
+                <li>
+                <p>Should be exactly 1000.000 Hz</p>
+                </li>
+                <li>
+                <p><strong>Measure actual frequency:</strong></p>
+                </li>
+                <li>If you read 1000.5 Hz, your soundcard is 0.5 Hz fast</li>
+                <li>This doesn't help us directly (soundcard not connected to TinySA)</li>
+                </ol>
+                <p><strong>Alternative: Tone Beat Method</strong></p>
+                <ol>
+                <li><strong>Generate 1000 Hz with TinySA</strong> (if capable)</li>
+                <li><strong>Mix with WWV 1000 Hz tone</strong></li>
+                <li><strong>Listen for beat frequency</strong></li>
+                <li><strong>Adjust TinySA tone generator</strong> for zero-beat</li>
+                <li><strong>Calculate error</strong></li>
+                </ol>
+                <p><strong>Limitation:</strong> This calibrates the tone generator, not the 30 MHz reference. Only useful if tone generator uses same reference.</p>
+                <hr />
+                <h3 id="method-4-harmonic-multiplication-advanced">Method 4: Harmonic Multiplication (Advanced)</h3>
+                <p>Use harmonics of lower frequency to reach 30 MHz.</p>
+                <h4 id="concept">Concept</h4>
+                <p>If you can accurately measure a lower frequency, multiply to 30 MHz:</p>
+                <pre><code>CHU 7.850 MHz × 4 = 31.40 MHz (close to 30 MHz)
+                WWV 5 MHz × 6 = 30 MHz (perfect!)
+                </code></pre>
+                <h4 id="procedure-wwv-5-mhz-example">Procedure (WWV 5 MHz Example)</h4>
+                <p><strong>Problem:</strong> WWV 10 MHz was discontinued, and 5 MHz × 6 = 30 MHz.</p>
+                <ol>
+                <li>
+                <p><strong>Receive WWV 5 MHz</strong></p>
+                </li>
+                <li>
+                <p><strong>Generate harmonics:</strong></p>
+                </li>
+                <li>Feed into frequency multiplier (×6)</li>
+                <li>Or: Use non-linear device (diode, saturated amplifier)</li>
+                <li>
+                <p>Output contains 5, 10, 15, 20, 25, <strong>30 MHz</strong> harmonics</p>
+                </li>
+                <li>
+                <p><strong>Filter for 30 MHz:</strong></p>
+                </li>
+                <li>Use bandpass filter</li>
+                <li>
+                <p>Or just select with TinySA spectrum analyzer</p>
+                </li>
+                <li>
+                <p><strong>Compare 30 MHz harmonic</strong> to TinySA's 30 MHz reference</p>
+                </li>
+                <li>
+                <p><strong>Measure beat frequency</strong> or phase</p>
+                </li>
+                </ol>
+                <h4 id="circuit-for-harmonic-generation">Circuit for Harmonic Generation</h4>
+                <pre><code>WWV 5 MHz → 1N4148 diode → 30 MHz bandpass filter → TinySA input
+                                ↓
+                              Ground via resistor
+                
+                Diode generates harmonics due to non-linearity
+                Filter passes only 6th harmonic (30 MHz)
+                </code></pre>
+                <h4 id="advantages_2">Advantages</h4>
+                <ul>
+                <li>Direct comparison at 30 MHz</li>
+                <li>High accuracy possible</li>
+                <li>Avoids frequency conversion math</li>
+                </ul>
+                <h4 id="disadvantages_2">Disadvantages</h4>
+                <ul>
+                <li>Requires building hardware</li>
+                <li>Needs signal processing</li>
+                <li>Harmonic signal is weak</li>
+                </ul>
+                <hr />
+                <h2 id="station-selection-guide">Station Selection Guide</h2>
+                <h3 id="which-station-should-you-use">Which Station Should You Use?</h3>
+                <p><strong>North America:</strong></p>
+                <table>
+                <thead>
+                <tr>
+                <th>Location</th>
+                <th>Best Station</th>
+                <th>Frequency</th>
+                <th>When</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>Western USA/Canada</td>
+                <td>WWV</td>
+                <td>5, 15 MHz</td>
+                <td>Daytime</td>
+                </tr>
+                <tr>
+                <td>Eastern USA/Canada</td>
+                <td>CHU</td>
+                <td>7.850 MHz</td>
+                <td>Anytime</td>
+                </tr>
+                <tr>
+                <td>East Coast</td>
+                <td>WWV</td>
+                <td>5 MHz</td>
+                <td>Night</td>
+                </tr>
+                <tr>
+                <td>Pacific</td>
+                <td>WWVH</td>
+                <td>5, 15 MHz</td>
+                <td>Daytime</td>
+                </tr>
+                </tbody>
+                </table>
+                <p><strong>Europe:</strong>
+                - <strong>DCF77</strong> 77.5 kHz (strongest, day/night)
+                - <strong>MSF</strong> 60 kHz (UK, Western Europe)</p>
+                <p><strong>Asia:</strong>
+                - <strong>JJY</strong> 40 or 60 kHz
+                - <strong>BPC</strong> 68.5 kHz</p>
+                <h3 id="propagation-considerations">Propagation Considerations</h3>
+                <p><strong>HF Stations (3-20 MHz):</strong></p>
+                <table>
+                <thead>
+                <tr>
+                <th>Frequency</th>
+                <th>Daytime</th>
+                <th>Nighttime</th>
+                <th>Range</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>2.5 MHz</td>
+                <td>Poor</td>
+                <td>Good</td>
+                <td>0-1000 mi</td>
+                </tr>
+                <tr>
+                <td>5 MHz</td>
+                <td>Good</td>
+                <td>Excellent</td>
+                <td>0-2000 mi</td>
+                </tr>
+                <tr>
+                <td>7.85 MHz (CHU)</td>
+                <td>Excellent</td>
+                <td>Good</td>
+                <td>0-3000 mi</td>
+                </tr>
+                <tr>
+                <td>10-15 MHz</td>
+                <td>Excellent</td>
+                <td>Fair</td>
+                <td>0-5000 mi</td>
+                </tr>
+                <tr>
+                <td>20-25 MHz</td>
+                <td>Fair</td>
+                <td>Poor</td>
+                <td>0-3000 mi</td>
+                </tr>
+                </tbody>
+                </table>
+                <p><strong>LF Stations (60-77 kHz):</strong>
+                - <strong>Day and night:</strong> Consistent
+                - <strong>Range:</strong> 500-1000 miles (ground wave)
+                - <strong>Advantage:</strong> Stable, minimal fading
+                - <strong>Disadvantage:</strong> Need upconverter for RTL-SDR</p>
+                <h3 id="signal-quality-check">Signal Quality Check</h3>
+                <p><strong>Good signal:</strong>
+                - S-meter reads S7 or higher
+                - Minimal fading
+                - Clean carrier, no distortion
+                - Stable over 5+ minutes</p>
+                <p><strong>Poor signal (don't use):</strong>
+                - Weak (&lt; S5)
+                - Rapid fading
+                - Noise/static
+                - Interference from other stations</p>
+                <hr />
+                <h2 id="propagation-error-correction">Propagation Error Correction</h2>
+                <h3 id="ionospheric-delay">Ionospheric Delay</h3>
+                <p>Radio waves traveling through ionosphere are delayed:</p>
+                <p><strong>Effect on frequency:</strong>
+                - Doppler shift from moving ionosphere: ±0.1 Hz typical
+                - Multipath causes fading, not frequency shift
+                - Average over 5-10 minutes to eliminate</p>
+                <p><strong>Correction:</strong>
+                - Take multiple measurements (10+)
+                - Average results
+                - Discard outliers
+                - Prefer stable, strong signals</p>
+                <h3 id="multipath-interference">Multipath Interference</h3>
+                <p>Multiple paths cause fading:</p>
+                <p><strong>Symptoms:</strong>
+                - Signal strength varies
+                - Apparent frequency wobble
+                - Beat notes in audio</p>
+                <p><strong>Solutions:</strong>
+                - Use directional antenna
+                - Wait for stable propagation
+                - Choose higher frequency (less multipath)
+                - Measure during quiet ionosphere (noon, summer)</p>
+                <hr />
+                <h2 id="step-by-step-calibration-example-chu-method">Step-by-Step Calibration Example (CHU Method)</h2>
+                <h3 id="equipment">Equipment</h3>
+                <ul>
+                <li>RTL-SDR dongle</li>
+                <li>50-foot wire antenna</li>
+                <li>Computer running SDR# or GQRX</li>
+                <li>TinySA</li>
+                </ul>
+                <h3 id="procedure_3">Procedure</h3>
+                <p><strong>1. Setup Receiver (15 minutes)</strong></p>
+                <ul>
+                <li>Connect RTL-SDR to computer</li>
+                <li>Connect antenna to RTL-SDR</li>
+                <li>Launch SDR software</li>
+                <li>Set frequency: 7.850 MHz</li>
+                <li>Set mode: AM or USB</li>
+                <li>Adjust RF gain for strong but not overloaded signal</li>
+                </ul>
+                <p><strong>2. Find CHU Signal (5 minutes)</strong></p>
+                <ul>
+                <li>Look for carrier on waterfall</li>
+                <li>Should see time code modulation (digital pulses)</li>
+                <li>Listen for voice announcements (top of hour)</li>
+                <li>Verify it's CHU (not another station)</li>
+                </ul>
+                <p><strong>3. Measure Carrier Frequency (10 minutes)</strong></p>
+                <ul>
+                <li>Switch to CW or narrow filter mode</li>
+                <li>Center on carrier</li>
+                <li>Use frequency counter in SDR software</li>
+                <li>Record frequency: <strong><em>_</em></strong>____</li>
+                </ul>
+                <p><strong>4. Calculate Error</strong></p>
+                <pre><code>Known CHU frequency: 7,850,000.00 Hz
+                Measured frequency: 7,850,XXX.XX Hz  (fill in your reading)
+                
+                Error (Hz) = Measured - Known
+                Error (ppm) = (Error / Known) × 10^6
+                
+                Example:
+                Measured: 7,850,062 Hz
+                Error = 7,850,062 - 7,850,000 = +62 Hz
+                Error (ppm) = 62 / 7,850,000 × 10^6 = +7.90 ppm
+                </code></pre>
+                <p><strong>5. Apply to 30 MHz</strong></p>
+                <pre><code>30 MHz error = 30,000,000 × (ppm_error / 10^6)
+                
+                Example:
+                30 MHz error = 30,000,000 × 7.90 / 10^6 = 237 Hz
+                Actual 30 MHz = 30,000,237 Hz
+                </code></pre>
+                <p><strong>6. Enter Correction in TinySA</strong></p>
+                <ul>
+                <li>CONFIG → XTAL/Reference</li>
+                <li>Enter: <strong>-7.90 ppm</strong> (opposite sign)</li>
+                <li>SAVE</li>
+                </ul>
+                <p><strong>7. Verification (10 minutes)</strong></p>
+                <ul>
+                <li>Re-measure CHU frequency</li>
+                <li>Should now read 7,850,000 Hz (within ±10 Hz)</li>
+                <li>If not, iterate</li>
+                </ul>
+                <hr />
+                <h2 id="accuracy-limitations">Accuracy Limitations</h2>
+                <h3 id="factors-affecting-accuracy">Factors Affecting Accuracy</h3>
+                <table>
+                <thead>
+                <tr>
+                <th>Factor</th>
+                <th>Typical Error</th>
+                <th>Mitigation</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>Transmitter accuracy</td>
+                <td>±0.00001 ppm</td>
+                <td>None needed (perfect)</td>
+                </tr>
+                <tr>
+                <td>Ionospheric Doppler</td>
+                <td>±0.1 Hz</td>
+                <td>Average multiple readings</td>
+                </tr>
+                <tr>
+                <td>Receiver stability</td>
+                <td>±1 ppm</td>
+                <td>Use GPS-locked SDR</td>
+                </tr>
+                <tr>
+                <td>Multipath fading</td>
+                <td>±1 Hz</td>
+                <td>Use strong, stable signal</td>
+                </tr>
+                <tr>
+                <td>Measurement resolution</td>
+                <td>±1 Hz</td>
+                <td>Use FFT or counter</td>
+                </tr>
+                </tbody>
+                </table>
+                <p><strong>Achievable Accuracy:</strong>
+                - Single measurement: ±1-10 ppm
+                - Averaged (10 readings): ±0.5-2 ppm
+                - Ideal conditions: ±0.1-0.5 ppm</p>
+                <hr />
+                <h2 id="troubleshooting">Troubleshooting</h2>
+                <h3 id="cant-receive-station">Can't Receive Station</h3>
+                <p><strong>No signal at all:</strong>
+                - Check antenna connection
+                - Verify SDR is working (try FM broadcast)
+                - Try different time of day
+                - Try different frequency/station</p>
+                <p><strong>Weak signal:</strong>
+                - Improve antenna (longer wire, outdoors)
+                - Try different frequency
+                - Wait for better propagation
+                - Check for local interference</p>
+                <h3 id="frequency-unstable">Frequency Unstable</h3>
+                <p><strong>Reading jumps around:</strong>
+                - Increase averaging time
+                - Use narrower filter
+                - Wait for stable conditions
+                - Improve antenna</p>
+                <p><strong>Slow drift:</strong>
+                - Normal (ionosphere moving)
+                - Average over longer time
+                - Take multiple measurements</p>
+                <h3 id="sdr-frequency-offset">SDR Frequency Offset</h3>
+                <p><strong>SDR itself uncalibrated:</strong>
+                - This is the problem we're trying to solve!
+                - Use "PPM correction" in SDR software
+                - Measure error against CHU
+                - Enter correction
+                - Iterate</p>
+                <hr />
+                <h2 id="alternative-using-rtl-sdrs-built-in-calibration">Alternative: Using RTL-SDR's Built-in Calibration</h2>
+                <p>Many SDR programs allow you to calibrate the RTL-SDR against known frequency:</p>
+                <p><strong>SDR# Procedure:</strong></p>
+                <ol>
+                <li>Tune to CHU 7.850 MHz</li>
+                <li>Note frequency error (e.g., reads 7.850.045 MHz)</li>
+                <li>Click Configure (gear icon)</li>
+                <li>Adjust "Frequency correction (ppm)" slider</li>
+                <li>Adjust until it reads exactly 7.850.000 MHz</li>
+                <li>Record ppm value</li>
+                <li>This ppm applies to TinySA's reference (if using same oscillator)</li>
+                </ol>
+                <p><strong>Limitation:</strong> This calibrates the SDR, not the TinySA. They're separate devices with separate oscillators.</p>
+                <hr />
+                <h2 id="advanced-building-a-wwv-locked-30mhz-reference">Advanced: Building a WWV-Locked 30MHz Reference</h2>
+                <p>If you want <strong>continuous</strong> calibration:</p>
+                <h3 id="concept_1">Concept</h3>
+                <p>Build a PLL (Phase-Locked Loop) that:
+                1. Receives WWV 5 MHz
+                2. Multiplies by 6 to get 30 MHz
+                3. Locks crystal oscillator to result
+                4. Provides clean 30 MHz locked to WWV atomic clock</p>
+                <h3 id="block-diagram">Block Diagram</h3>
+                <pre><code>Antenna → Receiver → 5 MHz IF → PLL (×6) → 30 MHz output
+                                                   ↑
+                                              Local TCXO ←→ Feedback
+                </code></pre>
+                <h3 id="components-needed">Components Needed</h3>
+                <ul>
+                <li>WWV receiver or downconverter</li>
+                <li>PLL IC (e.g., ADF4002, ADF4351)</li>
+                <li>TCXO (30 MHz or 10 MHz)</li>
+                <li>Loop filter components</li>
+                <li>Power supply</li>
+                </ul>
+                <p><strong>Complexity:</strong> High (PLL design is advanced)
+                <strong>Cost:</strong> $50-100
+                <strong>Result:</strong> Continuous 30 MHz locked to WWV</p>
+                <hr />
+                <h2 id="comparison-to-gps-method">Comparison to GPS Method</h2>
+                <table>
+                <thead>
+                <tr>
+                <th>Aspect</th>
+                <th>GPS</th>
+                <th>WWV/CHU</th>
+                <th>Winner</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td><strong>Accuracy</strong></td>
+                <td>0.01 ppm</td>
+                <td>0.1-1 ppm</td>
+                <td>GPS</td>
+                </tr>
+                <tr>
+                <td><strong>Cost</strong></td>
+                <td>$15-25</td>
+                <td>$0-30</td>
+                <td>WWV (if you have SDR)</td>
+                </tr>
+                <tr>
+                <td><strong>Setup time</strong></td>
+                <td>2-4 hours</td>
+                <td>30-60 min</td>
+                <td>WWV</td>
+                </tr>
+                <tr>
+                <td><strong>Availability</strong></td>
+                <td>Worldwide</td>
+                <td>Regional</td>
+                <td>GPS</td>
+                </tr>
+                <tr>
+                <td><strong>Learning value</strong></td>
+                <td>GPS tech</td>
+                <td>Radio propagation</td>
+                <td>Tie</td>
+                </tr>
+                <tr>
+                <td><strong>Cool factor</strong></td>
+                <td>Modern</td>
+                <td>Classic</td>
+                <td>WWV (nostalgia!)</td>
+                </tr>
+                </tbody>
+                </table>
+                <p><strong>Recommendation:</strong> Use <strong>GPS for best accuracy</strong>, WWV/CHU for <strong>quick check</strong> or <strong>learning experience</strong>.</p>
+                <hr />
+                <h2 id="summary">Summary</h2>
+                <h3 id="what-we-accomplished">What We Accomplished</h3>
+                <p>✓ Used free atomic clock broadcasts for calibration
+                ✓ Achieved 0.1-1 ppm accuracy with no cost
+                ✓ Learned about HF propagation and time standards
+                ✓ Verified TinySA reference against multiple sources</p>
+                <h3 id="key-takeaways">Key Takeaways</h3>
+                <ol>
+                <li><strong>Time standard broadcasts</strong> are free atomic clock references</li>
+                <li><strong>Carrier frequency</strong> is exact, derived from atomic clock</li>
+                <li><strong>Propagation effects</strong> limit accuracy to ~0.1-1 ppm</li>
+                <li><strong>Averaging</strong> multiple measurements improves accuracy</li>
+                <li><strong>CHU at 7.850 MHz</strong> is best for North America</li>
+                <li><strong>DCF77 at 77.5 kHz</strong> is best for Europe</li>
+                </ol>
+                <h3 id="when-to-use-this-method">When to Use This Method</h3>
+                <ul>
+                <li>You already have SDR or shortwave receiver</li>
+                <li>You want to verify GPS calibration</li>
+                <li>You enjoy learning about radio propagation</li>
+                <li>Cost is more important than ultimate accuracy</li>
+                <li>You live near a time standard transmitter</li>
+                </ul>
+                <hr />
+                <h2 id="references">References</h2>
+                <ul>
+                <li><a href="https://www.nist.gov/pml/time-and-frequency-division/radio-stations/wwv">NIST WWV/WWVH</a></li>
+                <li><a href="https://nrc.canada.ca/en/certifications-evaluations-standards/canadas-official-time/time-signal">CHU Canada</a></li>
+                <li><a href="https://www.ptb.de/cms/en/ptb/fachabteilungen/abt4/fb-44/ag-442/dissemination-of-legal-time/dcf77.html">DCF77 Germany</a></li>
+                <li><a href="http://www.qrz.com/time.html">Time Station List</a></li>
+                </ul>
+                <p><strong>Happy calibration using 100-year-old technology!</strong></p>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

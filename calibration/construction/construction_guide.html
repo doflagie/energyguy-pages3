@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Construction Guide - Calibration Hardware - EnergyGuy LLC</title>
+    <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>EnergyGuy LLC</h1>
+                    <p class="tagline">Amateur Radio • Electronics • Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+                        <nav>
+                            <h3>Main Navigation</h3>
+                            <ul>
+                                <li><a href="../../index.html">Home</a></li>
+                                <li><a href="../../about/bio.html">About</a></li>
+                            </ul>
+            
+                            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul>
+                                <li><a href="../../antennas/index.html">Antenna Library</a></li>
+                            </ul>
+            </details>
+            
+                            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul>
+                                <li><a href="../../test_gear/index.html">Test Equipment Library</a></li>
+                            </ul>
+            </details>
+            
+                            <h3>Standards</h3>
+                            <ul>
+                                <li><a href="../../cal_lab/index.html">Calibration Standards (cal_lab)</a></li>
+                                <li><a href="../../NIST/index.html">NIST-Traceable Standards</a></li>
+                            </ul>
+            
+                            <details class="nav-group" open>
+                <summary>Study & Training</summary>
+                <ul>
+                                <li><a href="../../study/index.html">Ham Radio Flash Card Quiz</a></li>
+                                <li><a href="../../study/morse.html">Morse Code Practice</a></li>
+                            </ul>
+            </details>
+            
+                            <h3>Resources</h3>
+                            <ul>
+                                <li><a href="../../morse/index.html">Morse Practice Library</a></li>
+                                <li><a href="../../study/index.html">Study Machine</a></li>
+                            </ul>
+                        </nav>
+<main>
+                <h1 id="construction-guide-calibration-hardware">Construction Guide - Calibration Hardware</h1>
+                <h2 id="overview">Overview</h2>
+                <p>This guide provides detailed construction instructions for homebrew calibration hardware including:</p>
+                <ol>
+                <li><strong>GPS Frequency Counter</strong> - Count 30MHz cycles using GPS 1PPS gate</li>
+                <li><strong>GPS-Locked 30MHz Reference</strong> - Continuous GPS-disciplined oscillator</li>
+                <li><strong>WWV Harmonic Generator</strong> - Multiply 5MHz to 30MHz</li>
+                <li><strong>Temperature Monitor</strong> - Log crystal temperature vs. frequency</li>
+                <li><strong>Precision Frequency Divider</strong> - Divide 30MHz for easier counting</li>
+                </ol>
+                <hr />
+                <h2 id="project-1-gps-frequency-counter">Project 1: GPS Frequency Counter</h2>
+                <h3 id="overview_1">Overview</h3>
+                <p><strong>Function:</strong> Count TinySA's 30MHz signal for exactly 1 second (GPS 1PPS gate)</p>
+                <p><strong>Cost:</strong> ~$20
+                <strong>Build Time:</strong> 1-2 hours
+                <strong>Difficulty:</strong> Easy</p>
+                <h3 id="circuit-diagram">Circuit Diagram</h3>
+                <pre><code>GPS Module NEO-6M/7M/8M
+                ┌─────────────────────┐
+                │  VCC  GND  TX  RX  PPS │
+                └──┬────┬────────────┬──┘
+                   │    │            │
+                   │    │            │ GPS 1PPS (gate signal)
+                   5V  GND           │
+                   │    │            │
+                   │    │            └────────────→ Arduino D2 (INT0)
+                   │    │
+                   │    │
+                   │    └─────────────────────────→ Arduino GND
+                   │
+                   └──────────────────────────────→ Arduino 5V
+                
+                TinySA 30MHz Output
+                   │
+                   │  (from test point or buffer)
+                   │
+                   └──────────────────────────────→ Arduino D5 (T1 - Timer1 external clock)
+                
+                
+                Optional: LED Indicator
+                
+                Arduino D13 ──→ 330Ω ──→ LED+ ──→ LED- ──→ GND
+                                             (blinks on measurement)
+                
+                Optional: OLED Display
+                
+                Arduino A4 (SDA) ──→ OLED SDA
+                Arduino A5 (SCL) ──→ OLED SCL
+                Arduino VCC ──→ OLED VCC
+                Arduino GND ──→ OLED GND
+                </code></pre>
+                <h3 id="parts-list">Parts List</h3>
+                <table>
+                <thead>
+                <tr>
+                <th>Qty</th>
+                <th>Part</th>
+                <th>Specs</th>
+                <th>Cost</th>
+                <th>Source</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>1</td>
+                <td>GPS Module</td>
+                <td>NEO-6M/7M/8M with 1PPS</td>
+                <td>$10-20</td>
+                <td>eBay, Amazon</td>
+                </tr>
+                <tr>
+                <td>1</td>
+                <td>Arduino Nano</td>
+                <td>ATmega328P</td>
+                <td>$10</td>
+                <td>Amazon, AliExpress</td>
+                </tr>
+                <tr>
+                <td>1</td>
+                <td>Breadboard</td>
+                <td>400 or 830 tie-points</td>
+                <td>$3</td>
+                <td>Local electronics</td>
+                </tr>
+                <tr>
+                <td>1</td>
+                <td>LED</td>
+                <td>Red, 5mm</td>
+                <td>$0.10</td>
+                <td>Local electronics</td>
+                </tr>
+                <tr>
+                <td>1</td>
+                <td>Resistor</td>
+                <td>330Ω, 1/4W</td>
+                <td>$0.10</td>
+                <td>Local electronics</td>
+                </tr>
+                <tr>
+                <td>10</td>
+                <td>Jumper wires</td>
+                <td>M-M and M-F</td>
+                <td>$2</td>
+                <td>Local electronics</td>
+                </tr>
+                <tr>
+                <td>1</td>
+                <td>USB cable</td>
+                <td>Mini USB</td>
+                <td>$2</td>
+                <td>Local electronics</td>
+                </tr>
+                <tr>
+                <td>1</td>
+                <td>OLED display (opt)</td>
+                <td>0.96" 128x64 I2C</td>
+                <td>$5</td>
+                <td>Amazon, eBay</td>
+                </tr>
+                </tbody>
+                </table>
+                <p><strong>Total:</strong> ~$20-25</p>
+                <h3 id="build-steps">Build Steps</h3>
+                <h4 id="step-1-prepare-gps-module-15-min">Step 1: Prepare GPS Module (15 min)</h4>
+                <ol>
+                <li><strong>Check for pre-soldered headers:</strong></li>
+                <li>If yes: Skip to Step 2</li>
+                <li>
+                <p>If no: Solder male headers to GPS module</p>
+                </li>
+                <li>
+                <p><strong>Identify pins:</strong></p>
+                </li>
+                <li>VCC (sometimes labeled 3.3V or 5V)</li>
+                <li>GND</li>
+                <li>TX (transmit data)</li>
+                <li>RX (receive data)</li>
+                <li>
+                <p>PPS or 1PPS (pulse per second output)</p>
+                </li>
+                <li>
+                <p><strong>Note voltage requirement:</strong></p>
+                </li>
+                <li>Some modules are 3.3V only</li>
+                <li>Most have onboard regulator for 5V</li>
+                <li>Check your module's datasheet</li>
+                </ol>
+                <h4 id="step-2-prepare-arduino-10-min">Step 2: Prepare Arduino (10 min)</h4>
+                <ol>
+                <li><strong>Install Arduino IDE</strong> on computer (if not already installed)</li>
+                <li>Download from arduino.cc</li>
+                <li>
+                <p>Install USB drivers</p>
+                </li>
+                <li>
+                <p><strong>Upload test sketch:</strong>
+                   <code>cpp
+                   void setup() {
+                     pinMode(LED_BUILTIN, OUTPUT);
+                   }
+                   void loop() {
+                     digitalWrite(LED_BUILTIN, HIGH);
+                     delay(500);
+                     digitalWrite(LED_BUILTIN, LOW);
+                     delay(500);
+                   }</code></p>
+                </li>
+                <li>
+                <p><strong>Verify Arduino works</strong> (LED should blink)</p>
+                </li>
+                </ol>
+                <h4 id="step-3-connect-gps-module-10-min">Step 3: Connect GPS Module (10 min)</h4>
+                <p><strong>Breadboard Layout:</strong></p>
+                <pre><code>Breadboard Rails:
+                Top +  ──→ Arduino 5V
+                Top -  ──→ Arduino GND
+                
+                GPS Module:
+                VCC ──→ Top + rail (5V)
+                GND ──→ Top - rail (GND)
+                PPS ──→ Arduino D2 directly
+                TX  ──→ (leave unconnected for basic frequency counter)
+                RX  ──→ (leave unconnected for basic frequency counter)
+                </code></pre>
+                <p><strong>Important:</strong> Some GPS modules have 3.3V logic on PPS output. Arduino is 5V tolerant, so direct connection is safe. If your module has open-drain PPS, add 10kΩ pullup to 5V.</p>
+                <h4 id="step-4-add-led-indicator-5-min">Step 4: Add LED Indicator (5 min)</h4>
+                <pre><code>Arduino D13 ──→ 330Ω resistor ──→ LED long leg (+)
+                LED short leg (-) ──→ GND rail
+                </code></pre>
+                <p>LED will blink each time measurement is taken.</p>
+                <h4 id="step-5-connect-tinysa-30mhz-signal-20-min">Step 5: Connect TinySA 30MHz Signal (20 min)</h4>
+                <p><strong>Option A: If TinySA has test point</strong></p>
+                <ol>
+                <li><strong>Locate 30MHz test point</strong> on TinySA PCB</li>
+                <li>Look for "TCXO", "30M", "REF", or "XTAL" label</li>
+                <li>
+                <p>May need magnifying glass</p>
+                </li>
+                <li>
+                <p><strong>Solder wire</strong> to test point:</p>
+                </li>
+                <li>Use thin wire (30 AWG wrapping wire)</li>
+                <li>Short solder time (avoid heat damage)</li>
+                <li>
+                <p>Length: 6-12 inches</p>
+                </li>
+                <li>
+                <p><strong>Add series capacitor</strong> (optional but recommended):</p>
+                </li>
+                <li>0.1µF ceramic capacitor</li>
+                <li>AC couples signal, removes DC offset</li>
+                <li>
+                <p>Protects Arduino input</p>
+                </li>
+                <li>
+                <p><strong>Connect:</strong>
+                   <code>TinySA 30MHz ──→ 0.1µF cap ──→ Arduino D5 (T1)
+                   TinySA GND ──→ Arduino GND</code></p>
+                </li>
+                </ol>
+                <p><strong>Option B: If using external buffer</strong></p>
+                <ol>
+                <li>
+                <p><strong>Build simple buffer:</strong>
+                   <code>TinySA 30MHz ──→ 74HC04 inverter input
+                                    74HC04 output ──→ Arduino D5
+                                    74HC04 VCC ──→ 5V
+                                    74HC04 GND ──→ GND</code></p>
+                </li>
+                <li>
+                <p><strong>Advantage:</strong> Isolates TinySA from Arduino</p>
+                </li>
+                </ol>
+                <p><strong>Option C: If no 30MHz access</strong></p>
+                <p>Build oscillator with crystal to test:</p>
+                <pre><code>30MHz crystal ──→ 74HC04 oscillator circuit ──→ Arduino D5
+                </code></pre>
+                <p>(See separate schematic below)</p>
+                <h4 id="step-6-upload-frequency-counter-code-10-min">Step 6: Upload Frequency Counter Code (10 min)</h4>
+                <p><strong>Code:</strong> (From gps_calibration.md, repeated here for convenience)</p>
+                <pre><code class="language-cpp">/*
+                 * GPS-Based Frequency Counter for TinySA Calibration
+                 * Measures frequency on D5 using GPS 1PPS gate on D2
+                 */
+                
+                #define PPS_PIN 2        // GPS 1PPS input
+                #define LED_PIN 13       // Measurement indicator
+                #define INPUT_PIN 5      // T1 - Timer1 external clock input
+                
+                volatile unsigned long count = 0;
+                volatile bool measureComplete = false;
+                unsigned long measurements[10];
+                int measurementIndex = 0;
+                
+                void setup() {
+                  Serial.begin(115200);
+                  pinMode(LED_PIN, OUTPUT);
+                  pinMode(PPS_PIN, INPUT);
+                  pinMode(INPUT_PIN, INPUT);
+                
+                  // Configure Timer1 for external counting on T1 pin (D5)
+                  TCCR1A = 0;
+                  TCCR1B = 0;
+                  TCNT1 = 0;
+                  // External clock on T1, rising edge
+                  TCCR1B = (1 &lt;&lt; CS12) | (1 &lt;&lt; CS11) | (1 &lt;&lt; CS10);
+                
+                  // Attach interrupt to GPS 1PPS
+                  attachInterrupt(digitalPinToInterrupt(PPS_PIN), pps_interrupt, RISING);
+                
+                  Serial.println(&quot;GPS Frequency Counter&quot;);
+                  Serial.println(&quot;====================&quot;);
+                  Serial.println(&quot;Waiting for GPS lock (1PPS signal)...&quot;);
+                  Serial.println();
+                }
+                
+                void loop() {
+                  if (measureComplete) {
+                    measureComplete = false;
+                
+                    // Store measurement
+                    measurements[measurementIndex] = count;
+                    measurementIndex++;
+                
+                    // Calculate statistics
+                    double frequency = count;
+                    double expected = 30000000.0;
+                    double error_hz = frequency - expected;
+                    double error_ppm = (error_hz / expected) * 1e6;
+                
+                    // Display
+                    Serial.print(&quot;Measurement #&quot;);
+                    Serial.println(measurementIndex);
+                    Serial.print(&quot;Frequency: &quot;);
+                    Serial.print(frequency, 0);
+                    Serial.println(&quot; Hz&quot;);
+                    Serial.print(&quot;Error:     &quot;);
+                    if (error_hz &gt;= 0) Serial.print(&quot;+&quot;);
+                    Serial.print(error_hz, 1);
+                    Serial.print(&quot; Hz (&quot;);
+                    if (error_ppm &gt;= 0) Serial.print(&quot;+&quot;);
+                    Serial.print(error_ppm, 3);
+                    Serial.println(&quot; ppm)&quot;);
+                
+                    // Calculate average if we have multiple measurements
+                    if (measurementIndex &gt;= 5) {
+                      unsigned long sum = 0;
+                      for (int i = 0; i &lt; measurementIndex; i++) {
+                        sum += measurements[i];
+                      }
+                      double avg = (double)sum / measurementIndex;
+                      double avg_error = (avg - expected) / expected * 1e6;
+                
+                      Serial.print(&quot;Average (&quot;);
+                      Serial.print(measurementIndex);
+                      Serial.print(&quot; samples): &quot;);
+                      Serial.print(avg, 1);
+                      Serial.print(&quot; Hz (&quot;);
+                      if (avg_error &gt;= 0) Serial.print(&quot;+&quot;);
+                      Serial.print(avg_error, 3);
+                      Serial.println(&quot; ppm)&quot;);
+                
+                      // Reset after 10 measurements
+                      if (measurementIndex &gt;= 10) {
+                        measurementIndex = 0;
+                        Serial.println(&quot;\n--- Starting new average ---\n&quot;);
+                      }
+                    }
+                
+                    Serial.println(&quot;------------------------------&quot;);
+                    Serial.println();
+                  }
+                
+                  delay(100);
+                }
+                
+                void pps_interrupt() {
+                  static bool gate_open = false;
+                
+                  if (!gate_open) {
+                    // First PPS: Start counting
+                    TCNT1 = 0;  // Reset counter
+                    gate_open = true;
+                    digitalWrite(LED_PIN, HIGH);
+                  } else {
+                    // Second PPS: Stop counting
+                    count = TCNT1;  // Read count
+                    gate_open = false;
+                    measureComplete = true;
+                    digitalWrite(LED_PIN, LOW);
+                  }
+                }
+                </code></pre>
+                <h4 id="step-7-test-and-calibrate-30-min">Step 7: Test and Calibrate (30 min)</h4>
+                <ol>
+                <li><strong>Power on GPS module</strong></li>
+                <li>Red LED should be on (power)</li>
+                <li>Wait 30-120 seconds for GPS lock</li>
+                <li>
+                <p>Blue LED should start blinking (GPS fix)</p>
+                </li>
+                <li>
+                <p><strong>Open Serial Monitor</strong></p>
+                </li>
+                <li>Arduino IDE → Tools → Serial Monitor</li>
+                <li>
+                <p>Set baud rate: 115200</p>
+                </li>
+                <li>
+                <p><strong>Watch for measurements:</strong>
+                   ```
+                   GPS Frequency Counter
+                   ====================
+                   Waiting for GPS lock (1PPS signal)...</p>
+                </li>
+                </ol>
+                <p>Measurement #1
+                   Frequency: 30000150 Hz
+                   Error:     +150.0 Hz (+5.000 ppm)</p>
+                <hr />
+                <p>```</p>
+                <ol>
+                <li>
+                <p><strong>Let it run</strong> for 10+ measurements</p>
+                </li>
+                <li>
+                <p><strong>Note average PPM error</strong></p>
+                </li>
+                <li>
+                <p><strong>Apply to TinySA:</strong></p>
+                </li>
+                <li>CONFIG → Reference</li>
+                <li>Enter correction (opposite sign)</li>
+                <li>SAVE</li>
+                </ol>
+                <h3 id="troubleshooting">Troubleshooting</h3>
+                <p><strong>No GPS lock (no measurements):</strong>
+                - Move GPS near window
+                - Check power connections
+                - Wait longer (cold start: 2-15 min)
+                - Verify antenna is connected</p>
+                <p><strong>Count shows 0 or very low:</strong>
+                - Check 30MHz signal connection
+                - Verify D5 (T1) connection
+                - Check ground between TinySA and Arduino
+                - Measure 30MHz with oscilloscope (should be 0.5-3V)</p>
+                <p><strong>Erratic measurements:</strong>
+                - Check for loose connections
+                - Add 0.1µF decoupling caps to power rails
+                - Shield 30MHz wire from interference
+                - Verify GPS has good signal (4+ satellites)</p>
+                <p><strong>Measurements don't match expected:</strong>
+                - This is normal! That's the error we're measuring
+                - If &gt;100 ppm, check connections
+                - If negative values, swap signal polarity</p>
+                <hr />
+                <h2 id="project-2-74hc390-divide-by-n-counter">Project 2: 74HC390 Divide-by-N Counter</h2>
+                <h3 id="overview_2">Overview</h3>
+                <p>Divide 30MHz by 30,000 to get 1000 Hz, easier to measure with audio equipment.</p>
+                <p><strong>Cost:</strong> ~$5
+                <strong>Build Time:</strong> 30 minutes
+                <strong>Difficulty:</strong> Medium</p>
+                <h3 id="circuit-diagram_1">Circuit Diagram</h3>
+                <pre><code>30MHz Input
+                   │
+                   ├──→ 0.1µF cap ──→ 74HC390 (1A input)
+                   │                  Divide by 10
+                   │                  QA output ──→ 74HC390 (1B input)
+                   │                               Divide by 10
+                   │                               QB output (3 MHz)
+                   │                                  │
+                   └──────────────────────────────────┴──→ 74HC390 (2A input)
+                                                           Divide by 10
+                                                           QA output ──→ 74HC390 (2B input)
+                                                                        Divide by 10
+                                                                        QB output (30 kHz)
+                                                                           │
+                                                                           └──→ CD4024 (CLK)
+                                                                                Divide by 32
+                                                                                Q5 output (937.5 Hz)
+                
+                Or better: Use 74HC4040 12-bit counter
+                30MHz ──→ 74HC4040 ──→ Q15 output = 30MHz / 32768 = 915.5 Hz
+                </code></pre>
+                <h3 id="simplified-using-single-ic">Simplified: Using Single IC</h3>
+                <p><strong>Best Option: 74HC4040 (12-stage binary counter)</strong></p>
+                <pre><code>                          74HC4040
+                                    ┌──────────────────┐
+                 30MHz Input ──→ CLK│1              16│VCC ──→ 5V
+                                    │                  │
+                            GND ──→ │2              15│Q12
+                                    │                  │
+                                    │3 Q1           14│Q6
+                                    │                  │
+                                    │4 Q2           13│Q5
+                                    │                  │
+                                    │5 Q3           12│Q7
+                                    │                  │
+                                    │6 Q4           11│Q4
+                                    │                  │
+                                    │7 MR (reset)   10│Q9
+                                    │   tie LOW        │
+                                    │8 GND           9│Q11 ──→ Output
+                                    └──────────────────┘
+                                                        (30MHz / 2048 = 14.65 kHz)
+                
+                Q12 output = 30MHz / 4096 = 7.32 kHz (good for audio)
+                Q13 output = 30MHz / 8192 = 3.66 kHz (good for audio)
+                </code></pre>
+                <h3 id="parts-list_1">Parts List</h3>
+                <table>
+                <thead>
+                <tr>
+                <th>Qty</th>
+                <th>Part</th>
+                <th>Cost</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>1</td>
+                <td>74HC4040</td>
+                <td>$0.50</td>
+                </tr>
+                <tr>
+                <td>2</td>
+                <td>0.1µF ceramic cap</td>
+                <td>$0.20</td>
+                </tr>
+                <tr>
+                <td>1</td>
+                <td>Breadboard</td>
+                <td>$3</td>
+                </tr>
+                <tr>
+                <td>1</td>
+                <td>Wire</td>
+                <td>$1</td>
+                </tr>
+                </tbody>
+                </table>
+                <h3 id="assembly">Assembly</h3>
+                <ol>
+                <li><strong>Insert 74HC4040</strong> on breadboard</li>
+                <li><strong>Connect power:</strong></li>
+                <li>Pin 16 (VCC) → 5V</li>
+                <li>Pin 8 (GND) → GND</li>
+                <li>
+                <p>0.1µF cap across VCC and GND (close to IC)</p>
+                </li>
+                <li>
+                <p><strong>Connect input:</strong></p>
+                </li>
+                <li>
+                <p>Pin 10 (CLK) → 30MHz signal (via 0.1µF AC coupling cap)</p>
+                </li>
+                <li>
+                <p><strong>Connect reset:</strong></p>
+                </li>
+                <li>
+                <p>Pin 11 (MR) → GND (never reset)</p>
+                </li>
+                <li>
+                <p><strong>Select output:</strong></p>
+                </li>
+                <li>Pin 2 (Q12) → Output (7.32 kHz)</li>
+                <li>
+                <p>Or Pin 1 (Q13) → Output (3.66 kHz)</p>
+                </li>
+                <li>
+                <p><strong>Measure output</strong> with frequency counter, oscilloscope, or audio interface</p>
+                </li>
+                </ol>
+                <hr />
+                <h2 id="project-3-temperature-logging-system">Project 3: Temperature Logging System</h2>
+                <h3 id="overview_3">Overview</h3>
+                <p>Monitor TinySA crystal temperature and frequency simultaneously to characterize temperature coefficient.</p>
+                <p><strong>Cost:</strong> ~$15
+                <strong>Build Time:</strong> 1 hour
+                <strong>Difficulty:</strong> Medium</p>
+                <h3 id="circuit-diagram_2">Circuit Diagram</h3>
+                <pre><code>DS18B20 Digital Temperature Sensor
+                ┌───────────────────┐
+                │ GND  DQ  VCC      │
+                └──┬────┬────┬──────┘
+                   │    │    │
+                  GND   │   5V
+                        │
+                        ├──→ 4.7kΩ pullup ──→ 5V
+                        │
+                        └──→ Arduino D3 (1-Wire data)
+                
+                
+                Optional: Analog thermistor (cheaper)
+                ┌─ 5V
+                │
+                ├──→ 10kΩ NTC thermistor
+                │         │
+                │         ├──→ Arduino A0 (voltage divider midpoint)
+                │         │
+                │         └──→ 10kΩ resistor
+                │               │
+                └─ GND ─────────┘
+                
+                Mount thermistor directly on TinySA case near crystal
+                </code></pre>
+                <h3 id="parts-list_2">Parts List</h3>
+                <table>
+                <thead>
+                <tr>
+                <th>Qty</th>
+                <th>Part</th>
+                <th>Cost</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>1</td>
+                <td>DS18B20 temp sensor</td>
+                <td>$2</td>
+                </tr>
+                <tr>
+                <td>1</td>
+                <td>4.7kΩ resistor</td>
+                <td>$0.10</td>
+                </tr>
+                <tr>
+                <td>1</td>
+                <td>Arduino Nano</td>
+                <td>$10 (reuse from Project 1)</td>
+                </tr>
+                <tr>
+                <td>1</td>
+                <td>Thermal paste</td>
+                <td>$3 (optional)</td>
+                </tr>
+                </tbody>
+                </table>
+                <h3 id="arduino-code">Arduino Code</h3>
+                <pre><code class="language-cpp">#include &lt;OneWire.h&gt;
+                #include &lt;DallasTemperature.h&gt;
+                
+                #define ONE_WIRE_BUS 3  // DS18B20 on D3
+                #define PPS_PIN 2       // GPS 1PPS
+                #define FREQ_PIN 5      // 30MHz input
+                
+                OneWire oneWire(ONE_WIRE_BUS);
+                DallasTemperature sensors(&amp;oneWire);
+                
+                volatile unsigned long freq_count = 0;
+                volatile bool measureComplete = false;
+                
+                void setup() {
+                  Serial.begin(115200);
+                  pinMode(PPS_PIN, INPUT);
+                  pinMode(FREQ_PIN, INPUT);
+                
+                  // Start temperature sensor
+                  sensors.begin();
+                
+                  // Configure Timer1 for frequency counting
+                  TCCR1A = 0;
+                  TCCR1B = (1 &lt;&lt; CS12) | (1 &lt;&lt; CS11) | (1 &lt;&lt; CS10);
+                  TCNT1 = 0;
+                
+                  attachInterrupt(digitalPinToInterrupt(PPS_PIN), pps_interrupt, RISING);
+                
+                  Serial.println(&quot;Timestamp,Temperature_C,Frequency_Hz,Error_ppm&quot;);
+                }
+                
+                void loop() {
+                  if (measureComplete) {
+                    measureComplete = false;
+                
+                    // Read temperature
+                    sensors.requestTemperatures();
+                    float tempC = sensors.getTempCByIndex(0);
+                
+                    // Calculate frequency error
+                    double frequency = freq_count;
+                    double expected = 30000000.0;
+                    double error_ppm = (frequency - expected) / expected * 1e6;
+                
+                    // Log to serial (CSV format)
+                    unsigned long timestamp = millis() / 1000;
+                    Serial.print(timestamp);
+                    Serial.print(&quot;,&quot;);
+                    Serial.print(tempC, 2);
+                    Serial.print(&quot;,&quot;);
+                    Serial.print(frequency, 0);
+                    Serial.print(&quot;,&quot;);
+                    Serial.println(error_ppm, 3);
+                  }
+                
+                  delay(100);
+                }
+                
+                void pps_interrupt() {
+                  static bool gate = false;
+                  if (!gate) {
+                    TCNT1 = 0;
+                    gate = true;
+                  } else {
+                    freq_count = TCNT1;
+                    gate = false;
+                    measureComplete = true;
+                  }
+                }
+                </code></pre>
+                <h3 id="temperature-testing-procedure">Temperature Testing Procedure</h3>
+                <ol>
+                <li><strong>Attach sensor to TinySA:</strong></li>
+                <li>Use thermal paste</li>
+                <li>Position near crystal (usually under metal shield)</li>
+                <li>
+                <p>Secure with tape</p>
+                </li>
+                <li>
+                <p><strong>Cool down:</strong></p>
+                </li>
+                <li>Place TinySA in refrigerator</li>
+                <li>Wait 30 minutes</li>
+                <li>
+                <p>Temperature: ~5°C</p>
+                </li>
+                <li>
+                <p><strong>Warm up naturally:</strong></p>
+                </li>
+                <li>Remove from fridge</li>
+                <li>Place in room</li>
+                <li>Log data for 2-3 hours</li>
+                <li>
+                <p>Temperature: 5°C → 20°C</p>
+                </li>
+                <li>
+                <p><strong>Heat up:</strong></p>
+                </li>
+                <li>Use hair dryer</li>
+                <li>Gentle heating</li>
+                <li>Log data</li>
+                <li>
+                <p>Temperature: 20°C → 40°C</p>
+                </li>
+                <li>
+                <p><strong>Plot results:</strong></p>
+                </li>
+                <li>Temperature (X-axis) vs. PPM error (Y-axis)</li>
+                <li>Calculate slope = ppm/°C</li>
+                <li>This is your temperature coefficient</li>
+                </ol>
+                <hr />
+                <h2 id="schematics-directory">Schematics Directory</h2>
+                <p>Let me create the schematics folder with ASCII circuit diagrams.</p>
+                <h3 id="additional-circuits">Additional Circuits</h3>
+                <p><strong>Simple 30MHz Crystal Oscillator (for testing):</strong></p>
+                <pre><code>                        +5V
+                                         │
+                                         ├──→ 10kΩ
+                                         │
+                        ┌────────────────┼────────────────┐
+                        │                │                │
+                    ┌───┴───┐        ┌───┴───┐       ┌───┴───┐
+                    │       │        │       │       │       │
+                    │ 74HC04│        │ 74HC04│       │ 74HC04│
+                    │  INV  │        │  INV  │       │  INV  │
+                    │       │        │       │       │       │
+                    └───┬───┘        └───┬───┘       └───┬───┘
+                        │                │                │
+                        │     30MHz      │                │
+                        └────XTAL────────┘                │
+                        │                                 │
+                        ├──→ 22pF cap                     │
+                        │         │                       │
+                       GND        GND                     └──→ Output
+                
+                        └──→ 22pF cap
+                                 │
+                                GND
+                
+                Notes:
+                - Use 74HC04 hex inverter
+                - First three inverters form oscillator
+                - 30MHz crystal (parallel resonance)
+                - 22pF load capacitors
+                - 1MΩ feedback resistor
+                - Output buffered by additional inverters
+                </code></pre>
+                <hr />
+                <h2 id="assembly-tips">Assembly Tips</h2>
+                <h3 id="soldering-best-practices">Soldering Best Practices</h3>
+                <ol>
+                <li><strong>Clean tip</strong> before each joint</li>
+                <li><strong>Tin tip</strong> with fresh solder</li>
+                <li><strong>Heat pad and lead</strong> together (2-3 seconds)</li>
+                <li><strong>Apply solder</strong> to joint, not tip</li>
+                <li><strong>Remove solder</strong>, then <strong>remove iron</strong></li>
+                <li><strong>Don't move</strong> joint for 2-3 seconds</li>
+                </ol>
+                <h3 id="breadboard-layout">Breadboard Layout</h3>
+                <p><strong>Good practices:</strong>
+                - Keep power rails continuous
+                - Use both breadboard sides (mirror layout)
+                - Keep signal wires short
+                - Separate analog and digital grounds (join at one point)
+                - Add 0.1µF bypass caps near each IC</p>
+                <p><strong>Avoid:</strong>
+                - Long jumper wires (increases noise)
+                - Crossing wires (hard to debug)
+                - Missing ground connections
+                - Sharing power between noisy and quiet circuits</p>
+                <h3 id="debugging-checklist">Debugging Checklist</h3>
+                <p>Before applying power:
+                - [ ] Check all power connections (VCC, GND)
+                - [ ] Verify polarity (especially ICs, LEDs, capacitors)
+                - [ ] Look for shorts between power rails
+                - [ ] Verify IC orientation (notch/dot = pin 1)</p>
+                <p>After applying power:
+                - [ ] Check voltage at each IC (should be 5V ±0.5V)
+                - [ ] Feel ICs for heat (shouldn't be hot)
+                - [ ] Verify clocks are running (use LED or scope)
+                - [ ] Check logic levels with multimeter</p>
+                <hr />
+                <h2 id="summary">Summary</h2>
+                <h3 id="projects-built">Projects Built</h3>
+                <p>✓ GPS Frequency Counter - Count 30MHz with 1PPS gate
+                ✓ Frequency Divider - Divide 30MHz to audio range
+                ✓ Temperature Logger - Characterize temperature coefficient</p>
+                <h3 id="skills-learned">Skills Learned</h3>
+                <ul>
+                <li>GPS module interfacing</li>
+                <li>Timer/counter configuration</li>
+                <li>Frequency measurement techniques</li>
+                <li>Temperature sensing</li>
+                <li>Circuit construction</li>
+                <li>Debugging procedures</li>
+                </ul>
+                <h3 id="next-steps">Next Steps</h3>
+                <ol>
+                <li>Build GPS frequency counter (easiest, most useful)</li>
+                <li>Test with TinySA 30MHz signal</li>
+                <li>Log measurements for 24 hours</li>
+                <li>Optionally: Add temperature logging</li>
+                <li>Characterize your TinySA's performance</li>
+                </ol>
+                <hr />
+                <p><strong>Ready to build? Start with the GPS Frequency Counter!</strong></p>
+            </main>
+        </div>
+    </div>
+</body>
+</html>
