@@ -325,6 +325,10 @@ footer {
     padding: 30px;
     text-align: center;
     margin-top: 20px;
+    max-width: 1200px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .address-block {
