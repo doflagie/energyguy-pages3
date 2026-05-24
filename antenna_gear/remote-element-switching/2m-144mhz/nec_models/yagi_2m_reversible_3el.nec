@@ -1,0 +1,33 @@
+CM ============================================================
+CM  VHF/UHF REMOTE ELEMENT SWITCHING SYSTEM
+CM  ANTENNA: 3-ELEMENT REVERSIBLE YAGI, 2 METERS (144.2 MHz)
+CM  TYPE: SYMMETRIC - BEAM REVERSAL BY ELEMENT ROLE SWAP
+CM
+CM  OUTER ELEMENT LENGTH: compromise 0.487λ = 1.013 m
+CM  Relay NC = element shorted to boom (acts as reflector)
+CM  Relay NO = element open (acts as director)
+CM
+CM  ELEMENT DATA (all dimensions in meters):
+CM    Outer Element A: L = 1.013 m  pos Y = -0.468 m
+CM    Driven Element:  L = 0.988 m  pos Y =  0.000 m
+CM    Outer Element B: L = 1.013 m  pos Y = +0.468 m
+CM
+CM  FORWARD: A=reflector (shorted), B=director (open)
+CM  REVERSE: A=director (open), B=reflector (shorted)
+CM
+CM  ELEMENT DIAMETER: 6.35 mm (1/4 in. aluminum rod)
+CM  BOOM HEIGHT AGL:  6.0 m
+CM  EXPECTED GAIN:    5.5 dBd each direction
+CM  EXPECTED F/B:     8-10 dB
+CM
+CE
+GW 1 11 -0.507 -0.468 6.000 0.507 -0.468 6.000 0.003175
+GW 2 11 -0.494 0.000 6.000 0.494 0.000 6.000 0.003175
+GW 3 11 -0.507 0.468 6.000 0.507 0.468 6.000 0.003175
+GE 0
+GN 2 0 0 0 13.0 0.005
+EX 0 2 6 0 1.0 0.0
+FR 0 5 0 0 144.0 0.1
+RP 0 361 1 1000 0.0 0.0 1.0 0.0
+RP 0 1 361 1000 90.0 0.0 0.0 1.0
+EN

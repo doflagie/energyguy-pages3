@@ -1,0 +1,11 @@
+ANTENNA SPECIFICATION — LOG PERIODIC DIPOLE ARRAYS FOR WIDEBAND OPERATION,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,2M–33cm (continuous),,
+Design approach,"Frequency-independent LPDA, log-periodic scaling",,
+Compaction factor,0%,,
+Special parameters,"12–20 elements, 50Ω feed, 8–12 dBi gain",,
+Feed impedance,50–600,Ω,
+SWR target,<2.0,:1,
+Efficiency,75–95%,%,
+Gain,2–12,dBi,

@@ -1,0 +1,414 @@
+================================================================================
+  DIRECTIONAL SWR BRIDGE — BRUENE-TYPE COUPLER
+  Project: RF-HFTuner / Motorized Antenna Tuner Suite
+  File:    swr_bridge_ascii.txt
+  Rev:     1.0  2026-05-01
+  Power:   1–500W continuous (toroid coupler), 1–50W (PCB mount)
+================================================================================
+
+OVERVIEW
+--------
+Bruene-type directional coupler using FT-50-43 toroid with 20-turn coupling
+winding. Samples forward and reflected RF power, rectifies with BAT46 Schottky
+diodes, integrates with RC filters, and feeds ESP32 ADC channels. An LM358
+op-amp section computes the SWR ratio. Coupling factor: approx -20 dB
+(V_coupled = V_line / 10).
+
+================================================================================
+  SECTION 1: RF SIGNAL PATH AND TOROID COUPLER
+================================================================================
+
+                          TX_IN                         ANT_OUT
+                            |                               |
+   50Ω TX ─────────────────●───────────────────────────────●─────── 50Ω Antenna
+                            │                               │
+              ┌─────────────┴──────────────────────────────┘
+              │                  PRIMARY (1 TURN)
+              │
+              │         FT-50-43 TOROID
+              │    ┌──────────────────────┐
+              │    │   ╔════════════╗     │
+              │    │   ║   TOROID   ║     │
+              └────┼───╢  FT-50-43  ╟─── (through once = 1 primary turn)
+                   │   ║  43 MIX    ║     │
+                   │   ╚════════════╝     │
+                   │                      │
+                   │  SECONDARY: 20 TURNS │
+                   │  #28 AWG ENAMELED    │
+                   │  wound uniformly     │
+                   └──────────────────────┘
+                        │              │
+                       FWD            REV
+                      PORT           PORT
+                     (tap 1)        (tap 2)
+
+  NOTE: The secondary winding has a center-tap or split winding arrangement.
+  One half responds to forward wave, the other to reflected wave.
+  A 50Ω resistive termination on one end of the secondary sets directivity.
+
+  Secondary winding arrangement:
+  ┌──────────────────────────────────────────────────────────────────┐
+  │                                                                  │
+  │  SECONDARY (20T)                                                 │
+  │                                                                  │
+  │  Pin 1 ──[10T, forward sense]──● center tap ──[10T, ref sense]── Pin 2 │
+  │           │                                               │      │
+  │          FWD port                                       REV port │
+  └──────────────────────────────────────────────────────────────────┘
+
+  Termination resistors for 50Ω bridge:
+    R1 = 47Ω 1%, ¼W  (forward port termination)
+    R2 = 47Ω 1%, ¼W  (reflected port termination)
+
+================================================================================
+  SECTION 2: FORWARD DETECTOR
+================================================================================
+
+  FWD port from toroid secondary (AC signal, ~0–5V peak at 500W)
+
+  FWD_RF ──────────┬──────────────────────────────────────────────┐
+                   │                                              │
+                  R_FWD                                          │
+                  47Ω                                            │
+                   │                                              │
+                   ├──────────────────────────────────────────── │
+                   │                                              │
+             D1 BAT46                                           GND
+             (Schottky)
+                   │     anode→cathode direction of rectification
+   FWD_RF ──●──>|──┤
+                   │
+                   ├──── C_fwd_bypass ──── GND
+                   │     100pF (RF bypass)
+                   │
+                   ├──── R_int_fwd ──────────────────── V_FWD_RAW
+                   │     10kΩ                               │
+                   │                                        │
+                   │                               C_int_fwd ┤ 1µF (ceramic)
+                   │                                        │
+                  GND                                      GND
+
+  Full forward detector detail:
+
+                          D1
+  FWD_AC ──────────────>|──────────┬──── R_series ──── V_FWD_SMOOTH
+                    BAT46          │     10kΩ               │
+                                   │                    C_int 1µF
+                              C_bypass                      │
+                               100pF                       GND
+                                   │
+                                  GND
+
+  RC time constant: τ = 10kΩ × 1µF = 10ms (adequate for 100Hz+ modulation)
+  Ripple at 1kHz audio: ~6% (acceptable for SWR measurement)
+
+================================================================================
+  SECTION 3: REFLECTED DETECTOR
+================================================================================
+
+  REV_RF ──────────┬──────────────────────────────────────────────┐
+                   │                                              │
+                  R_REV                                          │
+                  47Ω                                            │
+                   │                                              │
+                   │                                              │
+             D2 BAT46                                           GND
+             (Schottky)
+
+                          D2
+  REV_AC ──────────────>|──────────┬──── R_series ──── V_REV_SMOOTH
+                    BAT46          │     10kΩ               │
+                                   │                    C_int 1µF
+                              C_bypass                      │
+                               100pF                       GND
+                                   │
+                                  GND
+
+  BAT46 characteristics:
+    Vf  = 0.35V @ 1mA (low forward drop, essential for small-signal accuracy)
+    BV  = 100V
+    Ir  = 2µA @ 25V
+    Package: SOD-80 or SOD-323 (SOD-323 preferred for PCB)
+
+================================================================================
+  SECTION 4: VOLTAGE SCALING (DIVIDER FOR HIGH POWER)
+================================================================================
+
+  At 500W into 50Ω:  V_peak = sqrt(2 × P × R) = sqrt(2×500×50) = 223V peak
+  After -20dB coupler: V_coupled_peak = 223/10 = 22.3V peak
+  After diode drop:    V_rect ≈ 21.9V DC
+
+  ESP32 ADC max input: 3.3V (absolute max 3.6V — DO NOT EXCEED)
+  Required divider ratio: 3.3 / 21.9 = 0.151  →  use 10k / (10k+47k) = 0.175
+
+  Voltage divider on V_FWD_SMOOTH → GPIO34:
+
+                        R_divH
+  V_FWD_SMOOTH ─────── 47kΩ ──────┬──── GPIO34 (ADC1_CH6, ESP32)
+                                   │
+                                  R_divL
+                                  10kΩ
+                                   │
+                                  GND
+
+  Scale factor = 10k / (47k + 10k) = 0.175
+  Max ADC input at 500W forward: 21.9V × 0.175 = 3.83V  ← EXCEEDS 3.3V!
+
+  CORRECTION: Use 56kΩ / 10kΩ divider:
+  Scale factor = 10k / (56k + 10k) = 0.1515
+  Max ADC input at 500W: 21.9V × 0.1515 = 3.32V  ← Marginal. Add clamp.
+
+  PROTECTION CLAMP (mandatory for > 100W):
+                         R_clamp
+  V_FWD_SMOOTH ─────── 56kΩ ──────┬──── D_clamp ──── GND
+                                   │    3.3V zener (BZX84C3V3)
+                                  10kΩ  or Schottky to 3.3V rail
+                                   │
+                                  GND
+
+  Final safe operating range with clamp:
+    1W   → V_fwd_scaled ≈ 0.044V  (above ADC noise floor at ~5mV)
+    50W  → V_fwd_scaled ≈ 0.33V   (easy read)
+    100W → V_fwd_scaled ≈ 0.47V
+    500W → V_fwd_scaled ≈ 1.05V   (well below 3.3V after coupler + divider at 500W with 50Ω load)
+
+  NOTE: Minimum detectable power ≈ 1W (BAT46 Vf threshold limits low-end sensitivity)
+
+================================================================================
+  SECTION 5: OP-AMP SWR RATIO CIRCUIT (LM358)
+================================================================================
+
+  LM358 dual op-amp computes:
+    V_swr = (V_fwd + V_rev) / (V_fwd - V_rev)
+
+  This is implemented using two op-amp stages:
+
+  STAGE A — DIFFERENCE AMPLIFIER (V_fwd - V_rev):
+
+                    R5=10kΩ
+  V_FWD ─────────── ┤  ├ ──────────┬──── (-)IN_A
+                                   │
+                                R6=10kΩ
+                                   │
+                                  GND
+
+                    R7=10kΩ
+  V_REV ─────────── ┤  ├ ──────────┬──── (+)IN_A ────────── R8=10kΩ ── GND
+                                   │
+                                (+)IN_A via voltage divider
+
+   U1A (LM358, half 1):
+   (+) ── V_REV via 10k/10k divider
+   (-) ── V_FWD via 10k; feedback via 10kΩ
+   OUT ── V_DIFF = V_FWD - V_REV   (gain = 1)
+
+  STAGE B — SUM AMPLIFIER:
+
+   U1B (LM358, half 2):
+   (+) ── GND via 10kΩ
+   (-) ── V_FWD via 10kΩ, V_REV via 10kΩ (summing junction)
+          Feedback: 5kΩ (gain = -0.5 for each input)
+   OUT ── V_SUM = -(V_FWD + V_REV)/2  (inverted; handle in firmware)
+
+  NOTE: True analog SWR division is complex. In practice, the ESP32 ADC reads
+  V_fwd and V_rev independently, and the firmware computes SWR digitally.
+  The LM358 circuit here provides buffered, conditioned analog outputs.
+
+  LM358 used as unity-gain buffers:
+
+               +3.3V
+                 │
+  V_FWD_DIV ──(+)─┤ U1A (LM358)├─(OUT)──── GPIO34 buffer out
+              (-) ┘
+               │
+              (feedback: OUT to -)   → unity gain buffer
+
+  V_REV_DIV ──(+)─┤ U1B (LM358)├─(OUT)──── GPIO35 buffer out
+              (-) ┘
+               │
+              (feedback: OUT to -)   → unity gain buffer
+
+  LM358 power supply: +3.3V single supply (LM358 is rail-to-rail input capable)
+  Output swing: 0 to ~3.1V on 3.3V rail (OK for ESP32 ADC)
+
+  Decoupling: 100nF ceramic + 10µF electrolytic between VCC and GND of LM358
+
+================================================================================
+  SECTION 6: ESP32 ADC CONNECTIONS
+================================================================================
+
+                     ┌─────────────────────────────────┐
+                     │          ESP32-WROOM-32          │
+                     │                                  │
+  V_FWD_BUF ─────── ┤ GPIO34 (ADC1_CH6, INPUT ONLY)   │
+                     │                                  │
+  V_REV_BUF ─────── ┤ GPIO35 (ADC1_CH7, INPUT ONLY)   │
+                     │                                  │
+                     │  (GPIO34/35 are input-only pins) │
+                     └─────────────────────────────────┘
+
+  ADC configuration (firmware):
+    attenuation : ADC_ATTEN_DB_11  (input range 0–3.9V, usable 0–3.3V)
+    resolution  : 12-bit (4096 counts)
+    samples     : 16 averaged per reading, outliers rejected
+    ref voltage : 3.3V (use analogReadMilliVolts() for calibrated reading)
+
+  ADC linearity note: ESP32 ADC is nonlinear below ~100mV and above ~3.1V.
+  Apply polynomial correction in firmware (provided in swr.h).
+
+================================================================================
+  SECTION 7: COMPLETE SIGNAL PATH DIAGRAM
+================================================================================
+
+  TX (1–500W)
+     │
+     ▼
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │                    FT-50-43 TOROID COUPLER                           │
+  │                                                                      │
+  │  TX ────────[primary: 1T]──────────────────────────── ANT           │
+  │                                                                      │
+  │               [secondary: 20T]                                       │
+  │               /              \                                       │
+  │         FWD port          REV port                                   │
+  │           47Ω               47Ω                                      │
+  └──────────────────────────────────────────────────────────────────────┘
+        │                            │
+        ▼                            ▼
+   [D1 BAT46]                   [D2 BAT46]
+        │                            │
+   [C 100pF] to GND             [C 100pF] to GND
+        │                            │
+   [R 10kΩ]                     [R 10kΩ]
+        │                            │
+   [C 1µF] to GND               [C 1µF] to GND
+        │                            │
+   V_FWD_SMOOTH               V_REV_SMOOTH
+        │                            │
+   [56kΩ/10kΩ]                 [56kΩ/10kΩ]
+   voltage divider              voltage divider
+        │                            │
+   [BZX84C3V3]                 [BZX84C3V3]
+   clamp diode                  clamp diode
+        │                            │
+   [LM358 U1A]                 [LM358 U1B]
+   unity buffer                 unity buffer
+        │                            │
+        ▼                            ▼
+   GPIO34 (ADC)               GPIO35 (ADC)
+   V_FWD                      V_REV
+
+  ANT ───────────────────────────────────────────────────────► Antenna Port
+
+================================================================================
+  SECTION 8: FORMULA REFERENCE
+================================================================================
+
+  GAMMA (reflection coefficient):
+    Γ = V_rev / V_fwd          (magnitude, 0.0 to 1.0)
+
+  RETURN LOSS:
+    RL = -20 × log10(Γ)        (dB, positive value)
+    RL = 0 dB  → Γ = 1.0  → SWR = ∞   (open/short circuit)
+    RL = 14 dB → Γ = 0.2  → SWR = 1.5 (good match)
+    RL = 20 dB → Γ = 0.1  → SWR = 1.22
+    RL = 40 dB → Γ = 0.01 → SWR = 1.02
+
+  SWR FROM VOLTAGES:
+    SWR = (V_fwd + V_rev) / (V_fwd - V_rev)
+    SWR = (1 + Γ) / (1 - Γ)
+
+  REFLECTED POWER PERCENTAGE:
+    %Pref = Γ² × 100
+
+  FORWARD POWER FROM ADC:
+    V_line = V_adc × (R_divH + R_divL) / R_divL × 10   [coupler factor]
+    P_fwd  = V_line² / (2 × 50Ω)   [peak-to-RMS factor included]
+
+  ADC VOLTAGE:
+    V_adc = ADC_count × (3.3V / 4095)
+
+================================================================================
+  SECTION 9: TEMPERATURE COMPENSATION
+================================================================================
+
+  BAT46 Schottky diode threshold voltage temperature coefficient:
+    dVf/dT = -2 mV/°C
+
+  Effect on measurement:
+    At 25°C: Vf ≈ 0.35V
+    At 75°C: Vf ≈ 0.25V (100mV drop → false low-power reading)
+    At -10°C: Vf ≈ 0.42V (error in opposite direction)
+
+  Compensation method A (hardware):
+    Add matched NTC thermistor in bias network near detector diodes.
+    NTC: 10kΩ @ 25°C, B=3950, placed thermally adjacent to D1/D2.
+    NTC voltage offset compensates Vf drift.
+
+  Compensation method B (firmware — preferred for this design):
+    Read NTC thermistor via GPIO (or I2C temperature sensor TMP102).
+    Apply correction: V_corrected = V_raw + (T - 25) × 0.002V
+    This correction is applied before SWR calculation in swr.h.
+
+  Compensation method C (calibration table):
+    Periodic recalibration via CALPWR command with known dummy load.
+    Stored in NVS. Best accuracy, requires user action.
+
+================================================================================
+  SECTION 10: GPIO ASSIGNMENT TABLE
+================================================================================
+
+  ┌──────────────┬────────────────┬───────────────────────────────────────┐
+  │ GPIO         │ Function       │ Notes                                 │
+  ├──────────────┼────────────────┼───────────────────────────────────────┤
+  │ GPIO34       │ V_FWD ADC      │ ADC1_CH6, input only, no pull-up      │
+  │ GPIO35       │ V_REV ADC      │ ADC1_CH7, input only, no pull-up      │
+  │ GPIO32       │ V_FWD (alt)    │ ADC1_CH4, used on HF tuner board      │
+  │ GPIO33       │ V_REV (alt)    │ ADC1_CH5, used on HF tuner board      │
+  │ GND          │ Signal GND     │ Star ground at coupler                │
+  └──────────────┴────────────────┴───────────────────────────────────────┘
+
+  NOTE: On the HF tuner controller board, SWR bridge uses GPIO32/33 to
+  free GPIO34/35 for limit switches. On the standalone SWR bridge module,
+  GPIO34/35 are used.
+
+================================================================================
+  SECTION 11: POWER BUDGET TABLE
+================================================================================
+
+  ┌──────────────────────┬──────────┬──────────┬───────────────────────────┐
+  │ Component            │ Supply   │ Current  │ Notes                     │
+  ├──────────────────────┼──────────┼──────────┼───────────────────────────┤
+  │ LM358 (both halves)  │ 3.3V     │ 1.2 mA   │ Single-supply operation   │
+  │ R dividers (2×)      │ signal   │ < 0.5mA  │ Quiescent through dividers│
+  │ BAT46 diodes (2×)    │ RF only  │ < 1 mA   │ Peak at full power        │
+  │ RC filters (2×)      │ signal   │ < 0.1mA  │ Passive                   │
+  │ Bypass caps          │ 3.3V     │ 0        │ Passive                   │
+  │ Clamp zeners (2×)    │ passive  │ 0 idle   │ Only conduct at overpower │
+  ├──────────────────────┼──────────┼──────────┼───────────────────────────┤
+  │ TOTAL (active)       │ 3.3V     │ ~3 mA    │ From ESP32 3.3V rail      │
+  └──────────────────────┴──────────┴──────────┴───────────────────────────┘
+
+  RF power dissipated in toroid coupler termination resistors (47Ω each):
+    At 500W, -20dB coupling: P_term = 500 / 100 = 5W each resistor
+    Use 5W wirewound resistors for terminations at high power operation.
+    At < 50W: 0.5W terminations acceptable.
+
+================================================================================
+  SECTION 12: PCB LAYOUT NOTES
+================================================================================
+
+  1. Star ground: all signal GND returns to single point near toroid center.
+  2. Separate RF ground plane from DC/logic ground; connect at single point.
+  3. Toroid must be mounted > 10mm from any copper pour.
+  4. RC filter caps (1µF): use X7R ceramic or tantalum, not COG (too small).
+  5. D1/D2 matched pair: use same reel/batch, same thermal environment.
+  6. Voltage divider resistors: 1% tolerance for best accuracy.
+  7. Layout dividers symmetrically for forward/reverse paths.
+  8. At 500W: use SMA or N-type connectors, not BNC (BNC rated 50W).
+  9. Minimum trace width for primary path at 500W: 3mm copper.
+  10. Keep op-amp inputs away from RF traces (min 5mm with ground guard).
+
+================================================================================
+  END OF SWR BRIDGE ASCII SCHEMATIC
+================================================================================

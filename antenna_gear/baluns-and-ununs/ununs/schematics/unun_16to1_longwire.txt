@@ -1,0 +1,119 @@
+================================================================================
+UNUN 16:1 — LONGWIRE ANTENNA MATCHING
+================================================================================
+
+Purpose: Impedance transformation 800Ω unbalanced → 50Ω unbalanced
+Type: Voltage transformer (4:1 turns ratio unun)
+Insertion Loss: 0.25–0.40 dB (significant due to extreme ratio)
+Primary Use: Very high-impedance longwire antennas, specialized matching
+
+================================================================================
+CORE SPECIFICATIONS
+================================================================================
+
+HF Configuration (160M–10M):
+  Core: FT-240-43 or stacked FT-240-43×2 (for low frequencies)
+  Wire: #14 enameled copper
+  Primary: 5 turns (antenna side, 800Ω)
+  Secondary: 20 turns (coax side, 50Ω)
+  Turns Ratio: 4:1 (gives 16:1 impedance transformation)
+  Max Power: 350 W (high loss, thermal management important)
+  Insertion Loss: 0.30–0.40 dB
+
+Band-Specific Configuration:
+  160M (1.8 MHz):   5 primary, 20 secondary (stacked cores recommended)
+  80M (3.75 MHz):   5 primary, 20 secondary (single FT-240-43)
+  40M (7.15 MHz):   4 primary, 16 secondary
+  20M–10M:        3 primary, 12 secondary (reduced turns for impedance)
+
+Wire Lengths:
+  Primary: ~80 inches (5 turns)
+  Secondary: ~150 inches (20 turns)
+  Total: ~230 inches (longest winding)
+
+================================================================================
+IMPEDANCE TRANSFORMATION
+================================================================================
+
+TURNS RATIO:
+  N_ratio = 20 / 5 = 4:1
+  Z_out = Z_in / N² = 800 / 16 = 50Ω ✓
+
+VOLTAGE STEP-DOWN:
+  V_out = V_in × (1/4) = 0.25 × V_in
+
+================================================================================
+FREQUENCY RESPONSE
+================================================================================
+
+FT-240-43, 5:20 turns:
+
+Frequency    Impedance Ratio    Insertion Loss
+160M         16.4:1             0.40 dB
+80M          15.8:1             0.35 dB
+40M          15.0:1             0.28 dB
+20M          14.2:1             0.22 dB
+10M          13.5:1             0.18 dB
+
+Notes:
+  - Impedance ratio flat but loss significant
+  - Accept 0.3–0.4 dB loss (acceptable for specialized antenna)
+
+================================================================================
+PRIMARY APPLICATIONS
+================================================================================
+
+1. VERY HIGH-IMPEDANCE LONGWIRES:
+   - Wire feedpoint impedance 800Ω or higher
+   - Non-resonant design, typically >300 feet length
+   - 16:1 unun specializes in this extreme impedance range
+
+2. ANTIQUE LONGWIRE ANTENNAS:
+   - Historical amateur radio designs
+   - Some exhibit 800–1000Ω feedpoint impedance
+   - 16:1 may be close match (use with tuner for adjustment)
+
+3. EXPERIMENTAL ANTENNA RESEARCH:
+   - Testing high-impedance antenna designs
+   - 16:1 allows characterization without tuner loading
+
+================================================================================
+FAILURE MODES
+================================================================================
+
+SYMPTOM: Excessive heating
+ROOT CAUSE: High insertion loss (ferrite dissipation)
+SOLUTION:
+  - Reduce power (16:1 unun not rated for full QRO)
+  - Use stacked cores (FT-240-43×2) to reduce loss
+  - Consider tuner + lower-ratio unun alternative
+
+SYMPTOM: Impedance doesn't match (high SWR)
+ROOT CAUSE: Antenna impedance not exactly 800Ω
+SOLUTION: Use tuner with 16:1 unun for final matching
+
+================================================================================
+TESTING PROCEDURE
+================================================================================
+
+Setup:
+  Port 1: Coax 50Ω output
+  Port 2: Primary antenna side (800Ω load)
+  Use 800Ω resistive load for testing
+
+Measurement: Impedance ratio with 800Ω load
+  Expected: Z_out ≈ 50Ω
+  S₁₁ <-20 dB (excellent match when impedance exact)
+
+================================================================================
+POWER HANDLING
+================================================================================
+
+FT-240-43 single core:
+  Continuous (CW): 350 W (thermal limits)
+  Peak (SSB): 500 W
+  Thermal rise: ~30°C @ 350W (significant heating)
+
+For 160M or QRO operation: Use FT-240-43×2 stacked cores
+
+================================================================================

@@ -1,0 +1,13 @@
+Section,Band,Trap_freq_MHz,Core_type,AL_nH,N_turns,L_actual_uH,C_value_pF,C_combo,C_voltage,f0_calc_MHz,Z_trap_ohms,Q_est,Insertion_loss_dB,Position_from_base_m,Housing_OD_mm,Notes
+TRAP,2m,146.0,Air-core,N/A,2,0.018,68,1x 68pF NP0,500V,145.0,16500,350,0.05,0.488,8,2T on 4mm dia air-core former; 68pF NP0 C0G; trap installed at 0.488m (quarter-wave 2m point); above here wire is 2m radiator
+TRAP,6m,51.0,Air-core,N/A,3,0.060,160,2x 82pF NP0 parallel,500V,51.4,11310,300,0.08,1.400,10,3T on 5mm dia air-core former; 160pF NP0 total (2x 82pF || or 1x 150pF + 1x 10pF trim); trap at 1.40m point; above here wire works as 6m radiator; total wire to 2.4m tip is 1.0m above 6m trap
+NOTE_10m,10m,28.5,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,No trap needed for 10m — full 2.4m wire is shorter than QW on 10m (2.55m). Use base loading coil for resonance. Loading coil brings wire to resonance by adding series inductive reactance.
+BASE_COIL,10m,28.5,T50-6,40,3,0.360,N/A,N/A,N/A,28.5,N/A,85,0.15,0.000,25,Small base coil: 3T on T50-6 (AL=40nH); L=0.36uH; corrects short wire on 10m; high Q at 28MHz
+BASE_COIL,12m,24.94,T50-6,40,4,0.640,N/A,N/A,N/A,24.94,N/A,80,0.20,0.000,25,4T on T50-6; L=0.64uH; corrects 2.4m wire for 12m resonance
+BASE_COIL,15m,21.225,T50-6,40,5,1.000,N/A,N/A,N/A,21.225,N/A,78,0.28,0.000,25,5T on T50-6; L=1.0uH; light loading for 15m; wire nearly resonant
+BASE_COIL,17m,18.118,T68-2,57,6,2.052,N/A,N/A,N/A,18.118,N/A,75,0.38,0.000,28,6T on T68-2 (AL=57nH); L=2.05uH; heavier loading needed for 17m
+BASE_COIL,20m,14.175,T68-2,57,9,4.617,N/A,N/A,N/A,14.175,N/A,70,0.55,0.000,28,9T on T68-2; L=4.62uH; target 4.21uH — use 9T and accept slight de-tuning or add series cap to fine-tune
+BASE_COIL,30m,10.125,T68-2,57,13,9.633,N/A,N/A,N/A,10.125,N/A,60,0.90,0.000,28,13T on T68-2; L=9.63uH; target 9.09uH; good match; note screwdriver coil preferred for 30m and below
+BASE_COIL,40m,7.150,T106-2,135,12,19.440,N/A,N/A,N/A,7.150,N/A,50,1.40,0.000,32,12T on T106-2 (AL=135nH); L=19.4uH; target 19.24uH; excellent match for fixed 40m coil
+BASE_COIL,80m,3.750,T200-2,120,25,75.000,N/A,N/A,N/A,3.750,N/A,35,2.80,0.000,40,25T on T200-2 (AL=120nH); L=75uH; target 72.16uH; or use screwdriver at full-out 41T; separate plug-in module recommended
+BASE_COIL,160m,1.900,T200-2,120,45,243.000,N/A,N/A,N/A,1.900,N/A,22,5.50,0.000,40,Extension coil module: 45T on T200-2; L=243uH (approx — use 2x T200-2 stacked for 160m); target 282.5uH; 90T may be needed; separate module bolts to base of screwdriver

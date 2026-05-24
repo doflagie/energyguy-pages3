@@ -1,0 +1,7 @@
+trap_name,resonant_freq_mhz,core_type,core_material,n_turns,wire_gauge,wire_dia_mm,winding_length_m,target_L_uH,C_trap_pF,C_type,target_Z_trap_ohm,target_Q,measured_f_tolerance_khz,assembly_notes
+40m-trap,7.150,T50-2,powdered iron mix 2,12,#18 AWG,1.02,0.576,2.38,207,NP0 ceramic,3760,160,±50,Wind 12 turns close-wound on T50-2; parallel 207pF NP0; verify dip at 7.15 MHz; coat with Q-dope
+30m-trap,10.125,T50-2,powdered iron mix 2,10,#18 AWG,1.02,0.400,1.65,150,NP0 ceramic,3830,160,±75,10 turns T50-2; parallel 150pF; dip meter verify at 10.125 MHz
+20m-trap,14.175,T50-2,powdered iron mix 2,8,#18 AWG,1.02,0.256,1.05,120,silver mica,3960,170,±100,8 turns T50-2; parallel 120pF silver mica; excellent Q
+17m-trap,18.118,T50-6,powdered iron mix 6,8,#18 AWG,1.02,0.192,0.73,106,silver mica,4460,200,±100,T50-6 for lower loss at higher HF; 8 turns; 106pF SM
+15m-trap,21.225,T50-6,powdered iron mix 6,7,#18 AWG,1.02,0.147,0.56,100,silver mica,4110,200,±150,7 turns T50-6; 100pF SM; wind tightly
+10m-trap,28.500,T50-6,powdered iron mix 6,5,#18 AWG,1.02,0.075,0.28,111,NP0 ceramic,2920,200,±200,5 turns T50-6; 111pF NP0; short coil; verify 28.5 MHz carefully

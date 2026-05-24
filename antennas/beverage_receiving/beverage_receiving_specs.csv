@@ -1,0 +1,18 @@
+ANTENNA SPECIFICATION — BEVERAGE RECEIVING,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,"160M, 80M, 40M",,Center/allocated bands
+Design approach,Terminated long-wire broadside receiving array,,Primary design method
+Compaction factor,0%,,Size reduction vs full-size
+Special parameters,"120–240m length, 600Ω terminator, ~10 dB gain",,Design-specific details
+,,,
+Feed impedance,50,Ω,Standard amateur radio
+SWR target,<1.5,:1,At band center
+Radiation pattern,Varies,,See NEC model
+Polarization,Linear,,Or circular for arrays
+,,,
+Typical efficiency,80–95%,%,Band-dependent
+Typical gain,2–10,dBi,Type-dependent
+,,,
+NEC model file,beverage_receiving.nec,,See electromagnetic simulation
+Construction manual,beverage_receiving.md,,Step-by-step procedures

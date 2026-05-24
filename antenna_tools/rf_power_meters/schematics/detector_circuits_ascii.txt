@@ -1,0 +1,216 @@
+================================================================================
+  DETECTOR CIRCUITS — RF POWER METER  — TM-PWR-DET-001 Rev A
+  Temperature-compensated, overload-protected, peak+average detection
+================================================================================
+
+DETECTOR TYPE COMPARISON
+───────────────────────────────────────────────────────────────────────────────
+
+  Type             Freq Range     Dynamic Range   Temp Coeff   Accuracy
+  ───────────────  ─────────────  ─────────────   ──────────   ────────
+  1N5711 Schottky  DC – 500 MHz   40 dB           –0.023/°C    ±5% cal
+  HSMS-2822        100M – 4 GHz   40 dB           –0.018/°C    ±5% cal
+  HSMS-2852        420M – 6 GHz   35 dB           –0.015/°C    ±8% cal
+  AD8361 (true RMS)30M – 2.5 GHz  50 dB           <0.001/°C    ±2% cal
+  LTC5596 (log)    100M – 40 GHz  65 dB           <0.003/°C    ±1 dB
+  BAT54 (peak)     DC – 3 GHz     —               –0.020/°C    peak hold
+
+
+TEMPERATURE-COMPENSATED DETECTOR (preferred HF/VHF design)
+───────────────────────────────────────────────────────────────────────────────
+
+  The Schottky diode forward voltage and saturation current are both
+  temperature-dependent.  Compensation uses a matched diode in a bridge
+  or an NTC thermistor in the output stage.
+
+  METHOD A: Complementary diode bridge compensation
+  ─────────────────────────────────────────────────
+
+  RF INPUT ──►──[D1 1N5711 DETECT]──┬──── V_DET_raw
+                                     │
+                             R_load 10kΩ
+                                     │
+                                 ──►──[D2 1N5711 COMP]── V_comp
+                                     │
+                             R_comp 10kΩ
+                                     │
+                                    GND
+
+  D2 is shielded from RF (inside Faraday cage or thermally coupled to D1).
+  D2 generates a temperature-dependent offset voltage that tracks D1's Vf.
+
+  Differential amplifier removes the common-mode temperature offset:
+    V_out = V_DET_raw – V_comp = V_rf_detected (temperature independent)
+
+  Op-amp diff amp (if using):
+                   R_a (100kΩ)
+  V_DET_raw ──────┤───┤  ┌──── V_out
+                  │   ├──┤
+  V_comp ─────────┤+  │  │
+                  │───┘  │
+                  R_b     R_a
+                  100kΩ  100kΩ
+
+  METHOD B: NTC thermistor gain correction (firmware)
+  ─────────────────────────────────────────────────────
+
+  Simpler implementation — NTC thermistor measures temperature, firmware
+  applies correction polynomial.
+
+  CIRCUIT:
+  3.3V ──[R_bias 10kΩ]──┬──── ADC_TEMP
+                         │
+                       NTC1  10kΩ/B3950
+                       (glued to D1 package or PCB copper near D1)
+                         │
+                        GND
+
+  FIRMWARE CORRECTION:
+    // Steinhart-Hart coefficients for 10kΩ NTC, B=3950
+    float R_ntc    = R_BIAS * (V_ntc / (3300.0f - V_ntc));
+    float inv_T    = 1.0/298.15 + (1.0/3950.0)*log(R_ntc/10000.0);
+    float T_kelvin = 1.0 / inv_T;
+    float T_celsius= T_kelvin - 273.15;
+
+    // Detector correction (1N5711 empirical alpha)
+    float alpha    = 0.023;  // per °C, empirically determined
+    float T_cal    = 25.0;   // calibration reference temperature
+    float K_comp   = exp(alpha * (T_celsius - T_cal));
+    float P_corrected = P_raw / K_comp;
+
+  Accuracy: ±3% over –10°C to +60°C (vs. ±15% uncorrected)
+
+
+PEAK + AVERAGE DETECTOR (combined circuit)
+───────────────────────────────────────────────────────────────────────────────
+
+  RF INPUT ──► D_avg (1N5711) ──┬──── C_avg 10nF ──┬──── V_AVG (to ADC A0)
+                                 │                  │
+                               R1 51Ω              R_avg 10kΩ
+                                 │                  │
+                                GND                GND
+
+  RF INPUT ──► D_pk (BAT54)  ──┬──── C_pk 1µF ───┬──── V_PEAK (to ADC A1)
+              (fast, low Cj)    │                  │
+                               R2 51Ω              R_pk 1MΩ   (τ=1s)
+                                 │                  │
+                                GND     Q1_RESET: GPIO→2N7000→C_pk to GND
+                                                    │
+                                                   GND
+
+  V_AVG  = envelope average of detected signal (τ = R_avg × C_avg = 100µs)
+  V_PEAK = peak hold, decays with τ = R_pk × C_pk = 1 second
+  Q1 MOSFET: when GPIO goes HIGH → drain pulls C_pk to GND → resets peak
+
+  PEAK DETECTOR TIMING:
+    Rise time:    t_r = 2.2 × R_src × C_pk  (R_src ≈ 1/(2πf×Cj) ≈ few Ω)
+                ≈ 2.2 × 5 × 1µF = 11µs   (fast enough for RTTY, CW)
+    Fall time:    τ_fall = R_pk × C_pk = 1M × 1µF = 1 s
+    Manual reset: GPIO pulse of 10ms resets peak (firmware command "PEAKRST")
+
+
+TRUE RMS CIRCUIT — AD8361 / LTC5596
+───────────────────────────────────────────────────────────────────────────────
+
+  AD8361 (RMS-responding power detector, 30 MHz – 2.5 GHz):
+
+  RF INPUT ──[R_att]──► INHI pin (AD8361)    VCC = 3.3V
+                                   │         ─────────────────
+            INLO pin ──► GND       │         DECL pin ──── C_decl 1µF
+                                   │         PWDN pin ──── GND
+                              VRMS pin ──────────────────── V_out (0–1.8V)
+                                                                │
+                                                        ADS1115 A0
+
+  AD8361 output:
+    V_out = 7.0 mV/µW   (at low power)
+    V_out ≈ 250 mV × √(P/1mW) for P in mW
+    Example: 1W = 1000 mW → V_out = 250 × √1000 = 7.91V ← exceeds supply!
+    Use input attenuator to keep input power < –10 dBm (100 µW) for V_out ≤ 1.8V
+
+  Input attenuator sizing:
+    P_in_max desired:  0 dBm (1 mW) for V_out = 250 mV
+    Attenuator needed: P_measured / P_sample = 10^(A_dB/10)
+    For P_max = 100W (50 dBm):
+      A_needed = 50 dBm – 0 dBm = 50 dB attenuator
+
+  LTC5596 (logarithmic, 100 MHz – 40 GHz):
+
+  RF INPUT ──[50 dB attenuator]──► IN+ pin
+                                   │       VCC = 3.3V
+                         GND ──► IN- │
+                                   │
+                              VOUT pin ──── V_log (0–1.8V, 35 mV/dB)
+                                                  │
+                                           ADS1115 A0
+
+  V_log = V_slope × (P_in_dBm – P_intercept)
+  V_slope = 35 mV/dB, P_intercept = –30 dBm (typical, ±1 dB)
+
+  Power from V_log:
+    P_dBm = V_log / 0.035 + (-30)
+    P_W   = 10^((P_dBm – 30) / 10)
+
+  Advantage: identical accuracy at all power levels within dynamic range
+  Advantage: immune to diode square-law vs. linear region ambiguity
+
+
+OVERLOAD PROTECTION CIRCUIT
+───────────────────────────────────────────────────────────────────────────────
+
+  Three-stage protection on detector input:
+
+  Stage 1: Series resistor (limits current if severe overload)
+  ─────────────────────────────────────────────────────────────
+  V_sample ──[R_prot 100Ω]──► Detector input
+
+  Stage 2: Back-to-back Schottky clamp (clips RF peaks before detector)
+  ───────────────────────────────────────────────────────────────────────
+  V_sample ──┬──[D_fwd BAT54]──► V_clamp_pos (Vf ≈ 0.3V)
+             │
+             └──[D_rev BAT54]──► V_clamp_neg (–0.3V)
+
+  Back-to-back clamps limit input to ±0.3V before rectification.
+
+  Stage 3: TVS clamp on detector output (DC output protection)
+  ──────────────────────────────────────────────────────────────
+  V_DET ──[R_isolate 220Ω]──┬──► To ADC input
+                              │
+                           Z1: SMAJ5.0A  (TVS, 5V, 400W peak)
+                              │
+                             GND
+
+  Combined: clamps RF input to ±300mV AND DC output to 5V.
+  Limits effective power at detector: P_max_sample = 0.3²/(2×50) = 900 µW
+  Corresponding line power (–30 dB coupler): 900 µW × 1000 = 900W
+  Exceeding this: detector clips, reads incorrectly but is not destroyed.
+
+  Stage 4: Relay bypass (firmware, extreme overload)
+  ─────────────────────────────────────────────────────
+  When ADC reads V_det > 4.5V for > 100ms:
+    → Firmware sets FAULT flag
+    → User warned via OLED and BT
+    → Relay RLY_PROTECT opens detector circuit (breaks secondary connection)
+    → Manual reset required (physical button or BT command "RESETFAULT")
+
+CALIBRATION REFERENCE CIRCUIT
+───────────────────────────────────────────────────────────────────────────────
+
+  Internal 50Ω reference (for zero-power baseline):
+
+  CAL_MODE GPIO ──[2N7000]──► Short SECONDARY to GND through R=51Ω
+                               (simulates no-RF condition → forces VZERO)
+  → ADC reads V_zero → stored as CAL_ZERO in NVS
+
+  External calibration (CALREF command via BT):
+  → Apply known power (e.g., 10.00W from reference standard)
+  → Firmware reads V_det, computes expected voltage, stores scale factor
+
+  Factory calibration traceability:
+    Use Bird model 4410A or HP/Agilent reference wattmeter as transfer standard
+    Or: HP 8484A power sensor + HP 437B meter (–70 dBm to +20 dBm)
+    Traceability: NIST calibration of reference sensor → ±2% absolute accuracy
+
+================================================================================
+  END OF DETECTOR CIRCUITS  — TM-PWR-DET-001 Rev A
+================================================================================

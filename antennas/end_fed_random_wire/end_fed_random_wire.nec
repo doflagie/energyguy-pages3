@@ -1,0 +1,16 @@
+CM END FED RANDOM WIRE ANTENNA
+CM Frequency bands: 160M–6M
+CM Design: Broadband EFHW using random length, tuned feed
+CM Compaction: 70%
+CM Special parameters: 40–100 ft random wire, capacitive coupler, ATU required
+CE
+
+GW 1 40 0.0 0.0 2.0  40.0 0.0 2.0  0.001
+LD 1 1 41 41 0 0 0
+
+GE 0
+GN 2 0 0 0 13 0.005
+EX 0 1 6 0 1 0
+FR 0 1 0 0 100 0
+RP 0 91 360 1000 -90 0 1.0 1.0
+EN

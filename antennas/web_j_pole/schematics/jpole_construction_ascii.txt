@@ -1,0 +1,206 @@
+================================================================================
+TM-WJP-SCH-001 Rev A    WEBBING J-POLE — CONSTRUCTION DIAGRAMS
+                         2-inch Tape on 3-inch Lawn Chair Webbing
+================================================================================
+
+
+1. COMPLETE ANTENNA — SIDE VIEW
+=================================
+
+                              ← 2" AL or CU tape →
+                              ┌──────────────────┐    TOP (open end)
+                              │ STRIP A (FRONT)  │
+                              │ 2" tape          │  ← L_rad (λ/2)
+                              │ runs full length │     RADIATING ELEMENT
+   ──── L_total ──────────────┤                  │
+   (strip A length)           │                  │
+                              │                  │
+                              │                  │
+  ════ L_stub ════════════════╪══════════════════╡── stub top (STRIP B ends here)
+  (strip B length = λ/4)      │ STRIP A (FRONT)  │   STRIP B (BACK)
+                              │ ─────────────────┤   2" tape on back face
+   ← feed point search range →│                  │   stub portion only
+                              │  ←d_feed→        │
+       COAX CENTER ───────────┼──────────────────┤── COAX SHIELD
+          (alligator clip     │                  │   or soldered tab
+           or solder tab)     │ 3" WEBBING BODY  │
+                              │                  │
+                              │                  │
+                              │                  │
+  ════════════ BOTTOM ════════╪══════════════════╡
+             (short circuit)  │ TAPE FOLD-OVER   │
+                              └──────────────────┘
+
+
+2. CROSS-SECTION VIEW (AT STUB SECTION)
+=========================================
+
+         ← 3 inches (76.2mm) →
+    ┌────────────────────────────┐
+    │▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓│  ← STRIP A: 2" Al/Cu tape, FRONT FACE
+    │░░░░░░░░░░░░░░░░░░░░░░░░░░░│  ← 3-inch NYLON WEBBING (substrate + dielectric)
+    │▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓│  ← STRIP B: 2" Al/Cu tape, BACK FACE (stub only)
+    └────────────────────────────┘
+         ← 2" tape centered →
+    ┌───┬────────────────────┬───┐
+    │   │     2" tape        │   │  3" webbing: 13mm exposed on each edge
+    └───┴────────────────────┴───┘
+         ← 50.8mm → │← 12.7mm margins
+
+
+    TRANSMISSION LINE (stub section):
+    Z₀ = (η₀/√εᵣ) × (d/w) = (377/√3.0) × (3mm/50.8mm) ≈ 13Ω
+    VF_stub = 1/√εᵣ = 1/√3.0 = 0.577
+
+
+3. CROSS-SECTION VIEW (AT RADIATING ELEMENT — ABOVE STUB TOP)
+===============================================================
+
+    ┌────────────────────────────┐
+    │▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓│  ← STRIP A: 2" tape, FRONT FACE only
+    │░░░░░░░░░░░░░░░░░░░░░░░░░░░│  ← WEBBING continues as structural support
+    │ (no tape on back face here)│  ← Back face: bare webbing
+    └────────────────────────────┘
+
+    Above the stub, only Strip A is present.
+    Webbing remains as structural element and for rolling.
+    VF_element ≈ 0.95 (single-face, mostly air dielectric)
+
+
+4. BOTTOM FOLD — SHORT CIRCUIT DETAIL
+========================================
+
+                 ← 3" webbing width →
+    ──────────────────────────────────────  ← BOTTOM EDGE of webbing
+    │  STRIP A  │  WEBBING BODY  │         │  STRIP A
+    │           │                │         │  (front)
+    │           ↓                ↓         │
+    │  ─────────────────────────────────   │
+    │  [fold bottom 20mm upward onto BACK] │
+    │           ↑                          │
+    │  STRIP A OVERLAP ON BACK FACE:       │
+    │  connects to STRIP B bottom end      │
+    └──────────────────────────────────────┘
+
+    Step 1: Leave 20mm of Strip A extending below bottom of webbing.
+    Step 2: Fold that 20mm tab up onto the BACK face.
+    Step 3: Fold overlaps Strip B's bottom end → electrical short circuit.
+    Step 4: Clamp or tape fold with copper tape pieces.
+    Step 5: For VHF/UHF: solder the fold for reliable contact.
+
+
+5. FEED POINT CONNECTOR DETAIL (HF PORTABLE)
+===============================================
+
+   FRONT FACE (Strip A):              BACK FACE (Strip B):
+   ┌─────────────────────────┐        ┌─────────────────────────┐
+   │ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │        │ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │
+   │         ┌──────────┐   │        │   ┌──────────┐         │
+   │         │ CLIP A   │─CENTER── ──┤   │  CLIP B  │───SHIELD │
+   │         │(insulate │   │        │   │(insulate │         │
+   │         └──────────┘   │        │   └──────────┘         │
+   │ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │        │ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │
+   └─────────────────────────┘        └─────────────────────────┘
+
+   Both clips at SAME HEIGHT = d_feed from bottom.
+   Both clips on INSULATED jaw to avoid shorting to webbing frame.
+   Use spring-loaded camera battery clips or modified alligator clips.
+
+   SLIDE BOTH CLIPS UP/DOWN TOGETHER to find minimum SWR.
+
+
+6. FEED POINT CONNECTOR DETAIL (VHF/UHF SOLDERED)
+====================================================
+
+   Prepare a 25mm × 25mm copper strip bent into a U-shape:
+
+            ←25mm→
+         ┌────────────────────┐  TOP VIEW
+    ┌────┤  CENTER CONDUCTOR  ├────┐
+    │    └────────────────────┘    │
+    │SHIELD    ← WEBBING →   SHIELD│
+    │    ┌────────────────────┐    │
+    └────┤   COAX SHIELD TAB  ├────┘
+         └────────────────────┘
+
+   INSTALLATION:
+   1. At d_feed, cut 10mm notch in webbing to expose both face conductors.
+   2. Solder center conductor tab to STRIP A (front face tape).
+   3. Solder shield tab to STRIP B (back face tape).
+   4. Fill notch with RTV silicone; let cure 4 hours.
+   5. Route coax down the webbing; secure with cable tie every 30cm.
+   6. Add ferrite choke (5 turns of coax on FT-240-43) at feed point.
+
+
+7. ROLL-UP STORAGE
+===================
+
+    Step 1: Fold antenna in half lengthwise (fold webbing in half, long way)
+    Step 2: Start rolling from TOP (open end) toward BOTTOM
+    Step 3: When rolled, secure with two rubber bands or velcro strap
+    Step 4: Clip feed connector inside roll
+
+              ┌───────────────────────────────────────────────────────────────┐
+              │   FOLD    │             ROLL                                  │
+              │ ┌───┐     │   ╔═══════════════════════════════════╗           │
+              │ │ ↕ │ →   │   ║ ROLLED UP ANTENNA                 ║  RUBBER   │
+              │ └───┘     │   ║                                   ║  BAND ──→ ║
+              │ (fold     │   ╚═══════════════════════════════════╝           │
+              │  lengthwise)                                                  │
+              └───────────────────────────────────────────────────────────────┘
+
+    Rolled dimensions (approximate):
+    Band  │  Diameter  │  Roll weight (Al)
+    ──────┼────────────┼──────────────────
+    40m   │  70mm      │  483g  (1.1 lb)
+    20m   │  50mm      │  244g  (0.54 lb)
+    10m   │  40mm      │  121g  (0.27 lb)
+    6m    │  30mm      │  68g   (2.4 oz)
+    2m    │  20mm      │  24g   (0.85 oz)
+    70cm  │  15mm      │  8g    (0.28 oz)
+
+
+8. DEPLOYMENT — VERTICAL (PRIMARY)
+====================================
+
+            ┌─────────────────────────────────────┐
+            │              TOP (open)              │
+            │              ↕                       │
+            │              MAST / POLE            │
+            │              (support)               │
+            │              ↕                       │
+            │  ┌──────────────────────────────┐   │
+            │  │  J-POLE WEBBING (vertical)   │   │
+            │  │  hanging or tied to pole     │   │
+            │  │                              │   │
+            │  │ →← coax exits at feed point  │   │
+            │  │    routed down mast          │   │
+            │  │                              │   │
+            │  │  BOTTOM = short circuit      │   │
+            │  └──────────────────────────────┘   │
+            │                                      │
+            └─────────────────────────────────────┘
+    Mount with top of antenna at λ/4 above ground minimum.
+    For VHF/UHF: any height > 1m sufficient.
+    For HF 40m: mount top at ≥ 10m for best low-angle radiation.
+
+
+9. DEPLOYMENT — SLOPER (SPACE-SAVING)
+=======================================
+
+                     ROPE ──────────────→ tree/post (TOP support)
+                    /
+                   /  ← J-pole webbing at 30–60° angle
+                  /
+                 /   coax exits at feed point
+                /    hangs vertically from feed tab
+               /
+    ═══════════ GROUND
+
+    Sloper produces directive pattern toward the low end (away from the tall support).
+    Best for point-to-point at HF.
+    J-pole feed coax must clear the sloper wire; use ferrite choke at feed point.
+
+================================================================================
+END TM-WJP-SCH-001
+================================================================================

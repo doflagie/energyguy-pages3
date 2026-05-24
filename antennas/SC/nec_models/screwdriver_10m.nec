@@ -1,0 +1,30 @@
+CM ============================================================
+CM  TM-SC-NEC-001: Screwdriver Antenna — 10m Band
+CM  2.4m whip, base loading coil, 4 horizontal elevated radials
+CM  Frequency: 28.0–29.6 MHz (9 points, 0.2 MHz step)
+CM
+CM  Loading coil (series RL at base, segment 1 of GW1):
+CM    R = 0.107 ohm  (Rcoil = Xant / Q, Q~400)
+CM    X = 42.7 ohm   (XL required to resonate 2.4m whip on 10m)
+CM
+CM  Whip: 2.4m, avg radius 0.006m, 20 segments
+CM  Radials: 4 x 2.4m at z=0.005m, 90 deg spacing
+CM  Ground: real (Sommerfeld-Norton), eps=13, sigma=0.005
+CM  Feed: 1V voltage source at GW1, seg 1
+CM
+CM  Tuning note: 10m requires minimal loading; coil fully retracted
+CM  on a physical screwdriver. SWR minimum near 28.5 MHz.
+CM ============================================================
+CE
+GW 1  20  0 0 0       0 0 2.4     0.006
+GW 2   4  0 0 0.005   2.4 0 0.005  0.006
+GW 3   4  0 0 0.005  -2.4 0 0.005  0.006
+GW 4   4  0 0 0.005   0 2.4 0.005  0.006
+GW 5   4  0 0 0.005   0 -2.4 0.005 0.006
+GE 1
+GN 2 0 0 0  13 0.005
+LD 0  1  1  1  0.107  42.7
+EX 0  1  1  0  1  0
+FR 0  9  0  0  28.000  0.200
+RP 0  37  73  1000  0  0  5  5
+EN

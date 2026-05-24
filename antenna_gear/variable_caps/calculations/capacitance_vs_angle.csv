@@ -1,0 +1,57 @@
+// TM-VCAP-CAL-004 Rev A  Capacitance vs. Rotation Angle — Calibration Table
+//
+// C(θ) = C_min + (C_max - C_min) × θ/180°   [linear for semicircular plates]
+//
+// Potentiometer column: 10-turn pot (3600° full), using 180° = 50% of travel
+//   ADC count (12-bit, 0–4095) = (θ/3600°) × 4095 × 20-turn-ratio
+//   For simple single-turn pot 0–180°: ADC = θ/180 × 4095
+//   Column "pot_adc" uses SINGLE-TURN pot mapped 0°→0, 180°→4095
+//
+// Encoder column: KY-040 or equivalent, 600 PPR, direct couple to cap shaft
+//   Encoder counts for 180° = 600 × 180/360 = 300 counts
+//   count = round(θ/180 × 300)
+//
+// Stepper column: NEMA14/17, 200 steps/rev, 1/8 microstepping = 1600 µsteps/rev
+//   180° = 800 microsteps
+//   step = round(θ/180 × 800)
+//
+// NOTE: C_min is stray/fringing capacitance at θ=0 (fully unmeshed)
+//       C at θ=0 > 0 because residual edge fringing capacitance remains
+//
+theta_deg,pot_adc_0to4095,encoder_counts_0to300,stepper_microsteps_0to800,VC-QRP_pF,VC-HF100_pF,VC-TX_pF,VC-VHF_pF,VC-UHF_pF
+0,0,0,0,8.0,10.0,5.0,2.0,0.5
+10,228,17,44,26.7,21.9,9.6,4.5,1.1
+20,455,33,89,45.4,33.8,14.2,7.0,1.8
+30,683,50,133,64.2,45.8,18.8,9.5,2.4
+40,911,67,178,82.9,57.7,23.4,12.0,3.1
+50,1138,83,222,101.7,69.6,28.1,14.5,3.7
+60,1365,100,267,120.4,81.5,32.7,17.0,4.4
+70,1593,117,311,139.2,93.5,37.3,19.5,5.1
+80,1820,133,356,157.9,105.4,41.9,22.0,5.7
+90,2048,150,400,176.7,117.3,46.5,24.5,6.4
+100,2275,167,444,195.4,129.2,51.2,27.0,7.0
+110,2503,183,489,214.2,141.2,55.8,29.5,7.7
+120,2730,200,533,232.9,153.1,60.4,32.0,8.4
+130,2958,217,578,251.7,165.0,65.0,34.5,9.0
+140,3185,233,622,270.4,176.9,69.6,37.0,9.7
+150,3413,250,667,289.2,188.9,74.2,39.5,10.3
+160,3640,267,711,307.9,200.8,78.9,42.0,11.0
+170,3868,283,756,326.7,212.7,83.5,44.5,11.6
+180,4095,300,800,345.0,225.0,84.0,47.0,12.0
+//
+// CALIBRATION PROCEDURE:
+// 1. Connect NanoVNA port 1 to capacitor terminals; port 2 terminated 50Ω
+// 2. Set NanoVNA: CH0 S11, 1-300 MHz span, 201 points, log format
+// 3. At each angle step, read |Z| and phase; compute C = -1/(2πf × Im(Z)) at known frequency
+// 4. Verify measured C matches table ± 10% (plate parallelism tolerance)
+// 5. If measured C_max is low, plates are not fully meshing — adjust shaft end-stop
+// 6. Record calibration date and measured C_max in NVS via /api/cal endpoint
+//
+// POSITION SENSOR CALIBRATION:
+// For potentiometer:
+//   ADC = analogRead(PIN_POT_ADC); // 12-bit: 0–4095
+//   C_pF = C_min + (C_max - C_min) × ADC / 4095.0;
+// For encoder (relative, after homing):
+//   C_pF = C_min + (C_max - C_min) × enc_count / 300.0;
+// For stepper (absolute after homing, no feedback):
+//   C_pF = C_min + (C_max - C_min) × step_count / 800.0;

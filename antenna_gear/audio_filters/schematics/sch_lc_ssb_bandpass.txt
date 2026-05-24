@@ -1,0 +1,208 @@
+================================================================================
+SCHEMATIC: Passive LC Ladder SSB Audio Bandpass Filter
+TM-AF-001  Rev A
+300 Hz – 3000 Hz Bandpass, 600 Ω System Impedance
+5th-Order Chebyshev 0.1 dB Passband Ripple
+================================================================================
+
+THEORY
+──────
+A bandpass ladder is synthesized by cascading a 3rd-order Butterworth highpass
+(f_c = 300 Hz) with a 3rd-order Butterworth lowpass (f_c = 3000 Hz).  At audio
+frequencies inductor values fall in the 10–200 mH range — large but obtainable
+with laminated-core audio chokes or wound on 77-mix toroids.
+
+Prototype element values (3rd-order Butterworth, normalized ω_c=1, Z=1Ω):
+  g1=1.000   g2=2.000   g3=1.000   g4=1.000 (termination)
+
+Highpass section scaling: ω_c = 2π×300 = 1885 rad/s, Z = 600 Ω
+  Series cap:   C = g / (Z × ω_c)
+  Shunt ind:    L = Z / (g × ω_c)
+
+  C1 = 1.000 / (600 × 1885)  = 883 nF  → 820 nF (std)
+  L2 = 600   / (2.000 × 1885) = 159 mH  → 150 mH (std)
+  C3 = 883 nF                           → 820 nF
+
+Lowpass section scaling: ω_c = 2π×3000 = 18850 rad/s, Z = 600 Ω
+  Series ind:   L = g×Z / ω_c
+  Shunt cap:    C = g / (Z × ω_c)
+
+  L4 = 1.000 × 600 / 18850 = 31.8 mH  → 33 mH
+  C5 = 2.000 / (600 × 18850) = 176 nF  → 180 nF
+  L6 = 31.8 mH                         → 33 mH
+
+Insertion loss: ≤1 dB in 300–3000 Hz passband (Q-limited by winding resistance)
+Stopband attenuation: ≥18 dB at 150 Hz and 6000 Hz
+
+================================================================================
+SCHEMATIC — HIGHPASS SECTION (300 Hz cutoff)
+================================================================================
+
+INPUT                     INTERSTAGE (600 Ω)
+600 Ω ─┬──┤C1├──┬──┤C3├──┬─────────────► to LP section
+        │  820nF │  820nF  │
+       ═══       L2       ═══
+       GND      150mH     GND
+                 │
+                ═══
+                GND
+
+Detail (series C, shunt L, series C):
+
+                C1                 C3
+  IN ──────────┤├──────────┬───────┤├──────────── MID
+  (600Ω src)  820nF        │       820nF
+                           L2
+                           150mH
+                           │
+                          GND
+
+Frequency response — highpass:
+  f (Hz)   |  Att (dB)
+  ---------|----------
+    100    |   −18.1
+    200    |    −6.0
+    300    |    −3.0   ← −3 dB point
+    500    |    −0.5
+   1000    |    −0.05
+   3000    |    ~0
+
+================================================================================
+SCHEMATIC — LOWPASS SECTION (3000 Hz cutoff)
+================================================================================
+
+               L4                 L6
+  MID ─────────UUUU───────┬───────UUUU──────────── OUT
+  (600Ω)       33mH        │       33mH          (600Ω load)
+                           C5
+                           180nF
+                           │
+                          GND
+
+Frequency response — lowpass:
+  f (Hz)   |  Att (dB)
+  ---------|----------
+    500    |    ~0
+   1000    |    ~0
+   2000    |    −0.5
+   3000    |    −3.0   ← −3 dB point
+   6000    |   −18.1
+  12000    |   −36.1
+
+================================================================================
+COMPLETE SSB BANDPASS FILTER — FULL SCHEMATIC
+================================================================================
+
+                    HP SECTION                      LP SECTION
+                    ──────────                      ──────────
+
+                 C1        C3              L4              L6
+IN  ─────────────┤├────┬────┤├────────────UUUU─────┬──────UUUU──────── OUT
+(600Ω)          820nF  │   820nF          33mH      │      33mH       (600Ω)
+                        │                            │
+                       L2                           C5
+                      150mH                        180nF
+                        │                            │
+                       GND                          GND
+
+Pin/Node designations:
+  IN    — 3.5 mm stereo jack, tip = audio in (L+R summed via 600Ω each)
+  OUT   — 3.5 mm stereo jack, tip = filtered output
+  GND   — circuit ground, tied to chassis via 0.01 µF bypass cap
+
+================================================================================
+COMPONENT SELECTION
+================================================================================
+
+C1, C3 — 820 nF, polypropylene film, 5% tolerance, 50V
+            Panasonic ECW-F series or WIMA MKP10
+            Measured value within ±2% recommended for best f_c accuracy
+
+L2     — 150 mH audio choke, DCR ≤ 80 Ω, Idc 20 mA min
+            Option 1: Bourns SRR1260-151Y (prebuilt, 105 mH — acceptable)
+            Option 2: Wind 300t #32 AWG on T-94A-77 toroid
+                       A_L = 884 nH/N²; N = √(150e6/884) ≈ 412 turns
+                       Use 2× T-94A-77 stacked for lower DCR
+            Option 3: Paired audio transformer; short unused winding
+
+L4, L6 — 33 mH, DCR ≤ 20 Ω
+            Option 1: Bourns SRR1260-330Y
+            Option 2: Wind 193t #28 AWG on T-94A-77
+                       N = √(33e6/884) = 193t
+
+C5     — 180 nF, polypropylene film, 5%
+            WIMA MKS2 series, 50V
+
+INPUT TRANSFORMER (optional, T1):
+  600Ω:600Ω audio isolation transformer improves common-mode rejection
+  Lundahl LL1535, or Xicon 42TU200
+  Omit if driving directly from radio headphone jack (high-Z source)
+
+================================================================================
+INSERTION LOSS BUDGET
+================================================================================
+
+  DCR loss in L2 (150mH, DCR=80Ω):
+    Loss = −20×log10(600/(600+80)) = −0.96 dB
+
+  DCR loss in L4+L6 (33mH each, DCR=20Ω each):
+    Loss = −20×log10(600/(600+40)) = −0.56 dB
+
+  Capacitor ESR (negligible, <0.1 dB for PP film)
+
+  Total midband insertion loss: ≈ 1.5 dB
+  Note: Use lowest-DCR inductors available; winding on toroids minimizes loss.
+
+================================================================================
+BYPASS SWITCH WIRING
+================================================================================
+
+SW1 is a DPDT switch that connects IN directly to OUT (bypassing filter):
+
+  IN ──────────────────────────────── SW1-A-COMM
+                                      SW1-A-NC  ──── filter input
+                                      SW1-A-NO  ──── jumper to OUT
+  OUT ─────────────────────────────── SW1-B-COMM
+                                      SW1-B-NC  ──── filter output
+                                      SW1-B-NO  ──── jumper to IN
+
+BYPASS position: IN → SW1-A-NO → SW1-B-NO → OUT (signal passes unfiltered)
+FILTER position: IN → SW1-A-NC → filter → SW1-B-NC → OUT
+
+================================================================================
+MEASURED RESPONSE (typical production unit — record actual values)
+================================================================================
+
+  Freq (Hz) | Expected Att (dB) | Measured Att (dB) | Delta (dB)
+  ----------|-------------------|-------------------|----------
+       100  |      −24          |                   |
+       200  |       −9          |                   |
+       300  |       −3          |                   |
+       500  |       −0.5        |                   |
+      1000  |        0 (ref)    |                   |
+      2000  |       −0.5        |                   |
+      3000  |       −3          |                   |
+      4000  |       −9          |                   |
+      6000  |      −18          |                   |
+
+Calibration: Inject −10 dBu at 1000 Hz; measure output.
+  Insertion loss = (output level dBu) − (−10 dBu)
+  Record date, temperature, operator initials.
+
+================================================================================
+PARTS LIST — PASSIVE LC SSB BANDPASS
+================================================================================
+
+Ref   | Qty | Value      | Description                    | Package
+------|-----|------------|--------------------------------|--------
+C1,C3 |  2  | 820 nF     | Polypropylene film, 50V, 5%    | Lead, 10mm pitch
+C5    |  1  | 180 nF     | Polypropylene film, 50V, 5%    | Lead, 7.5mm pitch
+L2    |  1  | 150 mH     | Audio choke, DCR ≤80Ω          | THT or toroid wound
+L4,L6 |  2  | 33 mH      | Audio choke, DCR ≤20Ω          | THT or toroid wound
+J1    |  1  | 3.5mm TRS  | Stereo input jack              | Panel mount
+J2    |  1  | 3.5mm TRS  | Stereo output jack             | Panel mount
+SW1   |  1  | DPDT       | Bypass switch                  | Panel mount toggle
+T1    |  1  | 600Ω:600Ω  | Audio isolation (optional)     | PCB
+C_byp |  1  | 0.01 µF    | GND–chassis bypass, ceramic    | Lead
+
+================================================================================

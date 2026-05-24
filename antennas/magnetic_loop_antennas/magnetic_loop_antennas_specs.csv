@@ -1,0 +1,11 @@
+ANTENNA SPECIFICATION — MAGNETIC LOOP ANTENNAS,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,40M–10M,,
+Design approach,"Manually tuned magnetic loop, high Q",,
+Compaction factor,0%,,
+Special parameters,"Loop dia 6–10 ft, vacuum cap, null-null tuning",,
+Feed impedance,50–600,Ω,
+SWR target,<2.0,:1,
+Efficiency,75–95%,%,
+Gain,2–12,dBi,

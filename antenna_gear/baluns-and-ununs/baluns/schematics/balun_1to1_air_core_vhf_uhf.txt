@@ -1,0 +1,302 @@
+================================================================================
+BALUN 1:1 CURRENT CHOKE — AIR-CORE COAX (VHF/UHF)
+================================================================================
+
+Purpose: Common-mode suppression for VHF/UHF balanced antenna feeds (2M–20cm)
+Common-Mode Impedance: 5000+ Ω @ 145 MHz, 3000+ Ω @ 432 MHz, 2000+ Ω @ 1.3 GHz
+Insertion Loss: 0.03–0.05 dB (minimal ferrite losses at microwave frequencies)
+
+================================================================================
+CIRCUIT DIAGRAM (Air-Core Transmission Line)
+================================================================================
+
+Antenna (Balanced Feed)
+          │
+      ┌───┴────┐
+      │        │
+    Leg A    Leg B
+      │        │
+   ┌──┴──┐  ┌──┴──┐
+   │ RG58│  │ RG58│
+   │ wrapped on
+   │ 3.5" PVC form
+   │ 8 turns helical
+   └──┬──┘  └──┬──┘
+      │        │
+      ├────┬───┤
+           │
+        Coax to
+        Receiver
+           │
+        50Ω IN
+
+================================================================================
+CORE SPECIFICATIONS — AIR-CORE TRANSMISSION LINE
+================================================================================
+
+Construction:
+  - PVC pipe or phenolic rod: 3.5", 3", 2.5", or 2" diameter (depending on freq)
+  - Coax cable: RG-58 for 2M–70cm, RG-174 for 1.25M–70cm
+  - Turns: 8 (2M/1.25M), 8 (70cm), 6 (33cm), 5 (20cm)
+
+Frequency Band Details:
+
+  2M (145 MHz):
+    Form: 3.5" (88 mm) diameter PVC
+    Coax: RG-58 (0.193" OD)
+    Turns: 8 turns in helical spiral
+    Spacing: ~0.5" axial pitch
+    Velocity Factor: 0.66 (RG-58 standard)
+    CM Impedance Target: 5000+ Ω @ 145 MHz
+    Insertion Loss: <0.1 dB
+
+  1.25M (223 MHz):
+    Form: 3.5" PVC
+    Coax: RG-58
+    Turns: 8
+    CM Impedance: 8000+ Ω
+    Insertion Loss: <0.08 dB
+
+  70cm (432 MHz):
+    Form: 3.5" PVC
+    Coax: RG-58 or RG-174
+    Turns: 8
+    CM Impedance: 6000+ Ω
+    Insertion Loss: <0.05 dB
+
+  33cm (902 MHz):
+    Form: 3" PVC
+    Coax: RG-58
+    Turns: 6
+    CM Impedance: 3500+ Ω
+    Insertion Loss: <0.04 dB
+
+  20cm (1296 MHz):
+    Form: 2.5" PVC
+    Coax: RG-58
+    Turns: 5
+    CM Impedance: 2200+ Ω
+    Insertion Loss: <0.02 dB (minimal)
+
+================================================================================
+WINDING TECHNIQUE — AIR-CORE COAX CHOKE
+================================================================================
+
+Materials needed:
+  - PVC pipe (Schedule 40) or phenolic insulating rod
+  - Appropriate diameter form (see above)
+  - RG-58 or RG-174 coax
+  - Hose clamps (optional, for securing form)
+  - Masking tape (optional, for marking spiral)
+
+Construction steps:
+
+1. Prepare form:
+   - Cut PVC to length (6–8 inches for most VHF)
+   - Deburr edges with sandpaper
+   - Mark starting point with masking tape
+
+2. Determine pitch (axial spacing):
+   - For N turns over L-inch length: pitch = L / N
+   - Example: 8 turns over 4" length = 0.5" pitch
+   - Uniform spacing critical for phase coherence
+
+3. Wind coax in helical spiral:
+   - Start at one end, lay down tape line (reference mark)
+   - Wrap coax around form in uniform spiral
+   - Maintain consistent tension (not too tight, avoid crushing)
+   - Complete N turns, ending opposite from start
+   - Secure end with masking tape or low-strength adhesive
+
+4. Check for shorts:
+   - Inspect coax jacket — ensure no cracks or abrasions
+   - Continuity test: Center to braid should be OPEN (>10 MΩ)
+
+5. Final assembly:
+   - Solder/crimp connector to one end (feed input)
+   - Solder/crimp balanced pair connections to opposite end
+   - Optional: Potting (silicone preferred for thermal dissipation)
+
+================================================================================
+COMMON-MODE IMPEDANCE (Air-Core TL Choke)
+================================================================================
+
+An air-core choke works as a transmission-line transformer. The impedance
+derives from the series inductance of the coax itself, not ferrite permeability.
+
+Inductance calculation (distributed TL):
+  L ≈ 0.2 × d_form × N² µH
+  where d_form in inches, N = number of turns
+
+Example: 3.5" form, 8 turns
+  L ≈ 0.2 × 3.5 × 64 = 44.8 µH (rough estimate)
+  Z_CM @ 145 MHz = 2π × 145×10⁶ × 44.8×10⁻⁶ ≈ 4070 Ω ✓
+
+Common-Mode Impedance vs Frequency:
+  Rising steeply with frequency (inductive slope, ~20 dB/decade until SRF)
+  SRF typically 1–3 GHz for most air-core chokes (flat-top response)
+
+================================================================================
+DESIGN RULES — AIR-CORE CHOKES
+================================================================================
+
+Rule 1: Diameter selection
+  - Target CM impedance: Z_CM ≥ 5 × Z₀ = 250 Ω minimum
+  - Larger diameter → higher inductance → lower turns needed
+  - For 2M: 3.5" is standard (easy to obtain PVC)
+
+Rule 2: Turn count and spacing
+  - Too few turns: insufficient inductance (Z_CM too low)
+  - Too many turns: increased capacitance (lowers SRF)
+  - Optimal: Even distribution, ~0.5" to 1" spacing
+
+Rule 3: Coax choice
+  - RG-58: 0.195" OD, standard for 2M–70cm
+  - RG-174: 0.095" OD, good for tight forms (33cm+)
+  - RG-8: 0.405" OD, rarely used (bulky)
+
+Rule 4: Form material
+  - PVC: Low-cost, widely available, low loss @ VHF/UHF
+  - Phenolic: Better dimensional stability (tighter tolerances)
+  - Avoid: Metal forms (increases loss, shields coax)
+
+================================================================================
+FREQUENCY RESPONSE
+================================================================================
+
+Typical air-core 8-turn choke on 3.5" form:
+
+Frequency    Z_CM (Ω)    Attenuation    Phase
+145 MHz      5000–7000   20–25 dB       0–5°
+223 MHz      8000–10000  25–30 dB       0–10°
+432 MHz      6000–8000   20–28 dB       0–20°
+1296 MHz     2000–3000   15–20 dB       0–40°
+
+Insertion Loss (typical):
+  0.02–0.05 dB @ 2M (RG-58, 8 turns)
+  0.03–0.06 dB @ 70cm
+  0.02–0.04 dB @ 33cm
+  Negligible @ 20cm
+
+================================================================================
+IMPEDANCE TRANSFORMATION (1:1)
+================================================================================
+
+Theory:
+  Air-core chokes are pure 1:1 (no impedance transformation). Like ferrite
+  chokes, they suppress CM currents by presenting high series impedance.
+
+Key difference from ferrite:
+  - NO frequency-dependent permeability loss
+  - Insertion loss dominates (skin effect + dielectric loss in coax jacket)
+  - Thermal stability excellent (no core saturation)
+  - Works above GHz where ferrite becomes lossy
+
+================================================================================
+TESTING PROCEDURE — NANOVNA
+================================================================================
+
+Setup:
+  1. Port 1 → Choke input (center conductor, first end)
+  2. Port 2 → Choke output (center conductor, opposite end)
+  3. Braids can be loosely bundled but kept separate (minimal coupling)
+  4. Perform SOLT calibration
+
+Measurement 1 — S₂₁ (insertion loss):
+  Sweep 100 MHz–2 GHz
+  Expected: Rising response (high-pass, inductive)
+  Typical: -0.02 to -0.08 dB across VHF, slightly higher at UHF
+
+Measurement 2 — S₁₁ (input reflection):
+  Port 2 open circuit
+  Expected: Highly reactive (inductive impedance)
+  Phase: ~90° (capacitive coupling minimal)
+
+Measurement 3 — Phase delay:
+  S₂₁ phase should be <10° across band
+  Verify no resonances (local dips in magnitude = SRF approaching)
+
+================================================================================
+FAILURE MODES
+================================================================================
+
+SYMPTOM: Low SWR but pattern distortion
+ROOT CAUSE: CM choke not wound correctly (inadequate inductance)
+SOLUTION:
+  - Verify winding: count turns, measure spacing
+  - Re-measure with NanoVNA: Z_CM should be >1000 Ω @ operating frequency
+  - If Z_CM <500 Ω, add form diameter (move to larger PVC)
+
+SYMPTOM: Insertion loss higher than expected (>0.2 dB)
+ROOT CAUSE: Coax damaged, connector quality poor, or loss measurements made with non-calibrated NanoVNA
+SOLUTION:
+  - Inspect coax for cracks or kinks
+  - Resolder connectors (cold solder = high resistance)
+  - Use quality N-connector plugs (stainless contact preferred)
+
+SYMPTOM: Choke heating during transmission
+ROOT CAUSE: Extremely high currents or coax damaged (partially shorted)
+SOLUTION:
+  - Check continuity: center-to-braid should be OPEN
+  - Reduce TX power temporarily
+  - Replace coax if damage suspected
+
+SYMPTOM: Broadband CM suppression poor (only works on one band)
+ROOT CAUSE: Air-core choke has narrow impedance peak near SRF
+SOLUTION:
+  - Use combination: Large diameter choke (lower freq) + air-core (high freq)
+  - Or use ferrite choke for 2M, air-core for 70cm separately
+
+================================================================================
+ASSEMBLY NOTES
+================================================================================
+
+Mechanical:
+  - PVC form is non-conductive (no RF shielding needed)
+  - Can be mounted directly to antenna or mast
+  - Lightweight (~50 grams for typical 2M choke)
+
+Environmental:
+  - PVC stable -40°C to +60°C (outdoor rated)
+  - UV exposure: PVC will yellow/degrade over years; paint recommended
+  - Potting optional: silicone rubber or polyurethane acceptable
+
+Field modifications:
+  - If Z_CM too low: Add turns (reduces pitch, more compact)
+  - If Z_CM too high: Remove turns (increases pitch)
+  - Form diameter can be modified by careful unwinding/rewinding
+
+Cost comparison:
+  Air-core: ~$5 (PVC + coax segment)
+  Ferrite 1:1: ~$15 (FT-240 core + connector)
+  Commercial air-core choke: $30–80
+
+================================================================================
+BAND RECOMMENDATIONS
+================================================================================
+
+6M (51 MHz):
+  Not recommended (air-core too bulky, ferrite 1:1 preferred)
+
+2M (145 MHz):
+  Primary recommendation: 8-turn air-core, 3.5" form, RG-58
+  Z_CM target: 5000+ Ω ✓
+
+1.25M (223 MHz):
+  Standard: 8-turn air-core, 3.5" form
+  Alternative: 6-turn on 3" form (more compact)
+
+70cm (432 MHz):
+  Standard: 8-turn air-core, 3.5" form, RG-58
+  Compact: 6-turn on 3" form
+  Z_CM: 6000 Ω typical
+
+33cm (902 MHz):
+  Recommended: 6-turn on 3" form, RG-174
+  Z_CM: 3500+ Ω
+
+20cm (1296 MHz):
+  Recommended: 5-turn on 2.5" form, RG-174
+  Z_CM: 2200+ Ω (lower, but adequate for 1.3 GHz)
+
+================================================================================

@@ -1,0 +1,237 @@
+================================================================================
+SCHEMATIC: TIMEBASE — TCXO / OCXO / GPSDO
+TM-FC-001  Rev A
+10 MHz Reference Oscillator with GPS Discipline
+Accuracy: TCXO ±0.5 ppm; OCXO ±0.01 ppm; GPSDO ±0.001 ppb (long-term)
+================================================================================
+
+OVERVIEW
+--------
+The timebase establishes the frequency reference against which all
+measurements are compared. Three configurations are provided:
+
+  CONFIG A — TCXO ONLY (portable field use)
+    Temperature-Compensated Crystal Oscillator: ±0.5 ppm (-10 to +70°C)
+    Self-contained; no warm-up required; immediate use.
+    Example accuracy: 14.175 MHz measured to ±7 Hz (±0.5 ppm).
+
+  CONFIG B — OCXO (bench/station use)
+    Oven-Controlled Crystal Oscillator: ±0.01 ppm (after warm-up)
+    Requires 10–20 minute warm-up to reach temperature stability.
+    Typical accuracy: 14.175 MHz measured to ±0.14 Hz.
+
+  CONFIG C — GPSDO (laboratory / highest accuracy)
+    GPS-Disciplined Oscillator: 1 PPS from NEO-6M disciplines TCXO/OCXO.
+    Long-term accuracy: ±1 ns per day (±0.01 ppb = ±10 ppt).
+    GPS signal required; outdoor antenna or window with sky view.
+    30–60 min required for fully disciplined lock.
+
+
+CONFIGURATION A: TCXO TIMEBASE SCHEMATIC
+------------------------------------------
+
+    +5V supply
+         │
+    [C_bypass 100nF]
+         │
+    ┌────┴────────────────────────────────────┐
+    │   FXO-HC73R-10 (Fox Electronics) U5     │
+    │   or TXO VC (any ±0.5ppm HCMOS TCXO)   │
+    │                                          │
+    │   10 MHz output: HCMOS (0 to 3.3V)      │
+    │   Supply: 3.3V or 5V                     │
+    │   Trim: Voltage-control input (VC pin)   │
+    │   Stability: ±0.5 ppm, −10 to +70°C     │
+    │                                          │
+    │   Pin 1 (VC):   Voltage control          │
+    │   Pin 2 (GND):  Ground                   │
+    │   Pin 3 (Vcc):  +3.3V/5V supply         │
+    │   Pin 4 (OUT):  10 MHz HCMOS output      │
+    └────────────────────────────────────────┘
+         │ Pin 4 (10 MHz output)
+    [C10 100pF]  AC coupling
+         │
+    [R10 50Ω]   Series termination
+         │
+    ┌────┴─────────────────────┐
+    │  DISTRIBUTION              │
+    │  (74HC04 U6, 2 inverters)  │
+    │  Buffers 10 MHz to:        │
+    │    a. ESP32 GPIO input     │
+    │       (reference for       │
+    │        reciprocal counter) │
+    │    b. SMA output jack J4   │
+    │       (10 MHz ref out)     │
+    └────────────────────────────┘
+
+    TCXO voltage control (VC pin, Config A and C):
+      VC = 1.65V nominal (center of pull range, ±5 ppm typical pull range)
+      From ESP32 DAC: GPIO25 → 10kΩ → VC pin
+      DAC output 0–3.3V maps to oscillator frequency ±2.5 ppm
+      GPSDO uses this DAC to discipline the TCXO (Config C)
+
+    IMPORTANT: The FXO-HC73R-10 HCMOS output is NOT directly suitable
+    as the ESP32 PCNT reference clock — use as a timing reference only.
+    The ESP32 uses its internal 80 MHz APB clock (derived from 40 MHz
+    XTAL × 2) for the PCNT and timer hardware. The 10 MHz TCXO is used
+    to discipline the ESP32 timing via the GPSDO algorithm if CONFIG C.
+
+    ALTERNATIVE APPROACH (simpler, recommended):
+      Use the 10 MHz TCXO as a direct input to PCNT_UNIT_1 for
+      self-calibration. Count 10 MHz ref cycles during the gate time;
+      divide by nominal 10,000,000. The result is a correction factor:
+        correction = 10000000.0 / pcnt_10mhz_count
+        f_actual = f_measured × correction
+      This self-corrects for ESP32 timer drift.
+
+
+CONFIGURATION B: OCXO TIMEBASE SCHEMATIC
+------------------------------------------
+
+    +12V supply  ───────────────────────────────────────────────────────┐
+         │                                                              │
+    ┌────┴─────────────────────────────────────────────────────────┐   │
+    │   Isotemp OCXO-131C (or equivalent)  U7                      │   │
+    │   10 MHz, ±0.01 ppm after warm-up                            │   │
+    │   Warm-up current: 400 mA initial → 80 mA steady state      │   │
+    │   Oven power: ~1W steady, ~5W initial                        │   │
+    │                                                               │   │
+    │   Pin 1 (EFC): Electronic Frequency Control, 0–5V           │   │
+    │                Pull range: ±2 ppm (0–5V range)              │   │
+    │   Pin 2 (GND): Ground                                        │   │
+    │   Pin 3 (Vcc): +12V supply                                   │   │
+    │   Pin 4 (OUT): 10 MHz HCMOS output (5V CMOS levels)         │   │
+    └───────────────────────────────────────────────────────────────┘
+         │ Pin 4 (10 MHz, 5V CMOS)
+    [R11 220Ω + D_clamp BAT54]    Level shift: 5V → 3.3V compatible
+         │
+    (rest same as Config A output distribution)
+
+    CAUTION: OCXO requires +12V at up to 500 mA during oven warm-up.
+    Use a 12V/1A regulated supply or a 3S Li-Ion battery pack (12.6V).
+    The 9V battery in the passive/active variants is insufficient for OCXO.
+
+    EFC (Electronic Frequency Control) from ESP32:
+      GPIO25 (DAC1, 0–3.3V) → R-divider 2× 5.1kΩ → 0–1.65V range
+      Then op-amp gain stage: ×3 → 0–5V for full EFC range
+      LM358 op-amp: gain = 1 + R_f/R_in = 1 + 20kΩ/10kΩ = 3
+      Total EFC range: 0–5V → ±2 ppm OCXO pull
+
+    WARM-UP INDICATOR:
+      NTC thermistor (10kΩ at 25°C) glued to OCXO case
+      Voltage divider with 10kΩ: output → GPIO36 (ADC)
+      Firmware: display "WARMING" until oven temperature within 1°C of setpoint
+      Typical oven temperature: 70–80°C (oscillator crystal setpoint)
+
+
+CONFIGURATION C: GPSDO (GPS-DISCIPLINED OSCILLATOR)
+------------------------------------------------------
+
+    SYSTEM OVERVIEW:
+
+    [GPS NEO-6M] ──1PPS──> [Phase Detector] ──> [Loop Filter] ──> [VCXO/VOCXO EFC]
+                  │                  │
+              GPS lock               │
+              indicator          [ESP32] ──── accumulates phase error,
+                                             runs PI control loop,
+                                             updates DAC
+
+    GPSDO SCHEMATIC:
+
+    GPS NEO-6M module (U8):
+      VCC → 3.3V
+      GND → GND
+      TXD → GPIO16 (ESP32 UART2 RX; NMEA at 9600 baud)
+      RXD → GPIO17 (ESP32 UART2 TX; optional config commands)
+      PPS → GPIO26 (ESP32 interrupt input; 1 PPS time reference)
+      GPIO26 is configured as RISING EDGE interrupt (1 Hz)
+
+    TCXO/OCXO (U5 or U7):
+      10 MHz output → 74HC04 (U6) buffer
+      → DIV10M circuit (74HC74 ÷10 chain or ESP32 PCNT) → 1 MHz
+      → 74HC74 further divide → 1 Hz internal reference (optional)
+      OR: ESP32 counts exactly how many 10 MHz ticks occur per GPS 1 PPS:
+        Expected: 10,000,000 ticks/second
+        Measured: N_ticks (varies with oscillator frequency error)
+        Error: ε_ppm = (N_ticks − 10,000,000) / 10 ppm
+
+    ESP32 GPSDO ALGORITHM (see firmware/gpsdo.h for implementation):
+
+      Each GPS 1 PPS rising edge:
+        1. Read accumulated reference tick count since last PPS.
+        2. Compute frequency error:
+             ε_hz = (ticks − 10_000_000) Hz  (error in reference freq)
+             ε_ppm = ε_hz / 10  ppm
+             ε_ns = (ticks − 10_000_000) × 100  ns  (phase error)
+
+        3. Apply PI controller:
+             proportional = Kp × ε_ns
+             integral += Ki × ε_ns × dt  (dt = 1.0 second)
+             control = proportional + integral
+             control is clamped to DAC range
+
+        4. Output new DAC value:
+             new_dac = nominal_dac + control
+             dacWrite(25, new_dac)
+
+        5. Update display: lock status, error in ppb, holdover time
+
+    PI LOOP PARAMETERS (initial values; adjust per oscillator):
+      Kp = 0.0001  (proportional gain; tune for stable lock without oscillation)
+      Ki = 0.00001 (integral gain; drives steady-state error to zero)
+      Loop bandwidth: ~0.01 Hz (100 second time constant; very slow, stable)
+      Capture range: ±5 ppm (limited by TCXO VC pull range)
+
+    LOCK DETECTION:
+      Locked condition: |ε_ns| < 100 ns for 60 consecutive 1-PPS intervals
+      Holdover: GPS signal lost → freeze DAC at last value, display "HOLDOVER"
+      Holdover drift: TCXO ±0.5 ppm/hr; OCXO ±0.01 ppm/hr
+
+    PHASE DETECTOR (hardware option):
+      For improved phase resolution, use XOR gate phase detector:
+        10 MHz TCXO → ÷10,000,000 (complex; use counter COMPARE output)
+        GPS 1 PPS → XOR with divided-down TCXO 1 Hz
+        XOR output → RC filter → EFC control voltage
+        (pure analog loop; more stable but less flexible)
+      The software PI approach is simpler and sufficiently accurate for ham use.
+
+    GPSDO PERFORMANCE:
+      Allan Deviation with NEO-6M + TCXO:
+        τ = 1s:   ~100 ns (limited by GPS 1 PPS jitter, ~30-100 ns)
+        τ = 100s: ~1 ns
+        τ = 1000s: ~0.1 ns (GPS clock stability dominates)
+      Long-term accuracy: GPS UTC to ±100 ns → ±0.1 ppb over 1 day
+      In practice for ham frequency measurement: <1 Hz error at any HF frequency
+
+
+10 MHz REFERENCE OUTPUT
+-------------------------
+
+    The 10 MHz reference is available on rear-panel SMA J4 for use by
+    other instruments (noise bridge, spectrum analyzer, VNA).
+
+    Output level: ~+3 dBm into 50Ω (HCMOS into 50Ω)
+    Impedance: 50Ω (74HC04 output → 51Ω series → SMA J4)
+    This provides a laboratory-quality 10 MHz reference whenever the
+    GPSDO is disciplined and locked.
+
+
+PARTS LIST — TIMEBASE
+-----------------------
+
+  Ref    Part                   Config    Description
+  ---    ----                   ------    -----------
+  U5     FXO-HC73R-10           A, C      TCXO 10 MHz ±0.5 ppm (Fox Electronics)
+         or: TF050-10.000-3.3   A, C      ±0.5 ppm VCXO 3.3V (Raltron)
+  U7     Isotemp OCXO-131C      B only    OCXO 10 MHz ±0.01 ppm (requires 12V)
+         or: CFPT-9301-10M      B only    ±0.01 ppm OCXO 10 MHz (IQD)
+  U6     74HC04                 A,B,C     Hex inverter, 5V (for TCXO output buffering)
+  U8     NEO-6M module           C only    GPS module with active patch antenna
+  C10    100 pF NPO              all       TCXO output AC coupling
+  C11    100 nF                  all       TCXO Vcc bypass
+  R10    50 Ω 1%                 all       TCXO output series termination
+  R11    220 Ω                   B only    OCXO 5V → 3.3V level conversion
+  J4     SMA female              all       10 MHz reference output
+  J5     SMA female              C only    GPS antenna input (to GPS module)
+
+================================================================================

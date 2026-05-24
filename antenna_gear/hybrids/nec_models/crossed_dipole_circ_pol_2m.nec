@@ -1,0 +1,100 @@
+CM ============================================================
+CM Crossed-Dipole Circular Polarization Antenna — 2M (146 MHz)
+CM TM-HYB-001 Rev A
+CM
+CM Two half-wave dipoles at 90° orientation, fed with 90° phase difference.
+CM Creates Right-Hand Circular Polarization (RHCP).
+CM
+CM Dipole geometry:
+CM   Dipole H (Horizontal): along X-axis
+CM   Dipole V (Vertical):   along Y-axis (actually Z in space; "vertical" means
+CM                           the second polarization plane, not physical vertical)
+CM   Both dipoles at same center point, in the XY plane at height 3m.
+CM   Elements are physically rotated 90° in the horizontal plane.
+CM
+CM NOTE: For a vertical installation (EME/satellite), rotate entire antenna
+CM       so dipoles are in a horizontal plane.  For terrestrial use at 2M,
+CM       dipoles can be vertical and horizontal (cross-polarized).
+CM
+CM Feed:
+CM   Dipole H fed at 0° (through port of 90° hybrid)
+CM   Dipole V fed at −90° (coupled port of 90° hybrid)
+CM   → RHCP
+CM   Swap connections → LHCP
+CM
+CM Dipole length: 0.490 × λ = 0.490 × 2.055m = 1.007m (≈1.0m total, 0.5m per half)
+CM λ at 146 MHz = c/f = 2.055 m
+CM
+CM Center height: 3m (low portable stack; adjust for actual installation)
+CM ============================================================
+CE
+
+CM === DIPOLE H (horizontal, along X-axis) ===
+CM Half-elements: from (−0.503, 0, 3) to (0.503, 0, 3)
+GW 1 21 -0.503 0.000 3.000 0.503 0.000 3.000 0.00075
+CM  Radius = 0.75mm (3/16" aluminum rod or 14AWG wire)
+
+CM === DIPOLE V (second polarization, along Y-axis) ===
+CM Half-elements: from (0, −0.503, 3) to (0, 0.503, 3)
+GW 2 21 0.000 -0.503 3.000 0.000 0.503 3.000 0.00075
+
+CM === GROUND: Average (realistic) ===
+GE 1
+GN 2 0 0 0 13.0 0.005
+
+CM === EXCITATIONS ===
+CM Dipole H: reference phase 0°
+EX 0 1 11 0 1.000  0.000
+CM Dipole V: −90° phase (quadrature hybrid coupled port)
+EX 0 2 11 0 0.000 -1.000
+
+CM === FREQUENCY ===
+FR 0 1 0 0 146.000 0
+
+CM === RADIATION PATTERNS ===
+CM Elevation pattern in phi=0° plane (along X/H dipole)
+RP 0 91 1 1000 0.0 0.0 1.0 1.0
+
+CM Elevation pattern in phi=90° plane (along Y/V dipole)
+RP 0 91 1 1000 0.0 90.0 1.0 1.0
+
+CM Azimuth pattern at elevation 90° (zenith, looking up for satellite)
+RP 0 1 361 1000 90.0 0.0 1.0 1.0
+
+CM Full 3D pattern for polarization analysis
+RP 0 37 73 1000 0.0 0.0 5.0 5.0
+
+EN
+
+CM ============================================================
+CM EXPECTED RESULTS:
+CM   Gain (above average ground): ≈ 7.5 dBi at zenith
+CM   Axial ratio: ≈ 0 dB (perfect circular) at zenith with ideal feed
+CM   Polarization: RHCP when Dipole V lags Dipole H by 90°
+CM
+CM AXIAL RATIO vs PHASE ERROR:
+CM   Phase error ε     → Axial ratio
+CM   0°               → 0 dB (perfect circular)
+CM   2°               → 0.7 dB
+CM   5°               → 1.6 dB
+CM   10°              → 3.3 dB
+CM   15°              → 5.2 dB
+CM
+CM AMPLITUDE ERROR vs AXIAL RATIO:
+CM   ΔA (dB)          → Axial ratio
+CM   0 dB             → 0 dB (perfect)
+CM   0.5 dB           → 0.5 dB
+CM   1 dB             → 1.0 dB
+CM   3 dB             → 3.0 dB
+CM
+CM FEED NETWORK (see sch_quadrature_hybrid.txt for VHF):
+CM   Branch-line coupler at 146 MHz
+CM   Microstrip on FR-4: 50Ω shunt arms (w=2.9mm), 35.35Ω series arms (w=5.2mm)
+CM   Physical λ/4 length at 146 MHz: 337mm × VF_FR4 ≈ 185mm
+CM
+CM EZNEC NOTES:
+CM   Run with EZNEC+ v6 or 4nec2.
+CM   For circular polarization analysis, use the RP card output and
+CM   examine LHCP/RHCP components separately.
+CM   In 4nec2: Geometry > Azimuth/Elevation plot > select "RHCP gain" dBic.
+CM ============================================================

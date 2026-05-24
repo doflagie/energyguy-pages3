@@ -1,0 +1,282 @@
+================================================================================
+  VHF/UHF REMOTE ELEMENT SWITCHING SYSTEM
+  BIAS-TEE NETWORK: RF+DC COUPLING FOR PIN DIODE BIAS INJECTION
+  For PIN Diode Element Switching (1.25M through 20cm)
+================================================================================
+
+FUNCTION
+────────
+The bias-tee allows DC bias voltage to be applied to the PIN diode cathode
+while maintaining RF signal path with minimal loss. Used at the element feed
+point for each remotely-switched parasitic element.
+
+
+================================================================================
+BASIC BIAS-TEE NETWORK
+================================================================================
+
+Element (from boom center)
+         │
+         │
+    ┌────o────────────────┐
+    │                     │
+    │    RF signal path   │
+    │    (element)        │
+    │                     │
+    │                ┌────o─────── To PIN Diode Network
+    │                │
+    ├───[C_iso]──────┤
+    │   (1.0 µF)      │
+    │    low freq     │
+    │   block DC      │
+    │                 │
+    │            ┌────o────── Bias Control (+12V, 0V, or -5V)
+    │            │
+    │       ┌──[RFC]──┐
+    │       │ (47-100 nH) ┤
+    │       │    SMD    ├──[R_limit]─┬─ PIN ANODE
+    │       │ 0402    ┤   (1.5k)    │
+    │       └──────────┴─ PIN CATHODE
+    │            │
+    │       ┌────o────── DC Bias Supply/Control (2N2222 output)
+    │
+    └────────────────────────── RF GND (Boom)
+
+
+
+================================================================================
+COMPONENT SELECTION & FUNCTION
+================================================================================
+
+1. C_ISO (Isolation Capacitor: 1.0 µF ceramic or film)
+   ─────────────────────────────────────────────────
+   Purpose: Block DC bias from feeding back to boom/feedline
+   Impedance @ 50 MHz:   Z_C = 1/(2π × 50e6 × 1e-6) = 3.2 Ω (excellent RF pass)
+   Impedance @ 1296 MHz: Z_C = 1/(2π × 1296e6 × 1e-6) = 0.12 Ω (excellent)
+   DC blocking:          Infinite impedance to DC
+   Part: KEMET C315C105M5U or equivalent 1.0µF ceramic 50V+
+   Placement: At element feedthrough, immediately before RFC choke
+
+
+2. RFC Choke (47-100 nH SMD 0402)
+   ──────────────────────────────
+   Purpose: Block RF from feeding into bias control network; act as RF short
+   Impedance @ 50 MHz:   Z_L = j*2π*50e6*47e-9 = j14.8 Ω (small, acceptable)
+   Impedance @ 432 MHz:  Z_L = j*2π*432e6*47e-9 = j128 Ω (moderate, tuned)
+   Impedance @ 1296 MHz: Z_L = j*2π*1296e6*47e-9 = j384 Ω (high, provides choke)
+
+   Selection by band:
+     50-144 MHz:  100 nH (larger choke acceptable, lower SRF)
+     222-432 MHz: 47 nH (balance between DC/bias and RF choke)
+     902+ MHz:    22-47 nH (tighter control, but watch SRF)
+
+   Part: Murata LQG15HS47NG00D (47 nH, 0402, 1.5 GHz SRF)
+   Alternative: TDK MLZ1005R47M (47 nH, low cost, 1.0 GHz SRF)
+
+
+3. R_LIMIT (Bias Current Limiting: 1.5-2.2 kΩ)
+   ──────────────────────────────────────────
+   Purpose: Set forward bias current to 10-20 mA; prevent excessive drain current
+   Forward current @ 12V, 1.5kΩ: I = 12V / 1500Ω = 8 mA (acceptable, conservative)
+   Forward current @ 12V, 1.0kΩ: I = 12V / 1000Ω = 12 mA (target, typical)
+   Forward current @ 12V, 470Ω:  I = 12V / 470Ω = 25.5 mA (high, risky for lifetime)
+
+   Selection: Use 1.5kΩ to 2.2kΩ for 10 mA forward current
+   Part: Standard metal-film 1/4W 1.5kΩ ±1%
+   Power dissipation @ 10 mA: P = 10mA² × 1500 = 0.15 W (safe, 1/4W resistor OK)
+
+   For -5V reverse bias (optional, for maximum isolation):
+   Reverse current @ -5V, 1.5kΩ: I = -5V / 1500Ω = -3.3 mA (leakage acceptable)
+
+
+4. C_BYPASS (Bypass Capacitor: 10-100 pF)
+   ──────────────────────────────────────
+   Purpose: Bypass high-frequency RF noise, improve bias line impedance
+   Impedance @ 50 MHz:   Z_C = 1/(2π*50e6*100pF) = 32 Ω (modest RF bypass)
+   Impedance @ 1296 MHz: Z_C = 1/(2π*1296e6*100pF) = 1.2 Ω (excellent RF bypass)
+
+   Selection: 100 pF for lower bands (50-432 MHz), 10-47 pF for UHF (902+ MHz)
+   Part: Generic 100 pF NPO ceramic 0402, 50V+
+
+
+================================================================================
+DETAILED SCHEMATIC: PIN DIODE BIAS-TEE FOR 70cm EXAMPLE (432 MHz)
+================================================================================
+
+Element Coax from Boom     Bias Control (from 2N2222 Output)
+         │                           │
+         o────────────────────┬──────o
+         │                    │
+      C_ISO               [RFC 47nH]
+      1.0µF                SMD 0402
+       ╱╱                      │
+       │                   [R_limit]
+       │                    1.5kΩ
+       │                   1/4W ±1%
+       │                       │
+    Element ─────────────────┬─┴──── PIN Anode (+)
+    Stub to                  │
+    Boom ─┐  (RF Path)   PIN Diode
+          │  (minimal         │
+          │   loss)       (SOT-23 or
+          │                Cathode ←──────┐
+          │                    │          │
+          │                  (-) (-)   [C_bypass]
+          │                           100 pF, 0402
+          │
+          │
+    Boom Return (GND / 0V RF)
+         │
+         └──────────────────────────── RF Ground Plane
+
+
+SERIES IMPEDANCE AT 432 MHz:
+───────────────────────────
+    C_ISO @ 432 MHz:  Z ≈ 1/(2π × 432e6 × 1e-6) = 0.37 Ω (negligible)
+    RFC @ 432 MHz:    Z ≈ j × 128 Ω (moderate reactance, ~0.3 dB loss)
+    R_limit @ 432 MHz: DC resistor, acts as pure resistance (negligible @ RF)
+    Total series Z:   ~130 Ω (causes ~0.3-0.4 dB insertion loss at 50Ω system)
+
+This is acceptable for parasitic element switching. If loss is too high,
+reduce RFC value to 22 nH and increase C_bypass to 470 pF.
+
+
+================================================================================
+ALTERNATIVE DESIGN: MICROSTRIP TRANSMISSION LINE CHOKE (20cm, 1296 MHz)
+================================================================================
+
+At 1296 MHz with SMD components, parasitics dominate. Consider microstrip
+implementation on PCB:
+
+    Element ─────[C_iso 1µF]─────●────── Microstrip Line (λ/4 high-Z)
+                                 │
+                            Bias Node
+                                 │
+                    Microstrip λ/4 HIGH-IMPEDANCE
+                    (acts as quarter-wave choke)
+                    Z = 100 Ω → 200 Ω tuned
+                    Length @ 1296 MHz: λ/4 ≈ 44 mm
+                    Width: ~2-3 mm on 1.6mm FR-4
+                                 │
+                          [C_bypass 10pF]
+                                 │
+                            +12V Bias Input
+
+
+Design equations (50 ohm system, FR-4 substrate):
+    Characteristic impedance of microstrip:  Z_0 = 200 Ω (target)
+    For λ/4 line at 1296 MHz:
+      Length = 299.792 / (4 × 1.296) = 57.8 mm in free space
+      In FR-4 (ε_r ≈ 4.7): L = 57.8 / √4.7 ≈ 26.6 mm (accounting for dispersion)
+
+Quarter-wave choke behavior:
+    Z_in = Z_0² / Z_load
+    At RF: Z_load ≈ small (bias resistor ≈ 0 at RF)
+    Z_in ≈ 200² / (negligible) ≈ HIGH IMPEDANCE (effectively open circuit for RF)
+    At DC/bias: λ/4 line acts as transmission line, low impedance for DC
+
+
+================================================================================
+EXPERIMENTAL VERIFICATION (With Network Analyzer)
+================================================================================
+
+1. INSERTION LOSS TEST:
+   ─────────────────
+   - Terminate bias-tee output with 50Ω load (no PIN diode connected)
+   - Measure S21 from input to output
+   - Forward bias (apply +12V to bias node): should see < -0.5 dB loss at operating freq
+   - Reverse bias (ground bias node): should see < -0.5 dB loss (RF path unaffected)
+
+
+2. IMPEDANCE MATCHING TEST:
+   ────────────────────────
+   - Apply +12V bias (diode conducting, low impedance)
+   - Measure S11 (reflection): should see < -15 dB return loss
+   - Adjust C_bypass value if reflection peaking is observed
+
+
+3. ISOLATION TEST (PIN Diode Reverse Biased):
+   ──────────────────────────────────────────
+   - Ground bias node (0V or -5V)
+   - Measure S21: should see > -30 dB isolation at operating frequency
+   - This verifies PIN diode is switching OFF properly
+
+
+================================================================================
+PCB LAYOUT CRITICAL POINTS
+================================================================================
+
+For 70cm (432 MHz) and above:
+
+1. Keep all SMD components within 3 mm of each other
+   Use schematic trace layout guides, not long PCB traces
+
+2. Minimize trace lengths:
+   C_ISO → RFC → PIN Diode: < 5 mm total path length
+
+3. Ground plane on top/bottom:
+   Both layers reference to ground at multiple points
+   Avoid long via-to-pad traces
+
+4. Bias line routing:
+   Keep bias line >2 mm away from RF path to minimize coupling
+   Route orthogonal to RF line if possible
+   Use ground trace as shield between RF and bias
+
+5. SMA Connector placement:
+   Element input: North of RFC choke
+   Bias input: South of RFC choke (opposite side)
+   Ground: Connected to both connectors, merged at single point
+
+6. Optional: Solder a 4-pin JST connector for element bias input
+   JST XH 2.5mm pitch (common in RC/FPV applications)
+   Allows field replacement without unsoldering
+
+
+================================================================================
+FREQUENCY-SPECIFIC BIAS-TEE COMPONENTS
+================================================================================
+
+    BAND      | RFC Choke | C_ISO | C_bypass | Z_RFC @ f  | Notes
+    ────────────────────────────────────────────────────────
+    1.25M(222M)| 100 nH   | 1 µF  | 100 pF   | j28 Ω     | Conservative
+    70cm(432M) | 47 nH    | 1 µF  | 100 pF   | j128 Ω    | Moderate loss
+    33cm(902M) | 47 nH    | 1 µF  | 47 pF    | j265 Ω    | Tighter control
+    20cm(1296M)| 22 nH *  | 1 µF  | 10 pF    | j90 Ω*    | * Use ustrip choke
+             (*Microstrip λ/4 preferred for lowest parasitics)
+
+
+================================================================================
+COMPONENT PROCUREMENT
+================================================================================
+
+RFC Chokes (0402 SMD):
+  - Murata LQG15HS47NG00D: 47 nH, $0.08-0.15 each (Digi-Key, Mouser)
+  - TDK MLZ1005R47M: 47 nH, $0.06-0.10 each
+  - Würth 742 792 047: 47 nH, $0.05-0.08 each
+  For 22 nH: Murata LQG15HS22NG00D ($0.10-0.15)
+
+Capacitors:
+  - C_ISO 1.0 µF: KEMET C315C105M5U ($0.12-0.25)
+  - C_bypass 100 pF: Generic NPO 0402 ($0.01-0.05)
+  - C_bypass 47 pF: Generic NPO 0402 ($0.01-0.05)
+  - C_bypass 10 pF: Generic NPO 0402 ($0.01-0.05)
+
+Resistors:
+  - 1.5 kΩ ±1% metal-film 1/4W ($0.01-0.05)
+  - 1.0 kΩ ±1% metal-film 1/4W ($0.01-0.05)
+
+PIN Diodes:
+  - BAP51-02: Digi-Key (~$0.50 each)
+  - MA4P504: Digi-Key (~$0.60 each)
+  - SMP1320-074: Digi-Key (~$0.40 each)
+
+
+================================================================================
+RELATED DOCUMENTS
+================================================================================
+
+  - pin_diode_switching_ascii.txt: Complete PIN diode circuit overview
+  - rf_isolation_filter_ascii.txt: Control line filtering
+  - pin_switching_70cm_ascii.txt: 70cm band implementation
+  - pin_switching_20cm_ascii.txt: 20cm band implementation (microstrip)

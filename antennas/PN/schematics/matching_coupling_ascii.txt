@@ -1,0 +1,224 @@
+================================================================================
+  FARADAY COUPLING LOOP AND MATCHING THEORY                  TM-PNL-SCH-003 Rev A
+  Pool Noodle Magnetic Loop Antenna — Feed and Match Methods
+================================================================================
+
+================================================================================
+  1. FARADAY COUPLING LOOP — THEORY
+================================================================================
+
+  The coupling loop is a small, single-turn loop placed inside the main loop,
+  oriented coplanar with (or slightly inside) the main loop plane.
+
+  It couples energy to/from the main loop via mutual inductance M.
+
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │                                                                         │
+  │   AXIAL VIEW (looking along loop axis — from the side)                 │
+  │                                                                         │
+  │   ┌────────────────────────────────────┐                               │
+  │   │       MAIN LOOP (side = s)         │                               │
+  │   │                                    │                               │
+  │   │   ┌────────────────────────┐       │                               │
+  │   │   │   COUPLING LOOP        │       │                               │
+  │   │   │   (side = s/5)         │       │                               │
+  │   │   │                        │       │                               │
+  │   │   └────────────┬───────────┘       │                               │
+  │   │                │ coax feed          │                               │
+  │   └────────────────┼────────────────────┘                               │
+  │                    │                                                     │
+  │               [50Ω coax]                                                │
+  │                                                                         │
+  │   SIDE VIEW (edge-on):                                                  │
+  │                                                                         │
+  │           ─────────────────────── main loop (edge)                     │
+  │             ──────────────────── coupling loop (edge, slightly inside)  │
+  │                         │                                               │
+  │                    [50Ω coax]                                           │
+  └─────────────────────────────────────────────────────────────────────────┘
+
+  1.1  Mutual Inductance
+
+    M = k × √(L_main × L_coupling)   [H]
+
+    where k is the coupling coefficient (0 to 1).
+    For a small coplanar coupling loop: k ≈ (s_c/s_m)² roughly.
+
+  1.2  Input Impedance
+
+    At resonance (main loop resonant), the transformer equation gives:
+
+    Z_in = (ωM)² / (Rrad + Rloss)  [Ω]
+
+    For 50Ω match:  (ωM)² = 50 × (Rrad + Rloss)
+                    ωM = √(50 × R_total)
+
+  1.3  The 1/5 Sizing Rule
+
+    For a square coupling loop of side s_c inside a main loop of side s_m:
+    Mutual inductance M ≈ μ₀ × s_c² / (s_m × α)  (approximate)
+
+    Experience shows that s_c ≈ s_m / 5 gives Zin ≈ 50Ω at resonance
+    for typical #14 AWG loops. This is a starting point; fine adjustment
+    is made by sliding the coupling loop toward or away from the main loop.
+
+================================================================================
+  2. COUPLING LOOP DIMENSIONS PER BAND
+================================================================================
+
+  Band  │ s_main(m) │ s_coupling(m) │ Coupling wire(m) │ Zin_nominal(Ω)
+  ──────┼───────────┼───────────────┼──────────────────┼────────────────
+  160m  │    2.00   │     0.40      │      1.60        │    ~50
+  80m   │    1.50   │     0.30      │      1.20        │    ~50
+  40m   │    1.20   │     0.24      │      0.96        │    ~50
+  30m   │    1.00   │     0.20      │      0.80        │    ~50
+  20m   │    0.90   │     0.18      │      0.72        │    ~50
+  17m   │    0.80   │     0.16      │      0.64        │    ~50
+  15m   │    0.70   │     0.14      │      0.56        │    ~50
+  12m   │    0.60   │     0.12      │      0.48        │    ~50
+  10m   │    0.50   │     0.10      │      0.40        │    ~50
+
+  Note: Each band has its own dedicated coupling loop sized for that loop.
+  For multi-band operation, the coupling loop is swapped when changing loops.
+  Make coupling loop from #18 or #14 AWG, closed loop, connected to coax:
+    Inner conductor → one end of coupling loop wire
+    Outer shield → opposite end of coupling loop wire (do NOT ground both ends)
+    This forms a "shielded loop" for balanced coupling.
+
+================================================================================
+  3. ADJUSTABLE COUPLING LOOP MECHANISM
+================================================================================
+
+  The coupling loop position affects input impedance. Two adjustments:
+
+    RESONANCE: Adjust main loop capacitor (affects frequency of SWR dip).
+    COUPLING:  Adjust coupling loop position (affects depth of SWR dip).
+
+  These are orthogonal adjustments — repeat until converged.
+
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │                                                                         │
+  │   SLIDING BRACKET MECHANISM (side view)                                │
+  │                                                                         │
+  │   ┌─────────────────────────────────────────────────────┐             │
+  │   │          MAIN LOOP (edge view)                      │             │
+  │   └─────────────────────────────────────────────────────┘             │
+  │                                                                         │
+  │   ┌──────────────────────────┐                                         │
+  │   │    COUPLING LOOP          │◄── slide in/out from main loop plane    │
+  │   └──────────┬───────────────┘                                         │
+  │              │                                                          │
+  │          [sliding                                                       │
+  │           bracket]── M3 thumb screw locks position                     │
+  │              │                                                          │
+  │         [50Ω coax]                                                      │
+  │                                                                         │
+  │  Closer to main loop → stronger coupling → lower Zin                   │
+  │  Further from main loop → weaker coupling → higher Zin                 │
+  │  Target: SWR < 1.5:1 at resonance                                      │
+  └─────────────────────────────────────────────────────────────────────────┘
+
+================================================================================
+  4. GAMMA MATCH ALTERNATIVE (HF STL)
+================================================================================
+
+  The gamma match taps the main loop wire directly, avoiding the need for
+  a separate coupling loop. It uses an adjustable sliding contact.
+
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │                                                                         │
+  │   GAMMA MATCH SCHEMATIC                                                │
+  │                                                                         │
+  │   TOP OF LOOP                                                           │
+  │   ──────────────────[C_tune]─────────────────────                      │
+  │              │                       │                                  │
+  │         [tap point]            [tap point + γ]                          │
+  │              │                       │                                  │
+  │         [50Ω shield]           [center conductor]──[Cγ]──[inner coax]  │
+  │                                                                         │
+  │   Cγ = gamma series capacitor (50–200pF, NP0)                          │
+  │   Gamma rod runs parallel to loop wire for ~20% of loop perimeter      │
+  │   Adjust Cγ and gamma rod length for SWR minimum                       │
+  │                                                                         │
+  │   Advantage: no coupling loop needed, direct connection                 │
+  │   Disadvantage: unbalanced feed; adds RF to coax shield                │
+  │                 Faraday coupling preferred for balanced operation       │
+  └─────────────────────────────────────────────────────────────────────────┘
+
+================================================================================
+  5. VHF/UHF QUAD LOOP MATCHING
+================================================================================
+
+  Full-wave resonant quad loop input impedance ≈ 125Ω (free space, square).
+  Must transform to 50Ω for standard coax feed.
+
+  5.1  Method A: 2.5:1 UNUN (Unun Transformer)
+
+    Wind on FT-50-61 or FT-50-43 toroid:
+    Primary:   7 turns  (50Ω side)
+    Secondary: 11 turns (125Ω side)
+    Impedance ratio: (11/7)² = 2.47 ≈ 2.5:1 ✓
+
+    Winding: trifilar or bifilar, keep leads short at VHF.
+
+  5.2  Method B: Quarter-Wave Transformer (feedline section)
+
+    Z_transformer = √(Z_feed × Z_loop) = √(50 × 125) = 79 Ω
+
+    Use 75Ω coax (closest standard: RG-59, RG-11) cut to λ/4 at band:
+      6m (51 MHz): λ/4 = 299.8/(4 × 51 × VF) m; VF_RG59 ≈ 0.66
+                   = 299.8/(4 × 51 × 0.66) = 2.23 m section
+      2m (146 MHz): = 2.23 × (51/146) = 0.78 m
+      1.25m (222 MHz): = 0.52 m
+      70cm (446 MHz): = 0.26 m
+
+  5.3  Method C: Gamma Match (preferred for adjustment)
+
+    Adjustable rod alongside loop wire at feed point.
+    Rod length: approximately 4–5% of loop circumference.
+    Series capacitor: 5–30pF air trimmer.
+
+  5.4  Polarization
+
+    For horizontal polarization (field parallel to ground):
+      Orient loop vertically; feed at bottom center.
+    For vertical polarization (mobile/portable):
+      Orient loop horizontally; feed at one corner.
+
+================================================================================
+  6. ADJUSTMENT PROCEDURE — COMPLETE
+================================================================================
+
+  For any HF STL + Faraday coupling loop:
+
+  Step 1:  Install coupling loop at center of main loop (perpendicular
+           to axis, coplanar with main loop).
+
+  Step 2:  Set capacitor to band center position.
+
+  Step 3:  Apply low power (0.5–1W). Observe SWR meter.
+
+  Step 4:  Slowly adjust capacitor for SWR minimum.
+           (This is the resonance adjustment — affects frequency of dip.)
+
+  Step 5:  Note SWR at minimum. If > 1.5:1:
+           a. Move coupling loop slightly toward main loop (increase coupling).
+           b. Repeat Step 4.
+           If SWR at minimum is very low (< 1.1:1) but flat response:
+           a. Move coupling loop slightly away (decrease coupling).
+           b. Repeat Step 4.
+
+  Step 6:  Iterate Steps 4–5 until SWR < 1.5:1 at resonance.
+
+  Step 7:  Record capacitor position (motor step count).
+           Record coupling loop position in field notebook.
+
+  Step 8:  Increase TX power in steps. Re-verify SWR < 2:1 at rated power.
+
+  IMPORTANT: The capacitor resonance adjustment and coupling loop adjustment
+  are NOT independent in practice. Minor coupling changes slightly shift
+  resonance. Plan for 2–3 iteration cycles.
+
+================================================================================
+  END OF TM-PNL-SCH-003
+================================================================================

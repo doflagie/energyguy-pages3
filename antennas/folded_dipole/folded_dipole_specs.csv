@@ -1,0 +1,14 @@
+ANTENNA SPECIFICATION — FOLDED_DIPOLE,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,"40M, 20M, 10M",,Center/allocated bands
+Design approach,"Standard folded dipole, 300Ω center impedance",,Primary design method
+Compaction factor,0%,,Size reduction vs full-size
+Special parameters,"Parallel wires 10–20cm spacing, wide bandwidth",,Design-specific details
+,,,
+Feed impedance,50–600,Ω,Antenna-type dependent
+SWR target,<2.0,:1,With tuner if required
+Radiation pattern,Varies,,See NEC model
+,,,
+Typical efficiency,75–95%,%,Design-dependent
+Typical gain,2–10,dBi,Antenna-type dependent

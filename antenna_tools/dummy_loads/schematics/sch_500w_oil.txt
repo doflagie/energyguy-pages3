@@ -1,0 +1,156 @@
+================================================================================
+SCHEMATIC: 500W OIL-COOLED DUMMY LOAD (CANTENNA STYLE)
+TM-DL-500W-OIL  Rev A
+================================================================================
+
+RESISTOR NETWORK — 50 OHM, 500W
+10x non-inductive resistors in parallel: 500 ohm, 50W each
+
+           N-TYPE CONNECTOR (panel mount, bottom of can)
+                    |
+               CENTER PIN (threaded stud)
+                    |
+      +------+------+------+------+------+
+      |      |      |      |      |      |
+     R1     R2     R3     R4     R5     (same 5 more: R6-R10)
+   500R    500R   500R   500R   500R
+   50W     50W    50W    50W    50W
+      |      |      |      |      |
+      +------+------+------+------+------+
+                         |
+                    GROUND BUS (ring / chassis)
+                    = outer shell of N connector
+                    = can body (all conductive)
+
+
+SIDE VIEW — INTERNAL LAYOUT:
+
+  +----------------------------------+  <-- Sealing lid (printable or Al)
+  |                                  |  Pressure relief: 1/8" NPT plug
+  |   Mineral oil fill               |
+  |   (food grade, naphthenic type)  |
+  |                                  |
+  |   R6  R7  R8  R9  R10           |  <-- Top bank, mounted on top ring
+  |   |   |   |   |   |             |
+  |   +---+---+---+---+             |
+  |              |                  |
+  |    [Ground bus ring]            |
+  |              |                  |
+  |   +---+---+---+---+             |
+  |   |   |   |   |   |             |
+  |   R1  R2  R3  R4  R5           |  <-- Bottom bank, on connector stud
+  |              |                  |
+  |         [Ground ring]           |
+  |              |                  |
+  | [N-Jack] ---CENTER STUD---      |  <-- N connector, bottom center
+  +----------------------------------+
+  |          [N-Jack]               |  <-- Bottom plate (Al or brass)
+  +----------------------------------+
+
+  DIMENSIONS (1-gallon paint can equivalent):
+    Can OD:     152 mm
+    Can height: 285 mm
+    Oil volume: ~3.5 liters
+    Oil weight: ~3.0 kg (mineral oil density 0.86 kg/L)
+
+
+RESISTOR MOUNTING DETAIL:
+  10x Ohmite RH series or equivalent, 500R 50W ceramic body, axial leads
+
+  Bottom 5 (R1-R5):  Leads bent and soldered to center stud and ground ring
+  Top 5 (R6-R10):    Same but inverted, also to center stud (extended) and ring
+
+  This "double-decker" arrangement minimizes lead length and inductance.
+  All resistors fully submerged in oil.
+
+  CRITICAL: Resistor body must NOT touch can wall. Maintain 5mm clearance.
+            Resistors must be fully immersed in oil (oil level above top bank).
+            Do not operate if oil level falls below top bank.
+
+
+CONNECTING STUD:
+  Brass rod, 1/4"-20 thread, 200mm long
+  Connected to N-jack center pin with silver solder
+  All R hot ends soldered to stud at appropriate heights
+  Stud isolated from can lid by PTFE standoff
+
+
+GROUND RING (per bank):
+  Copper ring, OD = 120mm, 3mm wide x 3mm thick
+  All R cold ends soldered to ring
+  Ring soldered to can interior bottom for lower bank
+  Ring soldered to can wall via copper strap for upper bank
+
+GROUND STRAP:
+  Copper braid, 10mm x 2mm, from upper ring to N-jack shell
+  Keep as short as possible (<30mm)
+
+
+OIL FILL PROCEDURE:
+  1. Complete all internal wiring and verify 50 ohm DC resistance.
+  2. Clean interior with isopropyl alcohol. Dry completely (heat gun).
+  3. Fill with naphthenic mineral oil (transformer oil or food-grade)
+     until oil is 15mm above top resistor bank.
+  4. Install pressure relief plug (1/8" NPT brass fitting with 0.5mm orifice
+     or loose cap that vents when oil boils/expands).
+  5. Do NOT seal completely. Oil expands ~7% from 20C to 100C.
+     A sealed airtight container will build pressure.
+
+OIL SPECIFICATIONS:
+  Type:         Naphthenic mineral oil, Type II transformer oil
+  Alternatives: Pure mineral oil (food-grade), Mobil Diala S4 ZX-I
+  Avoid:        Motor oil (sulfur compounds degrade insulation)
+                Synthetic oil (flammable at high temperatures)
+                Water or glycol (corrosion, low dielectric strength)
+  Dielectric:   >30 kV/mm (new oil)
+  Flash point:  >130C (mineral oil)
+
+  Volume required: 3.5 liters (1-gallon can size)
+                   1.5 liters (1-quart can size, 200W version)
+
+
+TEMPERATURE MONITORING:
+  NTC thermistor, 10k @ 25C, stainless steel probe, 150mm insertion depth
+  Inserted through 1/4"-28 drilled/tapped hole in can lid
+  Sealed with PTFE tape on threads
+  Connected to CYD monitor or dedicated meter
+
+  Temperature limits:
+    Normal operation:  <80C oil temperature
+    Warning threshold: 85C  (LED/alarm)
+    Shutdown:          95C  (relay opens antenna switch)
+    Oil flash point:   130C (mineral oil) -- DO NOT APPROACH
+
+
+PERFORMANCE SPECIFICATIONS
+--------------------------
+  Impedance:         50 ohm nominal
+  Power:             500W continuous (adequate oil volume and ventilation)
+                     1kW for 60 seconds (SSB)
+  Duty cycle:        100% at 500W with adequate thermal mass
+                     50% at 750W
+  Frequency:         DC to 1 GHz (N connector, SMT-optimized build)
+  SWR (DC-30 MHz):   < 1.05:1
+  SWR (30-500 MHz):  < 1.15:1
+  SWR (500 MHz-1GHz):< 1.5:1
+
+
+PARTS LIST
+----------
+  Qty  Reference  Value/Part Number       Description
+  ---  ---------  --------------------    ---------------------------
+  10   R1-R10     500R 50W non-inductive  Ohmite RH-50E500R or
+                                          TE Connectivity NKKB50-500
+  1    J1         N-type female chassis   Amphenol 82-835 or equiv
+  1    --         1-gallon paint can      Steel, clean, food-grade seal
+  1    --         Brass rod 1/4-20 8"     Center conductor stud
+  2    --         Copper ring 120mm OD    Ground bus rings
+  1    TH1        10k NTC, stainless      Oil temperature probe, 150mm
+  3.5L --         Mineral oil             Naphthenic, transformer grade
+  1    --         1/8" NPT brass fitting  Pressure relief plug
+  1    --         PTFE standoff 1/4-20    Center stud isolation at lid
+  1    --         Enclosure               See openscad/enclosure_cantenna.scad
+                                          (lid and base adapter only;
+                                           can body is metal)
+
+================================================================================

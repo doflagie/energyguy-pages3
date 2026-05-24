@@ -1,0 +1,188 @@
+================================================================================
+  INDUCTIVE LOADING THEORY — SHORTENED DIPOLE                 TM-PNL2-SCH-001 Rev A
+  Pool Noodle Inductive Loading Dipole (PNILD) — 160m through 10m
+================================================================================
+
+================================================================================
+  1. THEORETICAL BACKGROUND — SHORT DIPOLE ANALYSIS
+================================================================================
+
+  A full-size half-wave dipole has physical length λ/2 and input impedance ≈ 73Ω.
+  A shortened dipole (physical length < λ/2) has a capacitive input reactance that
+  must be neutralized by an inductive loading element to achieve resonance.
+
+  1.1  Transmission-Line Dipole Arm Model
+
+    Each arm of a center-fed dipole is modeled as an open-ended transmission line:
+
+    ┌─────────────────────────────────────────────────────────────────────────┐
+    │                                                                         │
+    │   Z_in of open-ended short TL (one dipole arm, length h < λ/4):        │
+    │                                                                         │
+    │     Z_arm = -j × Z₀_arm × cot(βh)           [Ω, capacitive]           │
+    │                                                                         │
+    │   where:                                                                │
+    │     β     = 2π/λ = propagation constant (free space)                   │
+    │     h     = physical arm length [m]                                     │
+    │     Z₀_arm = characteristic impedance of the arm wire                  │
+    │                                                                         │
+    │   Z₀_arm for thin wire in free space:                                   │
+    │     Z₀_arm = 120 × (ln(2h/a) - 1)                                     │
+    │                                                                         │
+    │   where a = wire radius [m]                                             │
+    │   For #14 AWG (a = 0.814mm): Z₀_arm ≈ 900 – 1100 Ω                   │
+    │                                                                         │
+    └─────────────────────────────────────────────────────────────────────────┘
+
+  1.2  Loading Coil Requirements
+
+    To achieve resonance, the loading coil must supply +X_arm (inductive):
+
+      X_L = X_arm = Z₀_arm / tan(βh)    [Ω]
+
+      L_load = X_L / (2πf)               [H]
+
+  1.3  Radiation Resistance
+
+    For a short center-fed dipole:
+
+      R_rad = 80π² × (2h_eff / λ)²     [Ω]
+
+    where h_eff = effective height = h × sinc(βh) [m]
+    (sinc(βh) = sin(βh)/βh, the current distribution correction)
+
+  1.4  Loading Coil Loss Resistance
+
+    For a single-layer solenoid coil:
+
+      Q_coil = ωL / R_coil
+      R_coil = X_L / Q_coil
+
+    For a pool noodle coil form (#18 AWG, 47mm diameter):
+      Q_coil ≈ 150 – 250 at HF (typical 200 for clean winding)
+
+    Total loss for two coils (one per arm):
+      R_loss_total = 2 × X_L / Q_coil
+
+  1.5  Efficiency
+
+      η = R_rad / (R_rad + R_loss_total) × 100%
+
+================================================================================
+  2. EQUIVALENT CIRCUIT
+================================================================================
+
+                    ┌──────────────────────────────────────────────────────┐
+                    │                                                      │
+  ARM 1 (left)     │  COIL 1 (loading)     FEED POINT     COIL 2 (loading)│
+  ─────────────    │  ┌──────────────┐     ┌─────┐        ┌──────────────┐│
+                   │  │   L_load     │     │     │        │   L_load     ││
+  ←h_arm (wire)───┤  │  (pool noodle│─────│ Z_s │────────│ pool noodle  ├┤──h_arm (wire)→
+                   │  │   coil form) │     │     │        │   coil form) ││
+  ─────────────    │  │              │     │50Ω  │        │              ││
+  ARM 2 (right)    │  │              │     │coax │        │              ││
+                    │  └──────────────┘     └──┬──┘        └──────────────┘│
+                    │         │               │                  │          │
+                    │        GND (RF)        Feed               GND (RF)   │
+                    └──────────────────────────┼───────────────────────────┘
+                                               │
+                                          50Ω coax
+                                          (with 1:1 balun)
+
+  Lumped equivalent of one arm:
+
+    ┌────┐     ┌─────────┐     ┌───────┐
+    │R_rad├──┤L_load   ├──┤R_coil │────── FEED
+    └────┘     └─────────┘     └───────┘
+       │                                    │
+    ┌──┴──┐                              ┌──┴──┐
+    │C_arm│                              │C_arm│
+    └─────┘                              └─────┘
+       │                                    │
+      GND                                  GND
+
+  At resonance: X_L_total = X_C_total (arm capacitance cancelled)
+  Drive impedance = 2 × (R_rad + R_coil) [matched to 50Ω by balun]
+
+================================================================================
+  3. PNILD PER-BAND PARAMETER TABLE
+================================================================================
+
+  All values: #14 AWG arms, #18 AWG loading coil on 47mm pool noodle form.
+  Coil Q assumed 200 (achievable with close-wound clean winding).
+
+  Band  | f(MHz) | h_arm(m) | h/λ/4  | L_load(μH) | N_turns | Rrad(Ω) | η(%)
+  ──────┼────────┼──────────┼────────┼────────────┼─────────┼─────────┼──────
+  160m  |  1.900 |    12.0  |  30.4% |    180.35  |   110   | 16.92   | 44.0
+  80m   |  3.750 |     7.0  |  35.0% |     72.68  |    52   | 21.87   | 56.1
+  40m   |  7.150 |     5.0  |  47.7% |     24.17  |    23   | 37.11   | 77.4
+  30m   | 10.125 |     4.0  |  54.0% |     13.61  |    16   | 45.06   | 83.9
+  20m   | 14.175 |     3.0  |  56.7% |      8.61  |    12   | 48.40   | 86.3
+  17m   | 18.118 |     2.5  |  60.4% |      5.83  |    10   | 52.88   | 88.8
+  15m   | 21.225 |     2.2  |  62.3% |      4.60  |     8   | 55.08   | 90.0
+  12m   | 24.940 |     1.8  |  59.9% |      4.13  |     8   | 52.24   | 89.0
+  10m   | 28.500 |     1.5  |  57.0% |      3.87  |     8   | 48.77   | 87.6
+
+  Note: efficiency rises with frequency because Rrad grows faster than Rloss.
+  160m/80m are usable for CW/digital; 20m and above are competitive with
+  full-size wire antennas.
+
+================================================================================
+  4. WHEELER'S FORMULA — COIL INDUCTANCE CALCULATION
+================================================================================
+
+  For single-layer solenoid on pool noodle form (D = 47mm, r = 2.35cm):
+
+    L = r² × N² / (9r + 10l)    [μH, r and l in inches]
+
+  Converting to SI units (r = 0.925 in, l in inches = N/tpc/2.54):
+
+    tpc = turns per centimeter ≈ 8.9 (for #18 AWG close-wound, 90% fill)
+
+  Example: 40m band, need L = 24.17 μH:
+
+    Solve iteratively for N:
+    N = 23 turns
+    l = 23 / 8.9 = 2.58 cm = 1.016 in
+    L = (0.925)² × 23² / (9 × 0.925 + 10 × 1.016)
+      = 0.856 × 529 / (8.325 + 10.16)
+      = 452.7 / 18.49 = 24.5 μH ✓
+
+  Coil Q measurement: use LC meter + antenna analyzer.
+    Target L ± 2 μH for each band.
+    Trim by adding or removing turns.
+
+================================================================================
+  5. BALUN REQUIREMENTS
+================================================================================
+
+  The PNILD is a balanced antenna (symmetric dipole) fed by an unbalanced
+  transmission line (coax). A 1:1 current choke balun is mandatory:
+
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │                                                                         │
+  │  5.1  Choke Balun (air-core coax coil)                                 │
+  │                                                                         │
+  │    Wind 6–8 turns of RG-8X or RG-58 coax on a 100mm diameter form     │
+  │    adjacent to the feed point. The coil choke impedance >> Z_antenna.  │
+  │                                                                         │
+  │    Effective choking impedance: Z_choke = (ωL_coil)² / R_coil         │
+  │    Target: Z_choke > 500Ω at operating frequency.                      │
+  │                                                                         │
+  │  5.2  Ferrite Choke Balun (better for multi-band)                      │
+  │                                                                         │
+  │    Wind 8–10 turns of coax on FT-240-61 toroid (good 2–30 MHz).       │
+  │    Choking impedance: typically 1000–3000Ω at 7–30 MHz.               │
+  │    One FT-240-61 handles 5W comfortably.                               │
+  │                                                                         │
+  │  5.3  Voltage Balun (4:1 for some configurations)                      │
+  │                                                                         │
+  │    If dipole feed impedance ≠ 50Ω (possible for very short antennas):  │
+  │    Use 4:1 voltage balun to match 200Ω → 50Ω.                         │
+  │    Not normally needed; 50Ω match is achieved by coil inductance.      │
+  │                                                                         │
+  └─────────────────────────────────────────────────────────────────────────┘
+
+================================================================================
+  END OF TM-PNL2-SCH-001
+================================================================================

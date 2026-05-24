@@ -1,0 +1,22 @@
+CM ============================================================
+CM  TM-PNL2-NEC-005 — Pool Noodle Inductive Loading Dipole
+CM  Band: 20m  f = 14.175 MHz
+CM  Antenna type: Center-loaded shortened dipole
+CM  Physical arm length: 3.0 m  (total dipole: 6.0 m)
+CM  Loading coil: 8.61 uH per arm (wound on pool noodle form)
+CM  Radiation resistance: see calc table pnild_dimensions.csv
+CM  Wire: #14 AWG (radius 0.814 mm), copper
+CM  Ground: Sommerfeld-Norton, conductivity 13 mS/m, er=13
+CM  Feed: center gap (EX 0 card on wire 1 mid-segment)
+CM ============================================================
+CE
+GW  1  25  0.0  0.0  2.40  3.000  0.0  2.40  0.000814   ! upper arm (+X)
+GW  2  25  0.0  0.0  2.40  -3.000  0.0  2.40  0.000814  ! lower arm (-X)
+GE  1
+GN  2  0  0  0  13.0  0.005
+EX  0  1  13  0  1.0  0.0        ! voltage source at center
+LD  0  1  13  13  0.0  0.000008610  ! loading coil upper arm: 8.61 uH
+LD  0  2  13  13  0.0  0.000008610  ! loading coil lower arm: 8.61 uH
+FR  0  1  0  0  14.175  0
+RP  0  181  1  1000  -90.0  0.0  1.0  0.0
+EN

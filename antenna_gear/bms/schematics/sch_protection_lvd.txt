@@ -1,0 +1,306 @@
+================================================================================
+SCHEMATIC: Protection Circuits and Low-Voltage Disconnect (LVD)
+TM-BMS-001  Rev A
+OV/UV/OC/SC hardware protection  |  LVD with hysteresis  |  Pre-charge circuit
+Independent of BMS IC — hardware failsafe  |  Response time: < 100 µs
+================================================================================
+
+PROTECTION CIRCUIT OVERVIEW
+─────────────────────────────
+The protection circuits described here function INDEPENDENTLY of the primary
+BMS IC (BQ76920/BQ76930) and ESP32 firmware. They are a hardware backstop:
+
+  PRIMARY PROTECTION:  BMS IC (BQ76920) — fast, accurate, cell-level
+  SECONDARY PROTECTION: Discrete comparator circuits — operates even if IC fails
+  TERTIARY PROTECTION:  Fuses and PTC elements — last resort; non-resettable
+
+The layered approach ensures that:
+  - A firmware bug cannot cause a battery fire
+  - An IC failure cannot cause over-discharge
+  - A wiring fault cannot cause a cell to explode
+
+================================================================================
+OVERVOLTAGE PROTECTION (HARDWARE INDEPENDENT)
+================================================================================
+
+DESIGN REQUIREMENTS:
+  Trip threshold:     3.65V per cell (LiFePO4) or 4.25V per cell (Li-Ion)
+  Trip time:          < 1 second (faster than BMS IC delay settings)
+  Reset:              Manual reset required (latching to prevent re-arming into fault)
+  Hysteresis:         50 mV (prevents oscillation near threshold)
+  Accuracy:           ±50 mV (coarser than BMS IC is acceptable)
+
+OVERVOLTAGE CIRCUIT — USING TL431 + LATCH:
+
+  V_cell(n) ──[R_A: 100kΩ]──┬── TL431 REF pin
+                              │
+                             [R_B: 220kΩ 1%]    V_trip = 2.495 × (100k + 220k) / 220k = 3.630V
+                              │                  (close to 3.65V; trim R_B for exact threshold)
+                             GND
+
+  TL431 cathode: pulls LOW when V_cell > V_trip.
+  TL431 cathode → 1kΩ → NPN base (2N3904)
+  NPN collector → SCR gate (C106D, 4A, TO-92)
+  SCR anode → CHG inhibit (opens CHG MOSFET gate pull-down → gate floats → FET off)
+  SCR latches: once fired, stays ON until power cycle resets pack.
+
+  LATCH RESET:
+    SCR stays conducting until anode current drops below holding current (~5 mA).
+    Reset: momentarily open the circuit (remove charger for > 1 second).
+    Or: add manual reset button that briefly opens SCR anode circuit.
+
+  FOUR-CELL OV: Four identical TL431 circuits, outputs wired to 4-input OR gate.
+    Implementation: four SCR gate drive signals OR'd via diodes (anode-to-anode):
+    TL431_1 cathode ─┐
+    TL431_2 cathode ─┤─── [1kΩ] ── NPN base → SCR gate
+    TL431_3 cathode ─┤   (any TL431 fires → SCR fires)
+    TL431_4 cathode ─┘
+
+TRIM ADJUSTMENT:
+  Replace R_B with fixed + trimmer (220kΩ fixed + 10kΩ trim pot).
+  Set threshold with precision voltmeter: apply V from bench supply to cell terminal.
+  Adjust trim until circuit just trips at desired voltage.
+
+================================================================================
+UNDERVOLTAGE PROTECTION (HARDWARE INDEPENDENT)
+================================================================================
+
+LM393 DUAL COMPARATOR — UV DETECTION WITH HYSTERESIS:
+
+The LM393 has two comparators in one package. Use one per two cells,
+or combine all cells with a wired-AND on open-collector outputs.
+
+UV COMPARATOR WITH HYSTERESIS:
+
+  V_cell(n) ──[R_top: 82kΩ]──┬── LM393 (+) noninverting input
+                               │
+                              [R_bot: 68kΩ]    V_+ = V_cell × 68/(82+68) = V_cell × 0.453
+                               │              V_trip_low = 2.50V → 0.453 × 2.50 = 1.133V
+                              GND
+
+  Reference ──[R_ref: 10kΩ]──┬── LM393 (−) inverting input   (V_ref = 1.133V from TL431)
+                               │
+                              [R_hys: 1MΩ] to LM393 output    (positive feedback for hysteresis)
+                               │
+                              GND
+
+  V_hys = V_out_swing × R_bot / (R_hys)  (small hysteresis: ~50 mV)
+  When V_cell drops below 2.50V: comparator output = HIGH (open collector pulls up)
+                                                     → DSG FET gate inhibited
+
+  LM393 output is open-collector: multiple comparators wired in parallel.
+  Any comparator HIGH = UV fault on any cell = DSG FET disabled.
+
+VOLTAGE DIVIDER ACCURACY:
+  Use 1% tolerance resistors. Supply R_bot from cell being measured (NOT from
+  a common 3.3V supply) to ensure correct ratiometric reference.
+  Each cell voltage divider is independent, referenced to that cell's bottom terminal.
+
+================================================================================
+OVERCURRENT AND SHORT-CIRCUIT PROTECTION
+================================================================================
+
+OC / SCD using CURRENT COMPARATOR + SENSE RESISTOR:
+
+  P− ──[R_SENSE: 5mΩ 3W]──────────────────── B−
+             │                   │
+            CS+                 CS−  (sense resistor terminals)
+             │                   │
+         LM393 (+)           LM393 (−) with reference
+
+  V_sense = I_discharge × R_sense
+  For I_OC = 20A: V_OC = 20 × 0.005 = 100 mV → set reference to 100 mV
+  For I_SC = 100A: V_SC = 100 × 0.005 = 500 mV → set reference to 500 mV
+
+  TWO COMPARATOR STAGES:
+    Stage 1 (OCD): V_ref = 100 mV, 20 ms RC delay (RC = 22kΩ × 1µF = 22 ms)
+      → Sustained overcurrent protection; ignores brief transients.
+    Stage 2 (SCD): V_ref = 500 mV, no delay (or 50 µs delay via 47Ω × 1nF = 47 ns)
+      → Short circuit protection; must respond immediately.
+
+  RC TIME DELAY FOR OCD:
+  LM393 output ──[R_delay: 22kΩ]──┬── Gate of DSG FET inhibit
+                                    │
+                                   [C_delay: 1µF]
+                                    │
+                                   GND
+  When V_sense > V_ref: output goes HIGH; charges C_delay.
+  FET inhibited when V_cap > V_GS_threshold (after 20 ms).
+  Transient pulses (< 20 ms) do not trigger protection.
+  Short circuits (immediate high current): SCD comparator fires instantly.
+
+SENSE RESISTOR HEAT MANAGEMENT:
+  P = I² × R = 400 × 0.005 = 2W at 20A (continuous).
+  Use a 3W or 5W power resistor. Mount with airflow.
+  For 50A design: R_sense = 0.002Ω; P = 2500 × 0.002 = 5W → use 7W or 10W.
+
+================================================================================
+LOW-VOLTAGE DISCONNECT (LVD)
+================================================================================
+
+PURPOSE:
+  The LVD disconnects the load when battery voltage falls below a critical
+  threshold, preventing deep discharge that permanently damages lithium cells.
+
+  DIFFERENCE FROM BMS UV: The BMS UV protection is cell-level (per-cell).
+  The LVD is pack-level — a simpler, lower-cost backup for systems where
+  the full BMS is not installed, or as an additional layer.
+  LVD is particularly useful for LiFePO4 running unmonitored (weather station,
+  remote sensor, overnight APRS digipeater).
+
+LVD DESIGN PARAMETERS:
+  Disconnect voltage (LVD):  11.5V (4S LiFePO4, ≈ 10% SOC)
+  Reconnect voltage (LCR):   12.5V (4S LiFePO4, ≈ 20% SOC)
+  Hysteresis:                 1.0V (prevents rapid cycling near threshold)
+  Standby current:            < 1 mA (LVD circuit itself must not drain battery)
+  Load current:               Up to 20A (MOSFET-switched)
+
+LVD CIRCUIT — LM393 COMPARATOR WITH SCHMITT TRIGGER HYSTERESIS:
+
+  V_PACK ──[R1: 82kΩ]──┬── LM393 (+) input
+                         │
+                        [R2: 8.2kΩ]    V_+ = V_pack × 8.2/(82+8.2) = V_pack × 0.0909
+                         │
+                        GND
+
+  Reference (2.5V TL431 or resistor divider from 3.3V):
+    V_ref = 1.0V → V_trip = 1.0 / 0.0909 = 11.0V for LVD
+
+  HYSTERESIS RESISTOR (R_hys):
+    R_hys connects LM393 output back to (+) input.
+    When output = HIGH (load disconnected): small additional current through R2
+    raises V_+ threshold → reconnect occurs at higher voltage than disconnect.
+    R_hys = R2 × V_hys / V_swing_headroom
+    For 1V hysteresis: R_hys = 8.2kΩ × 1.0 / (V_ref × R_scale) → use 470kΩ.
+
+  COMPLETE LVD SCHEMATIC:
+
+  V_PACK ──[R1: 82kΩ]──┬─────────────────────────── LM393 (+)
+                         │
+                        [R2: 8.2kΩ]
+                         │
+                        GND
+                                    LM393 OUTPUT (open collector) ──[R_pull: 47kΩ]── 3.3V
+                                         │
+                                        [R_hys: 470kΩ] ──────────────────────── LM393 (+)
+                                         │
+                                         └─── 1kΩ ──── N-FET gate (IRF3205)
+                                                           │
+                                                    10kΩ pull-down
+                                                    (gate to source)
+
+  V_ref generation:
+    3.3V ──[R3: 62kΩ]──┬── LM393 (−) input (V_ref ≈ 1.03V when V_pack > reconnect)
+                         │
+                        [R4: 33kΩ]    Ratio: 33/(62+33) = 0.347; with 3.3V supply = 1.15V
+                         │            Adjust R3/R4 for desired disconnect voltage.
+                        GND
+
+  MOSFET SWITCH (N-channel in load positive or negative path):
+    If LVD controls load in negative path (B− to load):
+      N-FET source → B−; drain → load (−); gate → LM393 output (via pull-up).
+      LM393 output HIGH (V_pack OK) → FET on → load connected.
+      LM393 output LOW (pulled to GND by open-collector when V_pack < LVD) → FET off.
+      WAIT: LM393 open-collector output goes HIGH (pulls to pull-up R) when V_pack > threshold.
+      Goes LOW (sinks through transistor) when V_pack < threshold.
+      This logic depends on comparator polarity — verify with simulation or bench test.
+
+  FOR RELIABILITY: Use a latching circuit (SCR or SR latch) for LVD.
+    Once tripped, load stays disconnected until charger is connected.
+    Prevents false re-energization from load removal (which raises battery voltage
+    momentarily, fooling the LVD into reconnecting prematurely).
+
+LATCHING LVD:
+
+  V_PACK ─── divider ─── comparator ─── SET input of SR latch (74HC279 or NE555 bistable)
+  CHARGER_DETECT ──────────────────── RESET input of SR latch
+  Q output ────────────────────────── MOSFET gate driver
+
+  SR LATCH: SET by undervoltage → Q = LOW → MOSFET off → load disconnected.
+  RESET by charger connection → Q = HIGH → MOSFET on → load reconnected.
+  CHARGER_DETECT: simple comparator; fires when V_IN > V_pack + 0.5V (charger is higher than pack).
+
+USING NE555 AS BISTABLE LATCH:
+  NE555 in bistable mode:
+    Pin 2 (TRIG): when LOW, output goes HIGH; when > 1/3 VCC, no effect
+    Pin 6 (THRESH): when HIGH (> 2/3 VCC), output goes LOW
+  Connect UV comparator → pin 6; charger detect → pin 2.
+  Output pin 3: drives MOSFET gate through 100Ω.
+
+================================================================================
+PRE-CHARGE CIRCUIT
+================================================================================
+
+PROBLEM:
+  Large output capacitors (e.g., in a 100W HF transceiver: 10,000 µF+) look
+  like a dead short at the moment of connection. Inrush current = V_bat / R_wire.
+  For 12V / 0.01Ω (wire resistance): I_inrush = 1200A — welds relay contacts.
+
+PRE-CHARGE SOLUTION:
+  A series resistor limits inrush. After capacitors are charged, a relay
+  bypasses the resistor for normal operation.
+
+PRE-CHARGE SCHEMATIC:
+
+  B+ ──[R_pre: 22Ω 10W]──┬──── Powerpole +  (pre-charge path)
+                           │
+                          (also)
+  B+ ──[RELAY NC contacts]─┘    (closed after pre-charge complete)
+
+  Timer (NE555 monostable, 500 ms):
+    Power-on → 555 fires → Q output LOW → relay coil off (NC = open) → R_pre in circuit.
+    After 500 ms: 555 output HIGH → relay energized → NC contacts close → R_pre bypassed.
+
+  ALTERNATIVELY: use NTC thermistor (10Ω cold) in series — passive solution.
+    After 2–3 seconds, NTC heats to < 1Ω. No relay required.
+    Drawback: if power cycled rapidly, NTC stays hot → no protection on second cycle.
+
+PRE-CHARGE TIME CALCULATION:
+  τ = R_pre × C_load = 22Ω × 10,000µF = 0.22 seconds
+  After 3τ = 0.66 seconds: cap is 95% charged.
+  Set relay delay to 750 ms (> 3τ).
+
+PRE-CHARGE RESISTOR RATING:
+  P_peak = V² / R_pre = 144 / 22 = 6.5W (brief, during cap charging)
+  Average (over 750 ms): < 1W
+  Use 10W wirewound for safety margin.
+
+================================================================================
+COMPLETE PROTECTION STACK — SUMMARY TABLE
+================================================================================
+
+Protection  | Circuit           | Trip Time  | Recoverable | Component
+------------|-------------------|------------|-------------|----------
+OV (cell)   | BQ76920 hardware  | 1–2 s      | Auto        | BQ76920 + FET
+OV (backup) | TL431 + SCR latch | < 100 ms   | Manual reset| TL431, C106D
+UV (cell)   | BQ76920 hardware  | 2–4 s      | Auto        | BQ76920 + FET
+UV (backup) | LM393 comparator  | < 20 ms    | Auto        | LM393
+OCD         | BQ76920 hardware  | 20–640 ms  | Auto        | BQ76920 + FET
+OCD (hw)    | LM393 + RC delay  | 20 ms      | Auto        | LM393, 5mΩ
+SCD         | BQ76920 hardware  | 70–200 µs  | Auto        | BQ76920 + FET
+SCD (hw)    | LM393, fast comp  | < 50 µs    | Auto        | LM393, fast
+LVD (pack)  | LM393 latching    | < 100 ms   | Charger req | LM393, NE555
+Pre-charge  | NE555 relay timer | Prevents   | N/A         | NE555, relay
+Over-temp   | BQ76920 TS pin    | 1 s        | Auto (cool) | BQ76920, NTC
+Over-temp   | Firmware (ESP32)  | 500 ms     | Auto (cool) | ADS1115, NTC
+Final fuse  | ANL fuse          | 100 ms     | Replace fuse| ANL fuse
+
+================================================================================
+PARTS LIST — PROTECTION AND LVD CIRCUITS
+================================================================================
+
+Item      | Qty | Description                               | Source
+----------|-----|-------------------------------------------|-------------------
+TL431     |  4  | TL431 adjustable reference (OV backup)    | Mouser
+LM393     |  2  | LM393 dual comparator                     | Mouser
+C106D     |  4  | SCR 4A TO-92 (OV latch)                  | Mouser
+NE555     |  2  | NE555 timer IC (LVD latch, pre-charge)    | Mouser
+IRF3205   |  2  | N-FET 55V 110A (LVD switch)              | Mouser
+R_sense   |  1  | 5mΩ 3W Kelvin shunt (OC sensing)         | Mouser
+R_pre     |  1  | 22Ω 10W wirewound (pre-charge)           | Mouser
+NTC_relay |  1  | 10Ω NTC CL-50 (pre-charge alternative)   | Mouser (Ametherm)
+K1        |  1  | Relay SPDT 12V (pre-charge bypass)        | Mouser
+R_dividers|  1  | 1% resistor kit (threshold setting)       | Mouser
+C_delay   |  2  | 1µF ceramic (OCD timing)                  | Mouser
+
+================================================================================

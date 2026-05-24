@@ -1,0 +1,190 @@
+================================================================================
+SCHEMATIC: WIDEBAND NOISE GENERATOR
+TM-NB-NOISE-GEN  Rev A
+1 MHz - 60 MHz, -25 dBm nominal output into 50 ohm
+================================================================================
+
+TWO DESIGNS GIVEN:
+  NGZ: Zener avalanche noise source (simpler, lower noise floor)
+  NGT: Transistor reverse-bias noise source (higher output, more uniform)
+
+================================================================================
+DESIGN NGZ: ZENER NOISE SOURCE
+================================================================================
+
+SCHEMATIC:
+
+  +9V (battery)
+     |
+    R1 (4.7k, 1/4W)    <-- bias to zener avalanche point
+     |
+  +--+--+
+  |     |
+  D1    C1 (100pF NP0)  <-- RF bypass, keeps noise off supply rail
+ 5.1V   |
+ zener  |              MAR-6 or ERA-3SM MMIC AMPLIFIER
+  |     |                     (50 ohm, 20 dB, DC-2 GHz)
+  C2 (100pF) <-- RF coupling
+  |
+  [MAR-6 pin 1 (RF IN)]
+  |
+  [internal 50 ohm matching]
+  |
+  [MAR-6 pin 3 (RF OUT)]
+  |
+  C3 (100pF NP0)  <-- DC block
+  |
+  R3 (51 ohm, 1%)  <-- output pad / level control
+  |
+  J1 (SMA or BNC output)  --> to bridge T1 winding
+
+
+MMIC BIAS CIRCUIT:
+  +9V
+   |
+  RFC1 (10uH, RF choke, SRF > 50 MHz)
+   |
+  R2 (130 ohm, 1/4W)  <-- bias resistor for MAR-6
+   |                       I_d = (9V - 5V) / 130 = 30.7 mA (typ for MAR-6)
+  [MAR-6 pin 3 also connects here]
+   |
+  C4 (10uF tantalum + 100pF NP0 in parallel)  <-- supply decoupling
+   |
+  GND
+
+COMPONENT VALUES:
+  D1:  1N4733A (5.1V, 1W, DO-41) or BZX84C5V1 (5.1V, 500mW, SOT-23)
+  R1:  4.7k, 1/4W, carbon film (noise from R1 negligible vs zener)
+  R2:  130 ohm, 1/4W, 1%
+  R3:  51 ohm, 1/4W, 1% (output termination + level pad)
+  RFC1:10uH, Murata LQH3NPN100M or similar, SRF > 100 MHz
+  C1:  100pF, NP0, 0805 (supply rail RF bypass)
+  C2:  100pF, NP0, 0805 (coupling to MMIC input)
+  C3:  100pF, NP0, 0805 (MMIC output DC block)
+  C4:  10uF/16V tantalum || 100pF NP0 (supply decoupling)
+  U1:  MAR-6SM (Mini-Circuits) or ERA-3SM (Mini-Circuits)
+       Alternatives: GALI-3+ (25dB gain), BGA614 (Infineon)
+  J1:  SMA female, PCB edge mount
+
+ZENER NOISE THEORY:
+  A reverse-biased zener near its avalanche breakdown voltage generates
+  broadband white noise. The noise power spectral density (PSD) is:
+    Noise PSD = 4*k*T*R_n (Johnson equivalent)
+  where R_n (equivalent noise resistance) for a 5.1V zener at 1mA:
+    R_n ≈ 50-200 ohm (measured empirically, varies by device)
+  For BZX84C5V1 at 0.9mA: noise figure ≈ 15-22 dB above thermal noise.
+  After MAR-6 (NF=7dB, G=20dB): system NF ≈ 7dB (MMIC dominates)
+  Output noise level: approx -25 dBm into 50 ohm (integrated 1-30 MHz)
+
+FLATNESS:
+  ±4 dB from 1-30 MHz (acceptable for bridge null detection).
+  Above 30 MHz: MAR-6 gain rolls off, reduces flatness.
+  For 50 MHz use: replace R1/R2 with 68 ohm + adjust MMIC for ERA-3.
+
+ALTERNATIVE MMIC: ERA-3SM
+  If MAR-6 is unavailable: ERA-3SM is a direct substitute.
+  Adjust R2 to 120 ohm (ERA-3 Id=50mA, Vd=3.6V: R=(9-3.6-0.7)/50mA = 94 ohm
+  Use 100 ohm).
+
+================================================================================
+DESIGN NGT: TRANSISTOR NOISE SOURCE (HIGHER POWER, FLATTER SPECTRUM)
+================================================================================
+
+SCHEMATIC:
+
+  +9V
+   |
+  R1 (10k, 1/4W)     <-- base bias resistor
+   |
+  Q1 base (2N3904 or BC547)
+  |
+  Q1 collector -----> NC (floating)
+  |
+  Q1 emitter -----> GND (emitter grounded)
+
+  The B-E junction is reverse biased: Vbe = -9V (through R1)
+  Avalanche noise at B-E junction is higher than zener noise.
+
+FULL NGT SCHEMATIC:
+
+  +9V ----R1(10k)---- Q1 Base
+                      |  (B-E reverse biased: Vbe = -9 + 0 = -9V)
+  +9V                 Q1 Emitter ---- GND
+   |
+  R2 (1k)           Q1 Collector ---- NC
+   |
+  C1 (100pF) <-- couples noise from base (high impedance node) to amp
+   |
+  [MAR-6 pin 1]
+   |
+  [same MMIC bias circuit as NGZ above]
+   |
+  C2 (100pF)
+   |
+  J1 output
+
+DESIGN DETAIL:
+  The transistor B-E junction reverse biased at 8-10V avalanches
+  and generates approximately 3-6 dB more noise than a zener at
+  the same current. The noise is somewhat less flat than zener
+  but provides more output power for easier null detection.
+
+  Q1: 2N3904 (NPN, TO-92) -- use any small-signal NPN with V_ebo > 8V
+  SCREEN EACH TRANSISTOR: Not all 2N3904 have adequate V_ebo for deep
+  reverse bias. Measure: apply -9V to base via 10k with emitter grounded.
+  If base current flows (meter deflects), the junction has broken down.
+  If no current: transistor is unsatisfactory. Most 2N3904 work.
+
+  Alternatively: BFR93 or BFT25A RF transistors have predictable
+  B-E breakdown and very flat noise spectrum to 1 GHz.
+
+NOISE SWITCH:
+  Install S1 (SPST) in series with 9V supply to noise source.
+  This allows keying the noise on/off for comparison.
+  Some bridge users prefer to null with noise off (null depth more obvious).
+
+================================================================================
+PCB LAYOUT NOTES (BOTH DESIGNS)
+================================================================================
+
+Critical layout rules for noise generator:
+  1. Keep D1/Q1 noise element lead length < 5mm to MMIC input.
+  2. Ground plane: solid copper pour on bottom layer, no voids.
+  3. C1, C2, C3: place within 3mm of MMIC pins.
+  4. RFC1: 10mm minimum from MMIC output trace.
+  5. Supply decoupling C4 directly at MMIC pin 4 (Vcc pin).
+  6. 50 ohm microstrip trace from MMIC output to J1:
+     On 1.6mm FR4 (Dk=4.5): trace width = 2.9mm for 50 ohm.
+     On 0.8mm FR4: trace width = 1.4mm.
+  7. Shield the noise generator from the bridge circuit with a
+     copper partition or separate shielded compartment.
+
+EXPECTED OUTPUT LEVEL:
+  1 MHz:    -24 dBm (approx, into 50 ohm)
+  7 MHz:    -25 dBm
+  14 MHz:   -25 dBm
+  28 MHz:   -24 dBm
+  50 MHz:   -28 dBm (roll-off starting)
+  100 MHz:  -33 dBm
+
+These levels produce a comfortable S3-S6 noise signal on a typical HF
+transceiver when the bridge is well off null.
+
+================================================================================
+PARTS LIST — NGZ DESIGN (RECOMMENDED)
+================================================================================
+  Qty  Ref    Value/Part#          Description
+  ---  -----  ------------------   --------------------------------
+   1   D1     1N4733A (5.1V, 1W)  Zener, DO-41
+   1   U1     MAR-6SM              MMIC amplifier, SOT-89 or MSC-07
+   1   RFC1   10uH 0805            RF choke, Murata LQH3NPN100M
+   1   R1     4.7k 1/4W 5%        Bias resistor
+   1   R2     130R 1/4W 1%        MMIC bias
+   1   R3     51R 1/4W 1%         Output pad
+   3   C1-C3  100pF NP0 0805      RF coupling / bypass
+   1   C4     10uF/16V tantalum   Supply decoupling (bulk)
+   1   C5     100pF NP0 0805      Supply decoupling (HF)
+   1   S1     SPST mini toggle    Noise on/off
+   1   J1     SMA PCB edge        Output
+
+================================================================================

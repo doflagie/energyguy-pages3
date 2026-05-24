@@ -1,0 +1,438 @@
+================================================================================
+  HF L/T/Pi-NETWORK TUNER CONTROLLER — ASCII SCHEMATIC
+  Project: RF-HFTuner / Motorized Antenna Tuner Suite
+  File:    hf_tuner_controller_ascii.txt
+  Rev:     1.0  2026-05-01
+  Controller: ESP32-WROOM-32
+================================================================================
+
+OVERVIEW
+--------
+ESP32-WROOM-32 based controller for a motorized HF L/T/Pi-network antenna
+tuner. Drives two NEMA 17 stepper motors via TMC2208 drivers (one for variable
+capacitor, one for roller inductor). Includes band selector, relay network for
+topology switching, SWR bridge ADC inputs, limit switches, I2C OLED display,
+Bluetooth SPP for CYD connection, and WiFi AP for web control.
+RF path must handle 100W minimum continuous power.
+
+================================================================================
+  SECTION 1: POWER SUPPLY
+================================================================================
+
+  J1 (POWER INPUT)
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │                                                                         │
+  │  J1-1 (+12V) ──────────┬───────────────────────────── 12V RAIL         │
+  │  J1-2 (GND)  ──────────┴─────────────────────────────── GND RAIL       │
+  │                                                                         │
+  │  Input: 12V DC, 3A minimum (motors draw ~1.2A each at full load)        │
+  │  Connector: 5.5/2.1mm barrel or 4-pin Molex                             │
+  └─────────────────────────────────────────────────────────────────────────┘
+
+  12V → 5V LDO (U3: LM7805 or AMS1117-5.0):
+
+   12V ─── D_protect ─── C_in (100µF/25V) ─── [U3: LM7805] ─── 5V RAIL
+             1N4007                                   │
+                                              C_out (100µF/16V) ─── GND
+                                              (bypass: 100nF ceramic)
+
+  5V → 3.3V LDO (U4: AMS1117-3.3):
+
+   5V ──── C_in (10µF/10V) ─── [U4: AMS1117-3.3] ─── 3.3V RAIL
+                                          │
+                                 C_out (10µF/10V) ─── GND
+                                 (bypass: 100nF ceramic near each IC)
+
+  Power budget summary:
+    ESP32         : 3.3V @ 240mA (peak WiFi TX)
+    TMC2208 logic : 3.3V @ 20mA each
+    TMC2208 motor : 12V @ 1.2A each (VM pin direct to 12V)
+    Relays (3×)   : 12V @ 70mA each (ULN2003 driven)
+    OLED 0.96"    : 3.3V @ 20mA
+    Total 3.3V    : ~340mA
+    Total 12V     : ~2.5A (motors running simultaneously at full current)
+
+  DECOUPLING REQUIREMENTS:
+    - 100nF ceramic cap at every IC power pin (place within 2mm of pin)
+    - 10µF bulk cap per power domain near each major IC
+    - 100µF electrolytic at 12V input, at 5V LDO output, at 3.3V LDO output
+    - Separate analog and digital GND planes; connect at single star point
+
+================================================================================
+  SECTION 2: ESP32-WROOM-32 MODULE
+================================================================================
+
+               ┌─────────────────────────────────────────────────┐
+               │              ESP32-WROOM-32                      │
+               │                                                  │
+               │   GND ──┤GND             3V3├── 3.3V            │
+               │   EN  ──┤EN              GND├── GND             │
+               │         ┤VP (GPIO36)        │                   │
+               │         ┤VN (GPIO39)        │                   │
+               │         ┤GPIO34             │   [WiFi Antenna]  │
+               │         ┤GPIO35             │   Keep clear of   │
+               │         ┤GPIO32             │   copper pour!    │
+               │         ┤GPIO33             │   Min 15mm        │
+               │         ┤GPIO25             │   clearance to    │
+               │         ┤GPIO26             │   any copper.     │
+               │         ┤GPIO27             │                   │
+               │         ┤GPIO14             │                   │
+               │         ┤GPIO12             │                   │
+               │   GND ──┤GND             GND├── GND             │
+               │         ┤GPIO13             │                   │
+               │         ┤GPIO9 (FLASH)      │                   │
+               │         ┤GPIO10 (FLASH)     │                   │
+               │         ┤GPIO11 (FLASH)     │                   │
+               │   3.3V──┤VDD              TX0├── UART TX        │
+               │   GND ──┤GND              RX0├── UART RX        │
+               │         ┤GPIO22 (SCL)        │                   │
+               │         ┤GPIO21 (SDA)        │                   │
+               │         ┤GPIO19             │                   │
+               │         ┤GPIO18             │                   │
+               │         ┤GPIO5              │                   │
+               │         ┤GPIO17             │                   │
+               │         ┤GPIO16             │                   │
+               │         ┤GPIO4              │                   │
+               │         ┤GPIO0              │                   │
+               │         ┤GPIO2              │                   │
+               │         ┤GPIO15             │                   │
+               │         ┤GPIO8 (FLASH)      │                   │
+               │         ┤GPIO7 (FLASH)      │                   │
+               │         ┤GPIO6 (FLASH)      │                   │
+               └─────────────────────────────────────────────────┘
+
+  WIFI ANTENNA NOTE:
+    The PCB trace antenna on the ESP32-WROOM-32 exits from the right side
+    of the module. Maintain a copper-free keep-out zone of at least 15mm
+    in the direction the antenna faces. No ground plane under antenna area.
+    Do NOT route any traces under the module's metal shield can.
+
+================================================================================
+  SECTION 3: STEPPER MOTOR DRIVER — CAPACITOR (TMC2208 #1)
+================================================================================
+
+  TMC2208 Driver U1 — Variable Capacitor Drive
+
+                          ┌─────────────────────────────────────┐
+                          │           TMC2208 (U1)               │
+                          │                                     │
+  12V (motor) ──────────── ┤VM                         A1├──── MOTOR_CAP_A+
+  GND ─────────────────── ┤GND          NEMA17          A2├──── MOTOR_CAP_A-
+  3.3V ─────────────────── ┤VCC_IO             CAP       B1├──── MOTOR_CAP_B+
+                          │                             B2├──── MOTOR_CAP_B-
+  GPIO18 (STEP_CAP) ────── ┤STEP                          │
+  GPIO19 (DIR_CAP)  ────── ┤DIR           R_sense:        │
+  GPIO5  (EN_CAP)   ────── ┤EN            0.11Ω 1%        │
+                          │              (sets I = 1.2A)  │
+  GND ──────────────────── ┤MS1  (UART mode: MS1=GND)     │
+  GND ──────────────────── ┤MS2  (UART mode: MS2=GND)     │
+                          │                              │
+  GPIO17 (UART_CAP) ────── ┤PDN_UART                     │
+                          │                             │
+  GND ─── 100nF ──────── ┤GND  (bypass near VM)        │
+                          └─────────────────────────────────────┘
+
+  TMC2208 Configuration (via UART or MS1/MS2 pins):
+    Microstep:  1/16 (MSTEP=16, set via UART CHOPCONF register)
+    Run current: 1.2A RMS (via R_sense = 0.11Ω: I = 0.325V / 0.11Ω / 1.41 = 2.09A peak...
+                           verify with IRUN register, set IRUN=20 for ~1.2A RMS)
+    Hold current: 50% (IHOLD = 10)
+    StealthChop:  enabled (silent operation, 1/16 microstepping)
+    SpreadCycle:  fallback above ~300 RPM
+    Stall detect: SG_RESULT monitoring for sensorless homing (optional)
+
+  CAP MOTOR wiring (NEMA 17, 4-wire biphasic):
+    A+ = MOTOR_CAP_A+  (typically RED)
+    A- = MOTOR_CAP_A-  (typically GREEN)
+    B+ = MOTOR_CAP_B+  (typically YELLOW)
+    B- = MOTOR_CAP_B-  (typically BLUE)
+
+  R_sense calculation:
+    R_sense = V_sense / (I_peak × sqrt(2))
+    Target I_RMS = 1.2A → I_peak = 1.697A
+    V_sense (TMC2208) = 0.325V
+    R_sense = 0.325 / 1.697 = 0.191Ω → use 0.2Ω 1% (parallel two 0.4Ω)
+    NOTE: final current set in firmware via UART IRUN register.
+
+================================================================================
+  SECTION 4: STEPPER MOTOR DRIVER — INDUCTOR (TMC2208 #2)
+================================================================================
+
+  TMC2208 Driver U2 — Roller Inductor Drive
+
+                          ┌─────────────────────────────────────┐
+                          │           TMC2208 (U2)               │
+                          │                                     │
+  12V (motor) ──────────── ┤VM                         A1├──── MOTOR_IND_A+
+  GND ─────────────────── ┤GND          NEMA17          A2├──── MOTOR_IND_A-
+  3.3V ─────────────────── ┤VCC_IO             IND       B1├──── MOTOR_IND_B+
+                          │                             B2├──── MOTOR_IND_B-
+  GPIO25 (STEP_IND) ────── ┤STEP                          │
+  GPIO26 (DIR_IND)  ────── ┤DIR                           │
+  GPIO27 (EN_IND)   ────── ┤EN                            │
+                          │                              │
+  GND ──────────────────── ┤MS1                           │
+  GND ──────────────────── ┤MS2                           │
+                          │                              │
+  GPIO16 (UART_IND) ────── ┤PDN_UART                     │
+                          └─────────────────────────────────────┘
+
+  Configuration identical to U1. Roller inductor NEMA 17 same spec.
+  References TM-RLIND-001 (roller inductor project).
+
+================================================================================
+  SECTION 5: LIMIT SWITCHES
+================================================================================
+
+  4 limit switches total: 2 per axis (min and max travel)
+
+  Hardware: Omron SS-5-F (snap-action microswitch) or equivalent
+  Wiring: Normally Closed (NC) recommended (detects broken wire as fault)
+
+  All limit switch inputs use internal pull-up (INPUT_PULLUP in firmware).
+  Switch connects GPIO to GND when actuated.
+
+  CAP_MIN limit switch:
+  GPIO36 ──── [10kΩ to 3.3V] ──── SW_CAP_MIN ──── GND
+               (external pull-up; GPIO36 has no internal pull-up)
+
+  CAP_MAX limit switch:
+  GPIO39 ──── [10kΩ to 3.3V] ──── SW_CAP_MAX ──── GND
+               (GPIO39 is input-only, no pull-up)
+
+  IND_MIN limit switch:
+  GPIO34 ──── [10kΩ to 3.3V] ──── SW_IND_MIN ──── GND
+               (GPIO34 is input-only, no pull-up)
+
+  IND_MAX limit switch:
+  GPIO35 ──── [10kΩ to 3.3V] ──── SW_IND_MAX ──── GND
+               (GPIO35 is input-only, no pull-up)
+
+  NOTE: GPIO34, 35, 36, 39 are all INPUT ONLY (no internal pull-ups).
+        External 10kΩ pull-ups to 3.3V are MANDATORY on these pins.
+
+  Limit switch debounce: 5ms software debounce in firmware ISR.
+
+  Safety behavior:
+    - If CAP_MIN asserted: stop motor, set position = 0, allow only positive moves
+    - If CAP_MAX asserted: stop motor, set position = MAX, allow only negative moves
+    - If both limits asserted simultaneously: FAULT state, halt all motion
+
+================================================================================
+  SECTION 6: SWR BRIDGE ADC INPUTS
+================================================================================
+
+  SWR bridge connects at:
+    VFWD = GPIO32 (ADC1_CH4)
+    VREV = GPIO33 (ADC1_CH5)
+
+  (See swr_bridge_ascii.txt for full bridge circuit detail)
+
+  Input protection (on controller board input connector):
+    VFWD_IN ─── R_series (100Ω) ─── GPIO32
+                                        │
+                                   D_clamp (3.3V zener) ─── GND
+
+    VREV_IN ─── R_series (100Ω) ─── GPIO33
+                                        │
+                                   D_clamp (3.3V zener) ─── GND
+
+================================================================================
+  SECTION 7: BAND SELECTOR — 4-BIT BINARY INPUT
+================================================================================
+
+  4-bit binary band selector: supports 11 HF bands (0000–1010 = bands 1–11)
+  Input from: 11-position rotary switch OR CYD BLE/BT command
+
+  GPIO12 (BAND_BIT0, LSB) ─── [R 10kΩ pull-down] ─── BAND_SW pin 1
+  GPIO13 (BAND_BIT1)      ─── [R 10kΩ pull-down] ─── BAND_SW pin 2
+  GPIO14 (BAND_BIT2)      ─── [R 10kΩ pull-down] ─── BAND_SW pin 3
+  GPIO15 (BAND_BIT3, MSB) ─── [R 10kΩ pull-down] ─── BAND_SW pin 4
+
+  Rotary switch: 11-position BCD (or Gray code) switch
+    Common → 3.3V
+    Outputs → GPIO12-15 (pull to 3.3V = logic 1)
+    Pull-down resistors ensure 0V when switch not connecting to 3.3V
+
+  Band encoding:
+    0b0000 (0)  = 160m  (1.85 MHz)
+    0b0001 (1)  = 80m   (3.6 MHz)
+    0b0010 (2)  = 60m   (5.35 MHz)
+    0b0011 (3)  = 40m   (7.15 MHz)
+    0b0100 (4)  = 30m   (10.12 MHz)
+    0b0101 (5)  = 20m   (14.2 MHz)
+    0b0110 (6)  = 17m   (18.1 MHz)
+    0b0111 (7)  = 15m   (21.2 MHz)
+    0b1000 (8)  = 12m   (24.9 MHz)
+    0b1001 (9)  = 10m   (28.5 MHz)
+    0b1010 (10) = 6m    (50.1 MHz)
+    0b1011-1111 = reserved / CYD override
+
+================================================================================
+  SECTION 8: RELAY NETWORK — TOPOLOGY SWITCHING (L/Pi/T)
+================================================================================
+
+  3 relays controlled by ULN2003 Darlington array driver.
+
+  ULN2003 (U5):
+    Input pins driven by ESP32 GPIO (3.3V logic → 5V relay drive)
+    Output pins: open-collector, rated 500mA, 50V
+
+  Relay drive circuit:
+
+  GPIO21 ──── ULN2003 IN1 ──── ULN2003 OUT1 ──── RELAY_K1 coil ──── 12V
+  GPIO22 ──── ULN2003 IN2 ──── ULN2003 OUT2 ──── RELAY_K2 coil ──── 12V
+  GPIO23 ──── ULN2003 IN3 ──── ULN2003 OUT3 ──── RELAY_K3 coil ──── 12V
+
+  ULN2003 has internal clamp diodes — no external flyback diodes needed.
+
+  Relay specifications:
+    Type: SPDT, 12V coil, 10A contact (for RF path, use silver alloy contacts)
+    K1, K2, K3: Omron G5V-2 or equivalent DPDT relay (or two SPDT per topology)
+    Contact rating: minimum 100W at 50Ω (≈ 70V peak, 1.4A peak at 100W)
+    RF relays preferred: Panasonic TQ2 series or similar
+
+  RELAY TRUTH TABLE FOR NETWORK TOPOLOGY SELECTION:
+
+  ┌─────────────┬────┬────┬────┬─────────────────────────────────────────┐
+  │ Network     │ K1 │ K2 │ K3 │ Circuit Configuration                   │
+  ├─────────────┼────┼────┼────┼─────────────────────────────────────────┤
+  │ L_LOWPASS   │ 0  │ 0  │ 0  │ TX─L─●─ANT; C from ● to GND            │
+  │ L_HIGHPASS  │ 1  │ 0  │ 0  │ TX─C─●─ANT; L from ● to GND            │
+  │ PI_NETWORK  │ 0  │ 1  │ 0  │ TX─●─L─●─ANT; C1 ● to GND; C2 ● GND   │
+  │ T_NETWORK   │ 0  │ 0  │ 1  │ TX─L1─●─L2─ANT; C from ● to GND        │
+  └─────────────┴────┴────┴────┴─────────────────────────────────────────┘
+  (0=relay deenergized, 1=relay energized)
+
+  RF PATH SAFETY NOTE:
+    All relay contacts in the RF path MUST be rated for RF power, not just
+    DC current. Use relays specified for RF switching or HF relay service.
+    Minimum RF contact rating: 100W into 50Ω (70V peak, 1.4A peak).
+    Contact gap must withstand RF voltage spikes at high SWR.
+    At SWR=3, V_peak on relay contacts can reach 3× the matched voltage:
+    100W at SWR=3 → V_peak = 3 × sqrt(2×100×50) = 3 × 100V = 300V peak.
+    Relay contacts and coax connectors must be rated accordingly.
+
+================================================================================
+  SECTION 9: I2C OLED DISPLAY (SSD1306, 0.96")
+================================================================================
+
+  SDA = GPIO21, SCL = GPIO22
+
+  I2C MULTIPLEXING NOTE:
+    GPIO21 is also used for RELAY_K1 (via ULN2003).
+    GPIO22 is also used for RELAY_K2 (via ULN2003).
+    Resolution: Use I2C expander (PCF8574) for relay control instead of
+    direct GPIO, OR use different GPIOs for relays:
+
+  REVISED RELAY ASSIGNMENT (to avoid I2C conflict):
+    RELAY_K1 → GPIO4   (via ULN2003 IN1)
+    RELAY_K2 → GPIO2   (via ULN2003 IN2; note: strapping pin, boot must be HIGH)
+    RELAY_K3 → GPIO15  (via ULN2003 IN3)
+
+  OR (preferred): Use PCF8574 I2C GPIO expander on I2C bus for all relays.
+    PCF8574 (I2C addr 0x20):
+      P0 → ULN2003 IN1 → RELAY_K1
+      P1 → ULN2003 IN2 → RELAY_K2
+      P2 → ULN2003 IN3 → RELAY_K3
+    Leaves GPIO21/22 exclusively for I2C.
+
+  OLED connections:
+    SDA  = GPIO21 ── 4.7kΩ pull-up to 3.3V
+    SCL  = GPIO22 ── 4.7kΩ pull-up to 3.3V
+    VCC  = 3.3V
+    GND  = GND
+    ADDR = GND (I2C address 0x3C)
+
+  OLED display content (4-line layout, 128×32 pixels):
+    Line 1: Band name + frequency  "40m  7.150"
+    Line 2: SWR reading            "SWR: 1.28"
+    Line 3: L and C values         "L:3.5µH C:45pF"
+    Line 4: State                  "TUNED [PI]"
+
+================================================================================
+  SECTION 10: BLUETOOTH SPP FOR CYD CONNECTION
+================================================================================
+
+  ESP32 built-in Bluetooth Classic (BT SPP — Serial Port Profile)
+  No external hardware required.
+
+  BT device name: "RF-HFTuner"
+  Pairing PIN: "1234" (configurable in firmware)
+  Service UUID: SPP (Serial Port Profile)
+
+  CYD connects via BT SPP and sends text commands:
+    TUNE [band]   — start auto-tune
+    HOME          — home both axes
+    SETL [µH]     — set inductor position
+    SETC [pF]     — set capacitor position
+    BAND [n]      — select band 0-10
+    NETWORK [n]   — set network type (0=L_LP, 1=L_HP, 2=PI, 3=T)
+    SWR           — return current SWR reading
+    STATUS        — return full JSON status
+    CAL           — trigger SWR calibration
+    SAVE [band]   — save current L/C as preset for band
+    LOAD [band]   — load preset for band
+    INFO          — firmware version and device info
+
+================================================================================
+  SECTION 11: COMPLETE GPIO ASSIGNMENT TABLE
+================================================================================
+
+  ┌─────────┬────────────────────┬───────────────────────────────────────────┐
+  │ GPIO    │ Function           │ Notes                                     │
+  ├─────────┼────────────────────┼───────────────────────────────────────────┤
+  │ GPIO2   │ LED_STATUS         │ Strapping pin; use 10kΩ pull-up to 3.3V  │
+  │ GPIO4   │ RELAY_K1           │ Topology relay 1 → ULN2003                │
+  │ GPIO5   │ EN_CAP (TMC2208)   │ LOW=enabled; high=disabled                │
+  │ GPIO12  │ BAND_BIT0          │ Band selector LSB; pull-down 10kΩ         │
+  │ GPIO13  │ BAND_BIT1          │ Band selector; pull-down 10kΩ             │
+  │ GPIO14  │ BAND_BIT2          │ Band selector; pull-down 10kΩ             │
+  │ GPIO15  │ BAND_BIT3 / RELAY3 │ Band selector MSB OR Relay K3             │
+  │ GPIO16  │ UART_IND (TMC2208) │ UART to inductor driver PDN_UART          │
+  │ GPIO17  │ UART_CAP (TMC2208) │ UART to cap driver PDN_UART               │
+  │ GPIO18  │ STEP_CAP           │ Step pulse to U1 TMC2208                  │
+  │ GPIO19  │ DIR_CAP            │ Direction to U1 TMC2208                   │
+  │ GPIO21  │ I2C_SDA / RELAY_K1 │ OLED SDA; relay via PCF8574 preferred     │
+  │ GPIO22  │ I2C_SCL / RELAY_K2 │ OLED SCL; relay via PCF8574 preferred     │
+  │ GPIO23  │ RELAY_K3           │ Topology relay 3 → ULN2003                │
+  │ GPIO25  │ STEP_IND           │ Step pulse to U2 TMC2208                  │
+  │ GPIO26  │ DIR_IND            │ Direction to U2 TMC2208                   │
+  │ GPIO27  │ EN_IND (TMC2208)   │ LOW=enabled                               │
+  │ GPIO32  │ VFWD_ADC           │ ADC1_CH4, SWR bridge forward voltage      │
+  │ GPIO33  │ VREV_ADC           │ ADC1_CH5, SWR bridge reflected voltage    │
+  │ GPIO34  │ IND_MIN_SW         │ Input only; external 10kΩ pull-up req'd   │
+  │ GPIO35  │ IND_MAX_SW         │ Input only; external 10kΩ pull-up req'd   │
+  │ GPIO36  │ CAP_MIN_SW         │ Input only (VP); external 10kΩ pull-up    │
+  │ GPIO39  │ CAP_MAX_SW         │ Input only (VN); external 10kΩ pull-up    │
+  ├─────────┼────────────────────┼───────────────────────────────────────────┤
+  │ GPIO0   │ BOOT               │ Pull HIGH for normal boot; LOW for flash   │
+  │ GPIO1   │ UART0_TX           │ Debug serial TX                           │
+  │ GPIO3   │ UART0_RX           │ Debug serial RX                           │
+  └─────────┴────────────────────┴───────────────────────────────────────────┘
+
+  Unassigned GPIO available: GPIO6-11 (connected to flash, do not use),
+  GPIO8, GPIO9, GPIO10, GPIO11 (FLASH — do not use).
+
+================================================================================
+  SECTION 12: DECOUPLING AND GROUNDING
+================================================================================
+
+  Required decoupling capacitors:
+    - 100nF ceramic (X7R, 0402 or 0603) at EVERY IC VCC pin, within 2mm
+    - 10µF MLCC or electrolytic at each IC's supply (one per IC, within 5mm)
+    - 100µF/25V electrolytic at 12V input (close to power connector)
+    - 100µF/10V at 5V LDO output
+    - 100µF/10V at 3.3V LDO output
+    - 100nF at each TMC2208 VCC_IO pin
+    - 220µF/25V at each TMC2208 VM (motor power) pin
+
+  Ground plane:
+    - Use solid ground plane on bottom copper layer
+    - Split analog and digital ground, join at single star point near ESP32 GND
+    - RF signal path grounds return to star point near SWR bridge connector
+    - Motor return currents: dedicated copper pour, not through digital GND
+
+================================================================================
+  END OF HF TUNER CONTROLLER ASCII SCHEMATIC
+================================================================================

@@ -1,0 +1,290 @@
+================================================================================
+SCHEMATIC: Station Grounding System and Low-Impedance Ground Bonds
+TM-LSP-001  Rev A
+Single-Point Entry Panel, Ground Rod Installation, Bonding Strap Sizing
+NEC Article 810 / NFPA 780 / ARRL Station Grounding Practices
+================================================================================
+
+GROUNDING PHILOSOPHY
+─────────────────────
+The purpose of station grounding is NOT primarily lightning protection.
+The purposes are, in order of importance:
+  1. Safety: prevent fatal shock from faulty equipment
+  2. RF common-mode elimination: single-point RF ground prevents loops
+  3. Static discharge: continuous low-impedance path for accumulated charge
+  4. Lightning DIVERSION: guide induced surge energy away from equipment
+     (Note: direct attachment cannot be "protected against" — only diverted)
+
+A ground system must be:
+  a) Low-impedance at DC and all operating frequencies (RF bonding)
+  b) Physically continuous (no connections that can corrode open)
+  c) Connected to a single point (star topology prevents ground loops)
+  d) Compliant with NEC 250 (electrical safety) and Article 810 (antenna)
+
+THE SINGLE-POINT ENTRY PANEL
+──────────────────────────────
+All cables entering the shack pass through ONE point — the entry panel.
+At this panel, all cable shields are bonded to a copper bar, which connects
+to the external ground rod via the shortest possible path.
+
+ENTRY PANEL DESIGN:
+
+  EXTERIOR (OUTSIDE SHACK)        │   INTERIOR (INSIDE SHACK)
+                                  │
+  ┌─────────────────────────────────────────────────────────────────┐
+  │ ENTRY PANEL (copper or aluminum plate, 300 × 150 × 6mm)        │
+  │                                                                 │
+  │  [COAX 1] ──[GDT ARR.]──► panel hole ──────────────────► shack │
+  │  HF feedline 1              │                                   │
+  │                             ├── BONDING BAR (1/2" copper strap) │
+  │  [COAX 2] ──[GDT ARR.]──► panel hole ──────────────────► shack │
+  │  HF feedline 2              │                                   │
+  │                             │                                   │
+  │  [COAX 3] ──[GDT ARR.]──► panel hole ──────────────────► shack │
+  │  VHF/UHF                    │                                   │
+  │                             │                                   │
+  │  [ROTOR CABLE] ─────────── surge strip ──────────────── shack  │
+  │  [CONTROL LINES]            │                                   │
+  │  [POWER LINE] ──────────── MOV suppressor ──────────── shack   │
+  │                             │                                   │
+  │                        MAIN GROUND BOND                         │
+  │                             │                                   │
+  └─────────────────────────────│────────────────────────────────────┘
+                                 │
+                         1/2" × 6" copper strap
+                         ≤ 1 meter length
+                         (MINIMUM path length!)
+                                 │
+                        ┌────────┴────────┐
+                        │  GROUND ROD     │
+                        │  8 ft copper-clad│
+                        │  5/8" diameter  │
+                        └─────────────────┘
+
+ENTRY PANEL BONDING BAR SCHEMATIC:
+
+  GND bar (copper): ────────────────────────────────────────────────
+                    │         │         │         │         │
+                  [ARR1]   [ARR2]    [ARR3]    [ARR4]   [POWER]
+                  coax1    coax2     VHF       UHF      MOV
+                  outer    outer     outer     outer    neutral
+
+  All arrestor chassis/outer conductors bond to bar via very short (<50mm) lugs.
+  Bar itself connects to ground rod via 1/2" copper strap.
+
+================================================================================
+GROUND ROD INSTALLATION
+================================================================================
+
+NEC REQUIREMENTS (Article 810.21 and 250.52):
+  - Minimum: single 8-foot (2.44m) copper-clad steel rod, 5/8" (15.9mm) OD
+  - Or: 10-foot (3.05m) rod
+  - Where soil conditions prevent 8-foot depth: L-shape (horizontal run) allowed
+  - Supplemental electrode required if ground resistance > 25Ω
+
+HAM BEST PRACTICE (exceeds NEC minimum):
+  - Ground rod: 10-foot (3m) solid copper, 5/8" OD (or copper-clad steel)
+  - Location: as close as possible to entry panel (< 3m distance preferred)
+  - Multiple rods: 2–4 rods in star pattern around shack, bonded together
+  - Rod spacing: ≥ 2× rod length (16 feet / 5m minimum between rods for full effect)
+  - All rods bonded to the same bus via buried #6 AWG insulated copper
+
+DRIVING PROCEDURE:
+  1. Select location: moist soil preferred; avoid rocky ground, septic systems.
+  2. Wet soil with water before driving if dry (reduces resistance significantly).
+  3. Drive rod with slide hammer or electric hammer drill (SDS with rod driver).
+  4. Leave 50mm (2") above grade for lug connection.
+  5. Install listed ground rod clamp (UL listed, copper, two-bolt).
+  6. Connect #6 AWG solid copper from clamp to entry panel bus.
+  7. If rock prevents full depth: run 8 feet horizontally at 18" depth.
+
+GROUND RESISTANCE MEASUREMENT:
+  Method: Fall-of-potential (3-electrode): requires ground resistance tester.
+  Target: < 10 Ω (excellent), < 25 Ω (NEC minimum).
+  Simple check: measure AC voltage between rod and utility neutral with DMM.
+  Less than 2V indicates good contact. > 5V indicates potential grounding issue.
+
+================================================================================
+BONDING STRAP SIZING AND IMPEDANCE
+================================================================================
+
+RF GROUNDING PRINCIPLE:
+  At radio frequencies, skin effect causes current to flow on the surface of
+  conductors.  A round wire has high RF impedance compared to a flat strap
+  of the same cross-sectional area.
+
+  NEVER use round wire for RF ground bonds (at any frequency above ~100 kHz).
+  USE COPPER STRAP (braid, strip, or bus bar) for all RF bonds.
+
+SKIN DEPTH IN COPPER:
+  δ = √(ρ / (π × f × µ₀ × µ_r)) = 66.1 / √f  [mm, f in Hz]
+
+  At 1.8 MHz:  δ = 0.049 mm (49 µm)
+  At 14 MHz:   δ = 0.018 mm (18 µm)
+  At 144 MHz:  δ = 5.5 µm
+  At 432 MHz:  δ = 3.2 µm
+
+INDUCTANCE PER UNIT LENGTH:
+  Round wire: L/length = (µ₀/2π) × [ln(2l/r) - 0.75]  (high inductance)
+  Flat strap:  L/length = (µ₀/2π) × [2l/W × ln(2l/W)] (much lower)
+
+  Comparison — 1 meter, 12.7mm (1/2") wide:
+    Round 12 AWG wire (2.05mm dia): L ≈ 1.35 µH → Z = 119Ω at 14 MHz
+    1/2" copper strap (0.5mm thick): L ≈ 0.57 µH → Z = 50Ω at 14 MHz
+    1" copper strap (1mm thick):    L ≈ 0.45 µH → Z = 39Ω at 14 MHz
+    2" copper strap (1mm thick):    L ≈ 0.35 µH → Z = 31Ω at 14 MHz
+    3" × 1/8" copper bus bar:       L ≈ 0.28 µH → Z = 25Ω at 14 MHz
+
+  LESSON: Wider is dramatically better for RF grounding.
+  Use the widest practical strap for the shortest path.
+
+MAXIMUM ALLOWED GROUND STRAP IMPEDANCE:
+  For 30 dB common-mode rejection with 150Ω CM path:
+    Z_ground must be << Z_choke / 30dB = 5000 / √1000 = 158Ω  (crude estimate)
+    Rule of thumb: ground strap Z < Z_0/10 = 5Ω for 50Ω coax system
+
+STRAP SIZING TABLE:
+
+  Strap type              | Z at 7MHz | Z at 14MHz | Z at 50MHz | Rec. use
+  ------------------------|-----------|-----------|-----------|------------------
+  #6 AWG round wire, 1m  |  38Ω     |  75Ω      | 268Ω      | NOT for RF grounding
+  #6 AWG wire, 0.1m      |   4Ω     |   8Ω      |  27Ω      | Minimum acceptable (short)
+  1/2" strap, 1m         |  16Ω     |  32Ω      | 113Ω      | Adequate for grounding strap
+  1/2" strap, 0.3m       |   5Ω     |  10Ω      |  34Ω      | Good (keep short!)
+  1" strap, 0.3m         |   3.5Ω   |   7Ω      |  25Ω      | Good
+  2" strap, 0.1m         |   1Ω     |   2Ω      |   7Ω      | Excellent
+  Copper braid 1", 0.3m  |   2Ω     |   4Ω      |  13Ω      | Very good; flexible
+
+RULE OF THUMB:
+  Keep ALL ground bonds as SHORT AS POSSIBLE.
+  A 100mm bond is 10× better than a 1000mm bond.
+  Wide and short beats narrow and long every time.
+
+================================================================================
+SINGLE-POINT GROUNDING SYSTEM BLOCK DIAGRAM
+================================================================================
+
+  ANTENNA 1 (HF dipole)
+         │ coax (RG-8X)
+  [GDT ARR. 1]──(chassis bond)──┐
+         │ coax continues        │
+                                 │
+  ANTENNA 2 (VHF yagi)          │
+         │ coax (LMR-195)        │
+  [GDT ARR. 2]──(chassis bond)──┤
+         │ coax continues        │
+                                 │
+  POWER LINE                     │
+         │ AC power              │
+  [MOV SURGE FILTER]─────────────┤
+         │ protected AC          │
+                                 │
+  TELEPHONE / ETHERNET           │
+         │ data line             │
+  [ETHERNET ARR.]────────────────┤
+         │ data continues        │
+                                 │   ALL GROUNDS MEET HERE
+                          ┌──────┴────────────────────────────┐
+                          │     SINGLE-POINT GROUND BUS       │
+                          │     (copper strip or bar)          │
+                          │     at exterior wall / entry panel │
+                          └──────────────────┬────────────────┘
+                                             │
+                                    1/2" copper strap
+                                    ≤ 1 meter, STRAIGHT
+                                    (no bends, no coils)
+                                             │
+                                    ┌────────┴────────┐
+                                    │  GROUND ROD      │
+                                    │  8-10 ft × 5/8"  │
+                                    └─────────────────┘
+
+CRITICAL RULES FOR SINGLE-POINT GROUNDING:
+
+  1. ONE ground rod at the entry point.  All bonds radiate FROM this one point.
+  2. NO separate ground rods for equipment inside the shack.
+     (Multiple rods → different potentials during surge → ground loop damage)
+  3. ALL cable shields bonded to the SAME bar at the SAME point.
+  4. STRAIGHT strap from entry panel to ground rod (no coils, no loops).
+  5. AC safety ground (from utility panel) bonds to the SAME ground rod system.
+     (NEC 250.106: antenna ground and power ground must be bonded together)
+
+================================================================================
+IN-SHACK BONDING
+================================================================================
+
+Inside the shack, all equipment must be bonded to a SINGLE RF ground bus:
+
+  RADIO 1 ──── #6 AWG or braid, <0.5m ────┐
+  RADIO 2 ──── braid, <0.5m ──────────────┤
+  LINEAR AMP ─ braid, <0.5m ──────────────┤
+  COMPUTER ─── braid, <0.5m ──────────────┤
+  TUNER ────── braid, <0.5m ──────────────┤
+  ROTATOR CTL─ braid, <0.5m ──────────────┤
+                                           │
+                               IN-SHACK RF BUS (copper strap on desk edge)
+                                           │
+                               4" copper braid or 2" strap
+                                           │
+                               ENTRY PANEL GROUND BUS
+                                           │
+                               ground rod
+
+IN-SHACK BUS: 1" × 0.05" copper bus bar (readily available as "copper busbar")
+  Run along back edge of operating desk.
+  All equipment chassis bond to bus via shortest possible braid.
+  Bus connects to entry panel ground via 2" copper strap through wall.
+
+================================================================================
+ROTOR AND CONTROL CABLE SURGE PROTECTION
+================================================================================
+
+Control cables (rotor, remote switches, etc.) also carry surge energy.
+Protect with: Bourns 1812-16/32 multi-line surge protector, or
+              individual TVS diodes (SMBJ15CA) on each conductor.
+
+ROTOR CABLE PROTECTION SCHEMATIC:
+
+  ROTOR CABLE IN ──┬──────────────────────────────────── ROTOR CABLE OUT
+  (each conductor)  │                                     (each conductor)
+                   [TVS] 15V bidirectional, per conductor
+                    │
+                 CHASSIS GND (bonded to entry panel bus)
+
+Use a 6-conductor or 8-conductor terminal strip with TVS diode per pin.
+Mount in weatherproof enclosure at shack entry.
+Typical rotor cable: 8-conductor, 22AWG.
+TVS per wire: SMBJ15CA (15V, 600W, bidirectional).
+
+TYPICAL CONTROL LINE VOLTAGES AND TVS SELECTION:
+
+  Control line type | Voltage | TVS V_BR | Notes
+  ------------------|---------|----------|---------------------------
+  Rotor (AC)        | 24V AC  | SMBJ27CA (27V) | Must be AC-tolerant
+  Rotor (DC)        | 12-24V  | SMBJ30CA (30V) | DC control lines
+  Band switch       | 12V     | SMBJ15CA (15V) | Logic-level
+  PTT/keyer         | 5-12V   | SMBJ12CA (12V) |
+  Remote coax relay | 12V     | SMBJ15CA (15V) |
+  Audio/speaker     | ≤ 1V AC | SMBJ5.0CA (5V) | Very sensitive
+
+================================================================================
+PARTS LIST — GROUNDING SYSTEM
+================================================================================
+
+Item  | Qty | Value / Description                        | Source
+------|-----|-------------------------------------------|------------------
+ROD1  |  1  | 10-ft copper-clad steel rod, 5/8" OD      | Electrical supply
+ROD2  |  1  | 10-ft (supplemental, recommended)         | Electrical supply
+CLAMP |  2  | Acorn Ground Rod Clamp, UL listed, #6 AWG | Electrical supply
+BSTR1 |  3m | 2" × 0.050" copper strip (entry → rod)   | Metal supplier
+BSTR2 |  2m | 1" × 0.050" copper strip (in-shack bus)  | Metal supplier
+BRAID | 2m  | 3/4" tinned copper braid                 | eBay, RF Parts
+LUG1  | 10  | #6 AWG two-hole copper lug               | Electrical supply
+LUG2  | 10  | #10 ring terminal, copper, large OD       | Electronic supply
+SCRW  | 20  | #10-32 SS machine screws + lock washers  |
+PANEL |  1  | 300×150×6mm aluminum or copper plate      | Metal supplier / 3D print
+TVSHF | 10  | SMBJ15CA                                  | Mouser
+TVSAC |  4  | SMBJ27CA (rotor AC lines)                 | Mouser
+MOV_AC|  1  | Littelfuse V275LA10BPX (275V MOV, AC line)| Mouser
+
+================================================================================

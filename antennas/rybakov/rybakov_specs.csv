@@ -1,0 +1,18 @@
+ANTENNA SPECIFICATION — RYBAKOV,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,"2M, 70cm",,Center/allocated bands
+Design approach,"End-fed VHF array, folded dipole variant",,Primary design method
+Compaction factor,30%,,Size reduction vs full-size
+Special parameters,"2 elements, 30cm spacing, 50Ω feed",,Design-specific details
+,,,
+Feed impedance,50,Ω,Standard amateur radio
+SWR target,<1.5,:1,At band center
+Radiation pattern,Varies,,See NEC model
+Polarization,Linear,,Or circular for arrays
+,,,
+Typical efficiency,80–95%,%,Band-dependent
+Typical gain,2–10,dBi,Type-dependent
+,,,
+NEC model file,rybakov.nec,,See electromagnetic simulation
+Construction manual,rybakov.md,,Step-by-step procedures

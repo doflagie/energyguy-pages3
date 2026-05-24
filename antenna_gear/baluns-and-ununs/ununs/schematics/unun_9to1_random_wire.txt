@@ -1,0 +1,143 @@
+================================================================================
+UNUN 9:1 — HIGH-IMPEDANCE RANDOM WIRE MATCHING
+================================================================================
+
+Purpose: Impedance transformation 450Ω unbalanced → 50Ω unbalanced
+Type: Voltage transformer (3:1 turns ratio unun)
+Insertion Loss: 0.15–0.25 dB (higher loss due to turns ratio)
+Primary Use: High-impedance random wires, long-wire antennas
+
+================================================================================
+CORE SPECIFICATIONS
+================================================================================
+
+HF Configuration (160M–10M):
+  Core: Single FT-240-43 (adequate for 9:1 unun)
+  Material: Mix 43 (µ=850, AL=1100 µH/100T)
+  Wire: #14 enameled copper
+  Primary: 4 turns (antenna side, 450Ω)
+  Secondary: 12 turns (coax side, 50Ω)
+  Turns Ratio: 3:1 (gives 9:1 impedance transformation)
+  Max Power: 400 W (higher loss than 4:1)
+  Insertion Loss: 0.20–0.30 dB
+
+Band-Specific Configuration:
+  160M (1.8 MHz):   4 primary, 12 secondary (FT-240-43)
+  80M (3.75 MHz):   4 primary, 12 secondary
+  40M (7.15 MHz):   4 primary, 11 secondary (compromise)
+  30M (10.1 MHz):   3 primary, 9 secondary (reduced turns)
+  20M (14.2 MHz):   3 primary, 9 secondary
+  10M (28.4 MHz):   3 primary, 9 secondary
+
+Wire Lengths:
+  Primary: ~60 inches (4 turns)
+  Secondary: ~130 inches (12 turns)
+  Total: ~190 inches
+
+================================================================================
+IMPEDANCE TRANSFORMATION
+================================================================================
+
+TURNS RATIO:
+  N_ratio = 12 / 4 = 3:1
+  Z_out = Z_in / N² = 450 / 9 = 50Ω ✓
+
+VOLTAGE STEP-DOWN:
+  V_out = V_in × (1/3) ≈ 0.33 × V_in
+
+POWER CONSERVATION:
+  P_in ≈ P_out (minus ferrite losses)
+  High impedance → low current, low loss ideal
+
+================================================================================
+FREQUENCY RESPONSE
+================================================================================
+
+FT-240-43, 4:12 turns:
+
+Frequency    Impedance Ratio    Insertion Loss
+160M         9.2:1 (450→49)     0.30 dB
+80M          8.9:1              0.25 dB
+40M          8.5:1              0.20 dB
+20M          8.2:1              0.15 dB
+10M          7.8:1              0.12 dB
+
+Notes:
+  - Impedance ratio flat across HF band
+  - Loss decreases at higher frequencies (ferrite loss drops)
+
+================================================================================
+PRIMARY APPLICATIONS
+================================================================================
+
+1. HIGH-IMPEDANCE RANDOM WIRES:
+   - Wire feedpoint impedance 400–500Ω
+   - Non-resonant long wire (>2λ length)
+   - 9:1 unun essential for impedance matching
+
+2. VERY LONG WIRES (300+ feet):
+   - Extremely high impedance at some frequencies
+   - 9:1 typical for broadband long-wire operation
+
+3. END-FED LONG WIRES (without tuner):
+   - Some long wires exhibit high impedance feedpoints
+   - 9:1 converts directly to 50Ω (no tuner needed if impedance exact)
+
+4. LOOP ANTENNAS:
+   - Some loop designs have high-impedance feedpoints
+   - 9:1 unun suitable if feedpoint impedance ~450Ω
+
+================================================================================
+FAILURE MODES
+================================================================================
+
+SYMPTOM: High SWR despite 450Ω antenna impedance
+ROOT CAUSE: Antenna impedance changed (frequency dependent)
+SOLUTION: Use tuner with 9:1 unun for broadband matching
+
+SYMPTOM: Excessive heating
+ROOT CAUSE: High loss (ferrite dissipating energy)
+SOLUTION: Reduce power, or use larger core (FT-240-43×2)
+
+================================================================================
+TESTING PROCEDURE
+================================================================================
+
+Setup:
+  Port 1: Coax output (50Ω)
+  Port 2: Primary antenna connection (450Ω load)
+  Use 450Ω resistive load for testing
+
+Measurement 1 — Impedance Ratio (450Ω load):
+  Sweep 1–30 MHz
+  Expected: Z_out ≈ 50Ω
+  S₁₁ <-20 dB
+
+Measurement 2 — Insertion Loss:
+  Sweep 1–30 MHz
+  Expected: S₂₁ ≈ -0.15 to -0.25 dB
+  Accept higher loss (expected for 9:1 ratio)
+
+================================================================================
+DESIGN EQUATIONS
+================================================================================
+
+Turns ratio for 450→50Ω:
+  N_ratio = sqrt(450/50) = sqrt(9) = 3:1
+  Use 4 primary, 12 secondary (3:1 ratio) ✓
+  Or 3:9 (also 3:1 ratio) for higher frequencies
+
+Insertion Loss:
+  L_dB ≈ 0.1 + 0.003 × f_MHz (FT-240-43, 9:1)
+  Example @ 14.2 MHz: L ≈ 0.14 dB
+
+================================================================================
+POWER HANDLING
+================================================================================
+
+FT-240-43 single core:
+  Continuous (CW): 400 W @ 50°C ambient
+  Peak (SSB): 600 W
+  Thermal rise: ~20°C @ 400W (higher than 4:1)
+
+================================================================================

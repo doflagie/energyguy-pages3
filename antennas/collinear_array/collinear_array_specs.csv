@@ -1,0 +1,18 @@
+ANTENNA SPECIFICATION — COLLINEAR_ARRAY,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,"2M, 70cm",,Center/allocated bands
+Design approach,Stacked dipoles with phasing harness,,Primary design method
+Compaction factor,0%,,Size reduction vs full-size
+Special parameters,"4-element 2M (2.0 dBi gain), 8-element 70cm (7 dBi)",,Design-specific details
+,,,
+Feed impedance,50,Ω,Standard amateur radio
+SWR target,<1.5,:1,At band center
+Radiation pattern,Varies,,See NEC model
+Polarization,Linear,,Or circular for arrays
+,,,
+Typical efficiency,80–95%,%,Band-dependent
+Typical gain,2–10,dBi,Type-dependent
+,,,
+NEC model file,collinear_array.nec,,See electromagnetic simulation
+Construction manual,collinear_array.md,,Step-by-step procedures

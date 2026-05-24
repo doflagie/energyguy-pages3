@@ -1,0 +1,180 @@
+================================================================================
+  DIRECTIONAL COUPLER AND SWR BRIDGE                    TM-EF-SCH-003 Rev A
+  Theory, Design, and Construction for EFQW SWR Monitoring
+================================================================================
+
+DIRECTIONAL COUPLER THEORY:
+─────────────────────────────
+A directional coupler separates forward (incident) and reflected traveling waves
+on a transmission line without disturbing the RF signal flow. Two mechanisms
+cooperate: electromagnetic induction (magnetic coupling, proportional to current)
+and electrostatic coupling (electric coupling, proportional to voltage).
+
+By combining these in correct phase, the device discriminates direction:
+
+  Forward wave:  V_mag and V_elec are IN PHASE → add    (V_fwd = 2×V_coupled)
+  Reverse wave:  V_mag and V_elec are OUT OF PHASE → cancel (V_rev ≈ 0)
+
+BRUENE COUPLER (used in this design):
+────────────────────────────────────
+The Bruene type uses a single-turn primary through a toroid core, plus a
+resistive voltage sampling network. It accurately separates Vfwd and Vrefl
+from DC to beyond 30 MHz with simple construction.
+
+MATH:
+  V_fwd = V_line + I_line × Z₀ (incident voltage wave)
+  V_rev = V_line − I_line × Z₀ (reflected voltage wave)
+
+  Coupling coefficient k:
+    V_coupled = k × V_fwd  (forward detector port)
+    V_isolated ≈ 0          (reverse detector, matched system)
+
+  Reflection coefficient:  ρ = |V_rev| / |V_fwd| = √(P_rev/P_fwd)
+  SWR:                     S = (1 + ρ) / (1 − ρ)
+  Return loss:             RL = −20 log₁₀(ρ) dB
+
+  Example: SWR=2.0 → ρ=0.333 → RL=9.5 dB → P_rev/P_fwd = 11.1%
+
+================================================================================
+  SCHEMATIC — BRUENE DIRECTIONAL COUPLER (HF, 1.8–30 MHz)
+================================================================================
+
+  RF IN (50Ω)                                    RF OUT to antenna
+  ─────────────────────────────────────────────────────────────────
+
+                    PRIMARY: single pass-through (1 turn)
+                    ┌──────────────────────────────────┐
+  IN ──────────────┤══════[FT-37-43 toroid, 10T sec]══╪═════────── ANT
+                    └──────────────────────────────────┘
+                                    │
+                    SECONDARY: 10T winding on FT-37-43
+                    Both ends of secondary go to two networks:
+
+  ──────────────────── FORWARD DETECTOR ────────────────────────────
+
+  Sec. end 1 ──[R1: 51Ω]──┬──[D1: 1N5711]──┬── Vfwd DC out
+                           │                │
+                          [R2: 51Ω]        [C1: 100nF]
+                           │                │
+                          GND              GND (to ESP32 ADC)
+                           │
+  Sec. end 2 ──────────────┘
+
+  ──────────────────── REFLECTED DETECTOR ──────────────────────────
+
+  Sec. end 1 ──[R3: 51Ω]──┬──[D2: 1N5711]──┬── Vrefl DC out
+                           │   (reversed)    │
+                          [R4: 51Ω]        [C2: 100nF]
+                           │                │
+  Sec. end 2 ──────────────┘               GND (to ESP32 ADC)
+
+  VOLTAGE SAMPLING NETWORK:
+  Voltage divider from main line to ground reference:
+  ANT side ──[R5: 1kΩ]──┬──[R6: 51Ω]──GND
+                         └── to sec. end 2 junction
+
+  (R5/R6 provide the voltage component for directivity enhancement)
+
+================================================================================
+  SCHEMATIC — SIMPLIFIED DIODE SWR BRIDGE (portable, no toroid)
+================================================================================
+
+  Simpler construction using resistive bridge:
+
+  IN ──────────────────┬──────────────────── ANT
+                       │
+                      [R7: 51Ω (exact, 1%)]
+                       │
+            ┌──────────┼──────────┐
+            │                     │
+         [D3]                  [D4]
+        1N5711                1N5711
+         (fwd)                (rev, reversed)
+            │                     │
+         [C3: 100nF]          [C4: 100nF]
+            │                     │
+           Vfwd                 Vrefl
+           → ADC1               → ADC2
+         (ESP32                (ESP32
+         GPIO35)               GPIO39)
+
+  This bridge works well from 1.8–150 MHz. Directivity ~25 dB.
+  Accuracy ±10% on power, ±0.1 on SWR reading.
+  Simple to build on perfboard; no toroid winding required.
+
+================================================================================
+  SCHEMATIC — AD8307 LOG DETECTOR IMPLEMENTATION (preferred)
+================================================================================
+
+  For calibrated power reading, replace diode detectors with AD8307:
+
+  Vfwd_RF ──[C5: 100nF]──[AD8307 #1]── Vout_fwd (DC, 25mV/dB)
+                              │
+                             3V3
+
+  Vrefl_RF ──[C6: 100nF]──[AD8307 #2]── Vout_refl (DC, 25mV/dB)
+                              │
+                             3V3
+
+  Both AD8307 outputs → ESP32 ADC channels.
+
+  P_fwd_dBm  = (V_fwd_mV / 25) − 84
+  P_refl_dBm = (V_refl_mV / 25) − 84
+  ρ = 10^((P_refl_dBm − P_fwd_dBm) / 20)
+  SWR = (1 + ρ) / (1 − ρ)
+
+  DYNAMIC RANGE: −73 to +17 dBm (AD8307) → measures forward power up to 50mW
+  (For QRP 5W: add 10 dB pad before coupler input; correct in firmware)
+
+================================================================================
+  SCHEMATIC — COMPLETE TUNING STATION BLOCK DIAGRAM
+================================================================================
+
+  ┌─────────────────────────────────────────────────────────────────┐
+  │                     EFQW TUNING STATION                         │
+  │                                                                 │
+  │  [TRANSCEIVER]─50Ω coax─[SWR BRIDGE]─50Ω coax─[L-NETWORK]──► │
+  │                               │                   (manual       │
+  │                               │                   tune C2)      │
+  │                         ┌─────┴──────┐                          │
+  │                         │            │              ▲           │
+  │                    Vfwd_RF    Vrefl_RF         Antenna wire     │
+  │                         │            │              │           │
+  │                    [AD8307#1] [AD8307#2]        [Choke balun]  │
+  │                         │            │              │           │
+  │                    GPIO35       GPIO39          ↓ Counterpoise │
+  │                         │            │           (radials)      │
+  │                    [ESP32-WROOM-32]                             │
+  │                         │                                       │
+  │                    ┌────┴────┐                                  │
+  │                  WiFi      BT                                   │
+  │                    │         │                                  │
+  │              [Browser]  [CYD Display]                          │
+  └─────────────────────────────────────────────────────────────────┘
+
+================================================================================
+  DIRECTIVITY AND ACCURACY
+================================================================================
+
+  Directivity = Forward coupling − Reverse coupling (dB)
+
+  ┌───────────────────────────────┬────────────────┬──────────────┐
+  │ Coupler type                  │ Directivity    │ Freq range   │
+  ├───────────────────────────────┼────────────────┼──────────────┤
+  │ Simple diode bridge (R only)  │ 20–25 dB       │ DC–150 MHz   │
+  │ Bruene (toroid + R network)   │ 30–35 dB       │ 1.8–30 MHz   │
+  │ Dual AD8307 + toroid coupler  │ 35–40 dB       │ 1–500 MHz    │
+  │ Commercial (Mini-Circuits)    │ 40+ dB         │ per model    │
+  └───────────────────────────────┴────────────────┴──────────────┘
+
+  SWR measurement error from directivity:
+    Directivity 30 dB: error <0.05 in SWR at SWR < 3:1
+    Directivity 25 dB: error <0.1 in SWR at SWR < 2:1
+
+  For field tuning (goal: find minimum SWR, not absolute accuracy):
+    Simple diode bridge is entirely adequate.
+    AD8307 version provides absolute power calibration for logging.
+
+================================================================================
+  END OF TM-EF-SCH-003
+================================================================================

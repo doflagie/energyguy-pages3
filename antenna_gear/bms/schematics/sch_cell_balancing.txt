@@ -1,0 +1,271 @@
+================================================================================
+SCHEMATIC: Cell Balancing Circuits — Passive and Active
+TM-BMS-001  Rev A
+Passive (top-of-charge resistive bleed)  |  Active (inductor energy transfer)
+Active balancing efficiency: 85–92%  |  Passive: 0% (dissipates energy as heat)
+Compatible with LiFePO4 and Li-Ion packs
+================================================================================
+
+CELL IMBALANCE — CAUSES AND EFFECTS
+──────────────────────────────────────
+Cells in a series string will gradually diverge in voltage due to:
+  - Manufacturing variations in capacity (even same model/batch: ±3%)
+  - Differential self-discharge rates (higher capacity cells discharge slower)
+  - Temperature gradients in the pack (cells nearest heat sources age faster)
+  - Different internal resistance (high-R cells run hotter, age faster)
+
+EFFECT OF IMBALANCE ON PACK:
+  The LOWEST voltage cell determines discharge cutoff.
+  The HIGHEST voltage cell determines charge cutoff.
+  A 100 mV imbalance in a 4S pack can reduce effective capacity by 5–15%.
+  A 300 mV imbalance → pack appears nearly full on low end, nearly empty on high end.
+
+BALANCING PHILOSOPHY:
+  TOP-BALANCE: equalize during charging (cells reach 100% together).
+    Most common approach. Charger holds near top-of-charge while balance dissipates.
+    Simple; adequate for most applications.
+  BOTTOM-BALANCE: equalize during discharge (cells reach 0% together).
+    Preferred for discharge-critical applications (maximize runtime).
+    Rarely used in practice.
+  CONTINUOUS: balance during both charge and discharge.
+    Most complex; required for very large packs (> 100 Ah) where imbalance accumulates.
+
+================================================================================
+PASSIVE BALANCING — RESISTIVE BLEED
+================================================================================
+
+PRINCIPLE:
+  A resistor (or transistor acting as resistor) bleeds current from any cell
+  that is above the target voltage. This wastes energy as heat but is simple.
+
+SIMPLEST IMPLEMENTATION (BQ76920 built-in):
+  The BQ76920/BQ76930 has internal balance FETs.
+  When CELLBAL1 bit is set for a cell, an internal switch connects the balance
+  resistor (R_BAL, external) between the cell's VC pin and the cell below it.
+
+  BALANCE CONTROL:
+    Firmware detects highest-voltage cell.
+    Enables balance FET for all cells with voltage > (V_min_cell + threshold).
+    Example threshold: 10 mV above lowest cell.
+    Disables balance when cells are within 5 mV.
+
+  BALANCE CURRENT:
+    I_bal = V_cell / R_BAL
+    For R_BAL = 10Ω, V_cell = 3.6V (LiFePO4 full): I_bal = 360 mA
+    For R_BAL = 47Ω: I_bal = 76 mA (gentler, less heat)
+
+  TIME TO BALANCE:
+    For 50 mV imbalance at C = 50 Ah:
+    ΔQ = ΔV × C / V_cell = 0.05 × 50 / 3.6 = 0.69 Ah
+    t = ΔQ / I_bal = 0.69 / 0.360 = 1.9 hours (at 360 mA)
+    → Adequate for overnight field recharging cycle
+
+EXTERNAL PASSIVE BALANCE FET (higher current):
+  For faster balancing: use external N-channel MOSFET + shunt resistor per cell.
+  Controlled by ESP32 GPIO (or BQ76920 BAL pin extended via optocoupler).
+
+  PER-CELL BALANCE CIRCUIT:
+    V_cell(n) ── R_limit (10Ω) ── MOSFET_Q (N-channel, SOT-23) ── V_cell(n-1)
+                                       │
+                                 Gate ← ESP32 GPIO (via 1kΩ)
+                                       │
+                                 10kΩ pull-down (ensures gate LOW when GPIO floating)
+
+  MOSFET: 2N7002 or BS170 (SOT-23, 60V, 115 mA). For higher balance current:
+    IRLML2502 (20V, 4A, 45 mΩ) — allows I_bal = V_cell/R_limit = 3.6/10 = 360 mA.
+  Drive from ESP32: each cell requires one GPIO pin. 4S pack = 4 GPIO for balance.
+
+PASSIVE BALANCE FULL SCHEMATIC (4S LiFePO4):
+
+  V_CELL4 ──[R_B4: 10Ω 1W]──┬── Q4_BAL drain (IRLML2502)
+                              │   Q4_BAL gate ←── ESP32 GPIO14 (via 1kΩ)
+                              │   Q4_BAL source ──── V_CELL3
+                              │   [10kΩ pull-down: gate to source]
+  V_CELL3 ──[R_B3: 10Ω 1W]──┬── Q3_BAL drain
+                              │   Q3_BAL gate ←── ESP32 GPIO27
+                              │   Q3_BAL source ──── V_CELL2
+  V_CELL2 ──[R_B2: 10Ω 1W]──┬── Q2_BAL drain
+                              │   Q2_BAL gate ←── ESP32 GPIO26
+                              │   Q2_BAL source ──── V_CELL1
+  V_CELL1 ──[R_B1: 10Ω 1W]──┬── Q1_BAL drain
+                              │   Q1_BAL gate ←── ESP32 GPIO25
+                              │   Q1_BAL source ──── V_CELL0 (B−)
+
+  NOTE: All cell voltages are referenced to different potentials (floating references).
+  ESP32 GPIO is at the same ground as the bottom cell (B−/GND).
+  For cells 2, 3, 4: gate voltage must be referenced to that cell's source.
+  Solution: Optocoupler isolation or level-shifted gate drivers.
+
+OPTOCOUPLER ISOLATION FOR UPPER CELLS:
+
+  For cell n (n > 1), the MOSFET source is at V_cell(n-1), not at GND.
+  Use 4N25 or PC817 optocoupler:
+
+    ESP32 GPIO ──[1kΩ]── LED cathode
+    LED anode  ── 3.3V (ESP32 supply)
+    Opto transistor collector ── MOSFET gate via 10kΩ to V_cell(n)
+    Opto transistor emitter  ── MOSFET source (= V_cell(n-1))
+    10kΩ pull-down between gate and source
+
+  When ESP32 GPIO = LOW: LED off → transistor off → gate pulled LOW by pull-down → FET off.
+  When ESP32 GPIO = HIGH: LED on → transistor on → gate pulled to V_cell(n) → FET on.
+
+  SIMPLER ALTERNATIVE: Use isolated gate driver ICs (SI8261) or level-shifting circuit.
+  For most practical field BMS designs: the BQ76920 handles balancing autonomously
+  (no optocoupler needed since BQ76920 operates across the full stack voltage).
+
+================================================================================
+ACTIVE BALANCING — INDUCTOR ENERGY TRANSFER
+================================================================================
+
+PRINCIPLE:
+  Energy is transferred from a high-SOC cell to a low-SOC cell via an inductor.
+  No energy is wasted as heat. Efficiency: 85–92%.
+
+TOPOLOGY: FLYBACK (single inductor, multiplexed)
+  One inductor; two switches. Charge inductor from high cell; dump to low cell.
+  Simple but requires cell selection logic.
+
+TOPOLOGY: LC RESONANT (sinusoidal transfer)
+  Capacitor + inductor form resonant tank. Very efficient (>90%); complex control.
+
+TOPOLOGY: CÜCK CONVERTER (most common for active balancers)
+  Each adjacent cell pair has a Ćuk converter. Continuous energy flow.
+  Used in JK BMS active balancer boards.
+
+INDUCTOR FLYBACK ACTIVE BALANCER (2-cell, educational):
+
+  V_HIGH ──[Q1 (N-FET)]──[L1: 22µH]──[Q2 (N-FET)]── V_LOW
+                │                              │
+               GND                            GND
+
+  CHARGE PHASE: Q1 on, Q2 off. Current ramps in L1: i(t) = V_HIGH × t / L1.
+  TRANSFER PHASE: Q1 off, Q2 on. Inductor current flows into V_LOW cell.
+  Peak current: I_peak = V_HIGH × t_on / L1 = 3.6 × 5µs / 22µH = 0.82A
+  Energy per cycle: E = 0.5 × L1 × I_peak² = 0.5 × 22e-6 × 0.82² = 7.4 µJ
+  At 100 kHz switching: P_transfer = 7.4µJ × 100,000 = 0.74W → balance rate OK
+
+MOSFET SELECTION FOR ACTIVE BALANCER:
+  V_DS must withstand full stack voltage (14.4V for 4S LiFePO4; 16.8V for 4S Li-Ion).
+  Use 30V minimum rating. Si2302 (SOT-23, 30V, 2A) adequate for low-power balancer.
+
+4-CELL ACTIVE BALANCER (using TI BQ2970 or similar):
+  Commercial solution: DALY/JK BMS active balancer board
+  Uses multiple Ćuk converters; 1A balance current; 0.5–1W per cell
+  Connect: same cell tap wires as passive BMS balance taps (VC1–VC4)
+  Control: standalone (autonomous); some models have UART for status
+
+  JK BMS ACTIVE BALANCER SPECS (integrated in JK BMS 4S):
+    Balance current: 1–2A (configurable)
+    Balance trigger: when any cell diverges > 5 mV from mean
+    Efficiency: ~88%
+    Heat: MOSFET temp rise < 10°C at 1A balance
+    Protocol: UART reports balance state to ESP32
+
+ACTIVE VS. PASSIVE SELECTION GUIDE:
+  Active balancing is worthwhile when:
+    - Pack > 50 Ah (imbalance current significant relative to capacity)
+    - High cycle rate (daily charge/discharge in field operation)
+    - Cells are not well-matched
+    - Energy efficiency is critical (solar-powered station)
+
+  Passive balancing is adequate when:
+    - Pack < 20 Ah (fast to balance even at low current)
+    - Low cycle rate (weekend activations)
+    - Cells are well-matched from factory
+
+================================================================================
+BALANCING ALGORITHM (ESP32 FIRMWARE EXCERPT)
+================================================================================
+
+```cpp
+// Balance control parameters
+#define BAL_THRESHOLD_MV   10    // Start balancing when max-min > 10 mV
+#define BAL_STOP_MV         5    // Stop when max-min < 5 mV
+#define BAL_ENABLE_SOC     90    // Only balance above 90% SOC (top-balance)
+#define BAL_MAX_TEMP       45.0  // Disable balancing above 45°C cell temp
+
+void update_balancing(float cell_v[4], float temp_c, float soc_pct) {
+    // Only balance at top-of-charge
+    if (soc_pct < BAL_ENABLE_SOC) {
+        balance_disable_all();
+        return;
+    }
+    // No balancing if hot
+    if (temp_c > BAL_MAX_TEMP) {
+        balance_disable_all();
+        return;
+    }
+
+    // Find min and max cell voltage
+    float v_min = cell_v[0], v_max = cell_v[0];
+    for (int i = 1; i < 4; i++) {
+        if (cell_v[i] < v_min) v_min = cell_v[i];
+        if (cell_v[i] > v_max) v_max = cell_v[i];
+    }
+
+    float imbalance_mv = (v_max - v_min) * 1000.0f;
+
+    if (imbalance_mv < BAL_STOP_MV) {
+        balance_disable_all();   // Pack balanced — stop
+        return;
+    }
+
+    if (imbalance_mv > BAL_THRESHOLD_MV) {
+        // Enable balance FET for every cell above v_min + 5 mV
+        for (int i = 0; i < 4; i++) {
+            bool should_balance = (cell_v[i] > v_min + BAL_STOP_MV / 1000.0f);
+            balance_set_cell(i, should_balance);
+        }
+    }
+}
+
+void balance_set_cell(int cell, bool enable) {
+    // BQ76920: write CELLBAL1 register (bits 0–3 for cells 1–4)
+    uint8_t bal_reg = bq_read(0x01);
+    if (enable) bal_reg |=  (1 << cell);
+    else        bal_reg &= ~(1 << cell);
+    bq_write(0x01, bal_reg);
+}
+
+void balance_disable_all() {
+    bq_write(0x01, 0x00);
+}
+```
+
+================================================================================
+BALANCE MONITORING AND LOGGING
+================================================================================
+
+Track balance activity for pack health assessment:
+  - Log timestamp + cell voltages when balancing starts
+  - Log duration and estimated charge transferred
+  - Alert if imbalance > 100 mV (indicates degraded or failing cell)
+  - Alert if balance takes > 8 hours to converge (indicates capacity mismatch)
+
+Balance health metric:
+  delta_V_max = max cell voltage − min cell voltage (at top of charge)
+  New pack: delta_V_max < 5 mV
+  Healthy: delta_V_max 5–30 mV
+  Aging: delta_V_max 30–100 mV (increased monitoring)
+  Suspect: delta_V_max > 100 mV → investigate cell performance
+  Replace: delta_V_max > 300 mV → cell failure
+
+================================================================================
+PARTS LIST — BALANCING CIRCUITS
+================================================================================
+
+PASSIVE (external FET, BQ76920-controlled):
+Item      | Qty | Description                               | Source
+----------|-----|-------------------------------------------|-------------------
+IRLML2502 |  4  | N-FET SOT-23, 20V 4A (balance switch)    | Mouser
+R_BAL     |  4  | 10Ω 1W metal film (balance current limit) | Mouser
+PC817     |  3  | Optocoupler (isolation for cells 2–4)     | Mouser
+R_LED     |  3  | 1kΩ 0.25W (opto LED current)              | Mouser
+
+ACTIVE (JK BMS active balancer — drop-in module):
+Item      | Qty | Description                               | Source
+----------|-----|-------------------------------------------|-------------------
+JK_BAL4S  |  1  | JK BMS 4S active balancer module, 1A     | AliExpress/JKBMS
+
+================================================================================

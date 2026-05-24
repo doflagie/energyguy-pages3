@@ -1,0 +1,191 @@
+================================================================================
+  CALIBRATION SYSTEM DISTRIBUTION & INTEGRATION    TM-CAL-SCH-005 Rev A
+  System Block Diagram, SOLT Kit, and Inter-Unit Cabling
+================================================================================
+
+SYSTEM ARCHITECTURE
+-------------------
+The calibration system integrates into a single portable station housed in
+two enclosures: CAL STATION (ESP32 + Si5351 + AD8307 + counter PCB) and
+SOLT KIT CASE (calibration standards + attenuator modules + cables).
+
+================================================================================
+  FULL SYSTEM BLOCK DIAGRAM
+================================================================================
+
+  ┌────────────────────────────────────────────────────────────────────────┐
+  │                    CALIBRATION STATION ENCLOSURE                       │
+  │                                                                        │
+  │  [GPS PATCH ANTENNA] ─── SMA coax ──► [NEO-M8N GPS MODULE]            │
+  │                                             │                          │
+  │                                         1PPS│UART                     │
+  │                                             ▼                          │
+  │  [Si5351A] ◄──I2C──── [ESP32-WROOM-32] ◄───────────────               │
+  │     │                       │                                          │
+  │     │ CLK0 10MHz            │ ADC GPIO36                               │
+  │     │ CLK1 1MHz             │                                          │
+  │     │ CLK2 prog             ▼                                          │
+  │     │            [AD8307 RSSI DETECTOR] ◄── SMA tap from CLK2        │
+  │     ▼                                                                  │
+  │  [74AC04 BUFFERS × 3]           FRONT PANEL CONNECTORS:               │
+  │     │   │   │                                                          │
+  │     │   │   └── SMA "PROG OUT" ────────────────────────────►          │
+  │     │   └────── SMA "1M REF"  ────────────────────────────►          │
+  │     └────────── SMA "10M REF" ────────────────────────────►          │
+  │                                                                        │
+  │  [FREQ COUNTER INPUT] ◄── BNC "FREQ IN" ────────────────────◄        │
+  │  [74HC390 ÷10 prescaler]                                              │
+  │                                                                        │
+  │  REAR PANEL:                                                           │
+  │    USB Micro-B (power + serial)                                        │
+  │    SMA "GPS ANTENNA"                                                   │
+  │    Barrel jack 5V DC in                                                │
+  │                                                                        │
+  │  INDICATORS:                                                           │
+  │    LED1 (GPS)    LED2 (LOCK)    OLED display (optional)               │
+  └────────────────────────────────────────────────────────────────────────┘
+
+  ┌────────────────────────────────────────────────────────────────────────┐
+  │                         SOLT KIT CASE                                  │
+  │                                                                        │
+  │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐             │
+  │  │  SHORT   │  │   OPEN   │  │  LOAD    │  │  THRU    │             │
+  │  │ SMA(M)   │  │ SMA(M)   │  │ 50Ω SMD  │  │ SMA-SMA  │             │
+  │  │ center   │  │ 100 pF   │  │ SMA(M)   │  │ barrel   │             │
+  │  │ to GND   │  │ cap      │  │          │  │ 0.5 dB   │             │
+  │  └──────────┘  └──────────┘  └──────────┘  └──────────┘             │
+  │                                                                        │
+  │  ATTENUATOR MODULES (SMA-SMA inline pads):                            │
+  │  [3 dB]  [6 dB]  [10 dB]  [20 dB]  [30 dB]  [40 dB]               │
+  │                                                                        │
+  │  SMA CABLES (3×):  150mm RG-316 (low-loss, SMA-SMA)                  │
+  │  BNC-SMA ADAPTERS (2×): BNC(M)-SMA(F) for counter input              │
+  │  SMA-SMA BARREL (2×): extension or signal path                        │
+  │  CAL CARD: laminated reference card (key values, procedures)          │
+  └────────────────────────────────────────────────────────────────────────┘
+
+================================================================================
+  SOLT CALIBRATION STANDARDS — CONSTRUCTION
+================================================================================
+
+  All standards use SMA(M) plug body (PCB mount or crimp type).
+  Reference plane: SMA connector mating face.
+
+  SHORT STANDARD:
+  ───────────────
+  Construction: SMA(M) connector with center pin directly soldered to outer shell.
+  Equivalent circuit: ideal short at reference plane + small inductance (Ls).
+  Ls ≈ 0.1 nH (from solder joint geometry; acceptable for f < 3 GHz).
+  Marking: RED dot on connector body.
+
+  OPEN STANDARD:
+  ──────────────
+  Construction: SMA(M) connector with center pin connected to 100 pF NP0 cap to GND.
+  100 pF at 1 GHz = X_C = 1.59 Ω → essentially open below 100 MHz.
+  Below 100 MHz: use open-circuit SMA(M) connector body (no cap needed).
+  Capacitance of open SMA: ~0.2 pF (fringe capacitance; negligible below 500 MHz).
+  Marking: GREEN dot on connector body.
+
+  NOTE: For <500 MHz calibration (HF/VHF), an air-open (no connection) SMA(M)
+  is accurate enough. For VHF/UHF above 200 MHz, model the fringe capacitance
+  in NanoVNA calibration software.
+
+  LOAD STANDARD (50Ω):
+  ─────────────────────
+  Construction: SMA(M) connector. Inside: 2× 100Ω SMD 0402 resistors in parallel
+  (= 50Ω), soldered between center pin and outer shell.
+  Resistors: Vishay CRCW0402100RFKEA or equivalent (0.1% tolerance, 63mW).
+  Return loss: >40 dB at DC–500 MHz (measured; limited by solder joint parasitics).
+  Marking: BLUE dot on connector body.
+
+  THRU STANDARD:
+  ──────────────
+  Construction: SMA(M)-SMA(M) barrel adapter (or short SMA-SMA cable, <10cm).
+  Delay: ~20 ps for barrel adapter (0.15 mm equivalent length).
+  For NanoVNA: connector to connector; negligible electrical length below 3 GHz.
+  Marking: NO dot (natural connector color).
+
+================================================================================
+  INTERCONNECT — INSTRUMENT CALIBRATION HOOK-UPS
+================================================================================
+
+  NANOVNA CALIBRATION SETUP:
+  ────────────────────────────
+  CAL STATION:
+    "10M REF" ──[SMA cable]──► NanoVNA CH0 (verify frequency)
+    "PROG OUT" (set to sweep start)──► NanoVNA CH0  (frequency cal verification)
+
+  For full S-parameter cal:
+    NanoVNA CH0 ── SHORT/OPEN/LOAD (one at a time from SOLT kit)
+    NanoVNA CH0 ──[THRU cable]── NanoVNA CH1  (for transmission cal)
+
+  TINYSAA CALIBRATION SETUP:
+  ───────────────────────────
+  CAL STATION:
+    "PROG OUT" (set to 10 MHz, GPS locked) ──[SMA cable]──► TinySA INPUT
+    "PROG OUT" → [20 dB pad] ──[SMA cable]──► TinySA INPUT (for level cal)
+
+  RTL-SDR CALIBRATION SETUP:
+  ───────────────────────────
+  CAL STATION:
+    "PROG OUT" (set to 10, 50, 100 MHz) ──[SMA cable]──► RTL-SDR antenna input
+    Use 30–40 dB attenuator to prevent overload.
+
+  FREQUENCY COUNTER USE:
+  ───────────────────────
+  BNC "FREQ IN" ──[BNC-SMA adapter + SMA cable]──► instrument oscillator output
+  (e.g., NanoVNA has no osc. output; use crystal test point if available)
+
+================================================================================
+  SYSTEM CONNECTIVITY DIAGRAM
+================================================================================
+
+                         FIELD CALIBRATION STATION
+                                   │
+         ┌─────────────────────────┼─────────────────────┐
+         │                         │                     │
+     WiFi AP                    BT Serial            USB Serial
+  192.168.4.1              "CAL-Master"            (programming)
+         │                         │                     │
+         ▼                         ▼                     │
+  [Web browser         [CYD Display                      │
+   on laptop/phone]     cyd_cal_display.ino]             │
+  GET /api/status       real-time GPS status             │
+  POST /api/freq        band/freq/level display          │
+  POST /api/att         touch controls                   │
+  GET /api/callog       calibration log view             │
+
+================================================================================
+  GPSDO LOCK ACQUISITION TIMING
+================================================================================
+
+  Power-on:
+    0–60 s:   GPS acquiring satellites (LED blinks rapidly)
+              Si5351 running from 25 MHz XTAL, uncorrected (±5 ppm typical)
+    60–120 s: First fix; 1PPS active; discipline loop starts
+              Si5351 correction applied each 10s window
+              (LED blinks 1Hz = discipline running)
+    120–300s: Loop converging; correction stabilizing
+              Frequency error: <10 ppb and decreasing
+    >300s:    Loop locked; |error| < 1 ppb; LOCK LED solid blue
+              All calibration outputs valid to GPS accuracy
+
+  NOTE: For critical calibration work, allow minimum 5 minutes after LOCK LED
+  lights solid before injecting signals into instruments.
+  For field use: 10 minutes warm-up is preferred.
+
+================================================================================
+  CABLING REQUIREMENTS
+================================================================================
+
+  For calibration accuracy, cable losses must be <1 dB at the calibration
+  frequency. Use:
+    <500 MHz:  RG-316 (0.07 dB/m at 500 MHz) — 150mm cables adequate
+    >500 MHz:  RG-178 or phase-stable cable (Belden 1671A or equivalent)
+
+  NEVER use RG-58 for calibration above 100 MHz (significant loss and VSWR).
+  All cables should be verified with NanoVNA (insertion loss < −0.5 dB at Fmax).
+
+================================================================================
+  END OF TM-CAL-SCH-005
+================================================================================

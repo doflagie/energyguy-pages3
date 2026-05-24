@@ -1,0 +1,11 @@
+ANTENNA SPECIFICATION — HELICAL ANTENNA 2M SATELLITE,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,2M satellite (144–146 MHz),,
+Design approach,"Solenoid helix in axial mode: circular polarization for satellite work, gain via multi-turn helical structure",,
+Compaction factor,0%,,
+Special parameters,"3-turn helix, 4.5 in diameter, 4.5 in pitch, ~8 dBic gain, right-hand circular polarization, 50Ω feedpoint",,
+Feed impedance,50 Ω nominal,Ω,May vary by design
+SWR target,<2.0,:1,Without antenna tuner
+Efficiency,70–95%,%,Varies by band/implementation
+Gain,0–12,dBi,Depends on antenna type

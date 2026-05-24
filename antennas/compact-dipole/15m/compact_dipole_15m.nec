@@ -1,0 +1,24 @@
+CM Compact spiral-wound dipole — 15m BAND
+CM Center frequency: 21.225 MHz
+CM Compact arm length: 1.680 m | Full length: 3.359 m
+CM Compaction: 50%
+CM Loading coil: 2.37 μH per arm | Form: 1/2" PVC
+CM Trap resonator: 8.032 μH || 7.0 pF
+CM Wire: AWG 18 (0.0403 in)
+CM Height above ground: 5.0 m (approx 0.5λ at lower HF bands)
+CE
+
+' Dipole arms, center-fed
+GW 1 11 -1.679623 0.000 5.000  0.000 0.000 5.000  0.00051184
+GW 2 11  0.000 0.000 5.000  1.679623 0.000 5.000  0.00051184
+
+' Loading coil inductances (LD 4 = series RL)
+LD 4 1 6 6 2.3717175753e-06 0 0.50
+LD 4 2 6 6 2.3717175753e-06 0 0.50
+
+GE 0
+GN 2 0 0 0 13 0.005
+EX 0 1 11 0 1 0
+FR 0 17 0 0 21.000 0.025
+RP 0 91 360 1000 -90 0 1.0 1.0
+EN

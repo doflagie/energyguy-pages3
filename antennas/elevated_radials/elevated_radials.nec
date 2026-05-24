@@ -1,0 +1,17 @@
+CM ELEVATED-RADIALS ANTENNA
+CM Frequency bands: 160M, 80M, 40M
+CM Design: Vertical with elevated radial system (no ground needed)
+CM Compaction: 30%
+CM Special parameters: 8–16 radials at 1.5–2m height, shortening coils
+CE
+
+' Antenna geometry (type-specific)
+GW 1 11 -5.0 0.0 8.0  0.0 0.0 8.0  0.002
+GW 2 11  0.0 0.0 8.0  5.0 0.0 8.0  0.002
+
+GE 0
+GN 2 0 0 0 13 0.005
+EX 0 1 6 0 1 0
+FR 0 1 0 0 100 0
+RP 0 91 360 1000 -90 0 1.0 1.0
+EN

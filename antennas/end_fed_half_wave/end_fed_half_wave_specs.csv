@@ -1,0 +1,14 @@
+ANTENNA SPECIFICATION — END FED HALF WAVE,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,160M–10M,,Center/allocated bands
+Design approach,Multiband EFHW with external matching transformer,,Primary design method
+Compaction factor,60%,,Size reduction vs full-size
+Special parameters,"86-ft wire, high impedance end feed, 9:1 unun",,Design-specific details
+,,,
+Feed impedance,50–600,Ω,Antenna-type dependent
+SWR target,<2.0,:1,With tuner if required
+Radiation pattern,Varies,,See NEC model
+,,,
+Typical efficiency,75–95%,%,Design-dependent
+Typical gain,2–10,dBi,Antenna-type dependent

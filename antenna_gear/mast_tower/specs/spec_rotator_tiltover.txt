@@ -1,0 +1,224 @@
+================================================================================
+SPECIFICATION: ROTATOR MOUNTING AND TILT-OVER BASE SYSTEMS
+TM-MAST-001  Rev A
+Antenna rotator integration | Tilt-over hinge base for ground-level work
+================================================================================
+
+REFERENCE DOCUMENTS:
+  spec_wind_load_calculations.txt  — Loading on rotator thrust bearing
+  base_plates_mounts.scad          — 3D-printable rotator cage, hinge base
+
+================================================================================
+SECTION 1 — ROTATOR MOUNTING SYSTEMS
+================================================================================
+
+1.1 ROTATOR SELECTION GUIDE
+
+LIGHT DUTY (< 1 kg antenna, VHF/UHF only):
+  Yaesu G-450A:      7 kg torque, 360° continuous, CDE/Hy-Gain cable compatible
+  Emotator EM-2054A: similar specs, lower cost
+  Suitable antennas: small 3-element VHF Yagi, 70cm loop Yagi, satellite cross-Yagi
+
+MEDIUM DUTY (1–5 kg, HF wire beams, small VHF stacked):
+  Yaesu G-800DXA:    15 kg torque; 450°; thrust bearing separate
+  Ham-IV (MFJ-4116): 15 kg torque; 450°; built-in controller
+  Hy-Gain AR-500X:   Same class; available used
+  Suitable: 3-element tribander (Force 12, Steppir), log-periodic, 2m/70cm cross-Yagi
+
+HEAVY DUTY (5–15 kg, full-size HF Yagi):
+  Yaesu G-2800DXC:   40 kg torque; required for full-size 3-el 20m beam
+  Orion Rotor 1000:  heavy; mostly fixed station use
+  NOT recommended for portable field use — too heavy, complex controller
+
+PORTABLE/SATELLITE (any azimuth + elevation):
+  Yaesu G-5500:      Az + El combination rotator; used for satellite tracking
+  SatNOGS rotator:   Open-source; printable frame; Arduino/Raspberry Pi control
+  NOTE: See phased_array project for SatNOGS-compatible controller firmware
+
+1.2 ROTATOR MOUNTING METHODS
+
+METHOD A — MAST-THROUGH MOUNT (standard):
+  Rotator body clamps to mast tube via U-bolt saddle.
+  Mast tube (typically 38–50mm OD) passes through rotator housing.
+  Antenna mast tube clamps to rotator output shaft via separate U-bolts.
+
+  Mast tube to rotator: clamped to main mast structure below rotator.
+  Antenna tube above rotator: 38mm OD × 2mm wall × 1.2m stub.
+  See base_plates_mounts.scad: rotator_saddle_cage() for printed upper support bracket.
+
+METHOD B — TOWER TOP PLATE MOUNT:
+  Rotator bolts to flat plate welded/bolted at tower top.
+  Output shaft points upward; antenna mast tube inserts from above.
+  Thrust load from antenna weight borne by plate (rotator does not carry compression).
+  See base_plates_mounts.scad: rotator_tower_topplate() — printed adapter plate.
+
+METHOD C — SIDE MOUNT (below operating height):
+  Rotator mounted 1–2 sections below top; stub mast extends above rotator.
+  Reduces moment arm on rotator; better for windy conditions.
+  CYD/controller located at mast mid-point; shorter cable run.
+
+1.3 ROTATOR CABLE SPECIFICATIONS
+
+STANDARD ROTATOR CABLE:
+  Yaesu G-450A: 6-wire; 22 AWG rated; max run 30m without extra voltage
+  Yaesu G-800:  6-wire; same
+  Ham-IV:       5-wire + ground; 18 AWG for long runs (>20m)
+
+  Maximum resistance per conductor: 15Ω for accurate pointing
+    22 AWG: 53 Ω/km; 15Ω limit → max 280m (unrealistic field run)
+    Practical field run limit: 50m with 22 AWG; use 20 AWG for >50m
+
+CABLE PROTECTION:
+  UV-resistant outdoor jacket; avoid standard indoor UTP for field use.
+  Loom or split loom over exposed sections from weather.
+  Strain relief at rotator and controller ends (printed clips in mast_collars.scad).
+  Drip loop at rotator connector (cable goes down before going up to unit).
+
+================================================================================
+SECTION 2 — CYD ROTATOR CONTROLLER
+================================================================================
+
+HARDWARE:
+  Controller: ESP32 + CYD (2.8" TFT 320×240) at base
+  Compass: QMC5883L 3-axis magnetometer on mast tube (12-bit, 2° accuracy)
+  Motor driver: L298N H-bridge or BTS7960 (for G-800 motor current ~1A)
+  Encoder: AS5600 magnetic rotary encoder on rotator output shaft
+  Power: 12V 2A from field battery; 5V for ESP32 via MP1584 buck
+
+DISPLAY LAYOUT (CYD 320×240 portrait):
+  ┌────────────────────────────────┐
+  │   ANTENNA ROTATOR CONTROL      │
+  │                                │
+  │   Current:  [  145°  ] SSE     │
+  │   Target:   [  087°  ] E       │
+  │                                │
+  │   [  N  ]                      │
+  │   W ─●─ E   Compass rose       │
+  │   [  S  ]                      │
+  │                                │
+  │   Speed: [████░░░░] 50%        │
+  │   Error: 2.3°   Status: MOVING │
+  │                                │
+  │  [CCW] [STOP] [CW] [SET NORTH] │
+  └────────────────────────────────┘
+
+  Touch targets: CCW, STOP, CW buttons (bottom row); bearing tap on rose
+  BLE connection to field laptop/tablet sends target bearing from logging software
+
+CALIBRATION PROCEDURE:
+  1. Press [SET NORTH] with mast beam pointing toward true North (compass/GPS).
+  2. Firmware stores offset: heading_offset = qmc_raw_heading - 0°.
+  3. All subsequent readings corrected: display_heading = qmc - offset.
+  4. Verify by rotating to known bearing (E/W/S) and checking display.
+  5. Store offset in NVS; persists across power cycles.
+
+MAGNETIC DECLINATION:
+  Add local declination to heading offset.
+  Merced CA: Declination = 12.5° E (adds to magnetic; subtract from true bearing)
+  At setup: enter decimal declination in CYD config menu → applied automatically.
+
+SAFETY INTERLOCK:
+  Rotator motor disabled when wind speed > 35 mph (if anemometer connected).
+  Rotator motor disabled within 5° of hard stop limits.
+  Over-current shutdown: BTS7960 has built-in protection; add firmware monitor.
+
+================================================================================
+SECTION 3 — TILT-OVER BASE SYSTEM
+================================================================================
+
+3.1 CONCEPT
+
+A tilt-over base allows the mast or tower to be raised and lowered by rotating
+around a pivot point at the base. This eliminates the need for a gin pole,
+helper, or external lifting equipment for raising antenna arrays.
+
+Key advantage: entire antenna system — rotator, feedline, connector — can be
+installed, adjusted, and tested with mast horizontal, then raised to operating
+height without any work at elevation.
+
+SUITABLE MAST HEIGHTS: 15–40 ft (4.5–12m)
+SUITABLE ANTENNA LOADS: up to 15 kg with 2-person raise for >30 ft
+
+3.2 TILT-OVER BASE DESIGN
+
+PIVOT MECHANISM:
+  Heavy hinge (300mm × 100mm steel weld-on hinge, or machined pin-and-clevis)
+  Hinge axis aligned perpendicular to raise direction.
+  Hinge rated for: mast weight × 3 safety factor = up to 75 kg per hinge.
+
+BASE PLATE (fixed, ground anchored):
+  600mm × 400mm × 8mm hot-rolled steel plate
+  4× M16 anchor bolts to concrete or 4× ground screws
+  Hinge welded to base plate; pivot pin accepts mast base tube
+
+MAST INTERFACE:
+  Mast base section (50mm or 63mm OD) welded or bolted to mast shoe plate.
+  Mast shoe plate (200mm × 200mm × 8mm) bolts to hinge moving leaf.
+  When raised: mast locks to base with 2× M16 bolts (vertical load path).
+  When tilted: M16 bolts removed; mast rotates freely about hinge axis.
+
+RAISING HARDWARE:
+  Method A — Gin Pole:
+    10–15 ft aluminum gin pole attached to base section (side-mounted).
+    Haul rope through pulley at gin pole tip → secured to mast 2/3 height.
+    2:1 mechanical advantage; requires 50% of antenna+mast weight as pull force.
+    For 75 kg system: 37.5 kgf pull force at horizontal. Achievable by 2 persons.
+
+  Method B — Cable/Come-Along:
+    Come-along (chain hoist) attached to a fixed tree, vehicle, or driven post.
+    1.5–3 ton come-along; typically 2:1 built-in; minimal effort to raise.
+    Requires anchor point in raise direction at distance = mast height × 0.7.
+
+  Method C — Hydraulic Assist (see spec_pneumatic_mast.txt Section 5):
+    12V hydraulic ram at base; controlled raise.
+    Single-operator operation for masts up to 33 ft.
+
+3.3 TILT-OVER SEQUENCE
+
+LOWER FOR INSTALLATION:
+  1. Confirm area behind tilt direction is clear (mast-length + 20% clearance).
+  2. Remove 2× lock bolts at base.
+  3. Attach haul line/come-along to mast at 2/3 height.
+  4. Slowly pay out haul line; mast lowers toward horizontal.
+  5. Support antenna as mast nears horizontal to prevent damage.
+  6. With mast horizontal, support tip end on temporary stand (sawhorse, etc.).
+
+WORK AT GROUND LEVEL:
+  Install/replace antenna, feedlines, rotator.
+  Verify all connections; test rotate; check SWR if radio available.
+
+RAISE:
+  1. Remove any temporary mast supports.
+  2. Check clear area in raise direction and sides (swing radius).
+  3. Tension haul line; raise mast smoothly.
+  4. At 60° angle: mast can be briefly self-supporting (still tension haul line).
+  5. Continue raising to vertical.
+  6. Insert 2× lock bolts at base; torque to 45 N·m (M16 grade 8.8).
+  7. Tension guy wires.
+
+3.4 TILT-OVER BASE PRINTED HARDWARE
+
+See base_plates_mounts.scad:
+  tiltover_hinge_cap()     — plastic cap over hinge pin (prevents corrosion)
+  tiltover_pivot_stop()    — limit stop prevents over-rotation past 90°
+  tiltover_cable_guide()   — guides haul cable away from mast hardware
+
+================================================================================
+SECTION 4 — WIND SURVIVAL DURING OPERATIONS
+================================================================================
+
+TILT-OVER BASE WIND BRACING:
+  When mast is at operating height, wind creates horizontal force on base pivot.
+  Base plate anchor bolts must resist:
+    Overturning moment M = F_wind × H_mast (at base)
+    For 30 ft / 50 mph: M = 2,000 N × 9m = 18,000 N·m
+    With 4× M16 anchors at 400mm spacing:
+    T_anchor = M / (4 × 0.2) = 22,500 N per bolt (2,300 kgf)
+    M16 grade 8.8 bolt tensile capacity: 84,000 N — adequate with 3.7× margin
+
+ROTATOR WIND PROTECTION:
+  Park antenna beam perpendicular to prevailing wind (minimum projected area).
+  At wind alert: park to minimum-wind heading; enable soft stop.
+  CYD alert function: if wind speed sensor > threshold → auto-park heading.
+
+================================================================================

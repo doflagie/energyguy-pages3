@@ -1,0 +1,11 @@
+ANTENNA SPECIFICATION — SLINKY ANTENNA 20M PORTABLE,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,20M (14.0–14.35 MHz),,
+Design approach,"Compact loading using helical spring (slinky toy) as radiator or loading element, field-portable, collapsible",,
+Compaction factor,85%,,
+Special parameters,"Spring-steel slinky as loading coil, collapses to 2 in for transport, ~18 ft deployed length, 50Ω feedpoint, full electrical length at resonance",,
+Feed impedance,50 Ω nominal,Ω,May vary by design
+SWR target,<2.0,:1,Without antenna tuner
+Efficiency,70–95%,%,Varies by band/implementation
+Gain,0–12,dBi,Depends on antenna type

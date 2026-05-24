@@ -1,0 +1,46 @@
+CM ============================================================
+CM  VHF/UHF REMOTE ELEMENT SWITCHING SYSTEM
+CM  ANTENNA: 3-ELEMENT REVERSIBLE YAGI, 6 METERS (50.1 MHz)
+CM  TYPE: SYMMETRIC - BEAM REVERSAL BY ELEMENT ROLE SWAP
+CM
+CM  CONCEPT: Both outer elements are IDENTICAL in length.
+CM  When FORWARD: element at -Y acts as reflector (shorted),
+CM    element at +Y acts as director (open).
+CM  When REVERSED: relay swaps roles - element at +Y becomes
+CM    reflector, element at -Y becomes director. Driven
+CM    element remains at center.
+CM
+CM  ELEMENT DATA (all dimensions in meters):
+CM    Outer Element A: L = 2.914 m  pos Y = -1.346 m
+CM    Driven Element:  L = 2.842 m  pos Y =  0.000 m
+CM    Outer Element B: L = 2.914 m  pos Y = +1.346 m
+CM
+CM  OUTER ELEMENT LENGTH: Compromise between reflector (0.494λ)
+CM    and director (0.449λ) = 0.4715λ × 1.05 = 0.487λ = 2.914 m
+CM    This provides ~8 dB F/B in either direction.
+CM
+CM  ELEMENT DIAMETER: 12.7 mm (1/2 in. aluminum tube)
+CM  BOOM HEIGHT AGL:  10.0 m
+CM  EXPECTED GAIN FWD:  5.5 dBd (7.65 dBi) - reduced vs asymmetric
+CM  EXPECTED F/B:       8-10 dB
+CM
+CM  FORWARD STATE (beam toward +Y):
+CM    Tag 1 (A): relay shorts element to boom (reflector)
+CM    Tag 3 (B): relay opens element (director)
+CM  REVERSE STATE (beam toward -Y):
+CM    Tag 1 (A): relay opens element (director)
+CM    Tag 3 (B): relay shorts element to boom (reflector)
+CM
+CM  NOTE: This model shows FORWARD state. For REVERSE,
+CM    swap roles of tags 1 and 3 in relay controller.
+CE
+GW 1 11 -1.457 -1.346 10.000 1.457 -1.346 10.000 0.00635
+GW 2 11 -1.421 0.000 10.000 1.421 0.000 10.000 0.00635
+GW 3 11 -1.457 1.346 10.000 1.457 1.346 10.000 0.00635
+GE 0
+GN 2 0 0 0 13.0 0.005
+EX 0 2 6 0 1.0 0.0
+FR 0 5 0 0 50.0 0.1
+RP 0 361 1 1000 0.0 0.0 1.0 0.0
+RP 0 1 361 1000 90.0 0.0 0.0 1.0
+EN

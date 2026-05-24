@@ -1,0 +1,15 @@
+CM DELTA LOOP 40M
+CM Full-wavelength triangular resonant loop, broadside radiation pattern, low takeoff angle
+CM Bands: 40M (7.0–7.3 MHz)
+CE
+
+GW 1 15 0.0 0.0 5.0  13.0 0.0 5.0  0.002
+GW 2 15 13.0 0.0 5.0  6.5 11.258330249197702 5.0  0.002
+GW 3 15 6.5 11.258330249197702 5.0  0.0 0.0 5.0  0.002
+
+GE 0
+GN 2 0 0 0 13 0.005
+EX 0 1 6 0 1 0
+FR 0 1 0 0 100 0
+RP 0 91 360 1000 -90 0 1.0 1.0
+EN

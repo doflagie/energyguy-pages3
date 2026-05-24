@@ -1,0 +1,103 @@
+CM ============================================================
+CM  noise_canceller_array.nec — TM-RFI-NEC-003 Rev A
+CM  Two-Antenna Noise Canceller Array: Main + Reference Antenna
+CM  Frequency: 7.15 MHz (40m)
+CM
+CM  Geometry:
+CM    Main antenna: full-size λ/4 vertical at origin
+CM    Reference antenna: short λ/20 vertical, 2m away (simulates nearby noise whip)
+CM    Ground: average real ground
+CM
+CM  Analysis:
+CM    Model 1: Main antenna alone (reference to compare)
+CM    Model 2: Reference antenna pattern (what it picks up vs. main)
+CM    Model 3: Combined pattern with phase cancellation
+CM             (simulates optimal noise cancellation)
+CM
+CM  Key question: How much desired signal is lost when cancelling noise?
+CM  If noise source is at 0° azimuth and desired signal at 90°:
+CM    - Can noise be cancelled while preserving signal?
+CM    - What is the "signal preserved to noise cancelled" ratio?
+CM ============================================================
+CE
+
+CM ── MAIN ANTENNA: λ/4 vertical at origin ─────────────────────
+CM Height: 10.15m (λ/4 at 7.15 MHz)
+CM Tag 1: main vertical
+GW 1 20 0.0 0.0 0.0 0.0 0.0 10.15 0.001
+
+CM ── REFERENCE ANTENNA: short vertical 2m north ───────────────
+CM Height: 2.1m (λ/20 at 7.15 MHz — typical short noise whip)
+CM Tag 2: reference antenna
+GW 2 10 0.0 2.0 0.0 0.0 2.0 2.1 0.001
+
+CM ── RADIAL GROUND PLANE (4 × λ/4 radials for main antenna) ───
+GW 3 10  0.01  0.0  0.0  10.5   0.0  0.0 0.001
+GW 4 10 -0.01  0.0  0.0 -10.5   0.0  0.0 0.001
+GW 5 10  0.0   0.01 0.0  0.0   10.5  0.0 0.001
+GW 6 10  0.0  -0.01 0.0  0.0  -10.5  0.0 0.001
+
+CM ── REAL GROUND ───────────────────────────────────────────────
+GE 1
+GN 2 0 0 0 13.0 0.005
+
+CM ── FREQUENCY ──────────────────────────────────────────────────
+FR 0 1 0 0 7.15 0
+
+CM ── EXCITATION ─────────────────────────────────���───────────────
+CM MODEL 1: Main antenna only (excite tag 1)
+EX 0 1 1 0 1.0 0.0
+
+CM MODEL 2: Reference antenna only (uncomment, comment out above):
+CM EX 0 2 1 0 1.0 0.0
+
+CM MODEL 3: Both with cancellation phasing (uncomment, comment out above):
+CM Main fed normally: EX 0 1 1 0 1.0 0.0
+CM Reference fed 180° out of phase with scaling factor 0.5 (amplitude match to noise):
+CM EX 0 2 1 0 -0.5 0.0
+CM (In practice, phase and amplitude set by noise canceller hardware)
+
+CM ── RADIATION PATTERNS ─────────────────────────────────────────
+CM Azimuth: noise often arrives from specific bearing; check full 360°
+RP 0 1 73 1000 10.0 0.0 0.0 5.0
+CM Elevation: low-angle DX arrives at 5–20°; noise often at high angles
+RP 0 46 1 1000 0.0 0.0 2.0 0.0
+
+EN
+
+CM ============================================================
+CM  EXPECTED RESULTS:
+CM
+CM  MODEL 1 (Main vertical only):
+CM    Pattern: omnidirectional in azimuth (perfect vertical)
+CM    Gain: ~0 dBi at 10° elevation (λ/4 vertical with 4 radials)
+CM    DX performance: good low-angle radiation
+CM
+CM  MODEL 2 (Short reference whip only):
+CM    Pattern: omnidirectional in azimuth (small vertical)
+CM    Gain: very low (~−10 dBi) — short whip, high radiation resistance mismatch
+CM    Angular response: nearly same shape as main antenna
+CM    Key: reference antenna picks up SAME NOISE from most directions as main antenna
+CM    This is WHY noise cancellation works: similar noise pattern in both antennas
+CM
+CM  MODEL 3 (Combined with cancellation):
+CM    The combination V_main - k × V_ref creates a cardioid pattern:
+CM    G(θ) = G_main(θ) - k × G_ref(θ)
+CM    For k = amplitude ratio that cancels a specific direction:
+CM    If noise comes from 0° azimuth (North), set k so G_main(0°) = k × G_ref(0°)
+CM    Then at 0°: V_main(noise) - k × V_ref(noise) ≈ 0 (null)
+CM    At 90°: desired signal NOT cancelled (reference sees same signal as main)
+CM    → Signal partially preserved while noise from 0° is cancelled
+CM
+CM  PRACTICAL LIMITATIONS:
+CM    1. Phase difference between main and reference must be compensated (choke/cable)
+CM    2. Nearby noise source (1m–10m): near-field geometry; patterns differ from far-field
+CM    3. Multiple noise sources: can only null ONE at a time (single auxiliary antenna)
+CM    4. For multiple nulls: need multiple auxiliary antennas (Howells-type array)
+CM
+CM  SIGNAL PRESERVATION:
+CM    With null at 0° (noise), signal from 90° preserved at ~−3 dB of original
+CM    (one lobe of cardioid has 3 dB less gain than omnidirectional maximum)
+CM    Net gain: +20 dB improvement in S/N if noise was 20 dB above signal
+CM    Net gain less 3 dB signal: +17 dB net S/N improvement. Excellent result.
+CM ============================================================

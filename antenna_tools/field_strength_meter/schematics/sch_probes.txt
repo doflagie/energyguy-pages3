@@ -1,0 +1,276 @@
+================================================================================
+SCHEMATIC: PROBE DESIGNS FOR FIELD STRENGTH METER
+TM-FSM-PROBES  Rev A
+Telescoping Dipole, Small Loop, Calibrated Terminated Dipole,
+Shielded Loop (Directional), VHF/UHF Yagi-Stub Probe
+================================================================================
+
+PROBE 1 — TELESCOPING WHIP / ADJUSTABLE DIPOLE
+------------------------------------------------
+
+    The simplest broadband probe. A single telescoping whip antenna
+    connected to the FSM input via coax. The antenna is extended to
+    approximately λ/4 for the band of interest.
+
+    QUARTER-WAVE WHIP LENGTHS:
+
+      Band  f(MHz)   λ/4 physical (92% VF)
+      ----  ------   ---------------------
+      160M  1.85      38.4 m  (not practical; use short loaded)
+      80M   3.75      19.0 m  (not practical)
+      40M   7.15       9.9 m  (long whip or wire extension)
+      30M  10.125      7.0 m
+      20M  14.175      5.0 m
+      17M  18.118      3.9 m
+      15M  21.225      3.3 m
+      12M  24.940      2.8 m
+      10M  28.500      2.5 m
+      6M   50.000      1.4 m  (telescoping: 7 × 20 cm sections)
+      2M  144.000      0.49 m (48 cm)
+      70cm 432.000     0.16 m (16 cm)
+      33cm 902.000     0.077 m (7.7 cm)
+
+    PRACTICAL PROBE: 70 cm 7-section telescoping
+      Retracted: 25 cm (pocket-size)
+      Extended: 175 cm (maximum; covers 40M with reduced sensitivity)
+      Section material: brass or stainless, 6/5/4/4/3/3/3 mm OD
+
+    DIPOLE VERSION: Two telescoping elements extending in opposite
+    directions from a balun/sleeve. Provides balanced input and
+    approximately 6 dB more sensitivity than single whip.
+
+    CENTER CONNECTOR FOR DIPOLE:
+
+          [LEFT ELEMENT]────[SLEEVE BALUN]────[RIGHT ELEMENT]
+                                  │
+                             coax shield         coax center
+                             (left element)      (right element)
+                                  │
+                             BNC/SMA to FSM input
+
+    SLEEVE BALUN (for dipole):
+      λ/4 sleeve of 1/2" copper tubing over coax feedline
+      Electrically: λ/4 shorted stub (bottom grounded to coax shield)
+      Creates high impedance at top, preventing coax current from
+      feeding back down the shield.
+
+      Sleeve length for 2M: 50 cm / 4 = 12.5 cm minimum
+      (Use the band with the shortest sleeve for portable operation)
+
+
+PROBE 2 — SMALL SINGLE-TURN LOOP (HF FIELD SENSING)
+------------------------------------------------------
+
+    A small loop antenna responds to the magnetic field component (H)
+    of the electromagnetic wave. Used for near-field and directional
+    sensing. The probe is omnidirectional in its plane and shows a
+    figure-8 null pattern on its axis.
+
+    LOOP SPECIFICATIONS:
+      Shape:    Circular, 10 cm diameter (shielded) or 20 cm (unshielded)
+      Turns:    1 (single-turn; simpler construction, lower noise)
+      Material: 3 mm OD copper tubing or 12 AWG bare copper wire
+      Shield:   Faraday shield (gap at top prevents electric field pickup)
+                Copper foil or 1/4" copper tubing, ~95% coverage, gap at top
+
+    LOOP SCHEMATIC:
+
+      Faraday shield (copper tubing, continuous except for top gap):
+          ┌─────────────────────── TOP GAP ───────────────────────┐
+          │                                                        │
+    LOOP  │  ╔════════════════════════════════════════════════╗   │
+    WIRE  └──╢ Single conductor loop (copper tubing 3mm OD)  ╟───┘
+             ╚══════════════════╤═════════════════════════════╝
+                                │ (bottom; loop terminals)
+                          ┌─────┴─────┐
+                          │           │
+                      Shield GND    Loop hot
+                          │           │
+                         GND       Coax center
+                                       │
+                                  50Ω coax to FSM input
+                                  (short: <30 cm, RG-174)
+
+    SENSITIVITY:
+      Open-circuit EMF: V_oc = 2π × f × μ₀ × H × N × A
+        At 7.15 MHz, N=1, A=π×0.05² = 7.85×10⁻³ m²:
+        V_oc = 2π × 7.15×10⁶ × 1.257×10⁻⁶ × H × 7.85×10⁻³
+             = 0.443 × H  millivolts per A/m
+        Since E = 377 × H (free space): V_oc = 1.17 × E  μV per V/m
+
+      With ERA-3SM preamp (20 dB gain) in probe housing:
+        Output ≈ 11.7 μV per V/m at 7 MHz
+        AD8307 detects to −75 dBm = 0.89 μV at 50Ω
+        Minimum detectable field: ~0.08 V/m at 40M (loop probe)
+
+    DIRECTIONAL PATTERN:
+      Null axis = loop axis direction
+      Max response = broadside to loop plane
+      Null depth = >20 dB for well-constructed shielded loop
+      Use: Rotate loop for null to find direction TO transmitter
+           (null points at transmitter and away; 180° ambiguity)
+
+
+PROBE 3 — CALIBRATED TERMINATED DIPOLE
+-----------------------------------------
+
+    For accurate field strength measurements (in V/m or dBμV/m),
+    a calibrated antenna with a known antenna factor (AF) is required.
+    The terminated folded dipole provides a known, flat impedance
+    over a 10:1 bandwidth.
+
+    CALIBRATED TERMINATED DIPOLE SCHEMATIC:
+
+          [Element 1: 2.85 m each side for 20M]
+           ←────────────────────────────────────→
+
+          ╔═══════════════════════════════════════╗
+          ║    Element 1     ║    Element 1       ║
+          ╚════════╤══════════════════╤═══════════╝
+                   │                  │
+            100Ω termination      Feed point
+            (non-inductive)            │
+            at each far end       BNC/SMA output
+                   │                   │
+                  GND (shield)      Coax center
+                                        │
+                               [optional 4:1 balun]
+                                        │
+                               [SMA to FSM input]
+
+    SIMPLE TERMINATED DIPOLE:
+      Each dipole arm terminated at its tip with 100–200Ω resistors.
+      The termination absorbs the traveling wave, providing a nearly
+      resistive impedance of ~100Ω over a wide bandwidth.
+      With a 2:1 balun, the 50Ω FSM input sees a reasonable match.
+
+    ANTENNA FACTOR (AF) for terminated dipole:
+      AF ≈ 14 dB/m (approximately constant ±3 dB from 2–30 MHz)
+      Calibrate against a known reference for traceable measurements.
+
+    REFERENCE CALIBRATION:
+      Place probe at 3m from a calibrated half-wave dipole fed with
+      a known power P_watts (measured on power meter, e.g., the
+      TM-DL-001 directional coupler). From Friis:
+
+        E(V/m) = sqrt(30 × P × G_t) / d
+
+      Where:
+        P   = transmit power in watts
+        G_t = transmit antenna gain (numeric, not dB): 1.64 for dipole
+        d   = distance in meters
+
+      Measure FSM reading (dBm) with known E_field applied.
+      AF_dBm = E_dBuVm − V_dBuV (difference defines the AF)
+
+      Record AF at each band for use in firmware lookup table.
+
+
+PROBE 4 — SHIELDED LOOP FOR DIRECTION FINDING
+-----------------------------------------------
+
+    Used with the CYD Direction Finder screen (Screen 2). The loop
+    is rotated manually; the CYD firmware records peak and null
+    bearings referenced to a compass.
+
+    COMPONENTS:
+      [RG-58 coax, 40 cm, formed into 12.7 cm (5") diameter loop]
+      [Gap at top of loop (cut outer shield, leave inner conductor intact)]
+      [Coax connector at bottom of loop handle]
+      [Optional: small ferrite bead at gap to improve null depth]
+
+    CONSTRUCTION FROM COAX (detailed):
+      Step 1: Cut 55 cm of RG-58 (or RG-316).
+      Step 2: Strip 1 cm of outer jacket from the center point;
+              cut through the braid shield only at this point (top gap).
+              The center conductor continues unbroken through the gap.
+      Step 3: Form into a circle: 12.7 cm diameter (5 inch).
+              The gap goes at the top.
+      Step 4: At the bottom, terminate the two coax ends:
+              Join the two braid shields together (both to GND).
+              Join the two center conductors together (single-turn loop).
+      Step 5: Bring the bottom feed to a BNC connector:
+              Center = loop wire, Shield = braid GND.
+
+    DIRECTIONAL NULL PATTERN:
+      At null: >25 dB rejection on the loop axis
+      Usable HF bands: 40M through 10M (loop is electrically small)
+      At 2M and above: loop is no longer small; pattern degrades.
+      For VHF DF, use the yagi stub probe (Probe 5).
+
+    HANDLE/MOUNTING:
+      3D print loop housing (see probe_housings.scad)
+      Rotating compass ring on housing basebase
+      Bearing readout: manual or BLE compass module (HMC5883L)
+      If HMC5883L: I2C on GPIO22/21 (check CYD availability)
+
+
+PROBE 5 — 2M/70CM DIRECTIONAL STUB YAGI (VHF/UHF PROBE)
+----------------------------------------------------------
+
+    For VHF (2M, 1.25M) and UHF (70cm, 33cm) field strength work.
+    A simple 3-element stub Yagi provides 6 dBd gain with a
+    clear directional pattern for source location.
+
+    3-ELEMENT 2M YAGI DIMENSIONS:
+      Reflector:  1.05 m (approx λ/2 × 1.05)
+      Driven:     0.97 m (approx λ/2)
+      Director:   0.91 m (approx λ/2 × 0.95)
+
+      Boom length: 0.52 m (total)
+      Element spacing: reflector-driven = 0.2 m, driven-director = 0.12 m
+
+    FOLDED DIPOLE FEED (driven element):
+      Impedance: ~200Ω → use 4:1 balun for 50Ω
+      Or use γ-match for 50Ω direct coax connection
+
+    SMA OUTPUT:
+      Mini-coax RG-316 from folded dipole to SMA connector
+      Mount SMA at rear of boom, connect to FSM
+
+    3-ELEMENT 70CM YAGI DIMENSIONS:
+      Reflector:  0.35 m
+      Driven:     0.325 m
+      Director:   0.305 m
+      Boom: 0.17 m, element spacing 0.07 m each
+
+    NOTE: Print probe_housing.scad "yagi_boom" for 3D printable
+    boom with press-fit element holes (3 mm aluminum rod elements).
+
+
+PROBE AF LOOKUP TABLE (for firmware)
+---------------------------------------
+
+    #define NUM_BANDS 15
+    struct BandInfo {
+      const char* name;
+      float freq_MHz;
+      float AF_whip_dBm;   // 50cm telescoping whip
+      float AF_dipole_dBm; // λ/2 dipole (tuned)
+      float AF_loop_dBm;   // 10cm shielded loop
+    };
+
+    BandInfo bands[NUM_BANDS] = {
+    //  name      f(MHz)  whip    dipole   loop
+      {"160M",    1.85,   32.0,   -30.6,   56.0},
+      {"80M",     3.75,   26.0,   -24.6,   50.0},
+      {"40M",     7.15,   20.0,   -18.6,   44.0},
+      {"30M",    10.125,  17.0,   -14.9,   41.0},
+      {"20M",    14.175,  14.0,   -12.5,   38.0},
+      {"17M",    18.118,  12.0,   -10.0,   36.0},
+      {"15M",    21.225,  10.0,    -8.5,   34.0},
+      {"12M",    24.940,   9.0,    -7.0,   33.0},
+      {"10M",    28.500,   8.0,    -6.5,   32.0},
+      {"6M",     50.000,   6.0,    -3.0,   30.0},
+      {"2M",    144.000,   3.0,     7.2,   27.0},
+      {"1.25M", 222.000,   2.0,    11.5,   25.0},
+      {"70cm",  432.000,   1.0,    17.2,   23.0},
+      {"33cm",  902.000,   0.0,    22.8,   21.0},
+      {"20cm", 1296.000,  -1.0,    26.2,   19.0},
+    };
+
+    NOTE: AF values above are approximate and must be verified
+    against a calibrated reference antenna at each band. Store
+    user-calibrated AF values in EEPROM, overriding the defaults.
+
+================================================================================

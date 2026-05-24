@@ -1,0 +1,113 @@
+CM ============================================================
+CM NEC-2 Model: 40m Quarter-Wave Vertical with 8 Buried Radials
+CM Document:    TM-HFTN-NEC-003
+CM Author:      Merv Martin
+CM Date:        2026-05-02
+CM ============================================================
+CM Description:
+CM   Quarter-wave vertical monopole at 7.15 MHz with 8-radial
+CM   ground plane. Radials are on the surface (z=0) to simulate
+CM   a buried radial system (NEC-2 approximation: on-ground wires).
+CM
+CM   Frequency: 7.15 MHz (40m band)
+CM   Vertical element: lambda/4 = 10.49m above ground
+CM   Radials: 8 × 10.49m, z = 0 (ground surface), equally spaced
+CM   Wire radius: 0.002m for vertical (heavier conductor)
+CM               0.002m for radials (heavy ground wire)
+CM
+CM Ground model: Sommerfeld-Norton real ground
+CM   sigma = 0.005 S/m, epsilon_r = 13 (average ground)
+CM
+CM Radial azimuth angles (8 radials, 45 deg spacing):
+CM   0, 45, 90, 135, 180, 225, 270, 315 degrees
+CM
+CM Source: voltage source at base of vertical (segment 1, wire 1)
+CM Feed point: z = 0 to z = 0.524m (base of vertical)
+CM
+CM Frequency sweep: 7.000 to 7.300 MHz, 7 steps
+CM
+CM Expected results:
+CM   Impedance: ~36 ohms resistive at resonance (image effect)
+CM   with 8 radials — losses reduce efficiency vs. perfect ground
+CM   Gain: ~0 to +1 dBd (good low-angle radiation)
+CM   Max radiation: 20-25 deg elevation angle
+CE
+CM --- GEOMETRY ---
+CM Wire 1: Vertical element (z = 0 to z = 10.49m)
+CM GW  tag  nseg  x1    y1    z1      x2    y2    z2      radius
+GW  1   20   0.0   0.0   0.000   0.0   0.0   10.490   0.002
+CM
+CM Radial wires: 8 radials at z=0, 45 deg azimuth spacing
+CM Each radial has 20 segments, length 10.49m
+CM
+CM Wire 2: Radial at 0 deg (along +x)
+GW  2   20   0.0    0.0    0.0   10.490   0.0    0.0   0.002
+CM Wire 3: Radial at 45 deg
+GW  3   20   0.0    0.0    0.0    7.418   7.418   0.0   0.002
+CM Wire 4: Radial at 90 deg (along +y)
+GW  4   20   0.0    0.0    0.0    0.0    10.490   0.0   0.002
+CM Wire 5: Radial at 135 deg
+GW  5   20   0.0    0.0    0.0   -7.418   7.418   0.0   0.002
+CM Wire 6: Radial at 180 deg (along -x)
+GW  6   20   0.0    0.0    0.0  -10.490   0.0    0.0   0.002
+CM Wire 7: Radial at 225 deg
+GW  7   20   0.0    0.0    0.0   -7.418  -7.418   0.0   0.002
+CM Wire 8: Radial at 270 deg (along -y)
+GW  8   20   0.0    0.0    0.0    0.0   -10.490   0.0   0.002
+CM Wire 9: Radial at 315 deg
+GW  9   20   0.0    0.0    0.0    7.418  -7.418   0.0   0.002
+CM
+CM Ground specification (must follow all GW cards)
+GE  1
+CM --- GROUND PARAMETERS ---
+CM Sommerfeld-Norton ground: sigma=0.005, eps_r=13
+GN  2   0   0   0   13.0   0.005
+CM --- EXCITATION ---
+CM Voltage source at segment 1 of wire 1 (base of vertical)
+EX  0   1   1   00   1.0   0.0
+CM --- FREQUENCY SWEEP ---
+CM 7 steps: 7.000, 7.050, 7.100, 7.150, 7.200, 7.250, 7.300 MHz
+FR  0   7   0   0   7.000   0.050
+CM --- CURRENT DISTRIBUTION ---
+PQ  0   0   0   0
+CM --- RADIATION PATTERNS ---
+CM Elevation pattern (phi=0, theta 0-90 deg, step 2 deg)
+CM theta=90 = horizon, theta=0 = zenith (straight up)
+RP  0   46   1   1001   0.0   0.0   2.0   0.0
+CM Azimuth pattern at elevation angle 20 deg (theta=70)
+RP  0   1   73   1001   70.0   0.0   0.0   5.0
+EN
+CM ============================================================
+CM NOTES ON RADIAL GEOMETRY:
+CM   NEC-2 does not model truly buried radials (Mininec ground).
+CM   On-ground radials (z=0) with Sommerfeld-Norton ground give a
+CM   reasonable approximation for elevated or surface radial systems.
+CM   For truly buried radials, use NEC-4 (requires license) or
+CM   apply Mininec ground type (GN 1) as alternative.
+CM
+CM   8 radials at z=0 with average ground:
+CM     Ground loss resistance Rg ≈ 5-10 ohms (8 radials)
+CM     (Compare: 120 radials → Rg < 1 ohm)
+CM     Total feed Z ≈ 36 + Rg = ~41-46 ohms at resonance
+CM
+CM   Radial coordinate check (10.49m × cos/sin):
+CM     0 deg:   (10.490,  0.000)
+CM     45 deg:  ( 7.418,  7.418)  [10.490 × cos45 = 7.418]
+CM     90 deg:  ( 0.000, 10.490)
+CM     135 deg: (-7.418,  7.418)
+CM     180 deg: (-10.490, 0.000)
+CM     225 deg: (-7.418, -7.418)
+CM     270 deg: ( 0.000,-10.490)
+CM     315 deg: ( 7.418, -7.418)
+CM
+CM TYPICAL OUTPUT (7.15 MHz, 8 radials, average ground):
+CM   Resonant impedance:   ~40-50 ohms (match to 50-ohm coax)
+CM   Gain over isotropic:  ~0.5 dBi (good for DX low-angle)
+CM   Peak elevation:       ~22 degrees above horizon
+CM   Radiation efficiency: ~60-70% (8 radials, average ground loss)
+CM
+CM   Improvement with more radials:
+CM     16 radials: efficiency ~75%, Rg ≈ 6 ohms
+CM     32 radials: efficiency ~85%, Rg ≈ 3 ohms
+CM     120 radials: efficiency ~95%, Rg ≈ 1 ohm (ARRL Antenna Book)
+CM ============================================================

@@ -1,0 +1,280 @@
+================================================================================
+UNUN 64:1 — EXTREME IMPEDANCE MATCHING
+================================================================================
+
+Purpose: Impedance transformation 3200Ω unbalanced → 50Ω unbalanced
+Type: Voltage transformer (8:1 turns ratio unun)
+Insertion Loss: 0.40–0.60 dB (very high, specialty use only)
+Primary Use: Extreme high-impedance antennas, experimental research, QRP only
+
+================================================================================
+CORE SPECIFICATIONS
+================================================================================
+
+Extreme Impedance Configuration:
+  Core: Single FT-240-43 (stacked for low frequencies)
+  Wire: #14 enameled copper
+  Primary: 5 turns (antenna side, 3200Ω)
+  Secondary: 40 turns (coax side, 50Ω)
+  Turns Ratio: 8:1 (gives 64:1 impedance transformation)
+  Max Power: 200–300 W (severe thermal stress)
+  Insertion Loss: 0.50–0.60 dB @ 80M, decreasing to 0.30 dB @ 20M
+
+================================================================================
+IMPEDANCE TRANSFORMATION
+================================================================================
+
+TURNS RATIO:
+  N_ratio = 40 / 5 = 8:1
+  Z_out = Z_in / N² = 3200 / 64 = 50Ω ✓
+
+VOLTAGE STEP-DOWN:
+  V_out = V_in × (1/8) = 0.125 × V_in
+
+POWER RATING:
+  For QRP only (1–5 W maximum recommended)
+  Current limiting: I_primary = I_secondary × 8
+  Example: 50Ω output, 5W → 0.316A coax current
+  On 3200Ω primary: 0.039A (very low, safe)
+
+================================================================================
+FREQUENCY RESPONSE
+================================================================================
+
+FT-240-43, 5:40 turns:
+
+Frequency    Impedance Ratio    Insertion Loss
+160M         65:1 (3200→49)     0.60 dB
+80M          62:1               0.55 dB
+40M          60:1               0.45 dB
+20M          58:1               0.35 dB
+10M          55:1               0.28 dB
+
+Notes:
+  - Loss severe (accept only for research applications)
+  - Impedance ratio stays flat across band
+  - NOT recommended for QRO (heat would be extreme)
+
+================================================================================
+PRIMARY APPLICATIONS
+================================================================================
+
+1. EXPERIMENTAL ANTENNA RESEARCH:
+   - Testing extreme-impedance antenna designs
+   - Characterizing antenna impedance vs frequency
+   - Laboratory measurements (not field operation)
+
+2. VERY HIGH-IMPEDANCE LOOPS:
+   - Small magnetic loops with extremely high Q
+   - Feedpoint impedance can exceed 3000Ω
+   - 64:1 unun allows direct measurement without tuner distortion
+
+3. CRYSTAL RADIO CIRCUITS:
+   - Some antique crystal receiver designs use very high-impedance antennas
+   - Modern recreation: 64:1 unun for authenticity
+
+4. QRP EXTREME PORTABILITY:
+   - If antenna impedance exactly 3200Ω (rare case)
+   - 5W QRP operation without tuner
+
+5. ANTENNA THEORY VERIFICATION:
+   - Checking end-fed wire theory predictions
+   - Confirming impedance transformation calculations
+
+================================================================================
+WINDING TECHNIQUE
+================================================================================
+
+EXTREME CHALLENGE: 40 turns on single core is very tight packing.
+
+Materials:
+  - 1× FT-240-43 core
+  - Spool of #14 enameled copper (thin enough for 40 turns)
+  - Very careful wire management
+
+Step 1: Prepare core
+  - Mark starting point with tape
+  - Clear workspace (40-turn winding is tedious)
+
+Step 2: Primary (5 turns)
+  - Wind exactly 5 turns, evenly spaced
+  - Very tight packing acceptable
+
+Step 3: Secondary (40 turns)
+  - Count VERY CAREFULLY (40 turns easily miscounted)
+  - Interleave turns (every 2–3 turns alternate direction)
+  - Keep wire tension consistent
+
+Step 4: Verify count
+  - Recount primary: 5 turns ✓
+  - Recount secondary: 40 turns ✓
+  - Double-check: 40/5 = 8:1 ratio ✓
+
+================================================================================
+FAILURE MODES
+================================================================================
+
+SYMPTOM: No usable impedance match
+ROOT CAUSE: Antenna impedance NOT 3200Ω (rare)
+SOLUTION: Use tuner with 64:1 unun, or use different unun ratio
+
+SYMPTOM: Severe heating (even at low power)
+ROOT CAUSE: High insertion loss (ferrite dissipation)
+SOLUTION:
+  - Reduce power to <2W QRP
+  - Do NOT use for continuous transmission (CW/SSB)
+  - Use pulse mode (keyed transmission, not continuous)
+
+SYMPTOM: Turns count off by one or two
+ROOT CAUSE: Miscounting during 40-turn secondary
+SOLUTION: Unwind ENTIRE secondary, recount carefully from start
+
+================================================================================
+TESTING PROCEDURE
+================================================================================
+
+Setup:
+  Port 1: Coax 50Ω output
+  Port 2: Primary antenna side (3200Ω load)
+  Use 3200Ω resistive load (precision resistor network)
+
+Measurement 1 — Impedance Ratio:
+  Sweep 1–30 MHz with 3200Ω load
+  Expected: Z_out ≈ 50Ω
+  S₁₁ <-20 dB (excellent match if impedance exact)
+
+Measurement 2 — Insertion Loss:
+  Sweep 1–30 MHz
+  Expected: S₂₁ ≈ -0.40 to -0.60 dB
+  Very high loss (expected, accept it)
+
+================================================================================
+POWER HANDLING
+================================================================================
+
+FT-240-43 single core, 64:1 unun:
+  QRP Maximum: 5 W continuous
+  Peak (pulse): 10 W (brief keying only)
+  Thermal rise: ~15°C @ 2W, >60°C @ 5W (marginal)
+
+DO NOT use for:
+  - SSB transmission (continuous RF for voice)
+  - CW above 2W
+  - Contest operation (heat buildup)
+
+SAFE POWER ENVELOPE:
+  - CW: <2W (short segments)
+  - SSB: <1W (brief transmission)
+  - Digital: <1W (RTTY, PSK31)
+
+================================================================================
+ALTERNATIVE: 32:1 UNUN
+================================================================================
+
+If 64:1 too extreme, consider 32:1 (5:1 turns ratio):
+  - Primary: 5 turns → 1600Ω antenna impedance
+  - Secondary: 25 turns → 50Ω output
+  - Insertion loss: 0.35–0.50 dB (slightly lower than 64:1)
+  - Power handling: 300–400W (usable for QRP)
+
+For most purposes, 32:1 preferable to 64:1.
+
+================================================================================
+COMPARISON: ALL UNUN RATIOS
+================================================================================
+
+Ratio    Input Z    Output Z    Turns    Loss@80M    Use Case
+─────────────────────────────────────────────────────────────
+2:1      100Ω       50Ω         1:2      0.08 dB    Low-Z wires
+4:1      200Ω       50Ω         3:6      0.10 dB    Random wire (common)
+9:1      450Ω       50Ω         4:12     0.25 dB    High-Z wire
+16:1     800Ω       50Ω         5:20     0.35 dB    Very high-Z
+32:1     1600Ω      50Ω         5:25     0.45 dB    Extreme (QRP)
+49:1     2450Ω      50Ω         3:21     0.40 dB    EFHW (classic)
+64:1     3200Ω      50Ω         5:40     0.55 dB    Extreme research
+
+RECOMMENDATION:
+  - Unknown antenna: Use 4:1 unun as starting point
+  - High-Z antenna: Use 9:1 or 16:1 with tuner
+  - EFHW antenna: Use 49:1 (designed specifically for this)
+  - Research/extreme: Use tuner + lower-ratio unun (more efficient)
+
+================================================================================
+WHEN NOT TO USE 64:1 UNUN
+================================================================================
+
+64:1 unun is NOT recommended for:
+  ✗ QRO operation (>10W, excessive heating)
+  ✗ SSB voice transmission (continuous RF)
+  ✗ Portable field operation (impractical)
+  ✗ Multiband operation (too restrictive)
+  ✗ Any antenna with unknown impedance (use tuner instead)
+
+64:1 unun IS appropriate for:
+  ✓ Antenna impedance EXACTLY known as 3200Ω
+  ✓ QRP operation (1–5W maximum)
+  ✓ Laboratory antenna measurements
+  ✓ Experimental research (theoretical confirmation)
+  ✓ Antique radio recreation
+
+================================================================================
+RESEARCH APPLICATIONS
+================================================================================
+
+The 64:1 unun enables antenna theory verification:
+
+Example: Predicting end-fed wire impedance
+  - Calculate theoretical feedpoint impedance: Z = 3200Ω (prediction)
+  - Use 64:1 unun for direct measurement
+  - NanoVNA measurement: Z_primary = 3200Ω ± 10% (theory validated!)
+
+Example: Antenna resonance detection
+  - Swept frequency measurement with 64:1 unun
+  - Impedance minimum indicates resonance frequency
+  - Useful for tuning complex antenna arrays
+
+Example: High-Q antenna characterization
+  - Some loop antennas exhibit Q >1000 (very high impedance)
+  - 64:1 unun allows measurement without impedance transformation artifacts
+  - Clean measurement of antenna Q factor
+
+================================================================================
+CONSTRUCTION NOTES
+================================================================================
+
+Mechanical Assembly:
+  - Tight packing (40 turns on single core)
+  - Potting ESSENTIAL (protects delicate winding)
+  - Use silicone (flexible, won't crack enamel)
+
+Weatherproofing:
+  - Aluminum enclosure preferred (thermal management)
+  - Ventilation holes (allow heat dissipation, even at low power)
+  - Moisture barrier (corrosion protection)
+
+Field Deployment:
+  - Laboratory use only (not recommended for field operation)
+  - Secure mounting (prevent vibration, wire breakage)
+  - Monitor core temperature (do not exceed 60°C)
+
+Spare Parts:
+  - Keep extra FT-240-43 core (if winding ever damaged)
+  - Spool of #14 enameled wire (for rewinding if necessary)
+  - Precision 3200Ω resistor (for testing/calibration)
+
+================================================================================
+CONCLUSION
+================================================================================
+
+The 64:1 unun is a specialized tool for extreme impedance matching.
+Recommended ONLY for:
+  1. Known antenna impedance exactly 3200Ω
+  2. QRP operation (<5W)
+  3. Research/measurement applications
+  4. Experimental antenna development
+
+For most antennas and operating modes, use:
+  - Lower unun ratio (4:1, 9:1, 16:1) + tuner
+  - Or dedicated balun/unun designed for specific antenna type
+
+================================================================================

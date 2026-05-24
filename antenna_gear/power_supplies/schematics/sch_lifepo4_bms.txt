@@ -1,0 +1,257 @@
+================================================================================
+SCHEMATIC: LiFePO4 Battery Pack with BMS
+TM-PWR-001  Rev A
+12.8V Nominal (4S: 4 cells in series)  |  Capacity: 20–100 Ah
+BMS protection: OV, UV, OC, SC, temperature  |  Anderson Powerpole output
+================================================================================
+
+LiFePO4 CELL CHEMISTRY
+────────────────────────
+LiFePO4 (Lithium Iron Phosphate) is the safest lithium chemistry for ham
+field use:
+  - No thermal runaway (cannot burn or explode under normal abuse)
+  - 2000–5000 charge cycle life (vs. 300–500 for Li-Ion)
+  - Flat discharge curve from 80% to 20% SOC (voltage stays near 3.2V)
+  - Non-toxic iron-phosphate cathode
+
+CELL PARAMETERS:
+  Nominal voltage:      3.2V per cell
+  Full charge voltage:  3.60V (charge cutoff)
+  Full discharge cutoff: 2.50V (discharge cutoff; do not go below)
+  Optimal range: 2.8V–3.4V (80% of capacity, maximizes cycle life)
+
+  4S PACK (4 cells in series):
+    Nominal: 4 × 3.2V = 12.8V
+    Full charge: 4 × 3.60V = 14.4V
+    Discharge cutoff: 4 × 2.50V = 10.0V
+
+  VOLTAGE vs. SOC TABLE (4S pack, 20°C):
+    100% SOC: 14.2–14.4V (just after charge)
+     90% SOC: 13.4V
+     80% SOC: 13.2V
+     60% SOC: 13.1V  ← very flat region
+     40% SOC: 13.0V
+     20% SOC: 12.8V
+     10% SOC: 12.5V
+      0% SOC: 10.0V (cutoff; never reach in normal use)
+
+  Rest for 1 hour after charge before measuring OCV for accurate SOC.
+
+CAPACITY SELECTION:
+  20 Ah: QRP portable (< 5W TX; 4+ hour POTA/SOTA activation)
+  50 Ah: Mobile HF at 100W (2–3 hour operation without solar)
+  100 Ah: Base station portable (full day with 100W HF)
+
+================================================================================
+BMS (BATTERY MANAGEMENT SYSTEM) OVERVIEW
+================================================================================
+
+PROTECTION FUNCTIONS:
+  1. Overvoltage (OV): disconnect charge if any cell > 3.65V
+  2. Undervoltage (UV): disconnect load if any cell < 2.50V
+  3. Overcurrent Charge (OCC): limit charge current (set at 0.5C typically)
+  4. Overcurrent Discharge (OCD): limit discharge current (set at 1C–3C)
+  5. Short Circuit (SC): ultra-fast cutoff < 100 µs
+  6. Temperature: cutoff if < 0°C (charging) or > 60°C (any)
+  7. Cell balancing: equalize cell voltages during top-of-charge
+
+BMS TOPOLOGY: Common Port (single B− connector; charge and discharge share one path)
+  OR Separate Port (dedicated charge port + discharge port — preferred for large packs)
+
+RECOMMENDED COMMERCIAL BMS:
+  For 20–50 Ah, ≤ 50A continuous: Daly 4S 50A BMS ($15–$25)
+  For 50–100 Ah, ≤ 100A continuous: JK BMS 4S 100A (active balancer, $30–$50)
+  For custom discrete design: see Section "DISCRETE BMS CIRCUIT" below.
+
+================================================================================
+DALY BMS CONNECTION (COMMON PORT TOPOLOGY)
+================================================================================
+
+DALY 4S 50A BMS PINOUT AND CONNECTIONS:
+
+  B+  ── Pack positive (direct to cell 4 positive)
+  B−  ── Pack negative (direct to cell 1 negative)
+
+  C1  ── Cell 1 to Cell 2 junction (balance tap 1)
+  C2  ── Cell 2 to Cell 3 junction (balance tap 2)
+  C3  ── Cell 3 to Cell 4 junction (balance tap 3)
+  GND ── Cell 1 negative (same as B−)
+
+  P+  ── (same as B+ — common port design)
+  P−  ── Load/Charger negative OUT (switched by BMS MOSFET)
+
+FULL PACK WIRING DIAGRAM:
+
+  [CHARGER]─────────────────────────────┐
+  (+) ──────────────────────────────── B+
+  (−) ───────────────────────── P− ← BMS ← B− ─── [CELL1−]
+
+  [CELL1+]──[CELL2−]    C1 balance tap ──────── BMS C1
+  [CELL2+]──[CELL3−]    C2 balance tap ──────── BMS C2
+  [CELL3+]──[CELL4−]    C3 balance tap ──────── BMS C3
+  [CELL4+] ─────────────────────────── B+
+
+  [LOAD(+)] ────────────────────────── B+  (or P+ on separate-port BMS)
+  [LOAD(−)] ────────────────────────── P−  (switched by BMS MOSFET)
+
+  ANDERSON POWERPOLE ─────────────────────────── to Load(+) and P−
+
+CELL BALANCE RESISTORS (for Daly passive balancer, optional improvement):
+  Between each balance tap and B−: 33kΩ bleeder maintains BMS reference stability.
+  Or: leave as-is; Daly balancer works without external bleeder.
+
+================================================================================
+JK BMS ACTIVE BALANCER (PREFERRED FOR FIELD USE)
+================================================================================
+
+The JK BMS uses an inductor-based active balancer that transfers charge from
+high-voltage cells to low-voltage cells during balancing. This is 80–90% efficient
+vs. passive (resistive) balancing which wastes energy as heat.
+
+JK BMS ADDITIONAL FEATURES:
+  - Bluetooth LE: phone app shows cell voltages, temperature, SOC, current
+  - RS485 / UART output: for ESP32 monitoring integration
+  - Configurable protection thresholds via app
+  - LCD port: optional remote display
+  - 2× temperature probes (cell and MOSFET temperature)
+
+ESP32 INTEGRATION WITH JK BMS:
+  JK BMS UART (115200 baud): Tx → ESP32 GPIO16; Rx → ESP32 GPIO17
+  Protocol: JK BMS protocol (documented on GitHub: jblance/jkbms)
+  Read: cell voltages, pack voltage, current, temperature, SOC, fault flags.
+  Display on CYD: see firmware psu_monitor_esp32.ino
+
+================================================================================
+DISCRETE BMS CIRCUIT (EDUCATIONAL — for custom/high-current designs)
+================================================================================
+
+For understanding the protection circuit (commercial BMS replaces all of this):
+
+CELL VOLTAGE MONITOR (per cell):
+  Each cell voltage fed through a precision voltage divider to a comparator.
+  OV comparator: fires if V_cell > 3.65V → latches cutoff relay
+  UV comparator: fires if V_cell < 2.50V → latches cutoff relay
+
+  Example for one cell OV detection:
+  V_cell ──[R1: 36.5kΩ]──┬── (+) of comparator LM339
+                          │
+                         [R2: 10kΩ]   V_ref = V_cell × R2/(R1+R2)
+                          │         At V_cell = 3.65V: V_ref = 3.65 × 10/46.5 = 0.785V
+                         GND
+                               (−) ──[0.785V Zener or resistor from 2.5V ref]
+  Comparator output goes LOW when V_cell > 3.65V → triggers FET cutoff
+
+DISCHARGE MOSFET STAGE:
+  Uses N-channel MOSFETs with low R_DS(on) for efficiency.
+  For 50A continuous: 4× IRF1404 (40V, 162A, 4mΩ) in parallel.
+  MOSFET dissipation: P = I² × R_DS = 50² × 0.004 / 4 = 2.5W total (excellent).
+
+  SERIES MOSFET SWITCH:
+  B− ──[Discharge MOSFET stack]──[Charge MOSFET stack]── P−
+  (Two separate MOSFET stacks with anti-parallel body diodes allow
+  charge-only and discharge-only cutoffs independently.)
+
+OVERCURRENT / SHORT CIRCUIT:
+  Current sense resistor: 0.001Ω (1mΩ) 50W in the B− path.
+  At 50A: V_sense = 50 × 0.001 = 50mV
+  SC detect: fast comparator (LM393) with 100mV reference → fires in < 10 µs.
+  OC detect: slower comparator with 50ms filter → fires at sustained 50A.
+
+================================================================================
+CHARGING AND ANDERSON POWERPOLE OUTPUT
+================================================================================
+
+CHARGE PROFILE FOR 4S LiFePO4:
+  CC/CV (Constant Current / Constant Voltage):
+    CC phase: charge at C/5 to C/2 rate until V_pack = 14.4V
+    CV phase: hold 14.4V until current drops below C/20 → full charge
+    Do NOT charge above 14.6V (cell damage; BMS will disconnect but don't rely on it)
+    Do NOT charge below 0°C (lithium plating; permanent damage)
+
+RECOMMENDED CHARGER:
+  Victron Orion 12/24V DC-DC or AC/DC LiFePO4 profile charger.
+  Set absorption voltage: 14.4V
+  Set float voltage: 13.5V (maintains without overcharging)
+
+  DIY CHARGER using LM317 or adjustable PSU: set output to 14.4V, current limit to C/2.
+  For 50Ah pack: charge at 25A maximum; full in ~2.5 hours from 50% SOC.
+
+ANDERSON POWERPOLE CONNECTORS:
+  Standard ham radio DC connector (ARRL/ARRL standard, shared with ARES/RACES).
+  RED = positive, BLACK = negative.
+  Housings stack: red on top-right, black on bottom-left (Powerpole convention).
+
+  Contact sizes:
+    15A contact (20–18 AWG): small housing — for QRP (< 5W rigs)
+    30A contact (16–12 AWG): medium — standard HF station (100W rigs)
+    45A contact (10 AWG):    large — high-power amplifier or battery bus
+
+  INTERNAL WIRING TO POWERPOLE:
+  Battery B+ ─── main fuse ─── Powerpole RED (+ lug)
+  Battery P− ─────────────── Powerpole BLACK (− lug)
+  Fuse size: 1.25× continuous maximum current.
+    50Ah pack, 50A BMS: use 60A ANL fuse (bolt-down type; not blade)
+    20Ah pack, 30A BMS: use 40A ANL fuse
+
+  POWERPOLE DISTRIBUTION BLOCK (1 in, 4 out):
+  One Powerpole battery feed → 4-port distribution with individual fuse per outlet.
+  Each outlet: 15A automotive fuse + Anderson Powerpole pair.
+  Provides independent protection per load (radio, charger, accessories).
+
+POWERPOLE WIRING DIAGRAM:
+
+  [Battery B+] ──[60A ANL FUSE]──────────────────┬─── PP(+) to radio
+                                                  │─── PP(+) to accessories
+  BMS CONTROL ────────────────────── MOSFET ──── ┘
+
+  [Battery B−] ──[BMS P−]────────────────────────┬─── PP(−) to radio
+                                                  └─── PP(−) to accessories
+
+================================================================================
+BATTERY ENCLOSURE AND SAFETY
+================================================================================
+
+CELL ARRANGEMENT (4S prismatic cells, 20–100Ah):
+  Cells oriented with terminals on same side.
+  Compression: use threaded rod + aluminum plates to maintain 15 psi on cells.
+    (Prevents cell swelling, maintains capacity, improves cycle life.)
+  Cell interconnects: copper bus bar, M6 bolts, anti-corrosion washers.
+
+THERMAL MANAGEMENT:
+  LiFePO4 optimal temperature: 15–35°C.
+  Below 0°C: charging prohibited; discharging OK down to −20°C at reduced rate.
+  Above 45°C: reduce charge rate.
+  Temperature monitoring: NTC thermistor (10kΩ at 25°C) attached to cell body.
+  Wired to BMS temperature input AND to ESP32 ADC for display.
+
+VENTILATION:
+  LiFePO4 does not emit significant gas under normal operation.
+  However: if a cell is damaged or overcharged, small amounts of gas may vent.
+  Install a 1/4" vent hole at top of enclosure with activated carbon filter.
+  Never seal a LiFePO4 enclosure completely airtight.
+
+LABELING REQUIREMENTS:
+  "LITHIUM BATTERY — 12.8V [capacity] Ah"
+  "DO NOT SHORT CIRCUIT"
+  "DO NOT CHARGE BELOW 0°C"
+  "DISCONNECT BEFORE SERVICE"
+
+================================================================================
+PARTS LIST — LiFePO4 PACK WITH BMS
+================================================================================
+
+Item      | Qty | Description                              | Source
+----------|-----|------------------------------------------|-------------------
+CELL      |  4  | 3.2V 50Ah LiFePO4 prismatic (EVE 50E)  | AliExpress, Basen
+BMS       |  1  | JK BMS 4S 100A active balancer          | AliExpress, JKBMS
+FUSE_ANL  |  1  | 60A ANL bolt-down fuse + holder         | Amazon, Blue Sea
+PP_30A    |  4  | Anderson Powerpole 30A red+black pair   | PowerWerx, DX Eng
+PP_45A    |  2  | Anderson Powerpole 45A (battery bus)    | PowerWerx
+BUS_BAR   |  2  | Copper bus bar 6× 25 × 150mm            | Metal supplier
+BOLT      |  8  | M6 × 20mm SS hex bolt + nut + washer   | Hardware
+NTC       |  2  | 10kΩ NTC thermistor (cell temp)        | Mouser
+ALM_PLATE |  2  | 3mm aluminum compression plate          | Metal supplier
+ROD       |  2  | M8 × 300mm threaded rod + nuts         | Hardware
+ENCL      |  1  | Pelican 1510 or 3D-printed ASA box     | Pelican/print
+
+================================================================================

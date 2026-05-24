@@ -1,0 +1,186 @@
+================================================================================
+ 4-ELEMENT PHASED ARRAY RDF — TM-ADF-004 Rev A
+ Butler Matrix Beamforming / Switched 4-Beam Direction Finding
+ HF/VHF Coverage
+================================================================================
+
+PRINCIPLE OF OPERATION
+========================
+4 elements in a square array with λ/4 spacing per side. A Butler Matrix
+passive beamforming network creates 4 simultaneous orthogonal beams pointing
+at 0°, 90°, 180°, 270°. RSSI comparison of all 4 beams simultaneously
+gives bearing with no mechanical movement.
+
+Resolution: 22.5° per half-power step, interpolated to ~3° RMS with
+Gaussian or polynomial interpolation between beam peaks.
+
+================================================================================
+BUTLER MATRIX — PASSIVE BEAMFORMING NETWORK
+================================================================================
+
+  PORTS (4 element inputs → 4 beam outputs)
+
+  E1 ──────────────────────────────────────────────────────────────────────┐
+  E2 ──────────────────────────────────────────────────────────────────────┤
+  E3 ──────────────────────────────────────────────────────────────────────┤  BUTLER
+  E4 ──────────────────────────────────────────────────────────────────────┤  MATRIX
+                                                                            │  (passive)
+  B1 (beam at +45°)  ◄──────────────────────────────────────────────────┤
+  B2 (beam at +135°) ◄──────────────────────────────────────────────────┤
+  B3 (beam at -135°) ◄──────────────────────────────────────────────────┤
+  B4 (beam at -45°)  ◄──────────────────────────────────────────────────┘
+
+  BUTLER MATRIX INTERNAL SCHEMATIC (4-port version):
+  ┌──────────────────────────────────────────────────────────────────────────┐
+  │                                                                          │
+  │  E1 ──▶[3dB 90° hybrid #1]──────────────────▶[3dB 90° hybrid #3]──▶B1 │
+  │              │                                          │               │
+  │              ├──[cross-over]──[45° fixed phase]──────────►              │
+  │              │                                                           │
+  │  E2 ──▶[3dB 90° hybrid #2]──────────────────▶[3dB 90° hybrid #4]──▶B2 │
+  │              │                                          │               │
+  │              ├──────────────────────────────────────────►              │
+  │                                                                          │
+  │  (E3, E4 similar connections, completing the 4×4 matrix)               │
+  └──────────────────────────────────────────────────────────────────────────┘
+
+  3dB 90° HYBRID COUPLER (stripline / PCB implementation):
+  ┌──────────────────────────────────────────────────────────────────────────┐
+  │                                                                          │
+  │  Port 1 (input) ─────────────────────────────── Port 2 (thru, 0°)      │
+  │                 │                             │                         │
+  │                 │    coupled line section     │                         │
+  │                 │    Z0 = 35.4Ω, λ/4 long     │                         │
+  │                 │                             │                         │
+  │  Port 4 (iso)   ─────────────────────────────── Port 3 (coupled, -90°) │
+  │                                                                          │
+  │  S-params: S21 = -3dB, ∠0°   S31 = -3dB, ∠-90°                        │
+  │            S41 = isolated     S11 = matched                              │
+  └──────────────────────────────────────────────────────────────────────────┘
+
+  FIXED PHASE CROSSOVERS (45° delay lines):
+  At the design frequency f₀, a 45° electrical delay in 50Ω line:
+    Length = λ/8 = c × VF / (8 × f₀)
+  Example: 146 MHz, VF=0.66 (RG-58):
+    L = (3×10⁸ × 0.66) / (8 × 146×10⁶) = 0.169 m = 169 mm
+
+================================================================================
+SIMPLIFIED SWITCHED-BEAM IMPLEMENTATION (no Butler matrix PCB required)
+================================================================================
+
+  For field-portable use: switch elements one at a time to ESP32,
+  build signal map, find peak bearing by interpolation.
+
+  ┌────────────────────────────────────────────────────────────────────────┐
+  │           SP4T RF SWITCH (HMC253 or PE4259)                           │
+  │                                                                        │
+  │  E1 ──▶ Port 0 ─────┐                                                 │
+  │  E2 ──▶ Port 1 ─────┤  SELECT ──── GPIO16 (A0) ─── ESP32            │
+  │  E3 ──▶ Port 2 ─────┤  SELECT ──── GPIO17 (A1)                      │
+  │  E4 ──▶ Port 3 ─────┘                                                 │
+  │                 │                                                      │
+  │          Common Port ──────────────────────────────────────────────── │──▶ RSSI meas.
+  └────────────────────────────────────────────────────────────────────────┘
+
+  SCAN PROCEDURE:
+  1. Switch to E1, measure RSSI[0]
+  2. Switch to E2, measure RSSI[1]
+  3. Switch to E3, measure RSSI[2]
+  4. Switch to E4, measure RSSI[3]
+  5. Find index k of maximum RSSI
+  6. Bearing = k × 90° (four 90° beams)
+  7. Interpolate: use three-point Gaussian to find sub-step bearing
+
+  GAUSSIAN INTERPOLATION FOR SUB-STEP BEARING:
+    k_max = index of peak RSSI value
+    L = RSSI[k_max - 1]   (left neighbor, wrap around)
+    C = RSSI[k_max]       (center/peak)
+    R = RSSI[k_max + 1]   (right neighbor, wrap around)
+
+    offset = 0.5 × (L - R) / (L - 2C + R)   [in beam-steps, -0.5 to +0.5]
+    bearing = (k_max + offset) × 90°
+
+================================================================================
+4-ELEMENT SQUARE ARRAY GEOMETRY
+================================================================================
+
+  Top view (λ/4 spacing per side, elements at corners):
+
+         E1 (NW) ────────── E2 (NE)
+            │         d          │
+            │  d = λ/4 per side  │
+            │                    │
+         E4 (SW) ────────── E3 (SE)
+
+  Element spacing d per side:
+  ┌──────────┬────────────┬───────────────────┬──────────────────────┐
+  │ Band     │ Freq (MHz) │ d = λ/4 (m)       │ Array footprint (m²) │
+  ├──────────┼────────────┼───────────────────┼──────────────────────┤
+  │ 40m      │ 7.15       │ 10.5              │ 110 m²               │
+  │ 20m      │ 14.175     │  5.3              │  28 m²               │
+  │ 10m      │ 28.85      │  2.6              │   6.8 m²             │
+  │  6m      │ 52.0       │  1.4              │   2.0 m²             │
+  │  2m      │ 146.0      │  0.51             │   0.26 m²            │
+  │ 70cm     │ 435.0      │  0.17             │   0.03 m²            │
+  └──────────┴────────────┴───────────────────┴──────────────────────┘
+
+================================================================================
+RSSI COMPARISON CIRCUIT — ALL 4 BEAMS SIMULTANEOUS
+================================================================================
+
+  For Butler matrix output:
+  B1 ──▶ [AD8307 #1] ──▶ ADC0   │
+  B2 ──▶ [AD8307 #2] ──▶ ADC1   │──▶ ESP32 reads all 4 simultaneously
+  B3 ──▶ [AD8307 #3] ──▶ ADC2   │    (ADC scan mode, ~1ms per reading)
+  B4 ──▶ [AD8307 #4] ──▶ ADC3   │
+
+  ESP32 ADC PINS:
+    ADC1_CH0 = GPIO36 (Beam 1)
+    ADC1_CH3 = GPIO39 (Beam 2)
+    ADC1_CH6 = GPIO34 (Beam 3)
+    ADC1_CH7 = GPIO35 (Beam 4)
+
+  AD8307 CIRCUIT (one per beam — repeat 4×):
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │  RF in (50Ω) ──[0.1µF]──▶ AD8307 pin1 (+IN)                        │
+  │                            AD8307 pin8 (-IN) ── GND                 │
+  │  +5V ──[100nF]──── AD8307 pin7 (Vs)                                 │
+  │  GND ────────────── AD8307 pin3 (GND)                               │
+  │  Output (mV, log) ── AD8307 pin4 ──[100Ω]──▶ ESP32 ADC             │
+  └──────────────────────────────────────────────────────────────────────┘
+
+================================================================================
+BEARING ACCURACY AND CALIBRATION
+================================================================================
+
+  Theoretical accuracy with interpolation:
+    Without interpolation: ±45° (4-beam, 90° per step)
+    With Gaussian interpolation: ±3°–5° RMS (typical)
+    With calibration table lookup: ±2°–3° RMS
+
+  CALIBRATION PROCEDURE:
+  1. Place known transmitter at each 10° increment (0–350°)
+  2. Record 4-beam RSSI vector at each position
+  3. Store 36 calibration vectors in flash memory
+  4. During RDF operation: find best-matching calibration vector (nearest neighbor)
+  5. Report corresponding calibration angle as bearing
+
+  SYSTEMATIC ERRORS:
+  - Element gain mismatch: compensate with per-port gain trim in software
+  - Mutual coupling between elements: unavoidable, handled by calibration
+  - Ground reflection: varies with terrain; use elevated ground plane
+
+================================================================================
+ESP32 PIN ASSIGNMENTS — 4-ELEMENT ARRAY
+================================================================================
+
+  GPIO  Function         Notes
+  ────  ─────────────    ────────────────────────────────────────────
+   16   SW_A0            SP4T switch control A0
+   17   SW_A1            SP4T switch control A1
+   36   RSSI_BEAM1       ADC1_CH0, Butler beam 1 (or switched meas.)
+   39   RSSI_BEAM2       ADC1_CH3
+   34   RSSI_BEAM3       ADC1_CH6
+   35   RSSI_BEAM4       ADC1_CH7
+   21   SDA / 22 SCL     I2C OLED + compass
+   18   GPS_RX / 19 TX   GPS UART2

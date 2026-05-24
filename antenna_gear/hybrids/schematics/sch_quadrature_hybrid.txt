@@ -1,0 +1,211 @@
+================================================================================
+SCHEMATIC: QUADRATURE (90°) HYBRID COUPLER — BRANCH-LINE TYPE
+TM-HYB-001  Rev A
+90° phase split, equal amplitude; for circular polarization and phased arrays
+50Ω system, all ham bands 160M – 23cm
+================================================================================
+
+OVERVIEW
+--------
+The branch-line (quadrature) hybrid is a 4-port network providing:
+  Port 1 (input)   → Port 2 (through, 0°):   −3.01 dB, 0° phase
+  Port 1 (input)   → Port 3 (coupled, −90°): −3.01 dB, −90° phase
+  Port 4 (isolated): matched, no output when ports 2 and 3 terminated in Z0
+
+Port numbering convention (clockwise):
+  Port 1 = Input (upper left)
+  Port 2 = Through (lower left, 0°)
+  Port 3 = Coupled (lower right, −90°)
+  Port 4 = Isolated (upper right, terminated 50Ω)
+
+Key applications:
+  • Circular polarization feed from linear antenna pair
+  • Antenna beam steering (two crossed Yagis or dipoles)
+  • Balanced mixer / I-Q hybrid
+  • Phased array antenna feed networks
+  • Power amplifier combining (quadrature combining eliminates load-pull)
+
+
+BRANCH-LINE HYBRID — TRANSMISSION LINE SCHEMATIC
+--------------------------------------------------
+
+  PORT 1 ──────── λ/4 @ 35.35Ω ──────── PORT 4
+     │                                      │
+    λ/4                                    λ/4
+   @ 50Ω                                 @ 50Ω
+     │                                      │
+  PORT 2 ──────── λ/4 @ 35.35Ω ──────── PORT 3
+
+  Shunt (vertical) arms:  Z = 50 Ω, length = λ/4
+  Series (horizontal) arms: Z = Z0/√2 = 35.35 Ω, length = λ/4
+
+  All four sides are λ/4 at the design frequency.
+  Total ring perimeter = λ.
+
+PORT SIGNAL FLOW (PORT 1 DRIVEN):
+  P1 input: splits into two paths.
+  Path A: P1 → top arm (35.35Ω) → P4 → right arm (50Ω) → P3
+  Path B: P1 → left arm (50Ω) → P2 → bottom arm (35.35Ω) → P3
+  At P3: paths add (−90° total via Path B, −90° via Path A).
+  At P4: paths cancel (isolation). Port 4 is the "isolated" port.
+  At P2: receives signal at 0° (same phase as input, −3 dB amplitude).
+  At P3: receives signal at −90°.
+
+
+LUMPED ELEMENT QUADRATURE HYBRID (HF)
+---------------------------------------
+Each λ/4 arm replaced by equivalent L-C section.
+
+  Low-pass T-network for 50Ω arm (vertical):
+    L_sh = 50 / (2πf₀), C_sh = 1/(2πf₀ × 50)
+
+  Low-pass T-network for 35.35Ω arm (horizontal):
+    L_sr = 35.35 / (2πf₀), C_sr = 1/(2πf₀ × 35.35)
+
+  Full lumped schematic (one-section approximation):
+
+  P1 ──[L_sr/2]──┬──[L_sr/2]─── P4
+                [C_sr]
+                 │
+                GND
+  │                              │
+ [L_sh/2]                      [L_sh/2]
+ [C_sh]                        [C_sh]
+ [L_sh/2]                      [L_sh/2]
+  │                              │
+  P2 ──[L_sr/2]──┬──[L_sr/2]─── P3
+                [C_sr]
+                 │
+                GND
+
+  Each arm uses a T-network (L/2 – C – L/2).
+
+
+COMPONENT VALUES — LUMPED ELEMENT QUADRATURE HYBRID
+----------------------------------------------------
+
+For 50Ω shunt arms (L_sh, C_sh):
+  L_sh_total = 50 / (2πf₀)
+  C_sh       = 1 / (2πf₀ × 50)
+
+For 35.35Ω series arms (L_sr, C_sr):
+  L_sr_total = 35.35 / (2πf₀)
+  C_sr       = 1 / (2πf₀ × 35.35)
+
+  Band    f₀(MHz)  L_sh(µH)  C_sh(pF)  L_sr(µH)  C_sr(pF)
+  ----    -------  --------  --------  --------  --------
+  160M     1.85     4.30      1719       3.04      2432
+  80M      3.75     2.12       849       1.50      1200
+  40M      7.15     1.113      446       0.787      631
+  30M     10.125    0.785      315       0.555      446
+  20M     14.175    0.561      225       0.397      318
+  17M     18.118    0.439      176       0.310      249
+  15M     21.225    0.375      150       0.265      213
+  12M     24.940    0.319      128       0.226      181
+  10M     28.850    0.276      110       0.195      156
+   6M     50.500    0.158       63       0.111       89
+
+  NOTE: All L values are total arm inductance.  For T-network, use L/2 on
+  each side of the shunt capacitor.  L_sh/2 and L_sr/2 are used per half.
+
+
+COAXIAL IMPLEMENTATION (2M / 70cm / 33cm / 23cm)
+--------------------------------------------------
+
+  For VHF/UHF, each λ/4 section is cut from coaxial cable.
+
+  50Ω shunt arms: RG-58 (VF=0.66) or RG-316 (PTFE, VF=0.70)
+  35.35Ω series arms: Use 2 × RG-58 in parallel (25Ω × 2 = 50Ω parallel ≠ 35.35Ω)
+
+  PRACTICAL: Construct 35.35Ω from:
+    Option A: Wind 2-turn coax stub on form (effective Z combination)
+    Option B: Use RG-59 (75Ω) with connector matching
+    Option C: Use microstrip (see below)
+
+  Physical λ/4 lengths (50Ω, RG-58, VF=0.66):
+  Band    f₀ (MHz)   Length (mm)
+  ----    --------   -----------
+  6M       50.5       976
+  2M      146         337
+  1.25M   223.5       220
+  70cm    435         113
+  33cm    915          54
+  23cm   1296          38
+
+  For 35.35Ω sections, cut at same length but use different cable type or
+  construct 2-conductor transmission line.
+
+
+MICROSTRIP BRANCH-LINE (70cm / 33cm / 23cm)
+---------------------------------------------
+
+  On FR-4, h=1.6mm, εr=4.4, copper 1 oz:
+
+  50Ω trace: w = 2.9 mm
+  35.35Ω trace: w = 5.2 mm (wider)
+
+  Effective εr ≈ 3.3 for both (slight variation with width).
+  VF ≈ 0.55; physical λ/4 = c × VF / (4 × f)
+
+  Band    f₀ (MHz)   50Ω section   35Ω section   (mm)
+  ----    --------   -----------   -----------
+  70cm     435        41.0 mm       41.0 mm
+  33cm     915        19.5 mm       19.5 mm
+  23cm    1296        13.8 mm       13.8 mm
+
+  Layout: Square geometry.  Ports at four corners.
+  Port 4 (isolated) terminated externally with 50Ω SMA load.
+  For circular polarization feed: connect Port 2 to vertical element,
+  Port 3 to horizontal element.
+
+
+PERFORMANCE SPECIFICATIONS
+---------------------------
+
+  Parameter                 Ideal      Typical
+  ---------                 -----      -------
+  Insertion loss (P1→P2)    3.01 dB    3.0–3.5 dB
+  Insertion loss (P1→P3)    3.01 dB    3.0–3.5 dB
+  Phase difference P2–P3    90°        88–92°
+  Amplitude balance         0 dB       < 0.3 dB
+  Return loss (all ports)   ∞ dB       > 18 dB
+  Isolation (P1–P4)         ∞ dB       > 20 dB
+  Bandwidth (90° ± 5°)      0.7–1.4f   —
+  Maximum CW power          limited by R (transmission line version: only
+                            PCB trace/coax ratings)
+
+CIRCULAR POLARIZATION WIRING
+------------------------------
+
+  For circular polarization from two crossed dipoles:
+
+    Port 1 ──→ Hybrid ──→ Port 2 ──→ Dipole (0°, e.g., horizontal)
+                       └──→ Port 3 ──→ Dipole (−90°, e.g., vertical)
+
+    Result: RHCP (right-hand circular polarization)
+
+  For LHCP: swap Port 2 and Port 3 connections, or feed Port 4 instead
+  of Port 1 (with Port 1 terminated).
+
+  Phase error effect on axial ratio:
+    Phase error ε (degrees) → Axial ratio ≈ 20 × log10(tan(45° + ε/2)) dB
+    At ε = 5°: AR ≈ 1.6 dB
+    At ε = 2°: AR ≈ 0.6 dB
+
+
+PARTS LIST — QUADRATURE HYBRID (HF LUMPED, ONE UNIT)
+------------------------------------------------------
+
+  Ref     Qty  Value          Description
+  ---     ---  -----          -----------
+  L_sh1–4  4  per table      50Ω arm inductors (T/2 each = L_sh/2)
+  L_sr1–4  4  per table      35.35Ω arm inductors (T/2 each = L_sr/2)
+  C_sh1–4  4  per table      50Ω arm shunt capacitors
+  C_sr1–4  4  per table      35.35Ω arm shunt capacitors
+  J1–J4    4  SMA or BNC     Port connectors
+  R_term   1  50Ω (1W)       Port 4 termination (if not connected to load)
+
+  Total: 8 inductors, 8 capacitors, 4 connectors.
+  (Compact HF: 8 components vs 6 for Wilkinson — more complex)
+
+================================================================================

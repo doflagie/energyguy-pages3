@@ -1,0 +1,18 @@
+ANTENNA SPECIFICATION — GMRS-LOADED-VERTICAL,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,"462 MHz, 467 MHz",,Center/allocated bands
+Design approach,Center-loaded vertical with dual-frequency traps,,Primary design method
+Compaction factor,20%,,Size reduction vs full-size
+Special parameters,"Trap pair 462.5/467.5 MHz, 1.5m radiator, 8 radials",,Design-specific details
+,,,
+Feed impedance,50,Ω,Standard amateur radio
+SWR target,<1.5,:1,At band center
+Radiation pattern,Varies,,See NEC model
+Polarization,Linear,,Or circular for arrays
+,,,
+Typical efficiency,80–95%,%,Band-dependent
+Typical gain,2–10,dBi,Type-dependent
+,,,
+NEC model file,gmrs_loaded_vertical.nec,,See electromagnetic simulation
+Construction manual,gmrs_loaded_vertical.md,,Step-by-step procedures

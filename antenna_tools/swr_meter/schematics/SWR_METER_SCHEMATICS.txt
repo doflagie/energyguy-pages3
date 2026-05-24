@@ -1,0 +1,1239 @@
+================================================================================
+          COMPACT PORTABLE SWR METER - COMPLETE CIRCUIT SCHEMATICS
+                Coverage: All 15 Ham Bands (160M through 20CM)
+                          Design: Claude Code - 2025
+================================================================================
+
+CONTENTS
+================================================================================
+
+Section 1:  Overview and Block Diagram
+Section 2:  HF Directional Coupler (160M-10M)
+Section 3:  VHF/UHF Directional Coupler (6M-20CM)
+Section 4:  Diode Detector Circuits
+Section 5:  Meter Driver Circuits
+Section 6:  Range Switching
+Section 7:  Section Selection (HF/VHF)
+Section 8:  Complete Parts List
+Section 9:  PCB Layout Guidelines
+Section 10: Calibration Circuits
+Section 11: Construction Notes
+
+
+SECTION 1: OVERVIEW AND BLOCK DIAGRAM
+================================================================================
+
+This SWR meter uses dual directional couplers optimized for different
+frequency ranges, with diode detection and analog metering.
+
+SYSTEM BLOCK DIAGRAM:
+
+                    ┌─────────────────────────────────────────┐
+    Transmitter     │                                         │    Antenna
+      (50Ω)         │         SWR METER                       │
+                    │                                         │
+        ├───────────┤  ┌──────────────────────────────────┐  ├─────────
+        │           │  │  HF COUPLER (160M-10M)           │  │
+        │  INPUT    │  │  Tandem-Match Transmission Line  │  │  OUTPUT
+        │  SO-239   │  │  -30 dB coupling                 │  │  SO-239
+        │           │  └──────────────────────────────────┘  │
+        │           │         │                │              │
+        │           │      FWD Sample      REF Sample         │
+        │           │         │                │              │
+        │           │         ▼                ▼              │
+        │           │  ┌──────────────────────────────────┐  │
+        │           │  │  DIODE DETECTORS                 │  │
+        │           │  │  Schottky diodes + filters       │  │
+        │           │  └──────────────────────────────────┘  │
+        │           │         │                │              │
+        │           │      DC_FWD           DC_REF            │
+        │           │         │                │              │
+        │           │         ▼                ▼              │
+        │           │  ┌──────────────────────────────────┐  │
+        │           │  │  METER DRIVERS                   │  │
+        │           │  │  Range switching, calibration    │  │
+        │           │  └──────────────────────────────────┘  │
+        │           │         │                │              │
+        │           │         ▼                ▼              │
+        │           │   [FWD METER]      [REF METER]         │
+        │           │   or [COMBINED SWR METER]              │
+        │           │                                         │
+        │           │  ┌──────────────────────────────────┐  │
+        │           │  │  VHF/UHF COUPLER (6M-20CM)       │  │
+        │           │  │  Microstrip PCB                  │  │
+        │           │  │  -30 dB coupling                 │  │
+        │           │  └──────────────────────────────────┘  │
+        │           │                                         │
+        │           │  [HF/VHF Selector Switch]              │
+        ├───────────┤                                         ├─────────
+                    │                                         │
+                    └─────────────────────────────────────────┘
+
+OPERATING PRINCIPLE:
+1. Select HF or VHF/UHF coupler using selector switch
+2. RF passes through selected coupler (main line)
+3. Coupler samples forward and reflected power (coupled lines)
+4. Diode detectors convert RF samples to DC voltages
+5. Meter drivers scale DC voltages and drive analog meters
+6. Read forward power and SWR directly from meter faces
+
+
+SECTION 2: HF DIRECTIONAL COUPLER (160M-10M)
+================================================================================
+
+TOPOLOGY: Tandem-Match Transmission Line Coupler
+
+This design uses two parallel transmission lines with specific coupling
+to achieve wideband directional performance from 1.8-30 MHz.
+
+PHYSICAL CONSTRUCTION:
+
+    Main Line (Coax carrying full power):
+    ═══════════════════════════════════════════════════════
+
+    Coupled Lines (Two parallel lines, close-coupled):
+    ───────────────────────────────────────────────────────
+    ───────────────────────────────────────────────────────
+        │                                        │
+      FWD Sample                            REF Sample
+
+
+DETAILED SCHEMATIC:
+
+INPUT Connector                                          OUTPUT Connector
+    (SO-239)                                                (SO-239)
+        │                                                       │
+        │         ╔════════════ MAIN LINE ════════════╗         │
+        ├─────────╢   RG-58 Coax, 50Ω, 150mm        ╟─────────┤
+        │         ╚════════════════════════════════════════════╝         │
+        │                                                       │
+       GND                                                     GND
+
+    Coupled Line 1 (Forward sampling):
+        ┌────────────────────────────────────────────┐
+        │  Twisted pair or parallel wire, 150mm     │
+        │  Coupled to main line via proximity         │
+        └────────────────────────────────────────────┘
+         │                                          │
+         │                                          │
+        ─┴─ 100pF                                  To FWD
+        ─┬─ (DC block)                             Detector
+         │
+        GND
+
+    Coupled Line 2 (Reflected sampling):
+        ┌────────────────────────────────────────────┐
+        │  Twisted pair or parallel wire, 150mm     │
+        │  Coupled to main line via proximity         │
+        └────────────────────────────────────────────┘
+         │                                          │
+         │                                          │
+        ─┴─ 100pF                                  To REF
+        ─┬─ (DC block)                             Detector
+         │
+        GND
+
+COUPLING MECHANISM:
+
+The coupled lines run parallel to the main coax for 150mm. Electromagnetic
+coupling between the lines causes a small fraction of the RF power to appear
+on the coupled lines.
+
+Forward-traveling wave on main line → voltage on FWD coupled line
+Reflected wave on main line → voltage on REF coupled line
+
+Directivity is achieved by the physical separation and termination of the
+coupled lines.
+
+CONSTRUCTION DETAILS:
+
+Main Line:
+- RG-58 coaxial cable, 50Ω, ~150mm effective coupling length
+- Or: RG-316 (smaller diameter, same impedance)
+- Straight run through enclosure
+- SO-239 connectors on each end
+
+Coupled Lines:
+- Method 1: Twisted pair (2 × 24 AWG) laid alongside main coax
+  Distance: 2-3mm from coax outer conductor
+  Twist rate: 10-15 twists per inch
+
+- Method 2: Parallel wires on PCB
+  Trace width: 1mm, spacing 2mm
+  Ground plane on opposite side
+
+- Method 3: Bifilar winding on ferrite rod
+  Two wires wound together on ferrite
+  Better low-frequency response
+
+COUPLING FACTOR:
+
+Target: -30 dB (1/1000 of main power)
+
+At 100W main line:
+  Coupled power ≈ 0.1W (100 mW)
+  Main line continues with 99.9W (negligible insertion loss)
+
+Adjust coupling by varying distance between coupled line and main coax:
+- Closer = tighter coupling (higher sample, more loss)
+- Farther = looser coupling (lower sample, less loss)
+
+DIRECTIVITY:
+
+Goal: >25 dB
+
+Meaning: FWD sample responds 25 dB more to forward wave than reverse wave
+(and vice versa for REF sample)
+
+Achieved by:
+1. Physical separation of FWD and REF coupling points
+2. Proper termination resistors
+3. Matched line lengths
+
+TERMINATION:
+
+Each coupled line must be properly terminated:
+
+FWD Coupled Line:
+  One end: To detector via DC blocking capacitor
+  Other end: Terminated with 50Ω resistor to ground
+
+REF Coupled Line:
+  One end: Terminated with 50Ω resistor to ground
+  Other end: To detector via DC blocking capacitor
+
+The terminations absorb unwanted reflections and improve directivity.
+
+EQUIVALENT CIRCUIT (Simplified):
+
+    Main Line:
+    IN ═══════════════════════════════════════════════════ OUT
+               ║                           ║
+            ╔══╬══╗                     ╔══╬══╗
+            ║Couple║                     ║Couple║
+            ╚══╬══╝                     ╚══╬══╝
+               ║                           ║
+        ───────┴──────────         ────────┴──────────
+    FWD │             │ 50Ω     REV │             │ 50Ω
+    Line│            GND          Line│            GND
+        │                             │
+       ─┴─ 100pF                     ─┴─ 100pF
+       ─┬─                           ─┬─
+        │                             │
+    To FWD                        To REF
+    Detector                      Detector
+
+
+SECTION 3: VHF/UHF DIRECTIONAL COUPLER (6M-20CM)
+================================================================================
+
+TOPOLOGY: Microstrip Directional Coupler (PCB-Based)
+
+At VHF/UHF frequencies, PCB-based couplers with controlled impedance
+provide excellent performance.
+
+PCB STACKUP:
+
+    Top Layer:      Microstrip traces (signal lines)
+    Dielectric:     FR4, 1.6mm thickness, εr = 4.5
+    Bottom Layer:   Solid copper ground plane
+
+COUPLER LAYOUT (Top View):
+
+         Input                                        Output
+           │                                            │
+           │         Main Line (50Ω microstrip)        │
+           ├─══════════════════════════════════════════─┤
+           │                                            │
+           │                                            │
+           │    Coupled Line (50Ω microstrip, 0.5mm gap)
+           │    ─────────────────────────────────────
+           │    │                                   │
+           │    │                                   │
+          FWD   │                                  REF
+         Sample │                                 Sample
+           │   50Ω                               50Ω
+           │   Term                              Term
+          GND                                    GND
+
+MICROSTRIP DIMENSIONS:
+
+For 50Ω impedance on 1.6mm FR4 (εr = 4.5):
+- Trace width: 3.0mm
+- Trace spacing (main to coupled): 0.5mm
+- Coupled line length: 30mm (quarter-wave at 50 MHz)
+
+Scaling for different frequencies:
+  λ/4 at 50 MHz (6M): 30mm
+  λ/4 at 146 MHz (2M): 10mm
+  λ/4 at 1296 MHz (23CM): 1.2mm
+
+Use longest length (30mm) for wideband coverage 50-1300 MHz.
+
+DETAILED SCHEMATIC:
+
+                    MAIN LINE (Top layer)
+                    ══════════════════════
+    INPUT ─────┬───╪                      ╪───┬───── OUTPUT
+              GND  ║                      ║  GND
+                   ║                      ║
+                   ║ Coupled Line (0.5mm gap)
+                   ║ ──────────────────────
+                   ║ │                    │
+                   ║ │                    │
+                   ▼ ▼                    ▼
+                  FWD                    REF
+                Sample                  Sample
+                   │                      │
+                  ─┴─ 100pF              ─┴─ 100pF
+                  ─┬─                    ─┬─
+                   │                      │
+                  ┌┴┐ 50Ω               ┌┴┐ 50Ω
+                  │ │ Term              │ │ Term
+                  └┬┘                   └┬┘
+                   │                      │
+                  GND                    GND
+
+COUPLING CALCULATION:
+
+Coupling factor depends on:
+1. Spacing between traces
+2. Trace width
+3. Dielectric constant
+4. Frequency
+
+For -30 dB coupling:
+- Gap ≈ 0.5mm
+- Trace width = 3mm (50Ω line)
+- Adjust spacing to achieve -30 dB at mid-frequency
+
+Design tools:
+- AppCAD (Agilent/Keysight) - free
+- QucsStudio - free EM simulation
+- Online microstrip calculators
+
+GROUND PLANE:
+
+Bottom layer must be solid copper (no breaks) for:
+- Return current path
+- Controlled impedance
+- Shielding
+
+Via stitching:
+- Add vias every 5-10mm around perimeter
+- Connects top ground pads to bottom ground plane
+- Reduces unwanted coupling
+
+TERMINATION RESISTORS:
+
+Use surface-mount resistors:
+- 0805 or 1206 size
+- 50Ω, 1%, 1/4W
+- Place close to coupled line ends
+- Short leads/traces
+
+ASSEMBLY:
+
+Components on PCB:
+- 4× Schottky diodes (SOT-23 or DO-35)
+- 4× 50Ω termination resistors (0805)
+- 4× 100pF DC blocking caps (0805)
+- 4× 100nF bypass caps (0805)
+- SMA or SO-239 edge-mount connectors
+
+PCB FABRICATION:
+
+Order from:
+- OSH Park, JLCPCB, PCBWay
+- Standard specs: 1.6mm FR4, 1oz copper
+- Cost: $10-30 for 3 boards
+
+Or DIY:
+- Single-sided copper-clad board
+- Toner transfer or photoresist
+- Etch with ferric chloride
+- Drill holes
+
+
+SECTION 4: DIODE DETECTOR CIRCUITS
+================================================================================
+
+Diode detectors convert RF power samples to DC voltages proportional to
+power level.
+
+BASIC DETECTOR CIRCUIT:
+
+From Coupler                      To Meter Driver
+(FWD or REF)
+     │
+    ─┴─ C1 (DC block, 100pF)
+    ─┬─
+     │
+     │    ┌─┐
+     ├────┤ │ D1 (Schottky diode)
+     │    └─┘
+     │     │
+    ─┴─ C2│ (filter, 100nF)
+    ─┬─   │
+     │    │
+    GND  ┌┴┐ R1 (load, 10kΩ)
+         │ │
+         └┬┘
+          │
+         ───→ DC output (to meter)
+          │
+         GND
+
+COMPONENT SELECTION:
+
+D1 - Schottky Diode:
+- Type: HP2835, 1N5711, or BAT46
+- Low forward voltage (0.15-0.3V)
+- Fast switching (important for RF)
+- Quantity: 2× (one for FWD, one for REF)
+
+Why Schottky?
+- Low Vf allows detection of low power levels
+- Fast response (no charge storage delay)
+- More linear than silicon diodes
+
+Matched Pairs:
+- Buy 10 diodes
+- Measure forward voltage drop (Vf) at 1mA
+- Select two with closest Vf (within 10 mV)
+- Use matched pair for FWD and REF
+- Improves accuracy!
+
+C1 - DC Blocking Capacitor:
+- Value: 100pF
+- Type: Ceramic (COG/NPO)
+- Voltage: 50V minimum
+- Function: Blocks DC from transmitter, passes RF
+
+C2 - Filter Capacitor:
+- Value: 100nF (0.1μF)
+- Type: Ceramic (X7R acceptable)
+- Function: Filters RF, passes DC to meter
+
+R1 - Load Resistor:
+- Value: 10kΩ
+- Type: 1/4W, 5%
+- Function: Provides load for diode, limits meter current
+
+COMPLETE DUAL-DETECTOR SCHEMATIC:
+
+                FWD COUPLER OUTPUT
+                        │
+                       ─┴─ C1 (100pF)
+                       ─┬─
+                        │
+                        │    ┌─┐
+                        ├────┤ │ D1 (HP2835)
+                        │    └─┘
+                        │     │
+                       ─┴─   │
+                       ─┬─ C2│ (100nF)
+                        │    │
+                       GND  ┌┴┐ R1 (10kΩ)
+                            │ │
+                            └┬┘
+                             │
+                            ───→ FWD_DC
+                             │   (to meter driver)
+                            GND
+
+                REF COUPLER OUTPUT
+                        │
+                       ─┴─ C3 (100pF)
+                       ─┬─
+                        │
+                        │    ┌─┐
+                        ├────┤ │ D2 (HP2835, matched to D1)
+                        │    └─┘
+                        │     │
+                       ─┴─   │
+                       ─┬─ C4│ (100nF)
+                        │    │
+                       GND  ┌┴┐ R2 (10kΩ)
+                            │ │
+                            └┬┘
+                             │
+                            ───→ REF_DC
+                             │   (to meter driver)
+                            GND
+
+DETECTOR RESPONSE:
+
+For square-law detection (low RF power):
+    V_DC ≈ k × P_RF
+
+Where:
+    k = detector constant (V/W)
+    P_RF = RF power (W)
+
+For linear detection (high RF power):
+    V_DC ≈ m × √P_RF
+
+Where:
+    m = detector constant (V/√W)
+
+Transition occurs around -20 to -10 dBm RF power.
+
+For this SWR meter with -30 dB coupling:
+    100W main → 100mW (20 dBm) coupled
+    This is in the transition/linear region
+
+Calibration accounts for detector non-linearity.
+
+IMPROVED DETECTOR (Compensated):
+
+For better low-power sensitivity, add bias compensation:
+
+                        From Coupler
+                             │
+                            ─┴─ C1 (100pF)
+                            ─┬─
+                             │
+        ┌────────────────────┴────────────┐
+        │                                 │
+        │    D1 (Forward biased)          │
+        │    ┌─┐                           │
+        ├────┤ │ HP2835                   │
+        │    └─┘                           │
+        │     │                            │
+        │    ─┴─ C2 (100nF)               │
+        │    ─┬─                           │
+        │     │                            │
+       ┌┴┐   │                            ┌┴┐
+    R3 │ │  ┌┴┐ R1 (10kΩ)             R4 │ │
+   100kΩ│  │ │                        100kΩ│
+       └┬┘  └┬┘                           └┬┘
+        │    │                             │
+        │   ───→ FWD_DC                    │
+        │    │                             │
+        └────┴─────────────────────────────┘
+             │
+            GND
+
+The bias resistors (R3, R4) provide a small forward bias current,
+reducing the diode's dead zone and improving low-level detection.
+
+Optional: Typically not needed for 5-200W power range.
+
+
+SECTION 5: METER DRIVER CIRCUITS
+================================================================================
+
+The meter driver circuits scale the DC detector outputs and drive the
+analog panel meters.
+
+BASIC METER DRIVER:
+
+From Detector                           To Meter
+(FWD_DC or REF_DC)
+     │
+     │
+    ┌┴┐ R1 (Calibration pot, 10kΩ)
+    │ │
+    │ │    ┌────────────────┐
+    └┬┘    │                │
+     ├─────┤                ├───→ Meter (100μA)
+     │     │                │
+    ┌┴┐ R2 │ Range         │
+    │ │ (Series resistance)│
+    │ │    │                │
+    └┬┘    │                │
+     │     └────────────────┘
+     │
+    GND
+
+METER SPECIFICATIONS:
+
+Typical analog panel meter:
+- Full-scale current: 100 μA
+- Internal resistance: 1-2 kΩ
+- Voltage for full-scale: 0.1-0.2V (V = I × R)
+
+DUAL-METER CONFIGURATION:
+
+        FWD_DC                      REF_DC
+           │                           │
+           │                           │
+          ┌┴┐ VR1                     ┌┴┐ VR2
+       10kΩ│ │ CAL                 10kΩ│ │ CAL
+          │ │                         │ │
+          └┬┘                         └┬┘
+           ├──────────┐                ├──────────┐
+           │          │                │          │
+          ┌┴┐ R1     ┌┴┐              ┌┴┐ R3     ┌┴┐
+          │ │        │ │ M1           │ │        │ │ M2
+      4.7kΩ│      100μA│ FWD       4.7kΩ│      100μA│ REF
+          │ │        │ │              │ │        │ │
+          └┬┘        └┬┘              └┬┘        └┬┘
+           │          │                │          │
+          GND        GND              GND        GND
+
+VR1, VR2: Calibration potentiometers (trim pots)
+R1, R3: Series resistors to set meter full-scale
+M1, M2: 100μA panel meters
+
+SINGLE-METER CONFIGURATION (with switch):
+
+        FWD_DC                    REF_DC
+           │                         │
+           │                         │
+          ┌┴┐ VR1                   ┌┴┐ VR2
+       10kΩ│ │                   10kΩ│ │
+          │ │                       │ │
+          └┬┘                       └┬┘
+           │                         │
+           └────┬──────────┬─────────┘
+                │  SPDT    │
+               ┌┴┐ Switch ┌┴┐
+               └┬┘         └┬┘
+                │   Common  │
+                └─────┬─────┘
+                      │
+                     ┌┴┐ R1 (4.7kΩ)
+                     │ │
+                     └┬┘
+                      ├──────────┐
+                      │          │
+                      │         ┌┴┐
+                      │      100μA│ Meter
+                      │         │ │
+                      │         └┬┘
+                      │          │
+                     GND        GND
+
+Switch positions:
+- Position 1: Display FWD power
+- Position 2: Display REF power
+- Optional 3rd position: Calculate and display SWR (requires additional circuit)
+
+CALCULATING SERIES RESISTANCE:
+
+For full-scale meter deflection at maximum power:
+
+Example: 100W full scale, -30 dB coupling, HP2835 detector
+
+Coupled power: 100W × 0.001 = 0.1W = 100mW
+Detector output: ~2-3V DC (depends on diode, load)
+
+Meter needs: 100μA at 0.1V (typical 100μA meter with 1kΩ internal R)
+
+Voltage divider:
+    R_series = (V_detector - V_meter) / I_meter
+
+Assuming V_detector = 2.5V at 100W:
+    R_series = (2.5V - 0.1V) / 100μA
+             = 2.4V / 0.0001A
+             = 24,000Ω = 24kΩ
+
+Use 22kΩ fixed + 10kΩ pot for calibration.
+
+RANGE SWITCHING:
+
+For multiple power ranges (5W, 20W, 200W), switch in different resistors:
+
+From Detector                     To Meter
+     │
+     │         ┌──────┐
+     ├─────────┤      ├── Position 1: R_200W (for 200W range)
+     │         │      │
+     ├─────────┤Range ├── Position 2: R_20W (for 20W range)
+     │         │Switch│
+     ├─────────┤      ├── Position 3: R_5W (for 5W range)
+     │         │      │
+    GND        └──────┘
+                  │
+                  ▼
+                Meter
+
+Example values (will require calibration):
+- R_200W = 22kΩ (200W full scale)
+- R_20W = 8.2kΩ (20W full scale, 10× more sensitive)
+- R_5W = 3.3kΩ (5W full scale, 40× more sensitive)
+
+Adjust during calibration for accurate readings.
+
+METER PROTECTION:
+
+Add diode to prevent reverse voltage (if meter disconnected):
+
+    From Driver
+         │
+         │
+        ┌┴────┐
+        │     │
+        │    ─┤├─ D1 (1N4148)
+        │    ─┤├─
+       ┌┴┐    │
+       │ │    │
+    Meter│    │
+       │ │    │
+       └┬┘    │
+        │     │
+        └─────┘
+         │
+        GND
+
+D1 clamps any reverse voltage to ~0.7V, protecting meter.
+
+
+SECTION 6: RANGE SWITCHING
+================================================================================
+
+Range switching allows the meter to display different power levels
+accurately.
+
+THREE-RANGE DESIGN:
+
+Range 1: 5W full scale (QRP, antenna tuning)
+Range 2: 20W full scale (typical portable ops)
+Range 3: 200W full scale (high power ops)
+
+ROTARY SWITCH IMPLEMENTATION:
+
+                    Detector Output
+                          │
+         ┌────────────────┼────────────────┐
+         │                │                │
+    Position 1       Position 2       Position 3
+      (200W)           (20W)            (5W)
+         │                │                │
+        ┌┴┐              ┌┴┐              ┌┴┐
+     R1 │ │           R2 │ │           R3 │ │
+    22kΩ│            8.2kΩ│            3.3kΩ│
+        │ │              │ │              │ │
+        └┬┘              └┬┘              └┬┘
+         │                │                │
+         └────────────────┴────────────────┘
+                          │
+                         ┌┴┐
+                      100μA│ Meter
+                         │ │
+                         └┬┘
+                          │
+                         GND
+
+FRONT PANEL SELECTOR:
+
+Rotary switch: 1-pole, 3-position
+Label positions:
+- 200W (or HIGH)
+- 20W (or MED)
+- 5W (or LOW)
+
+Operation:
+1. Estimate transmitter power
+2. Select appropriate range
+3. Key transmitter briefly
+4. Read meter
+5. Switch to more sensitive range if needed (meter reads low)
+
+AUTOMATIC RANGE SWITCHING (Optional Enhancement):
+
+For automatic range selection, use comparators and analog switches:
+
+               Detector Output
+                      │
+                      ├───────┐
+                      │       │
+                     ┌┴┐     ┌┴────────────┐
+                     │ │     │ Comparators │
+                  R1 │ │     │ (LM339)     │
+                     │ │     │             │
+                     └┬┘     └┬────────────┘
+                      │       │ Control signals
+                      │       ▼
+                      │  ┌──────────┐
+                      ├──┤ Analog   │
+                      │  │ Switches │
+                      │  │ (CD4066) │
+                      │  └──────────┘
+                      │       │
+                     GND      ▼
+                           Meter
+
+Comparators detect signal level and automatically select appropriate
+range. Requires 9V battery but very convenient!
+
+This is an advanced modification - see manual Part 11 for details.
+
+
+SECTION 7: SECTION SELECTION (HF/VHF)
+================================================================================
+
+A selector switch routes signals through either HF or VHF/UHF coupler.
+
+SWITCH CONFIGURATION (DPDT Toggle):
+
+                      DPDT Switch
+
+    INPUT ──────┬─────────┬───────── Position 1: HF Coupler
+                │         │
+                │        ┌┴┐
+                │        └┬┘
+                │         │
+                │         ├────────── HF Coupler Input
+                │         │
+                │        ┌┴┐
+                │        └┬┘
+                │         │
+                │         ├────────── VHF Coupler Input
+                │         │
+                │         │
+               GND       ─┴─ Position 2: VHF Coupler
+
+Similar switching for OUTPUT side.
+
+DETAILED WIRING:
+
+HF/VHF Toggle Switch (DPDT):
+
+Pole 1 (Input routing):
+- Common: From INPUT connector
+- Position 1: To HF coupler input
+- Position 2: To VHF coupler input
+
+Pole 2 (Output routing):
+- Common: To OUTPUT connector
+- Position 1: From HF coupler output
+- Position 2: From VHF coupler output
+
+Detection outputs (FWD_DC and REF_DC) from both couplers can be
+paralleled - only the selected coupler is active, so no conflict.
+
+FRONT PANEL INDICATOR:
+
+Label toggle positions:
+- HF (160M-10M)
+- VHF (6M-20CM)
+
+Optional: Add LED indicators showing which section is active.
+
+SIGNAL FLOW:
+
+HF Mode:
+INPUT → Switch → HF Coupler → Switch → OUTPUT
+                    │
+                    ├→ FWD sample → Detector → Meter
+                    └→ REF sample → Detector → Meter
+
+VHF Mode:
+INPUT → Switch → VHF Coupler → Switch → OUTPUT
+                    │
+                    ├→ FWD sample → Detector → Meter
+                    └→ REF sample → Detector → Meter
+
+
+SECTION 8: COMPLETE PARTS LIST
+================================================================================
+
+HF DIRECTIONAL COUPLER:
+
+ITEM                        QTY   SPECS                      EST. COST
+─────────────────────────────────────────────────────────────────────────
+RG-58 coax (main line)      1     50Ω, 200mm length         $2-4
+Twisted pair (coupled)      2     24 AWG, 200mm each        $1-2
+DC blocking caps            4     100pF, 50V, ceramic       $1-2
+Termination resistors       2     50Ω, 1/4W, 5%             $0.50
+SO-239 connectors          2     Panel mount               $4-8
+
+VHF/UHF DIRECTIONAL COUPLER:
+
+PCB (FR4, 1.6mm)            1     80×50mm, order or DIY     $10-20
+SMD resistors (50Ω term)    2     0805, 1%                  $0.50
+DC blocking caps            4     100pF, 0805               $1
+Bypass caps                 4     100nF, 0805               $0.50
+SMA or SO-239 connectors    2     Edge mount                $3-6
+
+DETECTOR CIRCUITS:
+
+Schottky diodes             4     HP2835 or 1N5711          $2-4
+DC blocking caps            4     100pF, ceramic            $1
+Filter caps                 4     100nF, ceramic            $1
+Load resistors              4     10kΩ, 1/4W                $0.50
+
+METER DRIVERS:
+
+Calibration pots (trim)     2     10kΩ, multi-turn          $2-4
+Series resistors            6     Various values            $1-2
+Range switch                1     1P3T rotary, 3-position   $5-10
+
+METERS:
+
+Analog panel meters         2     100μA, 50-60mm face       $15-30
+  or single meter           1     100μA (+ FWD/REF switch)  $8-15
+Meter protection diodes     2     1N4148                    $0.50
+
+SWITCHES AND CONTROLS:
+
+HF/VHF selector (DPDT)      1     Toggle, 3A rating         $3-8
+Range selector              1     Rotary, 1P3T              $5-10
+FWD/REF switch (optional)   1     SPDT toggle (if 1 meter)  $2-5
+
+HARDWARE AND WIRING:
+
+Project wire                -     22-24 AWG, various        $3-5
+Hardware (screws, nuts)     -     M3, stainless             $3-5
+Standoffs                   -     10mm, M3                  $2-4
+
+ENCLOSURE:
+
+3D printing filament        -     PETG, ~200g               $8-12
+  or aluminum enclosure     1     180×120×60mm              $25-40
+
+TOTAL COST ESTIMATE:
+────────────────────
+Budget build (single meter, surplus):       $60-90
+Standard build (dual meter, new parts):     $100-150
+Premium build (high-quality meters, PCB):   $120-180
+
+
+SECTION 9: PCB LAYOUT GUIDELINES
+================================================================================
+
+For best performance, especially at VHF/UHF, proper PCB layout is critical.
+
+GENERAL PRINCIPLES:
+
+1. GROUND PLANE:
+   - Solid copper on bottom layer (no breaks)
+   - Top layer: ground pour where possible
+   - Multiple vias connecting top and bottom grounds
+
+2. SHORT TRACES:
+   - Detector circuits: keep all connections <10mm
+   - RF traces: 50Ω controlled impedance
+   - No sharp corners (use 45° or rounded)
+
+3. COMPONENT PLACEMENT:
+   - Group functional blocks
+   - Detectors near couplers
+   - Meter drivers near meters
+   - Minimize trace lengths
+
+4. SHIELDING:
+   - Separate HF and VHF sections if on same PCB
+   - Ground plane strips between sections
+   - Consider separate PCBs for HF and VHF
+
+PCB STACK-UP (VHF/UHF COUPLER):
+
+    ┌─────────────────────────────────────────┐
+    │ Top Layer: Signal traces, SMD pads      │
+    ├─────────────────────────────────────────┤
+    │ FR4 Dielectric: 1.6mm, εr = 4.5        │
+    ├─────────────────────────────────────────┤
+    │ Bottom Layer: Solid ground plane        │
+    └─────────────────────────────────────────┘
+
+TRACE WIDTH CALCULATION:
+
+For 50Ω microstrip on 1.6mm FR4:
+- Trace width (W) ≈ 3.0mm
+- Height above ground (H) = 1.6mm
+
+Use online calculator or AppCAD to verify.
+
+VIA PLACEMENT:
+
+Purpose: Connect top and bottom grounds
+
+Spacing: 5-10mm apart around perimeter
+Size: 0.5mm drill, 1.0mm pad
+Location:
+- Around coupler traces
+- At connector ground pads
+- Between sections
+
+COPPER POUR:
+
+Top layer:
+- Pour ground copper in unused areas
+- Leave clearance around signal traces (0.5mm)
+- Connect pours with vias
+
+Bottom layer:
+- Solid copper (100% fill)
+- No breaks except for mounting holes
+
+MECHANICAL DIMENSIONS:
+
+PCB size: 80mm × 50mm (fits in enclosure)
+Mounting holes: 3mm diameter, 4 corners
+Edge clearance: 3mm from board edge
+Component keepout: 2mm from mounting holes
+
+
+SECTION 10: CALIBRATION CIRCUITS
+================================================================================
+
+Accurate calibration is essential for precise SWR measurements.
+
+CALIBRATION PROCEDURE OVERVIEW:
+
+1. Set range switch to desired power level (e.g., 20W)
+2. Apply known RF power to INPUT
+3. Terminate OUTPUT with 50Ω dummy load (SWR = 1:1)
+4. Adjust FWD calibration pot until meter reads correct power
+5. Place SHORT or OPEN on OUTPUT (SWR = ∞, all power reflected)
+6. Adjust REF calibration pot until meters read equal
+7. Verify at multiple power levels
+8. Repeat for each range
+
+CALIBRATION CIRCUIT (per channel):
+
+From Detector
+     │
+     │
+    ┌┴┐ VR1 (Coarse adjust, 10kΩ)
+    │ │
+    │ │
+    └┬┘
+     ├─────────┬───────→ To Range Switch
+     │         │
+    ┌┴┐       ┌┴┐ VR2 (Fine adjust, 1kΩ)
+ R1 │ │       │ │
+4.7kΩ│        │ │
+    │ │       └┬┘
+    └┬┘        │
+     │         │
+    GND       GND
+
+VR1: Multi-turn trim pot, sets overall gain
+VR2: Single-turn trim pot, fine adjustment
+
+CALIBRATION STANDARDS:
+
+Option 1: Calibrated Power Meter
+- Use known-good RF power meter
+- Measure actual transmitter output
+- Adjust SWR meter to match
+
+Option 2: Calibrated Transmitter
+- Use transmitter with accurate power control
+- Set to specific power levels (5W, 20W, etc.)
+- Adjust SWR meter to match indicated power
+
+Option 3: Resistive Dummy Load + Calculation
+- Use 50Ω dummy load
+- Measure transmitter current: I (amps)
+- Calculate power: P = I² × 50
+- Adjust meter to match calculated power
+
+KNOWN SWR CALIBRATION:
+
+To calibrate REF channel:
+
+1. SHORT CIRCUIT:
+   - Place short across OUTPUT connector
+   - All power reflected (SWR = ∞)
+   - FWD and REF should read equal
+   - Adjust REF cal pot to match FWD reading
+
+2. OPEN CIRCUIT:
+   - Leave OUTPUT unconnected
+   - All power reflected (SWR = ∞)
+   - FWD and REF should read equal
+   - Verify REF reading matches FWD
+
+3. 50Ω LOAD (Matched):
+   - Connect dummy load to OUTPUT
+   - No reflection (SWR = 1:1)
+   - REF should read zero
+   - If not zero, check coupler directivity
+
+METER SCALE CREATION:
+
+If using blank meter faces, create custom scales:
+
+FORWARD POWER SCALE:
+
+Markings for 200W range:
+0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200W
+
+Markings for 20W range:
+0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20W
+
+SWR SCALE (on FWD or combined meter):
+
+Based on the ratio FWD/REF:
+
+    SWR = (1 + √(REF/FWD)) / (1 - √(REF/FWD))
+
+Calculate SWR for various REF/FWD ratios:
+- REF/FWD = 0: SWR = 1.0
+- REF/FWD = 0.01: SWR = 1.2
+- REF/FWD = 0.04: SWR = 1.5
+- REF/FWD = 0.11: SWR = 2.0
+- REF/FWD = 0.25: SWR = 3.0
+- REF/FWD = 1.0: SWR = ∞
+
+Mark these points on meter face.
+
+CREATING METER FACE:
+
+1. Remove existing meter face (carefully!)
+2. Measure meter dimensions
+3. Design scale in graphics software (Inkscape, Illustrator)
+4. Print on cardstock or photo paper
+5. Cut to size
+6. Install behind meter glass
+7. Reassemble meter
+
+Or use included meter_face.scad to generate SVG.
+
+
+SECTION 11: CONSTRUCTION NOTES
+================================================================================
+
+HF COUPLER CONSTRUCTION:
+
+Method 1: Twisted Pair on Coax
+
+1. Cut RG-58 coax to 150mm
+2. Install SO-239 connectors on ends
+3. Prepare twisted pair (2 wires, 24 AWG)
+4. Lay twisted pair along coax
+5. Secure with cable ties or tape every 20-30mm
+6. Maintain 2-3mm spacing from coax
+7. Connect one end via 100pF cap to detector
+8. Terminate other end with 50Ω to ground
+
+Repeat for second coupled line (REF channel).
+
+Method 2: Bifilar on Ferrite Rod
+
+1. Wind two wires together (bifilar) on ferrite rod
+2. 10-15 turns, evenly spaced
+3. Keep main coax centered through rod
+4. Connect windings as coupled lines
+5. Better low-frequency response
+6. Slightly more complex
+
+VHF/UHF COUPLER CONSTRUCTION:
+
+Order PCB:
+1. Export Gerber files from PCB design
+2. Upload to JLCPCB, OSH Park, or PCBWay
+3. Order minimum quantity (usually 3 or 5 boards)
+4. Wait 1-2 weeks for delivery
+5. Inspect for defects
+
+Assemble PCB:
+1. Solder SMD components first (resistors, caps)
+2. Use hot air or reflow for best results
+3. Or careful soldering iron work (0.5mm tip)
+4. Install connectors last
+5. Clean flux residue with isopropyl alcohol
+6. Inspect solder joints under magnification
+
+DETECTOR ASSEMBLY:
+
+On PCB or perfboard:
+
+1. Install diodes (note polarity!)
+   - Cathode (banded end) toward output
+2. Install capacitors (blocking and filter)
+3. Install load resistors
+4. Keep all leads short (<5mm)
+5. Solder carefully (avoid heat damage to diodes)
+6. Test with ohmmeter (diodes should show ~0.3V drop forward)
+
+METER INSTALLATION:
+
+1. Mark meter positions on front panel
+2. Cut square or round holes (depending on meter shape)
+3. Test fit meters
+4. Secure with mounting brackets or screws
+5. Connect wires (observe polarity!)
+6. Test meter with 1.5V battery (should deflect)
+
+FINAL ASSEMBLY TIPS:
+
+1. Work methodically (one section at a time)
+2. Test each section before moving on
+3. Use star grounding (single ground point)
+4. Keep wiring neat and direct
+5. Label all connections
+6. Take photos before closing enclosure (for future reference)
+7. Calibrate carefully and patiently
+
+TESTING:
+
+Initial tests (before calibration):
+□ Ohmmeter: Check for shorts
+□ Low power (1-5W): Meter should deflect
+□ 50Ω load: REF should be much less than FWD
+□ Open/short: FWD and REF should be similar
+
+TROUBLESHOOTING:
+
+No meter deflection:
+- Check diode polarity
+- Check wiring to meter
+- Verify RF is reaching coupler
+- Test meter with battery (meter itself working?)
+
+FWD and REF read the same:
+- Poor coupler directivity
+- Incorrect coupled line connections
+- Missing or incorrect termination resistors
+- Check coupler construction
+
+Readings vary with frequency:
+- Normal to some extent
+- Large variation: check coupler length/coupling
+- May need separate calibration per band
+
+Meter "jumps" or erratic:
+- Insufficient filtering (add more capacitance)
+- RF getting into meter circuit
+- Check grounding
+
+HIGH POWER NOTES:
+
+This design is rated for 200W HF, 100W VHF/UHF.
+
+For higher power:
+- Use tighter coupling (-40 dB instead of -30 dB)
+- Or add attenuator pad after coupler
+- Check diode current rating (most Schottky good to 100mA)
+- Ensure main line coax rated for power
+
+PORTABLE OPERATION:
+
+For field use:
+✓ Install in rugged enclosure
+✓ Add rubber feet or carrying handle
+✓ Use panel-mount connectors (not PCB-mount)
+✓ Secure all internal components (won't shift)
+✓ Consider protective cover for meter faces
+✓ Waterproof if used outdoors (silicone sealing)
+
+MAINTENANCE:
+
+Regular:
+- Keep meters clean (dust can affect accuracy)
+- Check connector tightness
+- Verify calibration annually
+
+As needed:
+- Recalibrate if dropped or damaged
+- Replace diodes if damaged by overload
+- Clean switch contacts if range switching erratic
+
+This SWR meter, when properly built and calibrated, will provide years
+of reliable service!
+
+73 and accurate measurements!
+
+Design: Claude Code - 2025
+Location: /antennas/swr_meter/schematics/
+
+================================================================================
+END OF SWR METER SCHEMATICS
+================================================================================

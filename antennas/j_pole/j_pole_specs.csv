@@ -1,0 +1,11 @@
+ANTENNA SPECIFICATION — J-POLE,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,"2M, 70cm",,
+Design approach,"End-fed J monopole, inherent match",,
+Compaction factor,0%,,
+Special parameters,"Quarter-wave stub, 50Ω, omnidirectional",,
+Feed impedance,50–600,Ω,
+SWR target,<2.0,:1,
+Efficiency,75–95%,%,
+Gain,2–12,dBi,

@@ -1,0 +1,18 @@
+ANTENNA SPECIFICATION — CUBICAL QUAD,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,"40M, 20M, 15M",,Center/allocated bands
+Design approach,"Square loop radiator with reflector, directional",,Primary design method
+Compaction factor,0%,,Size reduction vs full-size
+Special parameters,"Full-size quad, 10–15 dBi gain, 2–3 element",,Design-specific details
+,,,
+Feed impedance,50,Ω,Standard amateur radio
+SWR target,<1.5,:1,At band center
+Radiation pattern,Varies,,See NEC model
+Polarization,Linear,,Or circular for arrays
+,,,
+Typical efficiency,80–95%,%,Band-dependent
+Typical gain,2–10,dBi,Type-dependent
+,,,
+NEC model file,cubical_quad.nec,,See electromagnetic simulation
+Construction manual,cubical_quad.md,,Step-by-step procedures

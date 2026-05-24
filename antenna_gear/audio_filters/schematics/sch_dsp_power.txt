@@ -1,0 +1,332 @@
+================================================================================
+SCHEMATIC: DSP Audio Filter Board — ESP32 + Codec Connections and Power
+TM-AF-001  Rev A
+ESP32-WROOM-32 + PCM5102A DAC + INMP441 I2S MEMS Mic ADC
+CYD (ESP32-2432S028) Display Option
+================================================================================
+
+SYSTEM OVERVIEW
+───────────────
+The DSP audio filter uses an ESP32 as the signal processor running at 240 MHz.
+Audio is digitized by the INMP441 I2S MEMS microphone module (repurposed as ADC
+via a line-level input conditioning circuit), processed with FIR/IIR filters,
+and output via the PCM5102A I2S DAC. The CYD or a small TFT display shows the
+filter spectrum, mode, and settings.
+
+Alternatively, a dedicated audio codec (WM8978 or ES8388) can replace the
+separate ADC/DAC; see Section 3 for the codec option.
+
+I2S bus: one shared bus for both RX (INMP441) and TX (PCM5102A) using
+ESP32's two I2S peripherals (I2S0 for output, I2S1 for input).
+
+Sample rate: 8000 Hz (8 kHz sufficient for 0–3 kHz audio with headroom)
+FFT size: 256 points (32 ms window at 8 kHz)
+FIR filter: up to 127 taps, processed in 32-sample blocks (4 ms latency)
+
+================================================================================
+SECTION 1 — AUDIO INPUT CONDITIONING (LINE LEVEL → MEMS LEVEL)
+================================================================================
+
+The INMP441 MEMS microphone module expects acoustic input but can be driven
+electrically if the sensitivity is accounted for. A better approach is the
+MAX9814 or INA217 as a line-to-I2S bridge, or simply use a dedicated line ADC.
+
+PREFERRED: Use the WM8978 codec (handles line-in directly at proper levels)
+ALTERNATIVE: Use ESP32 built-in ADC (lower quality, but simpler)
+
+BUILT-IN ADC OPTION (simplest):
+  GPIO34 (ADC1_CH6): audio input through 100nF series cap and voltage divider
+  Input conditioning: bias to Vcc/2 (3.3V/2 = 1.65V) for single-supply operation
+  Max sample rate: ~10 kHz reliable (use 8 kHz for stability)
+  Resolution: 12-bit, effective ENOB ~9 bits (adequate for audio filter use)
+
+         C_in (100nF)        R_bias1 (100kΩ)
+AUDIO ────┤├─────────────────/\/\/────────────── +3.3V
+IN (from                │
+radio     )             ├──────────────────────── GPIO34 (ADC input)
+                        │
+                       R_bias2 (100kΩ)
+                        │
+                       GND
+
+Input level conditioning:
+  Maximum audio swing into GPIO34: 0–3.3V (must not go negative)
+  Bias point: 1.65V (mid-rail)
+  For typical radio audio out (1 Vrms peak ≈ 1.4V peak):
+    Use voltage divider 100k:100k = 0.5 attenuation before bias
+    Add 10µF NP coupling cap to remove DC from radio output
+
+INMP441 I2S OPTION (for future upgrade):
+  INMP441 module pins:
+    VCC  → 3.3V
+    GND  → GND
+    SCK  → ESP32 GPIO14 (I2S1 BCK)
+    WS   → ESP32 GPIO15 (I2S1 WS / LRCK)
+    SD   → ESP32 GPIO12 (I2S1 SD)
+    L/R  → GND (selects left channel)
+
+Input preamp for line-level:
+  INMP441 acoustic sensitivity: −26 dBFS/Pa
+  For line-level audio (1 Vrms = 94 dB SPL equivalent at mic capsule):
+  No preamp needed if driving module from line through small capacitor;
+  sensitivity scaling happens in firmware gain parameter.
+
+================================================================================
+SECTION 2 — PCM5102A I2S DAC (AUDIO OUTPUT)
+================================================================================
+
+PCM5102A module (readily available as breakout board):
+
+  VCC   → 3.3V
+  GND   → GND
+  BCK   → ESP32 GPIO26 (I2S0 BCK)
+  DIN   → ESP32 GPIO25 (I2S0 DATA out)
+  LRCK  → ESP32 GPIO27 (I2S0 WS / LRCK)
+  SCK   → GND (slave mode — ESP32 provides all clocks)
+  FLT   → GND (normal latency)
+  DEMP  → GND (de-emphasis off)
+  XSMT  → 3.3V (soft-mute disabled — output active)
+  FMT   → GND (I2S format)
+
+Output level: 2.1 Vrms max differential (Vo,max)
+Output format: differential stereo; for single-ended use only L+/L- or R+/R-
+For radio headphone input: use 200Ω series resistor on each output line
+  R_out: 200Ω from LOUT to 3.5mm jack tip; 200Ω from ROUT to 3.5mm ring
+
+PCM5102A OUTPUT CONDITIONING:
+
+   PCM5102A LOUT ──── R_out(200Ω) ────┬──── TIP   (J_OUT 3.5mm jack)
+   PCM5102A ROUT ──── R_out(200Ω) ────┼──── RING
+   GND ────────────────────────────────┴──── SLEEVE
+
+Volume control: digital via I2S data word amplitude scaling in firmware.
+Optional: 10kΩ log pot between DAC output and headphone output for analog volume.
+
+================================================================================
+SECTION 3 — WM8978 CODEC OPTION (Preferred for CW/SSB quality)
+================================================================================
+
+WM8978 handles both ADC (line-in) and DAC (headphone out) in one chip.
+Controls via I2C or SPI (I2C preferred, address 0x1A).
+
+WM8978 connections:
+
+  AVDD (1.8–3.3V) → 3.3V via 10µF + 100nF local bypass
+  DVDD            → 3.3V via 10µF + 100nF
+  CPVDD           → 3.3V (charge pump for headphone driver)
+  AGND, DGND      → GND (star ground at regulator)
+
+  BCLK  → ESP32 GPIO26
+  DACDAT→ ESP32 GPIO25
+  ADCDAT→ ESP32 GPIO35 (input only GPIO)
+  LRC   → ESP32 GPIO27
+  MCLK  → ESP32 GPIO0 (output from I2S MCLK; 256×Fs = 2.048 MHz at 8kHz)
+
+  LINPUT1 → audio input (line level, 0 dBu = 0.775 Vrms)
+  LOUT1   → headphone output (drive 32Ω headphones directly)
+  ROUT1   → second headphone channel (can feed to right ear for stereo)
+
+  I2C: SDA → GPIO21, SCL → GPIO22
+
+I2C initialization sequence (see firmware setup() function):
+  Set sample rate: 0x06 register → 0x00 (8 kHz, internal PLL disabled)
+  Enable ADC: 0x01 → set ADCL_ENA, ADCR_ENA
+  Enable DAC: 0x03 → set DACL_ENA, DACR_ENA
+  Line-in gain: 0x0F → 0x1FF (default 0dB)
+  DAC volume: 0xFF (max digital volume)
+  HP volume: 0x39, 0x39 (mid volume for headphones)
+
+================================================================================
+SECTION 4 — ESP32 GPIO ASSIGNMENT
+================================================================================
+
+GPIO  | Function          | Direction | Notes
+------|-------------------|-----------|----------------------------------
+GPIO0 | I2S MCLK / Boot   | Output    | Must be HIGH at boot; use 10kΩ pullup
+GPIO12| I2S1 DATA in      | Input     | INMP441 SD; also JTAG TDI (avoid if JTAG used)
+GPIO14| I2S1 BCK          | Output    | INMP441 SCK
+GPIO15| I2S1 WS           | Output    | INMP441 WS; also JTAG TDO
+GPIO25| I2S0 DATA out     | Output    | PCM5102A DIN
+GPIO26| I2S0 BCK          | Output    | PCM5102A BCK
+GPIO27| I2S0 WS           | Output    | PCM5102A LRCK
+GPIO21| I2C SDA           | Bidi      | WM8978 control (4.7kΩ pullup to 3.3V)
+GPIO22| I2C SCL           | Output    | WM8978 control (4.7kΩ pullup to 3.3V)
+GPIO34| ADC1_CH6          | Input     | Built-in ADC audio in (input-only GPIO)
+GPIO35| ADC1_CH7 / I2S RX | Input     | WM8978 ADCDAT (input-only GPIO)
+GPIO32| Encoder CLK       | Input     | Rotary encoder A (10kΩ pullup)
+GPIO33| Encoder DT        | Input     | Rotary encoder B (10kΩ pullup)
+GPIO4 | Encoder SW        | Input     | Encoder push button (10kΩ pullup)
+GPIO2 | Status LED        | Output    | 470Ω to 3.3V; also boot indicator
+GPIO5 | TFT CS            | Output    | CYD or SPI TFT chip select
+GPIO13| TFT MOSI          | Output    | SPI MOSI (shared with TFT)
+GPIO14| TFT SCK           | Output    | SPI SCK (conflicts with I2S1 BCK if used)
+
+NOTE: If using CYD display (HSPI) simultaneously with INMP441 I2S:
+  GPIO14 is shared (CYD HSPI SCK = INMP441 SCK). Must use WM8978 option
+  (I2C control, no GPIO14 conflict) or use software-defined I2S on other GPIOs.
+
+For CYD (ESP32-2432S028) — TFT is on-chip at fixed GPIOs:
+  TFT_CS=15, TFT_DC=2, TFT_MOSI=13, TFT_MISO=12, TFT_CLK=14 (HSPI fixed)
+  When using CYD, run audio I2S on VSPI alternate pins: I2S on GPIO18/19/23
+
+================================================================================
+SECTION 5 — POWER SUPPLY SCHEMATIC
+================================================================================
+
+TWO OPTIONS:
+  Option A: Battery (portable) — 18650 Li-Ion cell + boost/LDO
+  Option B: USB-C powered (bench use)
+
+OPTION A — BATTERY SUPPLY:
+
+  BT1 (18650)
+   (+) ─────────────────────────────────────────────── V_bat (3.7V nom)
+                                                         │
+   (−) ─────────────────────────────────────────────── GND
+
+  Boost regulator (TPS61023 or MT3608) → 5V:
+  V_bat ──► TPS61023 IN ──► 5V regulated
+    SW/FB network: R_FB1=1MΩ, R_FB2=200kΩ → V_out = 1.23×(1+R_FB1/R_FB2) = 5V
+
+  LDO 3.3V (AMS1117-3.3 or HT7833):
+  5V ──► AMS1117-3.3 IN ──► 3.3V regulated
+    C_in = 10µF, C_out = 10µF (required for stability)
+
+  Power switch (SW_PWR): SPST on V_bat line before boost converter
+  Charging: TP4056 module (mini-USB or USB-C input)
+    TP4056 PROG pin: 1.2kΩ → 1A charge rate
+    TP4056 BAT+ → V_bat; BAT− → GND
+
+  POWER SUPPLY SCHEMATIC:
+
+           USB_C or DC IN     TP4056      BT1 (18650)
+           ────────────────►│ charger │──────────►│+         │
+                             │ module  │◄──────────│−  cell   │
+                              ─────────                        │
+                                                              V_bat
+                                                               │
+  SW_PWR ──────────────────────────────────────────────────── V_bat_sw
+                                                               │
+                                                          ┌────┴────┐
+                                                          │TPS61023 │── 5V
+                                                          └─────────┘
+                                                               │
+                                                          ┌────┴────┐
+                                                          │AMS1117  │── 3.3V
+                                                          └─────────┘
+                                                               │
+                                                          ┌────┴────┐
+                                                          │   ESP32  │
+                                                          │ + codec  │
+                                                          └─────────┘
+
+OPTION B — USB-C SUPPLY:
+
+           USB-C connector (J_USB)
+           ─────────────────
+  VBUS ──────────────────────────────── 5V
+  CC1 ─── 5.1kΩ ─── GND    (identifies as 5V/3A sink)
+  CC2 ─── 5.1kΩ ─── GND
+  D+, D− → not connected (no data needed for power-only)
+  GND ──────────────────────────────── GND
+
+  5V ──► AMS1117-3.3 ──► 3.3V
+
+POWER BUDGET:
+
+  Component           | I @3.3V | I @5V | Power (mW)
+  --------------------|---------|-------|----------
+  ESP32 active (240MHz)|    250 mA |  — | 825 mW
+  WM8978 codec        |     15 mA |  — |  50 mW
+  PCM5102A DAC        |     15 mA |  — |  50 mW
+  TFT display (CYD)   |     80 mA |  — | 264 mW
+  Rotary encoder+LED  |      5 mA |  — |  16 mW
+  Total (3.3V rail)   |    365 mA |  — |1205 mW
+  Boost converter loss|       —   |  — |  +15%
+
+  18650 (2500 mAh, 3.7V) → 9.25 Wh → run time ≈ 9.25/1.4 ≈ 6.6 hours
+
+BATTERY LEVEL INDICATOR:
+  GPIO35 → voltage divider R=100kΩ/100kΩ from V_bat
+  Read ADC; V_bat below 3.3V → low battery warning on display
+  V_bat thresholds: 4.2V=full, 3.7V=half, 3.3V=low, 3.0V=cutoff
+
+================================================================================
+SECTION 6 — BYPASS SWITCH WIRING (DSP BOARD)
+================================================================================
+
+SW_BYPASS (DPDT):
+  FILTER position: IN → ADC → ESP32 → DAC → OUT
+  BYPASS position: IN → OUT (hardware, no latency)
+
+                SW_BYPASS (DPDT)
+  IN ──────────┬─────────────────────────────────────┐
+               │                                     │
+              [A-NC]                               [B-NC]
+               │                                     │
+               ▼ to ADC conditioning circuit          │ from DAC output
+                                                      │
+              [A-NO] ───────────────────────────── [B-NO]
+               │                                     │
+               └─────────────────────────────────────┘
+                               direct bypass wire
+                                                      │
+                                                     OUT
+
+Note: relay-based bypass (using 9V relay, coil driven by GPIO) allows
+software-controlled bypass without panel toggle:
+  GPIO_BYPASS (any available GPIO) → 470Ω → NPN (2N3904) → relay coil
+  Relay NC contacts = bypass; relay NO contacts = filter path
+  Power-up default = bypass (fail-safe if ESP32 crashes during boot)
+
+================================================================================
+SECTION 7 — DISPLAY OPTIONS
+================================================================================
+
+Option A — CYD ESP32-2432S028:
+  Full CYD provides spectrum display, filter mode, BW, center freq
+  240×320 TFT; capacitive touch
+  See firmware for CYD-specific TFT_eSPI setup
+  Power: CYD's USB-C input used as primary power source
+
+Option B — SSD1306 128×64 OLED (minimal):
+  I2C address 0x3C; SDA=GPIO21, SCL=GPIO22
+  Shows: mode (CW/SSB/NOTCH), BW, f_center, signal level bar
+  Power: 5 mA @ 3.3V; excellent for battery use
+  Use Adafruit SSD1306 library
+
+Option C — No display:
+  Front-panel LEDs indicate mode (CW/SSB/NOTCH/BYPASS)
+  Rotary encoder adjusts center frequency; one push = cycle BW mode
+  Three LEDs: CW (red), SSB (green), NOTCH (yellow)
+
+================================================================================
+PARTS LIST — DSP BOARD AND POWER
+================================================================================
+
+Ref       | Qty | Value/Part      | Description                 | Package
+----------|-----|-----------------|-----------------------------|--------
+U_ESP32   |  1  | ESP32-WROOM-32  | Main processor              | Module
+U_DAC     |  1  | PCM5102A module | I2S stereo DAC              | Module
+U_CODEC   |  1  | WM8978 (option) | Audio codec ADC+DAC         | SSOP28
+U_BOOST   |  1  | TPS61023        | Boost 3.7→5V                | SOT-23-6
+U_LDO     |  1  | AMS1117-3.3     | 3.3V LDO                    | SOT-223
+U_CHG     |  1  | TP4056 module   | LiPo charger                | Module
+BT1       |  1  | 18650 Li-Ion    | 2500 mAh cell               | 18650 holder
+J_BAT     |  1  | 18650 holder    | PCB or chassis mount        |
+J_USB     |  1  | USB-C receptacle| Power input                 | SMD or TH
+C_CC1,CC2 |  2  | 5.1 kΩ          | USB-C CC resistors          | Axial
+C_boost   |  2  | 10 µF           | Boost converter I/O caps    | Electrolytic
+C_ldo     |  2  | 10 µF           | LDO I/O caps                | Electrolytic
+C_bypass×8|  8  | 100 nF          | Power supply decoupling     | Ceramic
+R_enc ×3  |  3  | 10 kΩ           | Encoder pullup resistors    | Axial
+ENC1      |  1  | Rotary encoder  | 20 detent, pushbutton       | Panel mount
+SW_PWR    |  1  | SPST toggle     | Power on/off                | Panel mount
+SW_BYPASS |  1  | DPDT toggle     | DSP bypass                  | Panel mount
+LED1      |  1  | Green 3mm       | Power on indicator          | Panel mount
+LED_MODE×3|  3  | 3mm assorted    | Mode indicators (optional)  | Panel mount
+R_LED ×4  |  4  | 470 Ω           | LED series resistors        | Axial
+J_IN,J_OUT|  2  | 3.5mm TRS       | Audio I/O jacks             | Panel mount
+DISP1     |  1  | SSD1306 OLED    | Display option B            | Module / I2C
+
+================================================================================

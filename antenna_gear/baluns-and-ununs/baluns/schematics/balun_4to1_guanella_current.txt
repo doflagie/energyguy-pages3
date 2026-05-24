@@ -1,0 +1,356 @@
+================================================================================
+BALUN 4:1 CURRENT (GUANELLA) — TRANSMISSION-LINE TRANSFORMER
+================================================================================
+
+Purpose: Impedance transformation 200Ω balanced → 50Ω unbalanced (4:1)
+          Common-mode suppression on matched balanced feedlines
+Type: Transmission-Line Transformer (TLT), current balun design
+CM Suppression: Excellent (ferrite-based, 20+ dB across HF)
+Insertion Loss: 0.15–0.25 dB (HF), <0.15 dB @ 10M
+
+================================================================================
+CIRCUIT DIAGRAM — GUANELLA 4:1 BALUN
+================================================================================
+
+         ┌────────────────────────────┐
+         │   BALANCED ANTENNA FEED    │
+         │  (200Ω dipole or window)   │
+         └──────────┬─────────────────┘
+                    │
+           ┌────────┴─────────┐
+           │                  │
+        Leg A              Leg B
+           │                  │
+        ┌──┴─────────┐    ┌───┴──────┐
+        │  #16 wire  │    │ #16 wire │
+        │ wrapped in │    │ wrapped  │
+        │  BIFILAR   │    │  BIFILAR │
+        │  pair on   │    │  on      │
+        │ FT-140-43  │    │FT-140-43 │
+        │ core stack │    │ stacked  │
+        └──┬─────────┘    └───┬──────┘
+           │                  │
+           ├──────────┬───────┤
+                      │
+                   (Center)
+                      │
+                    Coax
+                      │
+              ┌───────┴────────┐
+              │ 50Ω Receiver    │
+              │ or TX Line      │
+              └────────────────┘
+
+Alternate (Series Configuration):
+
+         ┌────────────────────────────┐
+         │   BALANCED INPUT (200Ω)    │
+         └──────────┬─────────────────┘
+                    │
+           ┌────────┴─────────┐
+           │                  │
+       PRIMARY          SECONDARY
+      (TLT Stage 1)    (TLT Stage 1)
+           │                  │
+        ┌──┴──┐            ┌──┴──┐
+        │ ZL  │            │ ZL  │ (Center-tapped output)
+        └──┬──┘            └──┬──┘
+           │                  │
+           └────────┬─────────┘
+                    │
+                 (Center tap)
+                    │
+                  50Ω OUT
+
+================================================================================
+CORE SPECIFICATIONS
+================================================================================
+
+HF Configuration (160M–10M):
+  Cores: 2× FT-140-43 stacked
+  Material: Mix 43 (µ=850, AL=520 µH/100T per core)
+  Stacking: Series connection (AL_total ≈ 1040 µH/100T)
+  Wire: #16 enameled copper
+  Turns per core: 6–10 (depending on band)
+  Max Power: 350 W (with adequate heatsinking)
+
+Winding Details (per core):
+  160M: 10 turns (bifilar pair)
+  80M:  9 turns
+  40M:  8 turns
+  30M:  7 turns
+  20M:  7 turns
+  17M:  6 turns
+  15M:  6 turns
+  10M:  6 turns
+
+Wire Length Estimate:
+  Each core: ~80–120 inches (depending on turns)
+  Total (2 cores): ~160–240 inches
+
+================================================================================
+IMPEDANCE TRANSFORMATION THEORY — GUANELLA TLT
+================================================================================
+
+The Guanella balun uses TRANSMISSION-LINE segments, not ideal transformer action.
+
+Key Property:
+  Z_out = Z_c × (Z_in / Z_c)²   [NOT Z_out = Z_in / N²]
+
+Instead, transformation comes from parallel-series connection:
+  - Two transmission lines carrying differential signal
+  - Each TL has characteristic impedance Z_c ≈ 200Ω
+  - Series connection of two 200Ω TLs in parallel = 100Ω combined
+  - For balanced 200Ω input, output impedance = 50Ω
+
+TURNS RATIO INTERPRETATION:
+  2:1 turns ratio ≠ direct impedance step (as in voltage balun)
+  Instead, 2:1 ratio determines delay length of each TL stage
+  Delay ≈ λ/4 @ design frequency (quarter-wave transformer operation)
+
+BIFILAR WINDING:
+  Two wires wound together (twisted pair, not separate)
+  Creates two TL segments with matched impedance
+  Primary source of 1:1 common-mode suppression
+
+================================================================================
+WINDING TECHNIQUE — GUANELLA BIFILAR
+================================================================================
+
+Materials:
+  - 2× FT-140-43 cores
+  - 2× spools of #16 enameled copper
+  - Small vice or holding jig
+  - Wire stripper
+
+Step 1: Prepare wire pairs
+  - Cut two equal lengths of #16 wire (~120 inches for full HF)
+  - Strip ~0.5" from each end
+  - Twist wires together loosely (uniform helix)
+  - Tension to eliminate slack but not crimp jacket
+
+Step 2: Wind first core (primary)
+  - Thread twisted pair through core hole
+  - Wrap around core (8–10 passes = 8–10 turns bifilar)
+  - Keep pair together (no separation)
+  - Evenly distribute around circumference
+
+Step 3: Wind second core (secondary)
+  - Continue same twisted pair onto second core
+  - Stack second core adjacent to first (aligned axially)
+  - Same turns as first core
+  - Maintain even spacing
+
+Step 4: Make connections
+  - Primary input: Solder one end of twisted pair to antenna leg A
+  - Second antenna leg: Solder to wire at core-to-core junction (center tap)
+  - Secondary output: Solder remaining end to coax center conductor
+  - Coax braid: Connect to center-tap point (RF ground)
+
+Step 5: Insulation and weatherproofing
+  - Ensure enamel on wire is not damaged during winding
+  - Optional: Wrap entire assembly with electrical tape
+  - Potting compound (silicone) recommended for field units
+
+================================================================================
+COMMON-MODE OPERATION
+================================================================================
+
+Differential-Mode (desired signal):
+  Each wire of bifilar pair carries equal but opposite currents
+  These currents cancel external magnetic field (balanced)
+  Z_differential ≈ 100Ω (from 2×50Ω TL stages in series)
+
+Common-Mode (unwanted):
+  Both wires carry SAME current (on antenna side) or (on coax braid)
+  Ferrite core provides impedance: Z_CM = 2πfL
+  Z_CM = 2π × f × (AL × N² / 10000)
+
+Example @ 80M (3.75 MHz), 9 turns, 2×FT-140-43:
+  L = 1040 × 81 / 10000 = 8.4 µH
+  Z_CM = 2π × 3.75×10⁶ × 8.4×10⁻⁶ ≈ 198 Ω
+
+Attenuation ratio:
+  A_CM = Z_CM / Z_0 ≈ 198 / 50 ≈ 4× (≈ 12 dB)
+
+================================================================================
+FREQUENCY RESPONSE
+================================================================================
+
+FT-140-43 stacked, 8 turns per core, typical HF response:
+
+Frequency    Impedance Ratio    CM Impedance    Insertion Loss
+1.8 MHz      4.1:1             ~160 Ω          0.25 dB
+3.75 MHz     3.9:1             ~200 Ω          0.20 dB
+7.15 MHz     3.8:1             ~350 Ω          0.18 dB
+14.2 MHz     3.7:1             ~620 Ω          0.15 dB
+28.4 MHz     3.6:1             ~980 Ω          0.12 dB
+
+Design Notes:
+  - Impedance ratio stays flat ~3.6–4.1:1 across entire HF band ✓
+  - CM impedance RISES with frequency (inductive slope)
+  - Insertion loss DECREASES with frequency (ferrite loss drops)
+
+================================================================================
+DESIGN EQUATIONS
+================================================================================
+
+Turns per core (for given band and impedance ratio):
+  N = sqrt(Z_in × Z_out) / (2π × f × AL/10000)
+
+Example: 160M (1.8 MHz), FT-140-43 (AL=520), 200→50Ω (4:1):
+  Z_characteristic ≈ sqrt(200 × 50) = 100Ω
+  N_desired = ?
+
+In practice, use EMPIRICAL RULES from winding tables (provided separately)
+
+Insertion Loss (approximate):
+  L_dB ≈ 0.1 + (0.01 × f_MHz)   for FT-140-43 stacked
+  Example @ 14.2 MHz: L ≈ 0.1 + 0.14 = 0.24 dB (reasonable match)
+
+Common-Mode Impedance:
+  Z_CM = 2π × f × (AL × N²) / 10000
+  Target: Z_CM ≥ 250 Ω (5× rule applies to Guanella too)
+
+================================================================================
+PRIMARY APPLICATIONS
+================================================================================
+
+1. BALANCED DIPOLES (200Ω feedpoint):
+   - Window line (450Ω ladder line) requires 9:1 balun instead
+   - 200Ω feedpoint (short dipole or T-dipole) → 4:1 Guanella
+   - G5RV antenna @ impedance minima (200Ω points)
+
+2. FOLDED DIPOLES:
+   - Nominal impedance: 288–300Ω (some applications)
+   - 4:1 Guanella suitable for matching
+
+3. BALANCED MATCH WITH ANTENNA TUNER:
+   - Tuner needs balanced input port (rare)
+   - Guanella provides low-loss balanced 50Ω → 200Ω transformation
+   - Allows tuner to see high-Z loads (>50Ω)
+
+4. BROADBAND DIPOLE ARRAYS:
+   - Multiple dipoles in series/parallel configurations
+   - Guanella used to match combined impedance
+
+================================================================================
+TESTING PROCEDURE — NANOVNA
+================================================================================
+
+Setup:
+  Port 1: Connect to coax output (50Ω)
+  Port 2: Connect to one antenna leg (balanced input, use 50Ω adapter with 50Ω resistor to ground)
+  OR: Use balun test fixture (50Ω source, 200Ω load, measure S-parameters)
+
+Measurement 1 — Insertion Loss (with 200Ω load):
+  Sweep 1–30 MHz
+  Expected: S₂₁ ≈ -0.15 to -0.25 dB
+  S₁₁ ≈ -20 dB (good match when properly terminated)
+
+Measurement 2 — Common-Mode Impedance:
+  With balanced input left floating (open):
+  Measure S₁₁ of one leg to ground (should be highly reactive)
+  Expected: Z ≈ j×Z_CM (inductive, rising with frequency)
+
+Measurement 3 — Phase matching:
+  Measure phase difference between two legs @ balanced input
+  Expected: 180° ± <5° (tight phase coherence)
+
+================================================================================
+FAILURE MODES & TROUBLESHOOTING
+================================================================================
+
+SYMPTOM: High SWR, antenna won't match
+ROOT CAUSE 1: Balun winding incorrect (turns count wrong)
+SOLUTION: Re-count turns, verify against winding table
+
+ROOT CAUSE 2: Bifilar pair separated during winding (lost transmission line action)
+SOLUTION: Unwind, re-twist wire pair, wind again
+
+ROOT CAUSE 3: Ferrite cores not stacked properly (misaligned)
+SOLUTION: Ensure cores are axially aligned, touching
+
+SYMPTOM: Excessive heating during transmission
+ROOT CAUSE: High common-mode current flowing (antenna imbalanced)
+SOLUTION:
+  - Add counterpoise or ground plane (reduce CM)
+  - Check for RF in shack (indicates high CM current)
+  - Reduce power if heating severe
+
+ROOT CAUSE: Ferrite core saturated from excessive power
+SOLUTION:
+  - Reduce TX power temporarily
+  - Allow core to cool
+  - Switch to larger core (FT-240-43 instead of FT-140)
+
+SYMPTOM: Pattern distortion (null in wrong direction)
+ROOT CAUSE: High CM current still flowing despite balun
+SOLUTION:
+  - Verify balun impedance matches antenna load
+  - Add ferrite choke on coax output (secondary CM suppression)
+  - Check balun connections (verify center-tap grounded)
+
+================================================================================
+POWER HANDLING & THERMAL
+================================================================================
+
+Maximum Power (FT-140-43 stacked):
+  Continuous (CW): 350 W @ 50°C ambient
+  Peak (SSB): 500–700 W (transient)
+  Thermal rise: ~30°C @ 500W input
+
+Thermal Management:
+  - Ensure adequate airflow around cores
+  - Monitor core temperature during high-power sessions
+  - If core >60°C, reduce power or install on mast (ambient cooling)
+
+Cooling Strategies:
+  - Mount on metal bracket (thermal sink)
+  - Potting compound selection (silicone conducts heat better than epoxy)
+  - Add aluminum fins (if extreme power required)
+
+================================================================================
+CONSTRUCTION NOTES
+================================================================================
+
+Mechanical Assembly:
+  - Mount balun at antenna feedpoint (minimize feedline coupling)
+  - Use stainless steel hardware (prevent corrosion)
+  - Potting optional but recommended for weather protection
+
+Weatherproofing:
+  - Silicone potting: Flexible, non-cracking, conducts heat moderately
+  - Epoxy potting: Rigid, better mechanical strength, poor thermal conductivity
+  - PVC electrical tape wrap: Quick field fix, moderate durability
+
+Field Repair:
+  - Balun heating: Cut power, allow 10-minute cool period
+  - Coax damage: Can re-solder connectors if internal conductors OK
+  - Enamel damage on wire: Unlikely to affect operation unless shorted
+
+Spare Parts Kit:
+  - 2× FT-140-43 cores (can stack to make stacked cores)
+  - Spool of #16 enameled wire
+  - N-connector and SO-239 plugs/jacks
+  - Silicone potting compound
+
+================================================================================
+COMPARISON: GUANELLA vs VOLTAGE BALUN
+================================================================================
+
+Feature            Guanella (Current)        Voltage Balun
+───────────────────────────────────────────────────────────
+CM Suppression     Excellent (ferrite in series) Fair (primary impedance)
+Bandwidth          Broad (±50% from design freq) Moderate
+Insertion Loss     0.15–0.25 dB             0.1–0.15 dB
+Phase Match        Very tight (<2° across band) Good (5°–10°)
+Power Handling     Good (distributed current) Excellent (lower loss)
+Cost               Moderate ($20)           Low ($15)
+Field Repair       Difficult (needs cores)   Easy (simple winding)
+
+Recommendation:
+  Use GUANELLA for balanced antennas requiring strong CM suppression
+  Use VOLTAGE for simple impedance transformation where CM is low priority
+
+================================================================================

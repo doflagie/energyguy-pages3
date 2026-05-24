@@ -1,0 +1,268 @@
+================================================================================
+ WATSON-WATT HF RDF SYSTEM — TM-ADF-001 Rev A
+ Automatic Direction Finding, HF Bands 1.8–54 MHz
+ Adcock / Watson-Watt Technique
+================================================================================
+
+SYSTEM BLOCK DIAGRAM
+=====================
+
+    N Element         S Element         E Element         W Element
+       (λ/4 vert)       (λ/4 vert)       (λ/4 vert)       (λ/4 vert)
+          │                │                 │                 │
+          │  Phase-matched  │                 │  Phase-matched  │
+          │  coax (equal    │                 │  coax (equal    │
+          │  electrical len)│                 │  electrical len)│
+          ▼                ▼                 ▼                 ▼
+     ┌─────────────────────────────────────────────────────────────────┐
+     │              CENTRAL JUNCTION BOX                              │
+     │                                                                 │
+     │  N────┐                          E────┐                        │
+     │       ├──▶ BALUN (N-S) ──▶ LNA ─────▶ RF_SW port 0 ──▶ ADC0  │
+     │  S────┘  (FT-50-43 bifilar)           │                        │
+     │                                        ├──▶ RF_SW port 1 ──▶ ADC1  │
+     │  E────┐                               │                        │
+     │       ├──▶ BALUN (E-W) ──▶ LNA ──────┘                        │
+     │  W────┘                                                         │
+     │                                                                 │
+     │  SENSE────────────────────────▶ BUFFER AMP ──▶ ADC2            │
+     │  (omni vertical)                                                │
+     └─────────────────────────────────────────────────────────────────┘
+                                           │
+                                     ESP32 ADC
+                                     (bearing calc)
+                                           │
+                               ┌───────────┴───────────┐
+                          OLED display           BT / WiFi
+                        (bearing compass)        (to CYD)
+
+================================================================================
+ADCOCK ARRAY ELEMENT LAYOUT (Top View)
+================================================================================
+
+                            N Element
+                               ▲
+                               │  Spacing = λ/4
+                               │  (see band table)
+                               │
+    W Element ◄────────────────┼────────────────► E Element
+                               │
+                               │
+                               ▼
+                            S Element
+
+                    SENSE (omni) at center
+
+    ELEMENT SPACING TABLE:
+    ┌──────────┬────────────┬──────────────┬─────────────────────────┐
+    │ Band     │ Freq (MHz) │ λ (m)        │ λ/4 spacing (m)         │
+    ├──────────┼────────────┼──────────────┼─────────────────────────┤
+    │ 160m     │ 1.85       │ 162.2        │ 40.5  (full-size: 81m!) │
+    │ 80m      │ 3.75       │ 80.0         │ 20.0                    │
+    │ 60m      │ 5.35       │ 56.1         │ 14.0                    │
+    │ 40m      │ 7.15       │ 41.9         │ 10.5                    │
+    │ 30m      │ 10.125     │ 29.6         │  7.4                    │
+    │ 20m      │ 14.175     │ 21.2         │  5.3                    │
+    │ 17m      │ 18.118     │ 16.6         │  4.1                    │
+    │ 15m      │ 21.225     │ 14.1         │  3.5                    │
+    │ 12m      │ 24.940     │ 12.0         │  3.0                    │
+    │ 10m      │ 28.850     │ 10.4         │  2.6                    │
+    │  6m      │ 52.000     │  5.8         │  1.4                    │
+    └──────────┴────────────┴──────────────┴─────────────────────────┘
+    NOTE: For portable use, reduced aperture arrays (λ/8 or λ/10) sacrifice
+    some gain but remain usable. Bearing accuracy degrades ~3× for λ/10 spacing.
+
+================================================================================
+BALUN CIRCUIT (N-S PAIR) — Repeat for E-W Pair
+================================================================================
+
+  N element ──────────────────────────────────┐
+  (via phase-matched coax)                     │
+                                               │
+  S element ──────────────────────────────────┤
+  (via phase-matched coax, reversed polarity)  │
+                                               ▼
+                              ┌────────────────────────────┐
+                              │   CURRENT-BALUN TRANSFORMER│
+                              │   Core: FT-50-43 toroid    │
+                              │   Winding: 10T bifilar      │
+                              │   Wire: AWG 26 enameled     │
+                              │                             │
+                              │    N ──┐                    │
+                              │        ├──▶ primary wdg    │
+                              │    S ──┘  (connected diff) │
+                              │                             │
+                              │   Output: balanced → 50Ω   │
+                              │   unbalanced via 4:1 ratio  │
+                              └──────────┬─────────────────┘
+                                         │ 50Ω unbalanced
+                                         ▼
+                              ┌────────────────────────────┐
+                              │   LNA — GALI-84 (MAR series)│
+                              │   Supply: +5V @ 65mA        │
+                              │   Gain: +20 dB              │
+                              │   NF: 2.7 dB                │
+                              │   P1dB: +17 dBm             │
+                              │                             │
+                              │  IN ─────[GALI-84]───── OUT │
+                              │  50Ω                    50Ω │
+                              │           │                 │
+                              │          RFC              RFC│
+                              │          100µH            47Ω│
+                              │           │                 │
+                              │          +5V              GND│
+                              └──────────┬─────────────────┘
+                                         │ (to RF switch)
+
+    BALUN WINDING DETAIL:
+    - Core: Amidon FT-50-43 (1.27cm OD, Mix 43 ferrite)
+    - Wind 10 turns bifilar: both wires twisted together, wound as one
+    - One winding = N input, other winding = S input (in series opposition)
+    - Differential voltage on primary → single-ended on secondary
+    - Impedance ratio: 1:1 (50Ω to 50Ω for same-impedance elements)
+    - Useful HF range: 1–30 MHz with Mix 43
+
+================================================================================
+RF SWITCH CIRCUIT — SP4T SELECTION
+================================================================================
+
+                 ┌──────────────────────────────────────────┐
+                 │           SP4T RF SWITCH                  │
+                 │         PE4259 or HMC253 SPDT×2          │
+                 │                                           │
+  From N-S LNA ──┤ Port 1                                    │
+                 │         CTRL A ───────── GPIO16 (ESP32)  │
+  From E-W LNA ──┤ Port 2          SWITCH    CTRL B ──────── GPIO17│
+                 │                 LOGIC                     │
+  From SENSE  ───┤ Port 3  +VDD ── 3.3V      +VDD ── 3.3V  │
+                 │                  │                        │
+  (spare)      ──┤ Port 4          0.1µF                     │
+                 │                  │                        │
+                 │ Common ──────────┼───────────────────────►│── to ADC
+                 └──────────────────────────────────────────┘
+
+    CTRL A  CTRL B  SELECTED PORT
+       0       0     Port 1 (N-S)
+       0       1     Port 2 (E-W)
+       1       0     Port 3 (SENSE)
+       1       1     Port 4 (spare)
+
+    NOTE: PE4259 handles up to +20 dBm, suitable for RDF signal levels.
+    Insert PE4259 between balun/LNA output and ESP32 ADC input chain.
+
+================================================================================
+SIGNAL CONDITIONING AND ADC INPUT
+================================================================================
+
+  From RF switch ──────────────────────────────────────────────────────────────┐
+  (selected antenna pair, 50Ω)                                                 │
+                                                                                │
+  ┌─────────────────────────────────────────────────────────────────────────┐  │
+  │   AUDIO IF STRIP                                                         │◄─┘
+  │                                                                           │
+  │   [50Ω input]──[BPF, 300-3000 Hz]──[INA128 Instrumentation Amp]──────  │
+  │                   (audio band)       Gain = 60 dB                       │
+  │                                      RG = 56Ω (sets gain)               │
+  │                                                                           │
+  │   ...──[Envelope Detector]──[RC filter 10ms]──[ADC Buffer]──────────── │
+  │          (peak detector)     (smoothing)       (voltage follower)        │
+  │          BAT46 + 10kΩ + 10µF                   LMV321 rail-rail op-amp   │
+  │                                                                           │
+  │   Output ── ESP32 ADC1_CH0 (GPIO34) ── 0–3.3V signal level              │
+  └─────────────────────────────────────────────────────────────────────────┘
+
+    COMPONENT VALUES:
+    ┌─────────────────┬────────────────────────────────────────────────────┐
+    │ Component       │ Value / Part                                       │
+    ├─────────────────┼────────────────────────────────────────────────────┤
+    │ INA128          │ Instrumentation amp, Burr-Brown / TI               │
+    │ R_gain          │ 56Ω → G = 1 + 50000/56 = 893 ≈ 60 dB             │
+    │ C_in (bypass)   │ 100nF ceramic, 0805                                │
+    │ C_supply        │ 100µF + 100nF on ±5V supply rails                 │
+    │ Envelope diode  │ BAT46 Schottky, Vf = 0.2V                         │
+    │ R_env           │ 10kΩ (discharge, τ = 10ms with C_env)             │
+    │ C_env           │ 1µF (smoothing capacitor)                          │
+    │ Buffer amp      │ LMV321 single-supply (0–3.3V operation)            │
+    └─────────────────┴────────────────────────────────────────────────────┘
+
+================================================================================
+POWER SUPPLY
+================================================================================
+
+  External: 12V DC input (2.1mm barrel jack, center positive)
+
+   12V ──┬──[LM7805]──── +5V ──┬── LNA bias (via 47Ω + bypass)
+         │                      └── INA128 V+, relay coils
+         │
+         └──[AMS1117-3.3]─── +3.3V ──── ESP32, ADC refs, RF switch control
+
+  Current budget:
+    ESP32 module:   ~250 mA (WiFi active)
+    2× LNA GALI-84: 2 × 65 mA = 130 mA
+    INA128:          1 mA
+    RF switch:       5 mA
+    OLED:           20 mA
+    Total:          ~410 mA from 5V rail, 70 mA from 3.3V rail
+    12V supply minimum: 600 mA (use 1A regulated supply)
+
+================================================================================
+BEARING CALCULATION — WATSON-WATT ALGORITHM
+================================================================================
+
+  1. Sample N-S pair for T milliseconds → compute RMS amplitude: V_NS
+  2. Switch to E-W pair → compute RMS amplitude: V_EW
+  3. Switch to SENSE → compute RMS amplitude: V_SENSE
+
+  Raw bearing (uncorrected):
+    θ = atan2(V_NS, V_EW)        [returns –90° to +90°]
+
+  Four-quadrant resolution (use signs of V_NS and V_EW):
+    θ_4q = atan2(signed_V_NS, signed_V_EW)    [–180° to +180°]
+    θ_4q_normalized = (θ_4q + 360°) mod 360°   [0° to 360°]
+
+  Ambiguity (two solutions 180° apart):
+    Test bearing θ and θ+180°
+    Add sense to each: S1 = V_NS + V_SENSE, S2 = V_NS - V_SENSE
+    Correct bearing: the one where sense INCREASES (reinforces) the signal
+
+  Calibration:
+    Apply N-S gain correction K_NS and E-W gain correction K_EW
+    (measured by placing transmitter at known bearing, then adjusting until
+     atan2 gives correct angle)
+    Also apply phase correction φ for cable electrical length differences
+
+================================================================================
+ESP32 PIN ASSIGNMENTS SUMMARY
+================================================================================
+
+  GPIO  Function          Notes
+  ────  ─────────────     ─────────────────────────────────────────
+   34   NS_ADC            ADC1_CH6, signal level N-S pair
+   35   EW_ADC            ADC1_CH7, signal level E-W pair
+   32   SENSE_ADC         ADC1_CH4, sense antenna level
+   16   RF_SW_A           RF switch control bit 0
+   17   RF_SW_B           RF switch control bit 1
+   18   RF_SW_EN          Switch enable (active low)
+   21   SDA               I2C: OLED + QMC5883L compass
+   22   SCL               I2C clock
+   18   GPS_RX            UART2 receive from NEO-8M
+   19   GPS_TX            UART2 transmit to GPS
+    5   GPS_PPS           1PPS interrupt input (rising edge)
+   25   AUDIO_DAC         DAC output for audio monitoring
+    2   BT_LED            Bluetooth connected indicator
+
+================================================================================
+PHASE-MATCHED COAXIAL FEED LINE REQUIREMENT
+================================================================================
+
+  ALL coaxial runs from elements to central junction MUST be identical
+  electrical length (same physical length if same VF cable used).
+
+  Measurement procedure (with NanoVNA):
+  1. Cut one reference length of RG-58 (e.g., 10m)
+  2. Measure electrical length with NanoVNA TDR or phase at the target frequency
+  3. Cut all 5 feed lines (N, S, E, W, SENSE) to the SAME electrical length
+  4. Tolerance: ±5mm physical for RG-58 (VF=0.66) → ±1° phase error at 30 MHz
+
+  Cable suggestion: RG-58 (VF=0.66), or LMR-195 for lower loss on longer runs.
+  For portable operation: limit element runs to 10m maximum per side.

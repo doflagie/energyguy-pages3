@@ -1,0 +1,230 @@
+================================================================================
+  bias_tee_ascii.txt — TM-SDR-SCH-003 Rev A
+  Bias-T: DC Power Injection Over Coax for Remote Antenna Amplifiers
+  Dual-band: HF (0.1–30 MHz) and VHF/UHF (30 MHz–3 GHz) versions
+  Document: TM-SDR-SCH-003 Rev A
+================================================================================
+
+OVERVIEW
+--------
+  A bias-T injects DC power onto a coaxial cable to power remote
+  low-noise amplifiers (LNA), masthead preamps, or active antenna elements.
+  RF signal and DC power share the same coax; separated at each end.
+
+  Principle:
+    ┌─────────────────────────────────────────────────────────────┐
+    │  DC IN ──[Lchoke]──┬──[coax]──┬──[Lchoke]── DC OUT (load)  │
+    │                    │          │                             │
+    │  RF IN ──[Cblock]──┘          └──[Cblock]── RF OUT (SDR)   │
+    └─────────────────────────────────────────────────────────────┘
+
+  RF path: DC blocking capacitor in series (passes RF, blocks DC)
+  DC path: RF choke in series (passes DC, blocks RF)
+  Junction: where RF and DC share coax to antenna
+
+KEY SPECIFICATIONS
+------------------
+  HF Bias-T (Version A):
+    RF frequency range:  0.1 MHz – 50 MHz
+    DC voltage:          5 V or 12 V selectable (jumper)
+    DC current max:      500 mA
+    RF insertion loss:   < 0.2 dB from 0.1–50 MHz
+    DC isolation to RF:  > 40 dB at all frequencies
+    RF isolation to DC:  > 50 dB at all frequencies
+
+  VHF/UHF Bias-T (Version B):
+    RF frequency range:  10 MHz – 3 GHz
+    DC voltage:          3.3 V, 5 V, or 12 V
+    DC current max:      300 mA
+    RF insertion loss:   < 0.3 dB from 30 MHz–1 GHz
+                         < 0.5 dB from 1–2.4 GHz
+    DC:RF isolation:     > 50 dB
+
+VERSION A — HF BIAS-T SCHEMATIC (0.1–50 MHz)
+----------------------------------------------
+
+  ┌─── SMA J1 (RF+DC from antenna) ──────────────────────────────┐
+  │                                                               │
+  │  J1 center ──┬──────────────────────── J3 center (RF to SDR) │
+  │              │                                               │
+  │              │                 L1                            │
+  │              ├──── node A ──[47µH]──[47µH]── node B ──┐     │
+  │              │              RF choke pair              │     │
+  │              │                                    J2 center  │
+  │              │                                    (DC power in)
+  │              │                                               │
+  │  J1 shield ─┴─────────────────────────────────── J3 shield  │
+  │  (GND)                                           (GND)       │
+  └───────────────────────────────────────────────────────────────┘
+
+  DETAILED SCHEMATIC — Version A:
+
+  SMA J1 (ANTENNA): center conductor = RF + DC mixed signal from antenna
+
+  RF path (series DC-block):
+    J1 center ── C1 (220 pF NP0) ── node RF_OUT ── SMA J3 (RF to SDR)
+
+  DC injection path:
+    J2 (barrel jack 5.5/2.1 mm) center ──┐
+                                         ├── D1 (SS14 polarity protect)
+                                         ├── F1 (PTC 500 mA)
+                                         └── node DC_IN
+
+    DC_IN ── L1 (47 µH) ── L2 (47 µH) ── J1 center
+
+  DC blocking for RF output:
+    J3 center connected directly to J1 center side of C1 (series cap).
+    The series cap C1 blocks DC from reaching SDR input.
+
+  Ground:
+    J1 shield = J2 GND = J3 shield = common GND
+
+  COMPONENT NOTES:
+    C1: 220 pF NP0 — passes RF from 1 MHz up, blocks DC.
+        At 1.8 MHz: Xc = 1/(2π × 1.8e6 × 220e-12) = 402 Ω — some loss.
+        At 3.5 MHz: Xc = 207 Ω — loss present; transformer-coupled LNA input preferred.
+        BETTER CHOICE for 160m: C1 = 1 nF or 10 nF NP0.
+        At 1.8 MHz with 1 nF: Xc = 88 Ω. With 10 nF: Xc = 8.8 Ω.
+        USE 10 nF for 160m/80m; 220 pF for HF-general.
+
+    L1, L2: 47 µH each, total 94 µH.
+        RF choke at 1.8 MHz: XL = 2π × 1.8e6 × 94e-6 = 1063 Ω. Good isolation.
+        SRF check: 47 µH inductors typically SRF > 10 MHz. Two in series SRF lower.
+        BETTER: use wound toroid (T50-2 or T50-6 core), 40 turns bifilar.
+        T50-2: AL=10 nH/turn², 40T → L = 16 µH (XL=180 Ω at 1.8 MHz).
+        T50-6: AL=25 nH/turn², 25T → L = 16 µH (better at HF).
+        TWO TOROIDS: 32 µH total, XL = 360 Ω at 1.8 MHz.
+        For better isolation, use 3 toroids in series (common HF bias-T design).
+
+    D1: SS14 Schottky — reverse polarity protection.
+        Forward drop: 0.3V. DC to remote = Vcc − 0.3V.
+
+    F1: PTC resettable fuse, 500 mA (or 300 mA for LNA-only bias).
+        Trips if remote load shorts or draws excess current.
+
+  DC SELECTOR JUMPER:
+    JP1 (3-pin, 2.54mm):
+      Position 1-2: routes +5V (from onboard 7805 or USB VBUS)
+      Position 2-3: routes +12V (from external barrel jack)
+
+    +5V source: USB VBUS directly, or 7805 regulator from 12V supply.
+    +12V source: J4 (2.1mm barrel jack), external 12V wall adapter.
+
+VERSION B — VHF/UHF BIAS-T SCHEMATIC (10 MHz – 3 GHz)
+---------------------------------------------------------
+  For SDR wideband use: powers masthead LNA for 2m/70cm/33cm/23cm.
+  Uses SMD components optimized for low parasitic inductance/capacitance.
+
+  SMA J1 (ANTENNA: RF + DC)
+  SMA J2 (RF TO SDR)
+  J3 (DC power in: USB or barrel)
+
+  RF PATH:
+    J1 center ── C_blk (100 pF NP0, 0402) ── J2 center
+    Xc at 100 MHz: 16 Ω  → good
+    Xc at 1 GHz:   1.6 Ω → good
+    Xc at 10 MHz:  159 Ω → slight loss (for VHF-up bias-T, acceptable)
+
+  DC INJECTION:
+    J3+ ── D1 (BAT54S SOT-23) ── F1 (PTC 300 mA) ── L_choke ── J1 center
+    L_choke: 1000 nH (1 µH) SMD wirewound (Coilcraft 0805LS-102, SRF > 500 MHz)
+    XL at 100 MHz: 628 Ω
+    XL at 500 MHz: 3142 Ω
+
+  BYPASS AT DC INJECTION POINT:
+    J3+ ── C_byp1 (10 µF tantalum) ── GND
+    J3+ ── C_byp2 (10 nF NP0 0402) ── GND
+
+  SHUNT CAPACITORS AT RF/DC JUNCTION (for stability):
+    Antenna side of L_choke ── C_shunt (1 nF NP0 0402) ── GND
+    Prevents self-resonance of choke from creating RF peak.
+
+FULL SCHEMATIC (VERSION B, SMD):
+
+                 100pF NP0
+  J1 (ANT) ────────┤├──────────────────────── J2 (SDR RF out)
+    center │        C_blk                       center
+           │
+           ├── 1µH choke ── PTC F1 ── SS14 D1 ── J3+ (DC in)
+           │       │
+           │   1nF NP0 to GND (stability bypass)
+           │
+           └── 10nF NP0 to GND (RF bypass, broad)
+
+  J1 shield = J2 shield = J3 GND (common ground)
+
+DC VOLTAGE / CURRENT TABLE
+----------------------------
+  Remote Device      Typical Vcc   Typical Icc   Recommended Setting
+  ─────────────────────────────────────────────────────────────────────
+  SPF5189Z LNA       3.0–5.0V      60 mA         5V, 100 mA PTC
+  MGA-86576 LNA      3.0–5.0V      55 mA         5V, 100 mA PTC
+  PSA4-5043 LNA      3.0–5.0V      60 mA         5V, 100 mA PTC
+  ZX60-43+ amplifier 5.0V          95 mA         5V, 150 mA PTC
+  Active whip (HF)   12V           120 mA        12V, 200 mA PTC
+  Wideband preamp    12V           200 mA        12V, 300 mA PTC
+  PA (remote)        12V           >500 mA       use dedicated power cable
+
+MEASURING BIAS-T PERFORMANCE
+------------------------------
+  Equipment: NanoVNA, DC power supply, multimeter.
+
+  1. RF insertion loss:
+     NanoVNA Port 1 → J1 (antenna port)
+     NanoVNA Port 2 → J2 (SDR port)
+     DC jack unloaded (no remote device connected)
+     Sweep 0.1–3000 MHz. S21 should be > −0.5 dB across bandwidth.
+
+  2. DC:RF isolation:
+     Apply DC to J3 (5V, unloaded).
+     Measure RF spectrum at J1 with SDR.
+     Should see no 50/60 Hz noise or switching noise from power supply.
+     If noise present: add 100 µH + 100 µF LC filter on DC rail.
+
+  3. RF:DC isolation:
+     Apply RF signal to J1 (−30 dBm from signal generator).
+     Measure RF at J3 with spectrum analyzer.
+     Should be > 40 dB below input level.
+
+  4. Current test:
+     Connect 10Ω resistor to remote end of coax (simulate 500 mA at 5V).
+     Verify PTC fuse does NOT trip (it's a 500 mA polyfuse, rated 500 mA hold).
+     Verify voltage at remote end: 5V − 0.3V (D1) − (I × R_coax).
+
+COAX DC RESISTANCE (important for remote LNA powering)
+--------------------------------------------------------
+  RG-58 (50Ω): center conductor 0.037 Ω/m, shield 0.006 Ω/m
+  Total loop resistance: ~0.043 Ω/m (one-way: 0.020 Ω/m)
+
+  Example: 50m RG-58 run to LNA:
+    Conductor resistance: 50 × 0.037 = 1.85 Ω
+    Voltage drop at 100 mA: 0.185 V
+    Power supply needed: 5.0 + 0.3 (diode) + 0.185 = 5.49V minimum
+
+  For longer runs, use heavier coax (RG-213) or boost supply voltage.
+
+BILL OF MATERIALS — BIAS-T (BOTH VERSIONS)
+--------------------------------------------
+  Version A (HF):
+    C1:  10 nF NP0 50V 0805 (or 220 pF for VHF use)
+    L1, L2: 47 µH or wound T50-6 toroid, 25T, 16 µH each
+    D1:  SS14 Schottky SMA package
+    F1:  PTC 500 mA 1812 (Littelfuse 1812L050)
+    JP1: 3-pin header 2.54mm + jumper
+    J1,J2: SMA edge mount 50Ω
+    J3:  2.1mm barrel jack
+    PCB: 50 × 30 mm, 1 oz copper
+
+  Version B (VHF/UHF):
+    C_blk: 100 pF NP0 0402
+    C_shunt: 1 nF NP0 0402
+    C_byp1: 10 µF tantalum case B
+    C_byp2: 10 nF NP0 0402
+    L_choke: 1000 nH Coilcraft 0805LS-102 SMD
+    D1:  BAT54S SOT-23
+    F1:  PTC 300 mA 1206
+    J1,J2: SMA edge mount
+    J3:  2.1mm barrel jack or USB Micro-B
+    PCB: 40 × 25 mm, 1 oz copper, matched impedance traces
+
+================================================================================

@@ -1,0 +1,209 @@
+================================================================================
+SPECIFICATION: CRANK-UP TOWER SECTIONS FOR PORTABLE DX OPERATION
+TM-MAST-001  Rev A
+Nested lattice tower with gear-driven crank elevation — 20 to 40 foot
+================================================================================
+
+REFERENCE DOCUMENTS:
+  spec_wind_load_calculations.txt  — EIA/TIA-222 wind loading
+  spec_guy_anchor_systems.txt      — Foundation and anchor selection
+  base_plates_mounts.scad          — 3D-printable base hardware
+
+================================================================================
+SECTION 1 — CONCEPT
+================================================================================
+
+DESCRIPTION:
+  A crank-up tower consists of nested tubular lattice sections elevated by a
+  cable-and-winch or rack-and-pinion mechanism. Unlike push-up masts, a
+  crank-up can support moderate antenna loads (5–15 kg) without guying in calm
+  conditions, and heavy antenna loads when guyed. Lowering for maintenance
+  and relocation does not require dismantling.
+
+PORTABLE VERSION CONSTRAINTS:
+  - All sections must break down to ≤2.0m for vehicle transport (fits in truck bed)
+  - Total system weight including base: ≤75 kg (two-person lift)
+  - Assembly time: ≤60 minutes for one experienced operator
+  - Antenna load: up to 10 kg directional antenna (small 3-element Yagi, log-periodic)
+  - Maximum operating height: 40 ft (12m)
+  - Design wind speed: 70 mph (112 km/h) survival, 50 mph (80 km/h) operational
+
+COMMON COMMERCIAL DESIGNS FOR REFERENCE:
+  Rohn 25G / 45G crank-up: guyed lattice, field-proven, heavy
+  US Tower TX-455 / TX-472: self-supporting for heavy beams; not truly portable
+  Trylon T-600: lighter fiberglass lattice; suitable portable reference
+  Hazer systems: motorized tram for installing antenna on fixed towers
+
+================================================================================
+SECTION 2 — STRUCTURAL DESIGN — PORTABLE 3-SECTION CRANK-UP
+================================================================================
+
+SECTION GEOMETRY:
+  Each section is a triangular lattice (equilateral triangle cross-section):
+  Face width: 250mm (10") per section — standard for 3-element Yagi loads
+  Section length: 1.8m (6 ft) + 150mm overlap each end = 2.1m total per section
+
+  Section | Position | Face Width | Chord OD | Bracing     | Weight
+  --------|----------|------------|----------|-------------|-------
+    A     | Bottom   | 250mm      | 25mm × 3 | 16mm tube   | 12 kg
+    B     | Middle   | 200mm      | 22mm × 3 | 14mm tube   | 9 kg
+    C     | Top      | 160mm      | 19mm × 3 | 12mm tube   | 7 kg
+
+  All chord tubing: 6061-T6 aluminum
+  All bracing: 6061-T6 aluminum tube or 6061-T6 angle
+
+SECTION NESTING:
+  Section C slides inside Section B; Section B slides inside Section A.
+  Nesting clearance: 10mm face-to-face between nested sections.
+  Locking: 10mm × 50mm locking bar and M8 bolt through chord at full extension.
+  Alternatively: spring-loaded pawl engages ladder rung welded to chord.
+
+CRANK MECHANISM:
+  Option A — Cable/winch:
+    1.5:1 mechanical advantage cable route over pulley at top of each section.
+    Hand-crank winch at base (15:1 gear ratio → 22.5:1 total).
+    Single cable runs through all sections (military push-up style).
+    Cable size: 3/16" stainless 7×7; 1,200 lb breaking strength.
+
+  Option B — Rack and pinion:
+    Aluminum rack welded to one chord face.
+    12-tooth 32-pitch spur gear on winch shaft → 24:1 gear ratio.
+    More precise; heavier; better for permanent semi-portable installations.
+
+  PREFERRED for field portable: Cable/winch (Option A)
+
+CRANK WINCH SPECIFICATION:
+  Ratio: 15:1 hand-crank gear
+  Drum: 50mm diameter, 150mm wide (holds 6m of 3/16" cable)
+  Brake: Automatic ratchet pawl (prevent unwinding under load)
+  Handle: 250mm cranking radius
+  Material: Galvanized steel or stainless; cast iron frame with bronze bushings
+  Reference: Dutton-Lainson 1648A or equivalent (rated 900 lb line pull)
+
+CABLE ROUTING:
+                       ┌── Top Section (C)
+                       │   [Pulley fixed to top of C]
+                       │    ↑ cable from section B top
+              ┌────────┘
+              │ Middle Section (B)
+              │   [Pulley fixed to top of B]
+              │    ↑ cable from winch drum
+    ┌─────────┘
+    │ Bottom Section (A) — fixed to base
+    │   [Winch drum at base of A]
+    │   Hand crank at side of base section
+
+  Cable attaches to top of Section C; routes down through pulleys; winds on drum.
+  Cranking in: sections extend upward.
+  Releasing brake + gravity: controlled descent.
+
+================================================================================
+SECTION 3 — BASE CONFIGURATION
+================================================================================
+
+PORTABLE BASE OPTIONS:
+
+OPTION A — GROUND SPIKE / THRUST BEARING BASE:
+  300mm × 60mm OD steel pipe driven 600mm into ground.
+  Section A base slides over spike; lock pin through section A chord.
+  Allows 360° rotation for antenna heading adjustment.
+  Requires firm soil; not suitable for rocky/paved surfaces.
+
+OPTION B — TRIPOD BASE:
+  Three 2.4m × 50mm OD aluminum legs, spread to 1.5m radius.
+  Each leg hinged at base collar; fold inward for transport.
+  Level adjusters (threaded feet) at each leg tip.
+  Center collar accepts Section A base (50mm bore).
+  Base weight: 8 kg; supports up to 40 ft with 2-level guying.
+
+OPTION C — VEHICLE HITCH MOUNT:
+  2" receiver hitch adapter; base section clamps to receiver.
+  Vehicle provides counterweight for lateral loads.
+  Limits operating height to 25 ft (avoid contact with power lines)
+  without additional guying; adequate for portable DX and satellite.
+  See base_plates_mounts.scad: hitch_mast_mount()
+
+OPTION D — BALLAST BASE PLATE:
+  600mm × 600mm × 6mm steel plate; 180 kg sandbag ballast.
+  Section A base plate bolts to steel plate with M12 bolts.
+  Suitable for hard surfaces: parking lots, concrete pads.
+  See base_plates_mounts.scad: ballast_base_plate()
+
+================================================================================
+SECTION 4 — CRANK-UP OPERATING PROCEDURES
+================================================================================
+
+ASSEMBLY (FROM TRANSPORT):
+  1. Lay Section A on ground; attach tripod or base plate.
+  2. Slide Section B into top of Section A; do not lock yet.
+  3. Slide Section C into top of Section B; do not lock yet.
+  4. Attach antenna to top of Section C at ground level.
+  5. Route and attach crank cable through all pulleys; attach to Section C top.
+  6. Erect tower (Section A) on base; secure base.
+  7. Install guys at Section A top (Level 1) and Section B top (Level 2).
+  8. Stake or anchor all guy wires; do not tension yet.
+
+RAISING:
+  1. With tower near vertical and base secured, begin cranking.
+  2. Section B extends first until locked; continue cranking.
+  3. Section C extends; antenna rises to operating height.
+  4. Lock all section pins when fully extended.
+  5. Tension guys Level 2 (upper) first, then Level 1.
+  6. Final plumb check; adjust guys as needed.
+
+LOWERING:
+  1. Release guy tension Level 1, then Level 2.
+  2. Release winch brake slowly — controlled descent only.
+  3. NEVER release brake abruptly — free-fall will damage tower and antenna.
+  4. When sections nested, insert transport lock pins.
+  5. Disconnect guys and disassemble base for transport.
+
+SAFE CRANKING SPEEDS:
+  Raise: 1 revolution/2 seconds (comfortable sustained cranking)
+  Lower: 1 revolution/3 seconds (brake friction assists control)
+  Maximum allowed wind during crank operation: 25 mph (Beaufort 5)
+  Do NOT crank above or below in wind >35 mph.
+
+================================================================================
+SECTION 5 — ROTATOR INTEGRATION
+================================================================================
+
+TOP PLATE DESIGN:
+  Section C top chord: weld or bolt a 200mm × 200mm × 6mm aluminum top plate.
+  Top plate accepts:
+    - Alliance HD rotator (U-bolt mounting, 50mm mast tube up through tower top)
+    - Yaesu G-450A / G-800 (similar U-bolt mounting)
+    - Ham-IV style (thrust bearing + torque arm)
+
+  Mast tube up through rotator: 38mm OD × 2mm wall, 1m long
+    Antenna attached to top of this tube.
+    Rotator mounted at tower top plate; tube extends 600mm above plate.
+
+ROTATOR CABLE ROUTING:
+  Rotator cable runs inside Section C chord tube to base (hollow chord).
+  Exit at Section A base through rubber grommet.
+  Drip loop at tower base before entering controller.
+
+CYD ROTATOR CONTROLLER:
+  ESP32 + CYD at base of tower; reads compass heading via QMC5883L magnetometer.
+  Display: bearing, target bearing, rotation speed, error from target.
+  BLE interface to field laptop or smartphone for DX heading.
+  See TM-MAST-001 CYD firmware reference.
+
+================================================================================
+SECTION 6 — BILL OF MATERIALS (30-FOOT CRANK-UP)
+================================================================================
+
+Item  | Qty | Description                               | Cost
+------|-----|-------------------------------------------|------
+AL-CH | 9  | Chord tubing, various OD (per section spec)| $145
+AL-BR | 1  | Bracing tube lot, various size             | $85
+WINCH | 1  | Hand crank gear winch, 900 lb              | $95
+CABLE | 12m | 3/16" SS 7×7 cable + Nicopress fittings   | $35
+PULLEY| 3  | 50mm stainless snatch blocks               | $45
+BASE  | 1  | Tripod base assembly (weld or purchase)    | $120
+GW    | 30m | 3/16" galv. cable + hardware               | $55
+ROTA  | 1  | Yaesu G-450A or equivalent                 | $185
+TOTAL |     |                                           | ~$765
+
+================================================================================

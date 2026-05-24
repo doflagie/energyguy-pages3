@@ -1,0 +1,14 @@
+CM SLINKY ANTENNA 20M PORTABLE
+CM Compact loading using helical spring (slinky toy) as radiator or loading element, field-portable, collapsible
+CM Bands: 20M (14.0–14.35 MHz)
+CE
+
+GW 1 25 0.0 0.0 0.0  0.0 0.0 5.5  0.0008
+LD 4 1 13 13 12e-6 0 0.05
+
+GE 0
+GN 2 0 0 0 13 0.005
+EX 0 1 6 0 1 0
+FR 0 1 0 0 100 0
+RP 0 91 360 1000 -90 0 1.0 1.0
+EN

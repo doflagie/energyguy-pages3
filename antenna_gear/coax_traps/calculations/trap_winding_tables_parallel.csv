@@ -1,0 +1,46 @@
+Band,Freq_MHz,Coax_Type,Former_Diam_mm,Turns,Winding_Length_mm,Coax_Length_m,Coax_Length_ft,Inductance_uH,Capacitance_pF,Actual_Freq_MHz,Error_pct,Q_Factor,Rp_Ohm,BW_3dB_kHz,Trap_Type,Notes
+160M,1.850,RG-213,120.0,14,146.1,5.35,17.56,14.281,518.2,1.8501,+0.00,214,35520,8.6,PARALLEL,Former 120mm dia. Trim with 51-25pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+160M,1.850,RG-8X,100.0,16.5,100.9,5.15,16.90,18.149,405.5,1.8553,+0.28,185,39040,10.1,PARALLEL,Former 100mm dia. Trim with 40-20pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+160M,1.850,RG-58,80.0,18.5,92.1,4.67,15.34,17.016,437.1,1.8455,-0.25,166,32664,11.1,PARALLEL,Former 80mm dia. Trim with 43-21pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+80M,3.750,RG-213,90.0,11,111.1,3.05,10.02,6.133,295.6,3.7381,-0.32,151,21682,24.8,PARALLEL,Former 90mm dia. Trim with 29-14pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+80M,3.750,RG-8X,76.0,12.5,75.6,2.94,9.64,7.830,231.1,3.7413,-0.23,130,23918,28.8,PARALLEL,Former 76mm dia. Trim with 23-11pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+80M,3.750,RG-58,60.0,14,69.8,2.66,8.72,7.278,248.5,3.7425,-0.20,116,19894,32.2,PARALLEL,Former 60mm dia. Trim with 24-12pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+40M,7.150,RG-213,76.0,7.5,77.2,1.79,5.88,2.871,173.3,7.1340,-0.22,109,14024,65.5,PARALLEL,Former 76mm dia. Trim with 17-8pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+40M,7.150,RG-8X,60.0,9,56.6,1.73,5.69,3.588,136.5,7.1920,+0.59,94,15197,76.7,PARALLEL,Former 60mm dia. Trim with 13-6pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+40M,7.150,RG-58,50.0,10,49.0,1.56,5.10,3.373,145.4,7.1870,+0.52,84,12776,85.7,PARALLEL,Former 50mm dia. Trim with 14-7pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+30M,10.125,RG-213,60.0,7.5,75.1,1.38,4.51,1.849,133.2,10.1413,+0.16,91,10768,111.0,PARALLEL,Former 60mm dia. Trim with 13-6pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+30M,10.125,RG-8X,50.0,8.5,52.3,1.34,4.38,2.378,105.1,10.0693,-0.55,79,11915,127.1,PARALLEL,Former 50mm dia. Trim with 10-5pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+30M,10.125,RG-58,40.0,9.5,47.5,1.21,3.96,2.215,112.8,10.0688,-0.56,71,9932,142.1,PARALLEL,Former 40mm dia. Trim with 11-5pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+20M,14.175,RG-213,50.0,7,70.0,1.07,3.50,1.230,103.4,14.1105,-0.46,77,8452,182.1,PARALLEL,Former 50mm dia. Trim with 10-5pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+20M,14.175,RG-8X,40.0,8,50.4,1.03,3.38,1.547,81.1,14.2075,+0.23,67,9211,213.1,PARALLEL,Former 40mm dia. Trim with 8-4pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+20M,14.175,RG-58,35.0,8.5,41.1,0.91,2.99,1.461,85.3,14.2520,+0.54,60,7796,239.2,PARALLEL,Former 35mm dia. Trim with 8-4pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+17M,18.118,RG-213,45.0,6,63.8,0.88,2.88,0.912,84.8,18.0972,-0.11,68,7091,264.5,PARALLEL,Former 45mm dia. Trim with 8-4pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+17M,18.118,RG-8X,35.0,8,48.0,0.86,2.81,1.151,67.5,18.0550,-0.35,59,7725,305.2,PARALLEL,Former 35mm dia. Trim with 6-3pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+17M,18.118,RG-58,30.0,8,40.1,0.76,2.50,1.084,71.4,18.0900,-0.15,53,6517,342.1,PARALLEL,Former 30mm dia. Trim with 7-3pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+15M,21.225,RG-213,40.0,6,63.8,0.78,2.56,0.740,75.4,21.3034,+0.37,63,6246,337.9,PARALLEL,Former 40mm dia. Trim with 7-3pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+15M,21.225,RG-8X,32.0,7.5,46.1,0.75,2.47,0.937,59.3,21.3479,+0.58,54,6835,392.4,PARALLEL,Former 32mm dia. Trim with 5-2pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+15M,21.225,RG-58,25.0,9,43.6,0.69,2.27,0.869,64.6,21.2365,+0.05,49,5660,435.2,PARALLEL,Former 25mm dia. Trim with 6-3pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+12M,24.940,RG-213,35.0,6.5,65.9,0.70,2.31,0.605,68.1,24.7881,-0.61,58,5510,424.1,PARALLEL,Former 35mm dia. Trim with 6-3pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+12M,24.940,RG-8X,28.0,7.5,47.4,0.68,2.22,0.763,53.3,24.9542,+0.06,50,6020,496.0,PARALLEL,Former 28mm dia. Trim with 5-2pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+12M,24.940,RG-58,22.0,9,44.6,0.62,2.04,0.709,58.2,24.7906,-0.60,45,4986,548.9,PARALLEL,Former 22mm dia. Trim with 5-2pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+10M,28.500,RG-213,30.0,7,71.0,0.65,2.13,0.499,62.9,28.3942,-0.37,55,4863,519.9,PARALLEL,Former 30mm dia. Trim with 6-3pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+10M,28.500,RG-8X,25.0,8,48.6,0.62,2.04,0.642,48.8,28.4336,-0.23,47,5403,603.2,PARALLEL,Former 25mm dia. Trim with 4-2pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+10M,28.500,RG-58,20.0,9,44.6,0.57,1.86,0.596,52.9,28.3633,-0.48,42,4481,671.7,PARALLEL,Former 20mm dia. Trim with 5-2pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+6M,51.000,RG-213,25.0,5,52.5,0.40,1.31,0.251,38.8,51.0103,+0.02,41,3279,1251.8,PARALLEL,Former 25mm dia. Trim with 3-1pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+6M,51.000,RG-8X,20.0,6,38.1,0.39,1.28,0.321,30.7,50.7249,-0.54,35,3612,1437.3,PARALLEL,Former 20mm dia. Trim with 3-1pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+6M,51.000,RG-58,16.0,7,34.6,0.35,1.15,0.295,32.9,51.0866,+0.17,31,2980,1623.7,PARALLEL,Former 16mm dia. Trim with 3-1pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+2M,146.000,RG-213,15.0,4,39.1,0.18,0.59,0.070,17.3,144.7509,-0.86,24,1534,5984.0,PARALLEL,Former 15mm dia. Trim with 1-0pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+2M,146.000,RG-8X,12.0,4.5,28.3,0.17,0.57,0.089,13.6,144.3931,-1.10,21,1689,6903.1,PARALLEL,Former 12mm dia. Trim with 1-0pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+2M,146.000,RG-58,10.0,5,24.3,0.15,0.51,0.082,14.4,146.3352,+0.23,19,1405,7871.5,PARALLEL,Former 10mm dia. Trim with 1-0pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+1.25M,222.000,RG-213,12.0,3.5,35.0,0.13,0.42,0.041,12.4,224.3260,+1.05,19,1111,11544.6,PARALLEL,Former 12mm dia. Trim with 1-0pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+1.25M,222.000,RG-8X,10.0,4,24.0,0.12,0.40,0.053,9.6,223.5712,+0.71,17,1241,13300.0,PARALLEL,Former 10mm dia. Trim with 0-0pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+1.25M,222.000,RG-58,8.0,4.5,22.3,0.11,0.37,0.049,10.6,220.4310,-0.71,15,1034,14552.6,PARALLEL,Former 8mm dia. Trim with 1-0pF capacitor for fine tune. Weatherseal with self-amalgamating tape.
+70cm,440.000,RG-213,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,STUB,"Coax trap impractical. Use coaxial stubs: QW short stub = 112.4 mm, HW open stub = 224.8 mm (VF=0.66)"
+70cm,440.000,RG-8X,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,STUB,"Coax trap impractical. Use coaxial stubs: QW short stub = 132.9 mm, HW open stub = 265.7 mm (VF=0.78)"
+70cm,440.000,RG-58,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,STUB,"Coax trap impractical. Use coaxial stubs: QW short stub = 112.4 mm, HW open stub = 224.8 mm (VF=0.66)"
+33cm,902.000,RG-213,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,STUB,"Coax trap impractical. Use coaxial stubs: QW short stub = 54.8 mm, HW open stub = 109.7 mm (VF=0.66)"
+33cm,902.000,RG-8X,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,STUB,"Coax trap impractical. Use coaxial stubs: QW short stub = 64.8 mm, HW open stub = 129.6 mm (VF=0.78)"
+33cm,902.000,RG-58,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,STUB,"Coax trap impractical. Use coaxial stubs: QW short stub = 54.8 mm, HW open stub = 109.7 mm (VF=0.66)"
+23cm,1296.000,RG-213,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,STUB,"Coax trap impractical. Use coaxial stubs: QW short stub = 38.2 mm, HW open stub = 76.3 mm (VF=0.66)"
+23cm,1296.000,RG-8X,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,STUB,"Coax trap impractical. Use coaxial stubs: QW short stub = 45.1 mm, HW open stub = 90.2 mm (VF=0.78)"
+23cm,1296.000,RG-58,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,STUB,"Coax trap impractical. Use coaxial stubs: QW short stub = 38.2 mm, HW open stub = 76.3 mm (VF=0.66)"

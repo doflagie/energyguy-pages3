@@ -1,0 +1,16 @@
+CM FLAGPOLE ANTENNA
+CM Frequency bands: 2M, 70cm
+CM Design: End-fed whip on vertical support structure
+CM Compaction: 60%
+CM Special parameters: 5–10 ft whip, coil-loaded, base matching network
+CE
+
+GW 1 20 0.0 0.0 0.0  0.0 0.0 10.0  0.001
+GW 2 25 0.0 0.0 10.0  0.0 0.0 2.0  0.001
+
+GE 0
+GN 2 0 0 0 13 0.005
+EX 0 1 6 0 1 0
+FR 0 1 0 0 100 0
+RP 0 91 360 1000 -90 0 1.0 1.0
+EN

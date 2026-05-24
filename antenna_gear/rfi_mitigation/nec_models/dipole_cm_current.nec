@@ -1,0 +1,95 @@
+CM ============================================================
+CM  dipole_cm_current.nec — TM-RFI-NEC-001 Rev A
+CM  40-Meter Dipole: Effect of Common-Mode Current on Pattern
+CM  Frequency: 7.15 MHz
+CM
+CM  Two models in one file (run separately by commenting/uncommenting EX cards):
+CM    Model A: Ideal balanced dipole (no common-mode current)
+CM    Model B: Dipole with 3m feed line acting as unintended radiator
+CM             (common-mode current simulated by adding vertical wire at feed)
+CM
+CM  Purpose:
+CM    Demonstrate how common-mode current on feed line:
+CM    1. Distorts the azimuth pattern of the dipole
+CM    2. Introduces asymmetry and elevation angle changes
+CM    3. Creates spurious lobe toward nadir (ground noise pickup)
+CM
+CM  Geometry (Model B — with feedline radiator):
+CM    Dipole: horizontal, +/- 10.05m at height 10m
+CM    Feed line stub: vertical wire from feed point down 3m (representing
+CM                    unshielded portion of coax braid with CM current)
+CM    Feed point: center of dipole at (0, 0, 10m)
+CM ============================================================
+CE
+
+CM ── DIPOLE ELEMENTS ──────────────────────────────────────────
+CM West half of dipole: tag 1
+GW 1 20 -10.05 0.0 10.0 0.0 0.0 10.0 0.001
+CM East half of dipole: tag 2
+GW 2 20 0.0 0.0 10.0 10.05 0.0 10.0 0.001
+
+CM ── FEEDLINE STUB (uncomment for Model B — with common-mode current) ──
+CM This simulates 3m of exposed coax braid with CM current flowing on it.
+CM Tag 3 — comment out for ideal balanced Model A:
+GW 3 15 0.0 0.0 10.0 0.0 0.0 7.0 0.001
+
+CM ── GROUND ─────────────────────────────────────────────────────
+CM Sommerfeld-Norton real ground (average soil)
+GE 1
+GN 2 0 0 0 13.0 0.005
+
+CM ── FREQUENCY ──────────────────────────────────────────────────
+FR 0 1 0 0 7.15 0
+
+CM ── EXCITATION ─────────────────────────────────────────────────
+CM MODEL A (balanced, no CM current):
+CM Excite at center of tag 1 (segment 20, the end closest to feed) — or use
+CM split feed: one EX card on each half with equal and opposite phases.
+CM Simple method: excite center segment of tag 1 (segment 20 = feed end)
+EX 0 1 20 0 1.0 0.0
+
+CM MODEL B (with CM current on feed line stub):
+CM Comment out MODEL A excitation; use MODEL B excitation:
+CM Excite dipole center AND add partial CM current to stub
+CM (EX on stub tag 3 segment 1, with fraction of main feed):
+CM EX 0 1 20 0 1.0 0.0
+CM EX 0 3 1 0 0.3 0.0   ← 30% of feed current = common-mode current on stub
+
+CM ── RADIATION PATTERNS ─────────────────────────────────────────
+CM Azimuth pattern at 10° elevation (horizontal component dominates):
+RP 0 1 73 1000 10.0 0.0 0.0 5.0
+CM Elevation pattern broadside (azimuth = 90°):
+RP 0 46 1 1000 0.0 90.0 2.0 0.0
+CM Elevation pattern endfire (azimuth = 0°):
+RP 0 46 1 1000 0.0 0.0 2.0 0.0
+
+EN
+
+CM ============================================================
+CM  EXPECTED RESULTS:
+CM
+CM  MODEL A (ideal, no CM current):
+CM    Azimuth: figure-8, nulls at 0° and 180° (along wire axis)
+CM    Maximum gain: ~8 dBi broadside (90°, 270°)
+CM    Elevation angle of maximum: ~28° at 10m height on 40m
+CM    Symmetry: perfect left-right, E/W symmetry
+CM
+CM  MODEL B (with 3m CM current on stub):
+CM    Azimuth: distorted figure-8, nulls filled in
+CM    Asymmetry: N-S lobes become unequal (stub breaks symmetry)
+CM    Additional low-angle lobe toward nadir: ground noise pickup increases
+CM    Pattern tilt: maximum elevation angle shifts slightly
+CM    Net effect: 3–10 dB increase in received noise from ground clutter
+CM
+CM  COMPARING MODELS:
+CM    Run both, compare azimuth plots.
+CM    Difference = effect of common-mode current.
+CM    Installing choke at feed point: returns to Model A pattern.
+CM
+CM  RFI IMPLICATION:
+CM    With CM current, the feed line ADDS to received noise from:
+CM    - Ground currents (SMPS return currents in soil)
+CM    - Nearby wiring in house (the braid is an antenna for house wiring noise)
+CM    - Computer equipment (CM current couples from USB, Ethernet, PSU ground)
+CM    Choke at antenna feed point breaks CM path → noise reduction of 10–30 dB
+CM ============================================================

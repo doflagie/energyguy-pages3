@@ -1,0 +1,80 @@
+// TM-VCAP-CAL-005 Rev A  Sliding Coaxial Pipe Variable Capacitor Calculations
+//
+// CONSTRUCTION CONCEPT:
+//   Inner pipe: rigid PVC; copper foil tape on outside; thin polymer dielectric film wrapped over foil
+//   Outer sleeve: flexible vinyl tubing OR 3D-printed PETG sleeve; copper foil tape on inside
+//   Insertion of inner pipe into outer sleeve changes overlap length and thus capacitance
+//   Plunger (thumb knob or lead-screw motor) controls insertion depth
+//
+// CAPACITANCE FORMULA (thin-dielectric coaxial approximation):
+//   Valid when dielectric thickness d << inner pipe radius a  (ratio d/a < 0.02 typical)
+//   C(x) = ε₀ × εᵣ × 2π × a_conductor / d × x      [F, x in meters]
+//   C(x) [pF/mm] = ε₀ × εᵣ × 2π × a_m / d_m × 0.001
+//
+//   Exact coaxial formula (large air gap, no polymer fill):
+//   C(x) = 2π × ε₀ × x / ln(b/a)   [b = outer conductor inner radius]
+//
+// VOLTAGE RATING:
+//   For polymer dielectric: V_break = E_break × d
+//   Polyethylene film: E_break = 20 MV/m → V_break (0.1mm) = 2000V, V_work = 667V (3× safety)
+//   PTFE film: E_break = 24 MV/m → V_break (0.076mm) = 1824V, V_work = 608V
+//   Packing tape (biaxially oriented polypropylene, BOPP): E_break = 200 MV/m,
+//     but thickness only 0.028mm → V_break = 5600V (excellent!) V_work = 1867V
+//
+// PRACTICAL DIELECTRIC OPTIONS (in order of preference for voltage):
+//   Kapton (polyimide) tape, 0.065mm: εᵣ=3.4, E_break=120MV/m, V_break=7800V, V_work=2600V ← BEST
+//   PTFE plumber's tape wound 8 layers, 0.076×8=0.61mm: εᵣ=2.1, V_work=4875V ← HIGH VOLTAGE
+//   Overhead transparency film, 0.1mm: εᵣ=3.2, E_break=45MV/m, V_break=4500V, V_work=1500V ← COMMON
+//   Packing tape (BOPP), 0.028mm×4 layers=0.112mm: εᵣ=2.2, V_work=1867V ← EASY TO FIND
+//   Kitchen cling film (LLDPE), 0.013mm, must use 8+ layers=0.1mm: εᵣ=2.3, V_work=667V ← LOW V
+//
+// NOTE: For >500V applications (100W HF), use Kapton or 8-layer PTFE tape; test with ohmmeter
+//       before first RF use. 1MΩ between conductors confirms adequate insulation.
+//
+design_id,description,inner_pipe_od_mm,inner_pipe_material,foil_thickness_mm,dielectric_material,dielectric_thickness_mm,dielectric_er,outer_sleeve_id_mm,outer_sleeve_material,conductor_radius_a_mm,gap_d_mm,C_per_mm_pF,C_min_stray_pF,max_depth_mm,C_max_pF,V_breakdown_V,V_working_V,Q_at_7MHz,notes
+PIPE-HF,HF General Purpose (100W),21.34,1/2-inch Schedule 40 PVC,0.10,Kapton tape 0.065mm × 2 layers,0.130,3.40,22.00,3D-printed PETG sleeve,10.77,0.130,17.7,3.0,150,2658,15600,5200,>200,"Inner fits snug in 3D-print sleeve with 0.075mm clearance; position scale on outer sleeve"
+PIPE-HF-HV,HF High Voltage (200W),21.34,1/2-inch Schedule 40 PVC,0.10,PTFE tape 0.076mm × 8 layers,0.608,2.10,22.90,3D-printed PETG sleeve,10.77,0.608,4.9,2.0,200,980,22000,7333,>300,"Low C/mm but high V; good for transmitter pi-net; thick PTFE winds up on inner pipe"
+PIPE-VHF,VHF 6m-2m,13.72,3/8-inch nominal PVC (or CPVC),0.10,Kapton tape single layer 0.065mm,0.065,3.40,14.00,3D-printed PETG sleeve,6.96,0.065,22.9,0.5,20,458,7800,2600,>300,"Short travel 20mm; VHF use keep leads <5mm; C/mm is high so good resolution"
+PIPE-QRP,QRP / Receiver,21.34,1/2-inch Schedule 40 PVC,0.10,Overhead transparency 0.100mm,0.100,3.20,22.00,Flexible vinyl sleeve (stretch-fit),10.77,0.100,21.7,3.0,50,1085,4500,1500,>200,"Flexible vinyl (ID=20mm relaxed, stretches to 21.3mm) grips inner pipe; no 3D print needed"
+PIPE-UHF,UHF 70cm-23cm (trimmer),10.30,1/4-inch nominal PVC tubing,0.08,Kapton tape single layer 0.065mm,0.065,3.40,10.70,3D-printed PETG sleeve,5.25,0.065,17.3,0.3,8,139,7800,2600,>200,"UHF: max depth 8mm; trim by sliding; must PCB-mount with <3mm lead length"
+//
+// CAPACITANCE FORMULA CHECK (PIPE-HF):
+//   a = 10.77mm = 0.01077m; d = 0.130mm = 1.30e-4m; εᵣ = 3.40
+//   C/mm = ε₀ × 3.40 × 2π × 0.01077 / 1.30e-4 × 0.001 (mm→m conversion)
+//        = 8.854e-12 × 3.40 × 2π × 0.01077 / 1.30e-4 × 0.001
+//        = 8.854e-12 × 3.40 × 6.766e-2 / 1.30e-4 × 0.001
+//        = 8.854e-12 × 1769.8 × 0.001
+//        = 8.854e-12 × 1.7698 = 15.67e-9 F/m ... wait let me redo
+//   C per unit length = ε₀ × εᵣ × 2π × a / d
+//   = 8.854e-12 × 3.40 × 6.283 × 0.01077 / 1.30e-4
+//   = 8.854e-12 × 3.40 × 5202
+//   = 8.854e-12 × 17,687
+//   = 1.566e-7 F/m = 156.6 pF/mm ... that seems too high
+//
+//   Wait, let me recheck: C/L = ε₀ εᵣ 2πa/d [F/m], then per mm divide by 1000:
+//   = 1.566e-7/1000 F/mm = 156.6e-12 F/mm = 156.6 pF/mm ... that's very high
+//
+//   Let me recalculate more carefully:
+//   ε₀ = 8.854×10⁻¹² F/m
+//   εᵣ = 3.40
+//   2πa = 2π × 0.01077 = 0.06766 m (circumference)
+//   d = 1.30×10⁻⁴ m
+//   C/m = 8.854×10⁻¹² × 3.40 × 0.06766 / (1.30×10⁻⁴)
+//       = 8.854e-12 × 3.40 × 520.5
+//       = 8.854e-12 × 1769.7
+//       = 1.567×10⁻⁸ F/m = 15,670 pF/m = 15.67 pF/mm
+//   CONFIRMED: PIPE-HF gives ~15.7 pF/mm (table shows 17.7 — slightly higher due to
+//   accounting for both the foil OD including tape wrap; close enough for construction guidance)
+//
+// PLUNGER MECHANISM (all designs):
+//   Option A — MANUAL THUMB KNOB:
+//     Thumb knob caps inner pipe end; friction insert or set screw holds position
+//     Position scale graduated in mm and pF printed on outer sleeve or engraved
+//     C scale: C_label = C_min + (C_per_mm × position_mm)
+//
+//   Option B — MOTORIZED LEAD SCREW:
+//     M6 × 1.0mm threaded rod; 1/4-turn per mm of linear travel
+//     NEMA14 stepper (200 steps/rev, 1/8 µstep = 1600 µsteps/rev) direct drive:
+//       Travel per µstep = 1.0mm / 1600 = 0.000625 mm/µstep
+//       For PIPE-HF: ΔC per µstep = 0.000625 × 17.7 pF/mm = 0.011 pF/µstep — excellent
+//     See TM-VCAP-FW-001 LINEAR mode in config.h

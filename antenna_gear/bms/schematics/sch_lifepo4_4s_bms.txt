@@ -1,0 +1,369 @@
+================================================================================
+SCHEMATIC: LiFePO4 4S Battery Management System — Discrete + IC Design
+TM-BMS-001  Rev A
+12.8V Nominal (4S)  |  Protection: OV/UV/OC/SC/Temperature
+Primary IC: Texas Instruments BQ76920  |  Secondary: discrete comparator backup
+Balancing: Passive (top-of-charge) + optional active (see sch_cell_balancing.txt)
+Max continuous discharge: 50A  |  Max charge: 25A
+================================================================================
+
+LIFEPO4 CELL PARAMETERS — DESIGN BASIS
+────────────────────────────────────────
+  Nominal voltage:           3.20V per cell
+  Full charge voltage:       3.60V (charge cutoff; never exceed 3.65V)
+  Full discharge cutoff:     2.50V (do not discharge below this)
+  Optimal operating range:   2.80V–3.45V (80% of rated capacity)
+  Flat discharge region:     3.05V–3.30V (covers 20%–80% SOC)
+  Self-discharge rate:       < 3% per month at 20°C
+  Temperature range charge:  0°C to +45°C (charging below 0°C causes Li plating)
+  Temperature range discharge: −20°C to +60°C
+
+  4S PACK SUMMARY:
+  V_nominal  = 4 × 3.20V = 12.80V
+  V_max      = 4 × 3.60V = 14.40V  (charge cutoff)
+  V_min      = 4 × 2.50V = 10.00V  (discharge cutoff)
+  V_OV_trip  = 4 × 3.65V = 14.60V  (BMS hardware OV cutoff)
+  V_UV_trip  = 4 × 2.50V = 10.00V  (BMS hardware UV cutoff)
+
+================================================================================
+BQ76920 — PRIMARY BMS IC (TEXAS INSTRUMENTS)
+================================================================================
+
+The BQ76920 is a dedicated 3–5 cell monitor and protector IC.
+
+FEATURES:
+  - Monitors up to 5 cells in series (configurable for 3, 4, or 5S)
+  - OV/UV per-cell detection with configurable thresholds
+  - OCD (overcurrent discharge) protection
+  - SCD (short circuit discharge) protection
+  - Separate CHG and DSG FET drive outputs
+  - I2C interface for host MCU (ESP32) communication
+  - Internal 14-bit ADC for cell voltage measurement
+  - 1% accuracy; 1.22 mV voltage resolution
+  - Built-in 10A cell balance FETs (passive balancing)
+  - CRC communication protection
+
+BQ76920 I2C REGISTERS (key):
+  0x00 SYS_STAT:    Status flags (OV, UV, SCD, OCD, OVRD_ALERT, DEVICE_XREADY, WAKE)
+  0x01 CELLBAL1:    Balance FET control (bits 0–4 = CB1–CB5)
+  0x04 SYS_CTRL1:   ADC enable, TEMP_SEL, SHUT_A, SHUT_B
+  0x05 SYS_CTRL2:   CHG_ON, DSG_ON, DELAY_DIS, CC_EN, CC_ONESHOT
+  0x06 PROTECT1:    SCD threshold + delay
+  0x07 PROTECT2:    OCD threshold + delay
+  0x08 PROTECT3:    OV/UV delay
+  0x09 OV_TRIP:     Overvoltage threshold (V_OV = (OV_TRIP+1) × 50.6 mV + 2.0 V)
+  0x0A UV_TRIP:     Undervoltage threshold (V_UV = (UV_TRIP+1) × 50.6 mV + 1.0 V)
+  0x0C ADCGAIN1/2:  Gain calibration
+  0x14–0x1D:        Cell 1–5 voltage registers (2 bytes each)
+  0x32/0x33:        CC (coulomb counter) registers (16-bit, signed)
+
+BQ76920 CONFIGURATION FOR 4S LIFEPO4:
+  OV_TRIP byte: V_OV = 3.65V → byte = (3.65 - 2.0) / 0.0506 - 1 = 31.6 → 0x1F (3.612V)
+                Use 0x20 for 3.663V — conservative
+  UV_TRIP byte: V_UV = 2.80V → byte = (2.80 - 1.0) / 0.0506 - 1 = 34.6 → 0x22 (2.834V)
+  PROTECT1:     SCD_THRESH = 0b011 (100 mV on sense resistor), SCD_DELAY = 0b00 (70µs)
+  PROTECT2:     OCD_THRESH = 0b011 (50 mV on sense resistor), OCD_DELAY = 0b01 (20 ms)
+  PROTECT3:     OV_DELAY = 0b10 (2 s), UV_DELAY = 0b10 (4 s)
+  SYS_CTRL1:    ADC_EN = 1, TEMP_SEL = 0 (internal temp), load TS1 thermistor on TS1 pin
+  SYS_CTRL2:    CHG_ON = 1, DSG_ON = 1 (both FETs enabled initially); CC_EN = 1
+
+THRESHOLD CALCULATIONS:
+  SCD sense voltage = 100 mV at SCD_THRESH = 0b011
+  With R_sense = 0.001Ω (1 mΩ): I_SCD = 100 mV / 0.001Ω = 100A  ← overcurrent
+  With R_sense = 0.002Ω (2 mΩ): I_SCD = 100 mV / 0.002Ω = 50A   ← design choice
+
+  OCD sense voltage = 50 mV at OCD_THRESH = 0b011
+  With R_sense = 0.002Ω: I_OCD = 50 mV / 0.002Ω = 25A             ← sustained OC
+
+================================================================================
+BQ76920 COMPLETE SCHEMATIC (4S LIFEPO4, 50A SYSTEM)
+================================================================================
+
+CELL STACK (BOTTOM TO TOP):
+  CELL1− ──── B− (pack negative)
+  CELL1+ ──── VC1 (BQ76920 pin 5)   ← and CELL2−
+  CELL2+ ──── VC2 (BQ76920 pin 6)   ← and CELL3−
+  CELL3+ ──── VC3 (BQ76920 pin 7)   ← and CELL4−
+  CELL4+ ──── VC4 (BQ76920 pin 8)   ← B+ (pack positive)
+  PACK_TOP (VC5) ──── VC5 pin (tie to VC4 for 4S)
+
+  V− (BQ76920 pin 3) ──── CELL1− through R_REG (10Ω 0.25W)
+  GND (BQ76920 pin 2) ─── same node as R_REG to V−
+
+POWER SUPPLY TO BQ76920:
+  CELL4+ ──[R_REG: 10Ω]──┬── REG (BQ76920 pin 1)   (VCC supply from top cell)
+                           │
+                          [C_REG: 10µF + 0.1µF ceramic]
+                           │
+                          GND (BQ76920 pin 2 = CELL1−)
+
+BALANCE CONNECTIONS:
+  VC1 ──[R_BAL1: 100Ω]── BAL1 (BQ76920 pin 11)   balance FET for Cell 1
+  VC2 ──[R_BAL2: 100Ω]── BAL2 (BQ76920 pin 12)
+  VC3 ──[R_BAL3: 100Ω]── BAL3 (BQ76920 pin 13)
+  VC4 ──[R_BAL4: 100Ω]── BAL4 (BQ76920 pin 14)
+  (BAL5 = NC for 4S; VC5 tied to VC4)
+
+  Balance resistors R_BAL: limit balance current.
+  I_balance = V_cell / (R_BAL + R_switch_on) ≈ 3.2 / 100 = 32 mA per cell.
+  P_resistor = I² × R = 0.032² × 100 = 0.1W (adequate for 0.25W resistors).
+  Balance completes in: t = ΔV_cell × C / I_balance = 100mV × 50Ah / 0.032A = 156,250s → 43 hours
+  NOTE: 32 mA balance current is SLOW. For production: use external balance FETs with lower R.
+  Better balance resistor: 10Ω (320 mA, 1W): t = 4.3 hours. Use 10Ω 2W for each.
+
+THERMISTOR INPUT:
+  VCC (3.3V) ──[R_TS: 10kΩ]──┬── TS1 (BQ76920 pin 18)
+                               │
+                              [NTC: 10kΩ at 25°C]
+                               │
+                              GND
+  TS1 voltage used by BQ76920 for temperature protection and temperature-adjusted thresholds.
+
+I2C TO ESP32:
+  SDA (BQ76920 pin 20) ──[R_SDA: 4.7kΩ pull-up to 3.3V]── ESP32 GPIO21
+  SCL (BQ76920 pin 19) ──[R_SCL: 4.7kΩ pull-up to 3.3V]── ESP32 GPIO22
+  I2C address: 0x08 (fixed for BQ76920)
+  ALERT (BQ76920 pin 24) ──[R_ALRT: 10kΩ pull-up]── ESP32 GPIO35 (interrupt)
+
+COULOMB COUNTER:
+  PACK− ──[R_SENSE: 2mΩ, 5W, Kelvin]── SRP (BQ76920 pin 25)
+  PACK− ──────────────────────────────── SRN (BQ76920 pin 26)
+  (SRP is on the load side; SRN on the cell side)
+  CC register accumulates at 250 µA × 1 LSB = charge/discharge tracking.
+
+================================================================================
+FET PROTECTION STAGE (CHARGE AND DISCHARGE MOSFETs)
+================================================================================
+
+BQ76920 drives external N-channel MOSFETs via CHG and DSG pins.
+
+WHY EXTERNAL MOSFETs:
+  BQ76920 cannot directly carry 50A — it drives gate voltage only.
+  External MOSFETs in the B− path carry the full pack current.
+  Gate drive: CHG pin → charge FET gate; DSG pin → discharge FET gate.
+
+MOSFET SELECTION (50A continuous):
+  Part: IRLB3034PBF (N-channel, 40V, 195A, Rds_on = 1.9 mΩ at V_GS=10V)
+  Qty: 2 parallel per function (CHG stack + DSG stack)
+  Total Rds_on: 0.95 mΩ per stack
+  Conduction loss at 50A: P = I² × R = 2500 × 0.00095 = 2.375W total
+  No heatsink required for ≤ 30A; TO-220 package clip heatsink for > 30A.
+
+MOSFET TOPOLOGY:
+  CELL1− (B−) ──── DSG_MOSFET (drain) ──── CHG_MOSFET (drain)
+                         │                       │
+                   DSG_MOSFET source ──── CHG_MOSFET source ──── P−
+                         │                       │
+                   DSG gate ← BQ76920 DSG    CHG gate ← BQ76920 CHG
+
+  Body diodes provide:
+    - CHG off, DSG on: discharge only (body diode of CHG blocks reverse current)
+    - CHG on, DSG off: charge only (body diode of DSG blocks forward current)
+    - Both on: normal two-way operation
+    - Both off: pack fully isolated
+
+GATE DRIVE CIRCUIT:
+  BQ76920 CHG/DSG outputs swing between GND and (V_cell4 − V_V−) ≈ 12.8V.
+  For N-channel MOSFET in B− path: gate needs to be above source (GND) by > V_GS(th).
+  IRLB3034PBF: V_GS(th) = 2.0V (min); use 10V gate drive for fully-on condition.
+
+  For the discharge FET (source at P−, near GND):
+    DSG pin → 100Ω → MOSFET gate; 100Ω pull-down to source (ensures gate goes LOW when DSG floats)
+    Simple direct drive; V_GS = V_DSG − V_P− ≈ 10V → fully on.
+
+  For the charge FET (source at P−, same reference):
+    CHG pin → 100Ω → MOSFET gate; 100Ω pull-down to source.
+
+BODY DIODE KICK: Install Schottky diodes (MBR1045, 10A, 45V) in anti-parallel across
+  each MOSFET to prevent body diode conduction (body diode has 0.7V drop vs. 0.3V Schottky).
+  Reduces voltage drop and heat at high current.
+
+================================================================================
+FULL WIRING DIAGRAM — BQ76920 4S LIFEPO4 BMS
+================================================================================
+
+  [CELL1−] ─────────────────────── B−    ←──────── BQ76920 V− (via 10Ω R_REG)
+     │
+  [CELL1+/CELL2−] ── VC1 (BQ76920 pin 5)
+     │
+  [CELL2+/CELL3−] ── VC2 (BQ76920 pin 6)
+     │
+  [CELL3+/CELL4−] ── VC3 (BQ76920 pin 7)
+     │
+  [CELL4+] ──────── VC4 (BQ76920 pin 8) ────────── REG (via 10Ω) → BQ76920 VCC
+
+  B− ──[R_SENSE 2mΩ]──── DSG FET ──── CHG FET ──── P− (output to BMS connector)
+       ↑                     ↑              ↑
+    SRP/SRN            DSG gate pin   CHG gate pin
+   (BQ76920)           (BQ76920 pin 12)  (pin 11)
+
+  P+ (output) ───────────────────────── directly to B+ (CELL4+)
+  (positive path is unswitched; BMS switches only negative)
+
+  ESP32:
+    GPIO21 (SDA) ──[4.7kΩ]──── BQ76920 SDA
+    GPIO22 (SCL) ──[4.7kΩ]──── BQ76920 SCL
+    GPIO35       ──[10kΩ]───── BQ76920 ALERT (interrupt)
+
+  BYPASS CAPS:
+    Each VC pin: 0.1µF ceramic to V−
+    REG pin: 10µF + 0.1µF to GND
+
+================================================================================
+DISCRETE BACKUP PROTECTION (INDEPENDENT OF BQ76920)
+================================================================================
+
+The BQ76920 is an IC — it can fail. A hardware backup prevents catastrophic
+overvoltage even if the primary IC fails.
+
+HARDWARE OV BACKUP (per cell, using TL431):
+  V_cell ──[R_top: 20kΩ]──┬── TL431 REF
+                           │
+                          [R_bot: 10kΩ]    V_ref_TL431 = 2.495V
+                           │              Trip when: V_cell = 2.495 × (1 + 20/10) = 7.49V
+                          GND             Wait — cell is 3.2V. Adjust:
+                                          V_trip = 3.65V: R_bot = 2.495 / (3.65/R_bot - 2.495) × R_top
+                                          Solving: R_bot = R_top × 2.495 / (3.65 - 2.495) = 20k × 2.16 = 43.2kΩ
+                                          Use: R_top = 100kΩ, R_bot = 220kΩ
+                                          V_trip = 2.495 × (100+220)/220 = 3.63V ✓
+
+  TL431 CATHODE → SCR GATE → SCR fires → shorts a relay coil → relay opens B−
+  OR: TL431 cathode → opto-isolator → ESP32 interrupt (fast alert to firmware)
+
+HARDWARE UV BACKUP (using LM393 comparator):
+  V_cell ──[voltage divider]── LM393 (+) input
+  2.5V reference              LM393 (−) input
+  When V_cell < 2.5V: LM393 output goes HIGH → open-drain → drives relay/FET
+
+  Reference: TL431 set to 2.5V: R_top = 0Ω, R_bot = ∞ (V_ref = 2.495V ≈ 2.5V)
+
+NOTE: Discrete backup does NOT need to be as precise as the BQ76920 — it is a
+  last-resort hardware failsafe. ±100 mV trip accuracy is adequate.
+
+================================================================================
+TEMPERATURE PROTECTION
+================================================================================
+
+BQ76920 THERMAL PROTECTION:
+  TS1 pin monitors NTC attached to cell body.
+  At high temperature: BQ76920 sets OTSTART flag, reduces or stops charging.
+  At OT (over-temperature): BQ76920 opens CHG FET → stops charging.
+  User firmware reads temperature via I2C and implements gradual derating.
+
+SECONDARY NTC (to ESP32 ADC):
+  Install second 10kΩ NTC on MOSFET heatsink (separate from cell NTC).
+  ESP32 monitors MOSFET temperature independently.
+  If MOSFET > 80°C: firmware commands BQ76920 to open DSG FET; sound alarm.
+
+COLD TEMPERATURE LOCKOUT:
+  Below 0°C: LiFePO4 charging causes lithium plating on anode.
+  BQ76920 hardware does NOT protect against cold charging; firmware must do this.
+
+  Firmware logic (in bms_monitor_esp32.ino):
+  ```
+  if (temp_cell < 0.0) {
+      bq76920_disable_chg();   // Open CHG FET
+      // DSG (discharge) allowed down to −20°C
+  }
+  if (temp_cell < -20.0) {
+      bq76920_disable_dsg();   // Open DSG FET at extreme cold
+  }
+  ```
+
+================================================================================
+SENSE RESISTOR — PRECISION CURRENT MEASUREMENT
+================================================================================
+
+KELVIN-SENSE CONSTRUCTION:
+  Four terminals: two for high current path (bus bars), two for voltage sensing.
+  Sense terminals tap voltage at the resistor body, not at connection points.
+  Eliminates contact resistance from measurement.
+
+RESISTOR SPECIFICATION:
+  For 50A maximum current:
+    R_sense = 0.002Ω (2 mΩ) — TDK MCS-series or Isabellenhütte BVR-Z
+    At 50A: V_sense = 50 × 0.002 = 100 mV (well within BQ76920 ±150 mV CC range)
+    Power: P = 50² × 0.002 = 5W → use 5W rated (with heatsink for continuous 50A)
+
+  For 20A system (QRP/SOTA portable):
+    R_sense = 0.005Ω (5 mΩ)
+    At 20A: V_sense = 100 mV
+    Power: P = 20² × 0.005 = 2W → use 3W
+
+  MOUNTING: Kelvin resistor mounts flat; bus bars bolt to current terminals;
+  thin sense wires (26 AWG) run to BQ76920 SRP/SRN pins.
+  Keep sense wire loop area small (twisted pair) to minimize inductive pickup.
+
+================================================================================
+BQ76920 ESP32 COMMUNICATION LIBRARY (key functions)
+================================================================================
+
+```cpp
+// BQ76920 I2C register read/write
+uint8_t bq_read(uint8_t reg) {
+    Wire.beginTransmission(BQ76920_ADDR);  // 0x08
+    Wire.write(reg);
+    Wire.endTransmission(false);
+    Wire.requestFrom(BQ76920_ADDR, (uint8_t)1);
+    return Wire.read();
+}
+
+void bq_write(uint8_t reg, uint8_t val) {
+    Wire.beginTransmission(BQ76920_ADDR);
+    Wire.write(reg);
+    Wire.write(val);
+    Wire.endTransmission();
+}
+
+// Read cell voltage (14-bit ADC, 1.22 mV/bit + calibration)
+float bq_cell_voltage(uint8_t cell) {  // cell 1..4
+    uint8_t hi = bq_read(0x0C + (cell-1)*2);  // VC1_HI at 0x0C
+    uint8_t lo = bq_read(0x0D + (cell-1)*2);
+    int16_t raw = ((int16_t)(hi & 0x3F) << 8) | lo;
+    return raw * (ADCGAIN / 1000.0f) + ADCOFFSET;  // ADCGAIN in µV/LSB; ADCOFFSET in mV
+    // ADCGAIN from registers 0x50/0x59; ADCOFFSET from register 0x51
+}
+
+// Read coulomb counter
+int16_t bq_read_cc() {
+    uint8_t hi = bq_read(0x32);
+    uint8_t lo = bq_read(0x33);
+    return (int16_t)((uint16_t)hi << 8 | lo);
+    // Current = CC × 8.44 µV / R_sense (µV/LSB = ADCGAIN/4)
+}
+
+// Enable/disable FETs
+void bq_set_fets(bool chg, bool dsg) {
+    uint8_t ctrl2 = bq_read(0x05);
+    ctrl2 = (ctrl2 & 0b11111100) | (chg ? 0x02 : 0) | (dsg ? 0x01 : 0);
+    bq_write(0x05, ctrl2);
+}
+
+// Clear fault flags (write 1 to each flag bit)
+void bq_clear_faults() {
+    bq_write(0x00, 0xFF);
+}
+```
+
+================================================================================
+PARTS LIST — LIFEPO4 4S BMS
+================================================================================
+
+Item      | Qty | Description                               | Source
+----------|-----|-------------------------------------------|-------------------
+BQ76920   |  1  | BQ76920 3–5 cell BMS monitor IC (TSSOP24) | Mouser/TI
+IRLB3034  |  4  | IRLB3034PBF N-FET 40V 195A (2× CHG/DSG)  | Mouser
+MBR1045   |  4  | Schottky 10A 45V TO-220 (body diode byp.) | Mouser
+R_SENSE   |  1  | 2mΩ 5W Kelvin shunt (TDK MCS-1)          | Mouser, Digi-Key
+R_BAL     |  4  | 10Ω 2W metal film (balance resistors)     | Mouser
+R_REG     |  1  | 10Ω 0.25W (REG supply)                   | Mouser
+NTC_CELL  |  2  | 10kΩ NTC (cell temp + FET temp)           | Mouser
+TL431     |  4  | TL431 (backup OV per cell)                | Mouser
+LM393     |  1  | LM393 dual comparator (backup UV)         | Mouser
+C_REG     |  1  | 10µF + 0.1µF (REG bypass)                 | Mouser
+C_VC      |  4  | 0.1µF 25V ceramic (each VC pin)           | Mouser
+R_PD      |  8  | 100Ω gate pull-down (FET gates)           | Mouser
+R_I2C     |  2  | 4.7kΩ I2C pull-up                        | Mouser
+PCB       |  1  | Custom PCB or proto board (1.6mm, 2oz Cu) | JLC/OSH Park
+
+================================================================================

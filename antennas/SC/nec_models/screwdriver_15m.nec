@@ -1,0 +1,32 @@
+CM ============================================================
+CM  TM-SC-NEC-003: Screwdriver Antenna — 15m Band
+CM  2.4m whip, base loading coil, 4 horizontal elevated radials
+CM  Frequency: 21.000–21.452 MHz (5 points, 0.113 MHz step)
+CM
+CM  Loading coil (series RL at base, segment 1 of GW1):
+CM    R = 0.481 ohm  (Rcoil = Xant / Q, Q~360)
+CM    X = 173.3 ohm  (XL required to resonate 2.4m whip on 15m)
+CM
+CM  Whip: 2.4m, avg radius 0.006m, 20 segments
+CM  Radials: 4 x 2.4m at z=0.005m, 90 deg spacing
+CM  Ground: real (Sommerfeld-Norton), eps=13, sigma=0.005
+CM  Feed: 1V voltage source at GW1, seg 1
+CM
+CM  Tuning note: 15m is a primary DX band. Whip is electrically
+CM  shorter than quarter-wave (3.57m at 21 MHz), so loading is
+CM  moderate. Gain pattern shows low-angle radiation suitable
+CM  for NVIS/DX blend depending on ground conditions.
+CM ============================================================
+CE
+GW 1  20  0 0 0       0 0 2.4     0.006
+GW 2   4  0 0 0.005   2.4 0 0.005  0.006
+GW 3   4  0 0 0.005  -2.4 0 0.005  0.006
+GW 4   4  0 0 0.005   0 2.4 0.005  0.006
+GW 5   4  0 0 0.005   0 -2.4 0.005 0.006
+GE 1
+GN 2 0 0 0  13 0.005
+LD 0  1  1  1  0.481  173.3
+EX 0  1  1  0  1  0
+FR 0  5  0  0  21.000  0.113
+RP 0  37  73  1000  0  0  5  5
+EN

@@ -1,0 +1,221 @@
+================================================================================
+SCHEMATIC: TUNED RADIO FREQUENCY (TRF) CRYSTAL RADIO
+TM-CR-001  Rev A
+Three tuned circuits, improved selectivity, no battery
+AM broadcast 530–1700 kHz; dual-gang and triple-gang tuning
+================================================================================
+
+OVERVIEW
+--------
+A TRF receiver uses multiple tuned circuits all tuned to the same frequency,
+providing dramatically improved selectivity compared to a single-tuned circuit.
+This design uses three coupled resonators (triple-tuned) in a purely passive
+configuration.
+
+Advantages of triple-tuned TRF:
+  • 3× improvement in selectivity (narrower passband)
+  • Better adjacent-channel rejection (>40 dB typical)
+  • Higher out-of-band attenuation
+  • Reduced image response at other stations entering detector
+
+Disadvantages:
+  • Requires triple-gang variable capacitor (or three separate caps)
+  • All three circuits must track in frequency (tracking error = distortion)
+  • More components; larger physical size
+
+SELECTIVITY COMPARISON (at 1 MHz):
+  Single-tuned (Q=80):   −3 dB BW = 12.5 kHz; −40 dB BW = 397 kHz
+  Double-tuned (Q=80):   −3 dB BW = 7.3 kHz;  −40 dB BW = 84 kHz
+  Triple-tuned (Q=80):   −3 dB BW = 5.2 kHz;  −40 dB BW = 40 kHz
+
+  Formula: BW_n = BW_1 × √(2^(1/n) − 1) for n cascaded identical stages.
+
+SCHEMATIC — TRIPLE-TUNED TRF CRYSTAL RADIO
+--------------------------------------------
+
+  ANT ──┬─────────────────────────────────────────────────────────────────────
+        │
+        │          STAGE 1                  STAGE 2                 STAGE 3
+        │   ┌─────────────────┐     ┌──────────────────┐     ┌───────────────┐
+        │   │  L1: 220µH     │     │  L2: 220µH       │     │  L3: 220µH   │
+        │   │  C1: 365pF var │  k  │  C2: 365pF var   │  k  │  C3: 365pF  │
+        │   │  (gang 1)      │ ←→  │  (gang 2)        │ ←→  │  (gang 3)   │
+        └───┤  ANT tap       │     │                  │     │             ├──→ DETECTOR
+            └────────────────┘     └──────────────────┘     └───────────────┘
+                  │                       │                        │
+                 GND                     GND                      GND
+
+  Coupling between stages:
+    Stage 1 → Stage 2: loose inductive coupling (shared ferrite rod or air gap)
+    Stage 2 → Stage 3: loose inductive coupling
+    Coupling coefficient: k ≈ 0.008–0.012 (critical coupling at Q=100)
+
+  FULL DETAIL:
+
+  ANT ─── [L1 antenna tap (25t)] ─────────────────────────────────────────────
+                         │
+  ┌─── Top of L1 ────────┴─────────────────────────────────────── A1
+  │         │
+  │      [C1: 365 pF variable, gang 1]
+  │         │
+  └────── GND ────────────────────────────────────────────────────────────────
+
+  Coupling from A1 to Stage 2:
+  A1 ── [C_k12: 10–22 pF coupling cap] ─── B2
+
+  ┌─── B2 (bottom of L2) ────────────────────────────────────── B2
+  │         │
+  │      [C2: 365 pF, gang 2]
+  │         │
+  └──────  Top of L2 ─────────────────────────────────────── A2
+
+  Coupling from A2 to Stage 3:
+  A2 ── [C_k23: 10–22 pF coupling cap] ─── B3
+
+  ┌─── B3 (bottom of L3) ────────────────────────────────────── B3
+  │         │
+  │      [C3: 365 pF, gang 3]
+  │         │
+  └──── Top of L3 ──────── DETECTOR ──────────────────────────── to earphone
+
+  DETECTOR:
+  Top of L3 ─── [D1: 1N34A] ─── AF output
+                                     │
+                                 [C4: 0.01µF]  [earphone]
+                                     │              │
+                                    GND ─────────── GND
+
+
+CAPACITIVE COUPLING BETWEEN STAGES
+------------------------------------
+Coupling capacitors C_k12 and C_k23 control inter-stage coupling.
+Smaller value = weaker coupling = narrower passband = more selective.
+Larger value = stronger coupling = wider passband = more signal.
+
+  C_k (pF)   Coupling type    Passband (3 tank circuits)
+  --------   -------------    --------------------------
+     5 pF    Undercoupled     Very narrow, some loss
+    10 pF    Near critical    Best balance (recommended)
+    15 pF    Critical         Maximum flat passband
+    22 pF    Overcoupled      Double hump appears
+    47 pF    Overcoupled      Two distinct peaks
+
+  For crystal radio: start with 10 pF; adjust to maximize volume
+  while maintaining single-peaked response.
+
+  NOTE: Coupling caps ALSO add capacitance to each tank circuit.
+  Correct: reduce variable cap maximum by C_k at high end of band.
+  In practice: 10 pF coupling adds 10 pF to each circuit → shift of ~5 kHz
+  at 1 MHz (negligible; within tuning range).
+
+
+INDUCTIVE COUPLING ALTERNATIVE
+--------------------------------
+For smoother inter-stage coupling, use inductive coupling:
+
+  All three coils L1, L2, L3 wound on SAME ferrite rod, spaced apart:
+    L1 at position 0–50 mm (with ANT tap)
+    L2 at position 80–130 mm
+    L3 at position 160–178 mm (end of rod)
+  Coupling coefficient between adjacent coils: k ≈ 0.005–0.015
+  (depends on rod material permeability and coil separation distance)
+
+  Advantage: No coupling capacitors needed; physically simpler.
+  Disadvantage: Ferrite rod must be 7" minimum (178 mm) to space 3 coils;
+               tight fit. Use 10" rod for comfortable spacing.
+
+  Coil separation for k ≈ 0.01 (critical coupling at Q=100):
+    On mix-77 rod: ≈ 25 mm between coil ends
+    On mix-61 rod: ≈ 15 mm between coil ends (lower µ, less coupling at distance)
+
+
+TRIPLE-GANG VARIABLE CAPACITOR
+--------------------------------
+  Option A: True triple-gang 365 pF capacitor.
+    Available from vintage radio suppliers; Surplus sales.
+    All three gangs on same shaft; tracking typically ±2 pF.
+
+  Option B: Three separate 365 pF capacitors with ganged shaft.
+    Connect shafts with flexible coupling (3D printed; see openscad).
+    Requires alignment and tracking adjustment on each band.
+
+  Option C: Two separate capacitors (compromise 2-stage version):
+    Use dual-gang for stages 1 and 2; fix stage 3 as a parallel resonator.
+    Set fixed stage 3 cap to resonate at band center (1115 kHz nominal).
+    Re-tune only stages 1 and 2; stage 3 provides fixed-frequency selectivity
+    boost at band center only.
+
+
+TWO-STAGE VERSION (SIMPLER, STILL EFFECTIVE)
+---------------------------------------------
+For home construction without triple-gang, a dual-gang double-tuned TRF:
+
+  ANT tap → [L1/C1] → [C_k: 10pF] → [L2/C2] → DETECTOR
+
+  This still provides:
+    −3 dB BW ≈ 7–8 kHz at 1 MHz
+    −40 dB BW ≈ 80–90 kHz (vs. 40 kHz for triple-tuned)
+  Adjacent station rejection: ≈20 dB at 10 kHz offset (much better than single)
+
+
+TRF WITH SHIELDED COILS (REDUCED INTER-COIL COUPLING)
+-------------------------------------------------------
+For maximum control over inter-stage coupling, shield each coil in a
+separate aluminum or tin enclosure.  Coupling is then ONLY through C_k caps,
+and k can be set precisely.
+
+  Shield dimensions: coil diameter + 30 mm clearance on all sides.
+  For 35 mm dia coil: use 75 × 75 × 75 mm aluminum enclosure.
+  Drill holes for coil lead wires; ground enclosure to circuit ground.
+
+  Crosstalk without shields (ferrite rod): −20 to −30 dB adjacent coils.
+  Crosstalk with shields: <−60 dB (coupling is entirely through C_k).
+
+
+TRACKING ALIGNMENT PROCEDURE
+------------------------------
+After construction, the three gang sections may not track perfectly.
+Alignment ensures all three circuits are at the same frequency:
+
+  EQUIPMENT: Signal generator (or known local station), earphone.
+
+  1. Set C1/C2/C3 to mid-range (all gangs mid-position).
+  2. Inject signal at antenna frequency = 1000 kHz.
+  3. Peak L1 position (slide coil on rod or adjust trimmer cap on C1 gang).
+  4. Peak L2 position similarly.
+  5. Peak L3 position.
+  6. Repeat steps 3–5 until no further improvement.
+
+  Then check at 600 kHz (low end) and 1600 kHz (high end).
+  Adjust small trimmer capacitors (10 pF) across each gang if available.
+  Triple-gang air variables often have individual gang trimmer screws —
+  use these for low-end and high-end tracking adjustments.
+
+
+PERFORMANCE SPECIFICATIONS — TRIPLE-TUNED TRF
+-----------------------------------------------
+  Selectivity (−3 dB):  ≈5 kHz at 1 MHz
+  Selectivity (−40 dB): ≈40 kHz at 1 MHz
+  Adjacent channel:     −20 dB at +10 kHz; −40 dB at +20 kHz
+  Sensitivity:          ≈3–8 mV/m (better than single-tuned due to higher
+                        effective Q from multiple resonators)
+  Image rejection:      Not applicable (no IF conversion; only in-band)
+  Spurious response:    Harmonics of local stations may appear weakly
+  Audio bandwidth:      Limited by C4 (RF bypass) and earphone response
+
+
+PARTS LIST — TRIPLE-TUNED TRF
+-------------------------------
+  Ref       Qty  Value/Part    Description
+  ---       ---  ----------    -----------
+  L1–L3      3   220 µH       Ferrite rod coils (3 identical windings)
+  C1–C3      3   365 pF       Variable caps (triple-gang preferred)
+  C_k12      1   10 pF        Stage 1–2 coupling (NP0/C0G)
+  C_k23      1   10 pF        Stage 2–3 coupling (NP0/C0G)
+  D1         1   1N34A        Germanium detector
+  C4         1   0.01 µF      RF bypass
+  R1         1   470 kΩ       Earphone shunt (optional)
+  J1         2   binding posts  ANT + GND
+  J2         1   3.5 mm jack  Earphone
+
+================================================================================

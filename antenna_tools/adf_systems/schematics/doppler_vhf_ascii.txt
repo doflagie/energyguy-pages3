@@ -1,0 +1,227 @@
+================================================================================
+ DOPPLER RDF SYSTEM — VHF/UHF BANDS — TM-ADF-002 Rev A
+ Electronic Rotation Doppler Direction Finding
+ Bands: 2M (144 MHz), 1.25M (219 MHz), 70cm (430 MHz), 33cm (902 MHz), 20cm (1240 MHz)
+================================================================================
+
+DOPPLER RDF PRINCIPLE
+======================
+When an antenna rotates around a circle, the received frequency shifts:
+  f_received = f_transmitter × (1 ± v/c × cos θ)
+where v = tangential velocity of rotating element, θ = angle to transmitter.
+
+Electronic rotation: instead of physically rotating, rapidly SWITCH between
+4 elements arranged in a circle. The sequential switching SIMULATES rotation,
+creating a 1kHz (switch rate) FM subcarrier whose phase encodes the bearing.
+
+  Phase of 1kHz subcarrier = bearing of incoming signal
+  (0° phase = signal from North, 90° = East, etc.)
+
+================================================================================
+SYSTEM BLOCK DIAGRAM
+================================================================================
+
+  ┌───────────────────────────────────────────────────────────────────────┐
+  │              4-ELEMENT DOPPLER RING ARRAY                            │
+  │                                                                       │
+  │   E1(N) ──────────────────────────────┐                              │
+  │   λ/4 vertical                        │                              │
+  │                                        ▼                              │
+  │   E2(E) ─────────────────▶  FST3253 ANALOG SWITCH ─────────────────► │──▶ 50Ω output
+  │   λ/4 vertical                4-to-1 MUX              to receiver   │
+  │                              A0=GPIO16                               │
+  │   E3(S) ─────────────────▶  A1=GPIO17                               │
+  │   λ/4 vertical              EN=GPIO18                               │
+  │                                                                       │
+  │   E4(W) ──────────────────────────────┘                              │
+  │   λ/4 vertical                                                        │
+  │                                                                       │
+  │   CENTER (omni) ─────────────────────────────────────────────────────│──▶ AUDIO MON
+  └───────────────────────────────────────────────────────────────────────┘
+           │
+           │ 1kHz switch rate driven by ESP32 GPIO26 (reference clock)
+           │
+           ▼
+  ┌────────────────────────────────────────────────────────────────────────┐
+  │         FM RECEIVER / DISCRIMINATOR                                    │
+  │                                                                        │
+  │  RF in ──▶ [FM receiver at operating freq] ──▶ Audio out (1kHz +      │
+  │             (SDR dongle, or IC-R6, or                  harmonics)     │
+  │              dedicated FM demod circuit)                               │
+  │                                                                        │
+  │  Audio out ──────────────────────────────────────────────────────────► │
+  └────────────────────────────────────────────────────────────────────────┘
+           │ Audio (contains 1kHz Doppler subcarrier)
+           ▼
+  ┌────────────────────────────────────────────────────────────────────────┐
+  │         ESP32 PHASE DETECTOR                                           │
+  │                                                                        │
+  │  Audio ──▶ [ADC GPIO34, 10 kHz sample rate] ──▶ Goertzel at 1kHz ──▶ │
+  │                                                   phase extraction     │
+  │  Reference 1kHz ──▶ [GPIO26, known phase] ──────────────────────────► │
+  │                                                                        │
+  │  Phase difference = BEARING                                            │
+  └────────────────────────────────────────────────────────────────────────┘
+           │
+           ▼
+  OLED display + BT to CYD compass rose + WiFi web interface
+
+================================================================================
+ELEMENT SWITCHING SEQUENCE AND TIMING
+================================================================================
+
+  Switch rate: 1000 Hz (1ms per element position)
+  Complete rotation: 4ms (one cycle = 360° electrical)
+  Audio subcarrier: 1kHz FM tone whose phase = bearing
+
+  TIMING DIAGRAM (one 4ms cycle):
+  ┌────────────────────────────────────────────────────────────────────────┐
+  │ Time: 0ms        1ms        2ms        3ms        4ms (repeat)        │
+  │                                                                        │
+  │ A0:   ───┐   ───┐   ───┐   ───┐                                       │
+  │          └───   └───   └───   └───                                     │
+  │                                                                        │
+  │ A1:   ───────┐       ───────┐                                         │
+  │              └───────       └───────                                   │
+  │                                                                        │
+  │ Active:  E1(N)  E2(E)  E3(S)  E4(W)                                   │
+  └────────────────────────────────────────────────────────────────────────┘
+
+  SWITCH TRUTH TABLE:
+  ┌─────┬─────┬──────────────┐
+  │ A0  │ A1  │ Active Elem  │
+  ├─────┼─────┼──────────────┤
+  │  0  │  0  │ E1 (North)   │
+  │  1  │  0  │ E2 (East)    │
+  │  0  │  1  │ E3 (South)   │
+  │  1  │  1  │ E4 (West)    │
+  └─────┴─────┴──────────────┘
+
+================================================================================
+ANTENNA SWITCHING CIRCUIT DETAIL
+================================================================================
+
+  Each element ──────────────────────────────────────────────────────────────┐
+  (via 50Ω coax)                                                              │
+                                                                               │
+         ┌──────────────────────────────────────────────────────────────┐    │
+         │                  FST3253 DUAL 4-TO-1 MUX                     │◄───┘
+         │  (74HC4052 or FST3253, 3.3V supply, Ron < 5Ω, 3 dB BW > 1GHz)│
+         │                                                               │
+         │  V+  = 3.3V      GND = 0V                                    │
+         │  A0  = GPIO16    (ESP32, 3.3V logic)                         │
+         │  A1  = GPIO17                                                 │
+         │  !OE = GPIO18    (active LOW — pull low to enable)            │
+         │                                                               │
+         │  I/O0 = E1(N) ─────┬─── 50Ω series resistor ─── element coax│
+         │  I/O1 = E2(E) ─────┤    (5.6Ω to reduce ringing on switch)  │
+         │  I/O2 = E3(S) ─────┤                                         │
+         │  I/O3 = E4(W) ─────┘                                         │
+         │                                                               │
+         │  COM  = 50Ω output ──────────────────────────────────────────│───▶ Receiver
+         └───────────────────────────────────────────────────────────────┘
+
+  BYPASS CAPACITORS: 100nF ceramic on each V+ supply pin, GND plane under IC.
+
+================================================================================
+ARRAY ELEMENT DIMENSIONS — ALL VHF/UHF BANDS
+================================================================================
+
+  ┌────────────┬────────────┬──────────┬──────────────┬────────────────────┐
+  │ Band       │ Freq (MHz) │ λ (mm)   │ Array Diam   │ Element Length     │
+  │            │            │          │ (0.5λ circle)│ (λ/4 monopole)     │
+  ├────────────┼────────────┼──────────┼──────────────┼────────────────────┤
+  │ 2m         │ 146        │ 2055     │ 1027 mm      │ 514 mm             │
+  │ 1.25m      │ 222        │ 1351     │  675 mm      │ 338 mm             │
+  │ 70cm       │ 435        │  690     │  345 mm      │ 172 mm             │
+  │ 33cm       │ 915        │  328     │  164 mm      │  82 mm             │
+  │ 20cm       │ 1270       │  236     │  118 mm      │  59 mm             │
+  └────────────┴────────────┴──────────┴──────────────┴────────────────────┘
+
+  NOTE: Elements shorter than λ/4 work with base loading coil. Elements longer
+  than λ/4 work with series capacitor. For multi-band: use switched loading.
+
+  COMPACT ARRAY for portable 70cm use:
+    Array diameter: 345mm (fits on 400mm disk)
+    Elements: 4× aluminum 6mm rod, 172mm long
+    Mounting: PCB ground plane disk, BNC connectors
+    Switch IC: FST3253 at center of disk
+
+================================================================================
+FM DISCRIMINATOR / DEMODULATOR CIRCUIT
+================================================================================
+
+  Option A: SDR Receiver (recommended)
+  ──────────────────────────────────────
+  RTL-SDR dongle + GNU Radio or RTL-FM:
+    rtl_fm -f 146.52M -s 48k -r 48k | sox -t raw -r 48k -e s -b 16 -c 1 - \
+           -t wav - | analyze_doppler
+
+  Option B: Dedicated FM Demod IC (TDA7000 or MC3372)
+  ──────────────────────────────────────────────────────
+
+  RF in ──▶ ┌────────────────────────────────────────────────────────────┐
+             │                MC3372 FM IF SUBSYSTEM                     │
+             │                                                            │
+             │  RF in (10.7 MHz IF preferred; requires front-end mixer)  │
+             │  or direct VHF input with external BPF                    │
+             │                                                            │
+             │  Pin 1 (LIM IN+) ──── from IF bandpass filter             │
+             │  Pin 16 (LIM IN-) ─── GND                                 │
+             │  Pin 5  (QUAD IN) ─── 10.7 MHz ceramic discriminator      │
+             │  Pin 9  (AF OUT)  ─── audio output (1kHz subcarrier here) │
+             │                                                            │
+             │  V+ = 3.0–7.0V       Pin 14                               │
+             │  Decoupling: 100nF + 10µF on V+                           │
+             └────────────────────────────────────────────────────────────┘
+                     │
+                     ▼ Audio output (1kHz tone when signal present)
+             ┌──────────────┐
+             │  [100nF AC]  │ (remove DC offset)
+             └──────┬───────┘
+                    │
+                    ▼ to ESP32 ADC GPIO34
+
+================================================================================
+PHASE DETECTION — GOERTZEL ALGORITHM
+================================================================================
+
+  The Goertzel algorithm extracts a single-frequency component from the audio:
+
+  For target frequency f_t = 1000 Hz, sample rate f_s = 10000 Hz, N = 1000 samples:
+    k = N × f_t / f_s = 1000 × 1000 / 10000 = 100
+    ω = 2π × k / N = 0.6283 rad/sample
+    coeff = 2 × cos(ω) = 1.6180...
+
+  Algorithm (process each sample x[n]):
+    s_prev2 = 0; s_prev1 = 0
+    for each sample x[n]:
+      s = x[n] + coeff × s_prev1 - s_prev2
+      s_prev2 = s_prev1
+      s_prev1 = s
+    At end of block:
+      real = s_prev1 - s_prev2 × cos(ω)
+      imag = s_prev2 × sin(ω)
+      phase = atan2(imag, real)
+
+  phase (in radians) = BEARING in radians
+  bearing_degrees = phase × (180/π)
+  If negative: bearing_degrees += 360
+
+================================================================================
+ESP32 PIN ASSIGNMENTS — DOPPLER RDF
+================================================================================
+
+  GPIO  Function          Notes
+  ────  ──────────────    ──────────────────────────────────────────────
+   16   SW_A0             Element select LSB (FST3253 A0)
+   17   SW_A1             Element select MSB (FST3253 A1)
+   18   SW_ENABLE         Switch enable, active LOW
+   26   REF_OUT           1kHz reference square wave (LEDC or timerISR)
+   34   AUDIO_ADC         ADC1_CH6, from FM discriminator audio output
+   35   RSSI_ADC          ADC1_CH7, from receiver RSSI pin
+   21   SDA               I2C: OLED + compass
+   22   SCL               I2C clock
+    4   GPS_RX            UART2 from GPS
+    5   GPS_TX            UART2 to GPS
+    2   BT_LED            Bluetooth status

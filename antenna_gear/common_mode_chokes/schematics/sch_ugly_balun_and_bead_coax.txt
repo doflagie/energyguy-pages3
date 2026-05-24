@@ -1,0 +1,281 @@
+================================================================================
+SCHEMATIC: Ugly Balun (Coiled Coax) and Bead-on-Coax Wideband Chokes
+TM-CMC-001  Rev A
+Ugly Balun: Self-Resonant Coiled Coax for HF Common-Mode Suppression
+Bead-on-Coax: Multiple Ferrite Beads Threaded on Coax for 1–300 MHz
+================================================================================
+
+================================================================================
+SECTION A — UGLY BALUN (COILED COAX AIR-CORE CHOKE)
+================================================================================
+
+THEORY
+──────
+The "ugly balun" (attributed to W7EL, Roy Lewallen) is simply coaxial cable
+wound into a coil.  The inductance of the coil presents common-mode impedance
+without affecting differential mode.
+
+The coil is a simple air-core inductor.  Common-mode impedance:
+  Z_CM = 2π × f × L_coil   (for f < self-resonant frequency)
+  Z_CM = very high          (near self-resonant frequency f_SR)
+  Z_CM decreases above f_SR (capacitive behavior dominates)
+
+Self-resonant frequency:
+  f_SR = 1 / (2π × √(L_coil × C_coil))
+  where C_coil = distributed capacitance of wound coil
+
+To be useful, f_SR should be within or just above the operating frequency band.
+Maximum common-mode impedance occurs AT f_SR.
+
+Inductance of a solenoid coil:
+  L = (µ₀ × N² × A) / (l × (1 + 0.9 × r/l))
+  Simplified Wheeler formula: L (µH) = (N² × r²) / (9r + 10l)
+  where r = coil radius (inches), l = coil length (inches)
+
+Example: 9 turns RG-58, 4.5" diameter (r=2.25"), 1.5" long (l=1.5"):
+  L = (81 × 5.0625) / (9 × 2.25 + 10 × 1.5)
+  L = 410.6 / (20.25 + 15) = 410.6 / 35.25 = 11.6 µH
+
+At 14 MHz (20M): |Z| = 2π × 14×10⁶ × 11.6×10⁻⁶ = 1021 Ω
+At  7 MHz (40M): |Z| = 510 Ω (marginal)
+At  3.5 MHz (80M): |Z| = 255 Ω (insufficient alone)
+
+Conclusion: Ugly balun is most effective at and above the design frequency.
+For 20M-10M operation, design f_SR near 14–21 MHz.
+
+================================================================================
+DESIGN 1: 20M–10M UGLY BALUN (3" DIAMETER FORM)
+================================================================================
+
+MATERIALS:
+  Coax:  RG-58 (5mm OD; total length ~2.5m)
+  Form:  PVC pipe 3" OD (75mm); length 100mm; 2× cable tie grooves
+  Turns: 9 (for f_SR near 21 MHz)
+
+WINDING:
+  1. Cut 2.5m RG-58.
+  2. Form PVC pipe coil former: drill 4mm hole at each end for tie-wrap retention.
+  3. Start from one end of former; wrap 9 turns tightly butted (turns touching).
+  4. Secure with 2× cable ties.
+  5. Calculated dimensions: OD = 85mm, length = 9 × 5mm = 45mm.
+  6. Install PL-259 connectors on each end.
+
+CALCULATED PERFORMANCE:
+  Coil: N=9, r=42.5mm=1.67", l=45mm=1.77"
+  L = (81 × 2.79) / (9 × 1.67 + 10 × 1.77) = 226 / (15.0 + 17.7) = 6.9 µH
+
+  C_distributed (estimate for tightly wound RG-58): ~30 pF
+  f_SR = 1 / (2π × √(6.9e-6 × 30e-12)) = 11.1 MHz
+
+  Common-mode impedance (measured / calculated):
+
+  f (MHz) | |Z_CM| (Ω) | Note
+  --------|-----------|----------------------------------
+    1.8   |    78      | Very low — 160M useless
+    3.5   |   152      | 80M inadequate
+    7.0   |   303      | 40M marginal
+   10.1   |   438      | 30M marginal
+   11.1   |   ∞ (SR)   | Peak: very high impedance here
+   14.0   |  1500 est  | 20M useful (past SR, complex Z)
+   21.0   |   800 est  | 15M moderate
+   28.0   |   400 est  | 10M diminishing
+
+  Note: Impedance behavior past f_SR is complex; actual Z depends on coil Q
+  and cable loss.  Measurements vary considerably by construction.
+
+IMPROVEMENT — SPACE WINDING:
+  Increase coil length l while maintaining same N and r.
+  Reduces C_distributed → raises f_SR to desired frequency.
+  For f_SR = 14 MHz target: space turns to l ≈ 70mm (8mm pitch).
+
+================================================================================
+DESIGN 2: 40M–15M UGLY BALUN (6" DIAMETER FORM)
+================================================================================
+
+MATERIALS:
+  Coax:  RG-8X (8.4mm OD; total length ~3.5m)
+  Form:  PVC pipe 6" OD (150mm); length 150mm
+  Turns: 7
+
+WINDING:
+  Coil: N=7, r=75mm=2.95", l=70mm=2.76"
+  L = (49 × 8.70) / (9 × 2.95 + 10 × 2.76) = 426 / (26.6 + 27.6) = 7.9 µH
+  C_distributed (loose wind, RG-8X): ~15 pF
+  f_SR = 1 / (2π × √(7.9e-6 × 15e-12)) = 14.6 MHz  ← excellent for 20M peak
+
+PERFORMANCE:
+  f (MHz) | |Z_CM| est (Ω) | Note
+  --------|--------------|------------------------------
+    3.5   |   174         | 80M weak
+    7.0   |   348         | 40M useful (low end)
+   10.1   |   502         | 30M moderate
+   14.6   |  >3000        | f_SR peak — 20M excellent
+   21.0   |  ~2000        | 15M good
+   28.0   |  ~1000        | 10M adequate
+
+POWER HANDLING:
+  At 1500W into 50Ω resistive load, I_CM = 0 (ideal), no heating.
+  Under common-mode current (RFI condition): heating is in coax shield loss.
+  RG-8X handles 1500W continuous above 14 MHz.  No derating for ugly balun.
+
+================================================================================
+UGLY BALUN DIAGRAM
+================================================================================
+
+Top view (coax wound on PVC pipe section):
+
+     ╔══════════════════════════════════════════╗
+     ║   ┌──────────────────────────────────┐   ║
+     ║   │→→→→→→→→→→→→→→→→→→→→→→→→→→→→→→→→│   ║  each row = 1 turn coax
+     ║   │→→→→→→→→→→→→→→→→→→→→→→→→→→→→→→→→│   ║
+     ║   │→→→→→→→→→→→→→→→→→→→→→→→→→→→→→→→→│   ║
+     ║   │→→→→→→→→→→→→→→→→→→→→→→→→→→→→→→→→│   ║
+     ║   │→→→→→→→→→→→→→→→→→→→→→→→→→→→→→→→→│   ║
+     ║   │→→→→→→→→→→→→→→→→→→→→→→→→→→→→→→→→│   ║
+     ║   │→→→→→→→→→→→→→→→→→→→→→→→→→→→→→→→→│   ║
+     ║   └──────────────────────────────────┘   ║
+     ╚══════════════════════════════════════════╝
+              PVC pipe form (inside)
+
+Side view:
+
+  PL-259        Coiled coax        PL-259
+  ─┤├─────────[OOOOOOOOOOOOOO]─────────┤├─
+    ↑          7–12 turns            ↑
+  TX/RX end    on form         Antenna end
+
+================================================================================
+COIL FORM DIMENSIONS TABLE
+================================================================================
+
+  Form OD (inches) | PVC nominal | Form ID | Coax    | N  | f_SR target
+  -----------------|-------------|---------|---------|----|--------------
+    2"              | 2" Sch 40   |  51 mm  | RG-174  | 12 | 50 MHz (6M)
+    3"              | 3" Sch 40   |  76 mm  | RG-58   |  9 | 21 MHz (15M)
+    4"              | 4" Sch 40   | 102 mm  | RG-58   |  8 | 14 MHz (20M)
+    6"              | 6" Sch 40   | 150 mm  | RG-8X   |  7 | 14 MHz (20M)
+    8"              | 8" Sch 40   | 200 mm  | RG-8    |  7 | 7 MHz (40M)
+
+================================================================================
+SECTION B — BEAD-ON-COAX WIDEBAND CHOKE
+================================================================================
+
+THEORY
+──────
+The bead-on-coax choke (also called "W7FG" or "pigtail" choke) threads the
+coaxial cable through multiple small ferrite toroid cores.  Unlike snap-on
+split beads, solid toroids provide higher Q and better impedance at high
+frequencies.  Unlike wound chokes, they require no winding — just thread through.
+
+For a single pass through one #61 toroid (FT-50-61, A_L = 36 nH/N²):
+  L = 1² × 36 nH = 36 nH
+  At 144 MHz: |Z| = 2π × 144×10⁶ × 36×10⁻⁹ = 32.6 Ω per bead
+
+For adequate VHF choking, need many beads OR multiple passes.
+10 beads in series: |Z| = 10 × 32.6 = 326 Ω (marginal)
+20 beads: |Z| = 652 Ω (good)
+
+Better approach: use FT-82-43 or FT-82-61 (larger OD, still passable for RG-58):
+  FT-82-43: A_L = 557 nH/N², at 144 MHz: |Z| = 2π × 144M × 557n = 504 Ω per bead
+  FT-82-61: A_L = 36 nH/N² (same small), but better at 400–1000 MHz
+
+RECOMMENDED BEAD-ON-COAX CONFIGURATIONS:
+
+Configuration A — Wideband HF through 2M (FT-82-43 beads, RG-58):
+  Thread 10 × FT-82-43 on RG-58 coax
+  FT-82-43: OD=21mm, ID=13mm, height=6.35mm; RG-58 OD=5mm (fits easily)
+
+  f (MHz) | Z per bead (Ω) | Z × 10 beads (Ω) | CMR @ 150Ω path (dB)
+  --------|---------------|------------------|---------------------
+    3.5   |    135        |   1350           | 19.1
+    7.0   |    270        |   2700           | 25.1
+   14.0   |    480        |   4800           | 30.1
+   28.0   |    750        |   7500           | 33.9
+   50.0   |    800        |   8000           | 34.6
+  100.0   |    820        |   8200           | 34.8
+  144.0   |    750        |   7500           | 33.9
+  222.0   |    600        |   6000           | 32.0
+  432.0   |    350        |   3500           | 27.4
+
+  Outstanding 40M-70cm performance.  40 beads provides >25 dB above 3.5 MHz.
+
+Configuration B — VHF/UHF Focus (FT-50-61, RG-58):
+  Thread 20 × FT-50-61 on RG-58 coax
+  FT-50-61: OD=12.7mm, ID=7.7mm, height=6.35mm
+
+  f (MHz) | Z per bead (Ω) | Z × 20 beads (Ω)
+  --------|---------------|------------------
+   50.0   |     86        |   1720
+  100.0   |    152        |   3040
+  144.0   |    210        |   4200
+  222.0   |    280        |   5600
+  432.0   |    380        |   7600
+  902.0   |    450        |   9000
+  1296.0  |    390        |   7800
+
+  Excellent for VHF/UHF. Bead stack is very compact (~130mm long on coax).
+
+BEAD-ON-COAX DIAGRAM:
+
+  RG-58 coax threaded through individual ferrite toroid beads:
+
+  ──────────────────────────────────────────────────── coax center conductor
+  ──────────────────────────────────────────────────── coax shield (inner path)
+  [T1][T2][T3][T4][T5][T6][T7][T8][T9][T10]          ferrite beads on coax OD
+
+  Each bead threads over ENTIRE coax (center + shield + jacket as one unit)
+  Beads contact outer jacket only; no electrical connection to bead
+  Signal (differential mode) unaffected; common mode sees series inductance
+
+HOW TO THREAD:
+  1. Select bead with ID > coax OD + 1mm clearance.
+  2. Feed coax end-first through bead aperture.
+  3. Push bead to center of coax run; continue with remaining beads.
+  4. Secure bead stack with cable ties or heat-shrink sleeving.
+  NOTE: PL-259 or N connectors must be installed BEFORE threading beads,
+        as connectors will not pass through bead aperture.
+  ALTERNATIVE: Use snap-on beads (Section A) to avoid connector removal issue.
+
+COMBINED MIX BEAD STACK (recommended for wideband coverage):
+  Thread the following sequence (total 8 beads, ~80mm on RG-58):
+    2× FT-82-43  (HF coverage, 1–30 MHz)
+    2× FT-82-43  (HF/VHF)
+    2× FT-50-61  (VHF, 50–500 MHz)
+    2× FT-50-61  (UHF, 500 MHz+)
+
+  This 8-bead mixed stack provides approximately:
+
+  f (MHz) | |Z| combined (Ω) | CMR (dB) @ 150Ω
+  --------|----------------|------------------
+    7.0   |   1080          | 17.7
+   14.0   |   1920          | 22.1
+   28.0   |   3000          | 26.0
+   50.0   |   3200          | 26.6
+  144.0   |   3840          | 28.2
+  432.0   |   2540          | 24.6
+  1296.0  |   1560          | 20.3
+
+================================================================================
+PARTS LIST — UGLY BALUN AND BEAD-ON-COAX
+================================================================================
+
+UGLY BALUN:
+Item | Qty | Description                           | Notes
+-----|-----|---------------------------------------|---------------------------
+     |  1  | PVC pipe 6" OD, 150mm length           | Schedule 40, hardware store
+     |  1  | PVC pipe 3" OD, 100mm length           | For compact 15M–6M version
+     | 3.5m| RG-8X (8.4mm OD)                       | For 6" form, 7 turns
+     | 2.5m| RG-58 (5mm OD)                          | For 3" form, 9 turns
+J1,2 |  2  | PL-259 connectors                      | Amphenol PL-259
+     |  4  | #6 cable ties 4"                        | Coil retention
+     |  1  | U-bolt clamp 1.5"                       | Mast mounting (optional)
+
+BEAD-ON-COAX:
+Item | Qty | Part Number    | Description          | Notes
+-----|-----|----------------|----------------------|---------------------------
+T1–10| 10  | FT-82-43       | Mix 43 toroid, 21mm  | Palomar Engineers or Mouser
+T11–20| 10 | FT-50-61       | Mix 61 toroid, 12.7mm| For VHF/UHF
+     | var | Heat shrink 1" | Bead stack retention  | Optional but recommended
+     |  2  | Cable tie 4"   | End stops             |
+
+================================================================================

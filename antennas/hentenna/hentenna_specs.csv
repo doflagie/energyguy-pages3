@@ -1,0 +1,11 @@
+ANTENNA SPECIFICATION — HENTENNA,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,"2M, 70cm",,
+Design approach,Broadside array of verticals with phasing,,
+Compaction factor,0%,,
+Special parameters,"2 verticals, 180° phasing, ~5 dBi gain",,
+Feed impedance,50–600,Ω,
+SWR target,<2.0,:1,
+Efficiency,75–95%,%,
+Gain,2–12,dBi,

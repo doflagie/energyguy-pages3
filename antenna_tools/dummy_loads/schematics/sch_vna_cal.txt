@@ -1,0 +1,149 @@
+================================================================================
+SCHEMATIC: PRECISION 50-OHM LOAD — VNA CALIBRATION (DC TO 6 GHz)
+TM-DL-VNA-CAL  Rev A
+================================================================================
+
+OVERVIEW
+--------
+Precision 50 ohm termination for VNA SOLT calibration, nanoVNA use,
+and RF reference measurements. Two versions:
+
+  CAL-SMA:  SMA connector, DC-6 GHz, 1W maximum
+  CAL-N:    N connector,   DC-3 GHz, 2W maximum
+
+CRITICAL DESIGN PRINCIPLES:
+  1. Minimum parasitic inductance and capacitance
+  2. All resistors within 2mm of connector reference plane
+  3. Controlled 50-ohm ground plane under resistor pads
+  4. No through-hole components (use 0402 or 0603 SMD only)
+  5. Resistor tolerance: 0.1% minimum (0.05% preferred)
+
+--------------------------------------------------------------------------------
+VERSION A: SMA PRECISION LOAD (DC-6 GHz, 1W)
+--------------------------------------------------------------------------------
+
+TOP VIEW (PCB, actual size approximately 15mm x 15mm):
+
+  +-------+-------+-------+
+  |       |       |       |
+  |  R1   |  R2   | GND   |
+  | 100R  | 100R  | PLANE |
+  | 0402  | 0402  |       |
+  +---+---+---+---+-------+
+      |       |
+      +---+---+
+          |
+     [SMA CENTER PIN]
+     (solder direct to R pads)
+          |
+     [SMA SHELL] = GND PLANE (all of bottom PCB layer)
+
+  Cross-section view:
+                     ___
+  R1 (+)---[100R]---| |---GND (bottom copper)
+  R2 (+)---[100R]---| |---GND (bottom copper)
+  Signal IN --------|-|   (SMA center pin, 1.27mm diameter)
+
+PARALLEL COMBINATION:
+  R1 || R2 = 100 || 100 = 50 ohm
+  Power:    2 x 500mW = 1W maximum
+
+PREFERRED RESISTORS:
+  Vishay FC0402E1000BTT1    (100R, 0402, 0.1%, 63mW, +/-25ppm/C)
+  Vishay CRCW04021000FRT2   (100R, 0402, 1%, 63mW)
+  Susumu RG1005P-101-B-T5   (100R, 0402, 0.1%, 63mW)
+  Bourns CRP0402B1000TDF    (100R, 0402, 0.1%, thin film)
+
+  For DC-6 GHz accuracy: THIN FILM resistors only.
+  Thick film (CRCW) acceptable to 3 GHz.
+  Wirewound: NEVER use, even "non-inductive" types.
+
+PCB STACKUP:
+  Layer 1: Signal + resistors (35um copper)
+  Layer 2: Ground plane (full copper pour, 35um)
+  Material: Rogers RO4003C or Isola I-Tera MT40 (Dk=3.5 at 10GHz)
+  Thickness: 0.508mm (20 mil) for SMA launch compatibility
+  Copper pour: Solid, no voids, minimum 10mm from resistors to board edge
+
+SMA ATTACHMENT:
+  Use end-launch SMA: Southwest Microwave 1092-01A-6 or equiv
+  Solder directly to pads using silver solder (melting point consideration)
+  Keep solder fillet below PCB plane -- do not build up on signal pads
+  Torque to manufacturer spec (1 in-lb typical end-launch SMA)
+
+HOUSING (see openscad/enclosure_vna_cal.scad):
+  Small brass or aluminum body, precision-machined or 3D printed
+  PCB mounts inside body, SMA connector protrudes through front
+  Body provides mechanical support, ESD protection, phase stability
+
+EXPECTED PERFORMANCE:
+  Frequency     Return Loss    SWR
+  DC-1 GHz      > 40 dB        < 1.02:1
+  1-3 GHz       > 30 dB        < 1.07:1
+  3-6 GHz       > 22 dB        < 1.17:1  (PCB quality dependent)
+
+  These values require Rogers/Isola substrate. FR4 degrades above 2 GHz.
+  With FR4: expect > 20 dB return loss to 2 GHz, 15 dB to 3 GHz.
+
+--------------------------------------------------------------------------------
+VERSION B: N-TYPE PRECISION LOAD (DC-3 GHz, 2W)
+--------------------------------------------------------------------------------
+
+RESISTOR ARRANGEMENT:
+  4x 200 ohm, 0603 thin film, in parallel = 50 ohm, ~1W total
+  Arranged in quadrant pattern around N-type center pin
+  All leads < 1.5mm
+
+      +---------+---------+
+      |         |         |
+   [200R]    [200R]     (N center pin connects
+      |         |          to all 4 resistor hot ends)
+      +---------+
+   [200R]    [200R]
+      |         |
+      +---------+---------+
+                |
+              GND PLANE
+
+  Board OD: 22mm (fits inside N connector body)
+  Material: Rogers RO4350B, 0.508mm
+
+EXPECTED PERFORMANCE:
+  Frequency     Return Loss    SWR
+  DC-1 GHz      > 36 dB        < 1.03:1
+  1-2 GHz       > 28 dB        < 1.08:1
+  2-3 GHz       > 22 dB        < 1.17:1
+
+--------------------------------------------------------------------------------
+DC RESISTANCE VERIFICATION (both versions)
+--------------------------------------------------------------------------------
+
+After assembly, measure DC resistance with precision LCR meter:
+  Acceptable: 49.5 to 50.5 ohm (±1% for standard version)
+              49.9 to 50.1 ohm (±0.2% for precision version)
+
+Temperature coefficient (Vishay thin film):
+  ±25 ppm/C typical
+  At 50C rise: resistance change = 50 x 25 = 1250 ppm = 0.125%
+  This produces SWR change of < 0.001:1 -- negligible
+
+--------------------------------------------------------------------------------
+PARTS LIST — SMA VERSION (CAL-SMA)
+--------------------------------------------------------------------------------
+  Qty  Reference  Value/Part Number            Description
+  ---  ---------  ---------------------------  ---------------------------
+   2   R1,R2      100R 0.1% 0402 thin film     Vishay FC0402E1000BTT1
+   1   J1         SMA end-launch               SW Microwave 1092-01A-6
+   1   --         Rogers RO4003C PCB           15mm x 15mm, 0.508mm
+   1   --         Brass housing                CNC or cast brass body
+
+PARTS LIST — N-TYPE VERSION (CAL-N)
+--------------------------------------------------------------------------------
+  Qty  Reference  Value/Part Number            Description
+  ---  ---------  ---------------------------  ---------------------------
+   4   R1-R4      200R 0.1% 0603 thin film     Vishay FC0603E2000BT24
+   1   J1         N-type male, precision       Amphenol 172138 or equiv
+   1   --         Rogers RO4350B PCB           22mm diameter disc, 0.508mm
+   1   --         N-connector body             Machine brass
+
+================================================================================

@@ -1,0 +1,218 @@
+================================================================================
+SCHEMATIC: DIRECTIONAL COUPLER — 20 dB, 1 MHz - 500 MHz
+TM-DL-COUPLER  Rev A
+================================================================================
+
+PURPOSE: Samples forward and reflected power from dummy load (or any
+50-ohm line) to drive power and SWR display. Used with CYD monitor.
+
+TWO DESIGNS:
+  COUPLER-HF:  Bruene bridge type, 1-30 MHz, toroid transformer
+  COUPLER-VHF: Resistive dual-directional, 1 MHz-500 MHz, broadband
+
+================================================================================
+COUPLER-HF: BRUENE DIRECTIONAL COUPLER (1-30 MHz)
+================================================================================
+
+                     TX IN (J1)          LOAD OUT (J2)
+                        |                    |
+                  +-----+------[LINE]--------+-----+
+                  |     |                         |
+                  |  T1 primary (1T thru-line)    |
+                  |     |                         |
+                  |  T1 secondary (10T, bifilar)  |
+                  |     |                         |
+                  | FWD tap              REF tap  |
+                  |     |                    |    |
+                  |   D1(BAT54)           D2(BAT54)
+                  |     |                    |    |
+                  |   C1(100pF)           C2(100pF)
+                  |     |                    |    |
+                  | R2(1k)                R3(1k)  |
+                  |     |                    |    |
+                  |   J3 FWD              J4 REF  |
+                  |   SMA                  SMA    |
+                  |     |                    |    |
+                  +-----+--------------------+----+
+                  GND bus (continuous, low inductance)
+
+FULL SCHEMATIC:
+
+ J1              T1 (FT-37-61 toroid)             J2
+ IN ----+---(1-turn thru line, #14 AWG)---+---- OUT (to dummy load)
+        |                                 |
+        | T1 secondary winding:           |
+        | 10 turns, #26 AWG, bifilar       |
+        | on FT-37-61 (or FT-50-61)       |
+        |                                 |
+        Tap A (+)         Tap B (-)
+        |                     |
+   R4 (50R)             R5 (50R)    <-- termination resistors
+        |                     |
+        +------+     +--------+
+        |      |     |        |
+       D1    D2  (BAT54 Schottky pair)
+      (FWD)  (REF)
+        |      |
+       C1    C2  (100pF, NP0 capacitor each)
+        |      |
+      R6(1k) R7(1k)  <-- detector load
+        |      |
+      J3 FWD  J4 REF   (SMA female, panel mount)
+        |      |
+       GND    GND
+
+
+COMPONENT VALUES:
+  T1:  FT-37-61 or FT-50-61 ferrite toroid
+       Primary: 1 turn #14 AWG through toroid (thru-line)
+       Secondary: 10 turns #26 AWG, bifilar wound
+       Results in 20 dB coupling (20:1 voltage ratio = 10:1 turns)
+  D1,D2: BAT54 or 1N5711 Schottky diodes
+  C1,C2: 100 pF, NP0/C0G, 50V
+  R4,R5: 51 ohm, 1/4W, 1% (termination, must be accurate 50 ohm)
+  R6,R7: 1 kohm, 1/4W (detector load resistor)
+  J1,J2: SO-239 (HF) or N-type (HF/VHF) panel connectors
+  J3,J4: SMA female, panel mount (detector outputs)
+
+
+CALIBRATION:
+  Apply known power (e.g., from calibrated QRP rig: 5W = 37 dBm)
+  Measure V_dc at J3 with load terminated into dummy load.
+  Calibration factor K = P_in / (V_dc * V_dc)
+  Example: 5W into load, measure 0.50V at J3
+    K = 5 / 0.25 = 20
+  SWR calculation in CYD code uses this K factor.
+
+PERFORMANCE:
+  Frequency range:      1 MHz - 30 MHz (-1 dB)
+                        0.5 MHz - 60 MHz (-3 dB)
+  Directivity:          > 25 dB (1-20 MHz)
+  Coupling:             20 dB ± 1 dB
+  Insertion loss:       < 0.15 dB
+  Power handling:       1.5 kW (limited by thru-line current)
+
+
+================================================================================
+COUPLER-VHF: RESISTIVE DUAL DIRECTIONAL COUPLER (1 MHz - 500 MHz)
+================================================================================
+
+  Wheatstone bridge topology, also called a "Hybrid ring" or "rat-race"
+  in its transmission-line form. This is the lumped-element version.
+
+                     J1 (TX IN)
+                        |
+               +--------+--------+
+               |                 |
+             R1(25R)           R2(25R)    <- series arm
+               |                 |
+               +---+       +---+
+               |   |       |   |
+            R3(25R)       R4(25R)         <- shunt arm
+               |               |
+          J3 (FWD)         J4 (REF)
+          detector          detector
+               |               |
+              GND             GND
+               |               |
+               +---------------+
+                       |
+                    J2 (LOAD OUT)
+                       |
+                  50-ohm dummy load
+
+RESISTOR VALUES for 20 dB coupling (voltage ratio 10:1):
+  R1 = R2 = R3 = R4 = 25 ohm
+  This creates a 12-dB coupler when loaded.
+  For exact 20 dB: see Pozar "Microwave Engineering" Ch.7 for design.
+
+PRACTICAL 20 dB COUPLER:
+  This topology: 3-resistor Wheatstone bridge
+
+ J1 IN ----R1(16.7R)----+----R2(16.7R)---- J2 OUT
+                        |
+                     R3(100R)
+                        |
+                    +---+---+
+                    |       |
+                  D1(FWD) D2(REF)
+                    |       |
+                  C(100p) C(100p)
+                    |       |
+                  R4(1k)  R5(1k)
+                    |       |
+                  FWD out REF out (to ADC)
+
+Actually, properly:
+
+J1 IN ---+-----(16.67R series)-----+---- J2 LOAD OUT
+         |                         |
+        FWD                       REF
+      detector                  detector
+    (diode+RC)                 (diode+RC)
+         |                         |
+        GND                       GND
+
+Full design (Pozar-based resistive divider coupler):
+
+  Insertion resistors:  R1=R2=8.33 ohm (two 16.7R in parallel)
+  Coupling resistors:   100 ohm each to detector taps
+  Detector:            BAT54 + 100pF + 1kohm each port
+
+NOTE: Resistive couplers have insertion loss proportional to coupling.
+For 20dB coupler: insertion loss ~0.8 dB. Acceptable for test purposes.
+For VERY LOW insertion loss, use transformer coupler (COUPLER-HF above).
+
+PERFORMANCE (resistive VHF coupler):
+  Frequency range:   1 MHz - 500 MHz (flat to ±1 dB)
+  Directivity:       > 20 dB (50 MHz - 500 MHz)
+  Insertion loss:    0.8 dB
+  Coupling:          20 dB ± 2 dB
+  Power handling:    200W continuous (R1, R2 are in power path)
+                     Use R1,R2 as 2W metal film resistors
+
+
+================================================================================
+DETECTOR CIRCUIT (for both couplers)
+================================================================================
+
+Used at J3 (forward) and J4 (reflected) ports:
+
+  SMA IN ----+---- D1 (BAT54A) ----+---- V_dc OUT (to ADC)
+             |    (anode to SMA)   |
+           (50R)                C1 (100pF NP0)
+            to                    |
+           GND                  R1 (10k)
+                                   |
+                                  GND
+
+  D1: BAT54A or HSMS-2852 Schottky (low-forward voltage, fast)
+      For frequencies > 200 MHz: HSMS-2852 or SMS7621 preferred
+  C1: 100 pF, NP0/C0G, detector bypass
+  R1: 10 kohm, detector DC load (slow decay for averaging)
+      Change to 1k for faster response (peak power reading)
+      Change to 100k for slow averaging (average power reading)
+
+  Voltage-to-power calibration:
+    V_dc = 0.707 * V_peak * coupling_factor * detector_efficiency
+    P_fwd = V_dc^2 / (50 * coupling_factor^2 * detector_efficiency^2)
+
+  Calibration constants (empirical, measured with known source):
+    K_fwd, K_ref (stored in CYD EEPROM, see cyd/power_monitor_cyd.ino)
+
+================================================================================
+PARTS LIST — COMPLETE COUPLER BOARD
+================================================================================
+  Qty  Reference  Value               Description
+  ---  ---------  ------------------  ----------------------------------
+   1   T1         FT-50-61 toroid     HF coupler core (or FT-37-61)
+   2   D1,D2      BAT54A SOD-123      Schottky detector diodes
+   4   C1-C4      100pF NP0 0402      Detector bypass caps
+   2   R1,R2      51R 1% 0805 2W      Coupler termination
+   2   R3,R4      1k 1% 0402          Detector load
+   2   R5,R6      51R 1% 0402         SMA termination at detector ports
+   2   J3,J4      SMA female flange   Forward/reflected output ports
+   2   J1,J2      Per antenna design  Main line connectors (N or SO-239)
+   1   --         FR4 PCB 50x30mm     Coupler board
+
+================================================================================

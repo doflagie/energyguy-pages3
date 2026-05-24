@@ -1,0 +1,14 @@
+ANTENNA SPECIFICATION — END_FED_ZEPP,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,"160M, 80M, 40M, 20M, 15M, 10M",,Center/allocated bands
+Design approach,Zepp-fed end-off-center dipole (high Z feed point),,Primary design method
+Compaction factor,0%,,Size reduction vs full-size
+Special parameters,"Open-wire feeder, high impedance match, tuner required",,Design-specific details
+,,,
+Feed impedance,50–600,Ω,Antenna-type dependent
+SWR target,<2.0,:1,With tuner if required
+Radiation pattern,Varies,,See NEC model
+,,,
+Typical efficiency,75–95%,%,Design-dependent
+Typical gain,2–10,dBi,Antenna-type dependent

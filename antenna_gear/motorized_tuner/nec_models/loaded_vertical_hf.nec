@@ -1,0 +1,114 @@
+CM ============================================================
+CM NEC-2 Model: Base-Loaded 5m Whip Vertical for 40m/80m
+CM Document:    TM-HFTN-NEC-004
+CM Author:      Merv Martin
+CM Date:        2026-05-02
+CM ============================================================
+CM Description:
+CM   5-meter whip antenna with series base loading coil.
+CM   Models a short mobile/portable vertical that is electrically
+CM   shortened and resonated with a lumped inductance (LD card).
+CM
+CM   Total height: 5.0m
+CM   Loading coil: at 0.5m above base (segment 5 of vertical)
+CM   Wire radius: 0.002m (vertical), 0.001m (radials)
+CM   4 radials at z=0, each 5.0m long
+CM
+CM   40m operation: L = 15 µH at 7.15 MHz
+CM     Reactance: XL = 2π × 7.15e6 × 15e-6 = 675 ohms
+CM     This resonates the ~5m whip (electrically ~18 deg at 7.15 MHz)
+CM
+CM   80m operation: L = 60 µH at 3.65 MHz  (see FR card below)
+CM     Reactance: XL = 2π × 3.65e6 × 60e-6 = 1374 ohms
+CM     NOTE: Change LD card inductance for 80m evaluation.
+CM
+CM Ground: Sommerfeld-Norton, sigma=0.005 S/m, eps_r=13
+CM Source: base of vertical (segment 1)
+CM
+CM Wire subdivision:
+CM   Vertical: 20 segments over 5.0m = 0.25m per segment
+CM   Loading coil at segment 5 (z = 1.00m to 1.25m)
+CM   This places coil above ground for physical clearance.
+CM
+CM Coordinate system:
+CM   Vertical element: x=0, y=0, z=0 to 5m
+CM   Radials at z=0: 4 directions, each 5m
+CE
+CM --- GEOMETRY ---
+CM Wire 1: Vertical element (0 to 5m)
+CM GW  tag  nseg  x1    y1    z1    x2    y2    z2    radius
+GW  1   20   0.0   0.0   0.0   0.0   0.0   5.0   0.002
+CM
+CM Radials (4 × 5m, z=0, 90 deg spacing)
+CM Wire 2: Radial at 0 deg (+x)
+GW  2   10   0.0   0.0   0.0   5.0   0.0   0.0   0.001
+CM Wire 3: Radial at 90 deg (+y)
+GW  3   10   0.0   0.0   0.0   0.0   5.0   0.0   0.001
+CM Wire 4: Radial at 180 deg (-x)
+GW  4   10   0.0   0.0   0.0  -5.0   0.0   0.0   0.001
+CM Wire 5: Radial at 270 deg (-y)
+GW  5   10   0.0   0.0   0.0   0.0  -5.0   0.0   0.001
+CM
+GE  1
+CM --- GROUND ---
+GN  2   0   0   0   13.0   0.005
+CM --- LOADING (Lumped Inductance at segment 5 of wire 1) ---
+CM LD  type  tag  seg  seg  R_ohms  L_henries  C_farads
+CM type 0 = series RLC; R=0, C=0 (pure inductance)
+CM 15 µH = 15e-6 H for 40m operation
+LD  0   1   5   5   0.0   15.0e-6   0.0
+CM --- EXCITATION ---
+CM Voltage source at segment 1 (base, z=0 to z=0.25m)
+EX  0   1   1   00   1.0   0.0
+CM --- FREQUENCY ---
+CM Single frequency: 7.15 MHz (40m)
+CM To evaluate 80m: change FR to 3.65 and LD to 60e-6
+FR  0   1   0   0   7.15   0.0
+CM --- CURRENT DISTRIBUTION ---
+PQ  0   0   0   0
+CM --- RADIATION PATTERN ---
+CM Elevation cut, theta 0-90 deg, step 2 deg
+RP  0   46   1   1001   0.0   0.0   2.0   0.0
+CM Azimuth cut at elevation 20 deg (theta=70)
+RP  0   1   73   1001   70.0   0.0   0.0   5.0
+EN
+CM ============================================================
+CM LOADED VERTICAL THEORY:
+CM   A 5m whip at 7.15 MHz is 5/41.96m = 0.119 lambda (43 deg).
+CM   It presents a capacitive reactance at the base that must be
+CM   cancelled by a series inductance for resonance.
+CM
+CM   Short whip base impedance (approximate):
+CM     Rrad ≈ 7 × (h/lambda)^2 × 1600 = very low (~4-8 ohms)
+CM     Xcap ≈ -600 to -800 ohms (highly capacitive)
+CM
+CM   The 15 µH loading coil (XL = 675 ohms at 7.15 MHz) provides
+CM   partial resonance. Full resonance requires adjustment of L
+CM   or an additional series capacitor/inductor.
+CM
+CM   Efficiency of loaded short verticals:
+CM     η = Rrad / (Rrad + Rloss)
+CM     where Rloss = coil Q loss + ground loss
+CM     For Q=100 coil: Rloss_coil = XL/Q = 675/100 = 6.75 ohms
+CM     Rrad (~6 ohms) → η ≈ 6/(6+6.75+5) = ~34%
+CM     Use highest-Q coil possible (silver-plated, large dia, air-core)
+CM
+CM 40m / 80m INDUCTANCE TABLE:
+CM   Freq    Target XL    L required
+CM   7.15    675 ohms     15 µH   (loaded at seg 5, z=1m)
+CM   3.65    1374 ohms    60 µH   (change LD card: 60.0e-6)
+CM   3.50    1319 ohms    60 µH   (close enough for 80m CW end)
+CM
+CM MOTORIZED TUNER APPLICATION:
+CM   Replace fixed coil with roller inductor (see motorized_tuner project).
+CM   Stepper motor adjusts inductance 0–80 µH continuously.
+CM   NEC model can be re-run at each L step to map Z(L) vs frequency.
+CM   Feed into matching network (L-network or transmatch) for 50-ohm match.
+CM
+CM WIRE TAG REFERENCE:
+CM   Wire 1: vertical (tags 1–20)
+CM   Wire 2: radial 0 deg (tags 21–30)
+CM   Wire 3: radial 90 deg (tags 31–40)
+CM   Wire 4: radial 180 deg (tags 41–50)
+CM   Wire 5: radial 270 deg (tags 51–60)
+CM ============================================================

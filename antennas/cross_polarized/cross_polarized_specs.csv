@@ -1,0 +1,18 @@
+ANTENNA SPECIFICATION — CROSS-POLARIZED,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,"2M, 70cm",,Center/allocated bands
+Design approach,Circular polarization array (2 dipoles 90° offset),,Primary design method
+Compaction factor,0%,,Size reduction vs full-size
+Special parameters,"90° phase shift, suitable for satellite/weak-signal",,Design-specific details
+,,,
+Feed impedance,50,Ω,Standard amateur radio
+SWR target,<1.5,:1,At band center
+Radiation pattern,Varies,,See NEC model
+Polarization,Linear,,Or circular for arrays
+,,,
+Typical efficiency,80–95%,%,Band-dependent
+Typical gain,2–10,dBi,Type-dependent
+,,,
+NEC model file,cross_polarized.nec,,See electromagnetic simulation
+Construction manual,cross_polarized.md,,Step-by-step procedures

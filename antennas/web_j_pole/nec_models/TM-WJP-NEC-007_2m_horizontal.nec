@@ -1,0 +1,29 @@
+CM ============================================================
+CM TM-WJP-NEC-007  2m Webbing J-Pole, 2-inch tape, HORIZONTAL
+CM Design frequency: 146.000 MHz
+CM VF = 0.95 (both elements)
+CM
+CM Horizontal orientation: antenna lies along X-axis.
+CM Provides figure-8 pattern (null broadside, gain off ends) vs omnidirectional vertical.
+CM Useful for point-to-point portable links.
+CM
+CM GEOMETRY (horizontal, along X-axis):
+CM   Wire 1 (Strip A, long element): y=0, z=0, x=0 to x=1.464m (full length)
+CM   Wire 2 (Strip B, stub):         y=0.025, z=0, x=0 to x=0.488m
+CM   Wire 3 (short circuit):         x=0, z=0, y=0 to y=0.025m
+CM
+CM FEED: Wire 2, Segment 3 (same as vertical model)
+CM
+CM DIMENSIONS: Same as TM-WJP-NEC-005 (2m vertical)
+CM   L_rad = 0.976m, L_stub = 0.488m, L_total = 1.464m
+CM ============================================================
+CE
+GW  1  21  0.000  0.000  0.000  1.464  0.000  0.000  0.00809
+GW  2  11  0.000  0.025  0.000  0.488  0.025  0.000  0.00809
+GW  3   1  0.000  0.000  0.000  0.000  0.025  0.000  0.00809
+GE  0
+EX  0  2  3  0  1.0  0.0
+FR  0  1  0  0  146.000  0
+RP  0  181  1  1000  0.0  0.0  1.0  0.0
+RP  0    1  360  1000  90.0  0.0  0.0  1.0
+EN

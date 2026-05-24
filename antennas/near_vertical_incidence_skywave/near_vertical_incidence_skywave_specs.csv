@@ -1,0 +1,11 @@
+ANTENNA SPECIFICATION — NEAR VERTICAL INCIDENCE SKYWAVE,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,"160M, 80M, 40M",,
+Design approach,Vertical or inverted-vee with high-Q trap loading,,
+Compaction factor,40%,,
+Special parameters,"Steep radiation angle, near-vertical takeoff",,
+Feed impedance,50–600,Ω,
+SWR target,<2.0,:1,
+Efficiency,75–95%,%,
+Gain,2–12,dBi,

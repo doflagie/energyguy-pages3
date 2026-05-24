@@ -1,0 +1,228 @@
+================================================================================
+SCHEMATIC: 180° HYBRID — RAT-RACE (RING) COUPLER
+TM-HYB-001  Rev A
+Sum (Σ) and Difference (Δ) ports; 180° phase split
+50Ω system, VHF/UHF primary (coaxial/microstrip); lumped HF option
+================================================================================
+
+OVERVIEW
+--------
+The rat-race (ring) coupler is a 4-port network providing:
+  Port 1 (Σ, sum):    In-phase sum of ports 3 and 4 (-3 dB each)
+  Port 2 (Δ, diff):   180° difference between ports 3 and 4 (-3 dB each)
+  Port 3 (input A)
+  Port 4 (input B)
+
+When driven at Port 1 (Σ):
+  → Port 3: −3 dB, 0°
+  → Port 4: −3 dB, 0°
+  → Port 2: isolated
+
+When driven at Port 2 (Δ):
+  → Port 3: −3 dB, 0°
+  → Port 4: −3 dB, 180°
+  → Port 1: isolated
+
+Key applications:
+  • Phased array beamforming (sum/difference monopulse)
+  • Balanced mixer/modulator
+  • Antenna diversity switching
+  • DF (direction-finding) antenna networks
+  • Push-pull amplifier combining
+  • 2-element broadside array with switchable endfire/broadside
+
+RING COUPLER DIMENSIONS
+------------------------
+Ring characteristic impedance: Z_ring = Z0 × √2 = 70.71 Ω
+Total ring circumference:       3λ/2 (1.5 wavelengths in ring medium)
+
+Port spacing around ring:
+  Port 1 → Port 3:  λ/4
+  Port 3 → Port 2:  λ/4
+  Port 2 → Port 4:  λ/4
+  Port 4 → Port 1:  3λ/4  (← this is the "long way around")
+  Total:  3λ/2 ✓
+
+SCHEMATIC — TRANSMISSION LINE VERSION
+----------------------------------------
+
+                    PORT 1 (Σ)
+                       │
+              3λ/4     │     λ/4
+              ←────────┼────────→
+             ╱          Z=70.71Ω  ╲
+            ╱                      ╲
+           PORT 4                  PORT 3
+            ╲           Z=70.71Ω  ╱
+             ╲                    ╱
+              ←────────┼────────→
+                λ/4    │    λ/4
+                       │
+                    PORT 2 (Δ)
+
+  Ring: single loop of 70.71Ω transmission line, 3λ/2 total length.
+  Ports tap into ring at λ/4 spacing (except Port 4 → Port 1 = 3λ/4).
+
+  Port 1 is the Σ (in-phase/sum) port.
+  Port 2 is the Δ (antiphase/difference) port.
+  Ports 3 and 4 are the two signal inputs/outputs.
+
+
+SIGNAL FLOW ANALYSIS
+---------------------
+From Port 1 (Σ port driven):
+  → Port 3: λ/4 clockwise → −90° phase
+  → Port 4: 3λ/4 clockwise (or λ/4 counter-clockwise through ring) → −90° phase
+  Both equal amplitude, equal phase: in-phase split.
+
+From Port 2 (Δ port driven):
+  → Port 3: λ/4 clockwise → −90°
+  → Port 4: λ/4 counter-clockwise → +90° (then through 3λ/4 to P4 alternatively)
+  Net: 180° difference.
+
+Isolation: Port 1 → Port 2: λ/2 and 3λ/2 paths cancel exactly at design f.
+
+
+PHYSICAL RING DIMENSIONS (COAXIAL)
+-------------------------------------
+Total ring = 3λ/2 in the line medium.
+
+Physical length = (3 × c × VF) / (2 × f)
+
+  Band     f₀ (MHz)  VF=0.66 (RG-58)   VF=0.70 (PTFE)   VF=1.0 (air)
+  ----     --------  ----------------  ---------------  ------------
+   6M       50.5       5855 mm total     6208 mm           8911 mm
+   2M      146         2025 mm           2148 mm           3083 mm
+  1.25M    223.5        1322 mm           1402 mm           2014 mm
+  70cm     435          679 mm            720 mm            1034 mm
+  33cm     915          323 mm            342 mm             491 mm
+  23cm    1296          228 mm            242 mm             347 mm
+
+  Physical λ/4 spacing between ports = (total ring) / 6.
+  Physical 3λ/4 spacing (Port 4 → Port 1) = 3 × (total ring) / 6 = total/2.
+
+  Construction: Form ring coaxial line into circle.
+  Junction tees: SMA-T adapters or custom PCB/jig.
+  Ring Z = 70.71Ω: use RG-59 (75Ω ≈ 70.71Ω, acceptable substitute) or
+  construct 2-wire balanced line.
+
+
+MICROSTRIP RAT-RACE (70cm / 33cm / 23cm)
+------------------------------------------
+On FR-4, h=1.6mm, εr=4.4:
+  70.71Ω trace: w ≈ 0.9 mm
+  Effective εr ≈ 3.2 → VF ≈ 0.56
+
+  Band    Total ring   λ/4 segment   3λ/4 long seg
+  ----    ----------   -----------   -------------
+  70cm    570 mm        95 mm         285 mm
+  33cm    271 mm        45 mm         136 mm
+  23cm    191 mm        32 mm          96 mm
+
+  Layout: Circle or square ring geometry.
+  Ports attach at ring via stub transitions.
+  Port 2 (Δ) is the "long arm" port (3λ/4 from Port 1 around the short path).
+
+  CAUTION: At 23cm the ring is small (191 mm); SMA connector bodies may
+  interfere. Use end-launch SMA connectors and careful PCB layout.
+
+
+LUMPED ELEMENT RAT-RACE (HF)
+------------------------------
+Replace each λ/4 section with lumped T-network.
+The ring has six λ/4 sections: four short ones and combined 3λ/4.
+
+For Z_ring = 70.71Ω, per λ/4 section:
+  L_section = Z_ring / (2πf₀) = 70.71 / (2πf₀)
+  C_section = 1 / (2πf₀ × Z_ring)
+
+  Band    f₀(MHz)   L_sec(µH)  C_sec(pF)   6 inductors  6 caps
+  ----    -------   ---------  ---------   -----------  ------
+  160M     1.85      6.08       1216         6×6.08µH    6×1216pF
+  80M      3.75      3.00        601         6×3.00µH    6×601pF
+  40M      7.15      1.574       315         6×1.574µH   6×315pF
+  30M     10.125     1.111       222         6×1.111µH   6×222pF
+  20M     14.175     0.793       159         6×793nH     6×159pF
+  10M     28.850     0.390        78         6×390nH     6×78pF
+   6M     50.500     0.223        44.7       6×223nH     6×44.7pF
+
+  This requires 12 inductors + 12 capacitors per divider — large component
+  count. For HF phase arrays, consider using the lumped Wilkinson +
+  phase-shifting network instead.
+
+  ALTERNATIVE: Use only 4 sections (non-ring topology):
+  For HF beamforming, a simpler approach is the transformer-based 180° hybrid
+  (see sch_tl_transformer.txt for 1:1 balun-based hybrid).
+
+
+180° HYBRID FROM TRANSMISSION LINE TRANSFORMER
+------------------------------------------------
+Simpler HF implementation using bifilar wound toroid:
+
+    IN ───────────────────────────────── Σ OUT (+in-phase, −3dB)
+         │                         │
+        [T1: 1:1 BALUN]           [50Ω load]
+         │                         │
+    IN ───────────────────────────────── Δ OUT (−antiphase, −3dB)
+
+  T1: BN-43-202 binocular core, 6 turns bifilar 26 AWG.
+  Bandwidth: 1.5 MHz – 30 MHz (limited by core permeability and SRF).
+  Insertion loss: < 0.3 dB.
+  This is a narrowband approximation; true rat-race is more broadband.
+
+
+PERFORMANCE SPECIFICATIONS — RAT-RACE COUPLER
+-----------------------------------------------
+
+  Parameter                    Ideal     Typical
+  ---------                    -----     -------
+  Insertion loss (Σ port)      3.01 dB   3.0–3.5 dB
+  Insertion loss (Δ port)      3.01 dB   3.0–3.5 dB
+  Phase difference (P3, P4 from Σ)   0°    < 2°
+  Phase difference (P3, P4 from Δ) 180°    178–182°
+  Amplitude balance             0 dB      < 0.5 dB
+  Isolation (Σ–Δ)               ∞ dB      > 20 dB
+  Return loss                   ∞ dB      > 18 dB
+  1 dB bandwidth                0.75–1.33f (about 1.8:1)
+
+
+PHASED ARRAY FEED APPLICATIONS
+--------------------------------
+
+2-ELEMENT ENDFIRE ARRAY (using Δ port for 180° phasing):
+  • Feed two λ/2 dipoles spaced λ/2 apart.
+  • Drive Δ port of rat-race.
+  • Port 3: element 1, 0°.
+  • Port 4: element 2, 180°.
+  • Result: broadside null, two endfire lobes.
+  • Rotate array 90° for endfire in one direction.
+
+2-ELEMENT SWITCHABLE ARRAY:
+  • Drive Σ port: both elements 0° → broadside pattern.
+  • Drive Δ port: elements 0°/180° → endfire pattern.
+  • Switch between Σ and Δ for pattern diversity.
+  • Use PIN diode switch or relay to select port.
+
+MONOPULSE DIRECTION FINDING:
+  • Two antennas connected to P3 and P4.
+  • Σ port: sum signal (maximum signal strength).
+  • Δ port: difference signal (null at boresight, proportional to angle error).
+  • Use Σ for tracking, Δ for angle measurement.
+
+
+PARTS LIST — RAT-RACE COUPLER (COAXIAL VERSION)
+-------------------------------------------------
+
+  Ref    Qty  Value/Part           Description
+  ---    ---  ----------           -----------
+  TL1    1    RG-59 or RG-316      70.71Ω coax ring (3λ/2 length per band)
+  J1     1    SMA/BNC (Σ)          Sum port
+  J2     1    SMA/BNC (Δ)          Difference port
+  J3, J4 2    SMA/BNC              Antenna ports A and B
+  T1     4    SMA-T or jig         Coax junction tees
+  R_term 1    50Ω (1W)             Spare port termination
+
+  NOTE: SMA-T adapters introduce insertion loss; minimize by using
+  PCB-based implementation for UHF and above.
+
+================================================================================

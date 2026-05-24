@@ -1,0 +1,251 @@
+================================================================================
+SCHEMATIC: Gas-Discharge Tube (GDT) Coaxial Lightning Arrestor
+TM-LSP-001  Rev A
+SO-239 and N-Type Panel-Mount Designs
+Covers: 1.8 MHz (160M) through 1296 MHz (23cm) with band-specific variants
+================================================================================
+
+THEORY OF GAS-DISCHARGE TUBES
+───────────────────────────────
+A gas-discharge tube (GDT) consists of two or three electrodes sealed in a
+ceramic or glass envelope filled with inert gas (argon or nitrogen) at low
+pressure (~100 mbar).  Under normal conditions the gas is non-conducting and
+presents essentially open-circuit impedance to the transmission line.
+
+When the voltage across the electrodes exceeds the sparkover voltage V_s,
+the gas ionizes (glow discharge → arc) within ~100 ns.  Once conducting,
+the GDT clamps the voltage to the arc voltage V_arc (~10–25V).  After the
+overvoltage event ends, the gas de-ionizes (follow current ceases and tube
+self-extinguishes) within ~200 µs.
+
+GDT CHARACTERISTICS:
+  V_s  (sparkover voltage):   90V, 150V, 230V, 350V, 600V, 1000V DC ratings
+  V_arc (conducting voltage): 10–25V DC (glow-to-arc transition)
+  I_peak (peak impulse):      2.5 kA to 20 kA (8/20 µs waveform)
+  I_followcurrent max:        150A AC (at which self-extinction occurs)
+  Response time:              ~100 ns (slower than TVS but handles higher current)
+  Capacitance (at RF):        0.5–1.5 pF (low; excellent for VHF/UHF)
+  Insertion loss at 1 GHz:    < 0.05 dB for low-capacitance type
+
+GDT vs. TVS vs. MOV COMPARISON:
+
+  Parameter         | GDT        | TVS Diode  | MOV
+  ------------------|------------|------------|--------
+  Response time     | 100 ns     | < 1 ns     | 10-50 ns
+  Clamp voltage     | V_arc ~15V | V_BR × 1.5 | non-precise
+  Peak current      | 2.5–20 kA  | 0.5–50 A   | 1–10 kA
+  Capacitance       | 0.5–1 pF   | 5–500 pF   | 50–10000 pF
+  Self-resetting    | Yes        | Yes        | Degrades
+  Life (# strikes)  | 1000s      | limited    | limited
+  Cost              | Low        | Low        | Very low
+  Best use          | First stage| Third stage| Second stage
+
+FOR ANTENNA COAXIAL PROTECTION: GDT is the primary protection element because:
+  1. Negligible capacitance → negligible VSWR and insertion loss at VHF/UHF
+  2. Very high peak current capacity → handles direct lightning energy
+  3. Self-resetting → survives multiple events without replacement
+  4. Simple coaxial implementation in series signal path
+
+================================================================================
+DESIGN 1: HF GDT ARRESTOR — SO-239 / SO-239 THROUGH LINE
+================================================================================
+
+Application: 1.8–54 MHz, up to 1500W, weatherproof outdoor installation.
+Connectors: SO-239 IN (antenna side), SO-239 OUT (coax to shack side).
+GDT: Epcos/TDK B88069X1140B232 (90V DC, 2.5kA, 1.0pF) or equivalent.
+     Bourns 2040-090TR (90V DC sparkover, axial lead).
+
+SCHEMATIC:
+
+  ANTENNA COAX                                  TO SHACK
+  (SO-239 IN)                                  (SO-239 OUT)
+      │                                              │
+  ════╪═══════════════════════════════════════════╪════
+  center conductor ─────────────────────────── center
+      │                                              │
+      │    GDT1 (90V DC sparkover, 2.5 kA)          │
+      ├────┤ ├─────────────────────────────────────── (no connection to out center)
+      │    │                                         │
+  ════╪════╪════════════════════════════════════════╪════
+  shield ──┤                                     shield
+            │ (both shields connected, outer conductor is GDT return)
+           GND (chassis / enclosure / ground lug)
+            │
+            └──── #6 AWG or 1/2" copper strap ──── GROUND ROD
+
+NOTE ON TOPOLOGY:
+  GDT1 connects IN center conductor to OUTER conductor (chassis ground).
+  The OUT center is directly connected to IN center (through line).
+  GDT1 limits the voltage ON the center conductor to V_arc (~15V) relative
+  to chassis ground when a lightning surge appears.
+
+  Both SO-239 outer conductors are bonded to the enclosure chassis.
+  The chassis is bonded to the station ground system.
+
+THROUGH-LINE COAXIAL DIAGRAM:
+
+  ──────────────────────────────────────────────────── CENTER CONDUCTOR
+  │← IN pigtail →│ GDT center node │← OUT pigtail →│
+                  │
+                 [GDT1]  90V sparkover
+                  │
+  ──────────────────────────────────────────────────── OUTER CONDUCTOR / CHASSIS
+
+Full physical layout (top view, PCB or point-to-point):
+
+  [SO-239 IN]──────────┬──────────────[SO-239 OUT]
+          outer ───────┤(chassis)──── outer
+          center       │center
+                      GDT1
+                       │
+                    CHASSIS
+                       │
+                    GND LUG ──► ground strap ──► ground rod
+
+================================================================================
+DESIGN 2: VHF/UHF GDT ARRESTOR — N-TYPE / N-TYPE THROUGH LINE
+================================================================================
+
+Application: 50–1296 MHz.
+Connectors: N-type (superior weatherproofing vs. UHF type; required above 300 MHz).
+GDT: EPCOS B88069X1140B232 (90V, 1.0pF) — specify low-capacitance variant.
+     Maximum usable frequency at < 0.1 dB insertion loss: ~1.5 GHz with 1pF GDT.
+
+INSERTION LOSS FROM GDT CAPACITANCE:
+  The GDT shunt capacitance C_GDT forms a low-pass filter with the 50Ω system:
+  f_−3dB = 1 / (2π × Z_0/2 × C_GDT)  [for shunt C in 50Ω line: Z_0/2 = 25Ω]
+  f_−3dB = 1 / (2π × 25 × 1×10⁻¹²) = 6.37 GHz
+
+  Insertion loss at frequency f (f << f_−3dB):
+  IL (dB) ≈ 20 × log₁₀(1 + (f/f_−3dB)²/2)
+           ≈ 0.0024 dB at 144 MHz    (negligible)
+           ≈ 0.022 dB at 432 MHz     (negligible)
+           ≈ 0.098 dB at 1296 MHz    (just within 0.1 dB spec)
+
+  For 2-GDT configuration (bi-directional protection), capacitances add:
+  C_total = 2 × 1pF = 2pF → f_−3dB = 3.18 GHz → IL at 1296 MHz = 0.33 dB (marginal)
+  USE SINGLE GDT for 1296 MHz installations.
+
+N-TYPE THROUGH-LINE SCHEMATIC:
+
+  [N-TYPE IN] ─────────────────────────────── [N-TYPE OUT]
+    outer (chassis)                             outer (chassis)
+    center ─────────┬──────────────────────── center
+                    │
+                  [GDT1]  90V sparkover, 1.0 pF
+                  Epcos B88069X1140B232
+                    │
+                 CHASSIS / GROUND
+                    │
+                 N-type M/F grounding lug or chassis stud
+                    │
+                 #6 AWG or 1/2" copper strap
+                    │
+                 GROUND ROD
+
+N-TYPE CONNECTOR SPECIFICATIONS (at the arrestor):
+  Use silver-plated N-type with PTFE dielectric.
+  IP67 or IP68 rated (with O-ring face seal).
+  Amphenol 82-836 (N-female panel), 82-835 (N-male panel).
+  Maximum RF power: 1500W at 450 MHz (50Ω resistive load).
+
+================================================================================
+DESIGN 3: DUAL-STAGE GDT (HF + VHF COMBINED) — N-TYPE
+================================================================================
+
+Two GDTs in parallel with different V_s ratings:
+  GDT1: 90V sparkover — handles main lightning surge
+  GDT2: 230V sparkover — backup / redundant protection
+
+Connected in parallel between center conductor and chassis ground.
+
+DUAL GDT SCHEMATIC:
+
+  CENTER CONDUCTOR ────────┬────────────────────── CENTER CONDUCTOR
+                            │
+                      ┌──[GDT1]──┐   GDT1: 90V DC, 2.5kA (Epcos B88069X)
+                      │          │   GDT2: 230V DC, 2.5kA (backup)
+                      └──[GDT2]──┘
+                            │
+                         CHASSIS
+
+Benefits: redundant protection; if GDT1 fails open, GDT2 provides backup.
+If GDT1 fails shorted (rare but possible): GDT2 is destroyed, but coax is
+open-circuited (fail-safe: attenuates signal rather than passing destructive V).
+
+================================================================================
+SPARKOVER VOLTAGE SELECTION GUIDE
+================================================================================
+
+  V_s (DC)  | V_s (AC rms) | Application                         | Concern
+  ----------|--------------|-------------------------------------|---------------------------
+    75V     |   53V rms    | Low-voltage DC antennas (active)    | May arc on FM deviation peaks
+    90V     |   64V rms    | Standard HF coax (recommended)      | Standard choice
+   150V     |  106V rms    | Coax with DC (rotor/power injected) | DC blocks needed if < 150V
+   230V     |  163V rms    | 12VDC active antenna supply         | Use with 12V bias-T
+   350V     |  247V rms    | Higher DC bias systems              |
+   600V     |  424V rms    | High-power HF (1.5kW into SWR >3)  | Peak voltage on high-SWR line
+
+PEAK RF VOLTAGE ON TRANSMISSION LINE:
+  At 1500W into 50Ω resistive load: V_peak = √(2 × P × Z) = √(150,000) = 387V peak
+  This would TRIGGER a 350V GDT during normal transmit at 1500W!
+
+  CRITICAL: V_s must be > maximum peak RF voltage on the line during transmit.
+  For 1500W / 50Ω: V_peak = 387V → use V_s ≥ 600V for high-power use.
+  For 100W / 50Ω: V_peak = 100V → use V_s ≥ 150V.
+  For QRP 5W / 50Ω: V_peak = 22.4V → V_s ≥ 90V safe.
+
+  NOTE: Under high SWR conditions, voltage can be much higher:
+  At 1500W with SWR = 3:1: V_peak_max = 387 × √3 = 670V → V_s ≥ 1000V for safety!
+
+  RECOMMENDED V_s by power level and SWR:
+  P ≤ 100W, SWR ≤ 2:1:   V_s = 150V ✓ (recommended standard)
+  P ≤ 500W, SWR ≤ 2:1:   V_s = 350V
+  P ≤ 1500W, SWR ≤ 1.5:1: V_s = 600V
+  P ≤ 1500W, SWR ≤ 3:1:  V_s = 1000V (reduced protection margin)
+  QRP ≤ 10W, any SWR:     V_s = 90V (maximum protection)
+
+================================================================================
+INSERTION LOSS AND VSWR SPECIFICATIONS
+================================================================================
+
+For single GDT (1.0 pF) in 50Ω line:
+
+  Frequency | Insertion Loss | VSWR   | Return Loss
+  ----------|---------------|--------|------------
+   1.8 MHz  |  < 0.001 dB   | 1.001  | 67 dB
+   3.5 MHz  |  < 0.001 dB   | 1.001  | 67 dB
+   7.0 MHz  |  < 0.001 dB   | 1.001  | 67 dB
+  14.0 MHz  |  < 0.001 dB   | 1.001  | 67 dB
+  28.0 MHz  |  < 0.001 dB   | 1.001  | 67 dB
+  50.0 MHz  |  < 0.001 dB   | 1.001  | 67 dB
+ 144.0 MHz  |  < 0.002 dB   | 1.003  | 51 dB
+ 432.0 MHz  |  < 0.022 dB   | 1.027  | 41 dB
+ 902.0 MHz  |  < 0.055 dB   | 1.06   | 31 dB
+1296.0 MHz  |  < 0.098 dB   | 1.09   | 27 dB
+
+All specifications exceed requirements (< 0.1 dB IL, < 1.1:1 VSWR) for
+a single 1.0 pF GDT.
+
+================================================================================
+PARTS LIST — GDT ARRESTOR DESIGNS
+================================================================================
+
+Item  | Qty | Part / Value              | Description                  | Source
+------|-----|---------------------------|------------------------------|--------
+GDT1  |  1  | EPCOS B88069X1140B232    | 90V DC, 2.5kA, 1.0pF        | Mouser
+GDT1  |  1  | Bourns 2040-090TR        | 90V DC sparkover, axial      | alt.
+GDT_HV|  1  | EPCOS B88069X5140B502    | 350V DC, 5kA, 1.0pF         | high power
+GDT_HV|  1  | Bourns 2040-600TR        | 600V DC sparkover            | 1.5kW
+J_IN  |  1  | Amphenol SO-239 (UHF-F)  | Panel mount, silver          | HF version
+J_OUT |  1  | Amphenol SO-239 (UHF-F)  | Panel mount, silver          | HF version
+J_IN  |  1  | Amphenol 82-836          | N-type female panel          | VHF/UHF
+J_OUT |  1  | Amphenol 82-836          | N-type female panel          | VHF/UHF
+LUG   |  1  | #10 copper lug, 2-hole   | Ground lug on chassis        |
+STRAP |  1  | 1/2" × 6" copper strap   | Ground bond to enclosure     |
+ENCL  |  1  | Waterproof enclosure     | See openscad/mounting_brackets|3D print ASA
+SEAL  |  1  | Silicone RTV             | Seal around connector flanges|
+BOLT  |  4  | M4 × 10mm SS             | Connector mounting           |
+GSKT  |  2  | Copper/silver washer     | RF-grounding connector gasket|
+
+================================================================================

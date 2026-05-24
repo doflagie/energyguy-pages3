@@ -1,0 +1,224 @@
+================================================================================
+SCHEMATIC: MPPT Solar Charge Controller Integration with BMS
+TM-BMS-001  Rev A
+Interface between solar MPPT controller (TM-PWR-001) and BMS protection stage
+Charge current limit signaling  |  Temperature-adjusted charge setpoints
+Charge enable/disable via BMS  |  Multi-source charging (solar + mains charger)
+================================================================================
+
+REFERENCE: See TM-PWR-001 sch_solar_charge_ctrl.txt for MPPT hardware detail.
+This document covers the interface between the MPPT controller and the BMS.
+
+================================================================================
+SYSTEM ARCHITECTURE
+================================================================================
+
+CHARGING SOURCE OPTIONS:
+  Source 1: Solar panel(s) → MPPT controller → BMS input (B+/B−)
+  Source 2: AC mains charger (LiFePO4 profile, 14.4V / 25A) → BMS input
+  Source 3: Vehicle DC-DC (Orion, etc.) → BMS input
+
+CHARGING PATH:
+  Solar/Charger → BMS B+ / B− terminals
+  BMS CHG FET: in series with B−
+  Pack cells: B+ to B− direct (unswitched positive)
+  Load path: B+/P− through BMS DSG FET
+
+  NOTE: With common-port BMS (single B− for charge and discharge):
+    Charge and discharge cannot occur simultaneously on separated ports.
+    Source and load connect to same P− terminal.
+    BMS manages whether CHG FET or DSG FET operates based on current direction.
+
+  SEPARATE-PORT BMS (JK BMS with C- terminal):
+    Charge connector: B+, C− (charge negative through CHG FET)
+    Load connector:   B+, P− (discharge negative through DSG FET)
+    Allows simultaneous solar charging and load operation.
+    RECOMMENDED for field station: charge from solar while powering radio.
+
+================================================================================
+CHARGE ENABLE SIGNAL INTERFACE
+================================================================================
+
+The ESP32 BMS monitor controls the MPPT controller's output enable:
+
+BMS FIRMWARE → MPPT CONTROLLER:
+  When BMS detects: OV, OT (high temp), charging-below-0°C → disable MPPT output.
+  Signal: ESP32 GPIO pin → MPPT controller CHRG_EN input.
+
+CHRG_EN CIRCUIT (in MPPT controller, TM-PWR-001):
+  CHRG_EN GPIO (ESP32 GPIO27 in MPPT) ──[RELAY COIL] controls relay K1:
+    K1 NO contacts: in series with buck converter enable or CHG FET gate driver.
+    When CHRG_EN = LOW → relay open → charging stopped.
+
+INTER-SYSTEM SIGNAL WIRING:
+  BMS ESP32 GPIO34 (output) ──── MPPT ESP32 GPIO27 (CHRG_EN input)
+  This is a 3.3V logic signal; both ESP32 share the same GND reference.
+  If ESP32 boards are in different enclosures: optocoupler isolation recommended.
+
+OPTOCOUPLER ISOLATION:
+  BMS_ESP32 GPIO34 ──[1kΩ]── PC817 LED anode
+                              PC817 LED cathode → GND (BMS ESP32 GND)
+                              PC817 transistor collector ──[10kΩ pull-up]── 3.3V (MPPT)
+                              PC817 transistor emitter → GND (MPPT ESP32 GND)
+                              Signal at MPPT ESP32 GPIO27 → LOW when charge enabled.
+                              (Inverted logic; adjust firmware accordingly)
+
+CHARGE CURRENT LIMIT SIGNALING:
+  BMS sends target charge current to MPPT via UART or I2C:
+    MPPT ESP32 Serial1 ←── BMS ESP32 Serial1 (3.3V UART)
+    Protocol: simple ASCII: "ILIM=15.0\n" (set charge current limit to 15A)
+    MPPT parses and adjusts PID setpoint.
+
+================================================================================
+CHARGE CURRENT AND VOLTAGE SETPOINTS
+================================================================================
+
+STAGE-BASED SETPOINTS (communicated from BMS to MPPT):
+
+  BMS determines charge stage based on pack SOC and voltage:
+
+  STAGE 1 — BULK (SOC < 80%, V_pack < 14.2V):
+    Command to MPPT: "VSET=14.40 ISET=25.0"   (CV limit 14.4V, CC limit 25A)
+    BMS monitors I_charge; if I > 25A, firmware tightens ISET.
+
+  STAGE 2 — ABSORPTION (V_pack ≥ 14.2V, I_charge > C/20):
+    Command to MPPT: "VSET=14.40 ISET=10.0"   (hold 14.4V, taper current)
+
+  STAGE 3 — TERMINATION (I_charge < C/20 = 2.5A for 50 Ah):
+    Command to MPPT: "VSET=0 ISET=0"           (stop charging)
+    MPPT sets duty cycle to 0.
+
+  STAGE 4 — FLOAT:
+    Command to MPPT: "VSET=13.50 ISET=5.0"    (float at 13.5V, allow small trickle)
+
+TEMPERATURE-ADJUSTED CHARGE VOLTAGE:
+  BMS reads NTC temperature; calculates adjusted charge setpoint:
+    V_adj = V_nominal - (T_cell - 25) × 0.012   (0.003 V/°C/cell × 4 cells)
+    At T = 40°C: V_adj = 14.4 - 0.18 = 14.22V
+    At T = 10°C: V_adj = 14.4 + 0.18 = 14.58V
+
+  BMS sends updated "VSET=14.22" to MPPT controller each temperature update cycle.
+
+COLD TEMPERATURE LOCKOUT:
+  If T_cell < 0°C: BMS sends "VSET=0 ISET=0" → MPPT stops charging.
+  BMS continues to monitor every 60 seconds.
+  When T_cell > 2°C: BMS sends "VSET=14.40 ISET=5.0" → resume pre-charge rate.
+  When T_cell > 5°C: BMS sends "VSET=14.40 ISET=25.0" → resume full charge.
+
+================================================================================
+MULTI-SOURCE CHARGE MANAGEMENT
+================================================================================
+
+When both solar MPPT and AC mains charger are present:
+
+CURRENT SENSE ARBITRATION:
+  BMS monitors I_charge (total, from INA226 on B−).
+  If I_charge_total > I_max (25A): send ISET reduction to MPPT (mains charger
+  does not take I2C/UART commands; it is self-limited).
+  MPPT backs off to maintain total ≤ I_max.
+
+PRIORITY ORDER:
+  1. Solar MPPT: primary source (free energy)
+  2. AC mains charger: supplemental when solar insufficient
+  Both connect to BMS B+ / C− simultaneously.
+  Reverse-polarity diodes prevent sources from charging each other.
+
+SOURCE ISOLATION DIODE:
+  Each source connects through a Schottky diode (MBR3045, 30A, 45V):
+    MPPT_out (+) ──[D_solar: MBR3045]──┐
+                                        ├── BMS C−/B+
+    AC_charger (+) ──[D_mains: MBR3045]┘
+
+  Forward voltage drop: 0.3V at 20A → 6W loss per diode.
+  At full 25A charge: total diode loss = 12W — acceptable for field use.
+  Better: use OR-ing controllers (LTC4413) for near-zero-loss ORing.
+
+LTC4413 IDEAL DIODE CONTROLLER (optional, better than Schottky):
+  Controls a P-channel MOSFET to act as ideal diode (very low voltage drop).
+  V_drop = I × Rds_on = 25A × 0.005Ω = 0.125V → 3W loss (vs. 6W Schottky).
+  Use for permanent installations where efficiency matters.
+
+================================================================================
+CHARGE EFFICIENCY MEASUREMENT
+================================================================================
+
+COULOMBIC EFFICIENCY = charge delivered to battery / charge drawn from source
+ROUND-TRIP EFFICIENCY = energy discharged / energy charged (includes charge + discharge losses)
+
+MEASUREMENT SETUP:
+  I_charge: INA226 on BMS C− (charge path)
+  I_discharge: INA226 on BMS P− (load path)
+  V_pack: INA226 bus voltage
+
+  Energy in:  Wh_in  += V_pack × I_charge × dt   (integrate during charging)
+  Energy out: Wh_out += V_pack × I_discharge × dt  (integrate during discharging)
+
+  Coulombic efficiency η_Q = Ah_out / Ah_in (should be 99%+ for healthy LiFePO4)
+  Round-trip energy efficiency η_E = Wh_out / Wh_in (typically 92–96% for LiFePO4)
+
+CHARGE EFFICIENCY BY STAGE:
+  Bulk (CC): nearly 100% (low overvoltage)
+  Absorption (CV): 95% (current decreasing; some I²R loss)
+  Combined charge efficiency: ~97% for LiFePO4; ~95% for Li-Ion
+
+FIRMWARE LOGGING:
+  ```cpp
+  void update_charge_efficiency() {
+      float i_chg  = read_charge_current();   // INA226 channel 1
+      float i_load = read_load_current();      // INA226 channel 2
+      float v_pack = read_pack_voltage();
+      float dt_h   = delta_ms / 3600000.0f;
+
+      if (i_chg > 0.01f) {  // Charging
+          g_ah_in   += i_chg * dt_h;
+          g_wh_in   += i_chg * v_pack * dt_h;
+      }
+      if (i_load > 0.01f) {  // Discharging
+          g_ah_out  += i_load * dt_h;
+          g_wh_out  += i_load * v_pack * dt_h;
+      }
+      if (g_ah_in > 0.1f) {
+          g_coulomb_eff = g_ah_out / g_ah_in * 100.0f;
+          g_energy_eff  = g_wh_out / g_wh_in * 100.0f;
+      }
+  }
+  ```
+
+================================================================================
+WIRING DIAGRAM — COMPLETE BMS + MPPT INTEGRATION
+================================================================================
+
+SOLAR PANEL ─── MPPT CONTROLLER ─────────────────── BMS CHARGE INPUT (B+/C−)
+  [18V panel]    [ESP32 + buck]        [Schottky D]
+                  │
+               UART TX ──────────────── BMS ESP32 UART RX
+               (charge setpoint commands)
+
+MAINS CHARGER ──────────────────────── BMS CHARGE INPUT (B+/C−)
+  [LiFePO4          [Schottky D]
+   profile, 14.4V]
+
+BMS OUTPUT ─────────────────────────── LOAD (radio, accessories)
+  (B+ / P−)          [INA226]
+                         │
+                      ESP32 I2C (load current monitoring)
+
+BMS ESP32:
+  I2C (GPIO21/22): BQ76920, INA226×2, ADS1115
+  UART (GPIO16/17): JK BMS or MPPT
+  BLE: broadcasting pack status (see firmware)
+  CYD display: cell voltages, SOC, temperature, charge/discharge efficiency
+
+================================================================================
+PARTS LIST — MPPT INTEGRATION
+================================================================================
+
+Item      | Qty | Description                               | Source
+----------|-----|-------------------------------------------|-------------------
+MBR3045   |  2  | Schottky 30A 45V TO-220 (source ORing)   | Mouser
+INA226    |  2  | INA226 precision power monitor (ch. I2C) | Mouser
+PC817     |  2  | Optocoupler (CHRG_EN isolation)           | Mouser
+R_opto    |  2  | 1kΩ 0.25W (opto LED current)             | Mouser
+TERM_BLK  |  1  | 4-position terminal block (wiring center)| Mouser
+
+================================================================================

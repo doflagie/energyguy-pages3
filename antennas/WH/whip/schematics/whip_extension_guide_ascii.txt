@@ -1,0 +1,311 @@
+================================================================================
+  TM-WHP-SCH-002 Rev A
+  TECHNICAL MANUAL — WHIP ANTENNA SYSTEM
+  TELESCOPING WHIP EXTENSION GUIDE — BAND SELECTION
+  Prepared: 2026-05-06      Author: M. Martin      Classification: UNCLASSIFIED
+================================================================================
+
+TABLE OF CONTENTS
+  1.0  Whip Physical Description
+  2.0  Band-to-Extension Table (HF through UHF)
+  3.0  ASCII Diagram — 7-Section Whip with Marks
+  4.0  Graduated Mark Positions on Whip Sections
+  5.0  Mark Application Method (Paint / Engrave)
+  6.0  Operating Notes
+
+================================================================================
+1.0  WHIP PHYSICAL DESCRIPTION
+================================================================================
+
+  Total extended length:    5.60 m  (7 × ~0.80 m nominal sections)
+  Collapsed length:        ~0.36 m  (fits in field kit)
+  Number of sections:       7
+  Section material:         Stainless steel or aluminum alloy tubing
+  Nominal section length:   0.800 m each (see exact lengths below)
+  Mount:                    3/8-24 threaded stud (standard CB/ham mobile)
+
+  SECTION DESIGNATIONS (from base toward tip):
+
+    Sec 1: Base section (largest diameter, 3/8-24 threaded base)
+    Sec 2: Second section
+    Sec 3: Third section
+    Sec 4: Fourth section
+    Sec 5: Fifth section
+    Sec 6: Sixth section
+    Sec 7: Tip section (smallest diameter)
+
+  All sections retract into Sec 1 when collapsed.
+  Measurement references are from the BASE of Sec 1 (mounting point).
+
+================================================================================
+2.0  BAND-TO-EXTENSION TABLE
+================================================================================
+
+  LEGEND:
+    Sections extended = number of sections pulled out to full length
+    Final length      = actual radiator length for that band
+    λ/4 ideal         = exact quarter-wave at band center frequency
+    Loading coil?     = YES means base loading coil module required
+    Trim method       = how to achieve resonance within the band
+
+  ┌───────┬────────┬─────────┬──────────┬──────────┬──────────┬──────────────────────┐
+  │ Band  │ Freq   │ Secs    │ Final    │ λ/4      │ Loading  │ Trim Method          │
+  │       │ (MHz)  │ Extended│ Length   │ Ideal(m) │ Coil?    │                      │
+  ├───────┼────────┼─────────┼──────────┼──────────┼──────────┼──────────────────────┤
+  │ 160m  │  1.850 │  7/7    │  5.60 m  │  38.29 m │  YES     │ Module 1 (144.6 µH)  │
+  │ 80m   │  3.650 │  7/7    │  5.60 m  │  19.14 m │  YES     │ Module 2 (35.5 µH)   │
+  │ 60m   │  5.330 │  7/7    │  5.60 m  │  13.44 m │  YES     │ Module 3 (16.3 µH)   │
+  │ 40m   │  7.200 │  7/7    │  5.60 m  │   9.57 m │  YES     │ Module 4 (7.85 µH)   │
+  │ 30m   │ 10.125 │  7/7    │  5.60 m  │   6.70 m │  YES     │ Module 5 (2.48 µH)   │
+  │ 20m   │ 14.175 │  7/7    │  5.55 m  │   5.06 m │  NO      │ Retract Sec7 ~50mm   │
+  │       │        │         │  or trim  │          │          │ or 300 pF shunt cap  │
+  │ 17m   │ 18.118 │  5/7    │  4.00 m  │   3.99 m │  NO      │ Mark on Sec5 end     │
+  │ 15m   │ 21.225 │  5/7    │  3.43 m  │   3.41 m │  NO      │ Mark on Sec5 at      │
+  │       │        │         │          │          │          │  3.43m from base     │
+  │ 12m   │ 24.940 │  4/7    │  3.20 m  │   2.92 m │  NO      │ Mark on Sec4 at      │
+  │       │        │         │ → retract │          │          │  2.92m from base     │
+  │ 10m   │ 28.500 │  4/7    │  2.55 m  │   2.55 m │  NO      │ Mark on Sec4 at      │
+  │       │        │         │          │          │          │  2.55m from base     │
+  │  6m   │ 50.000 │  2/7    │  1.40 m  │   1.40 m │  NO      │ Mark on Sec2 at      │
+  │       │        │         │          │          │          │  1.40m from base     │
+  │  2m   │145.000 │  1/7    │  0.488 m │   0.488m │  NO      │ Mark on Sec1 at      │
+  │       │        │         │          │          │          │  0.488m from base    │
+  │ 1.25m │222.000 │  1/7    │  0.321 m │   0.337m │  NO      │ Mark on Sec1 at      │
+  │       │        │         │          │          │          │  0.321m from base    │
+  │ 70cm  │432.000 │  1/7    │  0.160 m │   0.173m │  NO      │ Mark on Sec1 at      │
+  │       │        │         │          │          │          │  0.160m from base    │
+  │ 33cm  │902.000 │  tip    │  ~83 mm  │   83 mm  │  NO      │ Tip stub only;       │
+  │       │        │         │          │          │          │  near-field effects  │
+  │ 23cm  │1296 MHz│  tip    │  ~58 mm  │   58 mm  │  NO      │ Tip stub only        │
+  └───────┴────────┴─────────┴──────────┴──────────┴──────────┴──────────────────────┘
+
+  NOTES ON 20m OPERATION:
+    The 5.60 m whip is approximately 10% too long for 20m resonance.
+    Two methods:
+      a) Retract Sec7 (tip) until total length = ~5.05 m.
+         Sec7 has a mark at 5.05 m from base (55 mm extended from Sec6).
+      b) Leave whip at full 5.60 m and add a 300 pF series capacitor at the
+         feed point to introduce a small capacitive detuning — simpler in field.
+
+  NOTES ON 17m OPERATION:
+    Extending exactly 5 sections (Sec1–Sec5) gives 4.00 m.
+    This is very close to λ/4 at 17m (3.99 m).  No further adjustment needed.
+    Fine-tune ±20 mm on tip of Sec5.
+
+================================================================================
+3.0  ASCII DIAGRAM — 7-SECTION WHIP WITH MARKS
+================================================================================
+
+  FULL EXTENSION VIEW (side elevation):
+
+         TIP (top)
+          │
+          ▼
+    ┌─────────┐  Sec 7: 0.80m  ← 70cm mark: 0.160m from base
+    │         │                ← 1.25m mark: 0.321m from base
+    │▓▓▓▓▓▓▓▓▓│                ← 2m mark: 0.488m from base
+    │         │
+    ├─────────┤ ─── 4.80m from base
+    │         │
+    │▓▓▓▓▓▓▓▓▓│  Sec 6: 0.80m  ← 6m mark: 1.40m from base
+    │         │
+    ├─────────┤ ─── 4.00m from base  ← 17m mark (extend Sec5 fully)
+    │         │
+    │▓▓▓▓▓▓▓▓▓│  Sec 5: 0.80m  ← 15m mark at 3.43m
+    │         │
+    ├─────────┤ ─── 3.20m from base
+    │         │
+    │▓▓▓▓▓▓▓▓▓│  Sec 4: 0.80m  ← 12m mark at 2.92m
+    │         │                ← 10m mark at 2.55m
+    ├─────────┤ ─── 2.40m from base
+    │         │
+    │▓▓▓▓▓▓▓▓▓│  Sec 3: 0.80m  (no critical marks — loading coil bands)
+    │         │
+    ├─────────┤ ─── 1.60m from base
+    │         │
+    │▓▓▓▓▓▓▓▓▓│  Sec 2: 0.80m  ← 6m check mark at 1.40m
+    │         │
+    ├─────────┤ ─── 0.80m from base
+    │  BASE   │
+    │▓▓▓▓▓▓▓▓▓│  Sec 1: 0.80m  ← 70cm at 0.160m
+    │         │                ← 1.25m at 0.321m
+    │         │                ← 2m at 0.488m
+    │ 3/8-24  │
+    └────┬────┘
+         │
+    ─────┴─────  Mounting point / feed point
+         │
+    [Base loading unit + L-network]
+         │
+    [Counterpoise radials × 4]
+         │
+        GND
+
+  COLLAPSED VIEW (all sections retracted into Sec 1):
+
+    ┌─────────┐
+    │ ≡≡≡≡≡≡≡ │  ← Sections nested inside, 7 layers
+    │ ≡≡≡≡≡≡≡ │
+    │ ≡≡≡≡≡≡≡ │  Collapsed length ≈ 0.36m
+    │ ≡≡≡≡≡≡≡ │
+    │ 3/8-24  │
+    └────┬────┘
+         │
+
+================================================================================
+4.0  GRADUATED MARK POSITIONS ON WHIP SECTIONS
+================================================================================
+
+  All measurements are from the BASE of Sec 1 (mounting/feed point).
+  Marks are painted/engraved on the visible outer surface of each section.
+
+  ┌─────────┬───────────┬──────────────────────────────────────────────────────┐
+  │ Section │ From Base │ Mark Description                                     │
+  ├─────────┼───────────┼──────────────────────────────────────────────────────┤
+  │  Sec 1  │  0.160 m  │ 70cm band — white ring, "70" label                  │
+  │  Sec 1  │  0.321 m  │ 1.25m band — yellow ring, "125" label               │
+  │  Sec 1  │  0.488 m  │ 2m band — green ring, "2M" label                    │
+  │  Sec 1  │  0.800 m  │ Tip of Sec 1 (Sec 2 base) — reference mark          │
+  ├─────────┼───────────┼──────────────────────────────────────────────────────┤
+  │  Sec 2  │  1.400 m  │ 6m band — orange ring, "6M" label                   │
+  │  Sec 2  │  1.600 m  │ Tip of Sec 2 (Sec 3 base)                           │
+  ├─────────┼───────────┼──────────────────────────────────────────────────────┤
+  │  Sec 3  │  2.400 m  │ Reference mark only                                  │
+  ├─────────┼───────────┼──────────────────────────────────────────────────────┤
+  │  Sec 4  │  2.550 m  │ 10m band — red ring, "10" label                     │
+  │  Sec 4  │  2.920 m  │ 12m band — red-orange ring, "12" label              │
+  │  Sec 4  │  3.200 m  │ Tip of Sec 4                                         │
+  ├─────────┼───────────┼──────────────────────────────────────────────────────┤
+  │  Sec 5  │  3.430 m  │ 15m band — blue ring, "15" label                    │
+  │  Sec 5  │  4.000 m  │ 17m band — blue ring, "17" label (= Sec 5 tip)      │
+  ├─────────┼───────────┼──────────────────────────────────────────────────────┤
+  │  Sec 6  │  4.800 m  │ Tip of Sec 6 reference mark                          │
+  ├─────────┼───────────┼──────────────────────────────────────────────────────┤
+  │  Sec 7  │  5.050 m  │ 20m trim — white dashed ring, "20" label            │
+  │  Sec 7  │  5.600 m  │ Full extension — 160/80/60/40/30m (loading coil)    │
+  └─────────┴───────────┴──────────────────────────────────────────────────────┘
+
+  EXTENSION PROCEDURE BY BAND:
+
+    160m / 80m / 60m / 40m / 30m:
+      ► Extend all 7 sections to full length (5.60 m).
+      ► Install appropriate loading coil module at base.
+      ► Adjust shunt capacitor for minimum SWR on target frequency.
+
+    20m:
+      ► Extend all 7 sections.
+      ► Retract Sec 7 until tip is at the 20m mark (5.05 m from base).
+        — OR — extend fully and connect 300 pF series capacitor at base.
+      ► No loading coil required.
+
+    17m:
+      ► Extend Sec 1 through Sec 5 fully.
+      ► Leave Sec 6 and Sec 7 retracted inside Sec 5.
+      ► Total height = 4.00 m from base.
+      ► No loading coil.
+
+    15m:
+      ► Extend Sec 1 through Sec 5.
+      ► Retract Sec 5 tip to 15m mark (3.43 m total from base).
+      ► Or: extend Sec 1–Sec 4 fully (3.20 m), then extend Sec 5 by 0.23 m.
+
+    12m:
+      ► Extend Sec 1 through Sec 4.
+      ► Retract Sec 4 tip to 12m mark (2.92 m total from base).
+
+    10m:
+      ► Extend Sec 1 through Sec 4.
+      ► Retract Sec 4 to 10m mark (2.55 m total from base).
+
+    6m:
+      ► Extend Sec 1 through Sec 2 fully.
+      ► Tip of Sec 2 sits at 1.60 m — retract slightly to 1.40 m mark.
+      ► Leave Sec 3 through Sec 7 retracted.
+
+    2m:
+      ► Extend Sec 1 only to 2m mark (0.488 m from base).
+      ► All other sections retracted.
+      ► Mount must clear the base loading unit hardware by ~50 mm.
+
+    70cm:
+      ► Extend Sec 1 to 70cm mark (0.160 m from base).
+      ► This is a stub operation; for best results use a dedicated
+        VHF/UHF collinear — the whip is marginal at 432 MHz.
+
+================================================================================
+5.0  MARK APPLICATION METHOD
+================================================================================
+
+  OPTION A — PAINT RINGS (preferred for portable field use):
+
+    Material:   Nail varnish or enamel model paint, 2mm wide ring
+    Apply:      Clean section with isopropyl alcohol first.
+                Apply ring at measured position using a piece of tape
+                as a guide.  Two coats for durability.
+    Protect:    Seal completed marks with clear nail varnish top coat.
+
+    COLOR CODE:
+      70cm:   White ring + black "70" lettering
+      1.25m:  Yellow ring + black "125"
+      2m:     Green ring + black "2M"
+      6m:     Orange ring + black "6M"
+      10m:    Red ring + black "10"
+      12m:    Red-orange ring + black "12"
+      15m:    Blue ring + white "15"
+      17m:    Blue ring + white "17" (at tip of Sec 5 = full extension)
+      20m:    Dashed white ring + black "20" (Sec 7 retraction point)
+
+  OPTION B — ENGRAVED MARKS:
+
+    Tool:     Dremel with fine engraving bit, or scriber
+    Depth:    0.3 mm max to avoid weakening wall
+    After:    Fill engraved groove with contrasting paint, wipe flush
+    Note:     Not suitable for thin-wall sections (Sec 5–7)
+
+  OPTION C — TAPE FLAGS (temporary field expedient):
+
+    Material:   Colored electrical tape, 10 mm strip wrapped around
+    Note:       Will slip over time; verify position periodically
+
+  TOLERANCE:   Mark positions should be accurate to ±5 mm.
+               This corresponds to less than ±0.5% frequency error
+               on most bands, well within tuning range.
+
+================================================================================
+6.0  OPERATING NOTES
+================================================================================
+
+  LOCKING SECTIONS:
+    ► Each section has a friction lock (knurled collar or spring clip).
+    ► Extend firmly to fully seated position; twist to lock if collar-type.
+    ► Verify all extended sections are locked before transmitting.
+    ► Partial section extension (to a mark) must be locked at that position.
+
+  WIND LOADING:
+    ► 5.60 m fully extended is structurally marginal in wind > 30 km/h.
+    ► Reduce to 5 sections (4.00 m) in moderate wind; use loading coil.
+    ► Always guy the base or hold-down when operating portable.
+
+  COUNTERPOISE REMINDER:
+    ► On HF bands with loading coil: deploy all 4 counterpoise wires.
+    ► On VHF/UHF: no counterpoise needed for ground-plane mount;
+      3 × λ/4 radials on the base stud improve pattern on 6m and 2m.
+
+  BIRD STRIKES AND SHARP TIP:
+    ► The tip section (Sec 7) can be extremely sharp.
+    ► Fit a rubber tip cap when transporting or during non-use.
+    ► Remove tip cap before transmitting.
+
+  STORAGE:
+    ► Collapse fully; wipe with light oil (CRC 5-56 or equivalent).
+    ► Store in included nylon sleeve to protect finish.
+    ► Do not overtighten collapsed sections — leave slight slack.
+
+  FIELD QUICK-REFERENCE CARD:
+    ► A laminated wallet card with the band/extension table from Sec 2.0
+      should be affixed inside the lid of the base-loading-coil box.
+
+================================================================================
+  END OF DOCUMENT — TM-WHP-SCH-002 Rev A
+  Next: TM-WHP-SCH-003 — SWR Bridge and Directional Coupler
+================================================================================

@@ -1,0 +1,11 @@
+ANTENNA SPECIFICATION — GROUND PLANE,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,"2M, 70cm, 1.25M",,
+Design approach,Quarter-wave vertical with radial ground plane,,
+Compaction factor,0%,,
+Special parameters,"4 radials 90° spacing, 50Ω feed, ~2 dBi gain",,
+Feed impedance,50–600,Ω,
+SWR target,<2.0,:1,
+Efficiency,75–95%,%,
+Gain,2–12,dBi,

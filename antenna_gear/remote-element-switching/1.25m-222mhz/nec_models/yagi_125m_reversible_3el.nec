@@ -1,0 +1,28 @@
+CM ============================================================
+CM  VHF/UHF REMOTE ELEMENT SWITCHING SYSTEM
+CM  ANTENNA: 3-ELEMENT REVERSIBLE YAGI, 1.25 METERS (222.0 MHz)
+CM  TYPE: SYMMETRIC - BEAM REVERSAL BY PIN DIODE STATE SWAP
+CM
+CM  OUTER ELEMENT: 0.487λ = 0.658 m
+CM  PIN forward bias = element connects to short stub (reflector)
+CM  PIN reverse bias = element open-circuit (director effect)
+CM
+CM  ELEMENT DATA (all dimensions in meters):
+CM    Outer Element A: L = 0.658 m  pos Y = -0.304 m
+CM    Driven Element:  L = 0.641 m  pos Y =  0.000 m
+CM    Outer Element B: L = 0.658 m  pos Y = +0.304 m
+CM
+CM  ELEMENT DIAMETER: 6.35 mm
+CM  BOOM HEIGHT AGL:  5.0 m
+CM
+CE
+GW 1 11 -0.329 -0.304 5.000 0.329 -0.304 5.000 0.003175
+GW 2 11 -0.321 0.000 5.000 0.321 0.000 5.000 0.003175
+GW 3 11 -0.329 0.304 5.000 0.329 0.304 5.000 0.003175
+GE 0
+GN 2 0 0 0 13.0 0.005
+EX 0 2 6 0 1.0 0.0
+FR 0 5 0 0 221.0 1.0
+RP 0 361 1 1000 0.0 0.0 1.0 0.0
+RP 0 1 361 1000 90.0 0.0 0.0 1.0
+EN

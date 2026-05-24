@@ -1,0 +1,14 @@
+ANTENNA SPECIFICATION — FLOWER_POT,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,"2M, 70cm",,Center/allocated bands
+Design approach,Omnidirectional VHF/UHF radiator (inverted cone),,Primary design method
+Compaction factor,0%,,Size reduction vs full-size
+Special parameters,"No balun needed, 50Ω direct feed, ~2 dBi gain",,Design-specific details
+,,,
+Feed impedance,50–600,Ω,Antenna-type dependent
+SWR target,<2.0,:1,With tuner if required
+Radiation pattern,Varies,,See NEC model
+,,,
+Typical efficiency,75–95%,%,Design-dependent
+Typical gain,2–10,dBi,Antenna-type dependent

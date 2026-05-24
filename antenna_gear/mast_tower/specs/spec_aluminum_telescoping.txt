@@ -1,0 +1,190 @@
+================================================================================
+SPECIFICATION: ALUMINUM TELESCOPING MAST WITH GUY STABILIZATION
+TM-MAST-001  Rev A
+6061-T6 aluminum telescoping mast — 20 to 40 foot with multi-level guying
+================================================================================
+
+REFERENCE DOCUMENTS:
+  spec_wind_load_calculations.txt  — Wind force and guy tension calculation
+  spec_guy_anchor_systems.txt      — Ground anchor selection and installation
+  mast_collars.scad                — 3D-printable collars and guy rings
+
+================================================================================
+SECTION 1 — OVERVIEW
+================================================================================
+
+Aluminum telescoping masts are the field standard for portable amateur radio
+and military NVIS antenna support. Higher strength-to-weight ratio than
+fiberglass; electrically conductive (must insulate if mast carries RF current);
+less UV degradation; heavier per foot.
+
+APPLICATIONS:
+  - Mast-mounted Yagi or log-periodic for HF/VHF DX
+  - NVIS dipole center support (insulate mast or use fiberglass extension at top)
+  - Field expedient tower replacement for portable DX operation
+  - Emergency communications infrastructure
+  - Mast-mounted rotator with directional beam antenna
+
+STANDARD MILITARY / COMMERCIAL MAST:
+  MIL-DTL-3446A / AB-155/G series mast sections: 1.5" OD × 0.120" wall × 4 ft
+  Commercial equivalent: Rohn HM push-up mast; Max-Gain Systems MG-LM mast
+  Custom field-build: 6061-T6 tubing per this specification
+
+================================================================================
+SECTION 2 — MATERIAL SPECIFICATION
+================================================================================
+
+ALLOY:
+  6061-T6 aluminum alloy
+  Tensile strength:  310 MPa (45,000 psi)
+  Yield strength:    276 MPa (40,000 psi)
+  Elastic modulus:   68.9 GPa (10,000 ksi)
+  Density:           2.70 g/cm³ (0.098 lb/in³)
+
+SECTION SIZING (CUSTOM BUILD):
+  Section | OD (mm) | Wall (mm) | Length  | Weight/m | Fits Inside
+  --------|---------|-----------|---------|----------|-------------
+    1 (top)|  38    |  2.0      |  1.5m   |  0.61 kg | Section 2
+    2      |  44    |  2.5      |  1.5m   |  0.82 kg | Section 3
+    3      |  50    |  2.5      |  1.5m   |  0.94 kg | Section 4
+    4      |  57    |  3.0      |  1.5m   |  1.27 kg | Section 5
+    5      |  63    |  3.0      |  1.5m   |  1.41 kg | Section 6
+    6 (base)|  70   |  3.0      |  1.5m   |  1.57 kg | Base plate
+
+  Total system weight (6 sections, 9m/30 ft): 8.3 kg bare mast
+
+LOCKING PINS:
+  Each section locked with a spring-loaded stainless pin (3mm × 20mm) through
+  matching hole in lower section wall. 3mm drill through both walls; seat a
+  compression spring behind the pin head. Or: hose clamp locking, same as
+  fiberglass specification.
+
+  PREFERRED: Welded locking ring (annular bead welded to lower section OD at
+  maximum extension stop). Prevents over-extension without pin hardware.
+
+SURFACE TREATMENT:
+  Anodize (Type II clear) all sections after machining.
+  Field units: Alodine 1200 (chromate conversion) for corrosion protection.
+  Avoid bare aluminum — salt air and soil contact cause rapid pitting.
+
+================================================================================
+SECTION 3 — GUY WIRE SYSTEM
+================================================================================
+
+GUY WIRE MATERIAL:
+  Primary:   3/16" (4.8mm) galvanized 7×19 aircraft cable
+             Breaking strength: 4,100 lbs (1,860 kg)
+             Stainless steel: 316 SS preferred for marine/coastal deployments
+
+  Lightweight: 3mm Dyneema SK75 (synthetic)
+             Breaking strength: ~1,800 kg; weight 17 g/m (80% lighter than steel)
+             Use for portable SOTA/POTA where weight matters
+
+  Avoid: Cheap braided steel (galvanized garden wire) — unreliable break strength
+         Polypropylene rope — UV degrades within months; unpredictable stretch
+
+GUY TERMINATION:
+  Steel cable: Swaged or copper-crimped Nicopress thimble-and-loop
+    - Use proper thimble in loop (prevents cable kinking at eye)
+    - Minimum 3 Nicopress sleeves per termination
+  Dyneema: Brummel splice (preferred) or double bowline knot
+    - Do NOT use cable clamps (U-bolt type) on Dyneema
+
+GUY ATTACHMENT TO MAST:
+  Printed guy ring collar (see mast_collars.scad: guy_ring_collar())
+  OR: Commercial stainless mast collar (Rohn AC20G, Coxswain style)
+  OR: Welded lug on mast section at guying level
+
+GUY PATTERN:
+  3 guys per level at 120° spacing (standard)
+  4 guys per level at 90° spacing (preferred in high-wind areas >50 mph design)
+
+GUY ANCHOR RADIUS:
+  Minimum: H × 0.5 (50% of mast height from base)
+  Preferred: H × 0.7 (70% of mast height — optimum tension/force ratio)
+  Maximum practical: H × 1.0 (100% — if space allows, reduces tension requirement)
+
+  EXAMPLE: 30-foot (9m) mast:
+    Minimum anchor radius: 4.5m from base
+    Preferred anchor radius: 6.3m from base
+
+GUY ANGLE FROM VERTICAL:
+  At 50% radius: guy angle = arctan(0.5) = 26.6° from vertical (steep)
+  At 70% radius: guy angle = arctan(0.7) = 35° from vertical (preferred)
+  At 100% radius: guy angle = arctan(1.0) = 45° from vertical
+
+  NOTE: Shallower angle (longer radius) reduces vertical compression load
+  on mast but increases required guy wire length.
+
+================================================================================
+SECTION 4 — GUYING SCHEDULE
+================================================================================
+
+20-FOOT (6m) MAST:
+  Level 1:  At 4.5m (15 ft)   — 3 guys, 70% radius = 3.15m from base
+  Pre-tension each guy to 50–75 N (5–7.5 kgf)
+
+30-FOOT (9m) MAST:
+  Level 1:  At 3.6m (12 ft)   — 3 guys, 70% radius = 4.2m from base
+  Level 2:  At 7.2m (24 ft)   — 3 guys, 70% radius = 5.0m from base
+  Pre-tension each guy to 75–100 N (7.5–10 kgf)
+
+40-FOOT (12m) MAST:
+  Level 1:  At 4.0m (13 ft)   — 3 guys, 70% radius = 5.6m from base
+  Level 2:  At 8.0m (26 ft)   — 3 guys, 70% radius = 5.6m from base
+  Level 3:  At 11.0m (36 ft)  — 3 guys, 70% radius = 5.6m from base
+  Pre-tension each guy to 100–150 N (10–15 kgf)
+
+================================================================================
+SECTION 5 — RAISING PROCEDURE (2-PERSON MINIMUM FOR >20 FT)
+================================================================================
+
+EQUIPMENT REQUIRED:
+  - Push stick or gin pole (15-20 ft reach for 30-40 ft mast)
+  - Come-along or rope and pulley for raise (>30 ft)
+  - Guy wire pre-staged and anchors installed before raising
+  - Non-conductive rope tag lines (2) for controlled raise direction
+
+PROCEDURE:
+  1. Install all ground anchors before raising.
+  2. Pre-attach all guy wires to mast collars (all levels).
+  3. Attach antenna hardware at ground level if possible.
+  4. Extend all mast sections at ground level; lock each section.
+  5. Lay mast along ground pointing toward perpendicular to prevailing wind.
+  6. Attach tag lines (non-conductive) 2/3 up mast; two operators on tag lines.
+  7. Ginpole or push-stick operator lifts base section; pivoting from base plate.
+  8. Tag line operators control swing and prevent over-rotation.
+  9. Raise to vertical; seating base in base plate ground spike.
+  10. Tension guy Level 3 (top) first; adjust to plumb.
+  11. Tension Level 2, then Level 1 working top to bottom.
+  12. Final plumb check — mast vertical in both planes ±1°.
+  13. Secure all tensioner lock nuts.
+
+PLUMB CHECK METHOD:
+  Hang a plumb bob from the top section on a string; measure offset at base.
+  Adjust opposing guys until plumb bob centers over base.
+  OR: Use a spirit level against multiple sides of base section.
+  OR: CYD/MPU-6050 tilt monitor if installed.
+
+================================================================================
+SECTION 6 — BILL OF MATERIALS (30-FOOT SYSTEM)
+================================================================================
+
+Item  | Qty | Description                              | Approx. Cost
+------|-----|------------------------------------------|-------------
+AL1  |  1  | 38mm OD × 2mm wall × 1.5m 6061-T6       | $25
+AL2  |  1  | 44mm OD × 2.5mm wall × 1.5m 6061-T6     | $30
+AL3  |  1  | 50mm OD × 2.5mm wall × 1.5m 6061-T6     | $36
+AL4  |  1  | 57mm OD × 3mm wall × 1.5m 6061-T6       | $45
+AL5  |  1  | 63mm OD × 3mm wall × 1.5m 6061-T6       | $52
+GW   | 45m | 3/16" 7×19 galvanized cable              | $40
+GC   | 12  | Nicopress copper sleeve + thimble (3/16") | $18
+TN   |  6  | Guy tensioner turnbuckles 5/16" eye-eye  | $30
+GR   |  6  | Guy ring collars (print: 50/57/63mm)     | (print)
+SA   |  6  | Screw anchors 12mm × 450mm               | $36
+BP   |  1  | Base plate with ground spike (print/weld) | (print)
+HC   |  6  | Stainless hose clamps #32–#36             | $12
+
+TOTAL (materials): approximately $320–$380
+
+================================================================================

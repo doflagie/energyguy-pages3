@@ -1,0 +1,11 @@
+ANTENNA SPECIFICATION — LOADED-VERTICAL-HF,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,"160M, 80M, 40M",,
+Design approach,Quarter-wave vertical with top-loading coil,,
+Compaction factor,40%,,
+Special parameters,"Loading coil at 2/3 height, 8–16 radials",,
+Feed impedance,50–600,Ω,
+SWR target,<2.0,:1,
+Efficiency,75–95%,%,
+Gain,2–12,dBi,

@@ -1,0 +1,221 @@
+================================================================================
+  active_noise_canceller_ascii.txt — TM-RFI-SCH-003 Rev A
+  Active RFI Noise Canceller: Phased Auxiliary Antenna Nulling
+  2-Channel Analog Phase/Amplitude Combiner with Op-Amp Subtractor
+  Document: TM-RFI-SCH-003 Rev A
+================================================================================
+
+OVERVIEW
+--------
+  An active noise canceller uses a reference (auxiliary) antenna aimed at the
+  noise source to sample the noise waveform. After phase-shifting and amplitude-
+  matching the reference to the noise component in the main antenna signal, the
+  reference is subtracted from the main signal, cancelling the noise.
+
+  The desired signal (from a distant station) arrives from a different direction
+  than the local noise source. If the reference antenna has very little desired
+  signal and mostly noise, cancellation is selective: noise is removed while the
+  desired signal is preserved.
+
+  PRINCIPLE:
+    Main antenna:  V_main   = V_signal + V_noise_main
+    Ref antenna:   V_ref    = V_noise_ref    (negligible V_signal)
+    After scaling: V_ref'   = A × e^(jφ) × V_noise_ref
+    Cancel output: V_out    = V_main − V_ref' ≈ V_signal   (if A and φ set correctly)
+
+SYSTEM BLOCK DIAGRAM
+----------------------
+
+  [MAIN ANTENNA] ─────────────────────────────────────────────┐
+                                                              ├──> [COMBINER] ──> [SDR/TRX]
+  [REF ANTENNA]  ── [RF PREAMP] ── [PHASE SHIFT] ── [GAIN] ──┘
+                                       (0–360°)     (0–+20dB)
+
+KEY SPECIFICATIONS
+------------------
+  Frequency range:     0.5 – 30 MHz (HF), with modification to 50 MHz
+  Noise cancellation:  20–40 dB typical (depends on noise source geometry)
+  Phase adjustment:    0° to 360° continuous
+  Gain adjustment:     −20 dB to +20 dB (40 dB range)
+  Reference antenna:   short (1–3m) vertical whip or small loop
+  Input impedance:     50Ω (main and reference ports)
+  Output impedance:    50Ω
+  Supply:              ±12V or +12V single-supply
+  Current:             50 mA typical
+
+SCHEMATIC — REFERENCE ANTENNA PREAMPLIFIER
+-------------------------------------------
+  Short whip antenna has very low radiation resistance (~1Ω for 1m whip at 7 MHz)
+  and high capacitive reactance. A high-impedance JFET buffer is essential.
+
+  REF ANTENNA INPUT (SMA J1):
+
+  J1 center ─── R1 (100kΩ) ─── gate of Q1 (J310 JFET)
+  J1 center ─── C1 (10 pF) ─── GND  (ESD/static bleed)
+
+  J310 JFET source follower:
+    Gate (G):   from antenna (hi-Z, ~100 MΩ + C_gate)
+    Source (S): R_S (2.2 kΩ to GND) → output via C_couple (1 µF NP0)
+    Drain (D):  +12V via R_D (470Ω)
+
+  JFET Q1 (J310 or BF245A):
+                   +12V
+                    │
+                   R_D (470Ω)
+                    │
+    ant ── R1 ──── G ─────────────────────────────┐
+    (100kΩ)        │ J310                         │
+                   D                              │
+                   │                             C2
+                   S ─── R_S (2.2kΩ) ─── GND   (1µF)
+                   │                              │
+                   └──────────────────────────────┘ ── to phase shifter
+
+  Gain: ~0.9 (source follower, near unity)
+  Output impedance: R_S / (µ + 1) ≈ 2200/30 ≈ 73Ω → close to 50Ω
+
+  Optional JFET buffer + NE5534 op-amp buffer for lower output impedance:
+    JFET source ── NE5534 buffer ── 50Ω output
+
+SCHEMATIC — ALL-PASS PHASE SHIFTER (0°–360°, VARIABLE)
+---------------------------------------------------------
+  Two-stage RC all-pass network: each stage shifts 0°–180°, cascaded gives 0°–360°.
+  Op-amp based for flat amplitude response across phase shift.
+
+  STAGE 1 (0°–180° shift):
+                     ┌────────────────────┐
+                     │     NE5532 A        │
+  IN ── R2 ─────────┤+ (non-inv)    out  ├──── to Stage 2 / gain control
+       (5.1kΩ)       │                    │
+       │             │  - (inv)           │
+       └── RV1 ──── ┤─ (inv input) ───── +
+           (10kΩ)    └────────────────────┘
+       │
+       C3 (10 nF NP0)
+       │
+      GND
+
+  The all-pass phase shift at frequency f:
+    φ = 2 × arctan(2π × f × C3 × RV1)
+  At RV1 = 0: φ = 0°; at RV1 = ∞: φ = 180°
+
+  For 7 MHz full 180° sweep: C3 = 10 nF, RV1 max needed = 1/(2π × 7e6 × 10e-9) = 2.27 kΩ
+  Use RV1 = 10 kΩ pot (covers full 180° range + margin at 7 MHz)
+  For broadband: C3 = 10 nF covers 1–30 MHz (phase center shifts with frequency)
+
+  STAGE 2 (SECOND 0°–180°):
+  Identical circuit with RV2 (10 kΩ pot) and C4 (10 nF).
+  Total phase: 0° to 360° by adjusting RV1 and RV2 independently.
+
+  PRACTICAL NOTE:
+  Because noise source frequency may vary, a simpler single-stage
+  90° shift + gain inversion covers 0°–270° adequately for many installations:
+    - Stage 1 (RV1 = variable, 0°–180°)
+    - INVERT (via NE5532 inverting amp): adds 180°
+    - Total: 180° to 360°
+    Combined with non-inverted path: covers 0° to 360°
+
+  COMMERCIAL ALTERNATIVE:
+    MFJ-1026 Noise Cancelling Antenna Phaser (~$100 used).
+    Uses similar principle. Study its circuit for reference.
+
+SCHEMATIC — VARIABLE GAIN STAGE
+---------------------------------
+  After phase shifting, amplitude must match noise contribution in main antenna.
+  Use a variable-gain inverting amplifier (NE5532):
+
+  Phase shift out ── R3 ─────┐
+                   (10kΩ)    │ NE5532 B
+                              │ -input ──────── output (gain-controlled)
+                              │ +input ──── GND (virtual)
+                              │
+                             RV3 (log pot, 100kΩ) ── GND
+
+  Gain = −(RV3 setting) / R3 = 0 to −10 (0 to +20 dB inverting)
+  For non-inverting gain: use non-inverting topology or split gain range
+
+  COMBINED GAIN/PHASE CONTROL:
+  In practice: use one continuous pot for gain (0 to +20 dB)
+  and two pots for phase (0–360°). Adjust in order:
+    1. Set phase while observing noise reduction
+    2. Fine-adjust gain for deepest null
+    3. Iterate (phase and amplitude interact)
+
+SCHEMATIC — RF COMBINER (SUBTRACTOR)
+--------------------------------------
+  Wideband RF transformer combiner-subtractor:
+
+  OPTION 1: Transformer Combiner (passive, insertion loss ~6 dB):
+    Use a 1:1:1 trifilar transformer (3 equal windings on FT-37-43):
+    Main antenna (50Ω) ─── winding 1
+    Reference signal (50Ω) ─── winding 2 (reversed polarity = subtraction)
+    Output (50Ω) ─── winding 3
+
+    10 turns trifilar on FT-37-43:
+      Winding 1 start → antenna
+      Winding 2 start → reference IN, END reversed (subtract, not add)
+      Winding 3 start → output
+
+  OPTION 2: Resistive Hybrid Combiner (6 dB insertion loss, flat amplitude):
+    Standard 2-to-1 combining:
+    Main ──(R=50Ω)──┬── 50Ω output
+    Ref  ──(R=50Ω)──┘
+    Reversed connection on Ref port = subtraction.
+    Loss: 6 dB (half power lost in isolation resistors). Acceptable for RX.
+
+  OPTION 3: Active Op-Amp Subtractor (zero insertion loss, low IP3):
+    For receive-only use with op-amp:
+    Main (via voltage divider to op-amp level) ── NE5532 + input
+    Ref  (via gain stage, inverted)             ── NE5532 − input
+    NE5532 output ── 50Ω series R ── to SDR
+
+    Caution: op-amp IP3 limits dynamic range. NE5532 IP3 ≈ +20 dBm.
+    Adequate for receive-only. Do not use on transmit path.
+
+COMPLETE CIRCUIT BLOCK
+------------------------
+
+  [50Ω SMA]                         [50Ω SMA]
+  MAIN ANT ──┬──────────────────────────────────────────┐
+             │  (through)                               │
+             │                                        COMBINER ──> OUT (to SDR)
+             │
+  REF ANT  ──[JFET preamp]──[phase RV1+RV2]──[gain RV3]──┘
+             │
+             +12V supply
+
+  ADJUSTMENT PROCEDURE (FIELD):
+  1. Connect noise source antenna (short whip, loop, or directional) to REF port.
+  2. Connect main antenna to MAIN port.
+  3. Tune radio to noise QRM frequency.
+  4. Slowly adjust RV1 (phase 1) while monitoring noise level on receiver.
+  5. Adjust RV2 (phase 2) for further null.
+  6. Fine-adjust RV3 (amplitude) for deepest null.
+  7. Noise null should be 20–40 dB below original level.
+  8. Check that desired signal is preserved (may be slightly attenuated in null direction).
+
+POWER SUPPLY
+--------------
+  Single +12V input ─── 7812 → +12V for reference supply
+                   └─── 7912 → −12V (if dual-supply op-amp design)
+  Or: use +5V single-supply op-amps (TLV2372 or MCP6022) on single +5V.
+    TLV2372: rail-to-rail, ±5V, GBP 2.4 MHz — adequate for HF audio/IF use.
+    Note: op-amp GBP must exceed 10 × max operating frequency.
+    For 30 MHz: use LMH6702 or similar wideband op-amp.
+
+BILL OF MATERIALS — ACTIVE NOISE CANCELLER
+--------------------------------------------
+  Qty  Part               Value/Type               Notes
+  ──────────────────────────────────────────────────────────────────
+   1   Q1   J310           JFET N-channel           or BF245A
+   2   U1,U2 NE5532        Dual low-noise op-amp    DIP-8
+   1   T1   FT-37-43       trifilar transformer     10 turns each winding
+   3   Pot  10 kΩ          RV1, RV2, RV3            linear taper (audio log for RV3)
+   6   Cap  10 nF NP0      C3–C8                    timing caps for phase shift
+   various  Resistors      1% metal film            5.1kΩ, 10kΩ, 470Ω, etc.
+   1   Reg  7812+7912      ±12V regulators          if dual-supply
+   3   SMA  connectors     50Ω                      MAIN, REF, OUT
+   1   Enclosure           3D printed               see noise_canceller_box.scad
+   2   Knobs               for front panel pots     RV1, RV2 (phase), RV3 (gain)
+
+================================================================================

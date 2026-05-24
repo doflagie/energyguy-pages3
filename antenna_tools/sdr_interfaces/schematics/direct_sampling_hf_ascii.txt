@@ -1,0 +1,251 @@
+================================================================================
+  direct_sampling_hf_ascii.txt — TM-SDR-SCH-002 Rev A
+  Direct Sampling HF Interface for RTL-SDR v3 / RSP1A / Airspy HF+
+  Anti-Aliasing Filters, Impedance Matching, Direct Q-Branch Input
+  Document: TM-SDR-SCH-002 Rev A
+================================================================================
+
+OVERVIEW
+--------
+  The RTL-SDR v3 and similar dongles support "direct sampling" mode:
+  HF signal is fed directly to the RTL2832U ADC, bypassing the R820T2 tuner.
+  The ADC runs at 28.8 Msps (nominally), giving a Nyquist limit of 14.4 MHz.
+  With proper anti-aliasing filters, this covers 0.1–14.4 MHz (160m–20m+30m).
+
+  Two input paths on RTL-SDR v3:
+    Q-branch direct: 0–14.4 MHz (HF direct sampling)
+    I-branch direct: same, used for some dongles
+  Practical usable range: 0.5–28.8 MHz with careful aliasing management.
+
+KEY SPECIFICATIONS
+------------------
+  ADC:          RTL2832U, 8-bit, 28.8 Msps nominal
+  Nyquist BW:   0–14.4 MHz (clean), alias risk 14.4–28.8 MHz
+  Dynamic range: 48 dB (8-bit ADC), improved by bandpass filtering
+  MDS:           −110 dBm typical (without LNA, 500 Hz BW)
+  MDS (with LNA): −125 dBm typical
+  Input impedance: 50Ω (with matching network)
+  RTL-SDR v3 Q input: ~2 kΩ || 3 pF (requires impedance transformation)
+
+BLOCK DIAGRAM
+-------------
+
+  [SMA IN] ─── [LPF 30 MHz] ─── [BPF band] ─── [50:2k transformer] ─── [Q-branch]
+   50Ω HF                         optional        impedance match        RTL-SDR v3
+
+  OR for better performance with Airspy HF+:
+
+  [SMA IN] ─── [LPF 32 MHz] ─── [LNA SPF5189Z] ─── [50Ω coax] ─── [Airspy HF+]
+                                  (optional)                          50Ω input
+
+SCHEMATIC — ANTI-ALIASING LOW-PASS FILTER (7-pole Elliptic, 30 MHz)
+----------------------------------------------------------------------
+  Purpose: Attenuate signals above 30 MHz before ADC.
+           Also provides harmonic/image suppression.
+  Topology: 7-pole elliptic (Cauer) LPF, −60 dB at 45 MHz
+  Characteristic: equiripple passband 0.1 dB, 60 dB stopband above 45 MHz
+
+                 L1        L2        L3
+  IN ──┬── ... ──┤─────────┤─────────┤── ... ──┬── OUT
+       │         │    │    │    │    │    │     │
+      C1        C2  Ct1   C3  Ct2   C4  Ct3   C5
+       │         │    │    │    │    │    │     │
+      GND       GND  GND  GND  GND  GND  GND  GND
+
+  Simplified: L-C-L ladder with shunt traps at stopband frequencies.
+
+  NODE LAYOUT:
+  SMA IN ──+── L1 ──+── L2 ──+── L3 ──+── L4 ──+── SMA OUT
+           │        │         │         │         │
+          C1       C2        C3        C4        C5
+           │       ─┤─        │        ─┤─        │
+          GND    Ct1/Lt1     GND     Ct2/Lt2     GND
+                  (trap)            (trap)
+
+  Values (50Ω system, 30 MHz cutoff, 7-pole elliptic):
+    L1 = L4 = 100 nH
+    L2 = L3 = 390 nH
+    C1 = C5 = 56 pF NP0
+    C2 = C4 = 150 pF NP0
+    C3       = 180 pF NP0
+    Trap 1 (Lt1 = 68 nH, Ct1 = 15 pF): resonates at ~50 MHz
+    Trap 2 (Lt2 = 39 nH, Ct2 = 10 pF): resonates at ~80 MHz
+
+  All inductors: Coilcraft 0805CS series or wound toroid (T25-12)
+  All capacitors: NP0/C0G 50V 0805
+
+  Performance:
+    Insertion loss: < 0.3 dB from 0.5–28 MHz
+    Attenuation at 30 MHz: 3 dB (by design, cutoff)
+    Attenuation at 45 MHz: > 60 dB
+    Attenuation at 88 MHz: > 80 dB (FM broadcast rejection)
+    Return loss:   > 20 dB from 1–28 MHz
+
+  FM BROADCAST NOTE: FM broadcast at 88–108 MHz produces intermodulation
+  in the ADC. This LPF provides >80 dB FM rejection, critical for urban use.
+
+SCHEMATIC — IMPEDANCE MATCHING (50Ω TO RTL-SDR Q INPUT)
+----------------------------------------------------------
+  RTL-SDR v3 Q-branch input impedance: ~2 kΩ at HF frequencies
+  (Measured: the Q-branch input pin is essentially ADC input through ESD diodes)
+
+  Option A — Transformer matching (recommended):
+    Broadband toroidal transformer, 50Ω : 2000Ω (ratio √(2000/50) = 6.32:1 turns)
+    Use: 1:6 turns ratio on FT-37-43 ferrite toroid
+      Primary:  4 turns
+      Secondary: 25 turns
+      Frequency range: 1–30 MHz (FT-37-43 good below 30 MHz)
+      Wind: bifilar style, equal coverage around core
+
+    LPF OUT ── L_primary (4T) ──── GND
+                    │
+               L_secondary (25T) ──── Q-input pin
+                    │
+                   GND (center tap if desired)
+
+  Option B — Resistive termination (simpler, more loss):
+    LPF OUT ──┬── R_term (1.8 kΩ) ──── GND
+              └── C_couple (10 nF) ──── Q-input pin
+
+    This presents ~1.8 kΩ to the ADC but wastes signal (10 dB loss).
+    Useful for strong-signal environments; simple and flat response.
+
+  Option C — JFET follower (best for high-Z, low capacitance):
+    LPF OUT ── J310 JFET source follower ── Q-input
+
+    J310 gate impedance: >1 GΩ; source output: ~50Ω to ~500Ω
+    Provides isolation; JFET source sets working impedance.
+    Drain: +5V via 1kΩ
+    Gate: input (via 100Ω protection)
+    Source: output (10 µF blocking cap to Q-input)
+    JFET sets source-follower gain ~0.9 (−0.9 dB)
+
+  RECOMMENDED: Option A (transformer) for lowest noise; Option C for portability.
+
+SCHEMATIC — OPTIONAL PRESELECTOR BPF BYPASS
+---------------------------------------------
+  A relay (K2) allows switching between wideband (anti-alias LPF only)
+  and narrow preselector BPF (from preselector board, detailed separately).
+
+  Signal path:
+    LPF OUT ── K2 (COM) ──> K2 (NO) ── directly to impedance match ──> Q-input
+                        └─> K2 (NC) ── to/from preselector board ──> back here
+
+  K2: 5V SPDT relay, Axicom V23105 or equivalent.
+  GPIO_BPFSEL (from ESP32) controls K2 via ULN2003A.
+
+SCHEMATIC — OPTIONAL LNA FOR DIRECT SAMPLING
+---------------------------------------------
+  For Airspy HF+ or RSP1A (which have 50Ω input), add LNA before ADC:
+
+  SMA IN ── LPF ── [SPF5189Z] ── 50Ω coax ── SDR dongle SMA
+                    +19 dB
+                    NF 0.6 dB
+
+  SPF5189Z wiring (same as upconverter section):
+    Pin 1 (IN):  via C_in (100 pF) from LPF output
+    Pin 2 (GND): ground
+    Pin 3 (OUT): via C_out (100 pF) to SDR SMA
+    Pin 3 (Vcc): 3.3V via 100 nH choke, 100 pF bypass cap to GND
+
+  CAUTION: With +19 dB gain, strong HF broadcast can overdrive 8-bit ADC.
+  Use inline step attenuator (0/10/20 dB) to set proper ADC level.
+  Target: ADC input −20 to −30 dBFS (not clipping; not too quiet).
+
+SCHEMATIC — POWER AND CONTROL
+-------------------------------
+  USB Micro-B J1:
+    VBUS ─── F1 (500 mA PTC) ─── +5V rail
+    GND  ─── GND
+
+  +5V → AMS1117-3.3 → +3.3V rail:
+    3.3V → SPF5189Z Vcc
+    3.3V → logic ICs
+
+  Control header (6-pin, 2.54mm):
+    Pin 1: +3.3V
+    Pin 2: GND
+    Pin 3: GPIO_LNA (HIGH = LNA active)
+    Pin 4: GPIO_BPFSEL (HIGH = preselector engaged)
+    Pin 5: GPIO_ATT10 (HIGH = 10 dB pad inserted)
+    Pin 6: GPIO_ATT20 (HIGH = 20 dB additional pad)
+
+ALIASING MANAGEMENT FOR RTL-SDR DIRECT SAMPLING
+--------------------------------------------------
+
+  RTL2832U ADC: 28.8 Msps (3.2 MHz × 9 = 28.8 MHz)
+  Nyquist: f_N = 14.4 MHz
+
+  Aliases fold as: f_alias = |f_signal − n × 28.8 MHz| for integer n
+
+  With 30 MHz LPF:
+    Signals 0–14.4 MHz: received directly (no alias)
+    Signals 14.4–28.8 MHz: alias to 28.8−f (mirror image)
+      Example: 21.225 MHz → alias at 28.8−21.225 = 7.575 MHz (overlaps 40m!)
+    Signals 28.8–30 MHz: very weak due to LPF rolloff
+
+  SOLUTION for 17m/15m/12m/10m (14.4–29.7 MHz):
+    Option 1: Use UPCONVERTER mode (125 MHz LO → RTL-SDR tunes normally)
+    Option 2: Use SDR with Nyquist > 30 MHz (Airspy HF+, RSP1A)
+    Option 3: Accept aliased display and use software correction (impractical)
+
+  BANDS SUITABLE FOR DIRECT SAMPLING (with 30 MHz LPF):
+    160m (1.8–2.0 MHz):  YES, clean
+    80m  (3.5–4.0 MHz):  YES, clean
+    40m  (7.0–7.3 MHz):  YES, clean
+    30m  (10.1–10.15 MHz): YES, clean
+    20m  (14.0–14.35 MHz): YES (below 14.4 MHz Nyquist — barely fits)
+
+  BANDS REQUIRING UPCONVERTER OR HIGHER-SAMPLE-RATE SDR:
+    17m  (18.068 MHz): exceeds Nyquist → use upconverter
+    15m  (21.0 MHz):   exceeds Nyquist → use upconverter
+    12m  (24.89 MHz):  exceeds Nyquist → use upconverter
+    10m  (28.0 MHz):   exceeds Nyquist → use upconverter
+
+ALIGNMENT PROCEDURE
+--------------------
+  Equipment: NanoVNA, 50Ω SMA cables.
+
+  1. Set NanoVNA: Port 1 to LPF input SMA.
+     Port 2 to LPF output SMA.
+     Sweep: 0.1 to 100 MHz.
+
+  2. Check S21 (insertion loss):
+     Target: < 0.3 dB from 1–28 MHz.
+     If high: check solder joints on inductors, verify capacitor values.
+
+  3. Check S21 at cutoff:
+     30 MHz: should be −3 dB ± 1 dB.
+     45 MHz: should be < −60 dB.
+     88 MHz: should be < −70 dB.
+
+  4. Check S11 (return loss):
+     Target: > 20 dB (< −20 dB S11) from 1–28 MHz.
+     If poor: adjust L1 or L4 value (trim by bending turns on toroid).
+
+  5. With RTL-SDR connected:
+     Tune to known signal (e.g., WWV 10.000 MHz, 5.000 MHz, 15.000 MHz).
+     Verify signal readable on GQRX/SDR++.
+     Compare to directly connected antenna (should be similar or better).
+
+BILL OF MATERIALS — DIRECT SAMPLING INTERFACE
+-----------------------------------------------
+  Qty  Part                Value/Type           Package
+  ─────────────────────────────────────────────────────────
+   1   U1   AMS1117-3.3    LDO regulator        SOT-223
+   1   U2   SPF5189Z       LNA (optional)       SOT-89-3
+   1   T1   FT-37-43       4:25T transformer    toroid
+   2   K2   relay SPDT     5V coil              SIL-4
+   2   SMA  SMA edge       50Ω edge mount       PCB
+   1   USB  Micro-B        USB power            PCB
+   1   F1   500 mA PTC     polyfuse             1812
+   2   L1,L4 100 nH        0805CS               0805
+   2   L2,L3 390 nH        0805CS               0805
+   2   Lt1  68 nH          trap inductor        0805
+   2   Lt2  39 nH          trap inductor        0805
+   5   C1–C5 56–180 pF     NP0/C0G 50V          0805
+   2   Ct1  15 pF          NP0/C0G              0402
+   2   Ct2  10 pF          NP0/C0G              0402
+   various  bypass caps    100 nF/10 µF         0805
+
+================================================================================

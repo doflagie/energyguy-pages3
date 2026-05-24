@@ -1,0 +1,163 @@
+================================================================================
+  HF PLUG-IN ELEMENT DESIGNS  —  TM-PWR-EL-HF-001 Rev A
+  1.8 – 30 MHz  |  Four power ranges  |  Bird Model 43 compatible slug
+================================================================================
+
+ELEMENT MECHANICAL SPECIFICATION
+───────────────────────────────────────────────────────────────────────────────
+
+  Slug body:   25.0mm OD × 25.4mm length (1.000" × 1.000")
+  Material:    6061-T6 aluminum, black anodized
+  Orientation: Flat on one side (D-shape cross-section) — prevents 90° errors
+  Contact:     2mm banana pin, center bottom, gold-plated
+  PCB:         22mm × 18mm, 1.6mm FR4, contacts body spring pin
+  Retention:   O-ring groove at body mid-point; O-ring: 25mm × 2mm Buna-N
+
+  Flatted side orientation:
+    — Flat toward meter face = FORWARD power reading
+    — Flat away from meter face = REFLECTED power reading
+  (Same convention as Bird Model 43)
+
+  PCB LAYOUT (22mm × 18mm):
+
+    ┌──────────────────────────────────────────┐
+    │  C  O  U  P  L  E  R    S  E  C  T  I  O  N  (left half)         │
+    │  [TOROID PADS]  [R1 51Ω]  [R2 51Ω]                                │
+    │─────────────────────────────────────────│
+    │  D  E  T  E  C  T  O  R    S  E  C  T  I  O  N  (right half)     │
+    │  [D1 1N5711]  [C_hold]  [R_load]  [J_out banana]                  │
+    └──────────────────────────────────────────┘
+
+
+HF ELEMENT SCHEMATIC (all four ranges use same circuit, different N2 turns)
+───────────────────────────────────────────────────────────────────────────────
+
+  BODY CENTER CONDUCTOR
+  (passes through toroid bore)
+         │
+  ┌──────┴────────────────────────────────────────┐
+  │         T1  TOROID COUPLER                    │
+  │  Primary:   1 turn = center conductor         │
+  │  Secondary: N2 turns (see table below)        │
+  │  Core:      Fair-Rite 5943000401 (#43, 9mm OD)│
+  │             or BN-43-202 for best HF response │
+  └──────┬────────────────────────────────────────┘
+         │
+   SECONDARY WINDING
+         │
+    ─────┴─────────────────────────────────────
+    │                                          │
+  SEC(+) end                              SEC(-) end
+    │                                          │
+   ─►─[D1 1N5711]──┬── VPEAK_DET          R2 51Ω ─── GND
+                   │
+               C1 10nF  (RF bypass)
+               R1 51Ω   (secondary termination)
+                   │
+                  GND
+
+  VPEAK_DET ──[R3 4.7kΩ]──► BANANA JACK (meter output, 0–200 mV FS)
+
+  Polarity:  Forward: D1 anode → SEC(+)  (as drawn above)
+             Reflected: rotate slug 180° → D1 anode connects to SEC(-) instead
+
+
+SECONDARY WINDING DATA BY RANGE
+───────────────────────────────────────────────────────────────────────────────
+
+  Element   Range      N2 Turns  Coupling(dB)  V_out FS   Scale Factor
+  ────────  ─────────  ────────  ────────────  ─────────  ────────────
+  HF-10     1–10W      32T       –30.1 dB      141 mV     1.00 (ref)
+  HF-100    10–100W    10T       –20.0 dB       45 mV     0.316
+  HF-1K     100–1kW   100T       –40.0 dB       45 mV     0.100
+  HF-3K     1kW–3kW   178T       –45.0 dB       40 mV     0.056
+
+  Full-scale voltage calculation (at P_max, Z0=50Ω):
+    V_rf   = √(P × 2 × 50) = √(100 × P) [V rms]
+    V_coup = V_rf × 10^(C_dB/20)  [V rms at secondary]
+    V_det  = V_coup × 0.9          [≈ diode rectified, square-law]
+    V_out  ≈ V_coup  (in square-law region)
+
+  For HF-10 at 10W:
+    V_rf  = √(10 × 100) = 31.6 V rms
+    V_coup= 31.6 × 10^(–30/20) = 31.6 × 0.0316 = 1.00 V
+    V_det ≈ 1.00² / (2 × 50 × R_load/1000)  [square-law: V_out ∝ P]
+    Simplified: V_out ≈ 0.141 V at 10W  (141 mV FS)
+
+  Meter scales:
+    Meter FS = 200 µA.  Series resistor R3 = 141 mV / 200 µA = 705Ω → use 680Ω.
+    For HF-100: R3 = 45 mV / 200 µA = 225Ω → use 220Ω.
+
+
+WINDING INSTRUCTIONS
+───────────────────────────────────────────────────────────────────────────────
+
+  Core:  Fair-Rite 5943000401 (Mix #43, single-hole, OD=9.5mm, ID=4.8mm)
+         Inductance: Al = 523 nH/T²
+
+  Primary:
+    (1) Cut one piece of #16 AWG solid copper, 80mm long.
+    (2) Pass straight through core bore once.
+    (3) This is the 1-turn primary — it IS the center conductor of the slug body.
+
+  Secondary (example: 32 turns for HF-10):
+    (1) Cut 450mm of #30 AWG enameled magnet wire.
+    (2) Mark one end with red paint = START (+ terminal).
+    (3) Wind 32 turns evenly around core.  Wind left-to-right.
+    (4) Solder START end to PAD_SEC_PLUS on PCB.
+    (5) Solder END (bare) to PAD_SEC_MINUS.
+    (6) Verify: winding direction relative to primary determines polarity.
+        If slug reads REF when it should read FWD, reverse secondary leads.
+
+  Inductance check (use LCR meter at 1 kHz):
+    L_secondary = Al × N2² = 523 nH/T² × 32² = 535 µH  (HF-10 element)
+    L must be > 10× the secondary termination reactance at lowest frequency:
+    X_L at 1.8 MHz = 2π × 1.8e6 × 535e-6 = 6.05 kΩ  >> 51Ω ✓
+
+  CAUTION:  Below approximately 100 kHz the inductance may be insufficient
+            to terminate the secondary properly.  Minimum recommended
+            operating frequency for HF-10 element is 1.8 MHz.
+
+
+TEMPERATURE COMPENSATION (HF elements)
+───────────────────────────────────────────────────────────────────────────────
+
+  Option A (passive, no firmware needed):
+    Add D2 (same type as D1, 1N5711) in the output circuit as compensation.
+    D2 is mounted thermally coupled to D1 (back-to-back on PCB, same copper pour).
+    D2 is RF-shielded by surrounding it with ground copper pour.
+
+          VPEAK_DET ──[R_series 100Ω]──┬──► VOUT (to meter)
+                                        │
+                                      ──►── D2 (compensation, no RF input)
+                                        │
+                                       GND
+
+    D2 generates a temperature-dependent forward voltage that partially
+    cancels D1's temperature drift.  Residual error: ~±3% over ±25°C.
+
+  Option B (firmware, digital element with ADC output):
+    NTC thermistor glued to D1 on slug PCB, output on second banana pin.
+    Body reads both V_det and V_ntc, applies correction.
+    See detector_circuits_ascii.txt, Method B for firmware algorithm.
+
+
+ELEMENT IDENTIFICATION
+───────────────────────────────────────────────────────────────────────────────
+
+  Slug identification:  laser-engraved on flat face of slug body.
+  Format:  BAND/RANGE  (e.g., "HF-10W" or "VHF-100W")
+
+  Color code (anodized band, 2mm wide at center):
+    HF-10W   : Green
+    HF-100W  : Yellow
+    HF-1kW   : Orange
+    HF-3kW   : Red
+    VHF-10W  : Blue
+    VHF-100W : Purple
+    UHF-10W  : White
+    UHF-100W : Black
+
+================================================================================
+  END OF HF ELEMENT DESIGNS  — TM-PWR-EL-HF-001 Rev A
+================================================================================

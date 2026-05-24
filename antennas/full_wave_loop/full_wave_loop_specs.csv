@@ -1,0 +1,14 @@
+ANTENNA SPECIFICATION — FULL_WAVE_LOOP,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,"20M, 15M, 10M",,Center/allocated bands
+Design approach,"Full-wavelength loop, low-angle radiation",,Primary design method
+Compaction factor,0%,,Size reduction vs full-size
+Special parameters,"~65 ft perimeter 20M, 4–6 dBi gain at edge",,Design-specific details
+,,,
+Feed impedance,50–600,Ω,Antenna-type dependent
+SWR target,<2.0,:1,With tuner if required
+Radiation pattern,Varies,,See NEC model
+,,,
+Typical efficiency,75–95%,%,Design-dependent
+Typical gain,2–10,dBi,Antenna-type dependent

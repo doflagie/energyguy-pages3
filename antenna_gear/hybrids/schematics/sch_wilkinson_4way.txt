@@ -1,0 +1,154 @@
+================================================================================
+SCHEMATIC: 4-WAY WILKINSON POWER DIVIDER
+TM-HYB-001  Rev A
+Two-stage binary tree, equal-split, in-phase, resistive isolation
+50Ω system, covering 40M through 23cm
+================================================================================
+
+OVERVIEW
+--------
+A 4-way equal-split divider constructed from three 2-way Wilkinson stages
+arranged in a binary tree.  All outputs are in-phase (0° relative).
+Total insertion loss: 6.02 dB (3 dB × 2 stages).
+
+Topology:
+
+  PORT 1 (input) ─── [Stage A: 2-way] ─┬─── [Stage B: 2-way] ─── PORT 2
+                                        │                       └─── PORT 3
+                                        └─── [Stage C: 2-way] ─── PORT 4
+                                                                └─── PORT 5
+
+Stage A: Z0 = 50Ω input; two λ/4 arms of 70.7Ω; R_iso = 100Ω.
+Stages B, C: Z0 = 50Ω input (from Stage A output); same as Stage A.
+
+NOTE: Intermediate junction impedance = 50Ω throughout.
+The junction between Stage A output and Stage B/C input is 50Ω.
+No impedance transformation needed at junctions.
+
+
+COMPLETE SCHEMATIC (Lumped Element, HF)
+-----------------------------------------
+
+                        PORT 2
+                          │
+               [Stage B]  [L_b2/2] [C_b2] [L_b2/2]
+                          │                         │
+                    R_iso_B (100Ω)                  │
+                          │                         │
+PORT 1 ─┬─[L_a/2]─[C_a]─[L_a/2]─────────┬─────[Stage B] ─── PORT 3
+        │                                 │
+       [C_a]     R_iso_A (100Ω)          [R_iso_B = 100Ω shared]
+        │                                 │
+        └─[L_a/2]─[C_a]─[L_a/2]─────────┴─────[Stage C] ─── PORT 4
+                                          │
+                                    R_iso_C (100Ω)
+                                          │
+                                  [Stage C] ─────────────── PORT 5
+
+
+TRANSMISSION LINE VERSION SCHEMATIC (VHF/UHF)
+----------------------------------------------
+
+  PORT 1 (50Ω)
+       │
+       │─── λ/4 @ 70.7Ω ────────────────── Node AB (50Ω)
+       │                                        │
+       │                                        ├── λ/4 @ 70.7Ω ──[R_B=100Ω]── PORT 2
+       │                                       [R_A = 100Ω]      (50Ω)
+       │                                        │
+       │                                        └── λ/4 @ 70.7Ω ──┐── PORT 3
+       │                                                            │
+       │─── λ/4 @ 70.7Ω ────────────────── Node CD (50Ω)         (50Ω)
+                                               │
+                                               ├── λ/4 @ 70.7Ω ──[R_C=100Ω]── PORT 4
+                                              [R_A = 100Ω]       (50Ω)
+                                               │
+                                               └── λ/4 @ 70.7Ω ──┐── PORT 5
+                                                                   │
+                                                                  (50Ω)
+
+  R_A, R_B, R_C = 100Ω each (3 isolation resistors total)
+  All λ/4 sections: 70.71Ω
+
+
+COMPONENT VALUES — LUMPED ELEMENT 4-WAY
+-----------------------------------------
+(All three stages use identical L and C values at a given frequency.)
+
+  Band    f₀ (MHz)   L_total/arm   L/2        C_shunt   R_iso (×3)
+  ----    --------   -----------   -------    -------   ----------
+  40M      7.15       1.574 µH     787 nH      315 pF    100Ω (×3)
+  30M     10.125      1.111 µH     556 nH      222 pF    100Ω (×3)
+  20M     14.175      793 nH       397 nH      159 pF    100Ω (×3)
+  17M     18.118      621 nH       311 nH      124 pF    100Ω (×3)
+  15M     21.225      530 nH       265 nH      106 pF    100Ω (×3)
+  12M     24.940      451 nH       226 nH       90 pF    100Ω (×3)
+  10M     28.850      390 nH       195 nH       78 pF    100Ω (×3)
+   6M     50.500      223 nH       111 nH       44.7 pF  100Ω (×3)
+
+  Total components per unit: 6 inductors (L/2 each), 3 shunt caps (C), 3 × 100Ω
+
+
+NON-EQUAL SPLIT WILKINSON (Power Division Ratios)
+---------------------------------------------------
+For unequal division (port 2: port 3 = k²:1):
+
+  Z_arm_2 = Z0 × √(1+k²) / k      (arm to high-power output)
+  Z_arm_3 = Z0 × √(1+k²) × k      (arm to low-power output)
+  R_iso    = Z0 × (k + 1/k)
+
+  Common ratios:
+  Split ratio   k      Z_arm_2 (Ω)  Z_arm_3 (Ω)  R_iso (Ω)
+  -----------   ---    -----------  -----------  ---------
+  50/50         1.0    70.7         70.7         100
+  75/25         1.73   58.1         100.0        144
+  90/10         3.0    52.7         158.1        317
+
+  These asymmetric dividers are useful for power monitoring (tap 10% for
+  measurement, pass 90% to antenna).
+
+
+8-WAY DIVIDER (3 STAGES)
+--------------------------
+Add a third stage of 2-way Wilkinson after each of the 4 outputs.
+  Total components: 7 isolation resistors, 7 × 2 inductor sets.
+  Insertion loss: 9.03 dB.
+  Maximum bandwidth: same as single stage (≈ 2:1).
+
+For wider bandwidth in multi-way dividers, use lossless reactive splitter
+(Gysel divider) or transmission-line tree with grounded resistors.
+
+
+PERFORMANCE SPECIFICATIONS — 4-WAY
+-------------------------------------
+
+  Parameter              Specification
+  ---------              -------------
+  Insertion loss         6.02 dB nominal
+  Port match (all)       Return loss > 18 dB at design frequency
+  Isolation (any 2 out)  > 18 dB at design frequency
+  Amplitude balance      < 0.3 dB
+  Phase balance          < 2°
+  Bandwidth (−1 dB)      ≈ 1.5:1 frequency ratio
+  Input/output Z         50 Ω
+
+PARTS LIST — 4-WAY WILKINSON (ONE UNIT)
+-----------------------------------------
+
+  Ref       Qty  Value         Description
+  ---       ---  -----         -----------
+  L1–L6      6  per table     Series inductors (L/2 each arm)
+  C1–C3      3  per table     Shunt capacitors (C_shunt each arm)
+  R1–R3      3  100 Ω        Isolation resistors
+  J1         1  SMA/BNC       Input (port 1)
+  J2–J5      4  SMA/BNC       Outputs (ports 2–5)
+  PCB        1  —             See layout notes
+
+LAYOUT NOTES
+-------------
+  HF (through 30 MHz): Keep all component leads < 5 mm.
+  Avoid ground loops between stages; use star ground at center.
+  Shield stages B and C if inter-stage crosstalk is a problem.
+  For outdoor use, pot finished board in urethane conformal coat.
+
+================================================================================

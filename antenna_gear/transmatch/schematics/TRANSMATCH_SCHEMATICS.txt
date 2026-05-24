@@ -1,0 +1,1197 @@
+================================================================================
+     COMPACT PORTABLE TRANSMATCH - COMPLETE CIRCUIT SCHEMATICS
+                Coverage: All 15 Ham Bands (160M through 20CM)
+                          Design: Claude Code - 2025
+================================================================================
+
+CONTENTS
+================================================================================
+
+Section 1:  Overview and Block Diagram
+Section 2:  HF T-Network Schematic (160M-10M)
+Section 3:  VHF/UHF L-Network Schematic (6M-20CM)
+Section 4:  Optional SWR Meter Circuit
+Section 5:  Component Specifications and Values
+Section 6:  Roller Inductor Design
+Section 7:  Switched Inductor Alternative
+Section 8:  Wiring and Layout Guidelines
+Section 9:  Complete Parts List
+Section 10: Tuning Procedures
+Section 11: Construction Notes
+
+
+SECTION 1: OVERVIEW AND BLOCK DIAGRAM
+================================================================================
+
+This transmatch uses a dual-section design:
+- HF section (160M-10M): Balanced T-network topology
+- VHF/UHF section (6M-20CM): Simplified L-network topology
+
+BLOCK DIAGRAM:
+
+                    ┌─────────────────────────────────────┐
+    Transmitter     │                                     │    Antenna
+      (50Ω)         │         TRANSMATCH                  │
+                    │                                     │
+        ├───────────┤  ┌──────────────────────────────┐  ├─────────
+        │           │  │  HF SECTION (160M-10M)       │  │
+        │  INPUT    │  │  T-Network                    │  │  OUTPUT
+        │  SO-239   │  │  C1 - L1 - C2                │  │  SO-239
+        │           │  └──────────────────────────────┘  │
+        │           │                                     │
+        │           │  ┌──────────────────────────────┐  │
+        │           │  │  VHF/UHF SECTION (6M-20CM)   │  │
+        │           │  │  L-Network (switched)         │  │
+        │           │  └──────────────────────────────┘  │
+        │           │                                     │
+        │           │  [Optional SWR Meter]              │
+        ├───────────┤                                     ├─────────
+                    │                                     │
+                    │  Section Selector Switch            │
+                    └─────────────────────────────────────┘
+
+OPERATING PRINCIPLE:
+1. Select HF or VHF/UHF section using front panel switch
+2. Adjust variable components for minimum SWR
+3. T-network (HF) provides wide impedance range (10-1000Ω → 50Ω)
+4. L-network (VHF) provides moderate range (25-200Ω → 50Ω)
+
+
+SECTION 2: HF T-NETWORK SCHEMATIC (160M-10M)
+================================================================================
+
+TOPOLOGY: Balanced T-Network (Series-Shunt-Series)
+
+INPUT (Transmitter Side):
+
+    INPUT                C1                 L1                C2           OUTPUT
+    SO-239           (Variable)        (Roller or         (Variable)      SO-239
+    (50Ω)            15-500pF          Switched)          15-500pF        (To Ant)
+      │                                5-30μH                              │
+      │                 ││                                  ││             │
+      ├─────────────────┤├────────────────╪╪─────────────┤├─────────────┤
+      │                 ││                ║║               ││             │
+      │                                   ║║                              │
+      │                                   ║║                              │
+     GND                                  ║║                             GND
+                                          ║║
+                                          ║║ L1 (Inductor)
+                                          ║║ Tapped or Roller
+                                          ║║ 5-30 μH range
+                                          ║║
+                                         GND
+
+DETAILED T-NETWORK WITH ROLLER INDUCTOR:
+
+                        C1 (INPUT)                         C2 (OUTPUT)
+                      Variable Capacitor               Variable Capacitor
+                        15-500 pF                         15-500 pF
+                        500V minimum                      500V minimum
+                             ││                                ││
+    INPUT ├──────────────────┤├────┬───────────────────┬──────┤├───────┤ OUTPUT
+    50Ω                      ││    │                   │      ││        To Ant
+                                   │                   │
+                                  ╔╧╗                 ╔╧╗
+                                  ╠═╣ L1              ╚═╝ Optional
+                                  ╠═╣ Roller          Tap Point
+                                  ╠═╣ Inductor        (for matching)
+                                  ╠═╣ 5-30 μH
+                                  ╠═╣ 10A rating
+                                  ╚═╝
+                                   │
+                                  GND
+
+COMPONENT FUNCTIONS:
+
+C1 (Input Capacitor):
+- Matches transmitter (50Ω) to series inductance
+- Adjustable 15-500 pF
+- Voltage rating: 500V minimum (1000V recommended for 100W)
+- Air dielectric variable capacitor
+- Knob on front panel: "INPUT TUNE"
+
+L1 (Series Inductor):
+- Provides reactance for impedance transformation
+- Roller inductor: 5-30 μH continuous adjustment
+- Current rating: 10A minimum
+- Can be tapped for additional matching options
+- Knob on front panel: "INDUCTANCE" or tap switch
+
+C2 (Output Capacitor):
+- Matches inductance to antenna impedance
+- Adjustable 15-500 pF
+- Same specs as C1
+- Knob on front panel: "OUTPUT TUNE"
+
+TYPICAL COMPONENT VALUES BY BAND:
+
+Band    Frequency   C1      L1      C2      Notes
+────────────────────────────────────────────────────────────────────────
+160M    1.8 MHz     250pF   30μH    300pF   Full inductor range
+80M     3.5 MHz     180pF   25μH    200pF   High L needed
+40M     7.0 MHz     120pF   18μH    150pF   Mid-range L
+30M     10.1 MHz    200pF   22μH    180pF   WARC band
+20M     14.0 MHz    80pF    12μH    100pF   Popular DX band
+17M     18.1 MHz    100pF   15μH    90pF    WARC band
+15M     21.0 MHz    70pF    10μH    80pF    High band
+12M     24.9 MHz    60pF    8μH     70pF    WARC band
+10M     28.0 MHz    50pF    5μH     60pF    Minimum L
+
+Note: These are starting points. Actual values depend on antenna impedance.
+
+INDUCTOR TAP POINTS (Optional Enhancement):
+
+If using tapped inductor for additional matching flexibility:
+
+        L1 (Tapped Coil)
+
+    ╔═══════╗  ← Top (full inductance)
+    ║   •   ║  ← Tap 1 (80% of total)
+    ║   •   ║  ← Tap 2 (60% of total)
+    ║   •   ║  ← Tap 3 (40% of total)
+    ║   •   ║  ← Tap 4 (20% of total)
+    ╚═══════╝  ← Bottom (GND)
+
+Tap selection via rotary switch provides coarse adjustment,
+C1/C2 provide fine adjustment.
+
+ALTERNATIVE: SWITCHED COIL CONFIGURATION
+
+Instead of roller inductor, use multiple fixed coils:
+
+                           Rotary Switch
+                                │
+         ┌──────────────────────┼────────────────────────┐
+         │         │            │            │           │
+        ╔╧╗       ╔╧╗          ╔╧╗          ╔╧╗         ╔╧╗
+        ║ ║       ║ ║          ║ ║          ║ ║         ║ ║
+        ║ ║ 30μH  ║ ║ 20μH     ║ ║ 12μH     ║ ║ 8μH     ║ ║ 5μH
+        ║ ║       ║ ║          ║ ║          ║ ║         ║ ║
+        ╚╧╝       ╚╧╝          ╚╧╝          ╚╧╝         ╚╧╝
+         │         │            │            │           │
+        GND       GND          GND          GND         GND
+
+Less expensive than roller inductor, but step tuning vs. continuous.
+
+
+SECTION 3: VHF/UHF L-NETWORK SCHEMATIC (6M-20CM)
+================================================================================
+
+TOPOLOGY: Switchable L-Network
+
+For VHF/UHF bands, a simpler L-network provides adequate matching with
+lower component losses than a T-network.
+
+BASIC L-NETWORK (High-Pass Configuration):
+
+    INPUT                    L1                           OUTPUT
+    50Ω                   (Series)                        To Ant
+      │                      ┌─┐                            │
+      ├──────────────────────┤ ├────────────────────────────┤
+      │                      └─┘                            │
+      │                                                     │
+      │                      C1                             │
+      │                      ││                             │
+      │                      ┤├ (Shunt)                     │
+      │                      ││                             │
+     GND                     │                             GND
+                            GND
+
+BAND-SWITCHED VHF/UHF NETWORK:
+
+                        Band Select Switch
+                        (6M/2M/1.25M/70cm/33cm/20cm)
+                                 │
+                ┌────────────────┼───────────────┐
+                │                │               │
+    INPUT ├─────┴────────────────┴───────────────┴──────┤ OUTPUT
+      │                                                  │
+      │          ╔════════════════════════════╗          │
+      │          ║  Switched Inductors (L1)   ║          │
+      │          ║                            ║          │
+      │          ║  6M:    80 nH             ║          │
+      │          ║  2M:    30 nH             ║          │
+      │          ║  1.25M: 20 nH             ║          │
+      │          ║  70cm:  10 nH             ║          │
+      │          ║  33cm:  5 nH              ║          │
+      │          ║  20cm:  3 nH              ║          │
+      │          ╚════════════════════════════╝          │
+      │                     │                            │
+      │          ╔════════════════════════════╗          │
+      │          ║  Switched Capacitors (C1)  ║          │
+      │          ║                            ║          │
+      │          ║  6M:    50 pF             ║          │
+      │          ║  2M:    18 pF             ║          │
+      │          ║  1.25M: 12 pF             ║          │
+      │          ║  70cm:  6 pF              ║          │
+      │          ║  33cm:  3 pF              ║          │
+      │          ║  20cm:  2 pF              ║          │
+      │          ╚════════════════════════════╝          │
+      │                     │                            │
+     GND                   GND                          GND
+
+DETAILED BAND SWITCH IMPLEMENTATION:
+
+Using 2-pole 6-position rotary switch:
+
+POLE 1: Series Inductor Selection
+
+    Common to Input ──┬─── Position 1: L1a (80nH) for 6M
+                      ├─── Position 2: L1b (30nH) for 2M
+                      ├─── Position 3: L1c (20nH) for 1.25M
+                      ├─── Position 4: L1d (10nH) for 70cm
+                      ├─── Position 5: L1e (5nH) for 33cm
+                      └─── Position 6: L1f (3nH) for 20cm
+
+POLE 2: Shunt Capacitor Selection
+
+    Common to GND ────┬─── Position 1: C1a (50pF) for 6M
+                      ├─── Position 2: C1b (18pF) for 2M
+                      ├─── Position 3: C1c (12pF) for 1.25M
+                      ├─── Position 4: C1d (6pF) for 70cm
+                      ├─── Position 5: C1e (3pF) for 33cm
+                      └─── Position 6: C1f (2pF) for 20cm
+
+COMPONENT CONSTRUCTION (VHF/UHF):
+
+Inductors (Small Air-Wound Coils):
+- 6M (80 nH):    6 turns, 8mm ID, 10mm length, 18 AWG wire
+- 2M (30 nH):    3 turns, 6mm ID, 6mm length, 18 AWG wire
+- 1.25M (20 nH): 2 turns, 6mm ID, 4mm length, 18 AWG wire
+- 70cm (10 nH):  1.5 turns, 5mm ID, 18 AWG wire
+- 33cm (5 nH):   1 turn, 5mm ID, 18 AWG wire
+- 20cm (3 nH):   0.5 turn (semicircle), 5mm ID, 18 AWG
+
+Capacitors (Mica or NPO Ceramic):
+- Use silver-mica or COG/NPO ceramic capacitors
+- Voltage rating: 250V minimum
+- Temperature coefficient: NPO (±30 ppm/°C)
+- Lead inductance must be minimized (short leads!)
+
+VHF/UHF MATCHING RANGE:
+
+This L-network can match:
+- Impedances: 25Ω to 200Ω (to 50Ω)
+- SWR: Up to 4:1 can typically be reduced to <1.5:1
+- Best performance: SWR < 3:1 input
+
+For higher SWR, use external antenna tuner or adjust antenna.
+
+
+SECTION 4: OPTIONAL SWR METER CIRCUIT
+================================================================================
+
+A built-in SWR meter can be added to monitor matching quality.
+
+CIRCUIT: Directional Coupler + Detector
+
+                    DIRECTIONAL COUPLER
+                    (Transmission Line Section)
+
+    INPUT ├────────────────────╪═════════╪────────────────────┤ OUTPUT
+                               ║  Main   ║
+                               ║  Line   ║
+                            ┌──╫─────────╫──┐
+                            │  ║ Coupled ║  │
+                           FWD ║  Line   ║ REV
+                            │  ╚═════════╝  │
+                           ─┴─             ─┴─
+                           ─┬─  D1        ─┬─  D2
+                            │              │
+                            ├─────┐        ├─────┐
+                           ─┴─    │       ─┴─    │
+                           ─┬─ C1 │       ─┬─ C2 │
+                            │     │        │     │
+                           GND   ┌┴┐      GND   ┌┴┐
+                                 │ │ R1         │ │ R2
+                                 │ │            │ │
+                                 └┬┘            └┬┘
+                          FWD     │     REV      │
+                          Meter   │     Meter    │
+                           ↓      │      ↓       │
+                           M1    GND     M2     GND
+
+COMPONENT VALUES:
+
+D1, D2:     1N4148 or 1N5711 Schottky diodes
+C1, C2:     100 nF (0.1 μF) ceramic
+R1, R2:     10 kΩ
+M1, M2:     100 μA panel meters (optional)
+
+DIRECTIONAL COUPLER CONSTRUCTION:
+
+For HF (160M-10M):
+- Use parallel transmission line (twisted pair or PCB stripline)
+- Coupling: -20 to -30 dB
+- Main line: 50Ω coax (RG-58, RG-8X)
+- Coupled line: 4-6 inches parallel to main line
+- Spacing: 0.5-1.0 mm for -25 dB coupling
+
+PCB Layout (Stripline Coupler):
+
+    Main Line:     ════════════════════════════  50Ω trace
+                    ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─  Coupled trace
+    Coupled Line:   ────────────────────────────  (parallel)
+
+    Ground Plane:  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  Bottom layer
+
+SIMPLIFIED SWR INDICATOR (LED-based):
+
+For portable use, two LEDs can indicate relative SWR:
+
+         FWD              REV
+         LED              LED
+          │               │
+         ┌┴┐             ┌┴┐
+    ─────┤ ├─────   ─────┤ ├─────  From Detector
+         └┬┘             └┬┘
+          │               │
+         GND             GND
+
+- FWD bright, REV dim/off: Good match (SWR < 1.5:1)
+- Both similar brightness: Poor match (SWR > 2:1)
+- REV brighter than FWD: Very poor match or reversed connection
+
+PANEL METERS (Analog):
+
+If using analog meters:
+- M1 (Forward Power): 0-100W scale
+- M2 (Reflected Power): 0-100W scale
+- Calculate SWR: SWR = (1 + √(Pr/Pf)) / (1 - √(Pr/Pf))
+
+Where:
+  Pf = Forward power
+  Pr = Reflected power
+
+
+SECTION 5: COMPONENT SPECIFICATIONS AND VALUES
+================================================================================
+
+HF SECTION COMPONENTS:
+
+C1, C2 (Variable Capacitors):
+────────────────────────────
+Type:           Air dielectric variable capacitor
+Capacitance:    15-500 pF (or dual-gang 2×250 pF)
+Voltage:        500V minimum (1000V recommended for safety margin)
+Plates:         Brass or silver-plated brass
+Shaft:          1/4" (6.35mm) diameter
+Mounting:       Front panel mount
+Source:         Surplus, new, or vacuum variable
+Cost:           $15-100 each (depending on source and quality)
+
+Recommended Models:
+- Surplus: Hammarlund, Johnson, Cardwell (eBay, Fair Radio)
+- New: Antique Electronic Supply (#C-V365-250 dual gang)
+- Vacuum: Comet/Jennings CVDD-500-2-5S (expensive but excellent)
+
+L1 (Roller Inductor):
+─────────────────────
+Type:           Roller inductor or tapped coil
+Inductance:     5-30 μH continuous (or switched)
+Current:        10A minimum
+Wire:           12-14 AWG bare copper
+Former:         Air-wound or low-loss plastic
+Turns:          ~30-40 turns on 2" (50mm) former
+Pitch:          8-10 turns per inch
+Cost:           $80-200 commercial, $15-30 DIY
+
+Commercial Sources:
+- Palstar RIU.5 (5-30 μH, perfect for this)
+- MFJ Enterprises (various models)
+- Barker & Williamson (vintage, eBay)
+
+DIY Construction (see Section 6):
+- 1/4" copper tubing, self-supporting
+- 3D printed former with grooves
+- Much cheaper, very satisfying!
+
+SO-239 Connectors:
+──────────────────
+Quantity:       2 (input and output)
+Type:           UHF chassis mount (SO-239)
+Mounting:       Rear panel, 16mm holes
+Mates with:     PL-259 coax connectors
+Cost:           $2-5 each
+
+Hardware:
+─────────
+Bus wire:       12 AWG tinned copper (50 cm)
+Shaft couplers: For potentiometers/knobs (3x)
+Mounting:       Standoffs, screws, nuts (stainless)
+Cost:           $10-15 total
+
+VHF/UHF SECTION COMPONENTS:
+
+L1a-f (Series Inductors):
+─────────────────────────
+Type:           Air-wound coils, silver-plated wire
+Wire:           18 AWG solid, silver-plated copper
+Former:         3-8mm plastic or air-wound
+Values:         See Section 3 for winding specs
+Cost:           $5-10 total (wire + forms)
+
+C1a-f (Shunt Capacitors):
+─────────────────────────
+Type:           Silver mica or NPO/COG ceramic
+Voltage:        250V minimum
+Tolerance:      ±5% or better
+Temp Coeff:     NPO (±30 ppm/°C)
+Values:         2pF, 3pF, 6pF, 12pF, 18pF, 50pF
+Lead length:    Keep SHORT (<5mm) for low inductance
+Cost:           $0.50-2.00 each ($8 total)
+
+Rotary Switch:
+──────────────
+Type:           2-pole, 6-position rotary switch
+Contact:        Make-before-break preferred
+Current:        3A minimum
+Mounting:       Front panel
+Shaft:          1/4" diameter
+Cost:           $5-15
+
+Common Models:
+- CK Components C3D0206N-A
+- Electroswitch Series 24
+- Alps SRBP series
+
+SECTION SELECTOR SWITCH:
+
+DPDT Toggle:
+────────────
+Type:           DPDT (double-pole, double-throw) toggle
+Rating:         3A at 125VAC minimum
+Mounting:       Front panel
+Function:       Selects HF or VHF/UHF section
+Cost:           $3-8
+
+Wiring:
+  Common 1 → INPUT from transmitter
+  Common 2 → OUTPUT to antenna
+  Position 1 (HF): Routes through T-network
+  Position 2 (VHF): Routes through L-network
+
+
+SECTION 6: ROLLER INDUCTOR DESIGN
+================================================================================
+
+COMMERCIAL ROLLER INDUCTOR:
+Most straightforward option but expensive ($80-200).
+
+DIY ROLLER INDUCTOR:
+Much cheaper ($15-30) and excellent performance.
+
+DESIGN PARAMETERS:
+
+Former diameter:    2.0 inches (50 mm)
+Former length:      6 inches (150 mm)
+Wire:              14 AWG bare copper wire
+Turns:             40 turns
+Pitch:             8 turns per inch (3.2 turns per cm)
+Inductance range:  0-30 μH (continuous)
+Current rating:    15A
+Cost:              $15-30 (DIY)
+
+CONSTRUCTION METHOD 1: Self-Supporting Coil
+
+Materials:
+- 14 AWG bare copper wire (20 feet)
+- Temporary winding form (2" PVC pipe)
+- Roller contact (brass or beryllium copper)
+- Mounting hardware
+
+Steps:
+1. Wind wire on temporary PVC form
+2. Space turns evenly (8 TPI)
+3. Remove from form (coil is self-supporting)
+4. Mount coil vertically
+5. Add roller contact mechanism
+6. Connect bottom to GND, top to C2
+
+CONSTRUCTION METHOD 2: Grooved Former
+
+Materials:
+- 3D printed cylindrical former (50mm OD)
+- Spiral groove (pitch: 3.2 turns/cm)
+- 14 AWG bare copper wire
+- Roller contact assembly
+
+Advantages:
+- More stable turn spacing
+- Easier to wind
+- Groove guides wire placement
+
+3D Printed Former (OpenSCAD):
+
+    module roller_coil_former() {
+        difference() {
+            // Main cylinder
+            cylinder(d=50, h=150, $fn=100);
+
+            // Center hole for mounting rod
+            cylinder(d=6, h=160, center=true, $fn=50);
+
+            // Spiral groove for wire
+            for (i = [0:1:40]) {
+                translate([0, 0, i * 3.75])  // 3.75mm pitch
+                rotate([0, 0, i * 360/8])     // Spiral
+                rotate([90, 0, 0])
+                translate([27, 0, 0])
+                cylinder(d=4, h=60, center=true, $fn=20);
+            }
+        }
+    }
+
+ROLLER CONTACT MECHANISM:
+
+         Shaft (attached to knob)
+              │
+              ▼
+         ┌────┴────┐
+         │ Roller  │  ← Brass or BeCu contact
+         │  Ball   │     Spring-loaded
+         └────┬────┘
+              │
+    ═════════╪═════════  ← Coil winding
+    ═════════╧═════════     (contact point)
+
+The roller moves up/down the coil, selecting inductance:
+- Bottom position: Minimum inductance (~0.5 μH)
+- Mid position: Mid-range (~15 μH)
+- Top position: Maximum inductance (~30 μH)
+
+ALTERNATIVE: Sliding Contact
+
+Instead of roller, use a sliding phosphor bronze contact:
+
+         Slider
+           ║
+           ║  Contact wire
+    ═══════╬═══════  ← Coil
+    ═══════╬═══════
+           ║
+
+Simpler but more friction. Works well if coil is firmly mounted.
+
+INDUCTANCE CALCULATION:
+
+For air-core solenoid:
+    L (μH) = (d² × n²) / (18d + 40l)
+
+Where:
+    d = coil diameter (inches)
+    n = number of turns
+    l = coil length (inches)
+
+Example (this design):
+    d = 2.0 inches
+    n = 40 turns
+    l = 5.0 inches
+
+    L = (2² × 40²) / (18×2 + 40×5)
+    L = 6400 / (36 + 200)
+    L = 6400 / 236
+    L ≈ 27 μH
+
+Close to our 30 μH target. Adjust turns as needed.
+
+
+SECTION 7: SWITCHED INDUCTOR ALTERNATIVE
+================================================================================
+
+If roller inductor is too complex or expensive, use switched fixed coils.
+
+CONCEPT: Multiple fixed inductors selected by rotary switch
+
+Advantages:
+✓ Less expensive ($20-40 vs. $80-200)
+✓ Easier to construct
+✓ No moving contacts to wear
+✓ Can use air-wound coils
+✓ Excellent Q factor
+
+Disadvantages:
+✗ Step tuning (not continuous)
+✗ May need more adjustment of C1/C2
+✗ More components
+
+RECOMMENDED INDUCTOR VALUES:
+
+Position  Value   Bands         Construction
+─────────────────────────────────────────────────────────
+1         30 μH   160M, 80M     40T, 2" dia, 5" long
+2         20 μH   80M, 40M      32T, 2" dia, 4" long
+3         12 μH   40M, 30M, 20M 26T, 2" dia, 3" long
+4         8 μH    20M, 17M, 15M 21T, 2" dia, 2.5" long
+5         5 μH    15M, 12M, 10M 17T, 2" dia, 2" long
+
+All coils: 14 AWG bare copper, air-wound or on low-loss former
+
+ROTARY SWITCH WIRING:
+
+                    Rotary Switch
+                    (1-pole, 5-pos)
+                          │
+         ┌────────────────┼─────────────────┐
+         │        │       │       │          │
+        ╔╧╗      ╔╧╗     ╔╧╗     ╔╧╗        ╔╧╗
+        ║ ║      ║ ║     ║ ║     ║ ║        ║ ║
+        ║ ║30μH  ║ ║20μH ║ ║12μH ║ ║8μH     ║ ║5μH
+        ║ ║      ║ ║     ║ ║     ║ ║        ║ ║
+        ╚╧╝      ╚╧╝     ╚╧╝     ╚╧╝        ╚╧╝
+         │        │       │       │          │
+        GND      GND     GND     GND        GND
+
+Switch Type:
+- 1-pole, 5-position rotary
+- Make-before-break (shorting type)
+- 5A current rating minimum
+- Front panel mount with scale
+
+Coil Construction:
+- Wind on 2" (50mm) diameter forms
+- Space turns evenly for maximum Q
+- Mount coils on ceramic standoffs
+- Keep leads short
+- Ground one end, switch other end
+
+ALTERNATIVE: Plug-in Coils
+
+For ultimate flexibility, make coils plug-in:
+
+    [Coil 1] ──┐
+               ├──── Binding Posts ──── Circuit
+    [Coil 2] ──┘
+
+Advantages:
+- Easy to change coils
+- Can optimize each coil individually
+- Can build coils as needed
+- Easy to experiment
+
+Disadvantages:
+- Less convenient to use
+- More time to change bands
+- Possible contact issues
+
+
+SECTION 8: WIRING AND LAYOUT GUIDELINES
+================================================================================
+
+GENERAL PRINCIPLES:
+
+1. SHORT RF PATHS
+   - Keep all RF connections as short as possible
+   - Minimize lead inductance
+   - Direct point-to-point wiring
+
+2. STAR GROUNDING
+   - All grounds converge at single point
+   - Prevents ground loops
+   - Use chassis as ground plane
+
+3. COMPONENT PLACEMENT
+   - C1 near input connector
+   - L1 in center
+   - C2 near output connector
+   - Linear signal flow
+
+4. MECHANICAL STRENGTH
+   - Secure all components firmly
+   - Capacitors must not move under vibration
+   - Support heavy components (inductor)
+
+PHYSICAL LAYOUT (Top View):
+
+    ┌─────────────────────────────────────────────────────────┐
+    │  INPUT                                           OUTPUT  │
+    │  SO-239    C1          L1              C2       SO-239  │
+    │    │      ╱│╲        ╔═══╗            ╱│╲         │     │
+    │    ●─────( • )───────║   ║───────────( • )────────●    │
+    │           ╲│╱        ║   ║ Roller     ╲│╱              │
+    │            │         ║   ║ Inductor    │               │
+    │           GND        ╚═══╝            GND              │
+    │                        │                                │
+    │                       GND                               │
+    │                                                         │
+    │   [VHF/UHF Section Below]                              │
+    │                                                         │
+    │   HF/VHF Selector Switch        Band Switch (VHF)      │
+    │          (DPDT)                    (2P6T)              │
+    └─────────────────────────────────────────────────────────┘
+
+WIRING GUIDELINES:
+
+Bus Wire:
+- Use 12 AWG tinned copper bus wire
+- Keep runs straight and direct
+- Support with standoffs if needed
+- Solder all connections (no crimps at RF)
+
+Ground Connections:
+- Star ground: All GND converge at one point
+- Use chassis as ground plane (metal enclosure)
+- Or use copper tape/sheet (plastic enclosure)
+- Ground point near center of RF path
+
+Capacitor Mounting:
+- Securely mounted to front panel
+- Shaft through panel
+- Knob on outside
+- Leads kept short (< 2 inches)
+- Direct connection to RF path
+
+Inductor Mounting:
+- Vertical orientation (reduces footprint)
+- Mounted on ceramic/plastic standoffs
+- Away from metal surfaces (air core needs clearance)
+- At least 1" clearance from enclosure walls
+
+Interconnections:
+- Use bus wire for HF (not coax within enclosure)
+- Coax only for external connections
+- Avoid sharp bends in wire
+- Keep VHF and HF sections separated
+
+RF Connectors:
+- SO-239 rear panel mounted
+- Short, direct connection to circuit
+- Use star washers for good ground contact
+- Seal with silicone if outdoor use
+
+COMPONENT LEAD DRESS:
+
+Good Lead Dress (Low Inductance):
+
+    Component ──┐
+                └── Direct, short connection
+                    │
+                   GND
+
+Poor Lead Dress (High Inductance):
+
+    Component ──┐
+                └──┐
+                   │ Long loop
+                   └──┐
+                      │
+                     GND
+
+At VHF/UHF, even small lead inductance matters!
+
+SHIELDING (Optional but Recommended):
+
+For best performance, separate HF and VHF sections:
+
+    ┌─────────────────┬─────────────────┐
+    │   HF Section    │  VHF Section    │
+    │   (T-Network)   │  (L-Network)    │
+    │                 │                 │
+    │   C1 - L1 - C2  │  Switch + L/C   │
+    │                 │                 │
+    └─────────────────┴─────────────────┘
+           ▲                 ▲
+           Shield divider (copper tape or metal)
+
+Prevents interaction between sections.
+
+
+SECTION 9: COMPLETE PARTS LIST
+================================================================================
+
+HF T-NETWORK SECTION:
+
+ITEM                        QTY   SPECS                      EST. COST
+─────────────────────────────────────────────────────────────────────────
+Variable capacitor (C1)     1     15-500pF, 500V min        $15-50
+Variable capacitor (C2)     1     15-500pF, 500V min        $15-50
+Roller inductor (L1)        1     5-30μH, 10A               $80-200
+  OR:
+Switched inductors          5     5μH, 8μH, 12μH, 20μH,     $20-40
+                                  30μH, air-wound
+Rotary switch (for coils)   1     1P5T, 5A                  $8-15
+SO-239 connector (input)    1     UHF chassis mount         $3-5
+SO-239 connector (output)   1     UHF chassis mount         $3-5
+
+VHF/UHF L-NETWORK SECTION:
+
+Air-wound inductors         6     See Section 3 specs       $5-10
+Silver mica capacitors      6     2, 3, 6, 12, 18, 50pF    $8-15
+Rotary switch               1     2P6T make-before-break    $10-18
+DPDT toggle (HF/VHF)        1     3A, 125VAC                $3-8
+
+HARDWARE AND WIRING:
+
+Bus wire (12 AWG)           3ft   Tinned copper             $3-5
+Shaft couplers              3     6.35mm (1/4")             $6-12
+Knobs                       3-5   1/4" shaft, pointer style $9-20
+Ceramic standoffs           4-8   For inductor mounting     $5-10
+Hardware (screws, nuts)     -     Stainless steel           $5-10
+Solder                      -     60/40 or lead-free        $5-10
+
+OPTIONAL SWR METER:
+
+Diodes (1N4148)             2     General purpose           $0.50
+Capacitors (100nF)          2     Ceramic                   $0.50
+Resistors (10kΩ)            2     1/4W                      $0.20
+Panel meters                2     100μA (FWD, REV)          $20-40
+  OR:
+LEDs                        2     Green (FWD), Red (REV)    $1-2
+
+ENCLOSURE (if not 3D printing):
+
+Aluminum enclosure          1     200×150×80mm              $30-60
+  OR:
+3D printing filament        -     PETG, ~250g               $8-12
+
+WIRE AND COAX:
+
+Magnet wire (for coils)     100ft 14 AWG, enamel          $10-15
+Coax jumpers (internal)     2ft   RG-316 or RG-174          $5-8
+
+TOTAL COST ESTIMATE:
+────────────────────
+Budget build (surplus caps, DIY inductor):       $150-200
+Standard build (new caps, commercial inductor):  $250-350
+Premium build (vacuum caps, high quality):       $350-500
+
+Add $50-100 if purchasing enclosure instead of 3D printing.
+
+
+SECTION 10: TUNING PROCEDURES
+================================================================================
+
+INITIAL SETUP:
+
+1. SAFETY FIRST:
+   - Use LOW POWER initially (5-10W maximum)
+   - Connect dummy load or antenna
+   - NEVER transmit without load!
+
+2. CONNECT TEST EQUIPMENT:
+   - External SWR meter between transmitter and tuner
+   - Transmitter → SWR meter → Tuner → Dummy load
+   - Set transmitter to CW or carrier mode
+
+3. BAND SELECTION:
+   - For HF: Select "HF" on section switch
+   - Set frequency on transmitter
+   - For VHF: Select "VHF" and choose band on rotary switch
+
+HF TUNING PROCEDURE (T-Network):
+
+Step 1: SET STARTING POSITIONS
+
+   C1 (Input):      50% rotation (mid-range)
+   L1 (Inductor):   Match band (see Section 2 table)
+   C2 (Output):     50% rotation (mid-range)
+
+Step 2: KEY TRANSMITTER (Low Power!)
+
+   Observe SWR on meter
+   Typical starting SWR: 3:1 to 10:1 (this is normal!)
+
+Step 3: ADJUST OUTPUT CAPACITOR (C2)
+
+   Slowly rotate C2 knob
+   Watch for SWR to DROP
+   Find position of minimum SWR
+
+   If SWR doesn't improve significantly:
+   → Adjust L1 (inductor) and try again
+
+Step 4: ADJUST INPUT CAPACITOR (C1)
+
+   Rotate C1 knob slowly
+   SWR should drop further
+   Find minimum SWR point
+
+Step 5: ITERATE
+
+   Go back to C2, fine-tune
+   Then back to C1
+   Repeat until SWR < 1.5:1
+
+Step 6: VERIFY
+
+   Target: SWR < 1.5:1 (excellent)
+           SWR < 2.0:1 (acceptable)
+
+   If cannot achieve <2:1, try different L1 setting
+
+QUICK TUNING METHOD (for experienced operators):
+
+1. Adjust L1 until you hear "dip" in reflected power
+2. Tweak C2 for deepest dip
+3. Touch up C1 for final null
+4. Total time: 10-30 seconds
+
+VHF/UHF TUNING PROCEDURE (L-Network):
+
+Step 1: SELECT BAND
+
+   Rotate VHF band switch to desired band
+   Example: 2M position for 2-meter band
+
+Step 2: KEY TRANSMITTER
+
+   Use LOW power (5W or less initially)
+   Observe SWR
+
+Step 3: VERIFY MATCH
+
+   With proper band selection, SWR should be <2:1
+   If not, check:
+   - Correct band selected?
+   - Antenna impedance in range (25-200Ω)?
+   - All connections secure?
+
+Note: VHF/UHF L-network has fixed values per band.
+Limited adjustment possible. If match is poor, antenna
+or external tuner adjustment needed.
+
+TUNING FOR DIFFERENT ANTENNAS:
+
+Random Wire / End-Fed:
+- Usually high impedance (200-1000Ω)
+- Requires high L1, high C2
+- Can be very reactive (high SWR)
+- May need several adjustment cycles
+
+Dipole (slight mismatch):
+- Near 50Ω, small adjustment
+- Low L1 settings
+- Quick to tune
+
+Vertical with Radials:
+- Usually 35-75Ω depending on ground
+- Medium L1 settings
+- Relatively easy to match
+
+Multiband Antennas:
+- Impedance varies by band
+- Retune completely when changing bands
+- Keep tuning chart for each band
+
+TUNING CHART TEMPLATE:
+
+Create a chart for quick setup:
+
+Band   Frequency   C1 Setting   L1 Setting   C2 Setting   SWR
+─────────────────────────────────────────────────────────────
+80M    3.750 MHz   60%          20 μH        70%          1.3:1
+40M    7.100 MHz   40%          15 μH        45%          1.2:1
+20M    14.100 MHz  30%          10 μH        35%          1.1:1
+...
+
+Record actual knob positions (degrees or % rotation) for your
+specific antenna system. Saves time when switching bands!
+
+
+SECTION 11: CONSTRUCTION NOTES
+================================================================================
+
+PCB vs. POINT-TO-POINT:
+
+This transmatch can be built using either method:
+
+POINT-TO-POINT (Recommended):
+✓ Easier for beginners
+✓ No PCB design/fabrication needed
+✓ Easy to modify
+✓ Short, direct RF paths
+✓ Works excellently at HF frequencies
+
+Method:
+- Mount components on ceramic standoffs
+- Use bus wire for interconnections
+- Ground all components to common chassis point
+- Very robust construction
+
+PCB (Advanced):
+✓ Neater appearance
+✓ Reproducible (if making multiple units)
+✓ Better for VHF/UHF (controlled impedances)
+
+Caution:
+- PCB design beyond scope of this document
+- Trace widths important (50Ω impedance)
+- Via placement critical for grounding
+- Consider using PCB for VHF section only
+
+COIL WINDING TIPS:
+
+1. EVEN SPACING:
+   - Use coil winding jig or lathe
+   - Or: 3D print former with grooves
+   - Consistent spacing = higher Q = better efficiency
+
+2. WIRE PREPARATION:
+   - Remove enamel from ends (scrape or burn)
+   - Tin ends with solder for good connections
+   - Don't kink wire (reduces current capacity)
+
+3. SECURING TURNS:
+   - Use small dabs of glue between turns
+   - Or: drill small holes in former for wire ends
+   - Ensure coil can't shift under vibration
+
+4. TESTING INDUCTANCE:
+   - Use LCR meter if available
+   - Or: resonate with known capacitor
+   - Formula: f = 1 / (2π√LC)
+
+CAPACITOR SELECTION GUIDE:
+
+Budget Option ($15-30 each):
+- Surplus air variable caps from eBay
+- Look for: Hammarlund, Johnson, Cardwell brands
+- Check voltage rating (500V minimum)
+- Test before installing (verify smooth rotation)
+
+Mid-Range ($40-70 each):
+- New air variable capacitors
+- Antique Electronic Supply
+- Variable capacitor suppliers
+
+Premium ($100+ each):
+- Vacuum variable capacitors
+- Excellent voltage handling (5-10 kV)
+- Compact size
+- Zero arcing risk
+- Best for high power (>100W)
+
+SAFETY - HIGH VOLTAGE:
+
+Even at 100W, capacitor plates can have HIGH VOLTAGE:
+
+Power   Voltage (peak)
+──────────────────────
+100W    100-300V
+200W    150-400V
+
+Dangers:
+⚠ Capacitor plates can BITE! (painful shock)
+⚠ Capacitors can STORE CHARGE (discharge before touching)
+⚠ Sharp edges on plates (mechanical hazard)
+
+Safety measures:
+✓ Keep enclosure CLOSED during operation
+✓ Discharge caps before opening (short terminals with insulated tool)
+✓ Use insulated knobs (don't touch capacitor body during TX)
+✓ Never work on transmatch while transmitting
+
+WEATHERPROOFING:
+
+For outdoor/portable use:
+
+Enclosure:
+- PETG or ABS (better than PLA for outdoors)
+- Seal seams with silicone
+- Conformal coating on circuit boards
+
+Connectors:
+- Use rubber boots on coax connectors
+- Silicone sealant around panel penetrations
+- Keep connectors facing down (drip edge)
+
+Components:
+- Spray coils with acrylic conformal coating
+- Protect capacitor from rain (enclose)
+- Use stainless hardware (no rust)
+
+TESTING WITHOUT ANTENNA:
+
+DUMMY LOAD is essential for initial testing!
+
+Dummy Load = 50Ω resistor, appropriate wattage:
+- 100W: Use two 100Ω 50W resistors in parallel
+- 50W: Single 50Ω 50W resistor
+- QRP: 50Ω 5-10W resistor
+
+Why?
+- Safe testing without RF radiation
+- Known impedance (50Ω)
+- Protects transmitter during tuning experiments
+
+MODIFICATIONS:
+
+1. ADD MORE INDUCTANCE TAPS
+   More coil taps = finer adjustment
+
+2. MOTORIZE TUNING
+   Add stepper motors to C1, C2, L1
+   Remote tuning from operating position
+
+3. ADD DIGITAL READOUT
+   Display C1, C2, L1 positions
+   Recall saved settings
+
+4. HIGHER POWER
+   Use larger capacitors (higher voltage)
+   Larger inductor (heavier wire)
+   Better cooling
+
+5. ADD BALUN
+   4:1 or 6:1 balun for balanced antennas
+   Mounts between tuner and antenna
+
+TROUBLESHOOTING:
+
+Problem: Cannot achieve SWR < 2:1
+Solution:
+- Check all connections
+- Try different inductor settings
+- Verify antenna is connected
+- Check antenna impedance (may be out of range)
+
+Problem: Arcing in capacitor
+Solution:
+- Reduce power immediately
+- Capacitor voltage rating too low
+- Or: extreme mismatch (very high SWR)
+- Use higher voltage capacitor
+
+Problem: Poor efficiency (antenna doesn't radiate well)
+Solution:
+- Check ground system (critical!)
+- Verify inductor connections (all turns conducting)
+- Look for oxidized connections
+
+Problem: VHF/UHF section doesn't match
+Solution:
+- Check component values (correct pF, nH?)
+- Verify short leads on caps/inductors
+- Ensure good ground connections
+- Antenna impedance may be out of range (25-200Ω)
+
+Problem: Inductor gets hot
+Solution:
+- Normal: slight warmth
+- Hot to touch: reduce power or check current rating
+- Too much loss: check wire gauge, connections
+
+FINAL NOTES:
+
+This transmatch design provides excellent performance across all
+amateur bands from 160M through 20CM. The hybrid HF/VHF approach
+ensures optimal matching for the wide frequency range.
+
+Key Success Factors:
+✓ Quality variable capacitors (don't skimp here!)
+✓ Good ground system on antenna
+✓ Short RF paths in construction
+✓ Patient tuning procedure
+✓ Start with LOW POWER for testing
+
+Build it, tune it carefully, and enjoy perfectly matched antennas
+on all bands!
+
+73 and good DX!
+
+Design: Claude Code - 2025
+Location: /antennas/transmatch/schematics/
+
+================================================================================
+END OF TRANSMATCH SCHEMATICS
+================================================================================

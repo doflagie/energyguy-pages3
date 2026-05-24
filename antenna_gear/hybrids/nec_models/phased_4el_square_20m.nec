@@ -1,0 +1,96 @@
+CM ============================================================
+CM 4-Element Square Phased Array — 20M (14.175 MHz)
+CM TM-HYB-001 Rev A
+CM
+CM Four half-wave dipoles at corners of a λ/2 × λ/2 square.
+CM Sequential phase shift: 0°, 90°, 180°, 270° (cardioid rotational symmetry)
+CM
+CM Layout (top view, Z=10m):
+CM
+CM   El.1(0°)      El.4(270°)
+CM   (0,0)         (10.58,0)
+CM
+CM   El.2(90°)     El.3(180°)
+CM   (0,10.58)     (10.58,10.58)
+CM
+CM λ/2 spacing = c/(2×14.175MHz) = 10.584 m
+CM
+CM Feed network:
+CM   4-way Wilkinson to each element
+CM   90° all-pass networks for sequential phase shift:
+CM     El.1: 0° (reference)
+CM     El.2: −90° (one all-pass section)
+CM     El.3: −180° (two all-pass sections)
+CM     El.4: −270° (three all-pass sections)
+CM
+CM This creates a broadside array with circular symmetry.
+CM Pattern: bidirectional broadside beam (perpendicular to array plane)
+CM Alternatively: use Wilkinson + quadrature hybrids for rotating beam.
+CM ============================================================
+CE
+
+CM === ELEMENT 1 (0°) at (0, 0, 10) ===
+GW 1 21 0.000 -5.235 10.000 0.000 5.235 10.000 0.001
+
+CM === ELEMENT 2 (−90°) at (0, 10.584, 10) ===
+GW 2 21 0.000 5.349 10.000 0.000 15.919 10.000 0.001
+
+CM === ELEMENT 3 (−180°) at (10.584, 10.584, 10) ===
+GW 3 21 10.584 5.349 10.000 10.584 15.919 10.000 0.001
+
+CM === ELEMENT 4 (−270°) at (10.584, 0, 10) ===
+GW 4 21 10.584 -5.235 10.000 10.584 5.235 10.000 0.001
+
+CM === GROUND: Average ===
+GE 1
+GN 2 0 0 0 13.0 0.005
+
+CM === EXCITATIONS (sequential phase, equal amplitude) ===
+EX 0 1 11 0 1.000  0.000
+EX 0 2 11 0 0.000 -1.000
+EX 0 3 11 0 -1.000 0.000
+EX 0 4 11 0 0.000  1.000
+
+CM PHASE ENCODING:
+CM  El.1:  1.0+j0.0   = 1∠0°
+CM  El.2:  0.0−j1.0   = 1∠−90°
+CM  El.3: −1.0+j0.0   = 1∠−180°
+CM  El.4:  0.0+j1.0   = 1∠−270° = 1∠+90°
+
+CM === FREQUENCY ===
+FR 0 1 0 0 14.175 0
+
+CM === RADIATION PATTERNS ===
+CM Full azimuth/elevation pattern
+RP 0 91 361 1000 0.0 0.0 1.0 1.0
+
+CM Azimuth at 20° elevation (DX angle)
+RP 0 1 361 1000 20.0 0.0 1.0 1.0
+
+EN
+
+CM ============================================================
+CM EXPECTED RESULTS (broadside pattern):
+CM   Gain: ≈ 8 dBi (≈6 dBd) above average ground at 20°
+CM   Array factor: +6 dB over single dipole (4 elements)
+CM   Pattern: figure-8 broadside (two main lobes up and down if
+CM            array lies in horizontal plane)
+CM
+CM ENDFIRE VARIANT:
+CM   Change elements to vertical dipoles or verticals.
+CM   Array produces endfire beam in +Y or +X direction depending
+CM   on phase progression direction.
+CM   For vertical endfire: Δφ=90° per λ/4 spacing → unidirectional.
+CM
+CM BEAM STEERING:
+CM   To steer beam in azimuth, change phase progression:
+CM     North beam:   0°, −90°, −180°, −270°
+CM     East beam:    0°, +90°, +180°, +270° (reverse)
+CM     Use PIN diode phase shifters or relay-switched all-pass networks.
+CM
+CM PHASING NETWORK (see TM-HYB-001 sch_lumped_element_hf.txt):
+CM   All-pass 90° section for 14.175 MHz:
+CM     L = 50/(2π×14.175e6) = 561 nH (T-50-6, 9t, #22 AWG)
+CM     C = 1/(2π×14.175e6×50) = 225 pF (C0G)
+CM   Three cascaded sections give 270° shift for El.4.
+CM ============================================================

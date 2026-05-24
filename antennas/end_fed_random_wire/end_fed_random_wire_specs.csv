@@ -1,0 +1,14 @@
+ANTENNA SPECIFICATION — END FED RANDOM WIRE,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,160M–6M,,Center/allocated bands
+Design approach,"Broadband EFHW using random length, tuned feed",,Primary design method
+Compaction factor,70%,,Size reduction vs full-size
+Special parameters,"40–100 ft random wire, capacitive coupler, ATU required",,Design-specific details
+,,,
+Feed impedance,50–600,Ω,Antenna-type dependent
+SWR target,<2.0,:1,With tuner if required
+Radiation pattern,Varies,,See NEC model
+,,,
+Typical efficiency,75–95%,%,Design-dependent
+Typical gain,2–10,dBi,Antenna-type dependent

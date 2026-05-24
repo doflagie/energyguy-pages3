@@ -1,0 +1,197 @@
+================================================================================
+ SWITCHED DIRECTIONAL ANTENNA ARRAY WITH DELAY LINES — TM-ADF-006 Rev A
+ 4-Element Switched Array, Calculated Delay Lines
+ HF Bands 160M through 6M
+================================================================================
+
+PRINCIPLE OF OPERATION
+========================
+Four verticals arranged in a square (λ/4 per side). By introducing calibrated
+electrical delay (coaxial delay lines) between adjacent elements and summing
+them in phase, a cardioid pattern is formed pointing in the desired direction.
+
+When element signals are combined with relative delays of 0°, 90°, 180°, 270°
+(one per element, increasing around the array), the result is an endfire pattern
+with a deep null pointing away from the intended direction.
+
+  FOUR BEAM POSITIONS by delay assignment:
+  ┌──────────────┬──────────────────────────────────────────────────────────┐
+  │ Beam Dir     │ Delay on E1(N)  E2(E)  E3(S)  E4(W)                   │
+  ├──────────────┼──────────────────────────────────────────────────────────┤
+  │ NORTH (peak) │  0°             90°    180°   270°                      │
+  │ EAST  (peak) │  270°            0°     90°   180°                      │
+  │ SOUTH (peak) │  180°          270°      0°    90°                      │
+  │ WEST  (peak) │  90°           180°    270°     0°                      │
+  └──────────────┴──────────────────────────────────────────────────────────┘
+
+================================================================================
+PHYSICAL ARRAY LAYOUT
+================================================================================
+
+  Top view: 4 elements at corners of square, spacing = λ/4
+
+                   [E1 — NORTH]
+                        │
+                    ────●────
+                        │        d = λ/4
+                    ────●────
+                        │
+  [E4 — WEST] ─── d ───●─── d ─── [E2 — EAST]
+                        │
+                    ────●────
+                        │        d = λ/4
+                    ────●────
+                        │
+                   [E3 — SOUTH]
+
+  Each element: λ/4 vertical monopole with 4× ground radials
+
+================================================================================
+DELAY LINE CALCULATIONS
+================================================================================
+
+  Coaxial delay line for 90° at frequency f:
+    Physical length L = (c × VF) / (4 × f)
+    where c = 3×10⁸ m/s, VF = velocity factor of coax
+
+  DELAY LINE LENGTH TABLE — RG-58 (VF = 0.66):
+  ┌──────────┬────────────┬──────────┬─────────────────────────┐
+  │ Band     │ Freq (MHz) │ 90° delay│ Notes                   │
+  ├──────────┼────────────┼──────────┼─────────────────────────┤
+  │ 160m     │ 1.85       │ 26.8 m   │ Long; use surplus coax  │
+  │  80m     │ 3.75       │ 13.2 m   │                         │
+  │  60m     │ 5.35       │  9.2 m   │                         │
+  │  40m     │ 7.15       │  6.9 m   │ Practical portable      │
+  │  30m     │ 10.125     │  4.9 m   │                         │
+  │  20m     │ 14.175     │  3.5 m   │                         │
+  │  17m     │ 18.118     │  2.7 m   │                         │
+  │  15m     │ 21.225     │  2.3 m   │                         │
+  │  12m     │ 24.940     │  2.0 m   │                         │
+  │  10m     │ 28.850     │  1.7 m   │                         │
+  │   6m     │ 52.000     │  0.95 m  │ Very compact!           │
+  └──────────┴────────────┴──────────┴─────────────────────────┘
+
+  EXAMPLE: 40m band, 7.15 MHz, RG-58 (VF=0.66):
+    90° delay = (3×10⁸ × 0.66) / (4 × 7.15×10⁶) = 6.92 m ≈ 6.9 m
+    For NORTH beam: E1=0m, E2=6.9m, E3=13.8m, E4=20.7m of extra coax
+
+  NOTE ON MULTI-BAND OPERATION:
+  Fixed delay lines work at ONE band only. For multi-band:
+  - Option A: switchable delay lines (relay-switched coax segments per band)
+  - Option B: digital delay (high-speed ADC + DSP phase shift in firmware)
+  - Option C: separate delay line boxes per band, swap as needed
+
+================================================================================
+SWITCHING RELAY CIRCUIT
+================================================================================
+
+  Control: 74HC595 shift register + ULN2003A darlington driver
+
+  ESP32 GPIO connections to 74HC595:
+    GPIO16 ──── SER (serial data)
+    GPIO17 ──── SRCLK (shift clock)
+    GPIO18 ──── RCLK (latch clock)
+
+  74HC595 outputs Q0–Q7 ──── ULN2003A inputs ──── Relay coils (12V)
+
+  RELAY MATRIX (16 relays total — 4 beams × 4 elements):
+  ┌────────────────────────────────────────────────────────────────────────┐
+  │  Element E1 ──[Delay 0m relay]──────────────────────────────┐        │
+  │           ├──[Delay 6.9m relay]──────────────────────────┐  │        │
+  │           ├──[Delay 13.8m relay]────────────────────────┐ │  │        │
+  │           └──[Delay 20.7m relay]──────────────────────┐ │ │  │        │
+  │                                                         │ │ │  │        │
+  │  (similar relay matrix for E2, E3, E4)                  │ │ │  │        │
+  │                                                          │ │ │  │        │
+  │   Power combiner (Wilkinson 4-way) ◄─────────────────────┘─┘─┘──┘    │
+  │                     │                                                   │
+  │                     ▼ 50Ω combined output ──── to receiver/RSSI        │
+  └────────────────────────────────────────────────────────────────────────┘
+
+  SIMPLIFIED 4-POSITION RELAY BOARD:
+  One relay selects which delay coil bundle is active:
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │  RELAY 1 (NORTH BEAM): routes E1=0°, E2=90°, E3=180°, E4=270°     │
+  │  RELAY 2 (EAST BEAM):  routes E1=270°, E2=0°, E3=90°, E4=180°     │
+  │  RELAY 3 (SOUTH BEAM): routes E1=180°, E2=270°, E3=0°, E4=90°     │
+  │  RELAY 4 (WEST BEAM):  routes E1=90°, E2=180°, E3=270°, E4=0°     │
+  │                                                                       │
+  │  Control: 74HC595 bit 0–3 → ULN2003A → 12V relay coils             │
+  └──────────────────────────────────────────────────────────────────────┘
+
+================================================================================
+4-WAY POWER COMBINER / SPLITTER (WILKINSON)
+================================================================================
+
+  Four 50Ω inputs → one 50Ω output (6dB combining loss + isolation):
+
+  Two-stage binary Wilkinson tree:
+  Stage 1: two 2-way Wilkinson combiners → two outputs
+  Stage 2: one 2-way Wilkinson combiner → final output
+
+  First 2-way combiner:
+    E1+E2 → Combiner A → Port C
+  Second 2-way combiner:
+    E3+E4 → Combiner B → Port D
+  Final combiner:
+    C+D   → Combiner C → OUTPUT
+
+  Each Wilkinson stage:
+  Input1 ──[λ/4, 70.7Ω]──┬── Output (50Ω)
+  Input2 ──[λ/4, 70.7Ω]──┘
+                     │100Ω isolation resistor between inputs│
+
+  PCB implementation preferred; for field use, can use T-junction with
+  3dB padding (lossy but simple).
+
+================================================================================
+RSSI MEASUREMENT
+================================================================================
+
+  Combined output ──▶ [LNA optional, +20dB] ──▶ [AD8307 log amp] ──▶ ADC
+
+  AD8307:
+    Input: 50Ω, −75 to +12 dBm
+    Output: 25 mV/dB linear-in-dB
+    ESP32 ADC: GPIO35 (ADC1_CH7), 12-bit, 0–3.3V
+
+  SCAN SEQUENCE (firmware):
+  1. Switch NORTH beam → wait 50ms → read RSSI[0]
+  2. Switch EAST beam  → wait 50ms → read RSSI[1]
+  3. Switch SOUTH beam → wait 50ms → read RSSI[2]
+  4. Switch WEST beam  → wait 50ms → read RSSI[3]
+  5. Peak RSSI index → bearing = index × 90°
+  6. Gaussian interpolation → sub-step bearing estimate
+
+================================================================================
+DELAY LINE INTERCONNECTION — 40M EXAMPLE
+================================================================================
+
+  Full wiring for one band (7.15 MHz, 40m):
+
+  E1 (N) ─ 50Ω coax ─── 0m delay ────────────────────────────────────┐
+  E2 (E) ─ 50Ω coax ─── 6.9m RG-58 ─────────────────────────────────┤ 4-way
+  E3 (S) ─ 50Ω coax ─── 13.8m RG-58 ────────────────────────────────┤ combiner
+  E4 (W) ─ 50Ω coax ─── 20.7m RG-58 ────────────────────────────────┘
+                                                │
+                                                ▼ NORTH BEAM OUTPUT
+
+  For EAST beam: relay connects different length delay to each element:
+  E1 ── 20.7m (270°), E2 ── 0m (0°), E3 ── 6.9m (90°), E4 ── 13.8m (180°)
+
+  Each beam uses a separate pre-cut coax bundle with BNC connectors.
+  Relay board patches correct bundle to combiner.
+
+================================================================================
+ESP32 PIN ASSIGNMENTS — SWITCHED ARRAY
+================================================================================
+
+  GPIO  Function          Notes
+  ────  ─────────────     ──────────────────────────────────────────
+   16   SER               74HC595 serial data
+   17   SRCLK             74HC595 shift clock
+   18   RCLK              74HC595 latch clock
+   35   RSSI_ADC          AD8307 output (ADC1_CH7)
+   21   SDA / 22 SCL      I2C: OLED + compass
+   18*  GPS_RX / 19 TX    *conflict: use GPIO4/5 for GPS instead
+    2   BT_LED

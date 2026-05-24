@@ -1,0 +1,19 @@
+CM FRAME LOOP ANTENNA
+CM Frequency bands: 40M, 20M, 15M
+CM Design: Large square loop, low radiation angle (NVIS)
+CM Compaction: 0%
+CM Special parameters: 10–20 ft sides, high Q, tuned with series capacitor
+CE
+
+GW 1 15 0.0 0.0 8.0  3.0 0.0 8.0  0.001
+GW 2 15 3.0 0.0 8.0  3.0 3.0 8.0  0.001
+GW 3 15 3.0 3.0 8.0  0.0 3.0 8.0  0.001
+GW 4 15 0.0 3.0 8.0  0.0 0.0 8.0  0.001
+LD 1 0 0 0 0 0 0
+
+GE 0
+GN 2 0 0 0 13 0.005
+EX 0 1 6 0 1 0
+FR 0 1 0 0 100 0
+RP 0 91 360 1000 -90 0 1.0 1.0
+EN

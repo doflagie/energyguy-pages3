@@ -1,0 +1,256 @@
+================================================================================
+BALUN 1:1 CURRENT CHOKE — FERRITE TOROID
+================================================================================
+
+Purpose: Common-mode suppression on dipole and balanced antenna feeds
+Common-Mode Impedance: 250+ Ω @ HF, 500+ Ω @ 10M, 5000+ Ω @ VHF
+Insertion Loss: 0.1–0.3 dB (ferrite) to <0.05 dB (air-core VHF)
+
+================================================================================
+CIRCUIT DIAGRAM (RG-58 coax threaded through toroid core)
+================================================================================
+
+          ┌────────────────────┐
+          │  ANTENNA (Balanced)│
+          │    (dipole feed)   │
+          └──────┬─────────────┘
+                 │
+         ┌───────┴──────┐
+         │              │
+      Conductor A    Conductor B
+         │              │
+      ┌──┴──────┐   ┌──┴──────┐
+      │         │   │         │
+      │  RG-58  │   │  RG-58  │
+      │ through │   │ through │
+      │ FT-240  │   │ FT-240  │
+      │  core   │   │  core   │
+      │         │   │         │
+      └──┬──────┘   └──┬──────┘
+         │              │
+         ├──────┬───────┤
+                │
+          [Coax Cable]
+                │
+          ┌─────┴─────┐
+          │  Receiver  │
+          │ or TX      │
+          │  50Ω IN    │
+          └───────────┘
+
+================================================================================
+CORE SPECIFICATIONS
+================================================================================
+
+160M–10M (HF):
+  Primary Core: FT-240-43 (2× stacked for low frequencies)
+  Material: Mix 43 (µ=850, AL=1100 µH/100T)
+  Winding: 12–14 turns RG-58 or RG-174 coax threaded through core
+  Wire Gauge: AWG 8 (RG-58) or AWG 10 (RG-174)
+  Max Power: 700 W (single core), 500 W (stacked)
+
+6M–2M (VHF):
+  Primary Core: FT-240-61 (Mix 61, µ=125)
+  Winding: 5–7 turns RG-174 coax
+  Max Power: 600 W
+  CM Impedance: 5000+ Ω @ 145 MHz
+
+70cm–20cm (UHF):
+  Core: Air-core RG-58 on 3.5"–2.5" diameter PVC form
+  Winding: 8–5 turns depending on frequency
+  Insertion Loss: <0.05 dB (minimal ferrite loss at microwave)
+  CM Impedance: 2000+ Ω @ 432 MHz
+
+================================================================================
+WINDING TECHNIQUE — FERRITE TOROID
+================================================================================
+
+1. Prepare coax cable:
+   - Remove ~6 inches of jacket from end
+   - Do NOT separate inner/outer conductors — keep intact
+   - Tin inner conductor and braid separately for field connection
+
+2. Thread coax through core:
+   - Pass entire coax through center hole, multiple passes
+   - 12 passes = 12 turns through core (counts bifilar: goes in, comes out)
+   - Evenly space turns around circumference (avoid bunching)
+   - Keep coax straight — do not crimp or fold back sharply
+
+3. Field connections:
+   - Balanced feedpoint: Connect center conductor to one antenna leg,
+     braid to other leg, with chassis/counterpoise at choke input
+   - Coax feed: Simply insert choke in feedline (no signal path disruption)
+
+================================================================================
+COMMON-MODE IMPEDANCE CALCULATION
+================================================================================
+
+Z_CM = 2π × f × L   (inductive reactance, ohms)
+L = AL × N² / 10000 (inductance in µH)
+
+Example @ 80M (3.75 MHz) with FT-240-43, N=12 turns:
+  L = 1100 × 144 / 10000 = 15.84 µH
+  Z_CM = 2π × 3.75×10⁶ × 15.84×10⁻⁶ ≈ 375 Ω
+
+Example @ 10M (28.4 MHz) with FT-240-43, N=6 turns:
+  L = 1100 × 36 / 10000 = 3.96 µH
+  Z_CM = 2π × 28.4×10⁶ × 3.96×10⁻⁶ ≈ 708 Ω
+
+DESIGN RULE: Z_CM ≥ 5 × Z₀ (250 Ω minimum for 50 Ω system)
+
+================================================================================
+IMPEDANCE TRANSFORMATION (1:1 CURRENT BALUN)
+================================================================================
+
+THEORY:
+  A 1:1 current balun provides NO impedance transformation. Its sole purpose
+  is to suppress common-mode (CM) currents on the feedline.
+
+OPERATION:
+  - Differential (balanced) signal passes through coax with minimal insertion loss
+  - Common-mode currents (equal magnitude, same phase on braid + center)
+    encounter high inductance Z_CM and are attenuated
+  - Attenuation ratio: typically 20–40 dB @ fundamental frequency
+
+BALANCING MECHANISM:
+  Pure inductive choke on the feedline. Ferrite acts to increase inductance
+  at the target frequency range.
+
+================================================================================
+FREQUENCY RESPONSE & BANDWIDTH
+================================================================================
+
+FT-240-43 (12 turns) typical response:
+  1.8 MHz (160M):   Z_CM ≈ 280 Ω (broad, flat response)
+  3.75 MHz (80M):   Z_CM ≈ 375 Ω (peak effectiveness)
+  7.15 MHz (40M):   Z_CM ≈ 530 Ω (still excellent)
+  14.2 MHz (20M):   Z_CM ≈ 950 Ω (very good)
+  28.4 MHz (10M):   Z_CM ≈ 1700 Ω (excellent but approaching SRF)
+
+Insertion Loss (through-line):
+  <0.1 dB @ 80M
+  <0.15 dB @ 40M
+  <0.2 dB @ 20M
+  <0.3 dB @ 10M
+
+SRF (Self-Resonant Frequency) considerations:
+  FT-240-43, 12 turns: SRF ≈ 40–50 MHz (stray capacitance limits upper reach)
+  Beyond SRF, impedance drops and core losses increase
+
+================================================================================
+PRIMARY APPLICATIONS
+================================================================================
+
+1. DIPOLE FEEDS (symmetric antennas):
+   - 80M–10M dipoles fed with balanced 200Ω or 300Ω window line
+   - Choke suppresses common-mode radiation and reduces feedline loss
+
+2. END-FED HALF-WAVE ANTENNAS (EFHW):
+   - Acts as RF ground isolation between antenna and equipment ground
+   - Prevents RF from coupling into power supplies and audio
+
+3. DELTA LOOP ANTENNAS:
+   - Symmetric feeding reduces asymmetric radiation patterns
+   - Improves pattern directivity
+
+4. LADDER LINE TRANSITIONS:
+   - 1:1 choke at junction between open-wire line and coax
+   - Maintains CM suppression without impedance transformation
+
+5. VERTICAL ANTENNA (SINGLE-ENDED) FEEDS:
+   - Acts as a RF-choke for counterpoise currents
+   - Reduces vertical radiation pattern distortion
+
+================================================================================
+TESTING PROCEDURE — NANOVNA MEASUREMENT
+================================================================================
+
+Setup:
+  1. Connect NanoVNA Port 1 → choke input (center conductor of coax)
+  2. Connect NanoVNA Port 2 → choke output (center conductor of coax)
+  3. Leave braids open-circuit (capacitive coupling minimal)
+  4. Perform SOLT calibration at both ports
+
+Measurement 1 — Insertion Loss S₂₁ (magnitude):
+  Sweep 1–30 MHz
+  Expected result: S₂₁ ≈ -0.1 to -0.3 dB (roughly flat across band)
+
+Measurement 2 — Common-Mode Impedance (Port 1 input, Port 2 open):
+  Measure S₁₁ (reflection), convert to impedance: Z_in = 50 × (1+S₁₁)/(1-S₁₁)
+  At each frequency, Z_in ≈ Z_CM (inductive)
+  Expected: Rising impedance with frequency (inductive slope)
+
+Measurement 3 — Phase (Port 1 to Port 2):
+  Phase should track approximately 0° ± small ripple (feedthrough)
+  Large phase deviation indicates ferrite saturation or core resonance
+
+================================================================================
+FAILURE MODES & TROUBLESHOOTING
+================================================================================
+
+SYMPTOM: High SWR on balanced antenna
+ROOT CAUSE 1: CM choke missing or installed backwards
+SOLUTION: Verify choke is in primary feedline, not a secondary path
+
+ROOT CAUSE 2: Ferrite core saturated (heating observed)
+SOLUTION:
+  - Reduce transmit power
+  - Add second core in series (stacked configuration)
+  - Use larger core (FT-240 instead of FT-140)
+
+ROOT CAUSE 3: Coax damaged or shorted in core winding
+SOLUTION: Test choke with multimeter (ohms, between center and braid)
+         Expected: Open circuit; replace if shorted
+
+SYMPTOM: Excessive heating during transmission
+ROOT CAUSE: Core loss at high power (ferrite dissipates RF as heat)
+SOLUTION:
+  - Reduce power, or
+  - Switch to air-core design for VHF/UHF
+  - Use multiple cores (parallelized)
+
+SYMPTOM: Pattern null in wrong direction
+ROOT CAUSE: CM currents still flowing on feedline (choke not working)
+SOLUTION:
+  - Check choke impedance with NanoVNA
+  - If Z_CM << 250 Ω, remove core and re-measure (verify core is functional)
+  - Consider using ferrite tiles (broader bandwidth) instead of toroid
+
+================================================================================
+POWER HANDLING & THERMAL CONSIDERATIONS
+================================================================================
+
+Ferrite loss: P_loss = I² × R_loss
+  where R_loss ≈ tan(δ) × X_L (frequency dependent)
+
+For FT-240-43 @ 80M, 12 turns, 100W input:
+  I_CM ≈ 0.5 A (typical CM current, worst case ≈ 2 A)
+  Core loss ≈ 0.2–0.5 W (tolerable)
+
+For FT-240-43 @ 10M, 6 turns, 500W input:
+  Core loss ≈ 2–5 W (watch for heating)
+  Temperature rise ≈ 20–30°C above ambient
+
+DESIGN RULE: Monitor core temperature during high-power transmission.
+  If core too hot to touch (>60°C), reduce power or use larger core.
+
+================================================================================
+CONSTRUCTION NOTES
+================================================================================
+
+WEATHERPROOFING:
+  - Potting epoxy (two-part) optional for field durability
+  - Silicone rubber gasket between chassis and coax strain relief
+  - O-ring seal recommended for outdoor installations
+
+FIELD DEPLOYMENT:
+  - Can be mounted on antenna feedpoint (with waterproof enclosure)
+  - Recommended: Feed into portable antenna coupler for impedance adjustment
+  - Typical installation: Base of mast or feed tower
+
+SPARE PARTS:
+  - Keep extra FT-240-43 and FT-140-43 cores (ferrite is generic)
+  - Stock RG-58 and RG-174 coax for field rewinding
+  - Small alligator clips useful for test connections
+
+================================================================================

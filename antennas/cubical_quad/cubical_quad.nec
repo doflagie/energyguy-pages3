@@ -1,0 +1,19 @@
+CM CUBICAL QUAD ANTENNA
+CM Frequency bands: 40M, 20M, 15M
+CM Design: Square loop radiator with reflector, directional
+CM Compaction: 0%
+CM Special parameters: Full-size quad, 10–15 dBi gain, 2–3 element
+CE
+
+' Antenna geometry (type-specific)
+GW 1 12 0.0 0.0 10.0  3.0 0.0 10.0  0.002
+GW 2 12 3.0 0.0 10.0  3.0 3.0 10.0  0.002
+GW 3 12 3.0 3.0 10.0  0.0 3.0 10.0  0.002
+GW 4 12 0.0 3.0 10.0  0.0 0.0 10.0  0.002
+
+GE 0
+GN 2 0 0 0 13 0.005
+EX 0 1 6 0 1 0
+FR 0 1 0 0 100 0
+RP 0 91 360 1000 -90 0 1.0 1.0
+EN

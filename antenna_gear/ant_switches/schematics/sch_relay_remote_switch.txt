@@ -1,0 +1,296 @@
+================================================================================
+SCHEMATIC: Relay-Based Remote Antenna Switch
+TM-ANT-SW-001  Rev A
+ESP32-Controlled, 4-Port and 8-Port Designs
+HF through 450 MHz  |  Power: 1 kW CW / 2 kW PEP  |  IL < 0.2 dB to 450 MHz
+Remote Control via WiFi/Web, UART, or DC voltage
+================================================================================
+
+RELAY SELECTION THEORY
+───────────────────────
+Standard electromechanical relays (signal relays, power relays) are NOT suitable
+for RF coaxial switching.  The contact geometry is wrong, the isolation is poor,
+and the RF path is not controlled-impedance.
+
+Proper coaxial relay design uses one of these approaches:
+
+APPROACH 1 — PURPOSE-BUILT COAXIAL RELAY (best):
+  Relays designed specifically for coaxial signal switching.
+  Center conductor passes through controlled-impedance path.
+  Examples: Tohtsu CX-110D, Dow-Key 401-125, Teledyne RFR series.
+  Cost: $15–$80 per relay.  IL < 0.1 dB through 2 GHz.
+
+APPROACH 2 — GOOD-QUALITY SPDT RELAY WITH COAXIAL PCB LAYOUT (budget):
+  Use high-isolation relay (Omron G2RL, Panasonic TQ2, or equiv.)
+  Mount on 50Ω microstrip PCB.  Route center conductor as 50Ω trace.
+  Add metal shields between relay positions.
+  Cost: $1–$5 per relay.  IL 0.05–0.2 dB at 150 MHz; degrades above 300 MHz.
+
+APPROACH 3 — LATCHING RELAY (power-saving):
+  Latching relays hold position without continuous coil current.
+  Important for battery-powered remote switches.
+  Doubles set/reset coil cost; requires H-bridge drive circuit.
+  Examples: Omron G2RK, Panasonic TQ2-L.
+
+This design uses APPROACH 2 for the budget 4-port version and includes
+APPROACH 1 specifications for the VHF-capable version.
+
+================================================================================
+RELAY SPECIFICATIONS — BUDGET HF VERSION
+================================================================================
+
+OMRON G2RL-1A4-E-TV8 (recommended budget relay):
+  Coil: 12V DC, 400 mW (33mA)
+  Contact: SPDT, 16A at 250VAC
+  Contact material: silver alloy
+  Isolation when open (10 MHz, measured): > 60 dB typical
+  Operate time: < 10 ms
+  Release time: < 5 ms
+  Mechanical life: 10 million operations
+  Footprint: through-hole, 5-pin
+
+ALTERNATIVE — PANASONIC TQ2-12V:
+  Coil: 12V DC, 200 mW (16.7mA)
+  Contact: DPDT (can use both contact sets for additional isolation)
+  Contact rating: 2A at 220VAC (lower — adequate for RF, not power switching)
+  Isolation (14 MHz): > 65 dB
+
+COAXIAL RELAY (VHF SPEC) — TOHTSU CX-110D:
+  Frequency: DC to 500 MHz
+  IL: < 0.1 dB to 500 MHz
+  Isolation: > 60 dB to 500 MHz
+  Power: 1kW at HF, 500W at 500 MHz
+  Coil: 12V, 320 mW
+  Connectors: SO-239 (CX-110D) or N-type (CX-110DN)
+
+================================================================================
+4-PORT RELAY SWITCH — SCHEMATIC
+================================================================================
+
+SWITCHING TOPOLOGY: Three SPDT relays, binary-tree configuration.
+
+For 4 ports from 1 common:
+  - 3 relays needed: K1 (main splitter), K2 (low pair), K3 (high pair)
+  - This uses fewer relays than one relay per port
+  - Insertion path uses 2 relay contacts in series (slightly higher IL)
+
+BINARY TREE TOPOLOGY:
+
+  ANT1 ──────────────────── K2 NO ──┐
+                                     │
+                              K2 ────┤
+                              COM    │
+  ANT2 ──────────────────── K2 NC ──┘─── K1 NO ──┐
+                                                    │
+                                             K1 ───┤
+                                             COM    │──── COMMON (Radio)
+  ANT3 ──────────────────── K3 NO ──┐              │
+                                     │               │
+                              K3 ────┤               │
+                              COM    │               │
+  ANT4 ──────────────────── K3 NC ──┘─── K1 NC ──┘
+
+SELECTION TABLE:
+  K1=0, K2=0 → ANT1    (K1=NC selects "high pair"; K2=NC selects ANT1 or ANT2)
+  Wait — let me clarify:
+
+  When relay is DE-ENERGIZED (coil off): COM connects to NC (normally closed)
+  When relay is ENERGIZED (coil on): COM connects to NO (normally open)
+
+  K1 de-energized (0): routes through K2
+  K1 de-energized (0), K2 de-energized (0): → ANT1 (K2 NC path → ANT1)
+  K1 de-energized (0), K2 energized (1):   → ANT2 (K2 NO path → ANT2)
+  K1 energized (1): routes through K3
+  K1 energized (1), K3 de-energized (0): → ANT3 (K3 NC path)
+  K1 energized (1), K3 energized (1):   → ANT4 (K3 NO path)
+
+  K1 | K2 | K3 | Selected
+  ---|----|----|--------
+   0 |  0 |  x | ANT 1
+   0 |  1 |  x | ANT 2
+   1 |  x |  0 | ANT 3
+   1 |  x |  1 | ANT 4
+
+ALTERNATIVE TOPOLOGY — ONE RELAY PER PORT (simpler; more relays; single contact):
+
+  For 4 ports: 4 relays, one in each antenna path.
+  Only the selected relay is energized; all others open.
+  Selected path: signal flows through NO contact of one relay only.
+  IL: single relay contact in path (lower IL).
+  Relay count: N relays for N ports (vs. N-1 for binary tree).
+
+  COMMON ─────────────────────────────────────────────────
+                │          │          │          │
+              [K1]       [K2]       [K3]       [K4]
+               │           │          │          │
+             ANT1        ANT2       ANT3       ANT4
+
+  Interlocking logic (firmware): only one relay energized at a time.
+
+THIS DESIGN USES: ONE RELAY PER PORT (simpler PCB, better IL, preferred for N≤8)
+
+================================================================================
+4-PORT SWITCH — COMPLETE CIRCUIT WITH ESP32 CONTROL
+================================================================================
+
+POWER SUPPLY AND RELAY DRIVER:
+
+  12V DC INPUT ──┬────────────────────────────────── +12V rail
+                 │
+               [100µF]  (bulk decoupling)
+               [0.1µF]  (RF bypass)
+                 │
+                GND
+
+RELAY DRIVE CIRCUIT (per relay, 4× identical):
+
+  ESP32 GPIO ──[10kΩ pull-down]──┬──[100Ω]── Base of 2N2222A (or MMBT2222A SMD)
+                                  │
+                                 GND
+                                         │
+                                      Collector ──[1N4007]── +12V  (flyback)
+                                         │
+                                       RELAY COIL (K1–K4)
+                                         │
+                                        +12V
+
+  NPN transistor in switch configuration:
+  GPIO HIGH (3.3V) → transistor saturates → relay energizes
+  GPIO LOW (0V) → transistor cuts off → relay releases
+
+  2N2222A: V_CEO = 40V, I_C = 600mA (relay coil 33mA — well within rating)
+  Base resistor 100Ω limits I_B = (3.3V - 0.7V) / 100Ω = 26mA → hFE×I_B >> I_C ✓
+  Flyback diode 1N4007 clamps coil back-EMF (up to 50V spike without diode)
+
+RELAY DRIVER BLOCK DIAGRAM:
+
+  ESP32                    ULN2003A (7× Darlington array, alternative to discrete)
+  GPIO26 ──[150Ω]── IN1 ── OUT1 ──────────────────── RELAY K1 coil
+  GPIO27 ──[150Ω]── IN2 ── OUT2 ──────────────────── RELAY K2 coil
+  GPIO14 ──[150Ω]── IN3 ── OUT3 ──────────────────── RELAY K3 coil
+  GPIO12 ──[150Ω]── IN4 ── OUT4 ──────────────────── RELAY K4 coil
+  GPIO25 ──[150Ω]── IN5 ── OUT5 ──────────────────── LED STATUS (3.3V logic)
+  GPIO33 ──[150Ω]── IN6 ── OUT6 ──────────────────── LED STATUS
+                    COM ──────────────────────────── +12V (relay coil supply)
+
+  ULN2003A internal structure: each channel is a Darlington pair + flyback diode
+  Rated: 500mA per channel, 50V; suppression diodes included.
+  Single IC replaces 7 discrete transistors + diodes.
+
+STATUS INDICATOR LEDs (4 port LEDs + 1 power LED):
+
+  +3.3V ──[470Ω]──[LED_PWR]── GND    (power on indicator; always lit)
+
+  For each antenna port (1–4):
+  ESP32 GPIO ──[470Ω]──[LED_ANTn]── GND
+  LED lights when port is SELECTED (relay energized).
+
+LED COLOR CONVENTION:
+  ANT 1: Green
+  ANT 2: Yellow
+  ANT 3: Blue
+  ANT 4: Red
+  POWER: White or Green
+
+RF PATH (4-Port):
+
+  COMMON ──[SO-239]──────────────────────────────────────────────────
+                     │                                                │
+              +──────┤ center conductor                               │
+              │      │                                               chassis/ground
+     [RELAY K1]      │
+     COM ─── NO ─────┴─── ANT1 center ──[47kΩ to gnd]──[SO-239]── ANT1
+              │
+              NC ─ (open/unused via when K1 selected)
+
+  NOTE: All four relays are separate; center conductor routes from COMMON to one
+  selected antenna. All connector outers share chassis ground.
+
+  Each relay:
+    COM = connected to COMMON port center conductor via 50Ω trace
+    NO = connected to one ANT port center conductor
+    NC = not connected (open, with 47kΩ static drain to chassis on each ANT port)
+
+COMPLETE PIN ASSIGNMENT (ESP32):
+
+  Function           | GPIO | Notes
+  -------------------|------|-----------------------------------------------
+  Relay K1 (ANT 1)   | 26   | via ULN2003A
+  Relay K2 (ANT 2)   | 27   | via ULN2003A
+  Relay K3 (ANT 3)   | 14   | via ULN2003A
+  Relay K4 (ANT 4)   | 12   | via ULN2003A
+  LED ANT1           | 25   | 470Ω series resistor
+  LED ANT2           | 33   | 470Ω series resistor
+  LED ANT3           | 32   | 470Ω series resistor
+  LED ANT4           | 35   | input only — use external LED driver
+  Button ANT1        | 4    | pull-up, active low
+  Button ANT2        | 5    | pull-up, active low
+  Button ANT3        | 18   | pull-up, active low
+  Button ANT4        | 19   | pull-up, active low
+  CYD TFT CS         | 15   | SPI
+  CYD TFT DC         | 2    | SPI
+  CYD TFT RST        | -    | tied to 3.3V via 10kΩ, cap to GND
+  CYD Touch CS       | 33   | SPI (if using separate touch SPI)
+  UART TX (band data)| 17   | to band data decoder
+  UART RX (band data)| 16   | from transceiver band data
+
+================================================================================
+8-PORT RELAY SWITCH — EXTENSION
+================================================================================
+
+For 8 ports, add four more relays (K5–K8) and a second ULN2003A.
+
+  ESP32 GPIO 23, 22, 21, 19 → ULN2003A-2 IN1–IN4 → Relays K5–K8
+  LEDs: use 74HC595 shift register to expand outputs (1 GPIO → 8 LEDs)
+
+74HC595 LED DRIVER (serial-in, parallel-out):
+
+  ESP32 GPIO ── SER (14) ── QA–QH ── [LED 1–8] via 470Ω resistors
+  ESP32 GPIO ── SRCLK (11)
+  ESP32 GPIO ── RCLK (12)
+                VCC = 3.3V or 5V
+                GND
+
+================================================================================
+POWER BUDGET
+================================================================================
+
+Relay coil current (per relay, 12V):
+  Omron G2RL:    400 mW / 12V = 33 mA per relay
+  Panasonic TQ2: 200 mW / 12V = 17 mA per relay
+
+Worst case (all relays energized briefly during switch transition):
+  4× G2RL: 4 × 33 mA = 132 mA + ESP32 (200 mA) + LEDs (40 mA) = ~375 mA at 12V
+  Normal (1 relay energized): 33 + 200 + 10 = 243 mA
+
+Power supply: 12V, 1A minimum.  Use 12V/2A for margin.
+
+For battery operation: use latching relays (Omron G2RK-L).
+  Latching relay current: pulse only (< 10 ms to set/reset).
+  Standby current: ESP32 light-sleep 0.8 mA + LED 10 mA = ~11 mA @ 12V
+
+================================================================================
+PARTS LIST — RELAY REMOTE SWITCH
+================================================================================
+
+Item   | Qty | Description                              | Source
+-------|-----|------------------------------------------|-------------------
+K1-K4  |  4  | Omron G2RL-1A4-E-TV8 (12V SPDT)        | Mouser
+K_VHF  |  4  | Tohtsu CX-110D (VHF-rated coax relay)  | DX Eng., RF Parts
+ULN    |  1  | ULN2003A 7-channel Darlington driver    | Mouser
+ESP32  |  1  | ESP32-WROOM-32 module or DOIT DevKit    | Mouser
+CYD    |  1  | ESP32-2432S028 (CYD 2.8" TFT)          | AliExpress
+REG    |  1  | LM7805 or AMS1117-3.3 (ESP32 supply)   | Mouser
+CAP1   |  1  | 100µF 25V electrolytic (relay decoup)  | Mouser
+CAP2   |  4  | 0.1µF ceramic (relay bypass)           | Mouser
+R1-R4  |  4  | 150Ω 1/4W (ULN input; one per ch)     | Mouser
+R_LED  |  8  | 470Ω 1/4W (LED current limit)          | Mouser
+R_GND  |  4  | 47kΩ 1/4W (static ground per ANT port) | Mouser
+LED    |  5  | 3mm/5mm LED: green, yel, blue, red, wht | Mouser
+BTN    |  5  | 6mm tactile switch (4 ANT + 1 prev/next)| Mouser
+CONN   |  5  | SO-239 silver panel mount               | Amphenol
+J_12V  |  1  | 2.1mm barrel jack (power input)        | Mouser
+PCB    |  1  | Custom or perf board, ground plane      | JLCPCB
+ENCL   |  1  | Die-cast Al 160×100×40mm, IP54          | Hammond 1590B2
+
+================================================================================

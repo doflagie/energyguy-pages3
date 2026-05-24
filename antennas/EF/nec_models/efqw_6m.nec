@@ -1,0 +1,23 @@
+CM EFQW_6M.NEC — End-Fed Quarter-Wave Vertical, 6 Meters
+CM TM-EF-NEC-006 Rev A
+CM
+CM Band:       6m (50.000 – 54.000 MHz)
+CM Center:     51.000 MHz
+CM QW length:  1.40 m (VF=0.95, #22 AWG solid)
+CM Feed Z:     34 + j0 Ω (perfect ground); 38 + j3 Ω (avg, 4 radials)
+CM Radials:    4× 1.40m rigid or wire elevated 1.5m
+CM Matching:   Gamma match preferred at VHF; gamma rod = 21cm
+CM             Cap: 0-30pF variable (turns ratio adjustment)
+
+CE
+GW 1 20  0 0 1.5  0 0 2.90  0.000326
+GW 2 5   0 0 1.5  1.40 0 1.20  0.000326
+GW 3 5   0 0 1.5  0 1.40 1.20  0.000326
+GW 4 5   0 0 1.5  -1.40 0 1.20  0.000326
+GW 5 5   0 0 1.5  0 -1.40 1.20  0.000326
+GE 1
+GN 2 0 0 0  13 0.005
+EX 0 1 1 0  1 0
+FR 0 17 0 0  50.000 0.250
+RP 0 37 73 1000  0 0 5 5
+EN

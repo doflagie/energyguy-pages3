@@ -1,0 +1,516 @@
+================================================================================
+  INTEGRATED ANTENNA ANALYZER - POWER SUPPLY & BATTERY MANAGEMENT
+  Multi-Rail Distribution: +5V Logic, +3.3V Digital, +3.3V RF, ±5V Analog, Battery
+================================================================================
+
+OVERVIEW
+────────
+Portable analyzer powered by rechargeable 3× 18650 LiFePO4 cell pack (9.6V nominal).
+Derives multiple regulated voltage rails via isolated LDOs and buck/boost converters.
+
+Power requirements:
+  ESP32 microcontroller:          3.3V @ 200 mA (average), 500 mA (peak)
+  ADS1115 ADC:                    3.3V @ 5 mA
+  AD9851 DDS oscillator:          +5V @ 250 mA (clock + logic)
+  ADF4351 PLL synthesizer:        +5V analog @ 100 mA, +3.3V digital @ 50 mA
+  AD8302 vector detector:         +5V @ 20 mA, -5V @ 20 mA (internal Vbe reference)
+  ILI9341 TFT display:            3.3V @ 150 mA (backlight PWM reduces avg)
+  GPS module (optional):           3.3V @ 100 mA
+  RF front-end switching (PE4259):3.3V @ 10 mA
+  Status LEDs, logic buffers:     3.3V @ 50 mA
+  Total system draw: ~1 A @ 5V, 0.5 A @ 3.3V
+
+Battery (LiFePO4):
+  Type: 3× 18650 in series (9.6V nominal, 7.5V-10.5V operating range)
+  Capacity: 3000-3500 mAh typical (8 hours of operation @ 400 mA average)
+  Chemistry: LiFePO4 preferred (safer, more stable than Li-ion, 2000+ cycles)
+  BMS: Integrated protection (over-voltage, over-current, low-voltage cutoff)
+  Charging: Micro-USB connector, 5V @ 1A input (2-3 hour charge time)
+
+
+SYSTEM POWER DIAGRAM
+─────────────────────
+    LiFePO4 Battery (9.6V)
+    [3× 18650 LiFePO4]
+         │
+         v
+    ┌─────────────────┐
+    │ BMS Protection  │  Over-voltage (10.5V)
+    │ Module          │  Over-current (5A)
+    │ (integrated)    │  Low-voltage (6.5V)
+    └────────┬────────┘
+             │ (9.6V)
+    ┌────────┴──────────┐
+    │ Charging Regulator│  USB 5V → Charge circuit
+    │ (TP4056 or BQ24)  │  Constant current / constant voltage
+    └────────┬──────────┘
+             │ (9.6V)
+    ┌────────┴──────────────────┐
+    │ Main Supply Rail (9.6V)   │
+    │ [100µF bulk capacitor]    │
+    │ [10µF + 1µF bypass]       │
+    └────────┬──────────────────┘
+             │
+    ┌────────┴────────────────────────────────────────┐
+    │                                                  │
+    v                                                  v
+┌──────────────────┐                        ┌────────────────────┐
+│ 5V Logic Rail    │                        │ 3.3V Digital Rail  │
+│ (Buck converter) │                        │ (LDO from 5V)      │
+│ 5V @ 1.5A        │                        │ 3.3V @ 800 mA      │
+│ (MP1496 or LM25  │                        │ (AMS1117 or MRVL)  │
+│  buck, 97% eff)  │                        │                    │
+└──────┬───────────┘                        └────────┬───────────┘
+       │                                             │
+       v                                             v
+    [10µF + 1µF bypass at each IC]         [10µF + 1µF bypass at each IC]
+    │                                     │
+    ├─→ AD9851 DDS (5V @ 250 mA)         ├─→ ESP32 (3.3V @ 500 mA peak)
+    ├─→ AD8302 supply bypass              ├─→ ADS1115 ADC (3.3V @ 5 mA)
+    └─→ ADF4351 digital VDD                ├─→ TFT display logic (3.3V @ 20 mA)
+                                          ├─→ PE4259 RF switch (3.3V @ 10 mA)
+    ┌──────────────────┐                  ├─→ GPS module (3.3V @ 100 mA)
+    │ 3.3V RF Rail     │                  └─→ Logic buffers (3.3V @ 50 mA)
+    │ (LDO, separate)  │
+    │ 3.3V @ 200 mA    │                  ┌────────────────────┐
+    │ (isolated from    │                  │ ±5V Analog Rail    │
+    │ digital noise)    │                  │ (Charge pump)      │
+    └──────┬───────────┘                   │ +5V / -5V @ 100 mA │
+           │                               │ (AD8302 analog)    │
+           v                               └────────┬───────────┘
+       ├─→ ADF4351 VCO supply (3.3V)              │
+       ├─→ REFIN oscillator (3.3V @ 20 mA)       ├─→ AD8302 VPS (+5V)
+       └─→ RF frontend bypass                     └─→ AD8302 VEE (-5V)
+
+
+SECTION 1: BATTERY & CHARGING SUBSYSTEM
+─────────────────────────────────────────
+
+Battery Pack Configuration:
+  Type: LiFePO4 (Lithium Iron Phosphate, safer alternative to Li-ion)
+  Cells: 3× 18650 cylindrical cells in series
+  Voltage: 9.6V nominal (10.5V max, 7.5V min safe cutoff)
+  Capacity: 3000 mAh (28.8 Wh total energy)
+  BMS: Integrated battery management module (TP4056 or BQ24070)
+
+Cell specifications (typical 3000 mAh LiFePO4 18650):
+  Charge voltage: 3.6V per cell (10.8V series max)
+  Discharge voltage: 2.5V per cell (7.5V series minimum)
+  Continuous discharge current: 10A (30A peak for short periods)
+  Internal resistance: ~100 mΩ total (0.1V drop @ 1A)
+  Cycle life: 2000+ cycles @ 20% DoD (deeper discharge = shorter life)
+  Temperature range: -20°C to +60°C (good for field use)
+
+Schematic (Battery Pack Assembly):
+
+    ┌─────────────┐
+    │ Cell 1      │ 3.6V
+    │ 18650       ├─────→ (+) Terminal
+    │ LiFePO4     │
+    └─────────────┘
+           │ (series connection)
+    ┌─────────────┐
+    │ Cell 2      │ 3.6V
+    │ 18650       │
+    │ LiFePO4     │
+    └─────────────┘
+           │ (series connection)
+    ┌─────────────┐
+    │ Cell 3      │ 3.6V
+    │ 18650       │
+    │ LiFePO4     │
+    └─────────────┘
+           │
+         (−) Terminal → GND
+
+BMS Protection Module (TP4056-based):
+  Over-voltage protection: Disconnects at 12.6V (3.2V per cell max)
+  Over-current protection: Trips at 3-5A discharge current
+  Under-voltage protection: Disconnects at 6.0V (2.0V per cell minimum)
+  Temperature monitoring: Thermistor input for thermal runaway detection
+
+Connection (BMS between battery and main supply):
+
+    [Cell pack negative] ──→ BMS B- (battery negative)
+    [Cell pack positive] ──→ BMS B+ (battery positive)
+
+    [BMS P-] ──→ [Charging circuit] ──→ GND (ground plane)
+    [BMS P+] ──→ Main 9.6V supply rail
+
+Charging Circuit (TP4056 module, integrated with BMS):
+  USB input: 5V @ 1A (Micro-USB connector on analyzer bottom)
+  Charge current: 1A constant (adjustable via resistor)
+  Charge completion: Auto-stop at full voltage (10.8V)
+  Charge time: ~3 hours (3000 mAh / 1A = 3h theoretical, +overshoot)
+  Status LED: Red (charging), Green (complete)
+
+Schematic (Charging circuit):
+
+    ┌─────────────────┐
+    │ USB 5V Input    │ Micro-USB or USB-C
+    │ (1A fuse)       │ 500mA polyfuse recommended
+    │                 │
+    └────────┬────────┘
+             │
+        [TP4056 Charger Module]
+             │
+        ┌────┴────┐
+        │ Program │ [Current setting resistor]
+        │ Pin     │ 1kΩ → 1A charge current
+        │         │ 2kΩ → 0.5A charge current
+        └────┬────┘
+             │
+    ┌────────┴─────────┐
+    │ BATT+ / BATT-    │
+    │ to BMS           │
+    │ (9.6V supply)    │
+    └──────────────────┘
+
+Charging safety:
+  - Polyfuse on USB input (500 mA rating, auto-recovery)
+  - Charger has integrated overcurrent limiting
+  - BMS provides final over-voltage cutoff
+  - NTC thermistor (10kΩ @ 25°C) prevents charging in extreme temps
+  - Indicator LED: operator knows when charging is complete
+
+
+SECTION 2: MAIN 5V LOGIC RAIL (Buck Converter from 9.6V)
+──────────────────────────────────────────────────────────
+
+Purpose: Provide stable +5V for AD9851 DDS and analog support circuitry
+  Output: 5V @ 1.5A (supports peak load of AD9851 + peripherals)
+  Efficiency: 97% (minimal heat generation, suitable for portable)
+  Input voltage: 9.6V nominal (7.5-10.5V operating range)
+  Output ripple: < 50 mV (clean for RF synthesizer)
+
+Device: MP1496 or TPS5400 (dual-output buck converter, 100 kHz switching)
+  Output 1: 5V @ 1.5A (primary logic rail)
+  Output 2: Optional adjustable (used for ADF4351 analog supply if needed)
+  Efficiency: 96-97% @ full load
+  Switching frequency: 100-400 kHz (low EMI)
+  Integrated soft-start: Reduces inrush current
+
+Schematic (Buck converter, simplified):
+
+    BATTERY (9.6V) ──[10µF bulk cap]──→ [MP1496 buck converter]
+                                              │
+                                          ┌───┴──────────┐
+                                          │ Feedback net │
+                                          │ (voltage div)│
+                                          └───────┬──────┘
+                                                  │
+                                      [FET + inductor + diode]
+                                              │
+                                              v
+                                     [10µF + 1µF bypass]
+                                              │
+                                       5V output (1.5A)
+
+Input filtering:
+  - 100µF ceramic (16V rated) at battery (bulk charge storage)
+  - 10µF + 1µF tantalum pair near converter input (high-frequency bypass)
+  - All capacitors within 5mm of pin, to GND plane via
+
+Output filtering:
+  - 10µF ceramic (X7R, 10V) at converter output
+  - 1µF tantalum (fast response) for decoupling transients
+  - Both capacitors directly across output pins, < 5mm to GND
+
+PCB layout critical points:
+  - Power input/output traces: 0.1" wide (2.5mm), short length
+  - Ground plane: Continuous under entire converter IC
+  - Feedback resistors: Placed on IC side of board (minimize noise pickup)
+  - Inductor: Perpendicular to power traces (minimize EMI coupling)
+
+Under-voltage protection (firmware-based):
+  If battery voltage drops below 7.5V, ESP32 firmware:
+    - Reduces display brightness to minimum
+    - Increases measurement averaging time
+    - Warns user: "BATTERY LOW - 30 min remaining"
+    - Auto-shutdown at 6.5V (prevents damaging low-voltage discharge)
+
+
+SECTION 3: 3.3V DIGITAL RAIL (LDO from 5V Logic Rail)
+──────────────────────────────────────────────────────
+
+Purpose: Provide clean +3.3V for ESP32 microcontroller and digital peripherals
+  Output: 3.3V @ 800 mA (supports ESP32 peak + ADS1115 + displays + logic)
+  Input: 5V from buck converter (low noise, stable reference)
+  Dropout voltage: < 0.5V (good efficiency, minimal heat)
+  Noise: < 50 µV RMS (quiet supply for ADC reference)
+
+Device: AMS1117-3.3 (or equivalent: MCP1117, MRVL 88PM0A0)
+  Features: Soft-start, shutdown control, current limiting (> 1A)
+  Package: SOT-223 (easy hand soldering, thermal via)
+  Cost: ~$0.30 (standard component)
+
+Schematic (3.3V LDO regulator):
+
+    5V LOGIC RAIL ──[10µF input cap]──→ [AMS1117-3.3]──[10µF output cap]──→ 3.3V rail
+                                              │                                  │
+                                              │ GND feedback (via ground plane) │
+                                          [Sense pin]                          │
+                                                                           [1µF tantalum]
+                                                                                │
+                                                                              GND
+
+Input capacitor (5V side):
+  - 10µF ceramic X7R (10V rated)
+  - Mounted directly at converter pins (within 5mm)
+  - Purpose: Provides charge for switching transients
+
+Output capacitor (3.3V side):
+  - 10µF ceramic X7R (6.3V or 10V rated)
+  - 1µF tantalum or ceramic (high-frequency bypass)
+  - Mounted within 10mm of loads (ESP32, ADC, display logic)
+
+Ground return:
+  All capacitors connected to ground plane via multiple vias (low impedance)
+  No long traces from capacitor GND to remote GND points (noise source)
+
+Load distribution (from 3.3V rail):
+  - ESP32 microcontroller: 200-500 mA (core logic)
+  - ADS1115 ADC: 5 mA (stable, constant load)
+  - ILI9341 TFT display logic: 20 mA (constant)
+  - PE4259 RF switch: 10 mA (pulsed, low impedance)
+  - GPS module: 100 mA peak (startup), 50 mA average
+  - Status LED buffers, SPI bus drivers: 50 mA combined
+
+Thermal management:
+  LDO dissipates: P = (5V - 3.3V) × (average current) ≈ 1.7V × 400mA = 680 mW
+  Junction temperature: ~85°C (safe, within 150°C limit)
+  Thermal via under center pad: Conducts heat to back-side copper
+  No additional heatsink required for portable analyzer
+
+
+SECTION 4: 3.3V RF-ISOLATED RAIL (Separate LDO with Filtering)
+────────────────────────────────────────────────────────────────
+
+Purpose: Supply ADF4351 VCO and REFIN oscillator with RF-clean power
+  Isolation: Separate LDO, isolated return path (no noise from digital switching)
+  Output: 3.3V @ 200 mA (ADF4351 VCO + REFIN oscillator)
+  Noise: < 30 µV RMS (VCO supply noise degrades phase noise)
+  Supply rejection: > 60 dB @ 10 MHz (rejects digital switching noise)
+
+Device: MCP1117-3.3 with ferrite filter
+  Same as digital 3.3V, but with additional ferrite bead for EMI suppression
+  This prevents ESP32 SPI switching noise from coupling into VCO supply
+
+Schematic (RF-isolated 3.3V LDO):
+
+    5V LOGIC RAIL ──[470µH ferrite bead + 10µF cap]──→ [AMS1117-3.3 RF-isolated]
+                    (EMI filter, Fc ≈ 10 kHz)              │
+                                                      [10µF input]
+                                                           │
+                                                    [10µF + 1µF output caps]
+                                                           │
+                                                      3.3V RF-clean
+                                                           │
+                                                    [Ground plane, separate via]
+
+Ferrite bead specifications:
+  - Part: Würth 742 622 series (470µH @ 100 MHz, 3A rated)
+  - Impedance: Z = 470 Ω @ 100 MHz (attenuates SPI clock harmonics)
+  - DC resistance: < 0.1 Ω (minimal voltage drop)
+  - Current rating: > 500 mA (can handle ADF4351 peak)
+
+Function of ferrite + capacitor filter:
+  - Series ferrite: Isolates high-frequency noise on 5V logic rail
+  - Shunt 10µF capacitor: Provides bulk charge for fast load changes
+  - Combined effect: Low-impedance for DC, high-impedance for digital noise
+  - Cutoff frequency: fC ≈ 470µH / 10µF ≈ 170 kHz (very low, gentle rolloff)
+
+Return path isolation:
+  RF-isolated 3.3V and GND must have separate return path from LDO
+  All ADF4351 + REFIN supply return → GND via dedicated via cluster
+  Do NOT share return path with digital ESP32 ground (prevents coupling)
+
+Load on RF-isolated rail:
+  - ADF4351 VCO supply: 3.3V @ 150 mA (main load, frequency-dependent)
+  - TCXO REFIN oscillator: 3.3V @ 20 mA (stable, constant)
+  - Total: 3.3V @ 170 mA (within AMS1117 capability)
+
+Phase noise improvement:
+  By isolating VCO supply from digital switching:
+    Before isolation: Phase noise @ 100 kHz offset ≈ -95 dBc/Hz
+    After isolation:  Phase noise @ 100 kHz offset ≈ -105 dBc/Hz
+    Improvement: 10 dB (2× better spectral purity)
+
+
+SECTION 5: ±5V ANALOG RAIL (Charge Pump from 5V Logic)
+────────────────────────────────────────────────────────
+
+Purpose: Provide +5V and -5V for AD8302 analog detector (requires dual supply)
+  Output: +5V @ 100 mA, -5V @ 100 mA (simultaneous)
+  Topology: Charge pump (semiconductor-based inverter + doubler)
+  Efficiency: 80-85% (lower than switching regulator, but simple and compact)
+  Input: 5V from logic rail (stable, high current available)
+
+Device: MAX1044 (switched capacitor charge pump)
+  Function: Input +5V → Output +5V / -5V (via capacitive doubling/inversion)
+  Frequency: 10 kHz (internal oscillation, low EMI)
+  Efficiency: ~80% (good for low-current applications)
+  Package: PDIP-8 (breadboard-friendly) or SOIC-8 (compact PCB)
+
+Schematic (±5V charge pump):
+
+    5V LOGIC RAIL ──[10µF input cap]──→ [MAX1044]──→ +5V output (100 mA)
+                                              │
+                                          [10µF + 1µF bypass caps]
+                                              │
+                                         ┌────┤
+                                         │    │
+                                        GND  -5V output (via capacitor voltage inversion)
+
+Alternative: If higher current needed (> 100 mA each):
+  Device: LT1054 (Switched-Capacitor Positive/Negative Converter)
+  Output: ±12V @ 100 mA each (higher power capability)
+  But: Requires external capacitors for voltage dividing
+
+Bypass capacitors (critical):
+  +5V output: 10µF ceramic + 1µF tantalum (parallel)
+  -5V output: 10µF ceramic + 1µF tantalum (parallel)
+  Both mounted within 10mm of AD8302 IC
+  Separate return paths to GND plane for each supply
+
+Load on ±5V rails:
+  AD8302 (+5V analog supply, VPS): 20 mA
+  AD8302 (-5V analog supply, VEE): 20 mA
+  Total charge pump load: 40 mA @ 5V input ≈ 240 mW dissipation
+
+Thermal management:
+  MAX1044 dissipates ~240 mW (1/5 efficiency loss)
+  Package temperature: ~50°C (safe without heatsink)
+  No additional cooling required
+
+Filtering:
+  Series 100Ω resistor + 10nF capacitor on each output (optional, improves ripple)
+  Ripple typically < 100 mV, adequate for AD8302 operation
+
+
+POWER DISTRIBUTION (PCB Layout)
+──────────────────────────────
+
+Ground plane strategy:
+  - 4-layer PCB preferred: Top (signal), GND1 (bottom 1), GND2 (bottom 2), Bottom (power return)
+  - GND planes connected via many vias (reduce loop area, lower EMI)
+  - Star-point for charging circuit ground (separate from main analog/RF grounds)
+
+Power distribution hierarchy:
+  1. Battery (9.6V) → Main supply bus bar or trace (thick, low resistance)
+  2. Buck converter (5V) → Primary power rail (0.1" trace, short length)
+  3. LDO regulators (3.3V, ±5V) → Branch from 5V (thinner traces OK, already filtered)
+  4. Load connection → Via shortest path to decoupling capacitors (not to traces)
+
+Decoupling capacitor placement:
+  - Every IC: 10µF + 1µF capacitor pair within 5mm of pins
+  - Separate connection to ground plane via (no shared vias with signal traces)
+  - Value selection: 10µF for bulk charge, 1µF for high-frequency rejection
+
+Current return paths:
+  - All return currents → GND plane (not individual traces)
+  - GND plane: Continuous under entire board (no signal traces cutting through)
+  - Charging circuit ground: Separate via cluster from main GND (prevent coupling)
+
+
+BROWNOUT & SHUTDOWN PROTECTION (Firmware)
+───────────────────────────────────────────
+
+ESP32 monitors supply voltage via ADC and triggers safe shutdown if low.
+
+Monitoring circuitry:
+  - Voltage divider: 9.6V battery → (100kΩ / 100kΩ divider) → 4.8V → 1.6V at ADC
+  - ADC input: GPIO36 (single-ended, 0-1.1V full scale on ESP32)
+  - Actual reading: V_ADC = (V_BAT / 2) × (1.1V / 3.3V) = V_BAT × 0.167
+
+Firmware thresholds:
+```cpp
+const float BATTERY_FULL = 10.8;   // 3.6V/cell × 3
+const float BATTERY_OK = 9.6;      // 3.2V/cell × 3 (nominal)
+const float BATTERY_LOW = 8.4;     // 2.8V/cell × 3 (reduce load)
+const float BATTERY_CRITICAL = 7.5; // 2.5V/cell × 3 (safe minimum)
+
+void checkBatteryVoltage() {
+  float battery_mv = analogRead(GPIO36) * 5900 / 1024;  // Convert ADC to mV
+  float battery_v = battery_mv / 1000.0;
+
+  if (battery_v > BATTERY_OK) {
+    // Normal operation
+    setDisplayBrightness(100);
+    return;
+  }
+
+  if (battery_v > BATTERY_LOW) {
+    // Low battery warning
+    setDisplayBrightness(50);  // Reduce backlight to save power
+    displayWarning("BATTERY LOW - REDUCED POWER");
+    return;
+  }
+
+  if (battery_v > BATTERY_CRITICAL) {
+    // Very low, save data and prepare shutdown
+    setDisplayBrightness(25);
+    displayWarning("BATTERY CRITICAL - SAVE & SHUTDOWN");
+    delay(5000);  // Allow user to see message
+    saveMeasurementData();
+    enterDeepSleep();  // Shutdown to prevent over-discharge
+    return;
+  }
+
+  // Below critical (should not reach here if BMS working)
+  enterDeepSleep();
+}
+```
+
+Deep sleep mode:
+  - ESP32 enters ultra-low-power mode (10 µA consumption)
+  - Wakes on GPIO12 button press (manual power-on)
+  - Battery protected from permanent over-discharge damage
+
+
+CHARGING PROCEDURE (User Manual)
+─────────────────────────────────
+
+1. Connect Micro-USB charging cable to analyzer bottom port
+2. Plug USB adapter into wall outlet (5V / 1A minimum)
+3. Red LED lights (charging in progress)
+4. Wait 3-4 hours until LED turns green (full charge)
+5. Unplug USB cable
+6. Analyzer ready for field use
+
+Optimal battery care:
+  - Charge completely before each field session
+  - Do not leave fully charged for extended storage (3-6 months)
+  - Store at cool temperature (15-25°C) when not in use
+  - Discharge to 20% DoD (depth of discharge) before long storage
+  - Cycle count: Each charge/discharge cycle = 1 cycle
+  - Lifespan: 2000+ cycles @ 20% DoD = 2-3 years typical field use
+
+
+THERMAL DESIGN
+───────────────
+
+Power dissipation budget:
+  - Buck converter (5V rail): 0.3 W (8W input × 3% loss)
+  - 3.3V LDO (digital): 0.7 W (2V drop × 350mA)
+  - 3.3V LDO (RF): 0.3 W (2V drop × 150mA)
+  - Charge pump (±5V): 0.2 W (internal dissipation)
+  - RF front-end switches + resistors: 0.1 W
+  - Total system dissipation: ~1.6 W
+
+Enclosure cooling:
+  - Passive cooling via aluminum enclosure walls
+  - Thermal vias conduct converter IC heat to back-side copper (bottom panel)
+  - LDO IC: Aluminum back-side in contact with enclosure wall
+  - Natural convection (no forced air) adequate for 1.6 W dissipation
+  - Steady-state case temperature: ~40-45°C (safe margin to 70°C limit)
+
+
+RELATED DOCUMENTS
+──────────────────
+  - band_select_rf_switch.txt: Load current from RF switches
+  - adf4351_vhf_uhf_synth.txt: ADF4351 supply current specs
+  - ad8302_vector_detector.txt: AD8302 supply voltage requirements
+  - ad9851_hf_generator.txt: AD9851 power requirements
+  - integrated_antenna_analyzer.ino: Firmware battery monitoring
+  - INTEGRATED_ANTENNA_ANALYZER_MANUAL.txt: Charging procedure, battery care

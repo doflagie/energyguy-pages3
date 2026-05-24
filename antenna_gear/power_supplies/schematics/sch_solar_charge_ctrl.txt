@@ -1,0 +1,241 @@
+================================================================================
+SCHEMATIC: Solar Charge Controller with MPPT
+TM-PWR-001  Rev A
+Input: 18–36V solar panel(s)  |  Output: 12.8V / 14.4V LiFePO4 charge
+MPPT algorithm: Perturb and Observe  |  ESP32 control  |  10A / 20A versions
+================================================================================
+
+SOLAR PANEL CHARACTERISTICS
+─────────────────────────────
+A solar panel is a non-linear current source. Its operating point depends on
+load impedance, temperature, and irradiance.
+
+KEY PARAMETERS:
+  Voc  (Open circuit voltage):    ~21V for a nominal 12V panel
+  Vmp  (Maximum power voltage):   ~17.5V for a nominal 12V panel
+  Isc  (Short circuit current):   ~5.5A for a 100W panel
+  Imp  (Maximum power current):   ~5.1A for a 100W panel
+  P_max = Vmp × Imp = 17.5 × 5.1 = 89W (rated at STC: 1000 W/m², 25°C)
+
+TEMPERATURE EFFECTS:
+  Voc decreases with temperature: dV/dT ≈ −0.45%/°C × V_oc
+  At 60°C cell temperature (hot sun, black panel): ΔV = −0.45% × 35°C × 21V = −3.3V → Voc = 17.7V
+  At −10°C: Voc = 21 + 0.45% × 35°C × 21V = 24.3V (higher voltage — plan for this)
+
+  For MPPT controller input voltage range: must handle Voc at minimum temperature.
+  Two 100W panels in series: Voc = 2 × 24.3V = 48.6V → design for 60V maximum.
+
+MPPT vs. PWM CONTROLLERS:
+  PWM: Simple. Panel voltage pulled down to battery voltage. Wastes power when Vmpp >> Vbat.
+    Efficiency loss: up to 30% in winter or cold conditions.
+  MPPT: Tracks the maximum power point. Converts Vmp to Vbat using DC-DC converter.
+    Efficiency gain over PWM: 10–30% depending on conditions.
+  For ham field use: MPPT is strongly preferred; the extra cost is recovered in a day's operation.
+
+================================================================================
+MPPT ALGORITHM — PERTURB AND OBSERVE
+================================================================================
+
+The P&O algorithm periodically adjusts the operating voltage and observes
+whether output power increased or decreased. It climbs toward P_max.
+
+ALGORITHM:
+  1. Measure V_panel and I_panel → P_current = V × I
+  2. Compare P_current vs. P_previous.
+  3. If P_current > P_previous: continue in same perturbation direction.
+  4. If P_current < P_previous: reverse perturbation direction.
+  5. Perturbation: ΔD = ±0.005 (0.5% duty cycle change) per iteration.
+  6. Repeat every 100 ms (fast enough to track cloud shadows).
+
+PERTURB AND OBSERVE PSEUDOCODE:
+```
+float D = 0.5;        // buck converter duty cycle (0–1)
+float P_prev = 0;
+float D_step = 0.005; // perturbation step
+bool  direction = true; // true = increase D (increase input current)
+
+void mppt_loop() {
+    float V_pv = read_panel_voltage();
+    float I_pv = read_panel_current();
+    float P    = V_pv * I_pv;
+
+    if (P > P_prev) {
+        // Power increased — continue same direction
+    } else {
+        // Power decreased — reverse direction
+        direction = !direction;
+    }
+    D = direction ? D + D_step : D - D_step;
+    D = constrain(D, 0.05, 0.95);
+    set_duty_cycle(D);
+    P_prev = P;
+}
+```
+
+This algorithm works but oscillates ±ΔD around P_max in steady state.
+For reduced oscillation: use Incremental Conductance algorithm (more complex).
+For this design: P&O is adequate; ΔD = 0.005 keeps oscillation < 0.5% of P_max.
+
+================================================================================
+MPPT CONTROLLER HARDWARE — ESP32 + BUCK CONVERTER
+================================================================================
+
+The ESP32 implements the MPPT algorithm in firmware and controls a buck
+converter that steps the panel voltage down to the charge voltage.
+
+ESP32 MPPT CONTROLLER BLOCK DIAGRAM:
+
+  ┌───────────────────────────────────────────────────────────────┐
+  │                          ESP32                                 │
+  │                                                                │
+  │  GPIO 34 (ADC) ── V_panel divider (Vpanel × 3.3/60)          │
+  │  GPIO 35 (ADC) ── I_panel shunt amp (INA219 I2C)             │
+  │  GPIO 32 (ADC) ── V_battery divider                           │
+  │  GPIO 33 (ADC) ── I_battery (INA219)                         │
+  │  GPIO 25 (ADC) ── NTC temperature (panel or battery)         │
+  │                                                                │
+  │  GPIO 26 (LEDC PWM) ── gate driver ── MOSFET Q1 (buck ctrl)  │
+  │  GPIO 27  ── CHRG_EN (enable/disable charging relay)         │
+  │                                                                │
+  │  I2C (GPIO 21/22) ── INA219 voltage/current sensor           │
+  │  SPI ── CYD TFT display (V, I, P, SOC, efficiency)           │
+  └───────────────────────────────────────────────────────────────┘
+
+PANEL VOLTAGE DIVIDER (for 60V max panel input):
+  V_panel ──[R1: 57kΩ]──┬── ESP32 ADC (GPIO34, 0–3.3V)
+                         │
+                        [R2: 3.3kΩ]    V_adc = V_panel × 3.3/60.3 = 0.0547 × V_panel
+                         │
+                        GND             Full scale: 60V → 3.28V ADC → resolution: 60/4096 = 14.6mV/bit
+
+  Add 1kΩ series resistor on ADC input + BAT42 Schottky clamp to 3.3V (transient protection).
+
+PANEL CURRENT SENSING:
+  INA219 (Texas Instruments):
+    I2C address: 0x40 (A0=GND, A1=GND)
+    Measures differential voltage across shunt resistor.
+    Shunt: 0.05Ω (50mΩ) → 10A full scale = 500mV; resolution = 500mV/32768 = 15.3µA/bit
+    Internal gain: auto-selected; 0.1mV LSB in gain 1/8 mode.
+  Install INA219 between panel positive and buck converter input.
+
+BATTERY CURRENT SENSING:
+  Second INA219 at 0x41 (A0=GND, A1=VCC):
+    Same 0.05Ω shunt in battery charge path.
+    Measures both charge (positive) and discharge (negative) current.
+
+================================================================================
+BUCK CONVERTER FOR MPPT — POWER STAGE
+================================================================================
+
+Same topology as sch_switching_psu.txt but without UC3843 (ESP32 provides PWM).
+
+INPUT:  V_panel (15–60V DC from panel)
+OUTPUT: V_charge (14.4V charge, or 13.5V float)
+
+PWM FREQUENCY: 100 kHz (ESP32 LEDC peripheral)
+  ledcSetup(0, 100000, 10);   // channel 0, 100kHz, 10-bit resolution
+  ledcAttachPin(26, 0);
+  ledcWrite(0, duty_1024);    // 0–1023 = 0–100% duty cycle
+
+MOSFET: IRFZ44N (55V, 49A, 28mΩ) — sufficient for 20A MPPT at 40V input
+  Gate drive: TC4420 (1.5A driver IC) between ESP32 GPIO and MOSFET gate.
+  Do NOT drive MOSFET gate directly from ESP32 GPIO (10–20 mA max GPIO; gate needs 0.5–2A pulse).
+
+INDUCTOR: 33µH Sendust core at 10A; 22µH at 20A.
+  Switching node voltage: swings between V_panel and GND.
+  Inductor sees full V_panel → must be rated for input voltage.
+
+FREEWHEELING DIODE: MBR1545 Schottky (15A, 45V) in parallel with synchronous MOSFET,
+  OR full synchronous design with low-side MOSFET (controlled by complement of PWM,
+  delayed slightly to prevent shoot-through).
+
+COMPLETE MPPT SCHEMATIC (10A version):
+
+  V_panel (+) ──[INA219_1 shunt]──────────── Q_H drain (IRFZ44N)
+                                                    │
+  TC4420 ── Q_H gate (47Ω gate R)           Q_H source ──── L1 (33µH) ──── V_charge (+)
+  ESP32 GPIO26 ── TC4420 input                    │                              │
+                                              D1 freewheeling              [INA219_2 shunt]
+                                              (MBR1545)                          │
+                                                   │                        Battery B+ (via BMS)
+                                                  GND                             │
+                                                                                 GND
+
+================================================================================
+CHARGE TERMINATION FOR LiFePO4
+================================================================================
+
+CHARGE STAGES:
+  Stage 1 — Bulk (CC): Charge at constant current (C/5 to C/2 of pack capacity).
+    ESP32 controls duty cycle to maintain constant I_charge.
+    PID controller: I_error = I_target - I_measured → adjust D.
+
+  Stage 2 — Absorption (CV): Hold voltage at 14.4V (3.60V/cell).
+    I_charge decreases as cells approach full.
+    PID: V_error = V_target - V_measured → adjust D.
+
+  Stage 3 — Termination: Charge current drops below C/20.
+    For 50Ah pack: terminate at 2.5A.
+    Set D = 0 (disable PWM); float at 13.5V.
+
+  Stage 4 — Float: Maintain 13.5V (3.375V/cell) for maintenance.
+    Tiny trickle current replaces self-discharge.
+    Keep panel connected; controller idles at 13.5V.
+
+TEMPERATURE COMPENSATION:
+  Charge voltage must be reduced at high temperatures:
+    V_charge(T) = V_charge_nominal - (T - 25) × 0.003 × N_cells
+    At T = 40°C: V_charge = 14.4 - (40-25) × 0.012 = 14.4 - 0.18 = 14.22V
+    At T = 10°C: V_charge = 14.4 - (10-25) × 0.012 = 14.4 + 0.18 = 14.58V
+
+  Implementation: ESP32 reads NTC temperature; calculates adjusted charge voltage;
+  uses adjusted value as setpoint for CV stage.
+
+================================================================================
+PANEL WIRING AND SAFETY
+================================================================================
+
+ARRAY CONFIGURATION:
+  One 100W panel (17.5Vmp): 10A MPPT adequate; direct to 12V battery
+  Two 100W in parallel (17.5Vmp, 10.2Amp): 20A MPPT
+  Two 100W in series (35Vmp, 5.1Amp): 10A MPPT (same power, higher voltage)
+
+SERIES vs. PARALLEL CONSIDERATIONS:
+  Series: Higher voltage, lower current. Thinner wire acceptable. Shading affects output more.
+  Parallel: Lower voltage, higher current. Heavy wire required for long runs.
+  For portable field: series is more practical (thin wire, longer cable run).
+
+FUSING AND DISCONNECTS:
+  Each panel string: 15A solar fuse (DC-rated; NOT regular automotive fuse)
+  Controller input: 20A DC breaker (DC-rated breaker; not AC breaker)
+  Controller output to battery: ANL fuse (40A for 20A system)
+
+WIRE SIZING (solar panel to controller):
+  Maximum voltage drop: 3% of Vmp (acceptable)
+  For 10A, 17.5V, 3% drop: V_drop = 0.525V; R_max = 0.525/10 = 0.0525Ω
+  Wire resistance: #10 AWG = 0.00328 Ω/ft; max length = 0.0525/0.00328/2 = 8 ft (one-way)
+  For longer runs: use #8 AWG.
+
+================================================================================
+PARTS LIST — SOLAR CHARGE CONTROLLER
+================================================================================
+
+Item    | Qty | Description                              | Source
+--------|-----|------------------------------------------|-------------------
+ESP32   |  1  | ESP32-WROOM-32 or DOIT DevKit           | Mouser
+CYD     |  1  | ESP32-2432S028 2.8" TFT display         | AliExpress
+INA219  |  2  | INA219 power monitor module (I2C)       | Mouser, AliExpress
+Q1      |  1  | IRFZ44N (55V 49A MOSFET)                | Mouser
+D1      |  1  | MBR1545 Schottky freewheeling           | Mouser
+TC4420  |  1  | TC4420 MOSFET gate driver (1.5A)        | Mouser
+L1      |  1  | 33µH / 15A Sendust core choke           | Mouser
+C_in    |  2  | 470µF 63V electrolytic (panel buffer)   | Mouser
+C_out   |  2  | 470µF 25V low-ESR (output)              | Mouser
+R_div   |  2  | 57kΩ + 3.3kΩ precision 1% (V divider)  | Mouser
+R_gate  |  1  | 47Ω 0.5W gate resistor                  | Mouser
+NTC     |  1  | 10kΩ NTC (temperature compensation)    | Mouser
+REG33   |  1  | AMS1117-3.3 (3.3V for ESP32)           | Mouser
+F_solar |  2  | 15A solar fuse + holder (DC-rated)      | Renogy, Amazon
+BRKR    |  1  | 20A DC circuit breaker (input)          | Blue Sea Systems
+
+================================================================================

@@ -1,0 +1,39 @@
+CM TM-WHP-NEC-009
+CM 5.6m telescopic whip retracted, 2m band (144.000-148.000 MHz)
+CM ---------------------------------------------------------------
+CM Antenna: 7-section telescopic whip, retracted to 0.488m
+CM   QW at 146.000 MHz = c/(4*f) * vf = 0.514m * 0.95 ~ 0.488m
+CM   (vf slightly lower at VHF for thin rod)
+CM   No loading coil; whip trimmed to QW resonance at ~146 MHz
+CM
+CM Wire geometry:
+CM   GW 1: main whip, 14 segs, z=0.005 to z=0.493, radius=0.0015m
+CM          (thinnest tip sections only; radius 1.5mm)
+CM   GW 2: radial +X, z=0.005, length=0.488m, radius=0.0015m
+CM   GW 3: radial -X, z=0.005, length=0.488m, radius=0.0015m
+CM   GW 4: radial +Y, z=0.005, length=0.488m, radius=0.0015m
+CM   GW 5: radial -Y, z=0.005, length=0.488m, radius=0.0015m
+CM
+CM Ground: real average soil (GN 2), sigma=0.005 S/m, epsilon_r=13
+CM Feed: voltage source EX 0 on segment 1 of GW1 (base of whip)
+CM No LD card — resonant retracted whip
+CM
+CM NEC-2 accuracy note: at 146 MHz with 14 segs on 0.488m wire,
+CM   segment length = 0.034m = lambda/60 — within NEC-2 accuracy
+CM   Wire radius 0.0015m; segment length / radius = 22.7 (acceptable)
+CM   Ground interaction at VHF is complex; treat results as indicative
+CM
+CM Expected performance: near-resonant 50 ohm match at ~146 MHz
+CM   Ground wave negligible at VHF; pattern dominated by direct ray
+CE
+GW 1 14  0.0 0.0 0.005  0.0 0.0 0.493  0.0015
+GW 2  7  0.0 0.0 0.005  0.488 0.0 0.005  0.0015
+GW 3  7  0.0 0.0 0.005 -0.488 0.0 0.005  0.0015
+GW 4  7  0.0 0.0 0.005  0.0 0.488 0.005  0.0015
+GW 5  7  0.0 0.0 0.005  0.0 -0.488 0.005  0.0015
+GE 1
+GN 2 0 0 0  13 0.005
+EX 0 1 1 0  1 0
+FR 0 9 0 0  144.000 0.500
+RP 0 37 73 1000  0 0 5 5
+EN

@@ -1,0 +1,28 @@
+CM ============================================================
+CM TM-WJP-NEC-009  40m Webbing J-Pole, 2-inch tape, SLOPER
+CM Design frequency: 7.150 MHz
+CM VF = 0.95; deployed at 45-degree angle from vertical
+CM
+CM Sloper configuration:
+CM   Base (bottom/short-circuit) at z=0
+CM   Top of radiating element at x=+21.14m, z=+21.14m (45 deg elevation)
+CM   Stub element parallel, offset in Y by 25mm
+CM   At 45 degrees, X-component = L_total × cos(45°) = 29.895 × 0.7071 = 21.14m
+CM               Z-component = L_total × sin(45°) = 29.895 × 0.7071 = 21.14m
+CM
+CM   Wire 1 (Strip A, long): (0,0,0) to (21.141, 0, 21.141)
+CM   Wire 2 (Strip B, stub): (0, 0.025, 0) to (7.047, 0.025, 7.047)
+CM   Wire 3 (short):  (0,0,0) to (0, 0.025, 0)
+CM
+CM The sloper gives a directive pattern with higher angle radiation toward the high end.
+CM ============================================================
+CE
+GW  1  21  0.000  0.000  0.000  21.141  0.000  21.141  0.00809
+GW  2  11  0.000  0.025  0.000   7.047  0.025   7.047  0.00809
+GW  3   1  0.000  0.000  0.000   0.000  0.025   0.000  0.00809
+GE  0
+EX  0  2  3  0  1.0  0.0
+FR  0  1  0  0  7.150  0
+RP  0  181  1  1000  0.0  0.0  1.0  0.0
+RP  0    1  360  1000  90.0  0.0  0.0  1.0
+EN

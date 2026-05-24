@@ -1,0 +1,200 @@
+================================================================================
+  POWER LEVEL REFERENCE & CALIBRATED ATTENUATOR CHAIN   TM-CAL-SCH-004 Rev A
+  Amplitude Calibration for NanoVNA, TinySA, SDR Receivers
+================================================================================
+
+PURPOSE
+-------
+Establishes traceable RF power reference levels for amplitude calibration.
+Combines the GPS-disciplined signal source with a calibrated attenuator chain
+and AD8307 power detector to verify absolute levels before use.
+
+CALIBRATION CHAIN CONCEPT
+--------------------------
+  GPSDO Signal (CLK2, GPS-locked) → Level verified by AD8307 → Attenuator
+  Attenuator output → Instrument under calibration (NanoVNA, TinySA, SDR)
+
+  Known quantities:
+    f = GPS-locked frequency (exact)
+    P_source = measured by AD8307 (corrected to absolute via factory cal point)
+    Atten = fixed resistive pad (calculated; verified at manufacture)
+
+  Unknown corrected at calibration:
+    P_display(instrument) = P_source − Atten_dB
+    Correction = P_display(instrument) − P_expected
+
+================================================================================
+  BLOCK DIAGRAM
+================================================================================
+
+  [Si5351 CLK2] ──[Buffer]──┬── [AD8307 RSSI tap]────[ESP32 ADC GPIO36]
+  GPS-locked prog freq       │    (power monitor)
+                             │
+                             ├── [SMA "SOURCE OUT"]    (direct, ~0 dBm)
+                             │
+                             ├── [6 dB PAD]── SMA "−6 dBm"
+                             ├── [10 dB PAD]── SMA "−10 dBm"
+                             ├── [20 dB PAD]── SMA "−20 dBm"
+                             ├── [30 dB PAD]── SMA "−30 dBm"
+                             ├── [40 dB PAD]── SMA "−40 dBm"
+                             └── [50 dB PAD]── SMA "−50 dBm"
+
+  NOTE: Attenuator outputs can be summed with a resistive splitter if
+  simultaneous connection to multiple instruments is needed.
+  Alternatively, use external SMA T-adapters (add 3 dB correction).
+
+================================================================================
+  SCHEMATIC — AD8307 LOG POWER DETECTOR
+================================================================================
+
+  AD8307: logarithmic amplifier/detector
+  Input range:     −75 dBm to +17 dBm  (92 dB range)
+  Slope:           25 mV/dB  (typical)
+  Intercept:       −84 dBm  (output = 0V when input = −84 dBm)
+  Frequency range: DC to 500 MHz (3 dB bandwidth)
+  Output:          DC voltage proportional to input power in dBm
+
+  Transfer function:
+    V_out (mV) = 25 × (P_dBm + 84)
+    P_dBm      = (V_out / 25) − 84
+
+  AD8307 Circuit:
+  ──────────────────────────────────────────────────────────
+  SMA IN ──[C1: 100nF]──┬── AD8307 IN+  (pin 1)
+                        │
+                       [R1: 52.3Ω]── GND   (50Ω termination: 52.3Ω || 52.3Ω ≈ 26Ω
+                                            but AD8307 input Z ≈ 1.1kΩ in parallel)
+                                            (Use 52.3Ω for approximate 50Ω match)
+
+  AD8307 IN−  (pin 8) ── GND  (for single-ended input)
+
+  AD8307 VCC  (pin 7) ── 5V  (5V supply; 3.3V also works per datasheet)
+  AD8307 COM  (pin 4) ── GND
+  AD8307 ENB  (pin 6) ── VCC  (enable; tie high to always-on)
+
+  AD8307 VOUT (pin 4) ──[R2: 47kΩ]── VCC   (output load; improves linearity)
+  AD8307 VOUT (pin 4) ──[C2: 100nF]── GND   (output filter, limits BW to ~10 kHz)
+  AD8307 VOUT (pin 4) ──── ESP32 GPIO36 (ADC1_CH0, no pull-up)
+
+  AD8307 OFLT (pin 3) ── [C3: 1nF to GND]  (internal offset filter; controls settling)
+
+  Decoupling:
+  VCC (pin 7) ──[C4: 100nF NP0]── GND (within 3mm of pin)
+  VCC (pin 7) ──[C5: 10µF tantalum]── GND (bulk)
+
+  ESP32 ADC reading:
+    V_adc = analogRead(GPIO36) × 3300 / 4095  [mV]   (12-bit ADC, 3.3V ref)
+    P_dBm = (V_adc / 25.0) − 84.0
+
+  CALIBRATION CORRECTION:
+    At calibration time, inject known signal (from GPS counter-verified source)
+    at known level (e.g., Si5351 8mA into 50Ω = measured by NanoVNA = X dBm)
+    Record offset: cal_offset_dB = P_actual_dBm − P_calculated_dBm
+    Apply: P_corrected = P_calculated + cal_offset_dB
+    Store cal_offset_dB in ESP32 NVS Preferences.
+
+================================================================================
+  SCHEMATIC — ATTENUATOR PAD CHAIN
+================================================================================
+
+  All pads: PI attenuator topology, 50Ω system, SMD 0402 resistors (0.1% tolerance)
+  Component values calculated from:
+    Z0 = 50 Ω
+    K = 10^(L_dB/20)  (voltage ratio)
+    R_shunt = Z0 × (K+1)/(K-1)
+    R_series = Z0 × (K²−1)/(2K)
+
+  ┌──────┬──────────────┬───────────┬───────────┐
+  │ Atten│  R_series    │  R_shunt  │  Notes    │
+  ├──────┼──────────────┼───────────┼───────────┤
+  │  6 dB│  16.61 Ω → 16.9Ω (E96) │ 150.8 Ω → 150Ω │ std value  │
+  │ 10 dB│  35.14 Ω → 35.7Ω      │  96.25 Ω → 95.3Ω│            │
+  │ 20 dB│ 247.5 Ω → 249Ω        │  61.11 Ω → 61.9Ω│            │
+  │ 30 dB│ 475 Ω → 475Ω          │  51.54 Ω → 51.1Ω│            │
+  │ 40 dB│ 500 Ω → 499Ω          │  50.5 Ω → 50.5Ω │ ≈ 50Ω      │
+  │ 50 dB│ 500 Ω → 499Ω          │  50.05 Ω → 49.9Ω│ ≈ 50Ω      │
+  └──────┴──────────────┴───────────┴───────────┘
+
+  For 30, 40, 50 dB pads: use inline SMA-SMA attenuator modules
+  (Mini-Circuits VAT-30W2, VAT-40W2, VAT-50W2 or equivalent).
+  Build 6, 10, 20 dB internally on PCB; purchase 30–50 dB as modules.
+
+================================================================================
+  SCHEMATIC — SMA DISTRIBUTION PCB LAYOUT GUIDANCE
+================================================================================
+
+  PCB stack-up: 2-layer, 1.6mm FR4
+  RF trace width for 50Ω: 3.0mm on 1.6mm FR4 (εr=4.4)
+  SMA footprints: end-launch SMA or panel-mount cutout in enclosure wall
+  Ground plane: full plane on bottom layer; via stitching every 3mm around RF traces
+  Attenuator pads: isolated ground islands not connected to signal; careful layout
+  Shield: copper tape lining inside enclosure (see enclosure SCAD file)
+
+================================================================================
+  INSTRUMENT CALIBRATION PROCEDURES
+================================================================================
+
+  NANOVNA FREQUENCY CALIBRATION:
+  ────────────────────────────────
+  1. Connect GPSDO "REF 10M" → NanoVNA CH0 via SMA cable.
+  2. Set NanoVNA to 10 MHz span, center 10 MHz.
+  3. NanoVNA should show marker at 10.000 000 MHz.
+     If display reads 10.000 050 MHz → NanoVNA clock 5 ppm high.
+  4. NanoVNA has no user frequency correction; document offset.
+     Use NanoVNA firmware developer tools or re-calibrate VNA zero at adjusted freq.
+
+  NANOVNA AMPLITUDE CALIBRATION (OSL + THRU):
+  ─────────────────────────────────────────────
+  1. Set NanoVNA sweep to desired frequency range.
+  2. Connect OPEN standard (from SOLT kit) to CH0 → press CAL OPEN.
+  3. Connect SHORT standard → press CAL SHORT.
+  4. Connect LOAD standard (50Ω) → press CAL LOAD.
+  5. Connect THRU (cable between CH0 and CH1) → press CAL THRU.
+  6. Press CAL DONE / APPLY.
+  7. Verify: CAL LVL signal (−20 dBm) → NanoVNA CH0; marker should read −20 dBm ± 0.5 dB.
+
+  TINYSAA FREQUENCY CALIBRATION:
+  ─────────────────────────────────
+  1. Menu → Config → Expert Config → Correction.
+  2. Connect GPSDO "CAL SIG" (10 MHz) → TinySA input.
+  3. Set TinySA center 10 MHz, span 100 kHz.
+  4. Measure peak frequency displayed. Delta from 10.000000 MHz = error.
+  5. ppm_error = (f_displayed − 10000000) / 10
+  6. Enter negative of ppm_error into TinySA correction field.
+
+  TINYSAA LEVEL CALIBRATION:
+  ──────────────────────────
+  1. Connect GPSDO "CAL LVL" (−20 dBm) → TinySA input.
+  2. Set TinySA to show RBW 10 kHz, center = CAL SIG frequency.
+  3. Read displayed peak level. Should be −20.0 ± 1.0 dBm.
+  4. Record offset; TinySA has input correction in Expert Config.
+
+  RTL-SDR FREQUENCY CALIBRATION:
+  ─────────────────────────────────
+  1. Connect GPSDO "CAL SIG" (e.g., 10 MHz) → RTL-SDR antenna input.
+  2. Open GQRX or SDR++. Tune to 10 MHz.
+  3. Observe carrier peak. Measure offset in Hz.
+  4. ppm_error = offset_Hz / 10    (for 10 MHz signal)
+  5. Enter ppm correction: GQRX → Configure → Input Devices → freq correction (ppm).
+  6. SDR++ → Source → RTL-SDR → PPM Offset.
+  7. Repeat at 100 MHz for sanity check.
+
+================================================================================
+  BILL OF MATERIALS
+================================================================================
+
+  Ref        Part                           Value/PN               Qty  ~Cost
+  ─────────────────────────────────────────────────────────────────────────────
+  U1         AD8307AN or AD8307ARZ          log amp/detector        1   $6
+  C1–C5      100 nF, 1 nF, 10 µF           decoupling              5   $0.30
+  R1         52.3 Ω 0.1%                   input termination       1   $0.15
+  R2         47 kΩ                         output load             1   $0.05
+  R3–R14     0.1% SMD 0402                 attenuator pads        12   $2
+  J1–J8      SMA(F) edge mount or panel    RF outputs              8   $8
+  ATT1–3     SMA inline attenuator modules 30/40/50 dB             3   $12
+  ─────────────────────────────────────────────────────────────────────────────
+  TOTAL                                                                  ~$29
+
+================================================================================
+  END OF TM-CAL-SCH-004
+================================================================================

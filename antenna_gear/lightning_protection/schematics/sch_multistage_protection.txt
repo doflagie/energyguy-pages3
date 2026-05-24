@@ -1,0 +1,230 @@
+================================================================================
+SCHEMATIC: Multi-Stage Surge Protection — GDT + MOV + TVS Diode
+TM-LSP-001  Rev A
+Three-Stage Coaxial Protection with < 0.1 dB Insertion Loss at 50 MHz
+Clamping Voltage: ≤ 60V; Peak Current: 10 kA; Response Time: < 1 ns (final stage)
+================================================================================
+
+MULTI-STAGE PROTECTION THEORY
+──────────────────────────────
+A single protection device (GDT, MOV, or TVS) cannot simultaneously satisfy
+all protection requirements:
+  - High peak current handling (kA range) → GDT or MOV
+  - Fast response (< 1 ns) → TVS diode
+  - Low residual clamp voltage (< 60V) → TVS diode
+  - Low capacitance (< 5 pF for VHF) → GDT
+
+The solution is a three-stage cascaded clamp, with each stage optimized for
+one parameter.  Decoupling inductors/resistors between stages prevent the
+slower stages from being bypassed by the faster stages.
+
+STAGE 1 — GDT (Coarse clamp, high current, ~100 ns):
+  Handles the bulk of lightning energy (kA range)
+  Clamps to V_arc ≈ 15–25V AFTER sparkover (but sparkover takes ~100 ns)
+  During the 100 ns sparkover delay, voltage may reach 500–2000V on the line
+  The following stages handle this pre-sparkover energy
+
+STAGE 2 — MOV / Zener (Medium clamp, medium speed, ~10 ns):
+  Metal Oxide Varistor clamps voltage during GDT sparkover delay
+  Handles ~1–10 kA impulse
+  Clamping voltage: 150–400V (limited by MOV physics)
+  Capacitance: 100–1000 pF (too high for VHF — use ONLY in HF design)
+
+STAGE 3 — TVS Diode (Fine clamp, fast, < 1 ns):
+  Transient Voltage Suppressor clamps to precise voltage (V_BR + V_f × 1.3)
+  Handles 1–500A impulse (much less than GDT but sufficient for residual energy)
+  Clamping voltage: 30–200V (precisely controlled)
+  Capacitance: 5–500 pF (must select low-C type for VHF)
+  Response: sub-nanosecond (protects against LEMP: Lightning Electromagnetic Pulse)
+
+DECOUPLING BETWEEN STAGES:
+  Series inductors L1, L2 prevent Stage 3 (fast/low-C) from absorbing energy
+  before Stage 1 (slow/high-C) has time to clamp.
+  L1 (between Stage 1 and Stage 2): 47 nH to 100 nH
+  L2 (between Stage 2 and Stage 3): 22 nH to 47 nH
+
+  These inductors add series impedance → insertion loss.  For HF-only use:
+  L1 = 100 nH, L2 = 47 nH (acceptable IL)
+  For VHF use: L1 ≤ 33 nH, L2 ≤ 22 nH (keep XL < 5Ω at 144 MHz)
+
+================================================================================
+COMPLETE 3-STAGE SCHEMATIC — HF VERSION (1.8–54 MHz)
+================================================================================
+
+  ANTENNA ────[IN]──────────────────────────────────[OUT]──── TO SHACK
+              SO-239                                SO-239
+
+  CENTER CONDUCTOR PATH:
+
+  IN ─── [L1: 100nH] ─────── [L2: 47nH] ────────────── OUT
+  center                │                    │         center
+                     [GDT1]            [TVS1]
+                    90V/2.5kA          60V/500A
+                        │              (SMBJ54A pair)
+                      [MOV1]              │
+                     150V/1kA            │
+                        │                │
+  CHASSIS GND ─────────┴────────────────┘─────────── CHASSIS
+
+  SHIELD PATH:
+  IN shield ──────────────────────────────────────── OUT shield
+  Both bonded to chassis ground (zero impedance path)
+
+DETAILED SCHEMATIC — FULL THREE-STAGE:
+
+  IN_center──┬──L1(100nH)──┬──L2(47nH)──┬──── OUT_center
+             │              │             │
+          (not used      [GDT1]       [TVS1+TVS2]
+          at this       90V,2.5kA    back-to-back
+          node)           │          60V TVS (SMBJ54CA)
+                       [MOV1]            │
+                      150V,1kA          │
+                          │             │
+  CHASSIS ────────────────┴─────────────┘
+
+NOTE: MOV1 is connected from junction of L1/L2 to chassis.
+      GDT1 is connected from input side of L1 to chassis.
+      TVS1 (bidirectional) is connected from output of L2 to chassis.
+
+Stage activation sequence during a 2kV, 10kA lightning surge:
+  t=0 to 100 ns:   Voltage rises toward 2kV; L1+GDT1 slow the surge.
+                   MOV1 activates at ~200V (forward conduction); clamps to ~200V.
+                   TVS1 activates at ~60V; limits OUT to ~60V.
+  t=100 ns:        GDT1 fires (sparkover), clamps IN to ~20V arc voltage.
+                   Surge current diverts through GDT1 to chassis.
+  t > 100 ns:      GDT1 in full conduction; handles remaining kA current.
+                   TVS1 sees only residual oscillation; handles < 500A.
+
+================================================================================
+MULTI-STAGE SCHEMATIC — VHF VERSION (50–450 MHz, LOW CAPACITANCE)
+================================================================================
+
+For VHF, MOV stage is ELIMINATED (too much capacitance).
+Only GDT + TVS with minimal inductance values.
+
+  IN_center──┬──L1(22nH)──┬──L2(10nH)──┬──── OUT_center
+             │             │             │
+             │           [GDT1]       [TVS1]
+             │          90V/2.5kA     SMBJ54CA
+             │          (1.0pF)       5pF typ
+             │             │             │
+  CHASSIS ───┴─────────────┴─────────────┘
+
+TVS DIODE CAPACITANCE AT VHF:
+  Standard SMBJ54CA: capacitance ≈ 130 pF → unacceptable above 30 MHz
+  Must use RF-optimized TVS:
+    Semtech SM6T39CA: 5 pF, 39V, 600W → good to 300 MHz
+    Bourns TISP4095F3BHJR: array type, 3 pF per element
+    ON Semi ESD9L5.0ST5G: 0.35 pF, ESD rated (lower current, 200A peak)
+
+  For 144–432 MHz use ESD9L5.0ST5G (0.35pF) or similar:
+    Insertion loss at 432 MHz with 0.35pF: IL ≈ 0.003 dB (negligible)
+    Peak current: 200A (adequate for residual after GDT clamps main surge)
+
+VHF-SPECIFIC TVS SELECTION:
+
+  Part           | V_BR  | I_peak | C_j    | f_max    | Application
+  ---------------|-------|--------|--------|----------|------------------
+  SMBJ54CA       | 54V   | 500A   | 130pF  | 20 MHz   | HF only
+  SM6T39CA       | 39V   | 600W   |   5pF  | 300 MHz  | HF+VHF to 2M
+  ESD9L5.0ST5G   |  5V   | 200A   | 0.35pF | 1.5 GHz  | VHF/UHF/microwave
+  CDSOT23-T24C   | 24V   |  30A   |   2pF  | 600 MHz  | low-energy ESD
+  BZW04-P18B     | 20V   | 3.5kA  |  50pF  | 80 MHz   | high-current HF
+  PSOT-36A       | 36V   | 600W   |   1pF  | 1 GHz    | 70cm-23cm
+
+================================================================================
+CLAMPING VOLTAGE ANALYSIS — WHAT REACHES THE RADIO
+================================================================================
+
+Without protection:
+  Direct strike surge: 2000–30000 V at antenna feedpoint.
+  Induced surge (nearby strike): 200–2000 V.
+  Both: immediate destruction of radio front-end.
+
+Single GDT (90V) only:
+  Pre-sparkover (0–100 ns): 200–2000 V passes through unimpeded.
+  Post-sparkover (> 100 ns): clamped to ~20V.
+  Problem: fast semiconductors in modern radios damaged in < 10 ns.
+  Single GDT is NOT adequate protection for modern equipment.
+
+Single TVS (54V) only:
+  Sub-ns response; immediately clamps to ~75V.
+  But: TVS handles only ~500A; lightning carries kA → TVS destroyed on first hit.
+  Single TVS is NOT adequate for direct/nearby lightning.
+
+MULTI-STAGE (GDT + TVS):
+  Stage 1 (GDT): Diverts kA surge to ground; sparkover in ~100 ns.
+  Stage 2 (L decoupling): Slows down energy reaching TVS; TVS sees < 500A.
+  Stage 3 (TVS): Clamps remaining residual to 60V in sub-ns.
+  RESULT: Radio sees ≤ 75V, < 500A → modern radio front-ends survive.
+
+  Note: No passive protection guarantees survival of direct lightning attachment.
+  The multi-stage design is protection against induced surges and nearby strikes
+  (the vastly more common scenario for properly installed ham antennas).
+
+CLAMPING PERFORMANCE TABLE:
+
+  Event type              | V at radio | I at radio | Radio survives?
+  ------------------------|-----------|-----------|------------------
+  Static discharge only   | <1V       | <1mA      | Yes (trivial)
+  ESD (human body touch)  | <5V       | <1A       | Yes (with TVS)
+  Power line induction    | <20V      | <100mA    | Yes
+  Nearby strike (100m)    | <60V      | <200A     | Yes (multi-stage)
+  Direct induced (10m)    | <75V      | <500A     | Probably (marginal)
+  Direct attachment       | >1000V    | >5kA      | No (disconnect antenna)
+
+CARDINAL RULE: Disconnect antenna before thunderstorms.
+No arrestor is a substitute for physical disconnection during active lightning.
+
+================================================================================
+INSERTION LOSS — MULTI-STAGE DESIGN
+================================================================================
+
+HF Version (L1=100nH, L2=47nH, GDT=1pF, TVS=130pF):
+
+  Freq (MHz) | IL GDT (dB) | IL L1+L2 (dB) | IL TVS (dB) | Total IL (dB)
+  -----------|-------------|---------------|-------------|-------------
+    1.8      |  <0.001     |  <0.001       |  <0.001     |  <0.001
+    3.5      |  <0.001     |  <0.001       |  <0.001     |  <0.001
+    7.0      |  <0.001     |  <0.001       |  <0.001     |  <0.001
+   14.0      |  <0.001     |   0.002       |   0.004     |   0.007
+   21.0      |  <0.001     |   0.005       |   0.009     |   0.015
+   28.0      |  <0.001     |   0.009       |   0.016     |   0.026
+   50.0      |   0.001     |   0.029       |   0.052     |   0.082  ← within spec
+
+VHF Version (L1=22nH, L2=10nH, GDT=1pF, TVS=5pF):
+
+  Freq (MHz) | IL GDT (dB) | IL L1+L2 (dB) | IL TVS (dB) | Total IL (dB)
+  -----------|-------------|---------------|-------------|-------------
+   50.0      |   0.001     |   0.002       |  <0.001     |   0.003
+  144.0      |   0.002     |   0.016       |   0.001     |   0.019
+  222.0      |   0.004     |   0.038       |   0.002     |   0.044
+  432.0      |   0.022     |   0.142       |   0.006     |   0.170  ← exceeds spec
+                                                          ← reduce L values for 70cm
+
+Note: For 432 MHz, use L1=10nH, L2=4.7nH to bring total IL under 0.1 dB.
+
+================================================================================
+PARTS LIST — MULTI-STAGE PROTECTION
+================================================================================
+
+HF VERSION (1.8–54 MHz):
+Ref   | Qty | Value/Part      | Description                   | Source
+------|-----|-----------------|-------------------------------|--------
+GDT1  |  1  | B88069X1140B232 | 90V, 2.5kA, 1.0pF GDT        | Mouser
+MOV1  |  1  | Littelfuse V150LA10BP | 150V MOV, 1kA, 10mm   | Mouser
+TVS1  |  1  | SMBJ54CA        | 54V bidirectional TVS, 600W   | Mouser
+L1    |  1  | 100 nH          | Chip inductor, 0805, 1A min   | Coilcraft 0805CS-R10XJLB
+L2    |  1  | 47 nH           | Chip inductor, 0805, 1A min   | Coilcraft 0805CS-47NXJLB
+J1,J2 |  2  | SO-239 silver   | Panel mount UHF-F             | Amphenol
+PCB   |  1  | FR-4, 50Ω trace | 50Ω microstrip between stages | design per trace width
+ENCL  |  1  | 3D printed ASA  | See openscad file             |
+
+VHF VERSION (50–432 MHz):
+GDT1  |  1  | B88069X1140B232 | 90V, 2.5kA, 1.0pF GDT        | Mouser
+TVS1  |  1  | SM6T39CA        | 39V, 5pF TVS for VHF          | Mouser
+L1    |  1  | 22 nH           | 0805 chip inductor            | Coilcraft
+L2    |  1  | 10 nH           | 0805 chip inductor            | Coilcraft
+J1,J2 |  2  | N-type female   | Panel mount, IP67             | Amphenol 82-836
+
+================================================================================

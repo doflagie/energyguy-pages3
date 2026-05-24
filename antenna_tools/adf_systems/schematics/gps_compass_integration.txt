@@ -1,0 +1,243 @@
+================================================================================
+ GPS AND DIGITAL COMPASS INTEGRATION FOR ADF — TM-ADF-007 Rev A
+ True Bearing Reference, Position, and Waypoint Navigation
+================================================================================
+
+SYSTEM OVERVIEW
+================
+The GPS + compass subsystem converts RDF magnetic bearing to true bearing,
+provides absolute position reference for triangulation, and displays bearing
+on a compass rose referenced to true North.
+
+  RDF bearing (magnetic) + declination correction = TRUE bearing
+  True bearing + GPS position + waypoint = range + direction to target
+
+================================================================================
+GPS MODULE — u-blox NEO-8M
+================================================================================
+
+  ┌──────────────────────────────────────────────────────────────────────────┐
+  │                       NEO-8M GPS MODULE                                 │
+  │                                                                          │
+  │   ┌─────────────────────────────────────────────────────────────┐      │
+  │   │  Active patch antenna (3.3V bias, 10–15 mA)                 │      │
+  │   │  Internal or external SMA (connect clear-sky view antenna)  │      │
+  │   └───────────────────┬─────────────────────────────────────────┘      │
+  │                        │ RF                                              │
+  │   ┌────────────────────▼────────────────────────────────────────┐      │
+  │   │   u-blox NEO-8M IC                                           │      │
+  │   │                                                               │      │
+  │   │   VCC ──── 3.3V (from AMS1117-3.3, min 50mA supply)        │      │
+  │   │   GND ──── GND (separate quiet ground if possible)          │      │
+  │   │                                                               │      │
+  │   │   TX  ──── ESP32 GPIO18 (UART2 RX)                         │      │
+  │   │   RX  ──── ESP32 GPIO19 (UART2 TX)                         │      │
+  │   │                                                               │      │
+  │   │   PPS ──── ESP32 GPIO5 (1 pulse/second ±20ns)              │      │
+  │   │            [10kΩ pullup to 3.3V; 100pF to GND for noise]   │      │
+  │   │                                                               │      │
+  │   │   !RESET ── [optional] 10kΩ to 3.3V, GPIO for SW reset     │      │
+  │   │   TIMEPULSE2 ── not connected (or 10Hz output if needed)    │      │
+  │   └───────────────────────────────────────────────────────────── ┘     │
+  └──────────────────────────────────────────────────────────────────────────┘
+
+  GPS DECOUPLING:
+  ┌──────────────────────────────────────────────────────────────────┐
+  │  3.3V rail ──[10µF tantalum]──[100nF ceramic]── VCC pin          │
+  │  Keep capacitors within 5mm of VCC pin                           │
+  │  Route GPS UART away from RF/motor signals                       │
+  └──────────────────────────────────────────────────────────────────┘
+
+  ANTENNA BIAS CIRCUIT:
+  ┌──────────────────────────────────────────────────────────────────┐
+  │  3.3V ──[33Ω]──[100nF to GND]──▶ SMA center pin                │
+  │         (bias tee resistor)     (RF bypass)                      │
+  │         Active antenna draws 10–15mA through this resistor       │
+  │         Passive patch: no bias needed                            │
+  └──────────────────────────────────────────────────────────────────┘
+
+  NMEA OUTPUT SENTENCES (default at 9600 baud):
+  ┌──────────────────────────────────────────────────────────────────┐
+  │  $GNGGA — Position fix, altitude, satellites, HDOP              │
+  │  $GNRMC — Position, speed, course, date/time                    │
+  │  $GPGSV — Satellites in view                                    │
+  │  $GNGLL — Geographic position                                   │
+  │  Output rate: 1Hz default (configure to 5Hz if needed)          │
+  └──────────────────────────────────────────────────────────────────┘
+
+  EXAMPLE GGA SENTENCE:
+  $GNGGA,172814.00,3720.45678,N,12030.12345,W,1,08,1.2,45.3,M,-26.1,M,,*62
+  Field:    HHMMSS   Lat      N/S Lon         E/W Fix  Sat HDOP Alt
+
+================================================================================
+DIGITAL COMPASS — QMC5883L (HMC5883L-compatible)
+================================================================================
+
+  ┌──────────────────────────────────────────────────────────────────────────┐
+  │                       QMC5883L MODULE                                   │
+  │                                                                          │
+  │   ┌────────────────────────────────────────────────────────────┐       │
+  │   │   QMC5883L 3-axis magnetometer                             │       │
+  │   │                                                             │       │
+  │   │   VDD  ──── 3.3V                                           │       │
+  │   │   GND  ──── GND                                            │       │
+  │   │   SDA  ──── ESP32 GPIO21 (4.7kΩ pullup to 3.3V)          │       │
+  │   │   SCL  ──── ESP32 GPIO22 (4.7kΩ pullup to 3.3V)          │       │
+  │   │   DRDY ──── GPIO34 optional (data ready interrupt)        │       │
+  │   │                                                             │       │
+  │   │   I2C address: 0x0D                                        │       │
+  │   │   Registers:                                               │       │
+  │   │     0x00–0x05: X/Y/Z MSB+LSB (signed 16-bit, little-endian)│       │
+  │   │     0x09: Control 1 (OSR, RNG, ODR, MODE)                 │       │
+  │   │     0x0A: Control 2 (SOFT_RST, ROL_PNT, INT_ENB)          │       │
+  │   │     0x0B: Set/Reset (recommended = 0x01)                  │       │
+  │   └───────────────────────────────────────────────────────────-┘       │
+  └──────────────────────────────────────────────────────────────────────────┘
+
+  INITIALIZATION SEQUENCE:
+  ┌──────────────────────────────────────────────────────────────────┐
+  │  Write 0x80 to register 0x0A (soft reset)                       │
+  │  Write 0x01 to register 0x0B (set/reset period = 1)             │
+  │  Write 0x1D to register 0x09:                                   │
+  │    bit7:6 = 01 (OSR=256 oversample ratio, lowest noise)         │
+  │    bit5:4 = 00 (RNG = ±2 Gauss — sufficient for Earth field)    │
+  │    bit3:2 = 00 (ODR = 10 Hz output data rate)                   │
+  │    bit1:0 = 01 (MODE = continuous measurement)                  │
+  └──────────────────────────────────────────────────────────────────┘
+
+  COMPASS HEADING CALCULATION:
+  ┌──────────────────────────────────────────────────────────────────┐
+  │  Read X, Y, Z (signed 16-bit each)                              │
+  │                                                                  │
+  │  Apply hard-iron correction:                                     │
+  │    X_corr = X_raw - offset_x                                    │
+  │    Y_corr = Y_raw - offset_y                                    │
+  │    (offset_x/y from calibration: avg of max+min during rotation) │
+  │                                                                  │
+  │  Tilt-compensated heading (requires MPU6050 for roll/pitch):     │
+  │    X_h = X_corr×cos(pitch) + Z_corr×sin(pitch)                 │
+  │    Y_h = X_corr×sin(roll)×sin(pitch) + Y_corr×cos(roll) -       │
+  │           Z_corr×sin(roll)×cos(pitch)                           │
+  │                                                                  │
+  │  Heading = atan2(-Y_h, X_h) × (180/π)                          │
+  │  If heading < 0: heading += 360                                  │
+  │  True heading = heading + magnetic_declination                   │
+  └──────────────────────────────────────────────────────────────────┘
+
+================================================================================
+TILT COMPENSATION — MPU6050
+================================================================================
+
+  ┌──────────────────────────────────────────────────────────────────────────┐
+  │                          MPU6050 IMU                                    │
+  │                                                                          │
+  │   VCC  ──── 3.3V (or 5V, both accepted)                                │
+  │   GND  ──── GND                                                          │
+  │   SDA  ──── ESP32 GPIO21 (shared I2C bus with QMC5883L)                │
+  │   SCL  ──── ESP32 GPIO22                                                 │
+  │   AD0  ──── GND (I2C address 0x68; high → 0x69)                        │
+  │   INT  ──── GPIO33 optional                                              │
+  │                                                                          │
+  │   Provides: Accelerometer (pitch/roll) for tilt compensation            │
+  │             Gyroscope (rate): not needed for RDF                        │
+  │   Note: Mount aligned with QMC5883L axes                               │
+  └──────────────────────────────────────────────────────────────────────────┘
+
+================================================================================
+I2C BUS — COMPLETE
+================================================================================
+
+  ESP32 GPIO21 (SDA) ──────[4.7kΩ]──── 3.3V
+       │
+       ├──── SSD1306 OLED (address 0x3C)
+       ├──── QMC5883L compass (address 0x0D)
+       └──── MPU6050 IMU (address 0x68)
+
+  ESP32 GPIO22 (SCL) ──────[4.7kΩ]──── 3.3V
+       │
+       └──── (same three devices as SDA)
+
+  I2C bus speed: 100 kHz (standard mode, conservative for noise environment)
+  Bus capacitance limit: 400 pF; stay under 50cm total bus wire length
+
+================================================================================
+MAGNETIC DECLINATION LOOKUP
+================================================================================
+
+  Magnetic declination varies by location. For portable ADF use:
+
+  LOOKUP TABLE (simplified, continental USA + popular DX locations):
+  ┌──────────────────────────────────────────┬──────────────────────────────┐
+  │ Region                                   │ Declination (approx 2025)    │
+  ├──────────────────────────────────────────┼──────────────────────────────┤
+  │ Pacific coast USA (CA, OR, WA)           │ +11° to +15° East            │
+  │ Rocky Mountain region                    │  +7° to +11° East            │
+  │ Midwest USA                              │  +2° to +5° East             │
+  │ East coast USA (NY, FL, ME)              │ -10° to -14° West            │
+  │ Texas/Oklahoma                           │  +3° to +5° East             │
+  │ UK / Western Europe                      │  -1° to +3° East             │
+  │ Eastern Europe                           │  +4° to +7° East             │
+  │ Australia (east coast)                   │ +12° East                    │
+  │ Japan                                    │ -7° to -8° West              │
+  │ Hawaii                                   │ +10° East                    │
+  └──────────────────────────────────────────┴──────────────────────────────┘
+
+  Firmware approach: use GPS lat/lon with simplified IGRF model
+  or WMM2025 coefficients (free from NOAA, updated every 5 years).
+
+================================================================================
+GPS BEARING TO WAYPOINT — HAVERSINE FORMULA
+================================================================================
+
+  Given: current position (lat1, lon1) and target (lat2, lon2)
+
+  Δlat = lat2 - lat1 (radians)
+  Δlon = lon2 - lon1 (radians)
+
+  a = sin²(Δlat/2) + cos(lat1) × cos(lat2) × sin²(Δlon/2)
+  c = 2 × atan2(√a, √(1-a))
+  distance = R × c       (R = 6371000 m)
+
+  bearing = atan2(sin(Δlon)×cos(lat2),
+                  cos(lat1)×sin(lat2) - sin(lat1)×cos(lat2)×cos(Δlon))
+  bearing_deg = (bearing × 180/π + 360) mod 360
+
+================================================================================
+COMPLETE INTEGRATION BLOCK DIAGRAM
+================================================================================
+
+         GPS (NEO-8M)                 Compass (QMC5883L)
+            │ UART2 (GPIO18/19)            │ I2C (GPIO21/22)
+            │ PPS (GPIO5)                   │
+            ▼                               ▼
+  ┌──────────────────────────────────────────────────────────────┐
+  │                    ESP32 CONTROLLER                          │
+  │                                                              │
+  │  GPS parser:                  Compass reader:                │
+  │  - NMEA GGA/RMC               - QMC5883L register read      │
+  │  - lat/lon/alt/time           - hard-iron correction         │
+  │  - speed/course               - tilt compensation (MPU6050) │
+  │                                - heading 0–360°              │
+  │                                                              │
+  │  Bearing fusion:                                             │
+  │  RDF bearing (mag) + declination(lat,lon) = TRUE bearing    │
+  │                                                              │
+  │  Display:                     Navigation:                    │
+  │  - OLED compass rose          - bearing to stored waypoints  │
+  │  - BT to CYD map display      - triangulation if moving     │
+  │  - WiFi web interface         - grid square display (APRS)  │
+  └──────────────────────────────────────────────────────────────┘
+
+================================================================================
+ESP32 PIN ASSIGNMENTS — GPS/COMPASS SUBSYSTEM
+================================================================================
+
+  GPIO  Function           Notes
+  ────  ─────────────────  ───────────────────────────────────────────
+   18   GPS_RX (UART2)     Receive from NEO-8M TX
+   19   GPS_TX (UART2)     Transmit to NEO-8M RX
+    5   GPS_PPS            1 PPS time reference, rising edge interrupt
+   21   I2C_SDA            Shared: OLED + QMC5883L + MPU6050
+   22   I2C_SCL
+   33   IMU_INT            MPU6050 interrupt (optional)
+    0   GPS_RESET          Active-low reset to NEO-8M (optional, 10kΩ pullup)

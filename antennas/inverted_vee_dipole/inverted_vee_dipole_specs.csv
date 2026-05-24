@@ -1,0 +1,11 @@
+ANTENNA SPECIFICATION — INVERTED VEE DIPOLE,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,"80M, 40M, 20M",,
+Design approach,"V-shaped dipole, center-fed at apex",,
+Compaction factor,30%,,
+Special parameters,"45–60° apex angle, lower impedance vs horizontal",,
+Feed impedance,50–600,Ω,
+SWR target,<2.0,:1,
+Efficiency,75–95%,%,
+Gain,2–12,dBi,

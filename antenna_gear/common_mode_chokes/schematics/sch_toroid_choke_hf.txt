@@ -1,0 +1,253 @@
+================================================================================
+SCHEMATIC: Toroidal Common-Mode Choke — HF Bands 160M through 10M
+TM-CMC-001  Rev A
+FT-240 and FT-140 Ferrite Toroid Wound Coaxial Chokes
+Covers: 1.8 MHz (160M) through 28 MHz (10M) and 50 MHz (6M)
+================================================================================
+
+THEORY OF OPERATION
+───────────────────
+A common-mode choke is wound by passing coaxial cable (or twisted wire pair)
+through a ferrite toroid core.  The differential mode (transmit/receive signal
+traveling on the inner conductor relative to the outer shield) sees essentially
+zero impedance from the core — both conductors thread through equally, fields
+cancel.
+
+The common-mode current (current flowing on the OUTSIDE of the coax shield,
+seeking ground via feedline) sees full choking impedance.  The core presents
+a series impedance Z_choke to the common-mode path.
+
+Common-mode rejection in dB:
+  CMR = 20 × log₁₀( 1 + Z_choke / Z_load )
+  where Z_load is the impedance of the path common-mode current wants to take
+  (typically 50–300 Ω for antenna/station ground path)
+
+For Z_choke = 1000 Ω, Z_load = 100 Ω:
+  CMR = 20 × log₁₀(1 + 10) = 20.8 dB  (significant but not extreme)
+
+For Z_choke = 5000 Ω, Z_load = 100 Ω:
+  CMR = 20 × log₁₀(1 + 50) = 34.1 dB  (excellent RFI suppression)
+
+Minimum useful Z_choke for antenna feedpoint balun: ≥ 1000 Ω
+Good practice target: ≥ 2000 Ω across entire operating frequency range
+Excellent: ≥ 5000 Ω (type 31 material, multi-core stacked)
+
+================================================================================
+CORE MATERIAL SELECTION
+================================================================================
+
+BAND COVERAGE vs. OPTIMUM MIX:
+
+  Band(s)          | f range (MHz) | Best Mix | A_L (nH/N²) | Notes
+  -----------------|---------------|----------|-------------|-------------------
+  160M only        | 1.8           | 75, 77   | 8500, 7500  | High µ LF core
+  160M + 80M       | 1.8–3.5       | 31       | 1800 (FT-240)| Broadband HF
+  80M – 40M        | 3.5–7         | 31, 43   | 1800, 1100  | Overlap region
+  40M – 10M        | 7–28          | 43       | 1100        | Mid-HF optimum
+  20M – 6M         | 14–50         | 43, 61   | 1100, 195   | Upper HF + 6M
+  6M – 2M          | 50–144        | 61       | 195         | VHF entry
+  VHF/UHF          | 144–1300      | 61, 52   | 195, 40     | Use sleeve balun
+
+CHOKING IMPEDANCE (|Z| in Ω) for FT-240 core with N turns:
+
+Mix 31, FT-240-31, A_L = 1800 nH/N²:
+  N=10 turns: L = 100 × 1800 nH = 180 µH
+
+  f (MHz) | R (Ω) | jX (Ω) | |Z| (Ω) | Note
+  --------|-------|--------|---------|------------------------------------
+    1.8   |  450  |  2040  |  2090   | Good 160M choking
+    3.5   |  750  |  3100  |  3190   | Excellent 80M
+    7.0   | 1500  |  3900  |  4180   | Peak region 40M
+   10.1   | 2200  |  3600  |  4220   | 30M best
+   14.0   | 3200  |  2800  |  4250   | 20M excellent
+   18.1   | 3800  |  1900  |  4240   | 17M good
+   21.0   | 3900  |  1200  |  4080   | 15M good
+   24.9   | 3800  |   600  |  3850   | 12M acceptable
+   28.0   | 3600  |   200  |  3605   | 10M diminishing
+   50.0   | 1800  |  -400  |  1844   | 6M marginal (use Mix 43 instead)
+
+Mix 43, FT-240-43, A_L = 1100 nH/N²:
+  N=12 turns: L = 144 × 1100 nH = 158.4 µH
+
+  f (MHz) | R (Ω) | jX (Ω) | |Z| (Ω) | Note
+  --------|-------|--------|---------|------------------------------------
+    3.5   |  210  |  2450  |  2460   | 80M marginal (prefer Mix 31)
+    7.0   |  550  |  4200  |  4236   | 40M good
+   10.1   | 1100  |  5400  |  5511   | 30M excellent
+   14.0   | 2800  |  5100  |  5819   | 20M peak — best choice
+   18.1   | 4100  |  4200  |  5874   | 17M peak
+   21.0   | 5000  |  3600  |  6153   | 15M peak
+   24.9   | 5800  |  2800  |  6434   | 12M excellent
+   28.0   | 6000  |  2200  |  6393   | 10M excellent
+   50.0   | 4800  |   800  |  4866   | 6M very good
+  144.0   | 1200  |  -600  |  1342   | 2M marginal; use Mix 61 above 100 MHz
+
+================================================================================
+DESIGN 1: FT-240-31 BROADBAND HF CHOKE (160M–15M)
+================================================================================
+
+Core: FT-240-31 (Mix 31), 61mm OD, 35mm ID, 12.7mm height
+Cable: RG-8X (8.4mm OD), or RG-58 (5mm OD)
+Turns: 10–12
+
+WINDING PROCEDURE:
+  10 turns RG-8X on FT-240-31:
+  1. Cut 2.2m of RG-8X.
+  2. Mark center of core with tape.
+  3. Pass coax through core hole; leave 30cm tail for connector.
+  4. Wind 10 turns in same direction (CW looking at core face).
+     Space turns evenly; occupy ~300° of core circumference.
+     Final gap ~60° between first and last turn (avoid exceeding 320°).
+  5. Leave 30cm tail for second connector.
+  6. Seal core in weatherproof enclosure (see OpenSCAD design).
+
+TURNS COUNT vs. PERFORMANCE (FT-240-31, RG-8X):
+
+  Turns | Z @3.5 MHz | Z @14 MHz | Max power (CW) | Core temp rise
+  ------|-----------|----------|----------------|---------------
+    8   |  2100 Ω   |  2750 Ω  |   1500W        | <10°C @ 100W
+   10   |  3200 Ω   |  4250 Ω  |   1500W        | <12°C @ 100W
+   12   |  4500 Ω   |  5900 Ω  |   1000W        | <15°C @ 100W
+   14   |  5800 Ω   |  7200 Ω  |   600W         | ~20°C @ 100W
+  Note: More turns → higher common-mode impedance but also slightly more
+  differential loss and greater inter-winding capacitance (limits upper freq).
+
+RECOMMENDED TURNS BY OPERATING BAND:
+
+  Operating band(s) | Core    | Turns | Coax       | Comment
+  ------------------|---------|-------|------------|---------------------------
+  160M–80M (CW/DX)  | FT-240-31| 12–14| RG-8X     | Stack 2 cores for extra Z
+  160M–40M (general)| FT-240-31| 10   | RG-8X     | Standard all-HF choke
+  80M–20M           | FT-240-31|  8   | RG-58     | Compact, adequate for QRP
+  40M–10M           | FT-240-43| 12   | RG-8X     | Upper HF preferred
+  20M–6M            | FT-240-43|  8   | RG-8X     | Mix 43 advantage above 14 MHz
+
+SCHEMATIC REPRESENTATION:
+
+  COAX IN ──── CM CHOKE ─────────────────────── COAX OUT
+             (inner coax)
+             ══════════════════════════════════   ← signal passes, no change
+             (outer shield - differential mode)
+
+  Common-mode equivalent circuit:
+                    Z_choke
+  shield ──────────/\/\/\/\/──────────────── shield
+  (CM path)     (ferrite toroid)      (CM path out)
+
+  The toroid ONLY affects the common-mode (one-way) current on shield.
+  Differential mode (signal between center conductor and shield) unaffected.
+
+================================================================================
+DESIGN 2: STACKED FT-240-31 + FT-240-43 WIDEBAND CHOKE (160M–10M)
+================================================================================
+
+Two cores stacked (concentric, wound as one unit) provide higher total impedance
+and flatter response across 1.8–28 MHz.
+
+Stack: FT-240-31 (bottom) + FT-240-43 (top), dimensions match
+Cable: RG-8X, 8 turns through both stacked cores
+
+INDIVIDUAL AND COMBINED IMPEDANCE:
+
+  f (MHz) | Z_31 (8t) | Z_43 (8t) | Z_combined | Improvement
+  --------|-----------|-----------|------------|------------
+    1.8   |  1350 Ω   |   310 Ω   |  1660 Ω    | +23%
+    3.5   |  2000 Ω   |   620 Ω   |  2620 Ω    | +31%
+    7.0   |  2700 Ω   |  1980 Ω   |  4680 Ω    | +73%
+   14.0   |  2750 Ω   |  3850 Ω   |  6600 Ω    | excellent
+   21.0   |  2620 Ω   |  5220 Ω   |  7840 Ω    | excellent
+   28.0   |  2320 Ω   |  5440 Ω   |  7760 Ω    | excellent
+
+Stacking is the recommended approach for multi-band operation (contest station,
+field day, Field operation QRP).  Two cores add only 27g and minimal bulk.
+
+STACKING PROCEDURE:
+  1. Align two cores face-to-face; tape together with self-amalgamating tape.
+  2. Mark the resulting compound core as one unit.
+  3. Wind 8 turns of RG-8X through BOTH cores simultaneously (treat as one core).
+  4. Each pass of coax through both holes counts as 1 turn.
+
+================================================================================
+DESIGN 3: FT-140-43 COMPACT CHOKE (20M–10M, QRP/portable)
+================================================================================
+
+Core: FT-140-43 (Mix 43), 35.5mm OD, 23mm ID, 12.7mm height
+Weight: 16g (very portable)
+Cable: RG-58 or RG-174 (fits through 23mm ID easily)
+
+WINDING (RG-58, 12 turns FT-140-43):
+  Pass RG-58 through 12 times; total coax used ≈ 12 × (π × 0.03) = 1.1m
+  Maximum turns limited by ID and cable diameter:
+    RG-58 OD = 5mm; ID = 23mm; circumference = 72mm
+    Maximum turns before cable won't fit: ~10–11 turns RG-58
+
+PERFORMANCE FT-140-43, 10 turns RG-58:
+
+  f (MHz) | |Z| (Ω)
+  --------|--------
+    7     |  1950
+   14     |  3600
+   21     |  4400
+   28     |  4200
+   50     |  2800
+
+Excellent portable QRP choke for 40M–6M backpack operating.
+
+================================================================================
+COMMON-MODE REJECTION TABLE (dBs of isolation)
+================================================================================
+
+CMR = 20 × log₁₀(1 + |Z_choke| / |Z_CM_path|)
+
+Assuming common-mode path impedance = 150 Ω (typical antenna feedpoint/ground):
+
+  Configuration              | f (MHz) | |Z| (Ω) | CMR (dB)
+  ---------------------------|---------|---------|----------
+  FT-240-31, 10t, 3.5 MHz    |   3.5   |  3190   |  26.5
+  FT-240-31, 10t, 7 MHz      |   7.0   |  4180   |  29.4
+  FT-240-31, 10t, 14 MHz     |  14.0   |  4250   |  29.6
+  FT-240-43, 12t, 14 MHz     |  14.0   |  5819   |  31.9
+  FT-240-43, 12t, 21 MHz     |  21.0   |  6153   |  32.3
+  Stacked 31+43, 8t, 14 MHz  |  14.0   |  6600   |  32.9
+  Stacked 31+43, 8t, 21 MHz  |  21.0   |  7840   |  34.4
+  2× FT-240-31 stacked, 10t  |   7.0   |  8360   |  35.0
+  (double the Z_31 from table)
+  4× FT-240-31 stacked, 8t   |   7.0   | ~16000  |  40.6
+
+Note: 4-core stacks (W1JR style balun) are used for competitive contest stations
+where maximum common-mode isolation is required.  They are not portable-friendly
+but can be fixed-installed at antenna feedpoints.
+
+================================================================================
+POWER HANDLING
+================================================================================
+
+Ferrite core power handling is limited by:
+1. Core temperature rise (Curie temp of Mix 31 = 230°C; Mix 43 = 200°C)
+2. Coax voltage breakdown (not normally limiting at legal power levels)
+3. SWR: high SWR concentrates voltage/current at specific points on feed line
+
+At 100W CW, 10t FT-240-31, SWR = 1:1: temperature rise < 10°C (safe indefinitely)
+At 100W CW, 10t FT-240-31, SWR = 3:1: temperature rise < 25°C (still safe)
+At 1500W CW, 8t FT-240-31, SWR = 1:1: temperature rise < 50°C (safe in cool weather)
+At 1500W CW, 8t FT-240-31, SWR = 3:1: temperature rise ≈ 80°C (monitor, limit key-down)
+
+QRP operation (5W): no thermal concerns with any toroid configuration.
+
+================================================================================
+PARTS LIST — TOROID CHOKES
+================================================================================
+
+Item | Qty | Designation    | Description                        | Source
+-----|-----|----------------|------------------------------------|--------
+T1   |  1  | FT-240-31      | Mix 31 toroid, 61mm OD             | Palomar, Mouser
+T2   |  1  | FT-240-43      | Mix 43 toroid, 61mm OD             | Palomar, Mouser
+T3   |  1  | FT-140-43      | Mix 43 toroid, 35.5mm OD (portable)| Palomar, Mouser
+     | 2.5m| RG-8X          | 0.77 cm² RG-8X coax, per choke    | CommScope, Ham store
+     | 2.0m| RG-58          | Thinner coax for compact/QRP choke | any
+J1,2 |  2  | PL-259/SO-239  | UHF connectors, silver             | Amphenol
+J_N  |  2  | N-type (opt)   | N-type for weatherproof install    | Amphenol
+     |  1  | Enclosure      | See openscad/enclosure_choke_hf    | 3D printed
+     |     | Self-amal. tape| Weatherproof coil wrapping         | 3M or Scotch
+
+================================================================================

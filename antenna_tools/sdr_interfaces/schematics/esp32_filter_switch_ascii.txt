@@ -1,0 +1,269 @@
+================================================================================
+  esp32_filter_switch_ascii.txt — TM-SDR-SCH-006 Rev A
+  ESP32 SDR Controller — Filter Switching, Attenuator Control, Web/BT Interface
+  Full Control Circuit for SDR Preselector + Upconverter + Gain Stage
+  Document: TM-SDR-SCH-006 Rev A
+================================================================================
+
+OVERVIEW
+--------
+  The ESP32 serves as the system controller for the SDR interface hub:
+  - 16-band preselector selection via 74HC154 decoder
+  - PE4302 attenuator control via SPI
+  - LNA enable/bypass relay
+  - Upconverter bypass relay
+  - Bias-T enable
+  - AD8307 RSSI readback
+  - WiFi AP + web server (HTML/JavaScript band selector UI)
+  - Bluetooth Serial to CYD display
+  - USB-Serial (programming and debug)
+
+ESP32 DEVKIT PINOUT ASSIGNMENT
+---------------------------------
+  Pin    GPIO    Function                    Direction   Notes
+  ────────────────────────────────────────────────────────────────────────
+  34     GPIO34  AD8307_RSSI_ADC             IN          ADC1_CH6, no output
+  35     GPIO35  (reserved, ADC1_CH7)        IN          spare ADC
+  32     GPIO32  (spare or Si5351 I2C SDA)   I/O         optional
+  33     GPIO33  BPF_EN (74HC154 enable)     OUT         active HIGH
+  25     GPIO25  BPF_A0 (decoder bit 0)      OUT         band select LSB
+  26     GPIO26  BPF_A1 (decoder bit 1)      OUT
+  27     GPIO27  BPF_A2 (decoder bit 2)      OUT
+  14     GPIO14  BPF_A3 (decoder bit 3)      OUT         band select MSB
+  18     GPIO18  SPI_CLK (PE4302)            OUT         VSPI CLK
+  19     GPIO19  SPI_MISO (unused here)      IN          VSPI MISO (not used)
+  23     GPIO23  SPI_MOSI / ATT_DATA         OUT         VSPI MOSI
+  5      GPIO5   ATT_LE (PE4302 latch)       OUT         VSPI CS
+  2      GPIO2   GPIO_LNA                    OUT         LNA relay (ULN2003A)
+  4      GPIO4   GPIO_BYPASS                 OUT         upconverter bypass
+  16     GPIO16  GPIO_BIASTEE                OUT         bias-T enable
+  17     GPIO17  GPIO_BPFSEL                 OUT         BPF/wideband select
+  21     GPIO21  I2C_SDA                     I/O         for OLED, optional
+  22     GPIO22  I2C_SCL                     OUT         for OLED, optional
+  1      TXD0    UART0 TX                    OUT         USB-serial debug
+  3      RXD0    UART0 RX                    IN          USB-serial debug
+  EN     EN      Reset                       —           via 10kΩ to 3.3V
+  ────────────────────────────────────────────────────────────────────────
+
+SCHEMATIC — ESP32 CORE CIRCUIT
+---------------------------------
+  ESP32 DevKit V1 (38-pin, 30-pin, or ESP32-WROOM-32 module):
+
+  Power:
+    USB-B or Micro-USB → AMS1117-3.3 → 3.3V to ESP32 VIN
+    OR: 5V from external → ESP32 5V pin
+    Decoupling: 100 µF + 100 nF at 3.3V rail near ESP32
+
+  BOOT/EN circuit (standard):
+    BOOT: 10kΩ pullup to 3.3V; momentary switch to GND
+    EN:   10kΩ pullup to 3.3V; 100 nF to GND; momentary switch to GND
+    Auto-reset (USB programming): DTR → 100nF → EN; RTS → 100nF → GPIO0
+
+SCHEMATIC — 74HC154 DECODER AND RELAY DRIVER
+----------------------------------------------
+
+    ESP32                74HC154 (24-pin DIP or SOIC)
+    ──────              ──────────────────────────────
+    GPIO25 ──────────── A0 (pin 23)
+    GPIO26 ──────────── A1 (pin 22)
+    GPIO27 ──────────── A2 (pin 21)
+    GPIO14 ──────────── A3 (pin 20)
+    GPIO33 ──── 74HC04 INV ── /G1 (pin 24)  ← active LOW enable on 74HC154
+    GND ─────────────── G2 (pin 23... depends on variant)
+
+    NOTE: 74HC154 enable is active LOW (/G1, /G2 both must be LOW for operation).
+    GPIO33 HIGH → 74HC04 inverts → /G1 = LOW → decoder enabled.
+    GPIO33 LOW  → /G1 = HIGH → all outputs HIGH (no relay driven).
+
+    74HC154 Output Y0–Y15 (active LOW when selected):
+    Each output → 74HC04 inverter → ULN2003A input → relay coil
+
+    74HC04 (6× inverter, DIP-14):
+      Uses 3× 74HC04 chips (or 2× 74HC14 Schmitt-trigger for cleaner edges).
+      Each inverter: IN from 74HC154 Yn → OUT to ULN2003A INn.
+
+    ULN2003A (7× Darlington, DIP-16):
+      IN1–IN7 from 74HC04 outputs (3.3V logic compatible — spec says 2.4V min)
+      OUT1–OUT7 → relay coil pin (−) (collector of output Darlington, sinks current)
+      COM (pin 9): +5V (connected to the inductive load kickback protection diode)
+      Relay coil (+): +5V rail
+      Relay coil (−): ULN2003A OUTn
+
+    Need 3× ULN2003A for 16 relay outputs (16 < 3×7 = 21).
+
+    POWER SUPPLY FOR RELAYS:
+      Relay coils: 5V, ~30 mA each.
+      Max simultaneous relays: 1 (only one band selected at a time).
+      Total relay power: 30 mA typical, 60 mA worst case (transition).
+      Use: separate 5V relay supply from VBUS, 100 µF bypass cap.
+
+SCHEMATIC — PE4302 SPI CONNECTION
+------------------------------------
+  ESP32 uses VSPI (hardware SPI, 80 MHz max):
+    GPIO18 → PE4302 CLK
+    GPIO23 → PE4302 DATA
+    GPIO5  → PE4302 LE (latch enable)
+
+  PE4302 SPI protocol:
+    - 6-bit serial word, LSB first
+    - Clock idle LOW, data valid on rising edge (SPI mode 0)
+    - After 6 clocks: pulse LE HIGH for >1 µs, then LOW
+
+    Arduino SPI usage:
+      SPI.beginTransaction(SPISettings(1000000, LSBFIRST, SPI_MODE0));
+      SPI.transfer(att_word & 0x3F);  // 6-bit word
+      digitalWrite(PIN_ATT_LE, HIGH);
+      delayMicroseconds(2);
+      digitalWrite(PIN_ATT_LE, LOW);
+      SPI.endTransaction();
+
+    att_word bits: [bit5=16dB][bit4=8dB][bit3=4dB][bit2=2dB][bit1=1dB][bit0=0.5dB]
+    Examples:
+      0b000000 = 0 dB (all-pass)
+      0b000001 = 0.5 dB
+      0b000011 = 1.5 dB
+      0b100000 = 16 dB
+      0b111111 = 31.5 dB
+
+SCHEMATIC — RELAY CONTROL (LNA, BYPASS, BIAS-T)
+--------------------------------------------------
+  Three single-relay controls:
+
+  GPIO2 (LNA) → ULN2003A → K_LNA coil
+    K_LNA contacts: route signal through or bypass SPF5189Z LNA
+
+  GPIO4 (BYPASS) → ULN2003A → K_BYPASS coil
+    K_BYPASS contacts: bypass entire upconverter (for 6m+ direct to RTL-SDR)
+
+  GPIO16 (BIAS-T) → ULN2003A → K_BIASTEE coil
+    K_BIASTEE contacts: enable/disable DC injection via bias-T
+
+  All three share one ULN2003A with the PE4302 SPI (different I/O).
+
+SCHEMATIC — AD8307 TO ESP32 ADC
+----------------------------------
+  AD8307 output (0–2.5V) → GPIO34 (ADC1_CH6, 12-bit, 0–3.3V range)
+
+  ADC configuration:
+    analogSetAttenuation(ADC_11db);  // 0–3.3V range (but nonlinear above 2.5V)
+    analogReadResolution(12);         // 0–4095 counts
+
+  Calibration formula:
+    V_adc = (analogRead(PIN_RSSI) × 3.3) / 4095.0
+    RSSI_dBm = (V_adc / 0.025) − 84.0
+
+  ESP32 ADC note: ADC1 channels 0–7 are on GPIO36,39,34,35,32,33,25,26.
+    GPIO36 (ADC1_CH0) = best accuracy (separate input).
+    GPIO34 (ADC1_CH6) = also usable.
+    WiFi uses ADC2; do NOT use ADC2 channels when WiFi active.
+    Use ADC1 channels only (GPIO32–39 and GPIO36, GPIO39).
+
+SCHEMATIC — I2C (OPTIONAL OLED/SENSOR BUS)
+---------------------------------------------
+  GPIO21 (SDA) → pull up to 3.3V via 4.7 kΩ
+  GPIO22 (SCL) → pull up to 3.3V via 4.7 kΩ
+
+  Devices on I2C bus:
+    0x3C: SSD1306 128×32 OLED display (optional front panel)
+    0x44: SHT31 temperature/humidity (optional environmental monitor)
+
+  OLED displays:
+    Band: "40M 7.150 MHz"
+    ATT:  "ATT: +10 dB"
+    LNA:  "LNA: ON"
+    RSSI: "RSSI: -32 dBm"
+
+POWER SUPPLY SCHEMATIC
+------------------------
+  Input: 5V via USB Micro-B J1 (or barrel jack J2 with 7805 regulator)
+
+  J1 VBUS ── F1 (PTC 1A) ── D1 (SS14) ── V5_rail
+  V5_rail ── U_LDO (AMS1117-3.3, SOT-223):
+    IN: V5_rail
+    OUT: V33_rail ── C1 (10 µF) || C2 (100 nF) ── GND
+
+  V5_rail (5V): powers relays, ULN2003A
+  V33_rail (3.3V): powers ESP32, 74HC154, 74HC04, PE4302
+
+  Current budget:
+    ESP32 active (WiFi):  240 mA
+    74HC154 × 1:            5 mA
+    74HC04 × 3:             3 mA
+    ULN2003A × 3:           3 mA (quiescent)
+    One relay (30 mA):     30 mA (peaks during switching)
+    PE4302:                 2 mA
+    AD8307:                 8 mA
+    OLED:                  20 mA
+    ─────────────────────────
+    Total: ~310 mA maximum (USB compliant if USB 2.0 500 mA)
+
+  Use quality USB cable ≥26 AWG for >300 mA loads.
+
+FULL SYSTEM INTERCONNECT
+--------------------------
+
+  SYSTEM BLOCK:
+  ┌─────────────────────────────────────────────────────────────────┐
+  │                    SDR INTERFACE HUB                            │
+  │                                                                 │
+  │ [Ant SMA] → [Bias-T] → [BPF Board] → [ATT/LNA] → [Upconv] → [SDR] │
+  │                │           │              │           │             │
+  │           [K_BIASTEE]  [74HC154]     [PE4302]    [K_BYPASS]       │
+  │                │           │         [SPF5189Z]      │             │
+  │           [ESP32 GPIO] [ESP32 GPIO]  [AD8307]  [ESP32 GPIO]       │
+  │                │           │              │                        │
+  │           ─────┴───────────┴──────────────┴────────────────       │
+  │                          ESP32 CORE                               │
+  │                    [WiFi AP] [BT Serial]                          │
+  │                    [Web Server] [USB Debug]                       │
+  └─────────────────────────────────────────────────────────────────┘
+
+  INTER-BOARD CONNECTORS:
+    J_BPF (8-pin 2.54mm IDC):
+      Pin 1: +5V relay supply
+      Pin 2: GND
+      Pin 3: BPF_A0
+      Pin 4: BPF_A1
+      Pin 5: BPF_A2
+      Pin 6: BPF_A3
+      Pin 7: BPF_EN
+      Pin 8: GND
+
+    J_ATT (8-pin 2.54mm IDC):
+      Pin 1: +3.3V
+      Pin 2: GND
+      Pin 3: SPI_CLK
+      Pin 4: SPI_DATA
+      Pin 5: ATT_LE
+      Pin 6: RSSI_ADC (AD8307 out)
+      Pin 7: GPIO_LNA
+      Pin 8: GND
+
+    J_UPCONV (6-pin):
+      Pin 1: +5V
+      Pin 2: GND
+      Pin 3: GPIO_BYPASS
+      Pin 4: GPIO_BIASTEE
+      Pin 5: TX (3.3V UART, to upconverter MCU if present)
+      Pin 6: RX
+
+BILL OF MATERIALS — ESP32 CONTROLLER BOARD
+--------------------------------------------
+  Qty  Part            Value/Type              Package
+  ─────────────────────────────────────────────────────────────────
+   1   ESP32-WROOM-32  Module or DevKit        30-pin or 38-pin
+   1   AMS1117-3.3     LDO regulator           SOT-223
+   1   74HC154         4-to-16 decoder         DIP-24 or SOIC-24
+   3   74HC04          Hex inverter             DIP-14 or SOIC-14
+   3   ULN2003A        Darlington array        DIP-16
+   1   USB Micro-B     connector               PCB
+   1   SS14            Schottky diode          SMA
+   1   PTC F1          1A polyfuse             1812
+   10  4.7 kΩ          I2C pullups + GPIO      0805
+   10  100 nF          ceramic bypass          0402/0805
+   2   10 µF           tantalum                case B
+   1   SSD1306         128×32 OLED (optional)  0.91"
+   4   SMA             edge mount              PCB (ant, RF out, etc.)
+   2   IDC 8-pin       headers 2.54mm          PCB
+
+================================================================================

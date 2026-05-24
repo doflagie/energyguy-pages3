@@ -1,0 +1,147 @@
+// TM-VCAP-CAL-002 Rev A  Variable Capacitor Plate Geometry Tables
+// All dimensions in mm unless noted
+// z_position: distance from front bearing face to plate center
+// Plate spacing d is AIR gap between adjacent stator/rotor faces
+// Stator plates mounted on insulating rods; rotor plates press-fit or pinned to shaft
+// First plate (z=0) is STATOR; stacking: S-R-S-R-S... (stator-rotor alternating)
+// Shaft hole dia = shaft_dia + 0.1 mm clearance for stator; press-fit for rotor
+// Frame depth D = (n_total_plates-1)×(d+t) + t + 2×bearing_boss = shaft_travel + margin
+//
+// --- VC-QRP (50×50×45mm frame) ---
+// plate_t=0.4mm, d=0.5mm, pitch=(0.4+0.5)=0.9mm
+// 16 rotor + 17 stator = 33 plates; shaft travel=32×0.9=28.8mm; frame D=28.8+8+8=44.8≈45mm
+// Shaft: 4mm Ø aluminum rod; bearing: 2× PTFE bushing 4mm ID × 8mm OD × 5mm L
+//
+design_id,plate_number,plate_type,z_position_mm,plate_od_mm,plate_radius_mm,center_hole_dia_mm,plate_thickness_mm,material,notes
+VC-QRP,1,stator,0.2,40.0,20.0,8.1,0.4,Aluminum 1100,"Outer plate; mount on two 2mm Ø PTFE rods at 35mm radius"
+VC-QRP,2,rotor,0.9,40.0,20.0,4.0,0.4,Aluminum 1100,"Press-fit on 4mm shaft; 4.0mm Ø hole"
+VC-QRP,3,stator,1.6,40.0,20.0,8.1,0.4,Aluminum 1100,""
+VC-QRP,4,rotor,2.3,40.0,20.0,4.0,0.4,Aluminum 1100,""
+VC-QRP,5,stator,3.0,40.0,20.0,8.1,0.4,Aluminum 1100,""
+VC-QRP,6,rotor,3.7,40.0,20.0,4.0,0.4,Aluminum 1100,""
+VC-QRP,7,stator,4.4,40.0,20.0,8.1,0.4,Aluminum 1100,""
+VC-QRP,8,rotor,5.1,40.0,20.0,4.0,0.4,Aluminum 1100,""
+VC-QRP,9,stator,5.8,40.0,20.0,8.1,0.4,Aluminum 1100,""
+VC-QRP,10,rotor,6.5,40.0,20.0,4.0,0.4,Aluminum 1100,""
+VC-QRP,11,stator,7.2,40.0,20.0,8.1,0.4,Aluminum 1100,""
+VC-QRP,12,rotor,7.9,40.0,20.0,4.0,0.4,Aluminum 1100,""
+VC-QRP,13,stator,8.6,40.0,20.0,8.1,0.4,Aluminum 1100,""
+VC-QRP,14,rotor,9.3,40.0,20.0,4.0,0.4,Aluminum 1100,""
+VC-QRP,15,stator,10.0,40.0,20.0,8.1,0.4,Aluminum 1100,""
+VC-QRP,16,rotor,10.7,40.0,20.0,4.0,0.4,Aluminum 1100,""
+VC-QRP,17,stator,11.4,40.0,20.0,8.1,0.4,Aluminum 1100,""
+VC-QRP,18,rotor,12.1,40.0,20.0,4.0,0.4,Aluminum 1100,""
+VC-QRP,19,stator,12.8,40.0,20.0,8.1,0.4,Aluminum 1100,""
+VC-QRP,20,rotor,13.5,40.0,20.0,4.0,0.4,Aluminum 1100,""
+VC-QRP,21,stator,14.2,40.0,20.0,8.1,0.4,Aluminum 1100,""
+VC-QRP,22,rotor,14.9,40.0,20.0,4.0,0.4,Aluminum 1100,""
+VC-QRP,23,stator,15.6,40.0,20.0,8.1,0.4,Aluminum 1100,""
+VC-QRP,24,rotor,16.3,40.0,20.0,4.0,0.4,Aluminum 1100,""
+VC-QRP,25,stator,17.0,40.0,20.0,8.1,0.4,Aluminum 1100,""
+VC-QRP,26,rotor,17.7,40.0,20.0,4.0,0.4,Aluminum 1100,""
+VC-QRP,27,stator,18.4,40.0,20.0,8.1,0.4,Aluminum 1100,""
+VC-QRP,28,rotor,19.1,40.0,20.0,4.0,0.4,Aluminum 1100,""
+VC-QRP,29,stator,19.8,40.0,20.0,8.1,0.4,Aluminum 1100,""
+VC-QRP,30,rotor,20.5,40.0,20.0,4.0,0.4,Aluminum 1100,""
+VC-QRP,31,stator,21.2,40.0,20.0,8.1,0.4,Aluminum 1100,""
+VC-QRP,32,rotor,21.9,40.0,20.0,4.0,0.4,Aluminum 1100,""
+VC-QRP,33,stator,22.6,40.0,20.0,8.1,0.4,Aluminum 1100,"Outer plate; connects to stator terminal"
+//
+// --- VC-HF100 (80×80×70mm frame) ---
+// plate_t=0.5mm, d=1.5mm, pitch=2.0mm
+// 14 rotor + 15 stator = 29 plates; shaft travel=28×2.0=56mm; frame D=56+7+7=70mm
+// Shaft: 6mm Ø brass rod; bearing: 2× PTFE bushing 6mm ID × 10mm OD × 7mm L
+//
+VC-HF100,1,stator,0.25,60.0,30.0,10.2,0.5,Brass C260,"First stator; solder wire to stator bus"
+VC-HF100,2,rotor,1.75,60.0,30.0,6.0,0.5,Brass C260,"Press-fit 6mm hole"
+VC-HF100,3,stator,3.25,60.0,30.0,10.2,0.5,Brass C260,""
+VC-HF100,4,rotor,4.75,60.0,30.0,6.0,0.5,Brass C260,""
+VC-HF100,5,stator,6.25,60.0,30.0,10.2,0.5,Brass C260,""
+VC-HF100,6,rotor,7.75,60.0,30.0,6.0,0.5,Brass C260,""
+VC-HF100,7,stator,9.25,60.0,30.0,10.2,0.5,Brass C260,""
+VC-HF100,8,rotor,10.75,60.0,30.0,6.0,0.5,Brass C260,""
+VC-HF100,9,stator,12.25,60.0,30.0,10.2,0.5,Brass C260,""
+VC-HF100,10,rotor,13.75,60.0,30.0,6.0,0.5,Brass C260,""
+VC-HF100,11,stator,15.25,60.0,30.0,10.2,0.5,Brass C260,""
+VC-HF100,12,rotor,16.75,60.0,30.0,6.0,0.5,Brass C260,""
+VC-HF100,13,stator,18.25,60.0,30.0,10.2,0.5,Brass C260,""
+VC-HF100,14,rotor,19.75,60.0,30.0,6.0,0.5,Brass C260,""
+VC-HF100,15,stator,21.25,60.0,30.0,10.2,0.5,Brass C260,""
+VC-HF100,16,rotor,22.75,60.0,30.0,6.0,0.5,Brass C260,""
+VC-HF100,17,stator,24.25,60.0,30.0,10.2,0.5,Brass C260,""
+VC-HF100,18,rotor,25.75,60.0,30.0,6.0,0.5,Brass C260,""
+VC-HF100,19,stator,27.25,60.0,30.0,10.2,0.5,Brass C260,""
+VC-HF100,20,rotor,28.75,60.0,30.0,6.0,0.5,Brass C260,""
+VC-HF100,21,stator,30.25,60.0,30.0,10.2,0.5,Brass C260,""
+VC-HF100,22,rotor,31.75,60.0,30.0,6.0,0.5,Brass C260,""
+VC-HF100,23,stator,33.25,60.0,30.0,10.2,0.5,Brass C260,""
+VC-HF100,24,rotor,34.75,60.0,30.0,6.0,0.5,Brass C260,""
+VC-HF100,25,stator,36.25,60.0,30.0,10.2,0.5,Brass C260,""
+VC-HF100,26,rotor,37.75,60.0,30.0,6.0,0.5,Brass C260,""
+VC-HF100,27,stator,39.25,60.0,30.0,10.2,0.5,Brass C260,""
+VC-HF100,28,rotor,40.75,60.0,30.0,6.0,0.5,Brass C260,""
+VC-HF100,29,stator,42.25,60.0,30.0,10.2,0.5,Brass C260,"Last stator; solder wire to stator terminal"
+//
+// --- VC-TX (120×120×90mm frame) ---
+// plate_t=1.0mm, d=4.0mm, pitch=5.0mm
+// 10 rotor + 11 stator = 21 plates; shaft travel=20×5.0=100mm — NOTE: exceeds frame D=90mm
+// Correction: reduce to shaft travel=80mm with plates only 16 per side:
+// Revised: 8 rotor + 9 stator = 17 plates; pitch=5mm; travel=16×5=80mm; frame D=80+5+5=90mm OK
+// Shaft: 8mm Ø silver-plate brass rod; bearing: 2× bronze bushing 8mm ID × 14mm OD × 8mm L
+// n_gaps = 2×8-1 = 15; C_max = 15 × 8.854e-12 × 2.513e-3 / 4e-3 = 84 pF (revised from 106)
+//
+VC-TX,1,stator,0.5,80.0,40.0,12.2,1.0,Silver-plate brass 1.0mm,"First stator; solder 12 AWG silver wire to stator bus"
+VC-TX,2,rotor,4.5,80.0,40.0,8.0,1.0,Silver-plate brass 1.0mm,"Press/pin 8mm hole; chamfer edges to prevent corona"
+VC-TX,3,stator,8.5,80.0,40.0,12.2,1.0,Silver-plate brass 1.0mm,""
+VC-TX,4,rotor,12.5,80.0,40.0,8.0,1.0,Silver-plate brass 1.0mm,""
+VC-TX,5,stator,16.5,80.0,40.0,12.2,1.0,Silver-plate brass 1.0mm,""
+VC-TX,6,rotor,20.5,80.0,40.0,8.0,1.0,Silver-plate brass 1.0mm,""
+VC-TX,7,stator,24.5,80.0,40.0,12.2,1.0,Silver-plate brass 1.0mm,""
+VC-TX,8,rotor,28.5,80.0,40.0,8.0,1.0,Silver-plate brass 1.0mm,""
+VC-TX,9,stator,32.5,80.0,40.0,12.2,1.0,Silver-plate brass 1.0mm,""
+VC-TX,10,rotor,36.5,80.0,40.0,8.0,1.0,Silver-plate brass 1.0mm,""
+VC-TX,11,stator,40.5,80.0,40.0,12.2,1.0,Silver-plate brass 1.0mm,""
+VC-TX,12,rotor,44.5,80.0,40.0,8.0,1.0,Silver-plate brass 1.0mm,""
+VC-TX,13,stator,48.5,80.0,40.0,12.2,1.0,Silver-plate brass 1.0mm,""
+VC-TX,14,rotor,52.5,80.0,40.0,8.0,1.0,Silver-plate brass 1.0mm,""
+VC-TX,15,stator,56.5,80.0,40.0,12.2,1.0,Silver-plate brass 1.0mm,""
+VC-TX,16,rotor,60.5,80.0,40.0,8.0,1.0,Silver-plate brass 1.0mm,""
+VC-TX,17,stator,64.5,80.0,40.0,12.2,1.0,Silver-plate brass 1.0mm,"Last stator; ALL plate edges must be rounded r≥0.5mm to suppress corona"
+//
+// --- VC-VHF (40×40×35mm frame) ---
+// plate_t=0.5mm, d=1.0mm, pitch=1.5mm
+// 8 rotor + 9 stator = 17 plates; shaft travel=16×1.5=24mm; frame D=24+5.5+5.5=35mm
+// Shaft: 4mm Ø brass; bearing: 2× PTFE bushing 4mm ID × 8mm OD × 4mm L
+//
+VC-VHF,1,stator,0.25,30.0,15.0,8.1,0.5,Brass C260,"VHF: minimize total wire length; use short solder lugs"
+VC-VHF,2,rotor,1.25,30.0,15.0,4.0,0.5,Brass C260,""
+VC-VHF,3,stator,2.25,30.0,15.0,8.1,0.5,Brass C260,""
+VC-VHF,4,rotor,3.25,30.0,15.0,4.0,0.5,Brass C260,""
+VC-VHF,5,stator,4.25,30.0,15.0,8.1,0.5,Brass C260,""
+VC-VHF,6,rotor,5.25,30.0,15.0,4.0,0.5,Brass C260,""
+VC-VHF,7,stator,6.25,30.0,15.0,8.1,0.5,Brass C260,""
+VC-VHF,8,rotor,7.25,30.0,15.0,4.0,0.5,Brass C260,""
+VC-VHF,9,stator,8.25,30.0,15.0,8.1,0.5,Brass C260,""
+VC-VHF,10,rotor,9.25,30.0,15.0,4.0,0.5,Brass C260,""
+VC-VHF,11,stator,10.25,30.0,15.0,8.1,0.5,Brass C260,""
+VC-VHF,12,rotor,11.25,30.0,15.0,4.0,0.5,Brass C260,""
+VC-VHF,13,stator,12.25,30.0,15.0,8.1,0.5,Brass C260,""
+VC-VHF,14,rotor,13.25,30.0,15.0,4.0,0.5,Brass C260,""
+VC-VHF,15,stator,14.25,30.0,15.0,8.1,0.5,Brass C260,""
+VC-VHF,16,rotor,15.25,30.0,15.0,4.0,0.5,Brass C260,""
+VC-VHF,17,stator,16.25,30.0,15.0,8.1,0.5,Brass C260,"Mount directly on PCB pads for shortest possible lead length"
+//
+// --- VC-UHF (25×25×20mm frame) ---
+// plate_t=0.3mm, d=0.5mm, pitch=0.8mm
+// 4 rotor + 5 stator = 9 plates; shaft travel=8×0.8=6.4mm; frame D=6.4+6.8+6.8=20mm
+// Shaft: 3mm Ø brass; bearing: 2× PTFE bushing 3mm ID × 6mm OD × 3mm L
+//
+VC-UHF,1,stator,0.15,16.0,8.0,6.1,0.3,Brass C260,"UHF: mount flush to PCB; stator directly soldered to ground plane"
+VC-UHF,2,rotor,0.8,16.0,8.0,3.0,0.3,Brass C260,"Rotor contact via spring finger to shaft"
+VC-UHF,3,stator,1.45,16.0,8.0,6.1,0.3,Brass C260,""
+VC-UHF,4,rotor,2.1,16.0,8.0,3.0,0.3,Brass C260,""
+VC-UHF,5,stator,2.75,16.0,8.0,6.1,0.3,Brass C260,""
+VC-UHF,6,rotor,3.4,16.0,8.0,3.0,0.3,Brass C260,""
+VC-UHF,7,stator,4.05,16.0,8.0,6.1,0.3,Brass C260,""
+VC-UHF,8,rotor,4.7,16.0,8.0,3.0,0.3,Brass C260,""
+VC-UHF,9,stator,5.35,16.0,8.0,6.1,0.3,Brass C260,"Lead length from plate to circuit node must be <3mm at 1296 MHz"

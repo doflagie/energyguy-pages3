@@ -1,0 +1,173 @@
+================================================================================
+SCHEMATIC: 2-WAY WILKINSON POWER DIVIDER
+TM-HYB-001  Rev A
+Equal-split, in-phase, resistive isolation
+50Ω system, covering 160M through 23cm ham bands
+================================================================================
+
+OVERVIEW
+--------
+The Wilkinson power divider splits an input signal into two equal-amplitude,
+in-phase outputs with resistive isolation between output ports.
+
+Design parameters:
+  Port impedance:      50 Ω (all three ports)
+  Quarter-wave arm Z:  Z_λ/4 = Z0 × √2 = 70.71 Ω
+  Isolation resistor:  R_iso = 2 × Z0 = 100 Ω
+  Split ratio:         Equal (3 dB nominal insertion loss each arm)
+  Phase difference:    0° (in-phase)
+  Typical isolation:   >20 dB
+  Typical return loss: >20 dB (matched)
+
+SCHEMATIC — TRANSMISSION LINE VERSION (VHF/UHF)
+-------------------------------------------------
+
+  PORT 1 (input, 50Ω)
+       │
+       ├──── λ/4 @ 70.71Ω ─────────── PORT 2 (output A, 50Ω)
+       │                                         │
+       │                                [R_iso = 100Ω]
+       │                                         │
+       └──── λ/4 @ 70.71Ω ─────────── PORT 3 (output B, 50Ω)
+
+  Each λ/4 arm: coaxial or microstrip, Z = 70.71 Ω
+
+  Coaxial implementation (50Ω → 70.71Ω):
+    Use RG-59 (75Ω) as 70.71Ω approximation; or
+    Construct semi-rigid coax with calculated OD/ID ratio:
+      Z = (138 / √εr) × log10(D/d)
+      For PTFE (εr = 2.1): D/d = 2.31 for 70.7Ω
+    Or wind on toroid/bead using parallel coaxes (2-wire line).
+
+SCHEMATIC — LUMPED ELEMENT VERSION (HF)
+-----------------------------------------
+Each λ/4 arm replaced by low-pass L-C T-network equivalent.
+T-network: L/2 – C – L/2 (series half-inductors, shunt capacitor)
+
+  PORT 1 ──┬───[L_a/2]──┬──[L_a/2]─── ─┬─── PORT 2
+           │            [C_a]           │
+           │             │              │
+           │            GND            [R_iso = 100Ω]
+           │                            │
+           └───[L_b/2]──┬──[L_b/2]─── ─┘─── PORT 3
+                        [C_b]
+                         │
+                        GND
+
+  Values: L_a = L_b, C_a = C_b (identical arms)
+  L (total per arm) = 70.7 / (2πf₀)  [in Henrys at f₀ Hz]
+  C (shunt)         = 1 / (2πf₀ × 70.7)
+  L/2 each side     = L / 2
+
+
+COMPONENT VALUES — LUMPED ELEMENT WILKINSON 2-WAY
+---------------------------------------------------
+
+  Band    f₀ (MHz)   L_total (µH)  L/2 (µH)  C_shunt (pF)  R_iso (Ω)
+  ----    --------   -----------   --------  ------------  ---------
+  160M     1.85      6.08          3.04       1216          100
+  80M      3.75      3.00          1.50        601          100
+  40M      7.15      1.574         0.787       315          100
+  30M     10.125     1.111         0.556       222          100
+  20M     14.175     0.793         0.397       159          100
+  17M     18.118     0.621         0.311       124          100
+  15M     21.225     0.530         0.265       106          100
+  12M     24.940     0.451         0.226        90          100
+  10M     28.850     0.390         0.195        78          100
+   6M     50.500     0.223         0.111        44.7         100
+
+  NOTE: Above 50 MHz, use coaxial or microstrip sections (lumped elements
+  degrade rapidly due to parasitic inductance/capacitance of components).
+
+COMPONENT VALUES — COAXIAL λ/4 SECTIONS (VHF/UHF/MICROWAVE)
+--------------------------------------------------------------
+
+  Band     f₀ (MHz)  λ/4 physical length*   Coax type (70.7Ω approx)
+  ----     --------  ---------------------  ------------------------
+   6M       50.5     1480 mm (146 cm)       RG-59 (75Ω, VF=0.66): 975 mm
+   2M      146       512 mm (51 cm)         RG-59: 337 mm
+  1.25M    223.5     335 mm                 RG-59: 220 mm
+  70cm     435       172 mm                 RG-59: 113 mm; or microstrip
+  33cm     915        82 mm                 microstrip preferred
+  23cm    1296        58 mm                 microstrip preferred
+
+  * Physical length = (c / (4 × f)) × VF
+    VF = velocity factor of line (0.66 for polyethylene, 0.82 for PTFE foam)
+    For RG-59 (VF=0.66): length = 4919 / f_MHz  mm
+
+MICROSTRIP WILKINSON (70cm / 33cm / 23cm)
+-------------------------------------------
+
+  70.71Ω microstrip on FR-4 (εr = 4.4, h = 1.6 mm):
+    w = 1.0 mm   (use Saturn PCB Toolkit to verify)
+    Effective εr ≈ 3.3
+    VF ≈ 1/√3.3 = 0.55
+    Physical λ/4 at 435 MHz: (68.9/435) × 1000 = 158 mm
+
+  100Ω isolation resistor:
+    Use SMD 0402 or 0603.
+    For outdoor/weatherproof use, MELF resistors are preferred.
+    Solder across output port pads (between port 2 and port 3 pads).
+
+PERFORMANCE SPECIFICATIONS
+---------------------------
+
+  Parameter           Ideal     Typical (well-built)
+  ---------           -----     --------------------
+  Insertion loss      3.01 dB   3.0–3.3 dB
+  Return loss (P1)    ∞ dB      >20 dB
+  Isolation (P2–P3)   ∞ dB      >20 dB (at design frequency)
+  Amplitude balance   0.0 dB    <0.2 dB
+  Phase balance       0.0°      <1°
+  Bandwidth (−1 dB)   0.7f–1.5f (approximately 2:1)
+  Maximum power       limited by R_iso and transmission line rating
+
+POWER HANDLING
+---------------
+  R_iso = 100Ω carries current only when outputs are mismatched.
+  For equal matched loads: R_iso dissipates zero power.
+  For fully mismatched (one port open): R_iso dissipates P_in/2.
+  Use 0.25W resistor for HF (< 5 W input).
+  Use 1W resistor for inputs up to 20 W.
+  Use 2W for inputs up to 50 W.
+
+WIDEBAND MULTI-SECTION WILKINSON
+----------------------------------
+For wider bandwidth (>2:1), cascade multiple sections with different
+λ/4 impedances (Chebyshev-stepped design):
+
+  2-section: Z1 = 62.1 Ω, Z2 = 80.2 Ω  → 4:1 bandwidth
+  3-section: Z1 = 58.1 Ω, Z2 = 70.7 Ω, Z3 = 85.9 Ω → 8:1 bandwidth
+
+  Isolation resistors: one 100Ω at each junction between sections.
+
+TOROID IMPLEMENTATION (HF LUMPED, HIGH POWER)
+----------------------------------------------
+For HF power levels >50 W:
+Replace L_total with toroidal inductor on mix-2 (yellow) or mix-6 (yellow/white):
+
+  Band  Core    Turns   Inductance target
+  ----  ----    -----   ----------------
+  160M  T-94-2  22t     6.1 µH
+  80M   T-94-2  16t     3.0 µH
+  40M   T-68-6  11t     1.57 µH
+  20M   T-50-6   9t     0.79 µH
+  10M   T-50-6   7t     0.39 µH
+
+  Wind close-spaced (bifilar NOT used — single wire).
+  Use #22 AWG magnet wire for 100W, #18 AWG for 500W.
+
+PARTS LIST — 2-WAY WILKINSON (ONE UNIT)
+-----------------------------------------
+
+  Ref    Qty  Value           Description
+  ---    ---  -----           -----------
+  L1, L2  2  per table       Inductors (see band-specific table above)
+  C1, C2  2  per table       NP0/C0G capacitors (see band-specific table)
+  R1      1  100Ω            Isolation resistor (0.25W–2W per power level)
+  J1      1  SMA or BNC      Input connector
+  J2, J3  2  SMA or BNC      Output connectors
+  PCB     1  —               Double-sided, 1 oz copper
+              (HF: perfboard with short wires; VHF/UHF: coax or microstrip)
+
+================================================================================

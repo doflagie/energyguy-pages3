@@ -1,0 +1,13 @@
+band,freq_mhz,element_type,core_or_form,n_turns,wire_awg,form_OD_mm,winding_length_mm,L_calc_uH,Q_est,Rcoil_ohm,notes
+160m,1.900,loop-inductor,open-air (pool noodle PE foam er=1.05),4,14,2546,3200,168.11,891,2.253,4-turn 2.0m square; loop IS the inductor; Rcoil includes all 4 turns skin loss
+80m,3.750,loop-inductor,open-air (pool noodle PE foam er=1.05),3,14,1910,2250,68.28,904,1.780,3-turn 1.5m square; total wire 18m
+40m,7.150,loop-inductor,open-air (pool noodle PE foam er=1.05),2,14,1528,1440,23.55,807,1.311,2-turn 1.2m square; total wire 9.6m
+30m,10.125,loop-inductor,open-air (pool noodle PE foam er=1.05),2,14,1273,1200,19.13,936,1.300,2-turn 1.0m square; total wire 8.0m
+20m,14.175,loop-inductor,open-air (pool noodle PE foam er=1.05),2,14,1146,1080,16.96,1091,1.385,2-turn 0.9m square; total wire 7.2m
+17m,18.118,loop-inductor,open-air (pool noodle PE foam er=1.05),1,14,1019,960,3.704,606,0.696,1-turn 0.8m square; total wire 3.2m
+15m,21.225,loop-inductor,open-air (pool noodle PE foam er=1.05),1,14,892,840,3.178,643,0.659,1-turn 0.7m square; total wire 2.8m
+12m,24.940,loop-inductor,open-air (pool noodle PE foam er=1.05),1,14,764,720,2.661,681,0.612,1-turn 0.6m square; total wire 2.4m
+10m,28.500,loop-inductor,open-air (pool noodle PE foam er=1.05),1,14,637,600,2.155,708,0.545,1-turn 0.5m square; total wire 2.0m
+160m-booster,1.900,parallel-Q-booster,T200-2 (red Mix-2 AL=4nH/t2),85,18,50.8,68,28.9,200,0.821,Optional parallel coil for Q enhancement; wind 85T #18AWG on T200-2 toroid; resonates at 1.9MHz in parallel with main loop
+80m-booster,3.750,parallel-Q-booster,T130-2 (red Mix-2 AL=4nH/t2),45,18,33.0,36,8.1,210,0.228,Optional parallel coil for 80m Q boost; 45T #18AWG on T130-2 toroid
+40m-booster,7.150,parallel-Q-booster,T106-2 (red Mix-2 AL=4nH/t2),28,18,27.0,22,3.14,220,0.101,Optional parallel coil for 40m Q boost; 28T #18AWG on T106-2 toroid

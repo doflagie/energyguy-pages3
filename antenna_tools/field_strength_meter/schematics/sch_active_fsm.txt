@@ -1,0 +1,243 @@
+================================================================================
+SCHEMATIC: ACTIVE FIELD STRENGTH METER
+TM-FSM-ACTIVE  Rev A
+MMIC Preamplifier + AD8307 Logarithmic Detector + Analog Meter
+Frequency Range: 1 MHz – 500 MHz
+Dynamic Range: −75 dBm to +10 dBm (85 dB)
+================================================================================
+
+OVERVIEW
+--------
+Active field strength meter providing calibrated logarithmic output.
+ERA-3SM MMIC preamplifier (20 dB gain, 0.1–3000 MHz) feeds an AD8307
+logarithmic detector (25 mV/dB slope, −75 to +17 dBm).
+Output: 0–2V DC proportional to input power in dBm.
+Drives analog meter M1 (1 mA FSD) and audio tone oscillator.
+Power: 9V battery (single supply).
+Includes input attenuator (0/−10/−20/−30 dB) for high-field environments.
+
+
+COMPLETE SCHEMATIC — ACTIVE FSM
+---------------------------------
+
+                                                  +9V BATTERY
+                                                       │
+                    PROBE INPUT                      [SW_PWR]
+                    SMA J1 (50Ω)                       │
+                         │                        [F1 0.5A]
+                    ─────┴─────                        │
+                    PROTECTION                    [C_B1 100μF]   Bulk bypass
+                         │                             │
+                   [D_LIM pair]                   [C_B2 0.1μF]   HF bypass
+                   BAT54S clamp                        │
+                   to 3.3V / −0.3V                     ┤ +9V rail
+                         │
+                    ─────┴─────
+                    ATTENUATOR
+                    SW_ATT (4 pos):
+                    0 / −10 / −20 / −30 dB
+                         │
+                   Pi attenuators (all 50Ω in/out):
+                   −10 dB: R=96.2Ω shunt, R=71.6Ω series, R=96.2Ω shunt
+                   −20 dB: R=61.1Ω shunt, R=247.5Ω series, R=61.1Ω shunt
+                   −30 dB: R=53.3Ω shunt, R=789.4Ω series, R=53.3Ω shunt
+                   (Use nearest E96 values)
+                         │
+              ┌──────────┴──────────┐
+              │                     │
+         [C_IN 100pF]          BYPASS PATH
+         DC block               (0 dB pos)
+              │
+         +────┴────────────────────────────+
+         │    ERA-3SM  U1                  │
+         │                                │
+    IN ──┤1 (IN+)                 (OUT) 4 ├──── RF_AMP_OUT
+         │                                │
+         │  Pin 1 = RF IN                 │   R_BIAS = (Vsupply − 4V) / I_bias
+         │  Pin 2 = GND                   │   I_bias ≈ 65 mA (ERA-3SM nominal)
+         │  Pin 3 = GND                   │   At 9V: R_BIAS = (9−4)/0.065 = 77Ω
+         │  Pin 4 = Vcc / RF OUT          │   Use 75Ω ±5% 1/4W
+         +────────────────────────────────+
+              │ Pin 4
+          [R_BIAS 75Ω 1/4W]   ←── Bias through RF choke is preferred
+          [RFC1 100 nH]            but R_BIAS alone works for broadband
+              │
+             +9V
+              │
+              │  C_OUT 100 pF     RF_AMP_OUT
+         ─────┴───[C_OUT]─────────────────────────────────────
+                                                              │
+                                                      +───────┴───────+
+                                                      │   AD8307  U2  │
+                                            50Ω IN ──┤INHI         V+ ├── +5V*
+                                                      │INLO      VOUT ├──── VOUT (25mV/dB)
+                                                  R_SER 51Ω  │COM  TADJ│  (float TADJ)
+                                                      │INHI  FILT  ISET│
+                                                      +───────────────+
+                                                           │
+                                                          GND
+
+    * AD8307 requires 2.7V–5.5V supply. Use 78L05 (TO-92) from 9V.
+      AD8307 draws 8–10 mA. 78L05 handles up to 100 mA; fine.
+
+      VOUT: 0 to ~2.5V over −75 to +17 dBm input range
+            Slope: 25 mV/dB  Intercept: −84 dBm
+            VOUT = 0.025 × (Pin_dBm − (−84))
+                 = 0.025 × (Pin_dBm + 84)
+
+      Input match: Place 51Ω between INHI and the RF input node.
+      Bypass INLO to GND with 100 pF.
+      Bypass VPS (pin 7) with 0.1 μF directly to GND.
+      Place 1 nF on FILT pin (pin 6) to GND for smoothing.
+
+
+METER DRIVER CIRCUIT
+----------------------
+
+    AD8307 VOUT ─────────────────────────────────────┐
+                                                      │
+                                                [R4 1kΩ]  (current limit)
+                                                      │
+                                               VOUT_FILT
+                                                      │
+                                            [C3 10μF + C4 100nF] to GND
+                                            (low-pass; ~16 Hz cutoff with 1kΩ)
+                                                      │
+                                          +────┤+  LM358 U3A  ├────┐
+                                          │    │                │   │
+                                         (−) [R5 10kΩ]      [R6 10kΩ] feedback
+                                          │    │                │
+                                          └────┘            OUTPUT
+                                                              │
+                                           VR1 (10kΩ)       │ METER OUTPUT
+                                           calibration       │
+                                           offset adj       [R7 15kΩ]  series resist
+                                                              │
+                                                          ┌───┴───┐
+                                                          │  M1   │  1 mA FSD
+                                                          │ meter │  analog
+                                                          └───┬───┘
+                                                              │
+                                                             GND
+
+    M1 scale: Mark dBm values at key points.
+    At −75 dBm: VOUT = 0.025 × (−75 + 84) = 0.225V → meter ~10% FSD
+    At −30 dBm: VOUT = 0.025 × (−30 + 84) = 1.35V  → meter ~54% FSD
+    At   0 dBm: VOUT = 0.025 × (  0 + 84) = 2.10V  → meter ~84% FSD
+    At +10 dBm: VOUT = 0.025 × ( 10 + 84) = 2.35V  → meter ~94% FSD
+
+    METER SCALE MARKINGS (for 1mA FSD, R7 = 15kΩ, range 0–2.5V):
+      dBm:   −75  −60  −40  −30  −20  −10    0  +10
+      %FSD:   9%   15%  24%  36%  50%  68%  84%  94%
+
+    NOTE: The AD8307 is inherently logarithmic; the meter deflection IS
+    approximately linear in dBm. The scale is nearly linear in dBm.
+
+
+AUDIO TONE OSCILLATOR
+-----------------------
+
+    AD8307 VOUT ────┤+  LM358 U3B (comparator)  ├─────┐
+                    │                            │     │
+                 [R8 1kΩ]          [R9 100kΩ]  feedback (oscillation)
+                    │               +────────────┘
+                   GND              │
+                                   [C5 0.1μF]
+                                    │
+                                   GND
+
+    555 ASTABLE OSCILLATOR (alternative, simpler):
+
+    +9V ─────[R10 10kΩ]─────+─────[R11 VR2 100kΩ]────+
+                             │                         │
+                            [C6 0.01μF]               Pin 7 (discharge)
+                             │                         │
+                            GND           NE555 U4     │
+                                    +─────────────────+│
+                          Pin2,6 ───┤THR/TRG    DIS  8─┘
+                                    │           OUT 3─────[R12 100Ω]──── SPEAKER+
+                          +5V ──────┤VCC   RST/CV  4├─── +5V (RST)
+                                    │                │
+                                   GND              GND
+                                    +────────────────+
+
+    VR2 (control voltage input):
+      Wire VR2 wiper to AD8307 VOUT through R_ctrl (10kΩ).
+      As VOUT increases (stronger field), 555 frequency increases.
+      Tone range: approximately 200 Hz (weak, VOUT=0.2V) to
+                  3000 Hz (strong, VOUT=2.0V).
+
+    Speaker: 8Ω, 0.1W piezo buzzer or small dynamic speaker.
+    Add 100μF bypass on +9V near 555.
+
+
+POWER SUPPLY
+--------------
+
+    9V battery BT1 ─── SW_PWR ─── F1 (0.5A polyfuse) ─── +9V rail
+                                                             │
+                                                       [78L05 U5]
+                                                             │
+                                                          +5V rail (for AD8307)
+
+    Current budget:
+      ERA-3SM:    65 mA
+      AD8307:     10 mA
+      LM358:       1 mA
+      555 + LED:   5 mA
+      Total:      ~81 mA
+    Battery life: 550 mAh / 81 mA ≈ 6.8 hours (PP3 alkaline)
+
+
+GPIO / CONNECTOR SUMMARY
+--------------------------
+
+  J1   SMA female         Probe RF input (50Ω)
+  J2   BNC female         Secondary probe input (parallel path)
+  J3   3.5mm mono jack    Audio output (speaker/headphone)
+  M1   Panel meter        1 mA FSD, 60×40 mm face
+  SW_ATT  4-pos rotary    0/−10/−20/−30 dB input attenuator
+  SW_PWR  SPST rocker     Power on/off
+  VR1  10kΩ trimmer       Meter calibration offset
+  VR2  100kΩ pot          Audio tone sensitivity
+  BT1  9V PP3             Battery
+
+
+ATTENUATOR PI VALUES (50Ω system)
+------------------------------------
+
+  dB    Rshunt (each)    Rseries
+  ---   -------------    -------
+  0     ∞ (open)         0 (wire)
+  10    96.2 Ω           71.6 Ω
+  20    61.1 Ω           247.5 Ω
+  30    53.3 Ω           789.4 Ω
+
+  Nearest E96 values:
+  10 dB: 95.3Ω || 71.5Ω || 95.3Ω
+  20 dB: 61.9Ω || 249Ω  || 61.9Ω
+  30 dB: 53.6Ω || 787Ω  || 53.6Ω
+
+  Use 0402 or 0603 SMD thin-film, ±1%, 1/10W minimum.
+
+
+CALIBRATION REFERENCE
+-----------------------
+
+  At 14.175 MHz, 10 mW (+10 dBm) into J1 with 20 dB attenuator in:
+    Effective input to ERA-3SM = 10 dBm − 20 dB = −10 dBm
+    ERA-3SM output = −10 + 20 = +10 dBm (near P1dB = +12 dBm: OK)
+    AD8307 input = +10 dBm
+    VOUT = 0.025 × (10 + 84) = 2.35V → near FSD
+
+  At typical QRP field near antenna (0 dBm received at probe):
+    With 0 dB attenuator, ERA-3SM output = +20 dBm (MMIC will clip!)
+    Use −20 dB attenuator for high-field measurements near transmitters.
+
+  CAUTION: Maximum safe input at J1 = +10 dBm (10 mW) with 0 dB
+  attenuator. ERA-3SM P1dB = +12 dBm; exceeding this clips output
+  and gives false low readings. Input protection diodes (BAT54S)
+  clamp at ±3.3V (±17 dBm), providing safety margin. However,
+  do not rely on protection diodes as a routine operating mode.
+
+================================================================================

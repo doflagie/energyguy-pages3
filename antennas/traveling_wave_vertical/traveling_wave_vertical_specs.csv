@@ -1,0 +1,5 @@
+ANTENNA — TRAVELING_WAVE_VERTICAL,,,
+Frequency bands,"160M, 80M, 40M",,
+Design approach,Non-resonant vertical with termination,,
+Compaction %,20,,
+Parameters,"600Ω terminator at base, absorbs reflected power",,

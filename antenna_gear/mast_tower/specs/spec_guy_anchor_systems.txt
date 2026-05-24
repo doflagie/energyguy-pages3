@@ -1,0 +1,234 @@
+================================================================================
+SPECIFICATION: GUY ROPE ANCHOR SYSTEMS
+TM-MAST-001  Rev A
+Screw anchors, stake anchors, sandbag anchors, and deadman systems
+================================================================================
+
+REFERENCE DOCUMENTS:
+  spec_wind_load_calculations.txt  — Anchor force requirements
+  guy_tensioners_anchors.scad      — 3D-printable anchor and tensioner hardware
+
+================================================================================
+SECTION 1 — ANCHOR FORCE REQUIREMENTS
+================================================================================
+
+ANCHOR PULLOUT FORCES (minimum required holding capacity):
+
+  From spec_wind_load_calculations.txt:
+  Guy wire tension at 70% anchor radius, 70 mph wind:
+
+  Mast Height | Wind Load  | Guy Tension (each, 3 guys) | Required Anchor
+  ------------|------------|----------------------------|-----------------
+  20 ft (6m)  | 890 N      | 495 N (50 kgf)             | 200 lbf / 890 N
+  30 ft (9m)  | 2,000 N    | 1,110 N (113 kgf)          | 500 lbf / 2,230 N
+  40 ft (12m) | 3,560 N    | 1,975 N (201 kgf)          | 900 lbf / 4,000 N
+
+  SAFETY FACTOR: Apply 3.0× safety factor to operational load for anchor design.
+  Survival (anchor must NOT pull out): 3.0× guy tension values above.
+
+  NOTE: These are per-anchor values for a 3-guy configuration.
+
+================================================================================
+SECTION 2 — SCREW ANCHOR SYSTEMS
+================================================================================
+
+DESCRIPTION:
+  Helical screw anchors (ground screws) thread into soil without driving or
+  excavation. Highly portable; reusable. Capacity depends on soil type and
+  screw geometry.
+
+TYPE A — LIGHTWEIGHT SCREW ANCHOR (20 ft mast, soft soil):
+  Dimensions:  12mm rod, 100mm helical plate diameter, 450mm total length
+  Material:    Galvanized steel (zinc coated); 316 SS for coastal/wet soil
+  Installation: T-handle driver; 8–12 turns into undisturbed soil
+  Capacity:
+    Dense clay: 800–1,200 N (80–120 kgf) pullout
+    Sandy soil:  400–600 N (40–60 kgf) pullout
+    Rocky soil:  Not suitable; use deadman anchor
+  Suitable for: 20 ft mast in moderate wind (<40 mph) on firm soil
+  Source: Duckbill earth anchor, Power Grip series, or equivalent
+  Print: guy_tensioners_anchors.scad: screw_anchor_plate() (T-handle adapter)
+
+TYPE B — MEDIUM SCREW ANCHOR (30 ft mast):
+  Dimensions:  16mm rod, 150mm helical plate, 600mm length
+  Material:    Galvanized steel
+  Capacity:
+    Dense clay: 2,000–3,500 N (200–350 kgf)
+    Sandy loam: 1,200–1,800 N (120–180 kgf)
+  Installation: Steel breaker bar through eye; 2-person twist-in
+  Suitable for: 30 ft mast to 50 mph, 40 ft mast to 35 mph
+
+TYPE C — HEAVY SCREW ANCHOR (40 ft mast):
+  Dimensions:  22mm rod, 200mm helical plate, 750mm length
+  Material:    Hot-dip galvanized or 316 SS
+  Capacity:
+    Dense clay: 5,000–8,000 N (500–800 kgf)
+    Sandy soil: 3,000–4,500 N (300–450 kgf)
+  Installation: Drive socket + 1/2" torque wrench or impact driver adapter
+  Suitable for: 40 ft mast to 70 mph with 3.0× safety factor on clay
+
+SCREW DEPTH REQUIREMENTS:
+  Minimum embedment: 3× helical plate diameter in undisturbed soil
+  Avoid: topsoil zone (top 200mm usually disturbed/loose)
+  Always drive below frost line for permanent or extended installations
+
+INSTALLATION TORQUE GUIDE (as a capacity check):
+  Torque (N·m)  = Kt × Capacity (N)  where Kt ≈ 0.01 for 150mm plate
+  For 2,000 N capacity: T = 0.01 × 2,000 = 20 N·m → achievable by hand
+  For 5,000 N capacity: T = 50 N·m → need breaker bar or impact driver
+
+FIELD SOIL CLASSIFICATION:
+  Soft:       Saturated clay, recent fill, peat → use larger plates, deeper embedment
+  Medium:     Firm silt, medium sand, dry topsoil → standard anchor
+  Hard:       Dense clay, gravel, compacted fill → any anchor type; easy install
+  Rocky:      Bedrock, cobbles → cannot use screw; use stake or deadman on surface
+
+================================================================================
+SECTION 3 — STAKE ANCHORS
+================================================================================
+
+DESCRIPTION:
+  Driven stakes (steel angle, J-stakes, or T-stakes) pounded into soil with a
+  mallet. Faster than screw anchors; shallower penetration; lower capacity.
+
+TYPE A — J-STAKE (tent stake style):
+  300mm × 10mm galvanized steel rod with bent hook
+  Capacity: 300–600 N in firm soil; NOT adequate for >20 ft mast >25 mph
+  Suitable for: Very small masts (<15 ft), guy pegs for temporary/calm conditions
+  Drive angle: 45° away from mast (load direction) for maximum pullout resistance
+
+TYPE B — T-STAKE:
+  400mm × 16mm T-profile galvanized steel
+  Capacity: 600–1,200 N in dense soil
+  Suitable for: 20 ft mast to 35 mph
+
+TYPE C — DRIVEN ROD ANCHOR:
+  600mm × 19mm (3/4") galvanized rebar, bent 90° at top (3" hook)
+  Drive with 5 lb engineer's hammer or fence post driver
+  Capacity: 1,500–2,500 N in dense clay
+  Multiple rods in cluster (3 rods in triangle, 100mm apart): multiply capacity
+  Suitable for: 30 ft mast, moderate wind
+  Print: guy_tensioners_anchors.scad: stake_anchor_eye() — eye adapter for bent rebar
+
+DRIVING STAKES FOR MAXIMUM CAPACITY:
+  Angle: Drive at 60° from horizontal (30° from vertical), angled away from mast
+  Depth: Maximum practical depth; surface protrusion 50mm for wire attachment
+  No rocks: If stake deflects on rock, relocate; a bent stake has reduced capacity
+  Test: After driving, attempt to pull upward by hand; >100 kgf resistance = good
+
+================================================================================
+SECTION 4 — SANDBAG ANCHORS
+================================================================================
+
+DESCRIPTION:
+  When penetrating the ground is not permitted (paved surface, indoor, sensitive
+  terrain), sandbag anchors provide a portable alternative. Capacity is limited
+  by the weight of sand and friction.
+
+BALLAST CALCULATION:
+  Anchor capacity (horizontal) = friction coefficient × total weight
+  For sandbag on concrete: μ ≈ 0.6
+  Required capacity for 30 ft mast guy at 50 mph: 1,500 N (150 kgf)
+  Required sandbag mass: 1,500 / (0.6 × 9.81) = 255 kg
+
+  NOTE: 255 kg of sand is impractical in the field. Sandbag anchors are only
+  adequate for:
+    - Masts ≤ 20 ft in wind < 25 mph (requires ~45 kg per anchor)
+    - In combination with pavement anchors or vehicle parking
+
+SANDBAG ANCHOR DESIGN:
+  3× 15 kg military sandbags stacked; total ~45 kg per anchor
+  Guy wire threaded under center bag or through a printed D-ring strap
+  Print: guy_tensioners_anchors.scad: sandbag_anchor_strap()
+  Strap wraps around bag; D-ring accepts guy wire eye or turnbuckle
+
+PAVEMENT ANCHOR (supplement):
+  Concrete screw anchor (Tapcon 3/8" × 3.5", 4 per anchor point) into concrete.
+  Pullout per Tapcon in 3000 PSI concrete: ~700 N
+  4 anchors in a diamond pattern, plate connecting to guy wire: 2,800 N capacity
+
+VEHICLE ANCHOR:
+  1" × 3/8" recovery strap looped through vehicle frame or tow hook.
+  Vehicle must be parked on level ground with parking brake set.
+  Pull direction should NOT align with vehicle departure direction.
+  Capacity: Limited by wheel/brake friction → 3,000–10,000 N depending on vehicle
+  Do NOT park on soft ground as vehicle may sink under lateral load.
+
+================================================================================
+SECTION 5 — DEADMAN ANCHORS
+================================================================================
+
+DESCRIPTION:
+  A deadman is a buried horizontal plate or tube providing pullout resistance
+  through shear failure of a soil column above it. Highest capacity of all
+  portable anchor types for given size. Requires excavation.
+
+TYPE A — PLATE DEADMAN:
+  600mm × 200mm × 6mm galvanized steel plate
+  Bury at 400mm depth; cable through center hole exits to surface
+  Backfill and tamp; mark surface location
+  Capacity (loose sand, 400mm depth): 3,000–4,500 N
+  Capacity (dense clay, 400mm depth): 8,000–15,000 N
+
+TYPE B — TUBE DEADMAN:
+  2× 600mm × 32mm galvanized pipe, wired together
+  Same installation procedure as plate; better in loose soil
+  Capacity: 4,000–7,000 N in medium soil
+
+TYPE C — LOG/TIMBER DEADMAN (field expedient):
+  Any hardwood log, 300mm diameter × 600mm length
+  Bury at 500mm; cable around center
+  Capacity: 5,000–10,000 N in undisturbed soil
+  NOT removable/reusable; suitable for long-term field stations
+
+DEADMAN INSTALLATION:
+  1. Excavate trench 400–600mm deep × 200mm wide × 600mm long
+  2. Lay anchor in trench; route cable up through narrow slit to surface
+  3. Backfill in 100mm layers; tamp each layer firmly
+  4. Mark location with stake or flagging for retrieval
+
+CABLE ROUTING:
+  Use cable through a short section of 25mm PVC conduit at surface to
+  prevent soil cutting the cable over time. Conduit angle matches guy angle.
+
+================================================================================
+SECTION 6 — ANCHOR SELECTION GUIDE
+================================================================================
+
+SURFACE TYPE → RECOMMENDED ANCHOR:
+
+  Field/lawn (soft)        → Type A screw (450mm) + Type B for >30 ft
+  Field/lawn (hard)        → Type B or C screw anchor
+  Dense clay/compacted     → Type C screw or driven rebar
+  Sandy (beach, desert)    → Deadman plate anchor + extra depth
+  Rocky/shale              → Surface plate anchor with masonry anchors
+  Concrete/asphalt         → Pavement anchor (Tapcon) or vehicle
+  Timber (deck/dock)       → Through-bolt with fender washer (M12)
+  Indoor (gym floor, etc.) → Sandbag ballast (limit 20 ft, 15 mph)
+
+ANCHOR SPACING FROM BASE:
+  Always maintain minimum 0.5× mast height anchor radius.
+  Do not place anchor within 1m of existing buried utilities.
+  Mark anchor locations with surveyor flags for trip hazard awareness.
+
+ANCHOR INSPECTION:
+  Before each use:
+    □ Visual inspect anchor body for cracks or deformation
+    □ Probe soil at anchor with rod — confirm soil not disturbed
+    □ Apply gradual pull (body weight) on guy wire to test anchor
+    □ Any movement >10mm under body-weight pull: re-install or supplement
+
+================================================================================
+SECTION 7 — 3D-PRINTED HARDWARE SUMMARY
+================================================================================
+
+All anchor-related printable items in guy_tensioners_anchors.scad:
+
+  screw_anchor_plate()    — T-handle adapter for 12–22mm screw anchors; M6 eye
+  stake_anchor_eye()      — Eye adapter for rebar hook; M6 capture nut
+  sandbag_anchor_strap()  — PP-strap style wrap with D-ring boss; PETG
+  anchor_swivel_plate()   — Triangular plate; 3 guy-wire attachment points + center
+  guy_tensioner()         — In-line tensioner; tighten with 8mm hex key
+  wire_guide_tube()       — PVC-compatible guide tube for deadman cable exit
+
+================================================================================

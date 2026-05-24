@@ -1,0 +1,86 @@
+CM TM-WHP-NEC-011
+CM Roll-up wire version — 5.6m with inline LC traps, 10m active
+CM ---------------------------------------------------------------
+CM This model represents the roll-up wire dipole/vertical variant:
+CM a full 5.6m wire with series LC traps at four positions to create
+CM band-specific resonant sections. Active model: 10m (28.0-29.7 MHz)
+CM
+CM TRAP THEORY AND OPERATION:
+CM Each trap is a parallel LC circuit (or series notch) placed inline.
+CM At the trap's resonant frequency, impedance is very high (parallel
+CM resonance), electrically isolating the wire beyond that point.
+CM Below trap frequency, trap is inductive (adds loading effect).
+CM
+CM For a SERIES-mode trap model in NEC-2 (LD 0 type):
+CM   The trap resonant impedance is approximated as series R+jX.
+CM   At resonance the parallel tank is high-Z; we model the OFF-resonance
+CM   effect (inductive below fc) as added series reactance.
+CM   This is an approximation; a full trap model requires two-port network.
+CM
+CM TRAP POSITIONS AND PARAMETERS (from base, along wire):
+CM   10m trap:  segment ~18 (at z~2.55m): fc=28.5 MHz, L=0.32uH, C=97pF
+CM              Series model at 28.5 MHz: R~12 ohm, XL~57 ohm
+CM   12m trap:  segment ~21 (at z~2.92m): fc=24.9 MHz, L=0.42uH, C=98pF
+CM              Series model at 24.9 MHz: R~10 ohm, XL~66 ohm
+CM   15m trap:  segment ~24 (at z~3.43m): fc=21.2 MHz, L=0.58uH, C=97pF
+CM              Series model at 21.2 MHz: R~ 8 ohm, XL~77 ohm
+CM   17m trap:  segment ~28 (at z~4.01m): fc=18.1 MHz, L=0.81uH, C=96pF
+CM              Series model at 18.1 MHz: R~ 7 ohm, XL~92 ohm
+CM
+CM BAND OPERATION SUMMARY:
+CM   10m (28-29.7 MHz): only 10m trap high-Z; active section = 0-2.55m
+CM      12m/15m/17m traps below resonance — inductive, add loading
+CM      At 28.5 MHz: 10m trap isolates; wire beyond is inactive
+CM   12m (24.9 MHz): 10m trap is capacitive (below fc); passes current
+CM      12m trap at z=2.92m goes high-Z; active section = 0-2.92m
+CM   15m (21.2 MHz): active section = 0-3.43m (below all traps above)
+CM   17m (18.1 MHz): active section = 0-4.01m
+CM   20m+ (below 18.1 MHz): all traps pass current; full wire active
+CM      Use base loading coil for 30m, 40m, 80m, 160m resonance
+CM
+CM BASE LOADING COIL (for 20m and below):
+CM   20m: wire slightly long at 5.6m; capacitive trimmer or small L
+CM   30m: L=2.477uH, XL=157.6 ohm, R=0.493 ohm (LD at seg 1)
+CM   40m: L=7.85uH, XL=353 ohm, R=1.14 ohm (LD at seg 1)
+CM   80m: L=35.5uH, XL=835 ohm, R=2.98 ohm (LD at seg 1)
+CM   160m: L=144.6uH, XL=1725 ohm, R=6.90 ohm (LD at seg 1)
+CM
+CM ACTIVE MODEL: 10m band (28.0-29.7 MHz)
+CM   Base loading: none (no LD at seg 1 for 10m)
+CM   10m trap at seg 18: R=12, X=57 (series RL approximation)
+CM   12m trap at seg 21: R=10, X=66
+CM   15m trap at seg 24: R=8, X=77
+CM   17m trap at seg 28: R=7, X=92
+CM
+CM Wire geometry:
+CM   GW 1: main wire, 40 segs, z=0.005 to z=5.605, radius=0.006m
+CM   GW 2-5: 4 radials at z=0.005, length=5.6m
+CM
+CM Segment mapping (40 segs over 5.6m = 0.14m/seg):
+CM   z=2.55m -> seg = 2.55/0.14 = 18.2 -> use seg 18
+CM   z=2.92m -> seg = 2.92/0.14 = 20.9 -> use seg 21
+CM   z=3.43m -> seg = 3.43/0.14 = 24.5 -> use seg 25
+CM   z=4.01m -> seg = 4.01/0.14 = 28.6 -> use seg 29
+CM
+CM Ground: real average soil (GN 2), sigma=0.005 S/m, epsilon_r=13
+CM Feed: voltage source EX 0 on segment 1 of GW1
+CE
+GW 1 40  0.0 0.0 0.005  0.0 0.0 5.605  0.006
+GW 2 20  0.0 0.0 0.005  5.6 0.0 0.005  0.006
+GW 3 20  0.0 0.0 0.005 -5.6 0.0 0.005  0.006
+GW 4 20  0.0 0.0 0.005  0.0 5.6 0.005  0.006
+GW 5 20  0.0 0.0 0.005  0.0 -5.6 0.005  0.006
+GE 1
+GN 2 0 0 0  13 0.005
+CM 10m trap at segment 18 (z~2.52m): series R+jX approx at 28.5 MHz
+LD 0 1 18 18  12.0 57.0
+CM 12m trap at segment 21 (z~2.94m): series R+jX approx at 24.9 MHz
+LD 0 1 21 21  10.0 66.0
+CM 15m trap at segment 25 (z~3.50m): series R+jX approx at 21.2 MHz
+LD 0 1 25 25  8.0 77.0
+CM 17m trap at segment 29 (z~4.06m): series R+jX approx at 18.1 MHz
+LD 0 1 29 29  7.0 92.0
+EX 0 1 1 0  1 0
+FR 0 9 0 0  28.000 0.213
+RP 0 37 73 1000  0 0 5 5
+EN

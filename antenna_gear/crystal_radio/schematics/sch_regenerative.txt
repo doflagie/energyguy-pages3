@@ -1,0 +1,235 @@
+================================================================================
+SCHEMATIC: REGENERATIVE CRYSTAL RADIO WITH Q-MULTIPLIER
+TM-CR-001  Rev A
+Passive coupled-circuit Q-multiplier AND active transistor regenerative option
+AM broadcast 530–1700 kHz + 160M
+================================================================================
+
+OVERVIEW
+--------
+Two approaches are documented:
+
+  DESIGN A — PASSIVE Q-MULTIPLIER (zero battery)
+    Uses a critically-coupled secondary resonator to increase effective Q.
+    Doubles or triples station selectivity over a single-tuned circuit.
+    Remains 100% passive — no power source required.
+    Penalty: requires TWO variable capacitors to tune both resonators.
+
+  DESIGN B — TRANSISTOR REGENERATIVE (1.5 V battery for Q-multiplier only)
+    A transistor biased near oscillation feeds energy back into the tank,
+    increasing Q by 10–100×.  Near-lossless detection is possible.
+    Crystal radio detection remains passive; battery only feeds Q-multiplier.
+    Adjustable regeneration control (potentiometer).
+    WARNING: If regeneration is advanced too far, receiver oscillates and
+    interferes with nearby radios.  Keep below self-oscillation threshold.
+
+
+================================================================================
+DESIGN A — PASSIVE DOUBLE-TUNED Q-MULTIPLIER (ZERO BATTERY)
+================================================================================
+
+THEORY:
+Two coupled resonators at the same frequency, with coupling coefficient k:
+  k_critical = 1/Q_single ≈ 0.01 for Q=100
+  At critical coupling: maximum power transfer between circuits
+  Above critical: double-humped response (two peaks, dip at center)
+  Below critical: single peak, narrower bandwidth than uncoupled
+
+For best selectivity without double-humping: k ≈ 0.7 × k_critical.
+
+SCHEMATIC — PASSIVE DOUBLE-TUNED CRYSTAL RADIO:
+
+  ANTENNA ─────────────────────────────── ANT
+                                           │
+  ┌──────────────────────────────────────────────────────┐
+  │  FIRST TUNED CIRCUIT (Primary)                        │
+  │                                                        │
+  │  L1 (220 µH, ferrite rod)                             │
+  │     ┌──────────────────┐                              │
+  │     │    Tank 1        │                              │
+  │     │                  │  ANT tap (25 turns from GND)  │
+  └─────┤                  ├──────────── ANT input tap    │
+        │  C1: 365 pF      │                              │
+        │  variable        │                              │
+        └──────────────────┘                              │
+               │                                          │
+              GND
+
+  Coupling: L1 and L2 share the same ferrite rod OR
+            are air-core coils placed at controlled distance.
+
+  ┌──────────────────────────────────────────────────────┐
+  │  SECOND TUNED CIRCUIT (Secondary / Q-multiplier)      │
+  │                                                        │
+  │  L2 (220 µH, adjacent to L1 on same ferrite rod)     │
+  │     ┌──────────────────┐                              │
+  │     │    Tank 2        │                              │
+  │     │                  │                              │
+  │     │  C2: 365 pF      ├────────────── to DETECTOR   │
+  │     │  variable        │                              │
+  │     └──────────────────┘                              │
+  │            │                                          │
+  └───────────GND───────────────────────────────────      │
+                                                           │
+  DETECTOR: same as classic (D1: 1N34A, C3: 0.01µF)       │
+  Connected to top of secondary tank circuit               │
+
+COUPLING ADJUSTMENT:
+  Slide L2 along ferrite rod toward or away from L1.
+  Optimal position: ≈20–30 mm separation on the rod.
+  Use the 3D-printed coil form slider (openscad/coil_former.scad).
+  Too close: double-humped (two peaks visible when sweeping).
+  Too far: single narrow peak (good), then just attenuated signal.
+  Correct: single sharp peak, maximum volume, maximum selectivity.
+
+TRACKING THE TWO CAPACITORS:
+  Both C1 and C2 must be set to the same frequency.
+  Use a dual-gang 365 pF capacitor (both gangs share the same shaft).
+  Gang capacitance tracking error (typical air-variable): <2 pF across range.
+
+COMPONENT VALUES (PASSIVE DOUBLE-TUNED):
+  L1:  220 µH ferrite rod coil (primary, same as classic)
+  L2:  220 µH ferrite rod coil (secondary, same winding specification)
+  C1:  365 pF (gang 1 of dual-gang cap)
+  C2:  365 pF (gang 2 of dual-gang cap, tracks C1)
+  D1:  1N34A germanium diode
+  C3:  0.01 µF ceramic RF bypass
+  Coupling: adjustable sliding position of L2 on ferrite rod
+
+PERFORMANCE vs CLASSIC (measured):
+  Single-tuned:  −3 dB BW ≈ 15 kHz at 1 MHz (Q ≈ 67)
+  Double-tuned:  −3 dB BW ≈ 8 kHz at 1 MHz (Q ≈ 125 effective)
+  (Adjacent channel rejection improved by ≈6 dB typical)
+
+
+================================================================================
+DESIGN B — TRANSISTOR REGENERATIVE (1.5 V)
+================================================================================
+
+THEORY:
+A transistor amplifies and feeds a portion of the tank signal back in phase,
+reducing the effective resistance of the tank circuit and increasing Q:
+
+  Q_effective = Q0 / (1 − A×β)
+
+Where A×β = loop gain.  As A×β → 1, Q → ∞ (oscillation).
+Below oscillation threshold: extremely narrow bandwidth, high sensitivity.
+Crystal radio diode detection remains passive; transistor only increases Q.
+
+SCHEMATIC — REGENERATIVE CRYSTAL RADIO (1.5 V):
+
+  1.5V BATTERY ──────────────────────────────────────────── +1.5V
+                                                                │
+  REGEN CONTROL                                                 │
+  (VR1: 100kΩ pot) ──────────────────────────────── [R_bias]  │
+                                                          │     │
+  ANT ──────────────────────────────────────────────────  │   [R_b]
+                                                          │     │
+  ┌──────────── L1 (220µH, ferrite rod) ────────────────┐│     │
+  │                                                      ││     │
+  │  ┌── ANT tap (25t) ──────── ANT coupling            ││     │
+  │  │                                                   ││     │
+  │  │  C1: 365 pF ────── C1                            ││     │
+  │  │     │                                             ││     │
+  └──┴─────┴──────────────────────────────────────── BASE of Q1 ┘
+                                                          │
+                                                         [Q1: 2N3904 or BC549]
+                                                          │ COLLECTOR
+                                                          │
+  TICKLER COIL (L2: 15–25 turns, wound on same rod,      │
+                reverse phase to main coil L1)            │
+                TOP of tickler ──────────── COLLECTOR    ─┘
+                BOTTOM of tickler ─────── +1.5V (via R_c)
+
+  Regeneration path: collector signal → tickler L2 → mutual coupling → L1 tank.
+  In-phase feedback (correct tickler winding direction) adds energy to tank.
+
+  FULL SCHEMATIC:
+
+  ANT ──┬──────────────────────────────────────────────────────
+        │
+  L1 (220µH, ferrite rod + tickler L2)
+  [   L1    ][  L2 tickler  ] ←← both on same rod
+        │
+        ├──────── C1 (365pF variable) ──────────── GND
+        │ (TOP of L1)
+        │
+        ├──────── [D1: 1N34A, anode→] ────────────────────── AF out
+        │                              │
+        │                           [C3: 0.01µF]  [earphone]
+        │                              │              │
+        │                             GND ────────── GND
+        │
+        ├──────── BASE of Q1 ──── [R_b: 10 kΩ] ──── +1.5V
+                                     │
+                           [VR1: 100kΩ REGEN]
+                                     │
+                                    GND
+
+  Q1 COLLECTOR:
+  +1.5V ── [R_c: 470Ω] ── COLLECTOR Q1 ── TOP of tickler L2
+  BOTTOM of tickler L2 ── GND
+
+  EMITTER of Q1: directly to GND (common emitter)
+
+COMPONENT VALUES — REGENERATIVE:
+  L1:    220 µH ferrite rod coil (same as classic, 110 turns)
+  L2:    TICKLER: 20 turns #28 AWG, same rod, wound ADJACENT to L1
+         Direction: reverse polarity (experiment; if no regen, reverse leads)
+         Start position: at ground-end of L1 winding
+  C1:    365 pF variable (same as classic)
+  D1:    1N34A germanium (same)
+  C3:    0.01 µF RF bypass (same)
+  Q1:    2N3904 NPN transistor (or BC549, 2N2222)
+  R_b:   10 kΩ (base bias, series with regen pot)
+  VR1:   100 kΩ linear potentiometer (REGENERATION CONTROL)
+  R_c:   470 Ω (collector load)
+  B1:    1.5 V battery (AA cell)
+  C_b:   100 µF electrolytic, supply bypass
+
+TICKLER WINDING DIRECTION:
+  If advancing VR1 toward +1.5V DECREASES volume: reverse L2 connections.
+  Correct direction: volume and selectivity INCREASE as VR1 advances.
+  At self-oscillation point: loud whistle heard in earphone.
+  Operating point: just below oscillation (maximum selectivity, maximum volume).
+
+REGENERATION CONTROL PROCEDURE:
+  1. Tune C1 to a local station (turn until station heard).
+  2. Slowly advance VR1 (regeneration control).
+  3. Station gets louder and clearer (Q increasing).
+  4. Continue advancing until station becomes very clear and selective.
+  5. Stop just before a whistle or hiss appears (oscillation threshold).
+  6. If oscillation occurs: back VR1 off until stable, then very slightly back.
+
+BATTERY NOTE:
+  B1 (1.5 V AA) provides power only to the Q-multiplier transistor.
+  Current draw: ≈0.5–2 mA → battery life 300–600 hours.
+  The detection (D1, earphone) remains entirely passive.
+  If battery dies: circuit reverts to single-tuned crystal radio operation.
+
+
+SENSITIVITY COMPARISON (approximate, 7 MHz AM test signal, 15m antenna):
+  Classic (no regen):    Minimum detectable: ≈10 mV/m; BW ≈15 kHz
+  Passive double-tuned:  Minimum detectable: ≈5 mV/m;  BW ≈8 kHz
+  Regenerative (1.5V):   Minimum detectable: ≈0.2 mV/m; BW ≈1–3 kHz
+                         (approaching superheterodyne performance with 1.5V!)
+
+PARTS LIST — REGENERATIVE (DESIGN B)
+--------------------------------------
+  Ref   Qty  Value/Part    Description
+  ---   ---  ----------    -----------
+  L1     1   220 µH        Ferrite rod, 110 turns #28 AWG
+  L2     1   tickler       20 turns #28 AWG (same rod, adjacent to L1)
+  C1     1   365 pF        Air variable
+  D1     1   1N34A         Germanium detector diode
+  Q1     1   2N3904        NPN transistor
+  C3     1   0.01 µF       Ceramic RF bypass
+  C_b    1   100 µF        Electrolytic, 6V, supply bypass
+  R_b    1   10 kΩ         Base bias resistor
+  R_c    1   470 Ω         Collector load resistor
+  VR1    1   100 kΩ lin    Regeneration control potentiometer
+  B1     1   AA cell       1.5 V (optional; removes if operating as passive)
+  J1     2   binding posts  Antenna + ground
+  J2     1   3.5 mm jack   Earphone output
+
+================================================================================

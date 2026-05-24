@@ -1,0 +1,218 @@
+================================================================================
+SCHEMATIC: Si5351 MULTIBAND VFO / CLOCK GENERATOR
+TM-SG-001  Rev A
+8 kHz to 160 MHz; three simultaneous outputs; I2C control
+Covers 160M through 2M ham bands directly
+================================================================================
+
+OVERVIEW
+--------
+The Si5351A (Silicon Labs) is a programmable clock generator using two
+fractional-N PLLs (PLLA and PLLB), each driving multiple output dividers.
+Three independent outputs (CLK0, CLK1, CLK2) can operate simultaneously
+at different frequencies.
+
+Architecture:
+  25 MHz XTAL (or TCXO) → [PLL A: ÷a+(b/c)] → [Output Divider R_n] → CLK0
+                         → [PLL B: ÷a+(b/c)] → [Output Divider R_n] → CLK1, CLK2
+
+PLL VCO range: 600 MHz – 900 MHz (both PLLA and PLLB must land in this range).
+Output divider range: 4 to 900 (even integers for best performance).
+Output frequency: f_out = (f_xtal × PLL_mult) / output_divider
+
+FREQUENCY RESOLUTION:
+  The fractional PLL denominator c can be up to 1,048,575 (20 bits).
+  Frequency resolution ≈ f_xtal / (PLL_divider × c) ≈ 0.001 Hz at HF.
+
+HAM BAND COVERAGE:
+  Band    Output  Freq range     PLL setting example (PLLA)
+  ----    ------  ----------     ---------------------------
+  160M    CLK0    1.80–2.00 MHz  PLL=720 MHz; R=400; f=1.800 MHz
+  80M     CLK0    3.50–4.00 MHz  PLL=756 MHz; R=216; f=3.500 MHz
+  40M     CLK0    7.00–7.30 MHz  PLL=756 MHz; R=108; f=7.000 MHz
+  30M     CLK0    10.10–10.15    PLL=810 MHz; R=80;  f=10.125 MHz
+  20M     CLK0    14.00–14.35    PLL=840 MHz; R=60;  f=14.000 MHz
+  17M     CLK0    18.068–18.168  PLL=723 MHz; R=40;  f=18.075 MHz
+  15M     CLK0    21.00–21.45    PLL=840 MHz; R=40;  f=21.000 MHz
+  12M     CLK0    24.89–24.99    PLL=748 MHz; R=30;  f=24.933 MHz
+  10M     CLK0    28.00–29.70    PLL=840 MHz; R=30;  f=28.000 MHz
+  6M      CLK0    50.00–54.00    PLL=800 MHz; R=16;  f=50.000 MHz
+  2M      CLK0    144–148 MHz    PLL=864 MHz; R=6;   f=144.000 MHz
+  1.25M*  CLK0    222–225 MHz    PLL=888 MHz; R=4;   f=222.000 MHz  *near limit
+  70cm    —       420–450 MHz    EXCEEDS Si5351 limit; use ADF4351
+
+  NOTE: Si5351 maximum rated output = 160 MHz (R divider minimum = 4,
+  at PLLA = 640 MHz). For 1.25M band (222 MHz), output exceeds spec but
+  may work with some devices; not guaranteed. Use ADF4351 for 222 MHz+.
+
+SIMULTANEOUS OUTPUTS:
+  CLK0: main VFO output (tunable)
+  CLK1: fixed BFO / carrier frequency (e.g., 4.9152 MHz for SSB BFO)
+  CLK2: calibration reference / second signal source
+
+  All three outputs can be active simultaneously at different frequencies.
+  Output drive: selectable 2/4/6/8 mA per clock (I2C register programmable).
+
+
+================================================================================
+SCHEMATIC — Si5351A MODULE
+================================================================================
+
+CRYSTAL / TCXO REFERENCE:
+  Option A: 25 MHz XTAL (±30 ppm, low cost):
+    XTAL ── Si5351 XA pin (pin 2); [27 pF to GND]
+    XTAL ── Si5351 XB pin (pin 3); [27 pF to GND]
+    Load capacitors: match XTAL spec (typically 18–27 pF)
+
+  Option B: 25 MHz TCXO (±0.5 ppm, recommended):
+    TCXO output ── [C_coup: 100 nF AC-coupled] ── Si5351 CLKIN (pin 4)
+    Register 15 (CLKIN source) = select CLKIN input instead of XTAL
+    Bypasses internal oscillator; drives PLL directly from TCXO clock.
+    TCXO VDD: 3.3V + 100 nF + 10 µF bypass.
+
+  Option C: External 10 MHz GPSDO/OCXO (via ×2.5 or ÷... use 25 MHz)
+    Use frequency-matched TCXO; or convert with AD9851 reference path.
+
+I2C BUS:
+  ESP32 GPIO21 (SDA) ── [R_pull: 4.7kΩ to 3.3V] ── Si5351 SDA (pin 18)
+  ESP32 GPIO22 (SCL) ── [R_pull: 4.7kΩ to 3.3V] ── Si5351 SCL (pin 17)
+  Si5351 I2C address: 0x60 (fixed; no address pin)
+
+  NOTE: Si5351B and C variants have additional clock outputs; Si5351A (3-output)
+  is sufficient for this application.
+
+POWER SUPPLY:
+  VDD = 3.3V; all supply pins (pins 1, 8, 14, 20): 100 nF + 10 µF bypass each.
+  Si5351 outputs swing rail-to-rail at 3.3V CMOS/LVCMOS levels.
+  Add 50Ω series resistor at each output for impedance matching.
+
+OUTPUT STRUCTURE — 50Ω MATCHING:
+
+  CLK0 (Si5351 pin 10) ──[R_s0: 50Ω]──[C_dc0: 100nF]── SMA J1 (main VFO out)
+                                │
+                            [R_term0: 50Ω to GND]
+                            (optional; improves return loss; -6 dB level)
+
+  CLK1 (Si5351 pin 12) ──[R_s1: 50Ω]──[C_dc1: 100nF]── SMA J2 (BFO / second out)
+
+  CLK2 (Si5351 pin 13) ──[R_s2: 50Ω]──[C_dc2: 100nF]── SMA J3 (reference/cal out)
+
+  Output level with R_s=50Ω into 50Ω load:
+    3.3V LVCMOS square wave into 50Ω (terminated) → +4 dBm fundamental
+    With bandpass or LPF to extract fundamental: +2 to −3 dBm (varies by freq)
+    Without filter: rich harmonics; use LPF for clean sine output.
+
+OUTPUT FILTER BANK (BAND-SWITCHED LPF):
+  The Si5351 output is a CMOS square wave.  Fundamental is the desired
+  frequency; harmonics must be filtered for clean output.
+
+  Filter bank (switched by relay or analog switch):
+    LPF1:  f_c = 2.5 MHz  (160M; cuts harmonics above 2 MHz)
+    LPF2:  f_c = 4.5 MHz  (80M)
+    LPF3:  f_c = 8.5 MHz  (40M + 30M)
+    LPF4:  f_c = 20 MHz   (20M + 17M)
+    LPF5:  f_c = 35 MHz   (15M + 12M + 10M)
+    LPF6:  f_c = 60 MHz   (6M)
+    LPF7:  f_c = 160 MHz  (2M + 1.25M; flat to 160 MHz)
+
+  Filter switching: 74HC4052 analog mux (to 50 MHz) or discrete relays (above)
+  For 2M/6M: use relay switching only (analog mux distortion too high above 50 MHz).
+
+  RELAY FILTER SWITCHING SCHEMATIC (4 relays, 4 filter paths):
+    ESP32 GPIO ── [MOSFET gate] ── [relay coil] ── [filter path]
+    Use DPDT relays for input/output switching of each filter block.
+    G6K-2F-Y (5V, 500 mA contact) or equivalent.
+
+SIMPLE 5-ELEMENT CHEBYSHEV LPF (0.5 dB ripple, 50Ω):
+  (One filter per band — can use same design from sch_dds_ad9851.txt)
+
+  For f_c = 35 MHz (10M/12M/15M):
+  SMA ─[L1: 220nH]─┬─[L2: 390nH]─┬─[L3: 220nH]─ SMA
+                   │             │
+                 [C1: 68pF]  [C2: 100pF]
+                   │             │
+                  GND           GND
+
+
+================================================================================
+Si5351 REGISTER MAP (KEY REGISTERS)
+================================================================================
+
+  Register  Function                              Value/Notes
+  --------  --------                              -----------
+  0         Device status                         Read-only; SYS_INIT = bit 7
+  1         Interrupt status; sticky              Clear by writing 0
+  2         Interrupt enable                      Enable/disable bits
+  3         Output enable                         Bit 0/1/2 = CLK0/1/2 enable
+  15        CLKIN source                          Bit 2 = 1 → use CLKIN pin (TCXO)
+  16        CLK0 control                          Drive strength, invert, PLL source
+  17        CLK1 control                          (same)
+  18        CLK2 control                          (same)
+  26–27     MSNA (PLLA integer + frac numerator)  Integer: reg 26, lower 2 bits
+  28–33     MSNA (PLLA frac b and c denominators)  20-bit b, 20-bit c
+  34–41     MSNB (PLLB multiplier)                Same structure as MSNA
+  42–49     MS0 (CLK0 output divider)             Even integer or fractional
+  50–57     MS1 (CLK1 output divider)
+  58–65     MS2 (CLK2 output divider)
+  177       PLL A reset                           Write 0xA0 to reset PLLA
+  177       PLL B reset                           Write 0xB0 to reset PLLB
+
+  PLL multiplier (MSNA/MSNB):
+    a + (b/c) where a = integer part, b/c = fractional part
+    VCO = f_ref × (a + b/c)
+    f_ref = 25 MHz; VCO must be 600–900 MHz
+    Therefore: a must be 24–36; e.g., a=28 → VCO = 700 MHz
+
+  Output divider (MS0/MS1/MS2):
+    f_out = VCO / (divider)
+    Divider: integer 4–900, must be even for frequencies > 150 MHz output.
+    For f_out = 14.000 MHz: divider = 700/14 = 50 (exact)
+    For f_out = 14.225 MHz: divider = 700/14.225 = 49.21... → use fractional
+
+  Etherkit Si5351 Arduino library:
+    si5351.set_freq(1400000000ULL, SI5351_CLK0);  // Frequency in centi-Hz (Hz×100)
+    si5351.set_freq(490000000ULL, SI5351_CLK1);   // 4.900 MHz BFO
+
+  Library handles PLL and divider calculation automatically.
+
+
+================================================================================
+DUAL SYNTHESIZER OPERATION (VFO + BFO SIMULTANEOUSLY)
+================================================================================
+
+For SSB/CW transceiver VFO use:
+
+  CLK0 → VFO (tunable across band)
+  CLK1 → BFO carrier (fixed, or adjustable for USB/LSB)
+
+  PLLA drives CLK0 (VFO); PLLB drives CLK1 (BFO) independently.
+  Each PLL is set separately; they do not affect each other.
+
+  Example: 40M SSB transceiver
+    CLK0: 7.000–7.300 MHz (VFO, tunes band)
+    CLK1: 4.915 MHz (BFO; USB = 4.9162 MHz, LSB = 4.9138 MHz)
+    CLK2: 10 MHz calibration output (from PLLB with divider = 70)
+
+  Sideband switching: change CLK1 frequency by ±1.4 kHz for USB/LSB.
+  Key step: after changing CLK1, reset PLLB (register 177 = 0xB0) to
+  re-lock; avoids phase glitch on BFO.
+
+
+PARTS LIST — Si5351 MODULE
+---------------------------
+  Ref      Qty  Value/Part      Description
+  ---      ---  ----------      -----------
+  U1        1   Si5351A-B-GT    Silicon Labs; 20-TSSOP (Digi-Key 588-1965-1-ND)
+  TCXO1     1   25 MHz ±0.5ppm  SiTime SiT1552 or NDK NX2520SA-25M
+  C_byp    ×8   100 nF          VDD bypass; 0402 X5R
+  C_bulk   ×4   10 µF           Bulk bypass; 0805 X5R
+  R_sda     1   4.7 kΩ          SDA pull-up; 0402
+  R_scl     1   4.7 kΩ          SCL pull-up; 0402
+  R_s0–2   3   50 Ω             Output series resistor; 0402
+  C_dc0–2  3   100 nF           DC block; 0402
+  J1–3     3   SMA PCB          Output connectors (CLK0/1/2)
+  K1–4     4   G6K-2F-Y         Filter bank relays (5V)
+  L_filters see sch_dds_ad9851  LPF inductors (T50-6 toroids)
+  C_filters see sch_dds_ad9851  LPF capacitors (NP0)
+
+================================================================================

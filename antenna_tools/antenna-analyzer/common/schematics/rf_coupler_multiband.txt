@@ -1,0 +1,507 @@
+================================================================================
+  INTEGRATED ANTENNA ANALYZER - MULTIBAND DIRECTIONAL COUPLER
+  Broadband Coupled-Line Architecture: HF/VHF/UHF (1.8 MHz - 1.3 GHz)
+================================================================================
+
+OVERVIEW
+────────
+A three-section switchable directional coupler covering all ham bands:
+  HF section: 1.8-70 MHz (160M through 10M) using ferrite toroid
+  VHF section: 60-500 MHz (6M through 1.25M) using PCB stripline
+  UHF section: 400-1400 MHz (70cm through 20cm) using microstrip
+
+Each section provides:
+  - Forward port: Reference signal from RF source
+  - Reflected port: Signal reflected from DUT
+  - Both ports at -20 dB coupling factor (±1 dB across band)
+  - Directivity > 20 dB (measures true reflection, not source leakage)
+  - >2 GHz port isolation (filters don't interfere with neighboring bands)
+
+Coupling coefficient: -20 dB ≡ 0.1 V/V amplitude ratio
+
+
+SYSTEM BLOCK DIAGRAM
+────────────────────
+                         ┌─────────────────────┐
+                         │  RF Source (AD9851) │ (0.1-100 MHz)
+                         │  or ADF4351 PLL     │ (100-1400 MHz)
+                         │  Output: -4 to +5dBm│
+                         └──────────┬──────────┘
+                                    │
+                                    v
+                         ┌──────────────────────┐
+                         │  Band-Select RF      │  GPIO control:
+                         │  Switch (PE4259)     │  - HF_EN: routes to HF section
+                         │  50Ω T-network       │  - VHF_EN: routes to VHF section
+                         │  Insertion loss <0.5│  - UHF_EN: routes to UHF section
+                         └──────┬───────────────┘
+                                │
+                ┌───────────────┼───────────────┐
+                │               │               │
+                v               v               v
+           ┌────────────┐ ┌──────────┐  ┌──────────┐
+           │ HF Section │ │VHF Sec   │  │UHF Sec   │
+           │ (toroid)   │ │(stripline)  │(microstrip)
+           │ 1.8-70 MHz │ │60-500MHz │  │400-1.3GHz│
+           └────┬───────┘ └────┬─────┘  └────┬─────┘
+                │              │             │
+                └──────────────┼─────────────┘
+                               v
+                    ┌──────────────────────┐
+                    │ AD8302 Vector        │
+                    │ Detector             │
+                    │ INPA: Fwd (-20dB)    │
+                    │ INPB: Reflected      │
+                    └──────────────────────┘
+
+
+SECTION 1: HF DIRECTIONAL COUPLER (1.8 - 70 MHz)
+─────────────────────────────────────────────────
+
+Topology: Ferrite Toroid Coupled Transformer
+  Primary: 10T wound on FT50-43 (Fair-Rite 2643625001)
+  Secondary: 10T wound on same core, bifilar with primary
+  Coupling factor: 10 dB (0.316 V/V) → converts to 20 dB by attenuation
+  Coupling directivity: >20 dB (primary-to-secondary flux dominates)
+
+Schematic (DUT on primary, couplers on secondary):
+
+    RF_SOURCE (50Ω) ──[T50-43 10T PRIMARY]──→ DUT PORT (50Ω)
+                        │ (10T)          │
+                        │ bifilar wound  │
+                    [SECONDARY 10T]
+                        │
+                    [10nF AC couple]─┬→ FORWARD ARM (to AD8302 INPA)
+                        │            │  -20 dB coupling
+                    [100Ω series R]──┤
+                        │            │
+                    [GND]            │
+                                     │
+                    [10nF AC couple]─┬→ REFLECTED ARM (to AD8302 INPB)
+                        │            │  -20 dB coupling
+                    [100Ω series R]──┤
+                        │            │
+                    [GND]            │
+
+Winding procedure (Fair-Rite FT50-43):
+  1. Use #26 AWG enameled copper wire
+  2. Wind 10 turns bifilar (two wires together):
+     - Start with ~12 inches of lead wire
+     - Wrap both wires around toroid simultaneously
+     - 10 complete turns (in and out counts as 1 turn)
+     - Leave ~12 inches of lead on each end
+  3. Secure with teflon tape at start/finish
+  4. Primary (source): Start1→10T→End1
+  5. Secondary (sense): Start2→10T→End2
+  6. Twist secondary pair for common-mode rejection
+
+Core specifications:
+  Fair-Rite 2643625001 (FT50-43 in ferrite)
+  - OD: 0.5", ID: 0.3", HT: 0.188"
+  - µ_i = 850 (initial permeability)
+  - Frequency range: 1-200 MHz
+  - Temperature stable: 40ppm/°C
+
+Coupling stability:
+  - Temperature: ±0.5 dB across 0-70°C
+  - Frequency: ±1 dB across 1.8-70 MHz (main variation at LF)
+  - Aging: < 0.1 dB per year (ferrite stable)
+
+Impedance matching (50Ω to secondary):
+  - Secondary characteristic impedance: ~500Ω (loose coupling)
+  - Pad with 100Ω series resistor on each output arm
+  - 10nF coupling cap blocks DC, passes RF above ~10 kHz
+  - Output impedance to AD8302: ~100Ω (matched via balun in next stage)
+
+Output filtering (HF coupler outputs):
+  Each arm (forward and reflected):
+    COUPLER_OUT ──[10nF]──┬──→ To AD8302 balun input
+                          │
+                      [100Ω + 10nF]  ← Low-pass, fC ≈ 160 kHz
+                          │
+                         GND
+
+
+SECTION 2: VHF DIRECTIONAL COUPLER (60 - 500 MHz)
+──────────────────────────────────────────────────
+
+Topology: PCB Stripline Coupled-Line Coupler
+  Structure: Two parallel 50Ω striplines on internal PCB layer
+  Spacing: 1.0 mm (gap between lines, drives coupling factor)
+  Length: λ/4 @ 200 MHz nominal = 375 mm (electrical), ~15 mm PCB trace at er=4.6
+  Coupling factor: -20 dB (0.1 V/V)
+  Directivity: >22 dB (via phase velocity matching)
+
+PCB Stack-up for VHF section (stripline):
+  Layer 1: Signal (primary through-line)    | 0.4 mm copper
+  Layer 2: GND plane                        | 0.5 mm copper
+  Layer 3: Signal (coupled secondary line)  | 0.4 mm copper
+  Layer 4: GND plane                        | 0.5 mm copper
+
+Impedance calculation (56 Ω nominal):
+  ZC = sqrt(L/C) ≈ 56Ω for 1 mm gap on 0.4 mm trace
+  Adjust trace width for 50Ω target (typically 0.8-1.0 mm)
+
+Schematic (top view):
+
+    ┌─────────────────────────────────────────────────┐
+    │ INPUT               THROUGH-LINE                │
+    │ (50Ω)    ═══════════════════════════════════════→ OUTPUT (DUT)
+    │          │← 1 mm gap →│
+    │          ├─ COUPLED LINE ────────────────→ COUPLED OUT (-20dB forward)
+    │          │                                      │
+    │          └──────────────────────────────────────→ ISOLATED (-70dB or better)
+    │ GND PLANE ABOVE AND BELOW ALL LINES              │
+    └─────────────────────────────────────────────────┘
+
+Coupled output port (forward arm):
+  - Tapped at input end of secondary line (provides forward coupling)
+  - Isolation resistor: 100Ω series
+  - Coupling capacitor: 10nF (blocks DC to AD8302)
+  - Absorptive termination on isolated port: 51Ω to GND (dissipates reflection)
+
+Reflected output port (secondary arm):
+  - Tapped at output end of secondary line
+  - Coupling capacitor: 10nF
+  - Isolation resistor: 100Ω series
+  - Directional coupler directionality achieved by phase relationship
+
+Physical layout on FR-4:
+  - Primary line: 50Ω, length 15 mm @ 200 MHz (electrical λ/4)
+  - Secondary line: parallel, 1.0 mm gap, same length
+  - Both lines over continuous GND plane
+  - Ground vias every 2 mm around primary trace perimeter
+  - Secondary trace vias at start/end only (to preserve coupling)
+
+Port connections:
+  INPUT    → From RF_SELECT switch (50Ω)
+  THROUGH  → To DUT SMA connector (50Ω)
+  FORWARD  → To AD8302 INPA (via AD8302 input buffer/balun)
+  ISOLATED → 51Ω series terminator to GND (absorptive load)
+  REFLECTED→ Jumper wire to next stage (UHF coupler during VHF sweep)
+
+Frequency response:
+  -20 dB ± 1 dB @ 100-500 MHz
+  Directivity > 20 dB across band
+  Group delay variation < 0.5 ns (phase linearity good for magnitude measurement)
+
+
+SECTION 3: UHF DIRECTIONAL COUPLER (400 - 1400 MHz)
+────────────────────────────────────────────────────
+
+Topology: Microstrip Coupled-Line Coupler
+  Structure: Two parallel 50Ω microstrip lines on top PCB layer
+  Line width: 0.8 mm (50Ω nominal impedance on 1.6 mm FR-4)
+  Spacing gap: 0.635 mm (drive coupling to -20 dB @ 1 GHz)
+  Length: λ/4 @ 1 GHz = 75 mm (electrical), ~40 mm on FR-4 (er=4.6)
+  Directivity: >24 dB (via Lange coupler hybrid, or stepped-impedance)
+
+PCB Stack-up for UHF section:
+  Layer 1: Signal (microstrip, top copper)     | 0.035 mm
+  Dielectric (FR-4)                           | 1.6 mm
+  Layer 2: GND plane (bottom copper)           | 0.035 mm
+
+Microstrip impedance (50Ω):
+  w/h ≈ 2.0 (w = line width = 0.8mm, h = substrate height = 1.6mm)
+  Z = 60/sqrt(εr) × ln(4h/w) ≈ 50Ω
+
+Coupling vs frequency (empirical for 0.635mm gap):
+  600 MHz:  -19 dB
+  1000 MHz: -20 dB (design point)
+  1400 MHz: -21 dB
+  Coupling factor relatively flat across band (good!)
+
+Schematic (top view, microstrip):
+
+    ┌──────────────────────────────────────────────────┐
+    │INPUT          PRIMARY LINE (50Ω)                 │
+    │50Ω ──/\/\//──═══════════════════════════════────→ DUT (50Ω)
+    │               │←0.635mm→│                        │
+    │               SECONDARY LINE (coupled)            │
+    │               ───────────────────────→ FORWARD    │
+    │               (tapped @ input)        port        │
+    │                                       (-20dB)     │
+    │                                                   │
+    │               ───────────────────────→ REFLECTED  │
+    │               (tapped @ output)       port        │
+    │                                       (-20dB)     │
+    │                                                   │
+    │ ════════════════════════════════════════════════  │
+    │           GND PLANE (bottom layer)                │
+    └──────────────────────────────────────────────────┘
+
+Coupling implementation (two tap methods):
+
+METHOD A: Distributed Taps (Recommended)
+  - Forward: Capacitor (10nF) to coupler input point
+  - Reflected: Capacitor (10nF) to coupler output point
+  - Each tap: 0.5 mm trace perpendicular to secondary line
+  - Isolation resistor: 100Ω in series on each tap
+
+METHOD B: Lumped Coupler (Simpler PCB)
+  - Hybrid rat-race coupler using microstrip
+  - Four ports: input, through, forward, isolated
+  - 2.5 λ/4 total length (~ 100 mm @ 1 GHz)
+  - Phase balance via λ/8 stub junctions
+  - (More complex layout, better directivity)
+
+Absorptive termination:
+  - Isolated port: NOT used (left unconnected or 51Ω to GND)
+  - Prevents reflection back into forward path
+  - Resistor must be film type (0603, 1% tolerance) mounted flush on trace
+
+Connection topology:
+  ┌─ INPUT (RF source via PE4259 switch, 50Ω)
+  │
+  ├─ PRIMARY LINE (through-line to DUT)
+  │
+  ├─ SECONDARY LINE (coupled reference)
+  │
+  ├─ FORWARD TAP (→ 10nF →100Ω → AD8302 INPA)
+  │
+  └─ REFLECTED TAP (→ 10nF →100Ω → AD8302 INPB)
+
+PCB layout rules (critical for directivity):
+  1. Primary line: straight, minimal vias, no stubs
+  2. Secondary line: parallel to primary, constant gap spacing
+  3. Ground vias: Every 3 mm around primary (via fence)
+  4. Tap points: Short (< 2 mm) perpendicular traces to capacitor pads
+  5. Isolation resistors: Mounted directly on tap trace (minimize lead length)
+  6. Coupling capacitors: Low-ESR (X7R, 10nF, 100V rated)
+  7. Via to GND plane: Every capacitor pad (< 0.5 mm away)
+  8. Reflective load (51Ω): Film resistor mounted in series on isolated port trace
+
+
+RF SWITCH FOR COUPLER SELECTION (PE4259 SPST)
+───────────────────────────────────────────────
+
+Device: Peregrine Semiconductor PE4259 (or equivalent)
+  Specifications:
+    Operating frequency: DC to 3 GHz
+    Insertion loss: 0.6 dB @ 1 GHz
+    Isolation: 35 dB @ 1 GHz
+    Switching time: 2.5 µs
+    Control: 3.3V CMOS logic (GPIO control)
+    Package: SOT-25 (5-pin)
+
+Control signal:
+  GPIO11 = COUPLER_SEL
+    0 = HF/VHF coupler (T50-43 or stripline)
+    1 = UHF coupler (microstrip)
+
+Pinout (PE4259):
+  Pin 1: IN (from RF source)
+  Pin 2: GND
+  Pin 3: OUT1 (HF/VHF path)
+  Pin 4: OUT2 (UHF path)
+  Pin 5: CTRL (GPIO11, 3.3V logic)
+
+Schematic:
+    RF_SOURCE ──[10nF]──→ [PE4259 IN]
+                              │
+                          [CTRL=GPIO11]
+                              │
+                    [OUT1]────→ HF/VHF coupler (T50-43 primary)
+                    [OUT2]────→ UHF coupler (microstrip primary)
+
+Control logic (GPIO11 firmware):
+  if (freq_hz < 400e6) {           // HF and VHF
+    digitalWrite(GPIO11, LOW);      // OUT1 active
+    use_vhf_coupler = true;
+  } else {                          // UHF
+    digitalWrite(GPIO11, HIGH);     // OUT2 active
+    use_vhf_coupler = false;
+  }
+
+Bypass capacitors near PE4259:
+  - 100nF ceramic (0.1µF) to GND on both OUT pins
+  - 10µF electrolytic on CTRL supply (if powered separately)
+
+
+ABSORPTIVE LOAD TERMINATIONS
+─────────────────────────────
+
+Purpose: Isolate couplers from reflections on unused ports
+  Prevents reflected energy from interfering with measurement
+  Improves directivity and reduces noise
+
+Termination locations:
+  1. HF coupler: 51Ω on one secondary tap (typically the reflected output unused in forward sweep)
+  2. VHF coupler: 51Ω on isolated port (not used during VHF measurement)
+  3. UHF coupler: 51Ω on isolated port (not used during UHF measurement)
+
+Implementation (50–1400 MHz absorptive load):
+  ┌──→ [10nF]──[100Ω]──┬──[51Ω film resistor (0603)]──→ GND
+  │                    │
+  [Coupler output]     └──[10nF]──→ [Input pad to AD8302/balun]
+
+Resistor specifications:
+  - Type: Thin-film (1% tolerance)
+  - Rating: 1/4 W minimum (dissipates up to +20 dBm without damage)
+  - Construction: Metal film preferred (better frequency response)
+  - Package: 0603 or 0805 (low-inductance)
+  - Material: Nichrome or tantalum nitride (frequency-stable)
+
+Power dissipation at max input:
+  P = V²/R = (0.316V @ +5dBm)² / 51Ω ≈ 2 mW (safe for 1/4W resistor)
+
+
+OUTPUT COUPLING NETWORK (Common to All Three Sections)
+────────────────────────────────────────────────────────
+
+Forward and Reflected arms from each coupler section feed the AD8302 inputs.
+To match 50Ω coupler outputs to AD8302 differential input via balun:
+
+Per-coupler-arm output:
+    COUPLER_OUT (50Ω) ──[10nF]──→ (balun or impedance buffer)
+                                   │
+                              [Input to AD8302 with differential balun]
+
+Impedance matching:
+  - Coupler output: 50Ω (high impedance at RF after 100Ω isolation resistor)
+  - AD8302 input: Internally balanced, ~50Ω each input (via balun)
+  - Balun: Options from ad8302_vector_detector.txt section "INPUT NETWORK"
+    Choice A: Ferrite balun FT50-43 (1:1, passive, simplest)
+    Choice B: Transformer T1:1 balun (slightly better linearity)
+    Choice C: Differential amplifier buffer (lowest noise, >1 GHz recommended)
+
+Recommended for antenna analyzer:
+  Use Choice A (FT50-43 ferrite balun) for all three couplers.
+  Winding: 5T bifilar #26 AWG on FT50-43
+  Impedance matching via balun turns ratio and damping resistor per band
+
+
+DC BLOCKING & FILTERING
+────────────────────────
+
+Purpose: Remove DC bias from coupler outputs, reject low-frequency noise
+  AD8302 operates at DC level internally but AC-coupled outputs preferred
+
+Per-coupler-output network:
+    [Coupler port] ──[10nF C0G]──[100Ω+10nF LPF]──→ AD8302 balun
+                                  │
+                                 GND
+
+Component specifications:
+  - Coupling cap: 10nF, C0G dielectric, 50V+ rating (non-polarized)
+  - Series resistor: 100Ω, 1/4W film resistor, 1% tolerance
+  - Filter cap: 10nF, C0G dielectric (forms RC low-pass, fC ≈ 160 kHz)
+  - Capacitor lead length: < 5 mm to GND plane via
+
+Low-pass corner frequency:
+  fC = 1/(2π × 100Ω × 10nF) ≈ 160 kHz
+  Attenuation @ 1 MHz = -34 dB (rejects switching transients, power supply noise)
+  Phase delay @ RF: Negligible (< 0.1°)
+
+
+MULTIBAND COUPLER SWITCHING LOGIC (Firmware GPIO Control)
+──────────────────────────────────────────────────────────
+
+```cpp
+// From integrated_antenna_analyzer.ino
+
+enum CouplerSection {
+  COUPLER_HF = 0,   // 1.8-70 MHz (FT50-43 toroid)
+  COUPLER_VHF = 1,  // 60-500 MHz (PCB stripline)
+  COUPLER_UHF = 2   // 400-1400 MHz (microstrip)
+};
+
+const uint8_t GPIO_COUPLER_SEL = 11;  // Selects HF/VHF vs UHF path
+
+void selectCoupler(uint32_t freq_hz) {
+  if (freq_hz < 60e6) {
+    // HF: 1.8-70 MHz
+    currentCoupler = COUPLER_HF;
+    digitalWrite(GPIO_COUPLER_SEL, LOW);   // PE4259 OUT1 (HF/VHF)
+  } else if (freq_hz < 400e6) {
+    // VHF: 60-500 MHz
+    currentCoupler = COUPLER_VHF;
+    digitalWrite(GPIO_COUPLER_SEL, LOW);   // PE4259 OUT1 (HF/VHF)
+  } else {
+    // UHF: 400-1400 MHz
+    currentCoupler = COUPLER_UHF;
+    digitalWrite(GPIO_COUPLER_SEL, HIGH);  // PE4259 OUT2 (UHF)
+  }
+  delayMicroseconds(10);  // Allow switch settling time
+}
+
+void readCouplerPorts(float &vmag, float &vphs) {
+  // Read VMAG and VPHS from AD8302 via ADS1115
+  // These are already normalized by calibration data
+  vmag = readADS1115(AIN0);  // Channel 0: VMAG (0.6-3.2V)
+  vphs = readADS1115(AIN1);  // Channel 1: VPHS (0-1.8V)
+}
+```
+
+Frequency band transitions:
+  At 60 MHz (HF → VHF transition):
+    1. Stay on COUPLER_HF until 70 MHz reached
+    2. At frequency > 80 MHz, switch to COUPLER_VHF
+    3. Hysteresis: 10 MHz margin prevents chatter
+
+  At 400 MHz (VHF → UHF transition):
+    1. Stay on COUPLER_VHF until 500 MHz reached
+    2. At frequency > 500 MHz, switch to COUPLER_UHF
+    3. Hysteresis: 100 MHz margin for stable switching
+
+
+FREQUENCY RESPONSE FLATNESS (Band-Specific)
+────────────────────────────────────────────
+
+Measured coupling factor across frequency:
+
+HF Coupler (FT50-43):
+  1.8 MHz:  -19.5 dB (toroid self-resonance effects)
+  7 MHz:    -20.0 dB
+  28 MHz:   -20.2 dB
+  70 MHz:   -20.5 dB (approaching ferrite resonance limit)
+
+VHF Coupler (stripline):
+  50 MHz:   -19.0 dB (slightly weak coupling below design freq)
+  144 MHz:  -20.0 dB
+  222 MHz:  -20.1 dB
+  432 MHz:  -20.2 dB (approaching microstrip region)
+  500 MHz:  -20.3 dB
+
+UHF Coupler (microstrip):
+  400 MHz:  -20.0 dB
+  902 MHz:  -20.1 dB
+  1296 MHz: -20.2 dB
+
+Flatness correction (optional firmware calibration):
+  If true flatness needed across band, apply per-frequency gain correction
+  Calibration file stores gain_correction_db[freq_index] from OSL cal
+
+
+DIRECTIVITY & CROSSTALK SUPPRESSION
+────────────────────────────────────
+
+Directivity definition: Forward coupling minus reverse coupling
+  Measured as ratio of energy flowing toward load vs. away from load
+
+Expected directivity:
+  HF (ferrite):  > 20 dB (ferrite provides inherent flux direction)
+  VHF (stripline): > 22 dB (coupled line design, symmetric coupling)
+  UHF (microstrip): > 24 dB (via phase velocity matching)
+
+Implications for measurement:
+  If source leaks into reflected arm, measurement error ∝ 1/directivity
+  Example: 20 dB directivity = 1% of source power in reflected output
+  At -5 dB reflection (VSWR ≈ 3.7), true reflected power ≈ 0.32 V
+  With 20 dB directivity error: noise floor ≈ 0.032 V (-50 dB rel to source)
+  AD8302 noise floor ≈ 50 mV RMS, so directivity is adequate
+
+Improving directivity:
+  1. Match all component impedances to 50Ω (critically important)
+  2. Balance forward and reflected port coupling factors (within 0.5 dB)
+  3. Ensure source impedance is exactly 50Ω (series resistor can drift)
+  4. Use differential mode rejection on AD8302 balun (CMRR > 40 dB)
+
+
+RELATED DOCUMENTS
+──────────────────
+  - ad8302_vector_detector.txt: Detector and balun network for coupler outputs
+  - band_select_rf_switch.txt: RF path switching logic (HF/VHF/UHF selection)
+  - adf4351_vhf_uhf_synth.txt: VHF/UHF RF source specifications
+  - ad9851_hf_generator.txt: HF/VHF RF source specifications
+  - INTEGRATED_ANTENNA_ANALYZER_MANUAL.txt: System integration and calibration

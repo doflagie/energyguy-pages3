@@ -1,0 +1,482 @@
+================================================================================
+  INTEGRATED ANTENNA ANALYZER - AD9851 HF SYNTHESIZER
+  Direct Digital Synthesis (DDS) for 0.1-100 MHz Band Coverage
+================================================================================
+
+OVERVIEW
+────────
+AD9851 provides DDS-based RF generation for HF bands (160M through 10M).
+Covers 0.1 MHz to 100 MHz with 1 Hz resolution and excellent phase coherence.
+
+Key specifications:
+  - Frequency range: 0.1 to 125 MHz (clean output to 100 MHz)
+  - Master clock: 33.333 MHz TCXO (6× multiplier in AD9851 gives 200 MHz internal)
+  - Frequency resolution: 1 Hz (200 MHz / 2^32 words ≈ 0.046 Hz, programmable)
+  - Output levels: -5 to 0 dBm (directly to RF coupler, no amplifier needed)
+  - Phase noise: -100 dBc/Hz @ 10 kHz offset (excellent for VNA source)
+  - Spectral purity: Spurious suppression > 40 dBc @ fundamental frequency
+  - Switching time: < 1 µs (frequency updates via parallel data bus)
+  - Package: DIP-40 (standard, hand-solderable, through-hole)
+
+Architecture: Accumulator → Phase converter → D/A → Output filter → RF port
+
+
+REFERENCE OSCILLATOR (33.333 MHz TCXO)
+──────────────────────────────────────
+
+Device: Abracon ASTMHTFL-25.000MHZ or equivalent 33.333 MHz source
+  Type: Temperature-compensated crystal oscillator (TCXO)
+  Frequency: 33.333 MHz ±0.5 ppm (must be 33.333 MHz, not 25 MHz)
+  Supply: 3.3V (check datasheet, some variants need 5V)
+  Output impedance: 10 MΩ || 3 pF (high impedance)
+  Stability: 0.1 ppm/°C (frequency drift < 100 ppm over 0-70°C)
+  Frequency accuracy: ±2.5 ppm @ 25°C (0.1% across 0-100 MHz)
+
+Why 33.333 MHz?
+  - AD9851 internal oscillator: 200 MHz = 33.333 MHz × 6
+  - Internal accumulator: 32-bit word (2^32 frequency steps)
+  - Frequency resolution: 200 MHz / 2^32 = 0.0466 Hz (excellent for VNA)
+  - Output filter can cleanly separate 200 MHz from 0.1-100 MHz output
+
+Schematic (TCXO supply):
+
+    TCXO (33.333 MHz) ──[10nF bypass cap]──→ GND
+         │
+         ├─→ [10nF AC-coupling cap] ──→ AD9851 REFIN (pin 11)
+         │
+         └─→ [10kΩ pull-up to +3.3V] (ensures proper biasing)
+
+Bootstrap from 3.3V analog supply:
+  - TCXO supply: 3.3V (same as RF-isolated rail)
+  - Bypass: 100nF ceramic directly at TCXO pins
+  - No shared return with digital ground (prevent jitter)
+  - Shielded cable recommended if TCXO is remote from AD9851
+
+Trim capacitor (optional, for final frequency adjustment):
+  - Add 50pF variable capacitor in parallel with TCXO
+  - Allows ±50 ppm adjustment if absolute accuracy needed
+  - Set via potentiometer for "set and forget" calibration
+  - Usually not required (TCXO is stable enough)
+
+
+PINOUT & SIGNAL DESCRIPTION (AD9851 DIP-40)
+─────────────────────────────────────────────
+
+```
+           ┌──────────────────────┐
+        1 │ GND                   │ 40 VCC (+5V)
+        2 │ GND                   │ 39 VCC (+5V)
+        3 │ REFIN (33.333 MHz)    │ 38 GND
+        4 │ GND                   │ 37 GND
+        5 │ AGND                  │ 36 NC (no connect)
+        6 │ AGND                  │ 35 NC
+        7 │ AGND                  │ 34 OUT1 (RF output, main)
+        8 │ D0 (data bit 0, LSB)  │ 33 GND
+        9 │ D1                    │ 32 RCLK (recommended internal clock)
+       10 │ D2                    │ 31 GND
+       11 │ D3                    │ 30 SPI_CLK (SPI clock input)
+       12 │ D4                    │ 29 SPI_DATA (SPI data input)
+       13 │ D5                    │ 28 FQ_UD (frequency update strobe)
+       14 │ D6                    │ 27 PS0 (phase select, phy0)
+       15 │ D7 (data bit 7, MSB)  │ 26 PS1
+       16 │ A0 (address bit 0)    │ 25 PS2
+       17 │ A1                    │ 24 RST (reset, active low)
+       18 │ A2                    │ 23 GND
+       19 │ A3 (address bit 3)    │ 22 VOUT (analog output, internal DAC)
+       20 │ GND                   │ 21 GND
+          └──────────────────────┘
+```
+
+Function summary:
+  - D0-D7: 8-bit parallel data input (address + frequency word)
+  - A0-A3: 4-bit address (selects register for data)
+  - FQ_UD: Frequency update latch (strobe to load new frequency)
+  - RST: Reset (active low, forces oscillator state reset)
+  - REFIN: Reference oscillator input (33.333 MHz)
+  - OUT1: RF output (DAC output, requires filtering)
+  - RCLK: Internal clock enable (set to logic 1 for normal operation)
+  - VCC/AGND: Supply rails (+5V analog, ground, multiple pins each)
+
+
+FREQUENCY TUNING WORD (FTW) CALCULATION
+─────────────────────────────────────────
+
+AD9851 frequency equation:
+  f_out = (FTW × f_refin × M) / 2^32
+
+Where:
+  f_out = desired output frequency (Hz)
+  FTW = frequency tuning word (32-bit value)
+  f_refin = reference oscillator frequency = 33.333 MHz
+  M = multiplier = 6 (internal to AD9851, fixed)
+  2^32 = 4,294,967,296
+
+Rearranging for FTW:
+  FTW = (f_out × 2^32) / (f_refin × M)
+  FTW = (f_out × 2^32) / (33.333 MHz × 6)
+  FTW = (f_out × 2^32) / 200 MHz
+  FTW = f_out × 21.47483648
+
+For common ham frequencies:
+
+  160M (1.8 MHz): FTW = 1.8e6 × 21.47483648 = 0x3D629A
+  80M (3.5 MHz):  FTW = 3.5e6 × 21.47483648 = 0x7AC527
+  40M (7.0 MHz):  FTW = 7.0e6 × 21.47483648 = 0xF58A4E
+  20M (14 MHz):   FTW = 14e6 × 21.47483648 = 0x1EB1449C (> 24-bit, use 32-bit)
+  10M (28 MHz):   FTW = 28e6 × 21.47483648 = 0x3D62933
+
+Example: Generating 14.1 MHz
+  FTW = 14.1e6 × 21.47483648 = 0x1EBE41B
+  Frequency: (0x1EBE41B × 200 MHz) / 2^32 = 14.100000 MHz (exact)
+
+
+SPI INTERFACE (Serial Programming Port)
+──────────────────────────────────────
+
+Method 1: Parallel Data Load (Preferred for ESP32)
+  - 8-bit data bus (D0-D7) + 4-bit address (A0-A3)
+  - FQ_UD strobe latches frequency register
+  - Fastest update rate (µs-level), simplest software
+  - Requires 12 GPIO pins
+
+Method 2: SPI Serial Interface (Alternative)
+  - 3-wire: CLK (GPIO18), MOSI (GPIO19), LE (GPIO21)
+  - Write registers in serial format (5 × 8-bit per register)
+  - Slower but uses fewer pins
+  - Recommended if GPIO pins are scarce
+
+Parallel Load Schematic (preferred):
+
+    ┌─────────────────────────────────────────┐
+    │ ESP32 GPIO Assignments                  │
+    │                                         │
+    │ GPIO13 → D7 (data bit 7)               │
+    │ GPIO12 → D6 (data bit 6)               │
+    │ GPIO14 → D5 (data bit 5)               │
+    │ GPIO27 → D4 (data bit 4)               │
+    │ GPIO26 → D3 (data bit 3)               │
+    │ GPIO25 → D2 (data bit 2)               │
+    │ GPIO33 → D1 (data bit 1)               │
+    │ GPIO32 → D0 (data bit 0)               │
+    │                                         │
+    │ GPIO5  → W_CLK (write clock, frequency│
+    │ GPIO17 → FQ_UD (frequency update)      │
+    │ GPIO16 → RESET (reset, active low)    │
+    │                                         │
+    │ GPIO-to-AD9851 address lines (optional)│
+    │ Hardwired: A0=GND, A1=GND, A2=GND      │
+    │            A3=GND (register 0 only)   │
+    │                                         │
+    └─────────────────────────────────────────┘
+
+Firmware pseudocode (parallel load, frequency update):
+
+```cpp
+// GPIO pin definitions
+#define D0_PIN 32
+#define D1_PIN 33
+#define D2_PIN 25
+#define D3_PIN 26
+#define D4_PIN 27
+#define D5_PIN 14
+#define D6_PIN 12
+#define D7_PIN 13
+#define W_CLK_PIN 5
+#define FQ_UD_PIN 17
+#define RESET_PIN 16
+
+void setAD9851Frequency(uint32_t ftw) {
+  // Load 32-bit FTW across 4 bytes (MSB first)
+  uint8_t bytes[4] = {
+    (ftw >> 24) & 0xFF,
+    (ftw >> 16) & 0xFF,
+    (ftw >> 8) & 0xFF,
+    ftw & 0xFF
+  };
+
+  // Load each byte to data bus (D0-D7)
+  for (int byte_idx = 0; byte_idx < 4; byte_idx++) {
+    uint8_t byte_val = bytes[byte_idx];
+
+    // Write each bit (D0-D7) from byte
+    for (int bit = 0; bit < 8; bit++) {
+      digitalWrite(D0_PIN + bit, (byte_val >> bit) & 1);
+    }
+
+    // Clock strobe (rising edge loads byte)
+    digitalWrite(W_CLK_PIN, HIGH);
+    delayMicroseconds(1);
+    digitalWrite(W_CLK_PIN, LOW);
+  }
+
+  // Frequency update strobe (rising edge loads all 4 bytes into accumulator)
+  digitalWrite(FQ_UD_PIN, HIGH);
+  delayMicroseconds(1);
+  digitalWrite(FQ_UD_PIN, LOW);
+
+  delay(1);  // Wait for oscillator to settle
+}
+
+void initAD9851() {
+  // Set all pins to output
+  pinMode(D0_PIN, OUTPUT);
+  pinMode(D1_PIN, OUTPUT);
+  // ... (all 8 data pins)
+  pinMode(W_CLK_PIN, OUTPUT);
+  pinMode(FQ_UD_PIN, OUTPUT);
+  pinMode(RESET_PIN, OUTPUT);
+
+  // Reset AD9851
+  digitalWrite(RESET_PIN, LOW);
+  delay(1);
+  digitalWrite(RESET_PIN, HIGH);
+  delay(10);
+
+  // Set initial frequency (1.0 MHz)
+  setAD9851Frequency(0x215B0F);  // FTW for 1.0 MHz
+}
+```
+
+
+OUTPUT FILTERING & IMPEDANCE MATCHING
+──────────────────────────────────────
+
+AD9851 Output Characteristics:
+  - Output impedance: High (open-drain DAC, ~50Ω matched load needed)
+  - Output range: 0.4-0.8V pk (rail-to-rail of internal supply)
+  - Noise floor: ~-80 dBc/Hz @ 10 MHz offset (good spectral purity)
+  - Harmonic content: -40 dBc (second harmonic dominates)
+  - Output impedance must be 50Ω for impedance matching to coupler
+
+Output network (50Ω load):
+
+    ┌─ From AD9851 OUT1 (pin 34)
+    │
+  [50Ω series resistor] ← Impedance matching
+    │
+  [Low-pass filter] ← Band-specific, removes 200 MHz carrier and harmonics
+    │
+  [10nF coupling cap] ← AC couples to RF coupler input
+    │
+    └─→ To directional coupler (50Ω)
+
+Band-Specific Output Filters:
+  Different filters optimize for each frequency region
+
+VARIANT A: 0.1-20 MHz (HF Bands: 160M, 80M, 40M, 30M, 20M)
+────────────────────────────────────────────────────────────
+Topology: Chebyshev 5-pole low-pass, Fc ≈ 30 MHz
+Purpose: Attenuate 200 MHz DDS carrier and harmonics
+
+Components:
+  L1 = 1.8 µH (series)
+  C1 = 3.3 pF (shunt)
+  L2 = 1.5 µH (series)
+  C2 = 4.7 pF (shunt)
+  L3 = 1.2 µH (series)
+
+Schematic:
+    AD9851 OUT ──[50Ω match R]──[L1:1.8µH]──┬──[L2:1.5µH]──┬──[L3:1.2µH]──→ Output
+                                            │              │
+                                      [C1:3.3pF]    [C2:4.7pF]
+                                            │              │
+                                           GND             GND
+
+Response:
+  0.1-20 MHz:   Flat (< 0.5 dB ripple)
+  30 MHz (-3dB)
+  100 MHz:      -30 dB
+  200 MHz:      -60 dB (DDS carrier suppressed)
+
+
+VARIANT B: 20-50 MHz (20M through 6M Lower Band)
+───────────────────────────────────────────────
+Topology: Butterworth 3-pole, Fc ≈ 70 MHz
+
+Components:
+  L1 = 0.82 µH
+  C1 = 6.8 pF
+  L2 = 0.68 µH
+  C2 = 8.2 pF
+
+Flatter response at higher frequencies, better transition to VHF
+
+
+VARIANT C: 50-100 MHz (VHF/6M Upper Band)
+──────────────────────────────────────────
+Topology: Butterworth 2-pole, Fc ≈ 120 MHz
+
+Components:
+  L1 = 0.39 µH
+  C1 = 10 pF
+
+Simple, minimum insertion loss above 50 MHz
+
+
+Filter Selection Logic (Firmware):
+```cpp
+void selectAD9851Filter(uint32_t freq_hz) {
+  if (freq_hz < 20e6) {
+    // Switch external relay to Variant A (HF filter)
+    digitalWrite(GPIO_FILTER_A, HIGH);
+    digitalWrite(GPIO_FILTER_B, LOW);
+    digitalWrite(GPIO_FILTER_C, LOW);
+  } else if (freq_hz < 50e6) {
+    // Variant B
+    digitalWrite(GPIO_FILTER_A, LOW);
+    digitalWrite(GPIO_FILTER_B, HIGH);
+    digitalWrite(GPIO_FILTER_C, LOW);
+  } else {
+    // Variant C
+    digitalWrite(GPIO_FILTER_A, LOW);
+    digitalWrite(GPIO_FILTER_B, LOW);
+    digitalWrite(GPIO_FILTER_C, HIGH);
+  }
+  delay(10);  // Filter switching time
+}
+```
+
+Filter Switching Implementation:
+  Option 1: Three fixed filters on PCB, physical RF switch (relay)
+    - 3 x PE4259 SPDT switches select one filter at a time
+    - All three filters present on board, adds cost but simplicity
+
+  Option 2: Pluggable filter modules (SMA connectors)
+    - Single filter module inserted based on band
+    - More portable, reduces PCB complexity
+    - Requires user to change filter (not automatic)
+
+Recommended: Option 1 (automatic relay selection via GPIO)
+
+
+OUTPUT STAGE & IMPEDANCE MATCHING
+──────────────────────────────────
+
+After filter, output network couples to 50Ω load (RF coupler):
+
+    ┌─ From output filter (50Ω output impedance)
+    │
+  [10nF coupling cap] ← AC couples RF, blocks DC
+    │
+  [Optional: 50Ω series R for impedance matching]
+    │
+    └─→ To RF coupler primary input
+
+Output level (into 50Ω load):
+  Typical: -5 to 0 dBm @ 100 MHz
+  Reason: Open-drain DAC output, ~0.4V peak into 50Ω
+  Voltage: V = sqrt(10^(-5dBm/10) × 50Ω) ≈ 0.316 V (RMS)
+  Peak: ~0.45 V (peak-to-peak 0.9 V amplitude)
+
+Power distribution:
+  HF (1.8-30 MHz): -2 to -5 dBm (slightly lower at LF)
+  VHF (50-100 MHz): -5 to 0 dBm (limited by DAC slew rate)
+
+
+OSCILLATOR STARTUP & SETTLING
+──────────────────────────────
+
+Startup sequence:
+  1. Power-on: AD9851 internal oscillator begins oscillating @ 200 MHz
+  2. Reference clock (REFIN): Must be stable before FQ_UD
+  3. FQ_UD strobe: Latches frequency word into accumulator
+  4. Settling time: < 1 µs for frequency to stabilize
+  5. Output stable: Ready for measurement after settling
+
+Frequency switching speed:
+  Update rate: 1 MHz per microsecond (FTW changes 1e6 Hz)
+  Reason: Internal accumulator increments @ 200 MHz, DDS delay is short
+  Practical sweep: Can transition through entire HF band in ~1 second
+
+Temperature coefficient:
+  Frequency drift: ±2.5 ppm / °C (limited by REFIN stability)
+  For 14 MHz band: ±35 Hz / °C (negligible for VNA measurement)
+
+
+PHASE COHERENCE & REFERENCE LOCKING
+────────────────────────────────────
+
+AD9851 provides phase-coherent frequency synthesis:
+  - All frequencies derived from single reference (33.333 MHz TCXO)
+  - Phase continuity maintained across frequency transitions
+  - Phase repeatability: ±1° (excellent for vector measurement)
+
+For optimal performance with AD8302:
+  - Do not change frequency rapidly during measurement
+  - Allow 10 ms settling time after FQ_UD strobe
+  - Phase calibration removes any static phase offsets
+
+Phase reference output (optional):
+  - Can use FQ_UD strobe as external phase reference clock
+  - Useful for lock-in amplifier synchronization
+  - Typically not needed for portable analyzer (AD8302 self-contained)
+
+
+SPECTRAL PURITY (Spurious Suppression)
+───────────────────────────────────────
+
+Spurious signals from AD9851 DDS:
+
+Type 1: Fractional harmonic spurs
+  - Occurs at beats between DDS output and reference clock
+  - Frequency: |N × f_out - M × f_refin|
+  - Level: -40 to -50 dBc (well below AD8302 sensitivity)
+  - Mitigation: Output filter attenuates all harmonics
+
+Type 2: Phase noise sidebands
+  - Caused by clock jitter in reference oscillator
+  - Level: -95 dBc/Hz @ 10 kHz offset (spec'd performance)
+  - Mitigation: TCXO provides stable reference
+
+Type 3: Quantization noise
+  - Inherent to DDS quantization error
+  - Noise floor: -80 dBc (well below coupler dynamic range)
+  - Mitigation: Not needed (AD8302 has ±100 mV dynamic range)
+
+
+MAXIMUM SAFE OUTPUT LEVEL
+──────────────────────────
+
+Ensure AD9851 output cannot overdrive AD8302:
+  - AD9851 output into 50Ω: -5 to 0 dBm maximum
+  - Coupler attenuation: -20 dB (reference arm)
+  - Signal to AD8302: -20 to -25 dBm (very safe)
+
+Analysis:
+  0 dBm = 1 mW = 0.316 V RMS into 50Ω
+  After -20 dB coupler: 0.0316 V RMS ≈ 45 mV (safe for AD8302)
+  AD8302 rated: ±6V absolute maximum (0.316 V RMS is 99.5 dB below this)
+
+Safety margin: > 99 dB (ample headroom)
+
+
+TESTING & VERIFICATION
+───────────────────────
+
+Commissioning checks:
+  1. Verify frequency accuracy: Use frequency counter, test 1-100 MHz
+     Expected: ±2.5 ppm error (typical TCXO tolerance)
+
+  2. Measure output power: Use RF power meter at each band
+     Expected: -5 to 0 dBm
+
+  3. Verify spurious suppression: Use spectrum analyzer
+     Expected: Fundamental > -40 dBc above spurious level
+
+  4. Check phase noise: Use HP 3580 or similar
+     Expected: -95 dBc/Hz @ 10 kHz offset
+
+Troubleshooting:
+  - No output: Check REFIN presence (oscilloscope), FQ_UD rising edge
+  - Wrong frequency: Verify FTW calculation, check data bus integrity
+  - Low output power: Check filter insertion loss, verify coupler coupling
+  - Unstable frequency: Check TCXO supply voltage (should be 3.3V stable)
+
+
+RELATED DOCUMENTS
+──────────────────
+  - band_select_rf_switch.txt: RF path selection and filtering
+  - rf_coupler_multiband.txt: Coupler impedance matching to AD9851 output
+  - adf4351_vhf_uhf_synth.txt: VHF/UHF alternative source (100-1400 MHz)
+  - integrated_antenna_analyzer.ino: Firmware control and frequency table
+  - INTEGRATED_ANTENNA_ANALYZER_MANUAL.txt: Frequency calibration procedure

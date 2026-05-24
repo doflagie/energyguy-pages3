@@ -1,0 +1,215 @@
+================================================================================
+  GPSDO — GPS-DISCIPLINED OSCILLATOR                     TM-CAL-SCH-001 Rev A
+  Field Calibration Reference Source
+================================================================================
+
+OVERVIEW
+--------
+Software GPS-disciplined oscillator. GPS 1PPS gates ESP32 hardware counter
+measuring Si5351A output. Frequency error drives Si5351 correction register.
+After 10–30 seconds of sky lock: output accuracy tracks GPS, <1 ppb typical.
+
+PERFORMANCE BUDGET
+------------------
+GPS 1PPS accuracy:       ±10 ns RMS (NEO-M8N, open sky, >6 SVs)
+Gate time (10 PPS):      10.000 000 00 s (GPS-defined)
+Counter resolution:      1 count in 100,000,000 = 10 ppb single-shot
+Averaging (30 samples):  <1 ppb (1σ after discipline loop converges)
+Si5351 output noise:     -110 dBc/Hz @ 1 kHz offset (10 MHz CLK0)
+Output frequency range:  8 kHz – 160 MHz (Si5351A, all 3 outputs)
+Output levels:           ~3.5 Vpp CMOS → attenuate to 0 dBm SMA output
+
+================================================================================
+  BLOCK DIAGRAM
+================================================================================
+
+                    GPS PATCH ANTENNA (active, 3.3V, SMA)
+                             |
+               ┌─────────────┴──────────────────┐
+               │       u-blox NEO-M8N            │
+               │  GPS/GLONASS/Galileo receiver   │
+               │  Multi-constellation, 72 ch     │
+               │  3.3V, 30mA acquisition         │
+               │                                 │
+               │  VCC ───── 3V3 rail             │
+               │  GND ───── GND                  │
+               │  TX  ──────────────────────────►│ ESP32 GPIO16 (UART2 RX)
+               │  RX  ◄──────────────────────────│ ESP32 GPIO17 (UART2 TX)
+               │  TIMEPULSE (1PPS) ─────────────►│ ESP32 GPIO34 (INT, rising)
+               └────────────────────────────────-┘
+
+               ┌─────────────────────────────────┐
+               │         Si5351A-B-GT             │
+               │  I2C clock synthesizer           │
+               │  25 MHz XTAL (5 ppm TCXO opt.)  │
+               │                                 │
+               │  VCC ───── 3V3 rail             │
+               │  GND ───── GND                  │
+               │  SDA ◄──────────────────────────│ ESP32 GPIO21 (I2C SDA)
+               │  SCL ◄──────────────────────────│ ESP32 GPIO22 (I2C SCL)
+               │                                 │
+               │  CLK0 (10 MHz) ───────┬─────────┤ to counter (GPIO32)
+               │                       └─────────► [Buffer A] → SMA "10M"
+               │  CLK1 (1 MHz)  ───────────────--► [Buffer B] → SMA "1M"
+               │  CLK2 (prog.)  ───────────────--► [Buffer C] → SMA "PROG"
+               └─────────────────────────────────┘
+
+               ┌─────────────────────────────────┐
+               │         ESP32-WROOM-32           │
+               │  Discipline + Counter + UI       │
+               │                                 │
+               │  GPIO34 ← 1PPS interrupt        │
+               │  GPIO16 ← NMEA UART2 RX         │
+               │  GPIO17 → NMEA UART2 TX         │
+               │  GPIO21 ↔ Si5351 SDA            │
+               │  GPIO22 → Si5351 SCL            │
+               │  GPIO32 ← CLK0 count input      │
+               │  GPIO2  → LED_GPS (green)       │
+               │  GPIO4  → LED_LOCK (blue)       │
+               │  GPIO18 → SPI CLK (display opt) │
+               └─────────────────────────────────┘
+
+================================================================================
+  SCHEMATIC — POWER SUPPLY (3.3V from USB or 5V barrel)
+================================================================================
+
+   USB Micro-B or 5V barrel
+         │
+        [F1]  500mA polyfuse
+         │
+       ──┤ AMS1117-3.3 (or LM1117-3.3)
+     +5V │ IN   OUT 3.3V ────────── 3V3 rail
+         │ ADJ/GND
+         │      │
+       100µF  10µF   100nF   100nF      ← decoupling caps to GND
+       (ele)  (tan)  (NP0, near Si5351) (NP0, near ESP32)
+
+================================================================================
+  SCHEMATIC — GPS MODULE INTERFACE
+================================================================================
+
+   3V3 ──[100nF]── GND   (decoupling at NEO-M8N VCC pin)
+   3V3 ── VCC (NEO-M8N pin 1)
+   GND ── GND (NEO-M8N pin 2)
+
+   NEO-M8N TX ────────────────────────────────── ESP32 GPIO16
+   NEO-M8N RX ────────────────────────────────── ESP32 GPIO17
+   (UART baud: 9600 default → configure to 115200 via UBX command)
+
+   NEO-M8N TIMEPULSE ──[4.7kΩ pull-up to 3V3]── ESP32 GPIO34
+   (TIMEPULSE: 1 PPS, 100ms pulse width, rising edge = top of second)
+   (Configure via UBX-CFG-TP5: rising edge aligned to UTC second)
+
+   NEO-M8N ANT ── SMA(F) panel-mount connector, 50Ω coax to active patch antenna
+   (Antenna power: 3.3V via 10Ω + 100nF bias, sourced from NEO-M8N VANT pin)
+
+   Backup battery (CR1220) ── NEO-M8N V_BCKP pin (maintains almanac, faster TTFF)
+
+================================================================================
+  SCHEMATIC — Si5351A CLOCK GENERATOR
+================================================================================
+
+   3V3 ──[100nF]── GND   (decoupling at each VDD pin of Si5351)
+   3V3 ── VDD Si5351A
+
+   Si5351A SDA ──[4.7kΩ]── 3V3      ESP32 GPIO21 ── SDA
+   Si5351A SCL ──[4.7kΩ]── 3V3      ESP32 GPIO22 ── SCL
+   (I2C address: 0x60, default; 0x61 if ADDR pin to VDD)
+
+   25 MHz XTAL (AT49SM2-025-16 or similar, 5 ppm CL=16pF):
+   XTAL1 ── Si5351 XTAL1; XTAL2 ── Si5351 XTAL2
+   Load caps: 2× 10 pF NP0 to GND (adjust per XTAL CL spec)
+
+   NOTE: For improved stability, substitute TCXO (e.g., SG-8002JA 25.000 MHz,
+   ±1 ppm, CMOS output) directly to XTAL1; leave XTAL2 open; omit load caps.
+   TCXO ── [10 nF series] ── Si5351 XTAL1   (AC couple TCXO to Si5351 input)
+
+   Si5351 CLK0 output ──[33Ω series]── node A
+   node A ──────────────────────────── ESP32 GPIO32  (10 MHz count input)
+   node A ──[74AC04 buffer]──[33Ω]──── SMA J1 "10M REF"
+
+   Si5351 CLK1 output ──[33Ω series]──[74AC04 buffer]──[33Ω]── SMA J2 "1M REF"
+
+   Si5351 CLK2 output ──[33Ω series]──[74AC04 buffer]──[33Ω]── SMA J3 "PROG"
+
+================================================================================
+  SCHEMATIC — OUTPUT BUFFER (74AC04 INVERTER)
+================================================================================
+
+   74AC04: hex inverter, 74AC logic family (fast edges, 3.3V/5V compatible)
+   (DO NOT use 74HC04: too slow for 160 MHz; use 74AC04 or 74ACT04)
+
+   3V3 ── VCC (pin 14);  GND ── GND (pin 7)
+   Decoupling: 100nF NP0 between VCC and GND, placed within 2mm of IC.
+
+   Each output drive:
+   Si5351 CLKn ──[33Ω]─┬── INV_A (1/6 of 74AC04)
+                        │
+                        └── INV_B (another 1/6 of 74AC04, optional 2nd output)
+
+   INV_A OUT ──[33Ω]── SMA output (50Ω terminated = +6 dBm approx.)
+
+   Level: 74AC04 swings 0 – 3.3V into 50Ω via 33Ω → ~0 dBm after pad
+   Add 6dB SMA pad on output for 50Ω match and level reduction to ~-6 dBm.
+
+================================================================================
+  SCHEMATIC — LED INDICATORS
+================================================================================
+
+   ESP32 GPIO2 ──[330Ω]── LED_GPS anode; cathode to GND
+   (GREEN: blinks 1 Hz when GPS signal acquired; solid when 3D fix)
+
+   ESP32 GPIO4 ──[330Ω]── LED_LOCK anode; cathode to GND
+   (BLUE: off = acquiring; blinks = discipline running; solid = locked <1 ppb)
+
+================================================================================
+  BILL OF MATERIALS
+================================================================================
+
+  Ref        Part                            Value/PN               Qty  ~Cost
+  ─────────────────────────────────────────────────────────────────────────────
+  U1         u-blox NEO-M8N module           with patch antenna      1   $18
+  U2         Si5351A-B-GT                    I2C clock synth         1    $2
+  U3         74AC04                          hex inverter            1    $0.50
+  U4         ESP32-WROOM-32                  38-pin devboard         1    $5
+  U5         AMS1117-3.3                     LDO regulator           1    $0.30
+  J1–J3      SMA(F) edge mount              10 MHz, 1 MHz, PROG     3    $3
+  J4         SMA(F) panel, GPS antenna       GPS RF                  1    $1
+  Y1         25 MHz XTAL or TCXO            ±5 ppm / ±1 ppm        1    $1–$5
+  C1         100 µF electrolytic            VIN bulk                1    $0.20
+  C2         10 µF tantalum                 3V3 bulk                1    $0.30
+  C3–C8      100 nF NP0                     decoupling              6    $0.30
+  C9–C10     10 pF NP0                      XTAL load               2    $0.10
+  BT1        CR1220 + holder                GPS backup              1    $0.80
+  LED1       3mm LED, green                 GPS indicator           1    $0.10
+  LED2       3mm LED, blue                  lock indicator          1    $0.10
+  R1–R2      4.7 kΩ                         I2C pull-up             2    $0.05
+  R3         10 Ω                           GPS antenna bias        1    $0.05
+  R4–R6      33 Ω                           output series           6    $0.15
+  F1         500 mA PTC resettable fuse     VIN protection          1    $0.20
+  ─────────────────────────────────────────────────────────────────────────────
+  TOTAL                                                                  ~$33
+
+================================================================================
+  DISCIPLINE LOOP THEORY
+================================================================================
+
+  Each GPS 1PPS rising edge triggers ESP32 interrupt.
+  ESP32 hardware timer (64-bit, 80 MHz) captures timestamp at each PPS.
+  Simultaneously, PCNT peripheral counts Si5351 CLK0 (10 MHz) pulses.
+  After N=10 complete PPS intervals (10 seconds):
+
+    count_measured  = total PCNT counts over 10 PPS periods
+    count_expected  = 100,000,000  (10 MHz × 10 s)
+    error_ppb       = (count_measured - count_expected) / 0.1
+    correction_reg  = current_correction - (error_ppb × Kp)
+
+  Kp = 0.5 (proportional gain, tuned for stable loop)
+  Si5351 library: si5351.set_correction(correction_reg, SI5351_PLL_INPUT_XO)
+  (Library uses units of 0.01 ppb; multiply ppb × 100 for register value)
+
+  LOCK CRITERION: |error_ppb| < 1.0 for 3 consecutive 10-second windows.
+
+================================================================================
+  END OF TM-CAL-SCH-001
+================================================================================

@@ -1,0 +1,27 @@
+CM EFQW_20M.NEC — End-Fed Quarter-Wave Vertical, 20 Meters
+CM TM-EF-NEC-004 Rev A
+CM
+CM Band:       20m (14.000 – 14.350 MHz)
+CM Center:     14.175 MHz
+CM QW length:  5.13 m (VF=0.97, #18 AWG)
+CM Feed Z:     36 + j0 Ω (perfect ground); 39 + j4 Ω (avg, 4 radials)
+CM Radials:    4× 5.13m at ground level or elevated 1m
+CM Matching:   L=0.262uH (5T T50-6), C=180pF + 0-56pF variable
+CM
+CM Elevated option: mount feedpoint 2m high on fiberglass pole
+CM   with 4 elevated radials sloped downward at 45°.
+CM   Feedpoint Z ~52Ω — near perfect 50Ω match without network.
+CM   Model below: elevated 2m, 4 sloped radials.
+
+CE
+GW 1 20  0 0 2.0  0 0 7.13  0.000816
+GW 2 5   0 0 2.0  5.13 0 0.01  0.000816
+GW 3 5   0 0 2.0  0 5.13 0.01  0.000816
+GW 4 5   0 0 2.0  -5.13 0 0.01  0.000816
+GW 5 5   0 0 2.0  0 -5.13 0.01  0.000816
+GE 1
+GN 2 0 0 0  13 0.005
+EX 0 1 1 0  1 0
+FR 0 15 0 0  14.000 0.025
+RP 0 37 73 1000  0 0 5 5
+EN

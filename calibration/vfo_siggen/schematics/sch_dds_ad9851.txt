@@ -1,0 +1,248 @@
+================================================================================
+SCHEMATIC: DDS SIGNAL GENERATOR — AD9850/AD9851
+TM-SG-001  Rev A
+Direct Digital Synthesis; 0 to 70 MHz output; HF/VHF ham bands
+32-bit frequency resolution; SPI interface; 50 Ω output
+================================================================================
+
+OVERVIEW
+--------
+The AD9851 DDS synthesizer generates a stable, tunable sine wave from DC
+to 70 MHz (practical to 40 MHz for <−40 dBc spurious) using a 32-bit
+phase accumulator and a 10-bit DAC with integrated 6× reference multiplier.
+
+Resolution at 180 MHz system clock:
+  Δf = f_clk / 2^32 = 180 MHz / 4,294,967,296 = 0.042 Hz per LSB
+  Sub-0.1 Hz steps anywhere in 0–70 MHz range.
+
+AD9850 vs AD9851 comparison:
+  AD9850: max f_clk 125 MHz; no reference multiplier; f_out max ~40 MHz
+  AD9851: max f_clk 180 MHz (6× multiplier on 30 MHz ref); f_out max ~70 MHz
+  Recommendation: AD9851 with 25 MHz TCXO × 6× = 150 MHz system clock
+                 (conservative; leaves margin; better spur performance)
+
+FREQUENCY COVERAGE — AD9851 at f_clk = 150 MHz:
+  Band    Range           Max FTW         FTW at band center
+  ----    -----           -------         ------------------
+  160M    1.80–2.00 MHz   0x033D28CB      0x030E6F78
+  80M     3.50–4.00 MHz   0x062A85B5      0x05C28F5C
+  60M     5.33–5.41 MHz   0x096EBA12      0x095B6B0E
+  40M     7.00–7.30 MHz   0x0C7D34B7      0x0BC17E9A
+  30M     10.10–10.15 MHz 0x11CF2B7A      0x11A4AE5F
+  20M     14.00–14.35 MHz 0x197F5C28      0x1920C5FB
+  17M     18.068–18.168   0x20F6B6B5      0x20CA5EB8
+  15M     21.00–21.45     0x25AFDB1A      0x25350850
+  12M     24.89–24.99     0x2D24C4EC      0x2CF9E8B3
+  10M     28.00–29.70     0x332D4A4F      0x31DBBC63
+  6M *    50.00–54.00     0x5A036E77      — (use harmonic or Si5351)
+
+  * At 6M: spurious performance degrades significantly.
+    Use AD9851 at 25 MHz (sub-harmonic) + ×2 frequency multiplier for 50 MHz,
+    or use Si5351 directly (see sch_si5351_vfo.txt).
+
+FREQUENCY TUNING WORD:
+  FTW = round(f_out × 2^32 / f_clk)
+  For f_out = 14.000 MHz, f_clk = 150 MHz:
+    FTW = 14000000 × 4294967296 / 150000000 = 401,043,867 = 0x17E353FB
+
+
+================================================================================
+SCHEMATIC — AD9851 DDS SIGNAL GENERATOR
+================================================================================
+
+REFERENCE OSCILLATOR (25 MHz TCXO):
+  TCXO output (0.5 ppm, 25 MHz) ─── [C_ref: 100 nF] ─── AD9851 pin REFCLK
+  The AD9851 6× multiplier generates: 25 MHz × 6 = 150 MHz internal clock.
+  Power AD9851 W_CLK/6× register bit = 1 to enable multiplier.
+
+  TCXO: NDK NX2520SA-25.000M-EXS00A or SiTime SiT1552 (3.3V, 25 MHz, ±0.5 ppm)
+  Supply: 3.3 V; bypass with 100 nF + 10 µF at TCXO power pin.
+
+SPI INTERFACE (ESP32 to AD9851):
+  ESP32 GPIO18 ─── [SPI CLK]  ─── AD9851 W_CLK   (serial word clock)
+  ESP32 GPIO23 ─── [SPI MOSI] ─── AD9851 D7       (serial data, MSB first)
+  ESP32 GPIO5  ─── [CS / FQ_UD] ─ AD9851 FQ_UD    (frequency update strobe)
+  ESP32 GPIO4  ─── [RESET]    ─── AD9851 RESET     (active high reset)
+
+  Serial data protocol (AD9851, serial mode):
+    1. Hold RESET high for 1 µs; pull low.
+    2. Clock in 40 bits total:
+       Bits [39:8]  = 32-bit FTW (MSB first)
+       Bits [7:5]   = phase word (0 for no phase offset)
+       Bit  [4]     = power-down (0 = active)
+       Bits [3:1]   = 000 (reserved)
+       Bit  [0]     = 6× REF multiplier (1 = enable for 150 MHz clk)
+    3. Pulse FQ_UD high for ≥ 7 ns to latch new frequency.
+
+AD9851 POWER SUPPLY:
+  VDD_DIG  = 3.3 V: [C: 100nF + 10µF]
+  VDD_DAC  = 3.3 V: [C: 100nF + 10µF] (separate pour recommended)
+  AGND and DGND: star ground at AD9851; split ground plane for AGND/DGND.
+
+AD9851 OUTPUT (differential current):
+  IOUT  (+): 200 Ω to GND; voltage swing ~0 to +0.5 V
+  IOUT1 (−): 200 Ω to GND; complementary output (mirror)
+
+  For single-ended 50 Ω output — RECOMMENDED CIRCUIT:
+  IOUT ──[R1: 200Ω]── GND (termination)
+  IOUT ──────────────── [XFMR T1: 200Ω:50Ω balun, 4:1] ─── 50Ω output
+                              │
+                         IOUT1 ─── (other winding terminal)
+
+  Alternative (simpler, −6 dB loss):
+  IOUT ── [R1: 200Ω to GND] ── [C_block: 100nF] ── [R2: 50Ω] ── SMA out
+  (This single-ended unterminated output: approx −10 dBm at 14 MHz; acceptable)
+
+OUTPUT FILTER (7-ELEMENT ELLIPTIC LOW-PASS, 7-POLE):
+  The DDS DAC output contains aliased images at N × f_clk ± f_out.
+  A low-pass reconstruction filter attenuates these to < −60 dBc.
+
+  FILTER TOPOLOGY (Cauer/Elliptic, Butterworth-equivalent transition band):
+  SMA_in ─[L1]─┬─[L2]─┬─[L3]─┬─[L4]─┬─ SMA_out (50Ω)
+                │      │      │      │
+               [C1]  [C2+   [C3]  [C4]
+                │    C_ser]   │      │
+               GND    to GND GND   GND
+
+  For 7-pole LPF, f_c = 35 MHz (passes 1.8–30 MHz, rejects 150-N images):
+
+  Component values (normalized to 50Ω, f_c = 35 MHz):
+    L1 = 220 nH  (winding: 15t #24 AWG on T50-6 toroid)
+    C1 = 68 pF   (NP0)
+    L2 = 390 nH  (20t T50-6)
+    C2 = 100 pF  (NP0)
+    L3 = 390 nH  (20t T50-6)
+    C3 = 100 pF  (NP0)
+    L4 = 220 nH  (15t T50-6)
+    C4 = 68 pF   (NP0)
+
+  Filter response:
+    1.8 MHz: < 0.1 dB insertion loss
+    30 MHz:  < 0.5 dB insertion loss
+    35 MHz:  −3 dB (cutoff)
+    40 MHz:  −15 dB
+    75 MHz:  −55 dB (image at f_clk − f_out for f_out = 75 MHz)
+    150 MHz: −80 dB
+
+  NOTE: For 6M/50 MHz use, bypass LPF and use bandpass filter at 50 MHz.
+  Relay K1 switches between LPF (HF) and BPF (VHF) paths.
+
+
+COMPLETE BLOCK DIAGRAM:
+-----------------------
+
+  25 MHz TCXO ──────────────────────────────────────── AD9851 REFCLK
+                                                              │ ×6
+  ESP32 SPI ────────────────────────────────── 40-bit serial │ 150 MHz
+  (GPIO 18/23/5/4)                                     FTW load
+                                                              │
+                                                      AD9851 10-bit DAC
+                                                              │
+                                                       IOUT (200Ω)
+                                                              │
+                                              [T1: 4:1 output balun]
+                                                              │
+                                              [7-pole LPF, f_c=35MHz]
+                                                              │
+                            ┌─────────────────────────────────┤
+                            │            [BPF 50 MHz] ← K1    │
+                            │                                  │
+                            ▼                                  ▼
+                    SMA "VHF out"                    SMA "HF out"
+                    (K1 relay: HF/VHF)             (default path)
+                            │
+                   [Attenuator π-network]
+                            │
+                     SMA "SIG OUT"
+                  (calibrated output)
+
+
+FULL SCHEMATIC — AD9851 MODULE:
+-------------------------------
+
+  3.3V ─── [C1: 100nF + C2: 10µF] ─── VDD_DIG (AD9851 pin 28)
+  3.3V ─── [C3: 100nF + C4: 10µF] ─── VDD_DAC (AD9851 pin 4, 5)
+  GND  ─── DGND (AD9851 pin 27, 29); AGND (AD9851 pin 6, 7)
+
+  AD9851 pin layout (DIP-28 or SSOP-28):
+    Pin 1:  D0 (parallel mode); NC in serial mode
+    Pin 2:  D1; NC
+    Pin 3:  W_CLK (serial word clock); connect to ESP32 GPIO18
+    Pin 4:  VDD_DAC
+    Pin 5:  VDD_DAC
+    Pin 6:  AGND
+    Pin 7:  AGND
+    Pin 8:  IOUT (primary; connect to 200Ω and output network)
+    Pin 9:  IOUT1 (complement; connect to 200Ω load or ignore)
+    Pin 10: RSET (DAC bias resistor; 3.9 kΩ to GND sets IOUT = 10 mA)
+    Pin 11: FQ_UD (frequency update; ESP32 GPIO5)
+    Pin 12: D7 (serial data; ESP32 GPIO23; W_CLK clocks data on rising edge)
+    Pin 13-18: D6-D1; NC in serial mode
+    Pin 19: REFCLK (reference input; connect to 25 MHz TCXO)
+    Pin 20: MCLK (same as REFCLK if no external multiplier board)
+    Pin 21: RESET (active high; ESP32 GPIO4)
+    Pin 22: D8; NC
+    Pin 23: D9; NC
+    Pin 24: VDD_CONTROL; 3.3V + 100nF bypass
+    Pin 25-26: VDD_DIG; 3.3V + 100nF each
+    Pin 27: DGND
+    Pin 28: VDD_DIG
+    Pin 29: DGND
+
+  OUTPUT NETWORK:
+  AD9851 pin 8 (IOUT) ──── [R_load: 200Ω to AGND]
+  AD9851 pin 8 ─────────── [R_s: 200Ω in series] ── node N1
+  AD9851 pin 9 (IOUT1) ─── [R_load2: 200Ω to AGND]
+  AD9851 pin 9 ─────────── [R_s2: 200Ω] ──────────── node N2
+
+  Transformer T1 (200Ω:50Ω, 4:1 impedance; 2:1 turns):
+    Primary: N1 ── [T1 pri] ── N2
+    Secondary: T1 sec (+) ── [C_dc: 100nF] ── SMA center pin
+               T1 sec (−) ── GND
+
+  T1: Mini-Circuits ADT2-1T+ or equivalent 50Ω:200Ω RF transformer,
+      or hand-wound: FT50-43 binocular, 5t primary bifilar, 10t secondary.
+
+  RSET:  AD9851 pin 10 ── [R_set: 3.9kΩ 1%] ── AGND
+         Sets full-scale current = 32 × (1.248 / R_set) = 10.24 mA
+
+  Typical output level through 50Ω:
+    At 10 mA IOUT, 4:1 balun, into 50Ω: ~0 dBm (316 mV peak)
+    After LPF at HF (< −0.5 dB): ~ −0.5 dBm
+
+
+SPURIOUS PERFORMANCE — AD9851:
+-------------------------------
+  Source                   Level (typical)      Notes
+  ------                   ---------------      -----
+  Fundamental              0 dBc                reference
+  2nd harmonic             −50 to −55 dBc       partly filtered by LPF
+  3rd harmonic             −55 to −60 dBc       LPF attenuates >35 MHz
+  DAC alias (f_clk−f_out)  −45 to −60 dBc       attenuated by LPF
+  Phase truncation spurs   −60 to −80 dBc       (32-bit accumulator)
+  Noise floor              −140 dBc/Hz          at 1 kHz offset, 10 MHz
+
+  For frequencies > 30 MHz (f_clk/5): spurious performance degrades.
+  Limit AD9851 to ≤ 40 MHz for < −40 dBc spurious.
+
+
+PARTS LIST — DDS AD9851 MODULE
+-------------------------------
+  Ref     Qty  Value/Part     Description
+  ---     ---  ----------     -----------
+  U1       1   AD9851         DDS synthesizer (Mouser/Digi-Key, ~$8)
+  TCXO1    1   25 MHz ±0.5ppm NX2520SA or SiTime SiT1552 (3.3V)
+  T1       1   ADT2-1T+       200:50Ω RF transformer (Mini-Circuits)
+  R_set    1   3.9 kΩ 1%      DAC bias; 0402 or 0603 SMD
+  R_load   2   200 Ω          Output termination; 0402
+  C1,C3    2   100 nF         VDD bypass; 0402 X5R
+  C2,C4    2   10 µF          VDD bulk bypass; 0805 X5R
+  C_dc     1   100 nF         DC block; 0402
+  L1,L4    2   220 nH         Output LPF; T50-6 toroid
+  L2,L3    2   390 nH         Output LPF; T50-6 toroid
+  C_f1,f4  2   68 pF          LPF shunt caps; 0402 NP0
+  C_f2,f3  2   100 pF         LPF shunt caps; 0402 NP0
+  K1       1   G6K-2F-Y       5V DPDT relay, signal (HF/VHF path switch)
+  J1       2   SMA PCB        HF out, VHF out
+
+================================================================================

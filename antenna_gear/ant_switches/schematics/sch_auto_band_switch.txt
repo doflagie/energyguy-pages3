@@ -1,0 +1,253 @@
+================================================================================
+SCHEMATIC: Automatic Band-Data Antenna Switch
+TM-ANT-SW-001  Rev A
+Band-Data Input: Yaesu BCD / Icom CI-V / Kenwood Serial / Generic Voltage
+Auto-selects antenna per band; manual override; 4–8 port relay or motorized switch
+================================================================================
+
+BAND DATA INTERFACE THEORY
+────────────────────────────
+Modern HF transceivers provide band information to external accessories
+via several interface standards.  The automatic switch decodes this data
+and selects the antenna assigned to the current operating band.
+
+SUPPORTED INTERFACES:
+
+  1. YAESU BCD BAND DATA (most common)
+     BCD (Binary Coded Decimal) logic outputs on 6-pin or 8-pin DIN connector.
+     4 logic signals: B1, B2, B4, B8.
+     Logic level: 5V TTL (or 3.3V on newer rigs).
+     Outputs: negative logic on some rigs — verify with DMM before connecting.
+
+  2. ICOM CI-V (Computer Interface V)
+     Single-wire asynchronous serial, 1200 or 9600 baud.
+     Commands sent by transceiver include: frequency, mode, band changes.
+     Not optimized for real-time band switching (slower than BCD).
+
+  3. KENWOOD BAND DATA
+     Similar BCD on ACC connector; check specific model documentation.
+     Or RS-232 serial via COM port (decoded same as CI-V but RS-232 levels).
+
+  4. GENERIC DC VOLTAGE CODING
+     Some older transceivers (and many accessories) provide a DC voltage
+     on a "band voltage" output:
+       160M = 0V, 80M = 0.33V, 40M = 0.67V, 20M = 1.0V, ... (varies by make)
+
+  5. FREQUENCY DETECTION (universal):
+     Read transceiver display frequency via software (CAT control).
+     Decode band from operating frequency range.
+     Works with any CAT-compatible transceiver.
+
+================================================================================
+YAESU BCD BAND DATA — COMPLETE DECODE TABLE
+================================================================================
+
+Connector: 6-pin DIN (large) or 8-pin round DIN (FT-2000, FT-3000, FTDX series)
+
+BCD pin assignments (verify model-specific):
+  Pin 1: BAND DATA A (B1, LSB)
+  Pin 2: BAND DATA B (B2)
+  Pin 3: BAND DATA C (B4)
+  Pin 4: BAND DATA D (B8, MSB)  [some models only]
+  Pin 5: SEND (TX inhibit output from radio — active during transmit)
+  Pin 6: GND
+  Pin 7: +5V (available from radio for accessories)
+  Pin 8: TX GND (send ground)
+
+BCD DECODE TABLE (verified for FT-897D, FT-897, FT-857D, FTDX3000, FT-2000):
+
+  B8 | B4 | B2 | B1 | Decimal | Band
+  ---|----|----|----|---------|-----------
+   0 |  0 |  0 |  1 |    1    | 160M (1.8 MHz)
+   0 |  0 |  1 |  0 |    2    | 80M  (3.5 MHz)
+   0 |  0 |  1 |  1 |    3    | 60M  (5.3 MHz)
+   0 |  1 |  0 |  0 |    4    | 40M  (7.0 MHz)
+   0 |  1 |  0 |  1 |    5    | 30M  (10.1 MHz)
+   0 |  1 |  1 |  0 |    6    | 20M  (14.0 MHz)
+   0 |  1 |  1 |  1 |    7    | 17M  (18.1 MHz)
+   1 |  0 |  0 |  0 |    8    | 15M  (21.0 MHz)
+   1 |  0 |  0 |  1 |    9    | 12M  (24.9 MHz)
+   1 |  0 |  1 |  0 |   10    | 10M  (28.0 MHz)
+   1 |  0 |  1 |  1 |   11    | 6M   (50 MHz)
+   1 |  1 |  0 |  0 |   12    | 2M   (144 MHz)
+   1 |  1 |  0 |  1 |   13    | Not assigned (some rigs: general coverage)
+   1 |  1 |  1 |  0 |   14    | Not assigned
+   1 |  1 |  1 |  1 |   15    | Not assigned
+
+NOTE: B8/B4/B2/B1 labeling varies by radio model.  On some Yaesu radios the
+labeling is reversed.  Always verify with a DMM:
+  Tune to 40M → measure which pins go HIGH → compare to expected BCD=4 (0100).
+
+YAESU BCD INTERFACE CIRCUIT:
+
+  Radio BCD A,B,C,D (5V TTL) ──[1kΩ voltage divider]── ESP32 GPIO inputs
+                                                         (3.3V tolerant input)
+
+  Voltage divider per pin (5V → 3.3V):
+  Radio output ──[3.3kΩ]──┬──── ESP32 GPIO input
+                           │
+                         [6.8kΩ]
+                           │
+                          GND
+
+  Alternative: 74LVC125 level shifter (cleaner; bidirectional if needed)
+  Alternative: Schottky clamp diode from ESP32 GPIO to 3.3V rail
+
+SEND LINE:
+  The SEND (TX active) line is important: prevents switching while transmitting.
+  Radio SEND output: TTL HIGH = transmitting (or LOW on some models).
+  Wire SEND to ESP32 GPIO; firmware reads this before allowing any switch command.
+  If SEND = TX active: block all automatic and manual switching until TX ends.
+
+================================================================================
+ICOM CI-V INTERFACE
+================================================================================
+
+CI-V is a single-wire half-duplex serial interface.
+Logic levels: 5V TTL (older rigs), some newer rigs at 3.3V.
+Baud rate: typically 1200, 4800, 9600, or 19200 baud.
+Protocol: hex bytes, address-based, master/slave.
+
+CI-V PHYSICAL INTERFACE:
+  3.5mm mono jack (1/8" stereo cable uses tip+sleeve for data).
+  Single wire carries data both directions (open-collector bus).
+
+ESP32 CI-V CIRCUIT:
+  CI-V DATA LINE ──[10kΩ pull-up to 3.3V]──[1kΩ]── ESP32 UART RX (GPIO16)
+  (and open-collector driver from ESP32 TX (GPIO17) if needed for polling)
+
+  Simpler option: ESP32 just listens to CI-V traffic from radio.
+  Radio sends frequency updates whenever band changes.
+
+CI-V FREQUENCY DECODE:
+  Icom sends 5-byte BCD frequency.
+  Example: 14.100.000 MHz = 0x14 0x10 0x00 0x00 0x00 (example only)
+  Firmware decodes frequency, looks up band from frequency table.
+
+CI-V BAND TABLE (decode by frequency range):
+
+  Frequency Range   | Band    | Antenna slot
+  ------------------|---------|-------------
+  1.800–2.000 MHz   | 160M    |  per user config
+  3.500–4.000 MHz   | 80M     |
+  7.000–7.300 MHz   | 40M     |
+  10.100–10.150 MHz | 30M     |
+  14.000–14.350 MHz | 20M     |
+  18.068–18.168 MHz | 17M     |
+  21.000–21.450 MHz | 15M     |
+  24.890–24.990 MHz | 12M     |
+  28.000–29.700 MHz | 10M     |
+  50.000–54.000 MHz | 6M      |
+  144.000–148.000 MHz| 2M     |
+
+================================================================================
+BAND-TO-ANTENNA MAPPING TABLE
+================================================================================
+
+The mapping from band to antenna port is user-configurable and stored in NVS.
+Default mapping (4-port switch example):
+
+  Band   | Frequency    | Default Ant Port | User configurable
+  -------|--------------|------------------|------------------
+  160M   | 1.8–2.0 MHz  |     1            | Yes
+  80M    | 3.5–4.0 MHz  |     1            | Yes (shares 160M if one antenna)
+  40M    | 7.0–7.3 MHz  |     2            | Yes
+  30M    | 10.1 MHz     |     2            | Yes
+  20M    | 14.0 MHz     |     3            | Yes
+  17M    | 18.1 MHz     |     3            | Yes
+  15M    | 21.0 MHz     |     3            | Yes
+  12M    | 24.9 MHz     |     4            | Yes
+  10M    | 28.0 MHz     |     4            | Yes
+  6M     | 50 MHz       |     4            | Yes
+  2M     | 144 MHz      |     (external)   | Yes (if VHF switch)
+  70cm   | 432 MHz      |     (external)   | Yes
+
+CONFIGURATION STORAGE:
+  12 band entries × 1 byte each (antenna 1–8) = 12 bytes in NVS.
+  Access via:
+    1. Web interface: band-to-antenna mapping page
+    2. CYD touchscreen: settings menu
+    3. Serial command: "MAP 20M 3" to assign 20M to antenna 3
+
+================================================================================
+COMPLETE AUTO-SWITCH CIRCUIT BLOCK DIAGRAM
+================================================================================
+
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │                       BAND DECODER MODULE                           │
+  │                                                                      │
+  │  YAESU BCD ──────[3.3V Level Shift]── GPIO 4,5,18,19 (B1–B4)      │
+  │  SEND LINE ──────[1kΩ + Schottky]─── GPIO 34 (TX inhibit)         │
+  │                                                                      │
+  │  ICOM CI-V ──────[Pull-up + 1kΩ]──── GPIO 16 (UART2 RX)           │
+  │                                                                      │
+  │  CAT/USB ────────────────────────── GPIO 1/3 (USB-UART via CH340)  │
+  │                                                                      │
+  │  Band Voltage ───[10kΩ/10kΩ divider]── GPIO 35 (ADC, 12-bit)      │
+  │                                                                      │
+  └─────────────────────┬───────────────────────────────────────────────┘
+                         │
+                   Band ID (1–15)
+                         │
+                         ▼
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │               BAND → ANTENNA MAP (stored in NVS)                    │
+  │               Returns: target antenna port (1–8)                     │
+  └──────────────────────────────┬───────────────────────────────────────┘
+                                  │
+                            Check TX INHIBIT
+                            (do not switch during TX)
+                                  │
+                                  ▼
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │               SWITCH DRIVER (relay or stepper motor)                │
+  │               Drives relay K1–K4 or stepper to position             │
+  └──────────────────────────────────────────────────────────────────────┘
+
+================================================================================
+TX INHIBIT PROTECTION
+================================================================================
+
+CRITICAL: Never switch antenna while transmitting.  The transient at the
+feedpoint of a transmitting antenna (open circuit at switch output) creates:
+  1. High reflected power → transmitter damage (PA avalanche, SWR protection trip)
+  2. High voltage spike at switch → contact arcing → degraded isolation
+  3. At 1.5kW, open-circuit at switch: V_peak = 2 × √(2 × 1500 × 50) = 774V
+
+TX INHIBIT LOGIC:
+  if (send_line_active || power_meter_reading > threshold) {
+    inhibit_all_switching();
+    queue_pending_switch();  // execute when TX ends
+  }
+
+SEND LINE DETECTION:
+  Yaesu SEND: active HIGH when transmitting (on most models).
+  Some radios: active LOW.  Firmware supports configuring polarity.
+  No SEND line: add RF power detector for transmit detection.
+
+RF POWER DETECT CIRCUIT (no SEND line):
+  Coax coupler tap from COMMON port → [Schottky diode rect.]──[RC filter]── ADC.
+  Threshold: > 100mW detected = TX active.
+  Simple directional coupler: 20 dB coupler in line; at 100W → 1 mW → ~224 mV.
+
+================================================================================
+PARTS LIST — AUTO BAND SWITCH MODULE
+================================================================================
+
+Item    | Qty | Description                              | Source
+--------|-----|------------------------------------------|-------------------
+ESP32   |  1  | ESP32-WROOM-32 module                   | Mouser
+CYD     |  1  | ESP32-2432S028 2.8" CYD                 | AliExpress
+DIN6    |  1  | 6-pin DIN socket (Yaesu BAND DATA)      | Mouser
+J_CIV   |  1  | 3.5mm mono jack (Icom CI-V)             | Mouser
+J_BAND  |  1  | RCA jack or 3.5mm (band voltage input)  | Mouser
+R_DIV   |  8  | 3.3kΩ and 6.8kΩ (level shift divider)  | Mouser
+D1      |  4  | BAT42 Schottky, 30V clamp on GPIO       | Mouser
+OPTO    |  4  | PC817 optocoupler (galvanic isolation)  | Mouser — optional
+J_12V   |  1  | 2.1mm barrel jack (power input)         | Mouser
+RELAY   |  4  | Omron G2RL-1A4-E-TV8 relay              | Mouser
+ULN     |  1  | ULN2003A relay driver                   | Mouser
+CONN    |  5  | SO-239 panel mount (switch ports)        | Amphenol
+ENCL    |  1  | Hammond 1590B2 die-cast Al               | Mouser
+
+================================================================================

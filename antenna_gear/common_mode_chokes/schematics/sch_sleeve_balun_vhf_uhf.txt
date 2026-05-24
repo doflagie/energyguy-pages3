@@ -1,0 +1,215 @@
+================================================================================
+SCHEMATIC: Sleeve Balun (λ/4 Choke Stub) — VHF and UHF Bands
+TM-CMC-001  Rev A
+Covers: 50 MHz (6M), 144 MHz (2M), 222 MHz (1.25M), 432 MHz (70cm),
+        902 MHz (33cm), 1296 MHz (23cm/20cm)
+================================================================================
+
+THEORY OF THE SLEEVE BALUN
+───────────────────────────
+A sleeve balun consists of a conductive sleeve (tube or foil cylinder) mounted
+coaxially around the outer conductor of the feed coax, connected to the outer
+conductor at one end.  The sleeve and the outer conductor of the coax form a
+λ/4 coaxial stub, shorted at the antenna end.
+
+A shorted λ/4 stub appears as OPEN CIRCUIT at the free end (the end facing
+the transmitter/receiver).  This open circuit blocks common-mode current from
+flowing back along the outer shield toward the shack.
+
+Impedance at the free end of a λ/4 shorted stub:
+  Z_input = Z₀² / Z_load = Z₀² / 0 → ∞ (ideal: blocked, open circuit)
+  Practical: |Z| = 1000 to 10000 Ω depending on Q of stub
+
+Bandwidth of λ/4 sleeve:
+  −3 dB of maximum impedance: BW ≈ f₀ / Q ≈ f₀ × (loss of stub) / π
+  Typical Q for copper sleeve: 50–200 → BW ≈ 0.5–2% of f₀
+  Works well for single-band use; for multi-band use stack or use ferrite
+
+Physical λ/4 length in sleeve gap:
+  l = c / (4 × f₀ × √ε_eff)
+  For air gap (ε_eff = 1.0): l = 75,000,000 / (4 × f₀_Hz) mm  [= c/(4f) in mm]
+  Velocity factor of coaxial space between sleeve and outer conductor: ~0.95–0.97
+  Therefore: l_physical = 0.96 × (75,000,000 / (4 × f₀_Hz)) mm
+
+================================================================================
+λ/4 SLEEVE LENGTHS BY BAND
+================================================================================
+
+Using copper sleeve, velocity factor = 0.96 (air + connector body correction):
+
+  Band | f₀ (MHz) | λ/4 air (mm) | λ/4 physical (mm) | Notes
+  -----|---------|-------------|------------------|----------------------------------
+  6M   |  50.1   |    1497     |    1437          | Use coiled coax or ferrite instead
+  2M   | 144.0   |    520.8    |     500          | Very practical 500mm sleeve
+  1.25M| 222.0   |    338.0    |     325          | Compact 325mm sleeve
+  70cm | 432.0   |    173.6    |     167          | 167mm — very portable
+  33cm | 902.0   |   83.1     |      80          | 80mm microstrip or tube
+  23cm |1296.0   |   57.9     |      56          | 56mm; precision required
+
+PRACTICAL NOTE: 6M (50 MHz) sleeve would be 1.44 METERS — impractical for
+portable use.  Use a toroid choke (FT-240-43, 8 turns) for 6M feedpoint common
+mode suppression.  Sleeve baluns are appropriate for 2M and above.
+
+================================================================================
+DESIGN 1: 2M SLEEVE BALUN (144 MHz, 500mm)
+================================================================================
+
+MATERIALS:
+  Inner coax: RG-58 or RG-8X feed cable (feeds the antenna)
+  Sleeve: copper tube 19mm ID × 0.5mm wall (fits over RG-8X with 0.5mm gap)
+        or: 2.5cm wide copper foil tape wound over foam spacer
+  Sleeve length: 500mm ± 5mm
+  Connection: solder sleeve to outer conductor at ANTENNA end (feedpoint)
+
+CONSTRUCTION — COPPER TUBE METHOD:
+  1. Cut 500mm length of 19mm copper or brass tube.
+  2. Slide over RG-8X feed cable; one end should be at the antenna feedpoint.
+  3. Solder ONE END of tube to the outer conductor of coax at feedpoint.
+     The OTHER END (facing transmitter) is OPEN (floating electrically).
+  4. The tube-coax combination is the sleeve balun.
+
+CONSTRUCTION — COPPER FOIL TAPE METHOD:
+  1. Wrap 3mm closed-cell foam tape (3mm thick) around outer jacket of RG-8X.
+     This creates the spacing for the λ/4 stub cavity.
+  2. Wrap 1.5" wide copper foil tape tightly over foam.
+     Length: 500mm; overlap first and last wrap for electrical continuity.
+  3. Solder one end of copper foil to outer conductor at feedpoint.
+  4. The other end is the open (free) end toward transmitter.
+
+COPPER FOIL SLEEVE BALUN — CROSS-SECTION:
+
+  ════════════════════════════════════════════  coax center conductor
+  ────────────────────────────────────────────  coax dielectric
+  ════════════════════════════════════════════  coax outer conductor (braid/foil)
+  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  coax outer jacket
+  ◌◌◌◌◌◌◌◌◌◌◌◌◌◌◌◌◌◌◌◌◌◌◌◌◌◌◌◌◌◌◌◌◌◌◌◌◌◌◌◌◌  foam spacer (3mm)
+  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  copper sleeve (foil or tube)
+
+Side view:
+
+  Tx/Rx end ◄─────────────────────────────────────► Antenna
+  (open end of sleeve)                       (shorted end)
+
+  ══════════════════════════════════════════════════ coax center
+  ┌──────────────────────────────────────────────┐
+  │  sleeve (shorted at right, open at left)     │
+  └──────────────────────────────────────────────┘
+  ←────────── l = λ/4 = 500mm at 144 MHz ────────→
+  │                                              │
+  ├─ OPEN (high Z, blocks CM current) ────── SHORT (solder here to coax shield)
+
+================================================================================
+DESIGN 2: 70cm SLEEVE BALUN (432 MHz, 167mm)
+================================================================================
+
+At 70cm, the 167mm sleeve fits conveniently as part of the antenna mounting
+hardware.
+
+MATERIALS:
+  Inner coax: RG-58 or LMR-195
+  Sleeve: 12mm copper tube (1/2" plumbing tube) or aluminum tube
+  Sleeve OD needs to fit inside antenna element tube for integrated construction
+  OR attach externally with insulating spacers
+
+INTEGRATED MAST-MOUNTED CONSTRUCTION:
+  1. Cut 167mm × 12mm copper tube.
+  2. Drill 5mm hole through sleeve wall at bottom (shorted end).
+  3. Feed RG-58 through sleeve.
+  4. Solder coax outer conductor to sleeve at bottom (shorted end).
+  5. Upper (open) end: sleeve simply ends — do not connect to coax.
+  6. Weatherproof with self-amalgamating tape above and below sleeve.
+
+PERFORMANCE:
+  At 432 MHz: |Z_sleeve| ≈ 5000–10000 Ω (Q of copper stub)
+  CMR at 432 MHz: 20 × log₁₀(1 + 5000/50) = 40 dB
+  Bandwidth (−3 dB): ~10 MHz (432 ± 5 MHz) typical for copper
+
+  For 70cm SSB/CW/FM frequencies (432–433 MHz): easily covered.
+
+================================================================================
+DESIGN 3: 33cm/23cm SLEEVE BALUN (902/1296 MHz)
+================================================================================
+
+At 902 MHz (33cm): sleeve length = 80mm
+At 1296 MHz (23cm): sleeve length = 56mm
+
+These short sleeves are ideal integrated into antenna construction.
+
+CONSTRUCTION (MICROSTRIP VERSION for PCB-mounted antenna):
+  The sleeve can be implemented as a λ/4 section of 50Ω microstrip line
+  on FR-4 PCB, connected to the coax shield at one end, open at the other.
+
+  For 1296 MHz on Rogers RO4003 (ε_r = 3.55):
+    ε_eff = (ε_r + 1)/2 + (ε_r-1)/2 × (1/√(1 + 12h/W)) where W/h = 2.1 for 50Ω
+    ε_eff ≈ 3.15 → VF = 1/√3.15 = 0.564
+    λ/4 = 56mm × 0.564 = 31.6mm microstrip line
+
+COAXIAL SLEEVE BALUN — MOUNTING OPTIONS:
+
+Option A — External tape sleeve (field-expedient):
+  Apply 20mm copper tape in 80mm length over outer jacket, gap-fill with tape.
+  Quick; removable; weatherproof with self-amal. tape over.
+
+Option B — Machined aluminum collar (permanent installation):
+  Turn a 30mm OD × 26mm ID aluminum collar (fits 1/2" Heliax or LMR-400).
+  Solder/silver-braze bottom to coax outer conductor.
+  Machine relief slot for connector clearance.
+  Weather seal with O-ring at top (open end).
+
+================================================================================
+SLEEVE BALUN COMPARISON TABLE
+================================================================================
+
+  Band | Type      | Length (mm) | CMR (dB) | BW (MHz) | Construction
+  -----|-----------|-------------|----------|----------|------------------
+  2M   | Copper tube| 500        | 30–40    | ±5–10    | Practical, durable
+  1.25M| Copper foil| 325        | 30–40    | ±8–15    | Simple tape wrap
+  70cm | Copper tube| 167        | 35–45    | ±15–20   | Integrated in mount
+  33cm | Al collar  |  80        | 35–45    | ±30–40   | Machined or tape
+  23cm | Microstrip |  32        | 30–40    | ±50–70   | PCB or tape
+
+SLEEVE vs. FERRITE COMPARISON:
+
+  Method           | 2M (144MHz) | 70cm (432MHz) | 1296MHz | Wideband?
+  -----------------|-------------|---------------|---------|----------
+  Sleeve balun     | Excellent   | Excellent     | Excellent | No (1 band)
+  Mix 61 toroid    | Good        | Poor          | Very poor | No
+  FT-82-43 ×10     | Excellent   | Good          | Marginal  | Yes (30M-2M)
+  Bead-on-coax×20  | Excellent   | Excellent     | Good    | Yes (VHF/UHF)
+
+RECOMMENDATION:
+  For single-band VHF/UHF antenna feedpoints: sleeve balun (best performance)
+  For multiband or portable use: bead-on-coax with Mix 43 + Mix 61
+
+================================================================================
+WEATHERPROOFING SLEEVE BALUN FOR OUTDOOR INSTALLATION
+================================================================================
+
+1. After solder connection at antenna end: apply 2 wraps self-amalgamating tape
+   over the solder joint to seal against moisture ingress.
+2. Over the full sleeve length: wrap single layer of self-amalgamating tape.
+3. Where the open end of sleeve terminates: cap with electrical tape fold-over
+   or heat-shrink cap.
+4. UV protection: outer wrap of 3M UV-resistant vinyl tape (black).
+5. Water drain: orient so any condensed moisture drains away from solder joint.
+
+INSPECTION INTERVAL: Inspect all weatherproofing annually.  Soft self-
+amalgamating tape degrades after 3–5 years outdoors in UV exposure.
+Replace outer UV tape layer every 2–3 years; inner seal may remain intact longer.
+
+================================================================================
+PARTS LIST — SLEEVE BALUN
+================================================================================
+
+Item | Qty | Description                              | Notes
+-----|-----|------------------------------------------|---------------------------
+     |  1  | Copper tube 19mm OD, 500mm               | 2M version
+     |  1  | Copper tube 12mm OD, 167mm               | 70cm version
+     |  1m | Copper foil tape 1.5" (38mm)             | Foil tape method
+     |  1m | Closed-cell foam tape 3mm                | Spacer under foil
+     |  1  | Self-amalgamating tape roll               | Weatherproof seal
+     | 50cm| UV-resistant vinyl tape (black)          | UV protection
+     |     | Solder, silver-bearing (Ag4)             | Sleeve-to-coax joint
+     |  1  | IPA wipes                                | Pre-solder cleaning
+
+================================================================================

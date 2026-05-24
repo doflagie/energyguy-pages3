@@ -1,0 +1,23 @@
+CM EFQW_10M.NEC — End-Fed Quarter-Wave Vertical, 10 Meters
+CM TM-EF-NEC-005 Rev A
+CM
+CM Band:       10m (28.000 – 29.700 MHz)
+CM Center:     28.500 MHz
+CM QW length:  2.55 m (VF=0.97, #20 AWG)
+CM Feed Z:     34 + j0 Ω (perfect ground); 38 + j3 Ω (avg, 4 radials)
+CM Radials:    4× 2.55m elevated radials at 1m height
+CM Matching:   Gamma match; rod = 15% of element = 38cm; cap 50-100pF adj
+CM             or L=0.130uH (3T T50-6); C=100pF + 0-22pF variable
+
+CE
+GW 1 20  0 0 1.0  0 0 3.55  0.000511
+GW 2 5   0 0 1.0  2.55 0 0.50  0.000511
+GW 3 5   0 0 1.0  0 2.55 0.50  0.000511
+GW 4 5   0 0 1.0  -2.55 0 0.50  0.000511
+GW 5 5   0 0 1.0  0 -2.55 0.50  0.000511
+GE 1
+GN 2 0 0 0  13 0.005
+EX 0 1 1 0  1 0
+FR 0 18 0 0  28.000 0.100
+RP 0 37 73 1000  0 0 5 5
+EN

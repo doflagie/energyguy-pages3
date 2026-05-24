@@ -1,0 +1,10 @@
+band,freq_mhz,C_total_pF,C_min_pF,C_max_pF,V_cap_5w_peak,V_cap_100w_peak,V_cap_kw_peak,cap_rating_V,cap_type,plate_spacing_mm,notes
+160m,1.900,41.74,4.2,125.2,2791,12480,39470,24960,vacuum,8.4,Jennings or equivalent vacuum variable; 5-100pF range; 25kV rating; motorized drive mandatory
+80m,3.750,26.38,2.6,79.1,2379,10640,33644,21280,vacuum,7.1,Vacuum variable 5-50pF; 22kV rating; discharge 100kOhm bleeder mandatory
+40m,7.150,21.04,2.1,63.1,1738,7773,24579,15546,air-variable,5.2,Butterfly (split-stator) air variable; 5-50pF; 16kV spacing; max 25W without vacuum cap
+30m,10.125,12.92,1.3,38.8,1775,7938,25102,15876,air-variable,5.3,Butterfly air variable; 3-30pF; 16kV rating; 50W max; bleeder required
+20m,14.175,7.43,0.7,22.3,1682,7523,23787,15046,air-variable,5.1,Air variable; 2-20pF; 15kV rating; 100W operation needs careful insulation
+17m,18.118,20.83,2.1,62.5,957,4279,13534,8558,silver-mica or NP0,2.9,Silver-mica 15-100pF; 10kV rating; or dual-gang air variable for motor drive
+15m,21.225,17.69,1.8,53.1,966,4318,13661,8636,silver-mica or NP0,2.9,Silver-mica 12-100pF; 9kV rating
+12m,24.940,15.30,1.5,45.9,969,4335,13703,8670,silver-mica or NP0,2.9,NP0 ceramic 10-100pF; 9kV rating; or dual silver-mica
+10m,28.500,14.47,1.4,43.4,963,4308,13618,8616,silver-mica or NP0,2.9,NP0 ceramic 10-100pF; 9kV rating; stable temperature coefficient important

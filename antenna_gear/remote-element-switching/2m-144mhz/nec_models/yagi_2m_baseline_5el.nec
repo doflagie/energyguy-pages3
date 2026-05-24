@@ -1,0 +1,40 @@
+CM ============================================================
+CM  VHF/UHF REMOTE ELEMENT SWITCHING SYSTEM
+CM  ANTENNA: 5-ELEMENT YAGI, 2 METERS (144.2 MHz)
+CM  TYPE: BASELINE - ALL ELEMENTS ACTIVE
+CM  DESIGN: DL6WU STYLE, OPTIMIZED FOR 144.2 MHz
+CM
+CM  ELEMENT DATA (all dimensions in meters):
+CM    Reflector:  L = 1.027 m  pos Y = -0.416 m
+CM    Driven:     L = 0.988 m  pos Y =  0.000 m
+CM    Director 1: L = 0.934 m  pos Y = +0.520 m
+CM    Director 2: L = 0.909 m  pos Y = +1.040 m
+CM    Director 3: L = 0.886 m  pos Y = +1.664 m
+CM
+CM  ELEMENT DIAMETER: 6.35 mm (1/4 in. aluminum rod)
+CM  BOOM HEIGHT AGL:  6.0 m
+CM  EXPECTED GAIN:    9.2 dBd (11.35 dBi)
+CM  EXPECTED F/B:     22 dB
+CM  IMPEDANCE:        ~50 ohms (gamma match or hairpin)
+CM
+CM  ELEMENT SWITCHING: G5V-2 DPDT relay at element center
+CM    Relay NC = element shorted to boom (reflector mode)
+CM    Relay NO = element isolated (director mode, free)
+CM
+CM  FREQUENCY: 144.2 MHz (center of 2M phone sub-band)
+CM  BOOM ALONG Y-AXIS: positive Y = boresight/forward
+CM  GROUND: Average soil sigma=0.005 S/m eps=13
+CM
+CE
+GW 1 11 -0.514 -0.416 6.000 0.514 -0.416 6.000 0.003175
+GW 2 11 -0.494 0.000 6.000 0.494 0.000 6.000 0.003175
+GW 3 11 -0.467 0.520 6.000 0.467 0.520 6.000 0.003175
+GW 4 11 -0.455 1.040 6.000 0.455 1.040 6.000 0.003175
+GW 5 11 -0.443 1.664 6.000 0.443 1.664 6.000 0.003175
+GE 0
+GN 2 0 0 0 13.0 0.005
+EX 0 2 6 0 1.0 0.0
+FR 0 5 0 0 144.0 0.1
+RP 0 361 1 1000 0.0 0.0 1.0 0.0
+RP 0 1 361 1000 90.0 0.0 0.0 1.0
+EN

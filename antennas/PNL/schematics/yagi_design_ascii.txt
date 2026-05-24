@@ -1,0 +1,193 @@
+================================================================================
+  YAGI-UDA ANTENNA DESIGN FOR POOL NOODLE BOOM             TM-PNL2-SCH-003 Rev A
+  70cm (446 MHz) · 33cm (906 MHz) · 20cm (1296 MHz)
+================================================================================
+
+================================================================================
+  1. YAGI-UDA ANTENNA THEORY
+================================================================================
+
+  A Yagi-Uda antenna (commonly "Yagi") uses parasitic elements to achieve
+  directional gain. The antenna consists of:
+
+  1. One DRIVEN element  — connected to the feed line
+  2. One REFLECTOR       — longer than driven, placed behind driven
+  3. N DIRECTORS         — shorter than driven, placed in front of driven
+
+  The parasitic elements modify the current distribution and phase of the
+  electromagnetic field, creating constructive interference in the forward
+  direction (toward directors) and destructive interference backward.
+
+  1.1  Element Lengths (first approximation)
+
+    Driven element (center-fed dipole for 50Ω match):
+      L_driven = 0.47 × λ  (shortened approximately 6% from free-space λ/2)
+
+    Reflector (increases F/B ratio):
+      L_ref = 0.495 × λ  (longer than driven → inductive reactance)
+
+    Directors (add forward gain):
+      L_dir_n = (0.46 – 0.0045n) × λ  (decrease with n; each slightly shorter)
+
+  1.2  Element Spacing (DL6WU approach)
+
+    For maximum gain with acceptable F/B ratio:
+      Reflector-to-driven: 0.15λ
+      Driven-to-director 1: 0.20λ
+      Director-to-director: 0.20–0.21λ
+      (Actual values in yagi_dimensions.csv are optimized, not estimated)
+
+  1.3  Gain vs. Number of Elements
+
+    N_elements  | Gain (dBd) | Gain (dBi)
+    ────────────┼────────────┼───────────
+         3      |   7.1      |   9.3
+         5      |   9.2      |  11.3
+         7      |  11.2      |  13.3
+
+================================================================================
+  2. YAGI ELEMENT DIMENSIONS (EXACT)
+================================================================================
+
+  ─── 70cm BAND (446 MHz, λ=67.2cm) — 3-Element ───────────────────────────
+
+  Pool noodle boom: 20.8cm   (OD=47mm)
+
+  Element      Length (mm)  Spacing from Reflector (mm)
+  ──────────── ────────────  ───────────────────────────
+  Reflector     329.4 mm         0.0 mm
+  Driven        310.6 mm        94.1 mm
+  Director 1    295.8 mm       208.4 mm
+
+  ─── 33cm BAND (906 MHz, λ=33.1cm) — 5-Element ───────────────────────────
+
+  Pool noodle boom: 23.8cm
+
+  Element      Length (mm)  Spacing from Reflector (mm)
+  ──────────── ────────────  ───────────────────────────
+  Reflector     163.8 mm         0.0 mm
+  Driven        153.9 mm        49.6 mm
+  Director 1    147.2 mm       110.9 mm
+  Director 2    143.9 mm       175.4 mm
+  Director 3    142.3 mm       238.3 mm
+
+  ─── 20cm BAND (1296 MHz, λ=23.1cm) — 7-Element ─────────────────────────
+
+  Pool noodle boom: 27.5cm
+
+  Element      Length (mm)  Spacing from Reflector (mm)
+  ──────────── ────────────  ───────────────────────────
+  Reflector     114.5 mm         0.0 mm
+  Driven        107.8 mm        34.7 mm
+  Director 1    103.6 mm        78.6 mm
+  Director 2    101.8 mm       126.1 mm
+  Director 3    100.6 mm       174.6 mm
+  Director 4     99.5 mm       224.4 mm
+  Director 5     99.0 mm       275.3 mm
+
+  !! ACCURACY NOTE: At 1296 MHz, a 1mm length error shifts resonance by
+  ~11 MHz. Cut all elements to ±0.5mm tolerance. Use a metal rule, not
+  a cloth tape measure. For 70cm/33cm: ±1mm is acceptable.
+
+================================================================================
+  3. FEED SYSTEM — SPLIT DRIVEN ELEMENT
+================================================================================
+
+  The driven element is split at its center and connected to the coax.
+
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │                                                                         │
+  │   SPLIT DRIVEN ELEMENT FEED                                            │
+  │                                                                         │
+  │   ──────────────────────────────────────────────────────               │
+  │                ← L_driven/2 →   ← L_driven/2 →                        │
+  │   left half                         right half                         │
+  │          │                               │                             │
+  │          └──────────────────┬────────────┘                             │
+  │                             │ 3mm gap at boom center                   │
+  │                        ┌────┴────┐                                     │
+  │                        │ 50Ω    │                                      │
+  │                        │ coax   │                                      │
+  │                        │ feed   │                                      │
+  │                        └────────┘                                      │
+  │                                                                         │
+  │   Center → one half                                                    │
+  │   Shield → other half                                                  │
+  │   1:1 choke balun mandatory at feed (4–6 turns RG-58 on FT-50-43)     │
+  │                                                                         │
+  └─────────────────────────────────────────────────────────────────────────┘
+
+  Direct feed: driven element ≈ 310Ω (70cm) / 320Ω (33cm) — not 50Ω!
+  Actual Rrad of Yagi driven element with parasitics ≈ 25–35Ω.
+
+  3.1  Hairpin Match (Recommended for Field Use)
+
+    A hairpin (beta match) is a small U-shaped wire that shunts inductive
+    reactance across the split driven element to achieve 50Ω match:
+
+    ┌─────────────────────────────────────────────────────────────────────┐
+    │                                                                     │
+    │   Hairpin match schematic:                                          │
+    │                                                                     │
+    │   ───●─────────────────────────────────●───  driven element halves  │
+    │      │←── hairpin (U-shaped wire) ───→│                            │
+    │      │    L_hairpin ≈ 40–60 nH         │                            │
+    │      │    Width: 3–5cm                 │                            │
+    │      └──────────────────────────────┘                              │
+    │                      │                                              │
+    │                 Coax center                                         │
+    │                                                                     │
+    │   Hairpin inductance (70cm band, #14 AWG, L=5cm, width=3cm):       │
+    │     L_hairpin ≈ 50 nH   XL = 2π × 446 × 10⁶ × 50 × 10⁻⁹ = 140Ω  │
+    │   This transforms the driven impedance upward to ≈50Ω.             │
+    │                                                                     │
+    └─────────────────────────────────────────────────────────────────────┘
+
+================================================================================
+  4. PATTERN AND POLARIZATION
+================================================================================
+
+  The Yagi beam pattern:
+
+    ┌─────────────────────────────────────────────────────────────────────┐
+    │                                                                     │
+    │   TOP VIEW (horizontal plane, array horizontal):                   │
+    │                                                                     │
+    │              ← Back (reflector side)                               │
+    │                                                                     │
+    │                            ●●●                                     │
+    │                       ●●●     ●●●                                  │
+    │                    ●●            ●●                                 │
+    │   Null ← ─────   ●                ●   ─────── → Null              │
+    │                    ●●            ●●                                 │
+    │                       ●●●     ●●●                                  │
+    │   F/B = 20–28 dB       ●●●●●●●                                    │
+    │                                                                     │
+    │              → Forward (director side)                             │
+    │                                                                     │
+    │   3 dB beamwidth: ≈80° (3-el), 55° (5-el), 45° (7-el)            │
+    │                                                                     │
+    └─────────────────────────────────────────────────────────────────────┘
+
+  Polarization:
+    Elements horizontal (as mounted on pool noodle boom):
+      → Horizontal polarization (matches terrestrial SSB and weak signal)
+
+    Rotate boom 90° (boom vertical, elements horizontal through it):
+      → Circular polarization possible with 2 orthogonal Yagis + 90° hybrid
+
+================================================================================
+  5. BOOM COMPENSATION
+================================================================================
+
+  When a metal boom is used, elements mounted through the boom are
+  electrically shortened by the boom (≈ 5–10% effect). Pool noodle
+  boom is non-conductive (εr ≈ 1.05, tan δ < 0.001), so:
+
+    - NO boom compensation required for pool noodle boom.
+    - Use element lengths directly from yagi_dimensions.csv.
+    - If conducting boom used instead: reduce all element lengths by 3–5%.
+
+================================================================================
+  END OF TM-PNL2-SCH-003
+================================================================================

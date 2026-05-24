@@ -1,0 +1,17 @@
+CM CAGE_DIPOLE ANTENNA
+CM Frequency bands: 80M, 40M, 20M
+CM Design: Wide-bandwidth dipole using cage construction
+CM Compaction: 0%
+CM Special parameters: 4–6 parallel wires per arm, 30–50cm cage dia
+CE
+
+' Antenna geometry (type-specific)
+GW 1 11 -5.0 0.0 10.0  0.0 0.0 10.0  0.003
+GW 2 11  0.0 0.0 10.0  5.0 0.0 10.0  0.003
+
+GE 0
+GN 2 0 0 0 13 0.005
+EX 0 1 6 0 1 0
+FR 0 1 0 0 100 0
+RP 0 91 360 1000 -90 0 1.0 1.0
+EN

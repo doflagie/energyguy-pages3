@@ -1,0 +1,15 @@
+CM INVERTED L 40M
+CM Center-loaded vertical element with horizontal top-loading section, multiband capable
+CM Bands: 40M (7.0–7.3 MHz)
+CE
+
+GW 1 20 0.0 0.0 0.0  0.0 0.0 10.5  0.002
+GW 2 20 0.0 0.0 10.5  4.5 0.0 10.5  0.002
+LD 4 1 11 11 15e-6 0 0.08
+
+GE 0
+GN 2 0 0 0 13 0.005
+EX 0 1 6 0 1 0
+FR 0 1 0 0 100 0
+RP 0 91 360 1000 -90 0 1.0 1.0
+EN

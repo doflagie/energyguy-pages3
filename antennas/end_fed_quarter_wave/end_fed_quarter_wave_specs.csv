@@ -1,0 +1,14 @@
+ANTENNA SPECIFICATION — END FED QUARTER WAVE,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,"80M, 40M, 20M",,Center/allocated bands
+Design approach,Single-band EFQW with 9:1 balun/unun,,Primary design method
+Compaction factor,0%,,Size reduction vs full-size
+Special parameters,"66–130 ft length (band-dependent), portable",,Design-specific details
+,,,
+Feed impedance,50–600,Ω,Antenna-type dependent
+SWR target,<2.0,:1,With tuner if required
+Radiation pattern,Varies,,See NEC model
+,,,
+Typical efficiency,75–95%,%,Design-dependent
+Typical gain,2–10,dBi,Antenna-type dependent

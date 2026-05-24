@@ -1,0 +1,271 @@
+================================================================================
+SCHEMATIC: ADF4351 PLL SYNTHESIZER — VHF/UHF/MICROWAVE
+TM-SG-001  Rev A
+35 MHz to 4.4 GHz; fractional-N PLL; ham bands 6M through 23cm
+SPI interface; −4 to +5 dBm output; lock detect
+================================================================================
+
+OVERVIEW
+--------
+The ADF4351 (Analog Devices) is a fractional-N integer-N PLL synthesizer
+with integrated VCO covering 2200–4400 MHz.  Programmable output dividers
+(÷1 through ÷64) extend coverage down to 35 MHz.
+
+Ham band coverage via output dividers:
+  Band       Freq         VCO freq (÷N)        Divider
+  ----       ----         -------------        -------
+  6M         50–54 MHz    800–864 MHz          ÷16
+  2M         144–148 MHz  576–592 MHz (×2 div) ÷4    ← use ÷4 w/ VCO=576-592
+  1.25M      222–225 MHz  888–900 MHz          ÷4
+  70cm       420–450 MHz  840–900 MHz          ÷2
+  33cm       902–928 MHz  902–928 MHz          ÷1
+  23cm       1240–1300 MHz 2480–2600 MHz       ÷2  (uses VCO doubled)
+  13cm       2300–2450 MHz 2300–2450 MHz       ÷1  (direct VCO)
+
+  NOTE: ADF4351 VCO range 2200–4400 MHz; output dividers are ÷1, ÷2, ÷4,
+  ÷8, ÷16, ÷32, ÷64.  Some band/divider combinations may not cover the
+  full VCO range — verify with ADF4351 calculator tool.
+
+FREQUENCY RESOLUTION:
+  Fractional-N: 12-bit modulus (MOD); step size = f_PD / MOD
+  For f_PD = 10 MHz, MOD = 4000: step = 2.5 kHz
+  For f_PD = 10 MHz, MOD = 1000: step = 10 kHz (VHF adequate)
+  For finer steps: reduce f_PD or increase MOD (max 4095)
+
+  Phase detector frequency (f_PD):
+    f_PD = f_ref / R-counter
+    For f_ref = 10 MHz, R=1: f_PD = 10 MHz (maximum; best phase noise)
+
+PHASE NOISE (ADF4351, typical):
+  Offset    Phase noise     Notes
+  ------    -----------     -----
+  1 kHz     −85 dBc/Hz      Integer-N mode
+  10 kHz    −100 dBc/Hz     Integer-N
+  100 kHz   −115 dBc/Hz
+  1 MHz     −135 dBc/Hz
+  Noise floor −150 dBc/Hz
+
+  Fractional-N adds fractional spurs at f_PD/MOD offsets (~−75 to −85 dBc).
+  For minimum spurs: use integer-N when possible (FRAC=0).
+
+SPURIOUS (REFERENCE AND FRACTIONAL):
+  Reference spur: typically −65 to −75 dBc at f_PD offset
+  Fractional spurs: −70 to −85 dBc
+  Sub-harmonic spurs: −70 dBc typical
+  Harmonics at output: 2nd = −20 dBc (add external BPF for < −40 dBc)
+
+
+================================================================================
+SCHEMATIC — ADF4351 MODULE
+================================================================================
+
+REFERENCE INPUT:
+  10 MHz TCXO (±0.5 ppm) or GPSDO 10 MHz output ─── ADF4351 REFIN (pin 27)
+  Bypass: [100nF + 10µF] at AVDD (pin 28), DVDD (pin 21)
+  REF input: 50Ω terminated; [R_term: 50Ω to GND at REFIN pin]
+  Input level: minimum 100 mV p-p (TCXO direct ≥ 0.3 V p-p typical)
+
+  Alternative: 25 MHz TCXO with R-counter = 2.5 (not integer; use 25 MHz with
+  R=5 → f_PD = 5 MHz; or use 10 MHz TCXO for cleanest integer-N operation)
+
+SPI INTERFACE (ESP32 to ADF4351):
+  ESP32 GPIO18 ── CLK (SPI SCLK)  ── ADF4351 CLK (pin 1)
+  ESP32 GPIO23 ── DATA (SPI MOSI) ── ADF4351 DATA (pin 2)
+  ESP32 GPIO16 ── LE              ── ADF4351 LE (pin 3)   (latch enable; active high)
+  ESP32 GPIO17 ── CE              ── ADF4351 CE (pin 4)   (chip enable; active high; tie to 3.3V for always-on)
+  ESP32 GPIO35 ── LD              ── ADF4351 MUXOUT (pin 5) configured as LOCK DETECT
+
+  Write sequence:
+    1. Clock in 32 bits MSB first on DATA, latched on rising CLK.
+    2. Assert LE high for ≥ 5 ns after last bit.
+    3. Lower 3 bits of each 32-bit word = register address (R5 first, R0 last).
+    4. Always write R5, R4, R3, R2, R1, R0 in that order on initialization.
+
+POWER SUPPLY:
+  AVDD (analog, pin 28): 3.3V; [100nF + 10µF]
+  DVDD (digital, pin 21): 3.3V; [100nF]
+  VP (VCO power, pin 9): 3.3V; [100nF + 10µF]; separate supply trace
+  CPGND, AGND, DGND: star ground at chip; single-point to main GND
+
+  IMPORTANT: VP (pin 9) must be clean; VCO phase noise very sensitive to
+  VP supply noise.  Use LC filter: 3.3V → [L: 1µH / 200mA] → [C: 10µF] → VP.
+
+VCO TUNE (pin 10): Internal to chip; bypass with [100nF to AGND] close to pin.
+VTUNE (pin 8): Connect to [C: 10nF to GND]; charge pump output is internal.
+
+OUTPUT PATHS:
+  RFOUT+ (pin 18): primary RF output; +3 to +5 dBm at 0 dB output power setting
+  RFOUT− (pin 17): complementary output; terminate with 50Ω or leave open
+
+  50Ω OUTPUT INTERFACE:
+  ADF4351 RFOUT+ (pin 18) ── [R_s: 10Ω] ── [C_dc: 10nF] ── SMA output
+                                                               │
+                                                          [50Ω to GND]
+
+  Output power register (R4, bits 4:3):
+    00 = −4 dBm
+    01 = −1 dBm
+    10 = +2 dBm
+    11 = +5 dBm (default; maximum)
+
+  Auxiliary output (RFOUT_AUX, pins 15/16): secondary output, same levels.
+  Enable via R4 bit 8; can be at f_VCO or f_VCO/2.
+
+BAND-SPECIFIC OUTPUT FILTERS (POST-SYNTHESIZER):
+  ADF4351 output contains harmonics and reference spurs.
+  External band-pass filters required for clean output.
+
+  Band      Filter type    Key component               Insertion loss
+  ----      -----------    -------------               --------------
+  6M        7-el Chebyshev LC LPF, f_c=60 MHz          0.5 dB
+  2M        5-el BPF       144–148 MHz helical/LC       1.0 dB
+  1.25M     5-el BPF       222–225 MHz helical/LC       1.0 dB
+  70cm      3-el BPF       430–440 MHz, interdigital    1.5 dB
+  33cm      3-el BPF       915 MHz bandpass             1.5 dB
+  23cm      3-el BPF       1270 MHz bandpass            2.0 dB
+
+  BPF SCHEMATIC (2M helical bandpass, 2-resonator, 50Ω):
+  SMA ─── [C_in: 3 pF] ─── [HELICAL COIL 1: 5t, 8mm dia, 10mm long, silvered]
+                                     │
+                               [C_tune1: 3.5–10 pF] to GND
+               (coupling gap of 10–15 mm)
+          [HELICAL COIL 2: 5t, 8mm dia, 10mm long]
+                    │
+              [C_tune2: 3.5–10 pF] to GND
+                    │
+               [C_out: 3 pF] ─── SMA
+
+
+================================================================================
+ADF4351 REGISTER PROGRAMMING
+================================================================================
+
+Six 32-bit registers (R0–R5); lower 3 bits = address.
+
+REGISTER R0 (Frequency Integer and Fractional):
+  Bits [31:15] = INT    — Integer N-divider (23–65535 for integer-N)
+  Bits [14:3]  = FRAC   — Fractional numerator (0–4095)
+  Bits [2:0]   = 000    — Register address
+
+  f_VCO = f_PD × (INT + FRAC/MOD)
+  f_out = f_VCO / RF_DIVIDER
+
+  Example: f_out = 144.000 MHz, RF_DIVIDER=4, f_PD=10 MHz:
+    f_VCO = 144.000 × 4 = 576.000 MHz
+    INT + FRAC/MOD = 576.000 / 10 = 57.6000
+    INT = 57; FRAC/MOD = 0.600; if MOD=1000: FRAC=600
+    R0 = (57 << 15) | (600 << 3) | 0 = 0x001C4B00
+
+REGISTER R1 (Modulus and Phase):
+  Bits [27:15] = PHASE  — Phase word (12-bit; 0 typically)
+  Bits [14:3]  = MOD    — 12-bit modulus (2–4095; must be > FRAC)
+  Bits [2:0]   = 001    — Register address
+  Example (MOD=1000): R1 = (0 << 15) | (1000 << 3) | 1 = 0x00001F41
+
+REGISTER R2 (Charge Pump, Counter):
+  Bit [28]   = LDF      — Lock detect function (0=fractional, 1=integer)
+  Bit [27]   = LDP      — Lock detect precision (0=24 cycles, 1=40 cycles)
+  Bit [26]   = PD_POL   — Phase detector polarity (1=positive for ADF4351)
+  Bit [25]   = POWERDOWN — 0=normal operation
+  Bit [24]   = CP_3STATE — 0=normal
+  Bit [23]   = COUNTER_RESET — 0=normal
+  Bits [22:21] = CLK_DIV_MODE — 00=clock divider off
+  Bits [17:15] = CP_CURRENT — charge pump (000=0.31mA ... 111=5mA; typ=7=5mA)
+  Bits [14:9] = R_COUNTER — reference divider (1 for 10 MHz ref)
+  Bit  [8]   = RDIV2    — divide reference by 2
+  Bit  [7]   = REF_DOUBLER — 0 = no doubling
+  Bits [6:4] = MUXOUT   — 110=digital lock detect (recommended)
+  Bits [3:2] = LDF      — (see above)
+  Bits [1:0] = 10       — Reserved
+  R2 typical for 10 MHz ref, 5 mA CP, lock detect:
+    R2 = 0x00004E42
+
+REGISTER R3 (Clock Divider):
+  Bits [14:3] = CLK_DIVIDER_VALUE — 150 (for fast lock with sigma-delta)
+  R3 = 0x000004B3
+
+REGISTER R4 (Output Power, Divider):
+  Bits [22:20] = DIVIDER_SEL — 000=÷1, 001=÷2, 010=÷4, 011=÷8, 100=÷16,
+                               101=÷32, 110=÷64
+  Bit  [11]   = VCO_POWERDOWN — 0=normal
+  Bit  [10]   = MTLD         — 0=normal
+  Bit  [9]    = AUX_OUTPUT_SEL — 0=divided output, 1=fundamental VCO
+  Bit  [8]    = AUX_OUTPUT_ENABLE — 1=enable aux output
+  Bits [7:6]  = AUX_OUTPUT_POWER — 11=+5 dBm
+  Bit  [5]    = RF_DIVIDER_SELECT (MSB, bit 2 of DIVIDER_SEL; see above)
+  Bits [4:3]  = OUTPUT_POWER — 11=+5 dBm
+  Bit  [2]    = RF_OUTPUT_ENABLE — 1=enable
+  Bits [1:0]  = 100           — Register address
+
+  For ÷4 divider, +5 dBm output, aux disabled:
+    R4 = (0b010 << 20) | (0 << 11) | (0b11 << 3) | (1 << 2) | 4
+       = 0x00200DFC
+
+REGISTER R5 (Lock Detect Pin):
+  Bits [23:22] = LD_PIN_MODE — 01=digital lock detect
+  R5 = 0x00400005
+
+INITIALIZATION SEQUENCE:
+  Write: R5, R4, R3, R2, R1, R0 (always in this order).
+  After writing R0, wait 2 ms for VCO to lock.
+  Check LD pin (MUXOUT): HIGH = locked; LOW = unlocked.
+
+LOCK TIME: typically 50–200 µs for fractional-N; 10–50 µs integer-N.
+
+
+================================================================================
+PLL LOOP FILTER DESIGN
+================================================================================
+
+The charge pump output drives an external RC loop filter.
+Loop filter determines phase noise, spurious rejection, and lock time.
+
+SECOND-ORDER PASSIVE LOOP FILTER (sufficient for most applications):
+
+  CP ──── [R1: 820Ω] ──┬── [C1: 10nF] ── GND
+                       │
+                   [C2: 1nF] ── GND
+
+  Calculated parameters:
+    Charge pump current: 5 mA (R2 register setting 7)
+    Phase detector frequency: 10 MHz
+    VCO gain (K_VCO): ~70 MHz/V (typical ADF4351)
+    N_divider: 57.6 (at 144 MHz with ÷4)
+    Loop bandwidth: ≈ 50 kHz
+    Phase margin: ≈ 50° (stable)
+
+  THIRD-ORDER FILTER (better spur rejection):
+  CP ─[R1: 820Ω]─┬─[C1: 10nF]─ GND
+                 │
+            [R2: 82Ω]─[C2: 1nF]─ GND
+                 │
+            [C3: 100pF]─ GND
+
+  Loop BW with 3rd-order: 40 kHz; additional 20 dB spur suppression at f_PD.
+
+VTUNE BYPASS (ADF4351 pin 8):
+  ADF4351 has internal charge pump; external VTUNE not exposed.
+  Loop filter connects internally; pins 8 and 10 are for external VCO use only.
+  NOTE: ADF4351 contains complete VCO and loop filter guidance in datasheet;
+  the above values are starting points for 10 MHz f_PD applications.
+
+
+PARTS LIST — ADF4351 MODULE
+-----------------------------
+  Ref      Qty  Value/Part      Description
+  ---      ---  ----------      -----------
+  U1        1   ADF4351BCPZ     PLL synthesizer; 32-LFCSP (Mouser 584-ADF4351BCPZ)
+  TCXO1     1   10 MHz ±0.5ppm  SiTime SiT1552 (10 MHz version) or ABRACON
+  C_vp      1   10 µF           VP filter cap; 0805 X5R
+  L_vp      1   1 µH            VP LC filter inductor; 0603 ferrite
+  C_byp    ×6   100 nF          VDD bypass; 0402 X5R
+  R1_LF     1   820 Ω           Loop filter; 0402
+  C1_LF     1   10 nF           Loop filter; 0402 X5R
+  C2_LF     1   1 nF            Loop filter; 0402 NP0
+  C3_LF     1   100 pF          Loop filter; 0402 NP0
+  R_s       1   10 Ω            Output series; 0402
+  C_dc      1   10 nF           Output DC block; 0402
+  J1        2   SMA PCB         RFOUT+, RFOUT_AUX
+  K1–6      6   G6K-2F-Y        Band filter relays
+
+================================================================================

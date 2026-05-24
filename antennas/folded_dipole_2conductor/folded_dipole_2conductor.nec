@@ -1,0 +1,16 @@
+CM FOLDED-DIPOLE-2CONDUCTOR ANTENNA
+CM Frequency bands: 80M–10M
+CM Design: Two-wire folded dipole, 200Ω feedpoint
+CM Compaction: 0%
+CM Special parameters: Twin radiator, 4:1 impedance step-up, broadband
+CE
+
+GW 1 11 -5.0 0.0 10.0  0.0 0.0 10.0  0.002
+GW 2 11  0.0 0.0 10.0  5.0 0.0 10.0  0.002
+
+GE 0
+GN 2 0 0 0 13 0.005
+EX 0 1 6 0 1 0
+FR 0 1 0 0 100 0
+RP 0 91 360 1000 -90 0 1.0 1.0
+EN

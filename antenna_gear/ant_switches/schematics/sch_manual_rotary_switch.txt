@@ -1,0 +1,319 @@
+================================================================================
+SCHEMATIC: Manual Rotary Coaxial Antenna Switches
+TM-ANT-SW-001  Rev A
+SP2T, SP4T, SP6T Designs — SO-239 and N-Type Versions
+HF through 1296 MHz  |  Power: 1.5 kW CW / 2 kW PEP  |  IL < 0.2 dB to 500 MHz
+================================================================================
+
+DESIGN OVERVIEW
+────────────────
+Manual rotary coaxial switches route one signal path (common port) to one of
+N selected ports.  In ham use, the common port is usually the transceiver and
+the switched ports are the antennas; however the topology is bidirectional.
+
+TOPOLOGIES COVERED:
+  SP2T — 1 Common + 2 Antenna ports (2-position)
+  SP4T — 1 Common + 4 Antenna ports (4-position)
+  SP6T — 1 Common + 6 Antenna ports (6-position)
+
+KEY DESIGN REQUIREMENTS:
+  1. All-metal construction for RF shielding
+  2. Low-loss center conductor path (silver or gold plated contacts)
+  3. Positive detent action — switch cannot rest between positions
+  4. All unused antenna ports GROUNDED (reduces static, improves isolation)
+  5. Weatherproof version: IP54 (lid seal), IP65 for outdoor/tower mount
+
+================================================================================
+SWITCH THEORY — ISOLATION AND INSERTION LOSS
+================================================================================
+
+INSERTION LOSS SOURCES:
+  1. Contact resistance R_c: IL = 20×log₁₀(1 + R_c/Z₀)  [for series element]
+     For R_c = 5 mΩ (silver-plated wiping contact): IL = 0.0004 dB → negligible
+     For R_c = 50 mΩ (corroded contact): IL = 0.004 dB → still acceptable
+     For R_c = 500 mΩ (oxidized brass): IL = 0.04 dB → noticeable
+
+  2. Shunt capacitance at junction:
+     At a center conductor junction in a switch housing, stray C adds a shunt load:
+     f₋₃dB = 1/(2π × Z₀/2 × C_stray)
+     For C_stray = 3 pF: f₋₃dB = 2.12 GHz → IL at 500 MHz = 0.055 dB (OK)
+     For C_stray = 10 pF: f₋₃dB = 636 MHz → IL at 500 MHz = 0.29 dB (fail)
+     Keep junction compact; do not run center conductors past unused ports.
+
+  3. Discontinuity VSWR from geometry:
+     At HF: negligible (dimension << λ)
+     At VHF/UHF: maintain 50Ω geometry throughout switch body
+
+ISOLATION SOURCES (what limits port-to-port isolation):
+  1. Open contact capacitance C_open:
+     Typical wiping contact open: C_open ≈ 0.1–0.5 pF
+     Isolation from C_open: I ≈ 20×log₁₀(1/(ω × C_open × Z₀/2))
+     At 14 MHz, C_open=0.5pF: I = 88 dB (excellent)
+     At 144 MHz, C_open=0.5pF: I = 68 dB (good)
+     At 432 MHz, C_open=0.5pF: I = 55 dB (marginal)
+     At 1296 MHz, C_open=0.5pF: I = 45 dB (poor)
+
+  2. Stray coupling through enclosure:
+     Limits isolation to ~80–100 dB at HF; 40–60 dB at VHF/UHF
+     Solution: RF absorbing foam or metal dividers between antenna port cavities
+
+  3. Common ground path (all shields share chassis):
+     In a properly shielded enclosure this is negligible; in a metal box with
+     poor layout it can reduce isolation to 30–40 dB
+
+SPECIFICATION SUMMARY:
+
+  Frequency    | Typical IL    | Min Isolation | Notes
+  -------------|---------------|---------------|------------------------------
+  1.8–30 MHz   | < 0.05 dB     | > 80 dB       | Contact R dominant
+  50 MHz       | < 0.05 dB     | > 70 dB       | Stray C beginning
+  144 MHz      | < 0.10 dB     | > 60 dB       | Good contact geometry
+  432 MHz      | < 0.15 dB     | > 55 dB       | Use N-type, compact design
+  1296 MHz     | < 0.20 dB     | > 40 dB       | Marginal; use purpose-built
+
+================================================================================
+DESIGN 1: SP2T (2-POSITION) SWITCH — HF VERSION
+================================================================================
+
+Two antenna ports, one common. Simplest topology; used for:
+  - A/B antenna comparison testing
+  - Dual-band antenna (switch HF dipole ↔ VHF yagi on one coax run)
+  - Two-radio share one antenna (with TX lockout)
+
+SP2T SCHEMATIC:
+
+  ┌─────────────────────────────────────────────────────┐
+  │              SP2T SWITCH BODY                       │
+  │                                                     │
+  │  ANT 1 ──[SO-239]────────┬── (detent position 1)   │
+  │                           │                         │
+  │                          [WIPER]────── [SO-239] ── COMMON (Radio)
+  │                           │
+  │  ANT 2 ──[SO-239]────────┘── (detent position 2)   │
+  │                                                     │
+  │  ALL CONNECTOR OUTERS ──────── CHASSIS GROUND       │
+  └─────────────────────────────────────────────────────┘
+
+CENTER CONDUCTOR PATH (position 1):
+  ANT1 center → rotary contact → common center
+
+CENTER CONDUCTOR PATH (position 2):
+  ANT2 center → rotary contact → common center
+
+ISOLATED PORT (not selected):
+  The unselected antenna center conductor floats unless grounded.
+  MUST ADD: 47–100 kΩ resistor from unselected port center to chassis.
+  This resistor: draws negligible RF power, drains static charge,
+  sets DC level without disturbing RF performance.
+
+  Alternative: use a shorting contact that grounds the unselected port
+  whenever it is not in the selected position (harder to implement
+  mechanically; excellent protection).
+
+SP2T WIRING DIAGRAM:
+
+  [ANT1]─────────────────────────────────────────────────[ANT2]
+  outer → chassis                                outer → chassis
+  center─────┐                                   center─────┐
+             │                                              │
+          CONTACT 1                                      CONTACT 2
+              ╲           WIPER (rotary)
+               └──────────────────────── center─────[COMMON]
+                                              outer → chassis
+
+STATIC GROUND RESISTORS:
+  From each unselected ANT port center conductor to chassis:
+  47kΩ to 100kΩ, 1/4W resistor.  This has negligible effect on RF
+  (at 1.8 MHz: Z = 100kΩ >> 50Ω; at 14 MHz: Z = 100kΩ >> 50Ω)
+  but bleeds static reliably.
+
+================================================================================
+DESIGN 2: SP4T (4-POSITION) SWITCH — HF/VHF VERSION
+================================================================================
+
+Four antenna ports, one common.  The standard ham "antenna switch."
+
+SP4T SCHEMATIC (top view, radial layout):
+
+                        ANT 1
+                         │
+                    [SO-239]
+                         │ center
+                         ○
+                 ────────┼────────
+              ○          │         ○
+           ANT 4         │       ANT 2
+         [SO-239]    ═══[WIPER]═══[SO-239]
+                         │
+                         ○
+                    [SO-239]
+                         │
+                       ANT 3
+
+  COMMON [SO-239] ───── WIPER spindle (center)
+
+MECHANICAL DESIGN:
+  Center spindle: brass or silver-plated copper, connects to COMMON SO-239
+  Rotating wiper: silver-plated beryllium copper or phosphor bronze spring contact
+  Fixed stator contacts: four positions at 0°, 90°, 180°, 270°
+  Detent: 4-position spring-ball or leaf-spring detent, positive click
+
+CONTACT RATING:
+  For 1.5kW CW into 50Ω: V_peak = 387V, I_peak = 7.75A
+  Contact must be rated: > 400V isolation when open, > 10A continuous
+  Silver-plated brass contacts: adequate for 1.5kW
+  Gold-plated copper contacts: superior corrosion resistance for outdoor use
+
+STATIC GROUNDING OF UNUSED PORTS:
+  When wiper is at Position 1 (ANT 1 selected):
+    ANT 2, ANT 3, ANT 4 centers are isolated.
+    Each shall have a 47kΩ resistor to chassis, OR a shorting relay activated
+    when that position is not selected.
+
+  SIMPLE IMPLEMENTATION (resistor method):
+  Install 4× 47kΩ, 1/4W resistors from each ANT port center to chassis
+  ground INSIDE the switch housing.  This is always connected regardless
+  of switch position.  The selected antenna's resistor has negligible effect
+  on RF (100kΩ vs. 50Ω system = 66 dB attenuation of static path).
+
+SP4T PORT LAYOUT (SO-239, front panel view):
+
+  ┌─────────────────────────────────────────┐
+  │         ANT 1                           │
+  │          [○]                            │
+  │                                         │
+  │  ANT 4   [KNOB]   ANT 2                │
+  │   [○]   (rotate)   [○]                 │
+  │         [○]                             │
+  │        ANT 3                            │
+  │                       COMMON [○]        │
+  └─────────────────────────────────────────┘
+
+POSITION INDICATOR:
+  Mechanical: embossed or engraved position markers on panel
+  Visual with LED (optional): see relay-based version for LED circuit
+  Simple: printed arrow on rotary knob + position labels on panel
+
+================================================================================
+DESIGN 3: SP6T (6-POSITION) SWITCH — HF/VHF VERSION
+================================================================================
+
+Six antenna ports, one common.  Used in multi-antenna stations covering all
+ham bands (160M through 10M requires at least 3 separate antennas in practice;
+6 ports provides significant flexibility).
+
+SP6T STATOR CONTACT LAYOUT (60° spacing):
+
+           ANT 1 (0°)
+              ○
+       ○              ○
+   ANT 6           ANT 2
+ (300°)              (60°)
+
+       ○              ○
+   ANT 5           ANT 3
+ (240°)              (120°)
+              ○
+           ANT 4 (180°)
+
+                 ↕
+               WIPER ──── COMMON
+
+MECHANICAL SPECIFICATIONS:
+  Shaft diameter: 6mm (standard pot/switch shaft, fits standard knobs)
+  Panel mount: 3/8"-32 UNS (standard rotary switch bushing)
+  Stop: mechanical travel stop at position 1 and position 6 (270° total travel)
+  Detent: 6-position, 45° or 60° click spacing
+  Enclosure clearance: 30mm minimum between adjacent SO-239 connector flanges
+
+SP6T PANEL LAYOUT (rectangular enclosure, SO-239 connectors):
+
+  ┌──────────────────────────────────────────────────────┐
+  │ [ANT1]   [ANT2]   [ANT3]   [ANT4]   [ANT5]  [ANT6] │
+  │                                                       │
+  │              [SELECTOR KNOB]                         │
+  │              1  2  3  4  5  6                        │
+  │                                                       │
+  │                              [COMMON]                │
+  └──────────────────────────────────────────────────────┘
+
+GROUNDING CONNECTIONS:
+  5× 47kΩ resistors, one per unselected port.
+  All antenna port outers bonded to chassis.
+  Position 0 (between detents) should never occur with proper detent mechanism;
+  if rotor is between positions both connected ports are effectively shorted
+  to common — this is acceptable (VSWR rises, but no damage; cannot transmit
+  while rotating switch).
+
+================================================================================
+VHF/UHF ADAPTATION — N-TYPE CONNECTORS
+================================================================================
+
+For applications above 50 MHz (6M, 2M, 70cm):
+  Replace SO-239 with N-type female panel-mount connectors.
+  Maintain 50Ω center conductor diameter throughout.
+  N-type panel spacing: 30mm minimum (outer diameter 20mm + clearance).
+
+CONTACT GEOMETRY AT VHF:
+  At 144 MHz, λ = 2.08 m → quarter-wave = 520 mm.
+  Switch body dimensions typically < 50mm — far below λ/4.
+  Lumped-element behavior applies; stray capacitance is the limiting factor.
+  Minimize center conductor trace length between wiper and contacts.
+
+VHF SWITCH ISOLATION (additional measures):
+  1. Silver-plate all internal center conductor surfaces
+  2. Use Teflon/PTFE bushings for center conductor support (low ε_r)
+  3. Individual shielded cavities per port (metal dividers between ports)
+  4. Spring-loaded wiping contact, not sliding flat contact
+
+================================================================================
+POWER HANDLING ANALYSIS
+================================================================================
+
+For 1500W CW into 50Ω (matched load):
+  V_peak = √(2 × 1500 × 50) = 387V
+  I_peak = √(2 × 1500 / 50) = 7.75A
+
+For 2000W PEP SSB (peak envelope power):
+  V_peak = √(2 × 2000 × 50) = 447V
+  I_peak = √(2 × 2000 / 50) = 8.94A
+
+With SWR = 2:1 (high-SWR antenna, common in practice):
+  V_max = 447 × √2 = 632V
+  I_max = 8.94 × √2 = 12.6A
+
+CONTACT REQUIREMENTS FOR 1.5kW/2kW PEP:
+  Contact material:  Silver-plated copper minimum; gold-flashed preferred
+  Contact force:     ≥ 200g (prevents micro-arcing during vibration)
+  Contact area:      ≥ 10 mm² (limits contact resistance)
+  Voltage standoff:  ≥ 700V (2:1 SWR, 2kW PEP margin)
+
+HEAT GENERATION:
+  At R_contact = 10 mΩ, I = 7.75A (1.5kW CW):
+  P_contact = I² × R = 7.75² × 0.010 = 0.60W per contact
+  Temperature rise (contact pair in metal enclosure): < 20°C → acceptable
+
+================================================================================
+PARTS LIST — MANUAL ROTARY SWITCH
+================================================================================
+
+Item   | Qty | Description                              | Source
+-------|-----|------------------------------------------|-------------------
+SW-SP4 |  1  | SP4T ceramic rotary switch, 6-pos, 1A   | Bourns MPA-series or Alpha, Grayhill 56
+SW-SP6 |  1  | SP6T ceramic rotary switch, 1A rated    | Grayhill 56D, Alpha SR2912
+CONN   | 5   | SO-239 silver-plated panel mount         | Amphenol UG-58A/U or equiv.
+CONN-N | 5   | N-type female panel mount, silver        | Amphenol 82-836
+ENCL   |  1  | Die-cast aluminum box, 130×130×40mm      | Hammond 1590XX or 1590C
+KNOB   |  1  | Phenolic pointer knob, 6mm shaft         | Davies Molding 1100 series
+R_GND  | 6   | 47kΩ, 1/4W, 1% metal film               | Mouser (per port)
+WASHER | 10  | Silver/copper RF gasket washers          | per connector
+HW     | 20  | M4 SS screws + lockwashers               |
+LABEL  |  1  | Aluminum panel label (engrave/etch)       |
+
+NOTE ON COMMERCIAL ALTERNATIVES:
+  MFJ-1700C: 6-position SO-239 switch (commercial; ~$65)
+  DX Engineering DXE-AS-4: 4-position SO-239 (~$75)
+  These are adequate references; the designs above are for custom/homebrew
+  stations needing specific power, frequency, or connector type.
+
+================================================================================

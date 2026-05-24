@@ -1,0 +1,233 @@
+ROLLER INDUCTOR MOTORIZED CONTROLLER SCHEMATIC
+TM-ROLLER-ESP32-001 Rev A
+ASCII Schematic — ESP32 + DRV8825 + Limit Switches + Encoder
+================================================================
+
+POWER SUPPLY SECTION
+────────────────────
+
+  J1 (DC Barrel, 2.1mm)
+  ┌──────────────────────────────────────────────────────────────┐
+  │  +12V ─────────────────────────────┬──────────────── +12V   │
+  │  (TIP)                              │                (to DRV) │
+  │                                     │                          │
+  │                              D1 (1N4007)                      │
+  │                              (polarity protect)               │
+  │                                     │                          │
+  │                                     ▼                          │
+  │                              C1 (470µF/25V)                   │
+  │                              ═══ (bulk filter)                │
+  │                                     │                          │
+  │                              ┌──────┘                          │
+  │                              │  U1 (LM7805, TO-220)           │
+  │                              │   IN──┤     ├──OUT → +5V       │
+  │                              │       │     │                   │
+  │                              │      GND   C2 (10µF)          │
+  │                              │            C3 (100nF)         │
+  │                              └───────── GND                   │
+  │                                                                │
+  │  GND (SLEEVE) ──────────────────────────────────── PGND      │
+  └──────────────────────────────────────────────────────────────┘
+
+  NOTE: +5V rail powers ESP32 VIN pin.
+        +12V rail powers DRV8825 VMOT.
+        All grounds common (PGND = LGND, star at J1 GND).
+
+
+DRV8825 STEPPER DRIVER
+───────────────────────
+
+  +12V ──── VMOT ┐
+                  │  DRV8825
+  C4(100µF)      │   STEPPER DRIVER MODULE
+  ═══ (to GND)   │  ┌──────────────────────┐
+                  │  │ VMOT  GND            │
+                  └──┤                      ├── 1B ──── Motor Coil A−
+  +5V ─────────────┤ VDD   GND            │
+  GND ─────────────┤                      ├── 1A ──── Motor Coil A+
+                    │                      │
+  ESP32-GPIO25 ────┤ STEP                 ├── 2A ──── Motor Coil B+
+  ESP32-GPIO26 ────┤ DIR                  ├── 2B ──── Motor Coil B−
+  ESP32-GPIO27 ────┤ EN (active LOW)      │
+                    │                      │
+  +5V ─┬──────────┤ MS3                  │   J3 (4-pin Molex, to NEMA17)
+  GND ─┴ (1/16th  │ MS2                  │   ┌─────────────────────────────┐
+         microstep)│ MS1                  │   │  1A  1B  2A  2B            │
+                    │                      │   └─────────────────────────────┘
+  R1 (0.1Ω) ──────┤ VREF (current limit) │
+  (adj. trim)      │ ≈ 0.5V for 1A        │
+                    │  FAULT → ESP32-GPIO33 (open-drain, pullup 10k)
+                    └──────────────────────┘
+
+  Microstep table (MS3:MS2:MS1):
+    000 = Full step  (200 steps/rev)
+    001 = Half step  (400 steps/rev)
+    010 = 1/4 step   (800 steps/rev)
+    011 = 1/8 step   (1600 steps/rev)
+    111 = 1/16 step  (3200 steps/rev)
+
+  Default: MS1=MS2=MS3=HIGH → 1/16 microstepping
+
+
+ESP32-WROOM-32 MODULE
+──────────────────────
+
+  +5V ──────────── VIN (pin)
+  GND ──────────── GND
+
+  GPIO Assignments:
+  ┌──────────────────────────────────────────────────────────┐
+  │  GPIO  Function          Direction   Notes               │
+  ├──────────────────────────────────────────────────────────┤
+  │   21   I2C SDA           Bidir       OLED/ADS1115        │
+  │   22   I2C SCL           Out         OLED/ADS1115        │
+  │   25   STEP              Out         DRV8825 step pulse  │
+  │   26   DIR               Out         DRV8825 direction   │
+  │   27   ENABLE            Out         DRV8825 en (LOW=on) │
+  │   32   ENC_A             In (pullup) Encoder phase A     │
+  │   33   FAULT (DRV)       In (pullup) DRV8825 fault       │
+  │   34   LIM_HOME          In (pullup) Home limit switch   │
+  │   35   LIM_MAX           In (pullup) Max limit switch    │
+  │   36   ENC_B             In (pullup) Encoder phase B     │
+  │   39   ENC_SW            In (pullup) Encoder push button │
+  │    2   STATUS_LED        Out         Onboard LED         │
+  │    4   BTN_HOME          In (pullup) Manual home button  │
+  │    5   BTN_STEP_P        In (pullup) Step+ button        │
+  │   16   BTN_STEP_M        In (pullup) Step− button        │
+  │   17   BTN_AUTO          In (pullup) Auto tune button    │
+  │   18   SDA_CYD (altern.) Bidir       If using CYD        │
+  └──────────────────────────────────────────────────────────┘
+
+  Bluetooth: ESP32 internal BT SPP, device name "RF-RollerTuner"
+  USB Serial: 115200 baud, UART0 (GPIO1 TX / GPIO3 RX)
+
+
+LIMIT SWITCH CONNECTIONS
+─────────────────────────
+
+  +3.3V
+    │
+   R2 (10kΩ) ─── ESP32-GPIO34 (LIM_HOME)
+    │               │
+   SW1 (NO) ────── ┘
+   (Home end)       │
+                   GND
+
+  +3.3V
+    │
+   R3 (10kΩ) ─── ESP32-GPIO35 (LIM_MAX)
+    │               │
+   SW2 (NO) ────── ┘
+   (Max end)        │
+                   GND
+
+  NOTE: Switches are Normally Open (NO), SPDT Omron SS-10 or equiv.
+        Active LOW when tripped (GPIO reads 0).
+        Debounce in firmware (5ms).
+        Both limit switches stop motor immediately via ISR.
+
+
+ROTARY ENCODER (POSITION VERIFICATION)
+──────────────────────────────────────
+
+  Encoder: 100 PPR incremental, hollow-shaft on leadscrew
+  (e.g., Bourns EMS22A or equivalent)
+
+  +3.3V ─── R4(10k) ─── ENC_A ─── ESP32-GPIO32
+  +3.3V ─── R5(10k) ─── ENC_B ─── ESP32-GPIO36
+  +3.3V ─── R6(10k) ─── ENC_SW ── ESP32-GPIO39
+  GND ────────────────── ENC_GND
+
+  Encoder pulses per mm of travel:
+    Leadscrew pitch = 2.0mm, encoder 100 PPR
+    = 100 pulses per revolution
+    = 100 / 2.0 = 50 pulses/mm
+    Over 80mm travel: 4000 pulses total
+
+
+CYD DISPLAY (ILI9341) — OPTIONAL SEPARATE UNIT
+────────────────────────────────────────────────
+
+  The CYD unit communicates with the ESP32 controller via Bluetooth SPP.
+  The CYD acts as BT master, ESP32 controller is BT slave.
+  No direct wiring between CYD and ESP32 controller required.
+
+  CYD Internal connections (factory wired):
+  ┌─────────────────────────────────────────────────────────────┐
+  │  ILI9341 TFT ──── ESP32 SPI bus (CYD internal)             │
+  │  XPT2046 Touch ── ESP32 SPI (TOUCH_CS GPIO33)              │
+  │  TFT_BL (GPIO21) ─ PWM backlight                           │
+  │  USB-C ──────────── Power 5V/1A                            │
+  │  Bluetooth ──────── ESP32 internal (BT master mode)        │
+  └─────────────────────────────────────────────────────────────┘
+
+
+MOTOR WIRING DETAIL
+────────────────────
+
+  NEMA 17 Stepper Motor (2-phase, 4-wire)
+  Typical color code (verify with motor datasheet):
+
+  Black  ── Coil A+ ──── DRV8825 1A
+  Green  ── Coil A− ──── DRV8825 1B
+  Red    ── Coil B+ ──── DRV8825 2A
+  Blue   ── Coil B− ──── DRV8825 2B
+
+  Cable: 4-conductor, shielded, minimum 22AWG, max length 0.5m
+  Shield: connected to PGND at controller end ONLY.
+
+  Motor current setting (VREF):
+  I_max = VREF / 0.5Ω (for DRV8825)
+  For I_max = 1.0A: VREF = 0.5V
+  For I_max = 1.5A: VREF = 0.75V
+  Adjust trim potentiometer R1 accordingly.
+
+
+FULL ASSEMBLY BLOCK DIAGRAM
+─────────────────────────────
+
+  ┌──────────────┐  12V DC    ┌──────────────────────────────────────┐
+  │  12V/2A      ├────────────┤                                      │
+  │  Power       │            │           ESP32 CONTROLLER           │
+  │  Supply      │            │         TM-ROLLER-ESP32-001          │
+  └──────────────┘            │                                      │
+                               │  ┌─────────┐                        │
+                               │  │ DRV8825 ├── Motor coils          │
+  ┌──────────────┐             │  └─────────┘        │               │
+  │  NEMA 17     ├─────────────┼─────────────────────┘               │
+  │  Stepper     │             │                                      │
+  └──────────────┘             │  GPIO34 ←── Home limit switch       │
+                               │  GPIO35 ←── Max limit switch        │
+  ┌──────────────┐             │  GPIO32/36 ←── Encoder A/B          │
+  │  Limit       ├─────────────┤                                      │
+  │  Switches    │             │  BT SPP ──────► CYD Display         │
+  └──────────────┘             │  USB Serial ──► PC terminal         │
+                               │                                      │
+  ┌──────────────┐             │  Bluetooth commands:                 │
+  │  Rotary      ├─────────────┤  GOTO <turns>                        │
+  │  Encoder     │             │  HOME                               │
+  └──────────────┘             │  STATUS                             │
+                               │  SETL <uh>                          │
+                               │  STEP <n>                           │
+                               └──────────────────────────────────────┘
+
+
+POWER CONSUMPTION SUMMARY
+──────────────────────────
+
+  Component               Voltage   Current    Notes
+  ─────────────────────────────────────────────────────
+  ESP32-WROOM-32          3.3V      240mA      peak (BT active)
+  DRV8825 (motor running) 12V       1.5A       2 coils energized
+  DRV8825 (holding)       12V       0.5A       current limited
+  OLED (if used)          3.3V      20mA
+  Limit switches          3.3V      <1mA
+  Encoder                 3.3V      15mA
+  ─────────────────────────────────────────────────────
+  Total (motor running)   12V       ~1.7A      → 20.4W
+  Power supply rating:    12V / 2A minimum (24W)
+
+================================================================
+END OF ROLLER INDUCTOR CONTROLLER SCHEMATIC
+TM-ROLLER-ESP32-001 Rev A
+================================================================

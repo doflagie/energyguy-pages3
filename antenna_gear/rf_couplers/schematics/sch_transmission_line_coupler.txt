@@ -1,0 +1,255 @@
+================================================================================
+SCHEMATIC: TRANSMISSION-LINE DIRECTIONAL COUPLER — VHF/UHF BANDS
+TM-COUP-001  Rev A
+Microstrip coupled-line coupler: 50–1300 MHz (6m through 23cm)
+Coupling: −20 dB / −30 dB versions
+Directivity: >25 dB (50–500 MHz), >20 dB (500–1300 MHz)
+Insertion loss: <0.1 dB (50–500 MHz), <0.2 dB (500–1300 MHz)
+================================================================================
+
+REFERENCE DOCUMENTS:
+  sch_detector_swr_output.txt   — Detector and SWR calculation circuits
+  rf_power_monitor_esp32.ino    — Firmware
+  enclosure_vhf_coupler.scad    — SMA-connector enclosure
+
+================================================================================
+SECTION 1 — TRANSMISSION-LINE COUPLER THEORY
+================================================================================
+
+A coupled-line directional coupler consists of two parallel transmission lines
+in close proximity (coupled region), with four ports: INPUT, THROUGH, COUPLED,
+and ISOLATED.
+
+                PORT 1               PORT 2
+                 IN  ─────────────────  THROUGH
+                      )))))))))))))))
+                 ─────────────────
+                ISOLATED            COUPLED
+                PORT 4               PORT 3
+
+  Electrical length: λ/4 at center frequency (quarter-wave coupler)
+  Coupling occurs from Port 1 to Port 3 (backward coupling in TEM structures)
+  Isolation at Port 4 (input to isolated) ideally = infinity
+
+EVEN/ODD MODE ANALYSIS:
+  Z0_even (Z_oe): characteristic impedance of the even mode
+  Z0_odd (Z_oo): characteristic impedance of the odd mode
+
+  Coupling coefficient: C = (Z_oe − Z_oo) / (Z_oe + Z_oo)
+
+  For Z0 = 50Ω system impedance: Z_oe × Z_oo = Z0² = 2500
+
+  Coupling values:
+    −10 dB: C=0.316 → Z_oe=90.9Ω, Z_oo=27.5Ω   (tight; large gap change needed)
+    −20 dB: C=0.100 → Z_oe=55.3Ω, Z_oo=45.2Ω   (practical; standard PCB etch)
+    −30 dB: C=0.032 → Z_oe=51.6Ω, Z_oo=48.5Ω   (loose; small gap; less sensitive)
+    −40 dB: C=0.010 → Z_oe=50.5Ω, Z_oo=49.5Ω   (very loose; difficult to achieve)
+
+================================================================================
+SECTION 2 — PCB MICROSTRIP DESIGN
+================================================================================
+
+SUBSTRATE: FR4, εr=4.4, h=1.6mm, copper 35µm (1oz), tan_δ=0.02
+
+SINGLE MICROSTRIP 50Ω LINE:
+  Width w = 3.0mm (calculated), effective εr_eff ≈ 3.26
+  Guided wavelength λ_g = 300mm / (f_GHz × √εr_eff)
+
+  At 144 MHz (2m): λ_g = 300/(0.144 × 1.806) = 1154mm → λ/4 = 289mm (too long!)
+  At 432 MHz (70cm): λ_g = 300/(0.432 × 1.806) = 385mm → λ/4 = 96mm ✓
+  At 1296 MHz (23cm): λ_g = 300/(1.296 × 1.806) = 128mm → λ/4 = 32mm ✓
+
+  SOLUTION FOR VHF (50–222 MHz): Lumped-element approximation using LC section
+  or use meander-line structure to fit λ/4 within PCB constraints.
+  OR: Use coaxial-line coupler (no PCB fabrication needed for field use).
+
+COUPLED MICROSTRIP GEOMETRY (−20 dB, 432 MHz center):
+
+  Line width (w): 3.0mm for 50Ω
+  Gap (s):        Calculated from required Z_oe/Z_oo
+
+  For Z_oe = 55.3Ω, Z_oo = 45.2Ω on FR4:
+    s ≈ 1.2mm (using Hammerstad-Jensen synthesis)
+    Length: λ_g/4 at 432 MHz = 96mm
+
+  COUPLED LINE CROSS-SECTION:
+
+   ← w=3.0mm→ ←s=1.2mm→ ← w=3.0mm →
+   ┌─────────┐            ┌─────────┐
+   │  LINE 1 │    gap     │  LINE 2 │
+   └─────────┘            └─────────┘
+   ────────────────────────────────────  FR4 substrate (1.6mm)
+   ────────────────────────────────────  Ground plane (bottom copper)
+
+COMPLETE PCB LAYOUT (432 MHz, −20 dB, 50mm × 35mm board):
+
+  ┌─────────────────────────────────────────────────────┐
+  │  J1(SMA)  ─[50Ω line]─[coupled section 96mm]─[50Ω]─ J2(SMA)  │
+  │                        ↕ 1.2mm gap                           │
+  │           GND ─[50Ω line]─[coupled section]─[50Ω]─ J3(SMA)  │
+  │                                              └───── J4(SMA)  │
+  │  All corners mitered at 45° for low VSWR                     │
+  └─────────────────────────────────────────────────────┘
+
+  PORT ASSIGNMENT:
+    J1: Input (IN)
+    J2: Through (main line output — antenna or dummy load)
+    J3: Coupled (forward power sample — to detector)
+    J4: Isolated (terminated with 50Ω to GND — improves directivity)
+
+  IMPORTANT: Port 4 (isolated) MUST be terminated with 50Ω.
+    Open or mismatched Port 4 destroys directivity.
+    Use 51Ω 0805 SMD soldered directly to J4 pad.
+
+================================================================================
+SECTION 3 — COAXIAL BRANCHLINE COUPLER (FIELD-EXPEDIENT VHF)
+================================================================================
+
+For field use without PCB fabrication, a coaxial sleeve directional coupler
+is practical for 50–500 MHz. Uses sections of semi-rigid or standard coax.
+
+HAIRPIN COUPLER (50–300 MHz):
+
+                  ─────────────── 50Ω coax (λ/4) ───────────────
+  IN J1 ──────┬──┘                                  └──┬── OUT J2
+              │                                         │
+              │       Coupled loop (1T around coax)     │
+              │   ┌──────────────────────────────┐      │
+              └───┤  1-turn loop of RG-316 coax  ├──────┘
+                  └──────────────────────────────┘
+                           │
+                      FWD/REF detector
+
+  Loop diameter: ~λ/20 at lowest frequency
+  Loop coupling: ~−20 dB (empirically calibrated)
+
+COAXIAL-LINE TRANSMISSION COUPLER (preferred, broadband):
+  Uses outer conductor of a coaxial coupling section adjacent to main line coax.
+
+  MAIN LINE:   RG-8 or RG-213 (50Ω, any length)
+  COUPLING LINE: RG-316 semi-rigid, length = λ/4 at center freq
+
+  Physical construction (for 144 MHz):
+    1. Strip outer jacket from 250mm of main line coax at coupling point.
+    2. Lay coupling coax parallel to inner conductor, insulated by Teflon tape.
+    3. Both coax shields soldered to common ground at each end of coupling section.
+    4. Coupling coax center conductor → FWD port (matched end); → REF port (far end).
+    5. Far end of coupling coax: terminate with 50Ω to ground → ISOLATED port.
+
+================================================================================
+SECTION 4 — WIDEBAND MULTI-SECTION COUPLER DESIGN (50–1300 MHz)
+================================================================================
+
+A single λ/4 section has 3 dB bandwidth of about 0.5 octaves (1.4× frequency ratio).
+For multi-band coverage, use a 3-section multi-stub approach or a parallel-coupled
+structure that spans 50–1300 MHz (4.6 octaves).
+
+MULTI-OCTAVE APPROACH — COAXIAL SLEEVE:
+
+The Stockman/Schiffman approach uses a constant-impedance terminated coupler
+rather than resonant coupling. Performance is limited in directivity (15–20 dB)
+but bandwidth is excellent (DC to > 3 GHz).
+
+CONSTRUCTION:
+
+  INNER CONDUCTOR: 3mm copper or brass rod, 50mm long, threaded M3 at each end
+  OUTER CONDUCTOR (shield): 10mm ID brass tube, same length, coaxial with inner
+  CENTER GAP: 3.5mm annular space between inner (3mm OD) and outer (10mm ID)
+  COUPLING ELEMENT: 1.5mm OD copper wire loop, length 20mm, parallel to inner conductor
+
+  50Ω GEOMETRY VERIFICATION:
+    Z0 = (138 / √εr) × log₁₀(D/d)
+    Air (εr=1): D=10mm, d=3mm → Z0 = 138 × log₁₀(3.33) = 138 × 0.522 = 72Ω
+    Adjust: d=4mm rod → Z0 = 138 × log₁₀(2.5) = 138 × 0.398 = 55Ω ≈ 50Ω
+    Use 4mm OD brass/copper inner rod in 10mm ID outer shield.
+
+  COUPLING COEFFICIENT vs. ELEMENT LENGTH:
+    Element length / total length | Approx coupling
+    --------------------------------|----------------
+    0.1 (2mm of 20mm)              | −40 dB
+    0.2 (4mm of 20mm)              | −34 dB
+    0.4 (8mm of 20mm)              | −28 dB
+    1.0 (full 20mm length)         | −20 dB (approx)
+
+================================================================================
+SECTION 5 — BAND-SPECIFIC COUPLER DESIGNS
+================================================================================
+
+BAND GROUP 1: 6M / 2M / 1.25M (50, 144, 222 MHz)
+  Coupler type: 3-section lumped-LC + coupled microstrip hybrid
+  PCB dimensions: 80mm × 40mm
+  Center frequency design: 144 MHz
+  ±3 dB bandwidth: 40–300 MHz (covers all three bands)
+  Coupling: −20 dB ±1.5 dB across band
+  Connector: SMA female (PCB edge mount)
+  Ground plane: full bottom copper pour
+
+BAND GROUP 2: 70cm / 33cm (432, 902 MHz)
+  Coupler type: Microstrip coupled line, single-section
+  PCB dimensions: 50mm × 30mm
+  Center frequency design: 620 MHz (geometric mean of 432 and 902)
+  λ/4 length at 620 MHz on FR4: 67mm → fold 180° (hairpin) to fit 35mm
+  Coupling: −20 dB ±2 dB across 432–902 MHz
+  Connector: SMA female
+
+BAND GROUP 3: 23cm (1296 MHz)
+  Coupler type: Microstrip coupled line
+  PCB dimensions: 30mm × 20mm
+  Center frequency: 1296 MHz
+  λ/4 length: 32mm
+  Coupling: −20 dB ±1 dB at 1296 MHz ±100 MHz
+  Connector: SMA female (end-launch)
+
+================================================================================
+SECTION 6 — DIRECTIVITY AND FREQUENCY-COMPENSATED DESIGN
+================================================================================
+
+DIRECTIVITY LIMITING FACTORS IN MICROSTRIP:
+  1. Phase imbalance:         Microstrip is not a pure TEM mode. Even and odd
+                               modes travel at slightly different velocities due
+                               to unequal E-field distribution in substrate/air.
+  Solution: Use capacitive compensation at each end of coupled section.
+    Add C_comp = (1/Z0) × (1/ω) × (1 − √(εr_eff_odd/εr_eff_even)) × ...
+    Practical: Add 0.5–2 pF SMD capacitors between coupled lines at each end.
+    Empirically: Start with C_comp = 1 pF; adjust for best directivity.
+
+  2. Substrate thickness variation: Use consistent FR4 source for reproducibility.
+
+  3. Connector VSWR: Use quality SMA connectors (SWR < 1.05 to 6 GHz).
+    Cheap SMA connectors are the #1 cause of poor directivity at UHF.
+
+DIRECTIVITY vs. FREQUENCY:
+  50 MHz:    >30 dB (TEM mode good; connectors dominate)
+  144 MHz:   >28 dB (excellent)
+  432 MHz:   >25 dB (good)
+  902 MHz:   >22 dB (acceptable; phase error increases)
+  1296 MHz:  >18 dB (marginal; add phase compensation)
+
+================================================================================
+SECTION 7 — PARTS LIST (VHF/UHF TRANSMISSION LINE COUPLER)
+================================================================================
+
+FOR PCB VERSION (432 MHz BAND GROUP 2):
+
+  PCB     1   50mm × 30mm, FR4, 1.6mm, 2oz copper, HASL finish
+              Gerber files: generate from layout per dimensions above
+  J1      1   SMA female, edge-launch (Amphenol 901-9875-RFX or equiv)
+  J2      1   SMA female, edge-launch
+  J3      1   SMA female, edge-launch (coupled port)
+  J4      1   SMA female, edge-launch (isolated port)
+  R_iso   1   51Ω, 0402 SMD, 0.1W (terminates isolated port)
+  C_comp  2   1 pF, 0402 SMD, NP0/C0G (phase compensation, adjust empirically)
+  D1      1   BAT85 Schottky SMD (forward detector)
+  D2      1   BAT85 Schottky SMD (reflected detector)
+  R_L1    1   2.2kΩ, 0402 SMD (FWD detector load)
+  R_L2    1   2.2kΩ, 0402 SMD (REF detector load)
+  C_det   2   10 pF, 0402 NP0 (detector filter at UHF)
+
+COAXIAL CONSTRUCTION VERSION:
+  Rod     1   4mm OD × 50mm brass rod (inner conductor)
+  Tube    1   10mm ID × 50mm brass tube (outer conductor / shield)
+  Coupling 1  1.5mm OD × 25mm copper wire (coupling element)
+  J1-J4   4   SMA female chassis (panel mount, 4-hole flange)
+  R_iso   1   51Ω, 1W metal film (isolated port termination)
+
+================================================================================

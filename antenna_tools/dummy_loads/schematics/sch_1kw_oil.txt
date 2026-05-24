@@ -1,0 +1,135 @@
+================================================================================
+SCHEMATIC: 1kW OIL-COOLED DUMMY LOAD
+TM-DL-1KW-OIL  Rev A
+================================================================================
+
+RESISTOR NETWORK — 50 OHM, 1000W
+20x non-inductive resistors: 1000 ohm, 50W each, in parallel
+
+       N-Type Connector (SO-239 acceptable only at HF)
+                   |
+              CENTER STUD
+                   |
+         +---------+---------+
+         |         |         |
+    [Bank A]  [Bank B]  [Bank C]  [Bank D]  ...5 banks x 4 resistors
+    R1-R4     R5-R8    R9-R12   R13-R16    R17-R20
+       |         |         |         |
+       +---------+---------+---------+
+                       |
+                  GROUND BUS / CHASSIS
+
+
+BANK LAYOUT (each bank = 4 resistors around center stud):
+  View from above, one bank:
+
+        N    (North resistor)
+        |
+    W --+-- E     4 resistors at 90-deg intervals
+        |         around center conductor ring
+        S         All hot ends to inner ring (to stud)
+                  All cold ends to outer ring (to chassis)
+
+  Inner ring diameter: 20mm (connects to stud)
+  Outer ring diameter: 80mm (connects to chassis)
+
+
+FULL ASSEMBLY CROSS SECTION:
+
+  +---------+  Lid (with fill plug + pressure relief + temp probe port)
+  |  OIL    |
+  | R17-R20 |  ---- Bank D (top, 250mm from base)
+  |         |
+  | R13-R16 |  ---- Bank C (195mm from base)
+  |         |
+  | R9-R12  |  ---- Bank B (145mm from base)
+  |         |
+  | R5-R8   |  ---- Bank A (95mm from base)
+  |         |
+  | R1-R4   |  ---- Bank bottom (50mm from base)
+  |         |
+  | [N-Jack]|  ---- Connector (base, center)
+  +---------+  Base plate (Al, 6mm thick, 200mm x 200mm)
+
+  Container: 150mm x 150mm x 300mm welded aluminum box
+             Wall thickness: 3mm minimum
+             OR: Stainless steel food pan (hotel pan) with custom lid
+             Total oil volume: ~4.5 liters
+
+
+VOLTAGE/CURRENT LEVELS AT 1kW:
+  V_rms  = sqrt(1000 x 50) = 223.6 Vrms
+  V_peak = 316 V peak
+  I_rms  = sqrt(1000/50) = 4.47 Arms through load
+  Current per resistor = 4.47/20 = 0.224 A  (in 1000R: P = 0.224^2 x 1000 = 50W)
+
+DIELECTRIC STRESS:
+  316V peak on center stud to can wall (approx 50mm clearance)
+  Electric field: 316V / 50mm = 6.3 kV/m
+  Mineral oil dielectric: 30,000 kV/m (>>6.3 kV/m) -- ADEQUATE MARGIN
+
+
+DIRECTIONAL COUPLER (integrated):
+  Resistive bridge coupler, 20 dB, 1 MHz - 500 MHz
+  (See sch_dir_coupler.txt for full schematic)
+
+  Forward power port: SMA female, panel mount on enclosure side
+  Reflected power port: SMA female, panel mount on enclosure side
+  Coupler board: 50mm x 30mm, FR4, mounted inside enclosure lid
+
+THERMAL MODEL:
+  At 1kW continuous:
+    Oil temp rise: dT/dt = P / (m_oil x Cp_oil)
+                         = 1000 / (4.5 x 0.86 x 1800)
+                         = 1000 / 6966
+                         = 0.144 C/second
+
+    Time to 80C limit from 25C ambient:
+      t = (80 - 25) / 0.144 = 382 seconds = 6.4 minutes
+
+  At 1kW with natural radiation from aluminum walls:
+    Wall area: 2x(150x300) + 2x(150x300) + 150x150 = ~0.23 m^2
+    Radiation: ~15W/C above ambient for polished aluminum
+    Steady state: T_ss = 25 + 1000/15 = 92C (exceeds limit)
+
+  CONCLUSION: 1kW requires either:
+    (a) Duty cycle <= 30% (10 min on, 23 min off)
+    (b) External forced-air cooling across aluminum walls
+    (c) Oil circulation pump (aquarium pump, 5 L/min adequate)
+
+  Recommended: Operate 1kW with oil pump circulation + external radiator.
+               At 500W continuous, no cooling required.
+               At 1kW: 10-minute maximum continuous.
+
+
+PROTECTION CIRCUITS:
+  Over-temperature relay:
+    K1: DPDT relay, 12VDC coil, NC contacts in antenna switch line
+    TH1: 10k NTC in oil, monitored by comparator circuit or CYD
+    At T > 95C: relay opens, disconnects TX from load
+    Red LED indicator for fault state
+
+  Power indicator:
+    Green LED via 10k in series to indicator port on coupler board
+    Illuminates when RF present (detected by forward power detector)
+
+PARTS LIST
+----------
+  Qty  Reference  Value/Part Number       Description
+  ---  ---------  --------------------    ---------------------------
+  20   R1-R20     1000R 50W non-induct.   Ohmite RH-50E1K or equiv
+                                          (ceramic body, NON-INDUCTIVE)
+  1    J1         N-type, chassis mount   Panel bottom center
+  1    J2,J3      SMA female, flange      Forward/reflected coupler ports
+  1    --         Al box 150x150x320mm    3mm wall welded Al (custom or
+                                          weld from plate)
+  5    --         Cu ring set, ID=18mm    Inner bus rings, per bank
+  5    --         Cu ring set, ID=90mm    Outer bus rings, per bank
+  1    --         Brass stud 5/16-18      Center conductor stud, 300mm
+  1    TH1        10k NTC stainless       Oil temp probe 200mm
+  4.5L --         Naphthenic mineral oil
+  1    --         Aquarium pump 5L/min    Optional oil circulation (12V)
+  1    K1         DPDT relay 12V          Over-temp shutdown
+  1    --         Dir. coupler PCB        See sch_dir_coupler.txt
+
+================================================================================

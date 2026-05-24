@@ -1,0 +1,226 @@
+================================================================================
+SCHEMATIC: Snap-On Ferrite Bead Common-Mode Chokes
+TM-CMC-001  Rev A
+Mix 31 and Mix 43 Clamshell / Snap-On Ferrite Cores
+Covers: 1 MHz through 300 MHz (bead dependent)
+================================================================================
+
+SNAP-ON BEAD THEORY
+───────────────────
+Snap-on ferrite cores (also called clamshell cores or split ferrites) clamp
+around existing cables without cutting connectors.  A single snap-on bead on
+a coax cable provides 100–500 Ω of common-mode impedance.  For adequate
+choking (>1000 Ω), multiple beads must be stacked in series.
+
+Each additional bead adds impedance in series (not parallel):
+  Z_total = N_beads × Z_single_bead   (approximation; mutual coupling minor)
+
+Stacking vs. multiple passes:
+  Threading cable through same bead N times: Z × N² (inductive, adds as N-turn coil)
+  N separate beads, 1 pass each: Z × N (resistive + inductive, more broadband)
+
+For broadband suppression: multiple beads preferred
+For single-frequency (powerline noise): multiple turns preferred
+
+================================================================================
+SNAP-ON BEAD TYPES AND IMPEDANCE DATA
+================================================================================
+
+TYPE 1: Fair-Rite 0431167251 (Mix 31, 1.125" split core, fits up to RG-8)
+  Dimensions: 28.6mm × 28.6mm × 28.6mm aperture dia 16mm
+  A_L ≈ 7600 nH/N² (1 turn through aperture)
+
+  Single bead impedance (1 pass through aperture):
+  f (MHz) | R (Ω) | jX (Ω) | |Z| (Ω)
+  --------|-------|--------|--------
+    0.5   |    5  |   155  |   155
+    1.0   |   15  |   270  |   270
+    5.0   |   85  |   490  |   497
+   10.0   |  175  |   480  |   511
+   25.0   |  380  |   420  |   565
+   50.0   |  530  |   280  |   600
+  100.0   |  500  |   100  |   510
+  200.0   |  350  |   -80  |   359
+  300.0   |  200  |  -120  |   234
+
+TYPE 2: Fair-Rite 0431164281 (Mix 31, 2.4" split core, fits up to 1" cable)
+  Dimensions: 61mm × 61mm × 28.6mm aperture dia 24.4mm
+  Higher impedance per bead:
+  f (MHz) | |Z| single bead (Ω)
+  --------|--------------------
+    1.0   |  520
+    5.0   | 1100
+   10.0   | 1300
+   25.0   | 1450
+   50.0   | 1350
+  100.0   | 1050
+
+TYPE 3: Laird 28B0350-000 (Mix 31 equivalent, 1.4" snap-on, fits RG-58/RG-8X)
+  Standard catalog item; widely available from Mouser, Digi-Key:
+  f (MHz) | |Z| single bead (Ω)
+  --------|--------------------
+    1.0   |  290
+   10.0   |  480
+   25.0   |  540
+   50.0   |  510
+  100.0   |  430
+
+TYPE 4: Fair-Rite 0443167251 (Mix 43, same physical as Type 1)
+  Mix 43 has lower impedance at HF but extends better to 100–300 MHz:
+  f (MHz) | R (Ω) | jX (Ω) | |Z| (Ω)
+  --------|-------|--------|--------
+    1.0   |    5  |    80  |    80
+    5.0   |   25  |   290  |   291
+   10.0   |   65  |   440  |   445
+   25.0   |  250  |   510  |   570
+   50.0   |  490  |   460  |   672
+  100.0   |  680  |   280  |   735
+  200.0   |  650  |    50  |   652
+  300.0   |  480  |   -80  |   487
+
+================================================================================
+STACKING CALCULATION — REQUIRED BEADS BY BAND AND TYPE
+================================================================================
+
+Target: |Z_total| ≥ 1000 Ω (minimum adequate)
+        |Z_total| ≥ 3000 Ω (good suppression)
+
+Using Fair-Rite 0431167251 (Type 1, Mix 31) beads, N beads in series:
+
+  Band  | f (MHz) | |Z|_1bead | Beads for 1000Ω | Beads for 3000Ω
+  ------|---------|-----------|-----------------|------------------
+  160M  |   1.8   |    260    |      4          |      12
+   80M  |   3.5   |    360    |      3          |       9
+   40M  |   7.0   |    490    |      3 (560Ω)   |       7
+   30M  |  10.1   |    505    |      2          |       6
+   20M  |  14.0   |    545    |      2          |       6
+   17M  |  18.1   |    575    |      2          |       6
+   15M  |  21.0   |    590    |      2          |       6
+   12M  |  24.9   |    605    |      2          |       5
+   10M  |  28.0   |    600    |      2          |       5
+    6M  |  50.0   |    600    |      2          |       5
+    2M  | 144.0   |    480    |      3 (approx) |       7 (approx)
+
+PRACTICAL SNAP-ON BEAD STACKS:
+
+  Stack name       | Beads | Type   | Useful range | Application
+  -----------------|-------|--------|--------------|-----------------------------
+  "HF-3" stack     |   3   | Mix 31 | 3–50 MHz     | 40M-6M quick install
+  "HF-6" stack     |   6   | Mix 31 | 1.8–50 MHz   | 80M-6M good suppression
+  "HF-12" stack    |  12   | Mix 31 | 1.8–50 MHz   | 160M-6M serious suppression
+  "VHF-4" stack    |   4   | Mix 43 | 10–300 MHz   | 10M-2M, mix43 better VHF
+  "Wideband-8"     |4×31+4×43| mixed| 1.8–300 MHz | Mixed material wideband
+
+================================================================================
+SCHEMATIC — SNAP-ON BEAD INSTALLATION
+================================================================================
+
+COAX LINE (end view, snap-on beads clamped around outer jacket):
+
+  ───────────────────────────────────────────────────────────── coax outer jacket
+                │       │       │       │       │       │
+              [B1]    [B2]    [B3]    [B4]    [B5]    [B6]     snap-on beads
+                │       │       │       │       │       │
+  ───────────────────────────────────────────────────────────── coax outer jacket
+
+  Bead spacing: 2–5mm between beads (touching OK; small gap prevents stress)
+  Total length of 6-bead stack: ~200mm on RG-8X (32mm per bead × 6)
+  Secure stack with cable ties or self-amalgamating tape wrap
+
+MULTIPLE PASS (N-TURN EQUIVALENT) — FOR POWERLINE / MAINS CABLES:
+
+  CABLE enters bead, loops back, passes through again N times:
+
+  cable in ──► [BEAD aperture pass 1] ──loop──► [aperture pass 2] ──loop──► exit
+
+  Impedance scales as N² (inductive behavior):
+    1 pass:   |Z| = 270 Ω @ 1 MHz (Type 1, Mix 31)
+    2 passes: |Z| ≈ 4 × 270 = 1080 Ω @ 1 MHz
+    3 passes: |Z| ≈ 9 × 270 = 2430 Ω @ 1 MHz
+    4 passes: |Z| ≈ 16 × 270 = 4320 Ω @ 1 MHz
+
+  CAUTION: multiple passes resonant frequency shifts DOWN.  High-frequency
+  performance degrades faster than single-pass multi-bead approach.
+  Use multiple-pass for troublesome LF (AM broadcast, powerline) interference.
+  Use series single-pass beads for broadband HF/VHF suppression.
+
+================================================================================
+SNAP-ON BEAD — INTERNAL CROSS-SECTION DIAGRAM
+================================================================================
+
+     Top view of clamshell bead (Type 1, Mix 31):
+
+     ┌──────────────────────────────────────────┐
+     │ ██████████████████████████████████████  │
+     │ ██  ┌────────────────┐  █████████████  │
+     │ ██  │  APERTURE      │  █████████████  │  ← ferrite material (██)
+     │ ██  │  (cable passes │  █████████████  │
+     │ ██  │   through)     │  █████████████  │
+     │ ██  └────────────────┘  █████████████  │
+     │ ██████████████████████████████████████  │
+     └──────────────────────────────────────┬─┘
+                                            │ hinge / snap closure
+     ┌──────────────────────────────────────┘
+     │ (mirror of top half — snaps closed)   │
+     └──────────────────────────────────────┘
+
+================================================================================
+SNAP-ON BEAD INSTALLATION GUIDE
+================================================================================
+
+INSTALLATION ON COAXIAL CABLE:
+  1. Clean cable jacket with isopropyl alcohol; remove any grit.
+  2. Mark bead positions (2–5mm spacing recommended).
+  3. Snap bead open; lay cable in lower half groove.
+  4. Snap closed; confirm secure closure (no gap at seam).
+  5. Verify cable jacket not pinched at bead edges.
+  6. Secure with 2-inch cable tie or tape wrap if beads will be moved.
+
+INSTALLATION ON POWER/ETHERNET/USB CABLES:
+  Same procedure.  For small cables (USB), fold cable once before inserting
+  to increase effective turns (fold = 2 passes):
+    USB cable folded once through Mix 31 bead: |Z| ≈ 4 × 270 = 1080 Ω @ 1 MHz
+
+POSITION ON FEEDLINE:
+  - Feedline snap-on beads: install at entry point to shack (at bulkhead).
+  - Equipment supply cable: install at equipment power inlet.
+  - Monitor/display cables: install at display end (where entering equipment).
+  - Ferrite beads do NOT need to be installed at antenna feedpoint for filtering
+    of common-mode currents entering the shack — shack entry is correct location.
+  - For antenna feedpoint balun action: use wound toroid (sch_toroid_choke_hf.txt)
+
+================================================================================
+WIDEBAND SNAP-ON CHOKE FOR 160M–2M (RECOMMENDED CONFIGURATION)
+================================================================================
+
+Use 4 beads of Mix 31 followed by 4 beads of Mix 43 on same coax:
+
+  TX ──── [B1 M31][B2 M31][B3 M31][B4 M31] [B5 M43][B6 M43][B7 M43][B8 M43] ──── ANT
+
+  Total impedance (approximate):
+  f (MHz) | M31 ×4 (Ω) | M43 ×4 (Ω) | Combined (Ω) | CMR @ 150Ω path
+  --------|------------|------------|-------------|------------------
+    1.8   |   1040     |    320     |   1360      |  19.7 dB
+    7.0   |   1960     |   1780     |   3740      |  28.0 dB
+   14.0   |   2180     |   2680     |   4860      |  30.2 dB
+   28.0   |   2400     |   2940     |   5340      |  31.1 dB
+   50.0   |   2400     |   2688     |   5088      |  30.6 dB
+  144.0   |   1920     |   2940     |   4860      |  30.2 dB
+
+This 8-bead wideband configuration covers 160M through 2M adequately without
+any rewinding or component changes.  Total package: ~300mm of cable.
+
+================================================================================
+PARTS LIST — SNAP-ON BEAD CHOKES
+================================================================================
+
+Item | Qty  | Part Number          | Description                   | Qty/kit
+-----|------|----------------------|-------------------------------|--------
+B1   |  1+  | Fair-Rite 0431167251 | Mix 31, 1.125" split, HF     | 4–12
+B2   |  1+  | Fair-Rite 0443167251 | Mix 43, 1.125" split, HF/VHF | 4–8
+B3   |  1+  | Laird 28B0350-000    | Mix 31 equiv, 1.4" (RG-8X)   | alt for B1
+Tie  |  var | Cable tie 4"         | Secure bead stacks            | 20/pack
+Tape |  1   | Self-amalg. tape     | Optional weatherproof wrap    | 1 roll
+Bag  |  1   | Zip-lock heavy duty  | Storage and transport of beads| 3/bag set
+
+================================================================================

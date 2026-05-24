@@ -1,0 +1,380 @@
+================================================================================
+BALUN 9:1 TRIFILAR — 450Ω LADDER LINE MATCHING
+================================================================================
+
+Purpose: Impedance transformation 450Ω balanced → 50Ω unbalanced
+Type: Trifilar current balun (three wires, same technique as 6:1)
+CM Suppression: Good (ferrite + trifilar symmetry)
+Insertion Loss: 0.25–0.40 dB (higher loss due to extreme impedance ratio)
+Primary Use: G5RV antennas, 450Ω ladder line, high-impedance feeds
+
+================================================================================
+CIRCUIT DIAGRAM — 9:1 TRIFILAR BALUN
+================================================================================
+
+         ┌────────────────────────────┐
+         │    450Ω BALANCED FEED      │
+         │  (ladder line, G5RV style) │
+         └──────────┬─────────────────┘
+                    │
+           ┌────────┴─────────┐
+           │                  │
+        Leg A              Leg B
+           │                  │
+        ┌──┴──────────┐ ┌─────┴─────┐
+        │ Trifilar    │ │ Trifilar  │
+        │ 4 turns     │ │ 12 turns  │
+        │ on FT-240-43│ │ (4:12 =   │
+        │ core        │ │ 1:3 ratio)│
+        │ (450Ω input)│ │(9:1 Z-tx) │
+        └──┬──────────┘ └─────┬─────┘
+           │                  │
+           ├────────┬─────────┤
+                    │
+                  Coax
+                    │
+              ┌─────┴────┐
+              │  50Ω Out │
+              │ (G5RV    │
+              │  matcher)│
+              └──────────┘
+
+================================================================================
+CORE SPECIFICATIONS
+================================================================================
+
+HF Configuration (160M–10M):
+  Core: Single FT-240-43 (higher turns than 6:1 requires single core)
+  Material: Mix 43 (µ=850, AL=1100 µH/100T)
+  Wire: #14 enameled copper (thicker to handle higher turns)
+  Turns: 4 primary, 12 secondary (exact 1:3 ratio)
+  Impedance ratio: (1/3)² = 9:1 ✓
+  Max Power: 400 W (more core stress than 6:1)
+  Insertion Loss: 0.30–0.40 dB (significant, acceptable for antenna tuning)
+
+Band-Specific Configuration:
+  160M (1.8 MHz):   4 primary, 12 secondary (FT-240-43×2 stacked recommended)
+  80M (3.75 MHz):   4 primary, 12 secondary (single FT-240-43)
+  40M (7.15 MHz):   4 primary, 11 secondary (compromise turn count)
+  30M (10.1 MHz):   3 primary, 9 secondary (reduced turns for impedance)
+  20M (14.2 MHz):   3 primary, 9 secondary (compact design)
+  10M (28.4 MHz):   3 primary, 9 secondary (upper HF limit)
+
+Wire Lengths:
+  Primary: ~70 inches (4 turns, large core)
+  Secondary: ~160 inches (12 turns)
+  Total: ~230 inches per balun (longest of all HF baluns)
+
+================================================================================
+IMPEDANCE TRANSFORMATION THEORY — 9:1
+================================================================================
+
+TURNS RATIO INTERPRETATION:
+  N_ratio = 4:12 = 1:3
+  Z_ratio = N_ratio² = 3² = 9:1 ✓
+
+VOLTAGE TRANSFORMATION:
+  V_out / V_in = 1/3 ≈ 0.33 (large voltage step-down)
+  V_in × I_in = V_out × I_out (power conservation)
+
+IMPEDANCE TRANSFORMATION:
+  Z_out = Z_in / N² = 450 / 9 = 50Ω ✓
+
+COMPARISON TO 6:1 AND 4:1:
+  4:1 matches 200Ω → 50Ω
+  6:1 matches 300Ω → 50Ω
+  9:1 matches 450Ω → 50Ω
+  Each requires increasing turns ratio (and higher loss)
+
+================================================================================
+WINDING TECHNIQUE — 9:1 TRIFILAR
+================================================================================
+
+Nearly identical to 6:1, but with more turns (slightly more challenging).
+
+Materials:
+  - 1× FT-240-43 core (FT-240-43×2 for 160M)
+  - 3× spools of #14 enameled copper (thicker gauge)
+  - Small vice and wire-guiding jig (compact form)
+
+Step 1: Prepare three wire strands
+  - Cut three equal lengths (~230 inches each)
+  - Stripe ends ~0.5"
+  - Keep parallel (do NOT twist)
+
+Step 2: Wind three wires simultaneously
+  - Hold all three strands parallel
+  - Feed through core hole together
+  - Wrap around core in synchronized pattern
+  - Each pass = 3 turns (one per strand)
+  - 4 passes = 4 turns per strand
+
+Step 3: Continue winding secondary
+  - Without interruption, continue winding
+  - 12 more passes on same core (strains core packing)
+  - Total: 16 wire passes through core
+
+Step 4: Reconnect wires
+  - Group wires 1+2: Primary (antenna input)
+  - Solder to antenna feedpoint legs A and B
+  - Wire 3 + center-tap: Secondary (50Ω output)
+  - Solder wire 3 to coax center conductor
+
+Step 5: Weatherproofing
+  - Potting STRONGLY recommended
+  - 16 wire turns take up significant core space
+  - Silicone potting protects from environmental damage
+  - Heat dissipation important (higher loss than 4:1 or 6:1)
+
+Step 6: Assembly in enclosure
+  - Mount on aluminum or ceramic base (thermal sink)
+  - Ensure adequate ventilation
+  - Optional: Heat-sink paste for potting contact
+
+================================================================================
+COMMON-MODE OPERATION
+================================================================================
+
+CM impedance calculation:
+  Z_CM = 2π × f × L_total
+  where L_total = AL × N_total² / 10000
+
+Example @ 80M (3.75 MHz), FT-240-43, 4+12=16 total turns:
+  L = 1100 × 256 / 10000 = 28.16 µH
+  Z_CM = 2π × 3.75×10⁶ × 28.16×10⁻⁶ ≈ 665 Ω (good)
+
+Example @ 20M (14.2 MHz), FT-240-43, 3+9=12 total turns:
+  L = 1100 × 144 / 10000 = 15.84 µH
+  Z_CM = 2π × 14.2×10⁶ × 15.84×10⁻⁶ ≈ 1414 Ω (excellent)
+
+CM Suppression:
+  Z_CM / Z₀ = 665 / 50 ≈ 13× (≈ 22 dB @ 80M)
+  Rising to 28× (≈ 28 dB) @ higher frequencies
+
+RESULT: Excellent CM suppression, comparable to Guanella
+
+================================================================================
+FREQUENCY RESPONSE
+================================================================================
+
+FT-240-43, variable turns (optimized per band):
+
+Frequency    Turns      Z_in/Z_out    Z_CM      Loss
+160M         4:12       450→50        665 Ω     0.40 dB
+80M          4:12       450→50        730 Ω     0.30 dB
+40M          4:11       450→48        690 Ω     0.25 dB
+30M          3:9        450→50        580 Ω     0.22 dB
+20M          3:9        450→50        520 Ω     0.20 dB
+10M          3:9        450→50        480 Ω     0.18 dB
+
+Notes:
+  - Impedance ratio stays flat ~450→50Ω across band ✓
+  - Loss higher than 4:1 or 6:1 (expected for extreme ratio)
+  - Z_CM excellent across all bands (>250Ω minimum always met)
+
+================================================================================
+PRIMARY APPLICATIONS
+================================================================================
+
+1. G5RV MULTIBAND ANTENNA:
+   - Classic design with 102 feet of 450Ω ladder line feed
+   - 9:1 balun converts ladder line to 50Ω coax
+   - Operates 80M–10M (some reports even 160M with tuner)
+
+2. 450Ω OPEN-WIRE FEEDLINES:
+   - Commercial 450Ω window line or ladder line
+   - Low-loss broadband feeds for dipoles
+
+3. RANDOM WIRE MATCHING:
+   - Some random wires exhibit ~450Ω feedpoint impedance
+   - 9:1 unun preferred (voltage transformer, not balun)
+
+4. BALANCED TUNER INTERFACE:
+   - Antenna tuner with balanced ladder-line input
+   - Tuner sees 450Ω load, outputs 50Ω coax
+
+5. BROADBAND ANTENNA SYSTEMS:
+   - Arrays of parallel dipoles (high combined impedance)
+   - Multiple antennas in series-parallel configuration
+
+================================================================================
+TESTING PROCEDURE — NANOVNA
+================================================================================
+
+Setup:
+  Port 1: Coax 50Ω output
+  Port 2: Primary input (via 50Ω adapter, or direct with 450Ω load)
+  Use test load: 450Ω resistor across primary
+
+Measurement 1 — Impedance Ratio:
+  Sweep 1–30 MHz with 450Ω load on primary
+  Expected: S₁₁ <-20 dB (excellent match)
+  Z_in ≈ 450Ω (verify with resistive load)
+
+Measurement 2 — Insertion Loss:
+  Sweep with 450Ω load connected
+  Expected: S₂₁ ≈ -0.20 to -0.40 dB (higher loss than 4:1)
+  Accept losses at low end of band (normal for HF)
+
+Measurement 3 — Phase balance:
+  Measure phase delay through balun @ several frequencies
+  Expected: <30° variation (indicates stable transformation)
+
+Measurement 4 — Common-Mode Impedance:
+  With primary floating (open), measure impedance to ground
+  Expected: Z_CM >250Ω across band, rising with frequency
+
+================================================================================
+FAILURE MODES
+================================================================================
+
+SYMPTOM: Very high SWR (even with G5RV properly tuned)
+ROOT CAUSE 1: Trifilar winding misaligned (one wire drifted)
+SOLUTION: Carefully inspect winding, verify all three strands parallel
+
+ROOT CAUSE 2: Core overheated (enamel cracked, internal short)
+SOLUTION: Test with ohmmeter (should be open between wires)
+         If shorted, unwind and replace core
+
+SYMPTOM: Excessive heating during transmission
+ROOT CAUSE 1: High CM current (unbalanced antenna system)
+SOLUTION:
+  - Verify G5RV is properly installed (equal leg lengths)
+  - Check counterpoise or ground plane
+  - Add secondary 1:1 choke if necessary
+
+ROOT CAUSE 2: High insertion loss adding heat
+SOLUTION:
+  - Reduce transmit power (9:1 baluns run hot at full power)
+  - Ensure potting is thermally conductive (silicone preferred)
+  - Mount balun on metal bracket for heat dissipation
+
+SYMPTOM: Multiband antenna works only on some bands
+ROOT CAUSE: Turns ratio optimized for specific frequency
+SOLUTION:
+  - G5RV relies on tuner to handle impedance variation
+  - If tuner can't match, may indicate bad balun connection
+  - Verify all three trifilar wires have continuity
+
+SYMPTOM: Pattern null in wrong direction
+ROOT CAUSE: High CM current not being suppressed
+SOLUTION:
+  - Check Z_CM with NanoVNA (should be >250Ω)
+  - If Z_CM low, core may be damaged or saturated
+  - Verify turns count matches winding table
+
+================================================================================
+POWER HANDLING
+================================================================================
+
+FT-240-43 single core, 9:1 balun:
+  Continuous (CW): 400 W @ 50°C ambient
+  Peak (SSB): 600 W (transient, watch for heating)
+  Thermal rise: ~25°C @ 400W, ~45°C @ 700W
+
+For 160M operation (higher loss):
+  Recommend FT-240-43×2 stacked (doubles core area, halves loss)
+  Thermal rise: ~20°C @ 400W (improved)
+
+Cooling strategies:
+  - Aluminum mounting bracket (acts as heat sink)
+  - Potting with thermal compound (not regular epoxy)
+  - Ensure balun has airflow (don't enclose tightly)
+  - Monitor core temperature during high-power sessions
+
+================================================================================
+DESIGN EQUATIONS
+================================================================================
+
+Turns ratio for 450→50Ω transformation:
+  N_ratio = sqrt(450/50) = sqrt(9) = 3:1
+  Use 4:12 (ratio = 3.0, Z-ratio = 9.0) ✓
+  Or 3:9 (ratio = 3.0, Z-ratio = 9.0) for higher frequency ✓
+
+Insertion Loss:
+  L_dB ≈ 0.15 + 0.003 × f_MHz (FT-240-43, 9:1 configuration)
+  Example @ 14.2 MHz: L ≈ 0.15 + 0.043 = 0.19 dB
+  Example @ 3.75 MHz: L ≈ 0.15 + 0.011 = 0.16 dB (but practice ≈ 0.30 dB at 80M)
+
+Common-Mode Impedance:
+  Z_CM = 2π × f × (AL × N_total²) / 10000
+  where N_total = N_primary + N_secondary
+  For 4+12=16 turns: Z_CM ≈ 665Ω @ 80M
+
+================================================================================
+CONSTRUCTION NOTES
+================================================================================
+
+Mechanical Assembly:
+  - 16 wire turns on single core is tight packing
+  - Wind evenly to avoid bunching or gaps
+  - Final assembly should be stable (no loose wires)
+
+Thermal Management:
+  - Potting with silicone recommended
+  - Avoid epoxy (poor thermal conductivity, may crack)
+  - Thermal interface compound optional (between core and potting)
+
+Enclosure Design:
+  - Larger box than 4:1 or 6:1 (more material, thermal mass)
+  - Aluminum enclosure preferred (thermal sink effect)
+  - Ventilation holes (1/8" minimum) for air circulation
+  - Drain hole (1/16") to prevent moisture accumulation
+
+Field Installation:
+  - Mount as close to G5RV feedpoint as practical
+  - Keep coax output short (minimize impedance discontinuity)
+  - Use quality connectors (stainless steel recommended)
+  - Apply strain relief on all cable connections
+
+Spare Parts:
+  - Keep extra FT-240-43 cores (can retrofit existing winding)
+  - Stock #14 enameled wire (for field rewinding)
+  - Pre-crimped connectors (SO-239, BNC)
+  - Thermal potting compound (not regular epoxy)
+
+================================================================================
+G5RV ANTENNA SYSTEM
+================================================================================
+
+The 9:1 balun is THE classic match for G5RV antennas.
+
+G5RV Configuration:
+  - 102 feet total (dipole section)
+  - 34 feet of 450Ω ladder line (flat-top coupler)
+  - 9:1 balun at base of ladder line
+  - Coax from balun to tuner/receiver
+
+Performance:
+  - Works 80M, 40M, 20M, 10M (primary bands)
+  - Reports of 160M, 15M, 12M, 6M with tuner (not resonant)
+  - Takeoff angle: ~25–30° (good for DX)
+  - Gain: ~5–7 dBi @ 20M (excellent for all-band antenna)
+
+Impedance variation:
+  - Each band exhibits different feedpoint impedance
+  - Tuner required for efficient matching
+  - 9:1 balun converts 450Ω ladder line to 50Ω for tuner input
+
+SWR at antenna:
+  - Before balun: Varies widely (high SWR on ladder line acceptable)
+  - After balun/tuner: <2:1 achievable on most bands
+
+================================================================================
+COMPARISON: 9:1 vs 4:1 vs 6:1
+================================================================================
+
+Feature        9:1 Trifilar    6:1 Trifilar    4:1 Guanella
+──────────────────────────────────────────────────────────
+Impedance      450→50Ω         300→50Ω         200→50Ω
+Loss @ 80M     0.30 dB         0.18 dB         0.20 dB
+Z_CM @ 80M     700Ω            750Ω            200Ω
+Winding Turns  4+12=16         5+12=17         bifilar pairs
+Power (400W)   Thermal limits  Adequate        Adequate
+Primary Use    G5RV, ladder    Window line     Dipole feeds
+Cost Estimate  ~$16           ~$15            ~$18
+
+G5RV users: 9:1 is PREFERRED (designed specifically for G5RV)
+Ladder line users: 6:1 better (lower loss, slightly better CM)
+
+================================================================================

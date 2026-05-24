@@ -1,0 +1,78 @@
+CM EFQW_TRAPPED_HF.NEC — Trapped Multiband Roll-Up EFQW
+CM TM-EF-NEC-009 Rev A
+CM
+CM 5-band trapped vertical: 40m / 20m / 15m / 12m / 10m
+CM Single wire with 4 parallel LC traps enabling 5-band operation
+CM
+CM TRAP POSITIONS (from feedpoint):
+CM   Trap 1 (10m, 28.5MHz): 2.55m from feed
+CM   Trap 2 (12m, 24.94MHz): 2.92m from feed
+CM   Trap 3 (15m, 21.225MHz): 3.43m from feed
+CM   Trap 4 (20m, 14.175MHz): 5.13m from feed
+CM   40m wire extends to 10.18m total
+CM
+CM HOW TRAPS WORK:
+CM   On 10m: Trap1 presents high Z (resonant); antenna = 2.55m = QW on 10m
+CM   On 12m: Trap2 resonant; Trap1 looks inductive; antenna = 2.92m = QW on 12m
+CM   On 15m: Trap3 resonant; antenna = 3.43m = QW on 15m
+CM   On 20m: Trap4 resonant; antenna = 5.13m = QW on 20m
+CM   On 40m: All traps transparent (small loading effect); antenna = 10.18m = QW on 40m
+CM
+CM NEC MODEL: Each band modeled separately using appropriate wire length.
+CM   Traps modeled as LD series-RLC approximating parallel resonator behavior.
+CM   Note: For precise trap behavior, use EZNEC with series LD card at trap segment.
+CM
+CM ── 40M MODEL (full wire, traps modeled as small loads) ──────────────────
+
+CE
+GW 1 40  0 0 0.01  0 0 10.18  0.000816
+GW 2 5   0 0 0.01  10.18 0 0.01  0.000816
+GW 3 5   0 0 0.01  0 10.18 0.01  0.000816
+GW 4 5   0 0 0.01  -10.18 0 0.01  0.000816
+GW 5 5   0 0 0.01  0 -10.18 0.01  0.000816
+GE 1
+GN 2 0 0 0  13 0.005
+LD 0 1 10 10  2.0 2.401e-6 218e-12
+LD 0 1 11 11  2.0 1.500e-6 172e-12
+LD 0 1 14 14  2.0 1.000e-6 127e-12
+LD 0 1 20 20  2.0 0.360e-6 112e-12
+EX 0 1 1 0  1 0
+FR 0 13 0 0  7.000 0.025
+RP 0 37 73 1000  0 0 5 5
+EN
+
+CM ── 20M MODEL: wire truncated at 20m trap location ─────────────────────
+CM Delete above EX/FR/RP/EN and substitute:
+CM   FR 0 15 0 0  14.000 0.025
+CM   Use GW 1 20  0 0 0.01  0 0 5.13  ...
+CM   (Remove GW 2-5 radial length to 5.13m)
+
+CM ── TRAP COMPONENT VALUES ────────────────────────────────────────────────
+CM
+CM Trap 1 (10m, 28.5 MHz):
+CM   L = 0.250 uH (2.5T on T50-6 = use 3T=360nH with C=87pF, or 2T+series)
+CM   Practical: 3T T50-6 (360nH) + 82pF NP0 = 28.5 MHz resonance
+CM   Actual f = 1/(2pi*sqrt(360e-9*82e-12)) = 29.3 MHz — adjustable with trimmer
+CM   Use 3T + 68pF + 0-22pF trimmer → tune to 28.5 MHz exactly
+CM
+CM Trap 2 (12m, 24.94 MHz):
+CM   L = 0.360 uH (3T T50-6, AL=40nH/t2 → 360nH)
+CM   C = 1/(4pi2 * 24.94e6^2 * 360e-9) = 113 pF → 100pF + 12pF = 112pF
+CM
+CM Trap 3 (15m, 21.225 MHz):
+CM   L = 0.640 uH (4T T50-6 → 640nH)
+CM   C = 1/(4pi2 * 21.225e6^2 * 640e-9) = 87.8 pF → 82pF + 6.8pF = 88.8pF
+CM
+CM Trap 4 (20m, 14.175 MHz):
+CM   L = 1.000 uH (5T T50-6 → 1000nH)
+CM   C = 1/(4pi2 * 14.175e6^2 * 1000e-9) = 126 pF → 120pF + 6.8pF = 126.8pF
+CM
+CM 40m wire continues beyond trap 4 to total 10.18m.
+CM
+CM ROLL-UP SEQUENCE (deploy):
+CM   1. Attach feedpoint housing to pole or stake at 1m height
+CM   2. Unreel wire to 10.18m for 40m; or to appropriate trap for other bands
+CM   3. Suspend with lightweight line from trees or pole
+CM   4. Lay 4 radials on ground or suspend slightly elevated
+CM   5. Tune matching network for minimum SWR
+CM ──────────────────────────────────────────────────────────────────────────

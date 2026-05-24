@@ -1,0 +1,18 @@
+ANTENNA SPECIFICATION — KMR-400 MAGNETIC LOOP,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,"2M, 1.25M, 70cm, 33cm, 20cm",,Center/allocated bands
+Design approach,"Compact switchable magnetic loop, manually tuned",,Primary design method
+Compaction factor,0%,,Size reduction vs full-size
+Special parameters,"Loop dia 25cm, tap-switched per band, high Q",,Design-specific details
+,,,
+Feed impedance,50,Ω,Standard amateur radio
+SWR target,<1.5,:1,At band center
+Radiation pattern,Varies,,See NEC model
+Polarization,Linear,,Or circular for arrays
+,,,
+Typical efficiency,80–95%,%,Band-dependent
+Typical gain,2–10,dBi,Type-dependent
+,,,
+NEC model file,kmr_400_magnetic_loop.nec,,See electromagnetic simulation
+Construction manual,kmr_400_magnetic_loop.md,,Step-by-step procedures

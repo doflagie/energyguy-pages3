@@ -1,0 +1,294 @@
+================================================================================
+  INTEGRATED ANTENNA ANALYZER - ADF4351 VHF/UHF SYNTHESIZER
+  Fractional-N PLL for 35 MHz - 4.4 GHz Coverage
+  Covers: 6M (50 MHz), 2M (144 MHz), 1.25M (222 MHz), 70cm (432 MHz),
+          33cm (902 MHz), 20cm (1296 MHz)
+================================================================================
+
+OVERVIEW
+────────
+The ADF4351 is a wideband fractional-N synthesizer with integrated VCO (35-4400 MHz).
+Used for VHF/UHF band generation when AD9851 DDS maxes out (~100 MHz).
+
+Key parameters:
+  - Reference clock: 25 MHz TCXO
+  - SPI serial interface (3-wire: CLK, DATA, LE)
+  - Output: Direct RFOUT pin or buffered via LO amplifier
+  - Phase noise: -110 dBc/Hz @ 1 GHz offset (typical)
+  - Output power: -4 to +5 dBm (software selectable)
+
+Pin Configuration (LQFP-48):
+```
+    REFIN→[2]────┐
+  25MHz TCXO    │     ┌──────────────┐
+                ├────→[ADF4351]──────→[RF OUT]→ Filter→ Buffer Amp
+    GND─────[3]─┤    │  (VCO+PLL)   │
+                └────→[N-divider]    │   output: -4 to +5 dBm
+  SPI Interface:         │          │   frequency: 35 MHz - 4.4 GHz
+    GPIO18=CLK ─────→[7]│ SPI      │
+    GPIO19=DATA ─→[8]───┼──────────┘
+    GPIO15=LE ──→[9]────┘ (latch enable)
+
+  VCC=+5V → [power pins 1,6,10,24,40,48]
+  GND → [power pins 3,11,23,49]
+  BYPASS: 0.1µF (CMOS grade) at each VCC pair
+```
+
+================================================================================
+SPI REGISTER STRUCTURE (6 registers: R5→R0, 32 bits each, MSB first)
+================================================================================
+
+Register Format for ADF4351 Initialization:
+
+R0: FREQUENCY TUNING WORD (FTW)
+─────────────────────────────────
+    Bits 31-14: FRAC (fractional numerator, 18 bits)
+    Bits 13-2:  INT (integer divider, 12 bits)
+    Bits 1-0:   Control = 0b00
+
+    Frequency = (INT + FRAC/2^25) × (REF_CLK / R) MHz
+    where REF_CLK = 25 MHz (TCXO), R = 1 (reference divider)
+
+    Example for 144.0 MHz (2M):
+      INT = 5 (144 MHz / 25 MHz = 5.76, integer part)
+      FRAC = 19660 (0.76 × 2^25 = 25559 ≈ 19660 coded)
+      Actual: f = (5 + 19660/33554432) × 25 = 144.0 MHz
+
+
+R1: PRESCALER & PHASE ADJUSTMENT
+──────────────────────────────────
+    Bit 23: Prescaler (0 = 4/5, 1 = 8/9) → Use 1 (8/9 for wider range)
+    Bit 22-0: Phase (optional, set to 0 for most apps)
+
+
+R2: LOCK DETECT & CHARGE PUMP
+──────────────────────────────
+    Bits 31-27: COUNTER_RESET (optional)
+    Bits 26-22: Charge pump current (set to 00101 = 2.5 mA typical)
+    Bits 19-18: Mux-out selection (set to 00 = lock detect on MUXOUT pin)
+    Bits 8-6:   Lock detect precision (use 000 for standard)
+
+
+R3: RF OUTPUT CONTROL
+──────────────────────
+    Bits 31-5: Reserved
+    Bits 4-2:  Output power (set per band):
+               000 = -4 dBm, 001 = -1 dBm, 010 = +2 dBm, 011 = +5 dBm
+    Bit 1:     Output enable (1 = RF output ON)
+    Bit 0:     Control = 0b01
+
+
+R4: AUXILIARY OUTPUT CONTROL
+──────────────────────────────
+    Similar to R3 but for auxiliary output (not used, set all 0)
+    Bit 0:     Control = 0b00
+
+
+R5: LOCK DETECT & MISC
+───────────────────────
+    Bits 31-23: Reserved
+    Bit 6:      LD type (lock detect: 0 = digital, 1 = analog)
+    Bits 5-3:   Reserved
+    Bits 2-0:   Control = 0b101
+
+
+================================================================================
+REFERENCE OSCILLATOR (25 MHz TCXO)
+================================================================================
+
+Part: Abracon ASTMHTFL-25.000MHZ (through-hole) or equivalent
+Frequency: 25.000 MHz ±0.5 ppm
+Type: Temperature-compensated crystal oscillator
+Supply: +3.3V (some variants need +5V, check part)
+Output impedance: 10 MΩ || 3 pF
+Stability: 0.1 ppm/°C (better than standard crystal)
+
+PCB Layout:
+    TCXO ──┬──[10k pull-up]──→ +3.3V
+           ├──[100nF bypass]──→ GND
+           └──→ [10nF AC-couple] → ADF4351 REFIN
+
+Trimming: If frequency adjustment needed, add 50pF variable capacitor in parallel
+(but TCXO is stable enough for most applications, skip if not required).
+
+================================================================================
+OUTPUT NETWORK & BUFFERING
+================================================================================
+
+Direct RFOUT Connection (Low Power, High Impedance):
+─────────────────────────────────────────────────────
+    ADF4351 RFOUT (50Ω source, typically -1 to +5 dBm)
+         │
+      [10nF]  ← AC coupling capacitor (blocks DC)
+         │
+      [Series Z_0 = 50Ω stub]  ← Optional for impedance match
+         │
+      [L-matching network] ← If needed for specific band
+         │
+      [Low-pass filter] ← Band-specific (see below)
+         │
+      [Buffer amplifier] ← Optional (see below)
+         │
+      To RF coupler input (50Ω)
+
+Low-Pass Filter for Band Selection (3 filter variants):
+
+    VARIANT A: 6M/2M (50-150 MHz)
+    ──────────────────────────────
+    Cutoff: 200 MHz
+    Topology: Chebyshev 3-pole passive LC
+
+    RFOUT ──┬──[L1: 4.7µH]──┬──→ To RF coupler
+            │               │
+           [C1: 10pF]       └──[L2: 2.2µH]──┬──→ GND
+            │                               │
+           GND                         [C2: 22pF]
+                                           │
+                                          GND
+
+    VARIANT B: 1.25M/70cm (200-500 MHz)
+    ─────────────────────────────────────
+    Cutoff: 550 MHz
+    Topology: Butterworth 2-pole
+
+    RFOUT ──[L1: 2.2µH]──┬──→ To RF coupler
+                        │
+                    [C1: 4.7pF]
+                        │
+                       GND
+
+    VARIANT C: 33cm/20cm (800-1400 MHz)
+    ───────────────────────────────────
+    Cutoff: 1500 MHz
+    Topology: Minimal (single series L for impedance matching only)
+
+    RFOUT ──[L1: 470nH]──→ To RF coupler
+
+Optional Buffer Amplifier (Recommended for >1 GHz):
+───────────────────────────────────────────────────
+    Device: Mini-Circuits ZFL-1000+ or equivalent low-noise amplifier
+    Gain: +20 dB
+    Noise figure: 4.5 dB
+    Output level: +19 to +25 dBm (attenuate before RF coupler if needed)
+
+    ADF4351 ────→ [Filter] → [ZFL-1000+] → [10dB attenuator] → RF coupler
+                             +5V power
+
+
+================================================================================
+SPI CONTROL SEQUENCE (From ESP32 Firmware)
+================================================================================
+
+Pseudocode:
+
+    void setADF4351Frequency(uint32_t freq_hz) {
+      // Calculate FTW from frequency
+      uint32_t int_part = freq_hz / 25000000;      // INT = f / 25MHz
+      uint32_t frac_part = (freq_hz % 25000000) << 25 / 25000000;  // FRAC
+
+      // Construct register values
+      uint32_t r0 = (frac_part << 14) | (int_part << 2) | 0x0;
+      uint32_t r1 = (1 << 23) | 0x00008001;  // Prescaler 8/9
+      uint32_t r2 = (0x05 << 22) | 0x00000000;  // CP=2.5mA, LD detect
+      uint32_t r3 = (0x02 << 2) | (1 << 1) | 0x01;  // +2dBm output, ON
+      uint32_t r4 = 0x00000004;  // Aux output OFF
+      uint32_t r5 = 0x00800005;  // Lock detect enabled
+
+      // SPI write sequence: R5, R4, R3, R2, R1, R0 (top-to-bottom)
+      spiWrite(r5); delay(1ms);
+      spiWrite(r4); delay(1ms);
+      spiWrite(r3); delay(1ms);
+      spiWrite(r2); delay(1ms);
+      spiWrite(r1); delay(1ms);
+      spiWrite(r0); delay(1ms);
+
+      // Poll MUXOUT (GPIO pin) for lock detect
+      waitForLock();  // MUXOUT goes high when PLL locked
+    }
+
+    void spiWrite(uint32_t value) {
+      // 32-bit MSB-first SPI transaction
+      for (int i = 31; i >= 0; i--) {
+        digitalWrite(GPIO_CLK, LOW);
+        digitalWrite(GPIO_DATA, (value >> i) & 1);
+        digitalWrite(GPIO_CLK, HIGH);
+      }
+      digitalWrite(GPIO_LE, HIGH);  // Latch
+      delay(10µs);
+      digitalWrite(GPIO_LE, LOW);
+    }
+
+
+================================================================================
+FREQUENCY BAND TABLE (For Firmware)
+================================================================================
+
+    Band        Freq Range        INT   FRAC_MIN  FRAC_MAX  Filter  Amp
+    ─────────────────────────────────────────────────────────────────────
+    6M          50.0-54.0 MHz     2     0-20e6    0-20e6    A       No
+    2M          144.0-148.0 MHz   5     0-20e6    0-20e6    A       No
+    1.25M       222.0-225.0 MHz   8     0-20e6    0-20e6    B       No
+    70cm        430.0-450.0 MHz   17    0-20e6    0-20e6    B       Yes*
+    33cm        902.0-928.0 MHz   36    0-20e6    0-20e6    C       Yes*
+    20cm        1296-1300 MHz     51    0-20e6    0-20e6    C       Yes*
+    (*: Use buffer amp with 10 dB attenuator)
+
+
+================================================================================
+PHASE NOISE & SPURIOUS SUPPRESSION
+================================================================================
+
+Expected phase noise @ 1296 MHz (typical):
+  - 10 kHz offset: -80 dBc/Hz
+  - 100 kHz offset: -100 dBc/Hz
+  - 1 MHz offset: -110 dBc/Hz
+
+Spurious suppression:
+  - Fractional spur @ reference frequency: -40 to -50 dBc
+  - Narrowband spur density: -60 dBc
+
+Improvement techniques:
+  1. Use crystal TCXO (not RC oscillator) for reference
+  2. Shielding: RF SMA output in shielded enclosure
+  3. PCB layout: RF ground plane, short traces
+  4. Power supply filtering: Separate LDO for analog supply
+  5. Load impedance: Keep at 50Ω; avoid open or short circuits
+
+
+================================================================================
+GPIO ASSIGNMENTS (ESP32)
+================================================================================
+
+    GPIO18 = SPI_CLK (ADF4351 clock)  → conflicts with TFT_SCK
+             SOLUTION: Use second SPI bus (VSPI)
+    GPIO19 = SPI_MOSI (ADF4351 data)  → conflicts with TFT_MOSI
+             SOLUTION: Use second SPI bus (VSPI)
+    GPIO15 = LE (latch enable, ADF4351)  → was originally RTS, available
+    GPIO0  = CE (chip enable, optional)  → Available after boot startup
+
+
+================================================================================
+TESTING & VERIFICATION
+================================================================================
+
+1. Verify oscillation at 2.5 MHz internal clock (MUXOUT in oscillator mode)
+2. Verify lock detection: MUXOUT should go high when lock achieved
+3. Measure output frequency with frequency counter (expected: ±1 kHz accuracy)
+4. Measure output power with RF power meter (expected: -1 to +5 dBm per setting)
+5. Smith chart measurement: Impedance should be 50Ω ±2Ω
+
+Common issues:
+  - No lock: Check REFIN clock presence, verify SPI writes
+  - Low output power: Verify PLL filter capacitor values, check output network
+  - Frequency offset: TCXO tolerance; trim capacitor if required
+  - Spurious tones: Check for RF coupling into SPI bus; add ferrite clamps
+
+
+================================================================================
+RELATED DOCUMENTS
+================================================================================
+
+  - ad8302_vector_detector.txt: Detector for this RF output
+  - rf_coupler_multiband.txt: Frontend coupler system
+  - band_select_rf_switch.txt: Automatic band selection control
+  - INTEGRATED_ANTENNA_ANALYZER_MANUAL.txt: Complete system manual

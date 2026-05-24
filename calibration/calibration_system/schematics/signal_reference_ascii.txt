@@ -1,0 +1,164 @@
+================================================================================
+  SIGNAL REFERENCE SOURCE                                TM-CAL-SCH-003 Rev A
+  GPS-Disciplined Calibration Signal Generator
+================================================================================
+
+PURPOSE
+-------
+Provides known-frequency, known-level RF signals for calibrating NanoVNA,
+TinySA, SDR receivers, and other instruments. Frequency accuracy tracks GPS
+after lock (<1 ppb). Amplitude calibrated against reference attenuator chain.
+
+OUTPUT SUMMARY
+--------------
+  Output A  "REF 10M"   :  10.000 000 MHz ± <1 ppb (GPS locked)
+  Output B  "REF 1M"    :   1.000 000 MHz ± <1 ppb (GPS locked)
+  Output C  "CAL SIG"   :  Programmable 8 kHz – 160 MHz, GPS-disciplined
+  Output D  "CAL LVL"   :  Fixed -20 dBm ± 0.5 dB calibration level
+             (Output C through precision 20 dB attenuator pad)
+
+Connector type: SMA(F) on all outputs.
+Output impedance: 50 Ω (series resistor + 50Ω termination equivalent).
+
+================================================================================
+  BLOCK DIAGRAM
+================================================================================
+
+                    ┌─────────────────────────────────────────┐
+                    │  ESP32 (discipline + frequency control)  │
+                    │  I2C → Si5351A                          │
+                    └────────────────┬────────────────────────┘
+                                     │ I2C
+                    ┌────────────────┴────────────────────────┐
+                    │         Si5351A-B-GT                    │
+                    │  3 independent clock outputs            │
+                    │  GPS-disciplined 25 MHz reference       │
+                    ├──── CLK0 (10 MHz) ─────────────────────►│ Buffer → "REF 10M" SMA
+                    ├──── CLK1 (1 MHz)  ─────────────────────►│ Buffer → "REF 1M"  SMA
+                    └──── CLK2 (prog.)  ──────┬──────────────►│ Buffer → "CAL SIG" SMA
+                                              └──[−20 dB pad]─►│         "CAL LVL" SMA
+                                                     ↑
+                                           (fixed resistor network)
+
+================================================================================
+  SCHEMATIC — Si5351A OUTPUT LEVELS
+================================================================================
+
+  Si5351A CLK output drive strength: selectable 2/4/6/8 mA per output.
+  Voltage swing: approx. 2×I_drv×50Ω (into 50Ω matched load)
+    2 mA drive: ~200 mVpp into 50Ω → −10 dBm (−7 dBm unloaded)
+    4 mA drive: ~400 mVpp into 50Ω → −4 dBm
+    6 mA drive: ~600 mVpp into 50Ω →  0 dBm
+    8 mA drive: ~800 mVpp into 50Ω → +2 dBm
+
+  For calibration outputs, use 8 mA drive then attenuate to desired level.
+
+  Si5351A CLK0 ──[33Ω]──[74AC04]──[33Ω]── SMA "REF 10M"
+  (74AC04 buffer restores drive; output ~+3 dBm into 50Ω before series R)
+
+  Si5351A CLK1 ──[33Ω]──[74AC04]──[33Ω]── SMA "REF 1M"
+
+  Si5351A CLK2 ──[33Ω]──[74AC04]──┬──[33Ω]── SMA "CAL SIG"    (~0 dBm)
+                                   └──[20 dB PAD]── SMA "CAL LVL"  (~−20 dBm)
+
+================================================================================
+  SCHEMATIC — PRECISION 20 dB ATTENUATOR PAD (PI CONFIGURATION)
+================================================================================
+
+  Design: PI attenuator, 50Ω system, 20 dB (voltage ratio 10:1, power ratio 100:1)
+
+  Component values (20 dB, 50Ω PI):
+    R_shunt1 = R_shunt2 = 61.1 Ω  → use 61.9 Ω (E96 series)
+    R_series  = 247.5 Ω            → use 249 Ω (E96 series) or 2× 499Ω parallel
+
+  Circuit:
+                       R_series (249Ω)
+  IN ──[R_shunt1]──┬──────────────────┬──[R_shunt2]── OUT
+         61.9Ω     │                  │    61.9Ω
+                  GND                GND
+
+  Insertion loss: exactly 20.0 dB (with 1% tolerance resistors: ±0.2 dB)
+  Return loss: >40 dB at DC–500 MHz with 1% SMD resistors (0402 size)
+  Maximum input power: 25 mW (+14 dBm) with 0402 resistors (check rating)
+
+  For level accuracy ±0.5 dB: use 0.1% tolerance resistors (Vishay FC series).
+  For ±0.1 dB: use 0.01% (not practical for field; use 0.1% and measure with NanoVNA).
+
+================================================================================
+  SCHEMATIC — OPTIONAL ADDITIONAL CALIBRATION LEVELS
+================================================================================
+
+  Using SMA inline attenuator modules (external, not built in):
+  ──────────────────────────────────────────────────────────────
+  "CAL SIG" (~0 dBm) → [6 dB pad] → −6 dBm reference
+  "CAL SIG" (~0 dBm) → [10 dB pad] → −10 dBm reference
+  "CAL SIG" (~0 dBm) → [20 dB pad] → −20 dBm reference  (= "CAL LVL" output)
+  "CAL SIG" (~0 dBm) → [30 dB pad] → −30 dBm reference
+  "CAL SIG" (~0 dBm) → [40 dB pad] → −40 dBm reference
+  "CAL SIG" (~0 dBm) → [50 dB pad] → −50 dBm reference
+
+  Attenuator pads: SMA-SMA barrel attenuators (Mini-Circuits or equivalent).
+  Store set of 3/6/10/20/30/40 dB SMA pads in SOLT kit case.
+
+================================================================================
+  SCHEMATIC — REFERENCE CRYSTAL SUBSTITUTION (OPTIONAL TCXO UPGRADE)
+================================================================================
+
+  Standard: 25.000 MHz crystal, ±5 ppm
+  Better:   NDK NX2520SA 25.000 MHz TCXO, ±1 ppm, CMOS, SMD 2.5×2.0mm
+  Best:     Temperature-compensated with GPS feedback (default firmware)
+
+  TCXO substitution:
+  Si5351A XTAL1 pin ──[10 nF NP0 series cap]── TCXO output
+  Si5351A XTAL2 pin ── open (not connected)
+  In Si5351 library: si5351.init(SI5351_CRYSTAL_LOAD_0PF, 25000000, correction)
+  (Load 0 pF because TCXO drives directly, no load caps needed)
+
+================================================================================
+  Si5351A PROGRAMMING NOTES
+================================================================================
+
+  Library: Adafruit Si5351 or etherkit/si5351arduino (Etherkit preferred)
+  Install: Arduino IDE Library Manager, search "Si5351"
+
+  Key calls:
+    si5351.init(SI5351_CRYSTAL_LOAD_8PF, 25000000, 0);
+    si5351.set_correction(correction_val, SI5351_PLL_INPUT_XO);
+      (correction_val units: 0.01 ppb; e.g., −500 = −5 ppb correction)
+    si5351.set_freq(1000000000ULL, SI5351_CLK0);   // 10 MHz (freq × 100)
+    si5351.set_freq(100000000ULL, SI5351_CLK1);    // 1 MHz
+    si5351.set_freq(prog_freq_cHz, SI5351_CLK2);   // programmable
+    si5351.drive_strength(SI5351_CLK0, SI5351_DRIVE_8MA);
+
+  Frequency limits per output:
+    Minimum: ~8 kHz (CLKOUT minimum due to divider integer limits)
+    Maximum: 160 MHz (CLK driver limit; PLL runs to 900 MHz, CLKOUT to 160M)
+
+  Phase noise (Si5351A at 10 MHz, measured):
+    −90 dBc/Hz @ 100 Hz offset
+    −110 dBc/Hz @ 1 kHz offset
+    −130 dBc/Hz @ 10 kHz offset
+  (Adequate for calibration; not for frequency standard; use after GPSDO locks)
+
+================================================================================
+  CALIBRATION ACCURACY SUMMARY
+================================================================================
+
+  Frequency accuracy (GPS locked, >10s average):
+    10 MHz output:    10.000 000 ± 0.000 001 MHz    (<0.1 ppb)
+    1 MHz output:      1.000 000 ± 0.000 000 1 MHz  (<0.1 ppb)
+    Programmable:      f ± f × 1e-9                  (<1 ppb)
+
+  Amplitude accuracy (0 dBm output):
+    Level uncertainty: ±1 dB (Si5351 output variation, temperature)
+    After NanoVNA calibration against known load: ±0.5 dB
+    With precision 0.1% resistors in 20 dB pad: ±0.2 dB
+
+  Calibration transfer:
+    NanoVNA CH0: inject 10 MHz REF; verify vs. GPS counter = PASS if <5 ppm
+    TinySA input: inject CAL SIG at known freq+level; adjust ppm correction in UI
+    RTL-SDR:      inject CAL SIG; measure offset in GQRX; enter ppm correction
+
+================================================================================
+  END OF TM-CAL-SCH-003
+================================================================================

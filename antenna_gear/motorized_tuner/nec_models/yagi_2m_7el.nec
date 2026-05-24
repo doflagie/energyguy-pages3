@@ -1,0 +1,130 @@
+CM ============================================================
+CM NEC-2 Model: 7-Element 2m Yagi-Uda Antenna
+CM Document:    TM-HFTN-NEC-005
+CM Author:      Merv Martin
+CM Date:        2026-05-02
+CM ============================================================
+CM Description:
+CM   7-element Yagi for 144.2 MHz (2m SSB/weak signal calling freq)
+CM   Free-space model (no ground) — for gain/pattern evaluation.
+CM
+CM   Elements: 1 reflector + 1 driven + 5 directors = 7 total
+CM   Boom length: ~1.2m
+CM   Element material: aluminium tube, radius = 0.005m (10mm OD)
+CM
+CM   Element positions (along x-axis, boom axis):
+CM     Reflector:  x = 0.000m, length = 1.042m (half = ±0.521m)
+CM     Driven:     x = 0.125m, length = 0.960m (half = ±0.480m)
+CM     Director 1: x = 0.250m, length = 0.905m (half = ±0.4525m)
+CM     Director 2: x = 0.460m, length = 0.895m (half = ±0.4475m)
+CM     Director 3: x = 0.670m, length = 0.890m (half = ±0.445m)
+CM     Director 4: x = 0.940m, length = 0.885m (half = ±0.4425m)
+CM     Director 5: x = 1.200m, length = 0.880m (half = ±0.440m)
+CM
+CM   All elements horizontal: y-axis (E-plane vertical)
+CM   Boom along x-axis
+CM   Free space (GE 0, GN -1)
+CM
+CM Expected performance:
+CM   Gain: ~12 dBd (~14.1 dBi) forward
+CM   F/B ratio: ~20-22 dB
+CM   Feed impedance: ~25-28 ohms (use hairpin/beta match or folded dipole)
+CM   3 dB beamwidth: ~50 deg E-plane, ~55 deg H-plane
+CM   Boom length: 1.2m (4 wavelengths at 144 MHz)
+CE
+CM --- GEOMETRY ---
+CM Wavelength at 144.2 MHz: lambda = 300/144.2 = 2.081m
+CM Element radius: 0.005m (10mm OD aluminium tube)
+CM
+CM GW  tag  nseg  x1       y1        z1    x2       y2       z2    radius
+CM
+CM Wire 1: Reflector (x = 0.000m)
+GW  1   21   0.000  -0.521   0.0   0.000   0.521   0.0   0.005
+CM
+CM Wire 2: Driven element (x = 0.125m) — split at centre for feed
+CM Left half: y = -0.480 to y = -0.001 (gap at centre)
+GW  2   11   0.125  -0.480   0.0   0.125  -0.001   0.0   0.005
+CM Right half: y = +0.001 to y = +0.480
+GW  3   11   0.125   0.001   0.0   0.125   0.480   0.0   0.005
+CM
+CM Wire 4: Director 1 (x = 0.250m)
+GW  4   21   0.250  -0.4525  0.0   0.250   0.4525  0.0   0.005
+CM
+CM Wire 5: Director 2 (x = 0.460m)
+GW  5   21   0.460  -0.4475  0.0   0.460   0.4475  0.0   0.005
+CM
+CM Wire 6: Director 3 (x = 0.670m)
+GW  6   21   0.670  -0.445   0.0   0.670   0.445   0.0   0.005
+CM
+CM Wire 7: Director 4 (x = 0.940m)
+GW  7   21   0.940  -0.4425  0.0   0.940   0.4425  0.0   0.005
+CM
+CM Wire 8: Director 5 (x = 1.200m)
+GW  8   21   1.200  -0.440   0.0   1.200   0.440   0.0   0.005
+CM
+CM Free space (no ground)
+GE  0
+CM --- GROUND: none (free space) ---
+GN  -1
+CM --- EXCITATION ---
+CM Source at last segment of wire 2 (left half of driven, near centre gap)
+EX  0   2   11   00   1.0   0.0
+CM --- FREQUENCY ---
+CM Single frequency: 144.2 MHz
+FR  0   1   0   0   144.2   0.0
+CM --- CURRENT DISTRIBUTION ---
+PQ  0   0   0   0
+CM --- RADIATION PATTERNS ---
+CM E-plane pattern (xz-plane, phi=90, theta 0-360 deg, step 2 deg)
+CM theta=0=forward(+x), theta=90=broadside(+z)
+RP  0   181   1   1001   0.0   90.0   2.0   0.0
+CM H-plane pattern (xy-plane, theta=90=horizon, phi 0-360 deg, step 2 deg)
+RP  0   1   181   1001   90.0   0.0   0.0   2.0
+EN
+CM ============================================================
+CM YAGI DESIGN NOTES:
+CM
+CM Element tuning rationale:
+CM   Reflector:  slightly longer than driven (resonates below f)
+CM               Acts as a mirror; spacing ~0.15-0.25 lambda
+CM   Driven:     resonant or slightly short; matched to feed
+CM               0.125m from reflector = ~0.060 lambda spacing
+CM   Directors:  progressively shorter (resonates above f)
+CM               Increasing boom spacing as gain increases
+CM
+CM Segment count:
+CM   21 segments per parasitic element = 0.0497m per segment
+CM   11 segments per driven half = ~0.044m per segment
+CM   At 144.2 MHz (lambda = 2.081m), segment = 0.024 lambda
+CM   Well within NEC-2 guideline (< 0.1 lambda per segment)
+CM
+CM Feed system options:
+CM   Driven element impedance: ~25-28 ohms (real, near resonance)
+CM   Option A: Hairpin/beta match — add shunt inductor across feed
+CM     Ltap ≈ 60-80 nH (short wire loop across feedpoint)
+CM     Transforms 25 ohm to 50 ohm with proper inductive tuning
+CM   Option B: Folded dipole driven element
+CM     Transforms impedance × 4 (25 → 100 ohm) then use
+CM     quarter-wave balun transformer 100:50 ohm
+CM   Option C: Direct feed to 75-ohm cable (close enough for VHF)
+CM
+CM Boom correction:
+CM   Physical elements on aluminium boom require shorting by ~2-3%
+CM   of element half-length to correct for boom interaction.
+CM   These NEC-2 dimensions assume isolated elements (or
+CM   non-conductive fibreglass boom).
+CM   For aluminium boom: subtract ~5mm from each element half.
+CM
+CM EXPECTED PATTERN SUMMARY:
+CM   Forward gain:         ~14.1 dBi (~12.0 dBd) free space
+CM   Backward gain (180):  ~-8 dBi → F/B = ~22 dB
+CM   3 dB beamwidth (E):   ~52 degrees
+CM   3 dB beamwidth (H):   ~57 degrees
+CM   First sidelobe (E):   ~-14 dB relative to main lobe
+CM
+CM FIELD USE NOTES:
+CM   Mount horizontally for SSB/CW weak signal work (144.100-144.200)
+CM   Mount vertically for FM (144.200-148.000 MHz)
+CM   For satellite (mode J/V/U): circular polarisation preferred;
+CM   use two crossed Yagis with 90-deg phase shift (turnstile Yagi).
+CM ============================================================

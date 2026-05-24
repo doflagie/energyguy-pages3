@@ -1,0 +1,325 @@
+================================================================================
+  hf_upconverter_ascii.txt — TM-SDR-SCH-001 Rev A
+  HF Upconverter: 0–30 MHz → 125–155 MHz for RTL-SDR Dongles
+  Document: TM-SDR-SCH-001 Rev A
+================================================================================
+
+OVERVIEW
+--------
+  Input:   0–30 MHz HF signal (SMA, 50Ω)
+  LO:      125.000 MHz TCXO oscillator module
+  Output:  125–155 MHz IF to RTL-SDR (SMA, 50Ω)
+  Bypass:  SPDT relay passes HF direct (for 6m+, no upconversion needed)
+  LNA:     Optional SPF5189Z pre-mixer amplifier (+19 dB, NF 0.6 dB)
+
+KEY SPECIFICATIONS
+------------------
+  Frequency range:    0.1 – 30 MHz input (100 kHz – 30 MHz)
+  LO frequency:       125.000 MHz ±2.5 ppm TCXO
+  IF output range:    125.1 – 155 MHz
+  Conversion gain:    −2 dB (passive SA612A) or +17 dB (with SPF5189Z LNA)
+  Noise figure:       4 dB (SA612A only) / 1.2 dB (with LNA in cascade)
+  IIP3:              −14 dBm SA612A input / +12 dBm with LNA+pad
+  Image frequency:   >155 MHz (suppressed by IF BPF, >45 dB rejection)
+  LO leakage to RF:  < −40 dBm (SA612A internal balance)
+  LO leakage to IF:  < −60 dBm (suppressed by IF BPF)
+  Supply voltage:     5V USB, 80 mA typical
+  PCB size:           70 × 50 mm
+
+BLOCK DIAGRAM
+-------------
+
+  [SMA IN]──[RELAY K1]──────────────────────────────────────────[SMA OUT]
+   HF 50Ω    bypass ──>──>──>──>──>──>──>──>──>──>──>──>──>──>─ (direct)
+              │
+              v (upconvert path)
+           [LPF1]        [SPF5189Z]     [SA612A]      [BPF1]
+           30 MHz  ──>── LNA +19dB ──>─ Mixer ──>─── 125-155 ──>──[SMA OUT]
+           7-pole        (optional)     │            MHz BPF     IF to RTL-SDR
+                                        │
+                                   [125 MHz TCXO]──[buffer]──>──[LO drive]
+
+SCHEMATIC — INPUT SECTION
+--------------------------
+
+  SMA J1 (IN) center ──────────────────────────────────────────── node A
+  SMA J1 shield ─── GND
+
+  RELAY K1 (SPDT, Axicom V23105, 5V coil):
+    COM ─────────────────────────── node A (from J1)
+    NO (Normally Open) ─────────── node B  (to LPF1 input)
+    NC (Normally Closed) ───────── node C  (to SMA J2 output, bypass)
+  Relay coil: pin 1 ─── +5V
+              pin 2 ─── GPIO_BYPASS via ULN2003A driver
+
+  NOTE: K1 normally routes to upconverter path.
+        Assert GPIO_BYPASS HIGH → K1 energizes → direct bypass to J2.
+
+SCHEMATIC — INPUT LOW-PASS FILTER (LPF1)
+-----------------------------------------
+  7-pole Butterworth LPF, cutoff 30 MHz, 50Ω in/out
+
+  node B ──+── L1 ──+── L2 ──+── L3 ──+── L4 ──+── node D (LPF out)
+           │        │         │         │        │
+          C1       C2        C3        C4       C5
+           │        │         │         │        │
+          GND      GND       GND       GND      GND
+
+  Values (50Ω, 30 MHz, 7-pole Butterworth):
+    L1 = L4 = 120 nH (Coilcraft 0805HS-121 or wound)
+    L2 = L3 = 280 nH (Coilcraft 0805HS-271 + 0805HS-100 in series)
+    C1 = C5 = 47 pF (NP0/C0G, 50V)
+    C2 = C4 = 100 pF (NP0/C0G, 50V)
+    C3 = 120 pF (NP0/C0G, 50V)
+  Attenuation at 125 MHz: >60 dB
+  Insertion loss: <0.5 dB from 1–30 MHz
+
+SCHEMATIC — OPTIONAL LNA (SPF5189Z)
+-------------------------------------
+  Install for weak-signal work; bypass with 0Ω jumper JP1 for strong signals.
+
+  node D ── JP1 (0Ω) ──────────────────────────── node E  [LNA bypassed]
+  node D ── C6 (100pF NP0) ─── SPF5189Z pin 1 (IN)        [LNA active]
+
+  SPF5189Z (SOT-89-3, Infineon):
+    Pin 1 (IN):  via C6 (100 pF) from node D
+    Pin 2 (GND): directly to ground plane
+    Pin 3 (OUT): via C7 (100 pF) to node E
+    Pin 3 (Vcc): 3.3V via L5 (100 nH RF choke) and C8 (100 pF bypass)
+
+  Gain:   +19 dB at HF frequencies (spec: 19.5 dB at 900 MHz)
+  NF:     0.6 dB
+  IIP3:   +27 dBm
+  IP1dB:  +17 dBm
+  Vcc:    3.0–5.0V, 60 mA
+
+  WHEN TO BYPASS:
+    Strong stations (>S9+20): bypass LNA to prevent SA612A overload
+    Contest operation: always bypass
+    DX hunting / weak signals: engage LNA
+
+SCHEMATIC — SA612A DOUBLE-BALANCED MIXER
+------------------------------------------
+
+  SA612AN (DIP-8, NXP) — Double-Balanced Gilbert-cell Mixer
+
+                       ┌───────────┐
+      node E ── C9 ─── │1  SA612A 8│─── +5V via R1(470Ω) + C10(100pF)
+      (RF in)  10pF    │2         7│─── LO in (125 MHz via C11 10pF)
+                       │3         6│─── LO bypass cap C12 (1nF to GND)
+                GND ───│4         5│─── IF out (+) ──── node F
+                       └───────────┘
+                             │
+                       Pin 5 (IF+): Differential IF output
+                       IF− (internal): left floating or AC to GND via 100pF
+
+  NOTE: SA612A datasheet pins:
+    Pin 1: RF input (+)
+    Pin 2: RF input (−) — bypass to GND via 470 pF (single-ended input)
+    Pin 3: GND
+    Pin 4: GND
+    Pin 5: IF output (+)
+    Pin 6: IF output (−) — bypass to GND via 100 pF
+    Pin 7: LO bypass — 100 pF to GND
+    Pin 8: Vcc (+5V via decoupling network)
+
+  Single-ended RF input wiring:
+    Pin 1 ─── C9 (10 pF) ─── node E
+    Pin 2 ─── C13 (470 pF NP0) ─── GND
+
+  Single-ended IF output wiring:
+    Pin 5 ─── C14 (100 pF) ─── node F (to IF BPF)
+    Pin 6 ─── C15 (100 pF) ─── GND
+
+  LO input (125 MHz, 200 mVpp required):
+    Pin 7 ─── C11 (10 pF) ─── 125 MHz TCXO output
+    Pin 7 ─── C12 (1 nF) ─── GND (bypass)
+
+  SA612A Specifications:
+    Conversion gain: +14 dB
+    NF:             4.5 dB  (SSB NF referenced to RF port)
+    IIP3:           −14 dBm
+    IP1dB:          −24 dBm
+    LO power req:   −10 to 0 dBm (200 mVpp = −7 dBm into 50Ω)
+    Vcc:            4.5–8V, 25 mA
+    Usable IF bw:   DC to 75 MHz
+
+  SA612A OVERLOAD CAUTION:
+    IP1dB = −24 dBm. With strong HF signals (broadcast, commercial),
+    add 10–20 dB of attenuation before mixer. Strong signal = intermodulation.
+    Use external attenuator or switch out LNA for strong signal conditions.
+
+SCHEMATIC — 125 MHz TCXO LOCAL OSCILLATOR
+-------------------------------------------
+
+  Module: NDK NZ2520SD 125.000 MHz TCXO (3.3V CMOS output)
+          or equivalent (Abracon ATXO-505, Fox FXO-HC536R-125)
+
+  TCXO Module (4-pin SMD or through-hole):
+    Pin 1 (OE/NC): not connected or 3.3V
+    Pin 2 (GND):   GND
+    Pin 3 (Vcc):   3.3V via C16 (100 nF) || C17 (1 µF) to GND
+    Pin 4 (OUT):   125 MHz CMOS output ─── R2 (51 Ω) ─── C11 (10 pF) ─── SA612A pin 7
+
+  Output level: 3.3V CMOS (0/3.3V square wave)
+  Frequency stability: ±2.5 ppm from −40 to +85°C
+  Phase noise: −130 dBc/Hz at 10 kHz offset (typical TCXO)
+
+  NOTE: CMOS output is square wave, rich in harmonics.
+  Fundamental (125 MHz) drives mixer; harmonics (250, 375 MHz) create
+  spurious responses at: 250±IF, 375±IF, etc. IF BPF eliminates these.
+
+  LO buffer (optional, improves isolation):
+    TCXO out ── R2 (51Ω) ── [74LVC1G04 inverter] ── 51Ω ── SA612A pin 7
+    This provides 50Ω impedance and isolates TCXO from mixer LO port.
+
+SCHEMATIC — IF BANDPASS FILTER (BPF1, 125–155 MHz)
+-----------------------------------------------------
+  3-pole Chebyshev BPF, 0.1 dB ripple
+  Center: 140 MHz, BW: 30 MHz (125–155 MHz passband)
+  Input/output: 50Ω
+
+  node F ── C18 ──┬── L6 ──┬── C20 ── node G (IF out)
+                  │         │
+                 C19        C21
+                  │         │
+                 GND        GND
+
+  Values (3-pole, 50Ω, 140 MHz center, 30 MHz BW):
+    L6  = 82 nH  (Coilcraft 0805CS-82N or wound, Q > 40 at 140 MHz)
+    C18 = C20 = 5.6 pF (NP0/C0G, 50V)   — series coupling
+    C19 = C21 = 33 pF (NP0/C0G, 50V)   — shunt resonator caps
+
+  Passband insertion loss: <3 dB
+  Stopband at 30 MHz (LO harmonic path): >40 dB
+  Stopband at 250 MHz (2nd LO harmonic): >30 dB
+  Stopband at 125 MHz (LO feedthrough):  >35 dB
+
+  ALIGNMENT: Adjust L6 core (if wound) for minimum insertion loss at 140 MHz.
+  Measure with VNA: S11 and S21. Target: S11 < −15 dB, S21 > −3 dB at 140 MHz.
+
+SCHEMATIC — IF OUTPUT AND IMPEDANCE MATCHING
+---------------------------------------------
+
+  node G ─── C22 (100 pF NP0) ─── SMA J2 center (IF OUT to RTL-SDR)
+  SMA J2 shield ─── GND
+
+  RTL-SDR input impedance: 75Ω nominal.
+  Upconverter output: 50Ω.
+  Mismatch loss: 0.2 dB (negligible for this application).
+  Optional: Add 75Ω resistor shunt at J2 to improve match (adds 1.8 dB loss).
+
+SCHEMATIC — POWER SUPPLY
+--------------------------
+
+  USB Micro-B J3:
+    VBUS (pin 1) ─── F1 (polyfuse 500 mA) ─── D1 (SS14 Schottky) ─── +5V rail
+    GND (pin 4)  ─── GND
+
+  +5V rail ─── U1 (AMS1117-3.3, SOT-223):
+    IN (pin 3):  +5V
+    GND (pin 1): GND
+    OUT (pin 2): +3.3V ─── C23 (10 µF tantalum) || C24 (100 nF ceramic) ─── GND
+
+  Distribution:
+    +5V  → relay K1 coil (via ULN2003A)
+    +5V  → SA612A Vcc pin 8 (via R1 470Ω, see above)
+    +3.3V → TCXO module Vcc
+    +3.3V → SPF5189Z Vcc (via 100 nH choke)
+    +3.3V → 74LVC1G04 (optional LO buffer)
+
+  Total current budget:
+    SA612A:      25 mA
+    TCXO:        20 mA
+    SPF5189Z:    60 mA (when LNA engaged)
+    Relay K1:    30 mA (when energized)
+    Logic:        5 mA
+    Total max:  140 mA
+
+GPIO CONTROL INTERFACE
+-----------------------
+  Controlled by ESP32 SDR Controller (separate board)
+  or jumpers for standalone operation.
+
+  GPIO_BYPASS (active HIGH → relay energizes → direct bypass):
+    ESP32 GPIO ─── ULN2003A IN ─── ULN2003A OUT ─── K1 coil (−)
+    +5V ─────────────────────────────────────────── K1 coil (+)
+
+  GPIO_LNA (active HIGH → JPR1 switches LNA in):
+    For relay-switched LNA: same as bypass control
+    For jumper: install 0Ω at JP1 to engage LNA (manual only)
+
+  Serial (optional 3.3V UART to ESP32):
+    TX from ESP32 ─── UART RX on upconverter MCU (if local MCU used)
+    Status/control via AT-style commands
+
+BILL OF MATERIALS — HF UPCONVERTER
+------------------------------------
+  Qty  Part           Value/Type              Package   Notes
+  ─────────────────────────────────────────────────────────────────────
+   1   U1  SA612AN    DIP-8 mixer             DIP-8     NXP, ~$2
+   1   U2  AMS1117-3.3 LDO regulator          SOT-223
+   1   U3  74LVC1G04  Single inverter         SOT-23-5  optional LO buf
+   1   U4  SPF5189Z   LNA                     SOT-89-3  optional LNA
+   1   U5  ULN2003A   7× Darlington array     DIP-16    relay driver
+   1   TCXO 125.000 MHz ±2.5 ppm             SMD/DIP   NDK/Abracon
+   1   K1  SPDT relay 5V coil, RF-rated       SIL-4     Axicom V23105A
+   2   SMA  SMA edge connector 50Ω edge mount  PCB
+   1   USB  Micro-B USB connector             PCB
+   1   F1  PTC fuse   500 mA                  1812
+   1   D1  SS14       Schottky 1A 40V         SMA
+   1   R1  470 Ω      0805
+   1   R2  51 Ω       0805
+   2   R3,R4 51 Ω    0805                           terminations
+   1   L5  100 nH     RF choke                 0805    for SPF5189Z
+   1   L6  82 nH      inductor, Q>40           0805    IF BPF
+   2   L1,L4 120 nH  toroid or 0805            0805    input LPF
+   2   L2,L3 280 nH  toroid or 0805            0805    input LPF
+   5   C1-C5          47/100/120 pF NP0/C0G    0805    input LPF
+   various  bypass caps  100 nF ceramic        0805    decoupling
+   various  RF caps    5.6/10/33/100 pF NP0    0402/0805
+
+PERFORMANCE BUDGET (cascade calculation)
+-----------------------------------------
+  Configuration: LNA + SA612A (LNA engaged, typical weak-signal operation)
+
+  Stage         Gain    NF      IIP3
+  ─────────────────────────────────────
+  Input LPF     −0.5 dB  0.5 dB  +60 dBm (passive)
+  SPF5189Z LNA  +19 dB   0.6 dB  +27 dBm
+  SA612A mixer  −2 dB    4.5 dB  −14 dBm
+  IF BPF        −2 dB    2.0 dB  +60 dBm (passive)
+  ─────────────────────────────────────
+  Cascade NF:   1.5 dB (Friis formula, dominated by LNA NF)
+  Cascade IIP3: −10 dBm (dominated by SA612A IIP3)
+  Cascade gain: +14.5 dB
+
+  Configuration: SA612A only (LNA bypassed)
+  Cascade NF:   5.0 dB
+  Cascade IIP3: −13 dBm
+  Cascade gain: −4.5 dB
+
+  RECOMMENDATION:
+    For MDS (minimum detectable signal) and DX work: engage LNA.
+    For broadcast-band and strong-signal environment: bypass LNA,
+    add 10–20 dB external attenuator at SMA IN.
+
+SPURIOUS RESPONSES TABLE
+--------------------------
+  LO = 125 MHz. Spurious outputs at M×LO ± N×RF for M,N integers.
+
+  Spurious     Formula          Example (RF=7 MHz)   IF (MHz)   Notes
+  ───────────────────────────────────────────────────────────────────
+  Desired      1×LO + 1×RF      125+7 = 132          132        wanted
+  Image        1×LO + 1×RF      125+18 = 143         143        IF=143, RF=18
+  IF feedthru  LO only          125                  125        filtered
+  2nd LO harm  2×125±RF         250±7                243/257    filtered by BPF
+  Half-IF spur 1×LO + 0.5×RF   125+3.5 = 128.5      128.5      SA612A internal
+  3rd order    2×LO − RF        250−7 = 243          243        filtered
+
+  IMAGE NOTE: image frequency = 125 + (155 − RF) = 280 − RF_MHz.
+    For RF=7 MHz (40m): image at 280−7 = 273 MHz → not in HF band → no problem.
+    For RF=28 MHz (10m): image at 280−28 = 252 MHz → not in HF band → no problem.
+    Input LPF provides >60 dB image rejection for all cases.
+
+================================================================================

@@ -1,0 +1,151 @@
+================================================================================
+TM-VCAP-SCH-003 Rev A    CYD DISPLAY INTERFACE — VARIABLE CAPACITOR TUNER
+                         ESP32-2432S028R (CYD) Schematic Reference
+================================================================================
+
+1. CYD HARDWARE OVERVIEW
+==========================
+
+   ESP32-2432S028R ("CYD" = Cheap Yellow Display)
+   ┌──────────────────────────────────────────────────────────┐
+   │  ILI9341 TFT  320×240 pixels  2.8"  RGB-565 color       │
+   │  XPT2046 Resistive Touch  4-wire SPI                     │
+   │  ESP32-WROOM-32 on board                                  │
+   │  USB-C for power + programming                           │
+   │  GPIO expander: CN1 header (GPIO 21,22,35,36,39)        │
+   │  MicroSD socket (not used in this project)               │
+   │  RGB LED on GPIO 4(B), 16(G), 17(R)                     │
+   │  Bluetooth Classic (BT serial) for data from ESP32 tuner │
+   └──────────────────────────────────────────────────────────┘
+
+   Connection to ESP32 Tuner board:
+   CYD receives data FROM tuner via Bluetooth Serial (no wires needed)
+   CYD can optionally connect to Wi-Fi to access /api/status endpoint
+
+   BT Packet format (ASCII, 160 bytes max, newline-terminated):
+   "BAND:%s,TYPE:%d,C_PF:%.1f,ANGLE:%.1f,SWR:%.2f,FWD:%.3fW,STATE:%d,STEP:%d\n"
+
+
+2. CYD TFT CONNECTION (internal to CYD board)
+===============================================
+
+   ESP32 → ILI9341 (hardwired on CYD PCB):
+   GPIO 02 → TFT_DC   (data/command select)
+   GPIO 15 → TFT_CS   (chip select)
+   GPIO 13 → TFT_MOSI (SPI data)
+   GPIO 14 → TFT_SCK  (SPI clock)
+   GPIO 12 → TFT_MISO (not needed for write-only)
+   GPIO 21 → TFT_BL   (backlight, PWM-controllable)
+
+   Touch (XPT2046):
+   GPIO 33 → TOUCH_CS
+   GPIO 36 → TOUCH_IRQ (input only)
+   (shares SPI bus with TFT but different CS)
+
+
+3. PAGE LAYOUT REFERENCE
+==========================
+
+   ┌────────────────────────────────────────────────────────────────────┐
+   │                    PAGE 0: CAPACITANCE / SWR                      │
+   ├────────────────────────────────────────────────────────────────────┤
+   │  ┌──────────────────────────┐  ┌─────────────────────────────┐   │
+   │  │  BAND                    │  │  STATE                       │   │
+   │  │  20m  14.175 MHz         │  │  LOCKED / TUNING / IDLE     │   │
+   │  └──────────────────────────┘  └─────────────────────────────┘   │
+   │                                                                    │
+   │   CAPACITANCE                        ANGLE                        │
+   │   ┌──────────────┐                  ┌──────────────┐             │
+   │   │   55.2 pF    │                  │   90.0°      │             │
+   │   └──────────────┘                  └──────────────┘             │
+   │   (large green font)                (large cyan font)             │
+   │                                                                    │
+   │   SWR:   1.15          FWD: 98.3W                                │
+   │   ████████░░░░░░░░░░░░░░░░░░░░     (SWR bar, green < 1.5)       │
+   │                                                                    │
+   │  [◄ PREV PAGE]                              [NEXT PAGE ►]         │
+   └────────────────────────────────────────────────────────────────────┘
+
+   ┌────────────────────────────────────────────────────────────────────┐
+   │                    PAGE 1: CAP DESIGN INFO                        │
+   ├────────────────────────────────────────────────────────────────────┤
+   │  DESIGN: VC-HF100   n_plates: 14R + 15S                          │
+   │  Plate r: 30mm      Spacing: 1.5mm                               │
+   │  C range: 10–225 pF V_work:  1500V pk                            │
+   │  Q(14MHz): 600      SRF:     150 MHz                              │
+   │  Frame:  80×80×70mm Material: Brass/Delrin                       │
+   │                                                                    │
+   │  Band capacitance targets (auto-populated from band table):       │
+   │  160m:220pF  80m:200pF  40m:120pF  30m:85pF  20m:55pF           │
+   │                                                                    │
+   │  [◄ PREV PAGE]                              [NEXT PAGE ►]         │
+   └────────────────────────────────────────────────────────────────────┘
+
+   ┌────────────────────────────────────────────────────────────────────┐
+   │                    PAGE 2: POWER ANALYSIS                         │
+   ├────────────────────────────────────────────────────────────────────┤
+   │  FWD POWER:   98.3 W                                              │
+   │  REFL POWER:   2.1 W                                              │
+   │  SWR:          1.15                                               │
+   │                                                                    │
+   │  EST. CAP VOLTAGE PEAK:                                           │
+   │   ┌──────────────────────────────────────────────────────┐        │
+   │   │  At 55pF, 14MHz: X_C=206Ω                           │        │
+   │   │  I_peak = √(2×98.3/50) = 1.98A                      │        │
+   │   │  V_C_peak = 1.98 × 206 = 407V  (27% of 1500V limit) │        │
+   │   │  ████████░░░░░░░░░░░░░░░░░░░░░░  SAFE               │        │
+   │   └──────────────────────────────────────────────────────┘        │
+   │                                                                    │
+   │  [◄ PREV PAGE]                              [NEXT PAGE ►]         │
+   └────────────────────────────────────────────────────────────────────┘
+
+   ┌────────────────────────────────────────────────────────────────────┐
+   │                    PAGE 3: OPERATING GUIDE                        │
+   ├────────────────────────────────────────────────────────────────────┤
+   │  PROCEDURE:                                                        │
+   │  1. Select band with BTN_BAND_UP/DN on tuner                      │
+   │  2. Set RF power to 5-10W (reduce power for tuning)               │
+   │  3. Press TUNE button OR web /tune endpoint                        │
+   │  4. Tuner scans capacitance range → finds min SWR                 │
+   │  5. STATE changes: IDLE → TUNING → LOCKED                         │
+   │  6. When LOCKED: increase to full power                           │
+   │                                                                    │
+   │  CAUTION: At 100W on 160m/80m, verify cap V-rating               │
+   │  for your circuit Q before transmitting!                          │
+   │                                                                    │
+   │  [◄ PREV PAGE]                              [NEXT PAGE ►]         │
+   └────────────────────────────────────────────────────────────────────┘
+
+   Touch zones: LEFT 80px = prev page; RIGHT 80px = next page
+   Center zone: (future) direct band select
+
+4. BT PACKET PARSING REFERENCE
+================================
+
+   Packet transmitted by ESP32 tuner at BT_INTERVAL_MS (200ms default):
+   "BAND:%s,TYPE:%d,C_PF:%.1f,ANGLE:%.1f,SWR:%.2f,FWD:%.3fW,STATE:%d,STEP:%d\n"
+
+   Example:
+   "BAND:20m,TYPE:1,C_PF:55.2,ANGLE:90.0,SWR:1.15,FWD:98.300W,STATE:2,STEP:399\n"
+
+   Parse in CYD firmware with sscanf:
+   sscanf(buf, "BAND:%7[^,],TYPE:%d,C_PF:%f,ANGLE:%f,SWR:%f,FWD:%fW,STATE:%d,STEP:%d",
+          data.band, &data.cap_type, &data.C_pF, &data.angle_deg,
+          &data.swr, &data.fwd_watts, &data.state, &data.step_count);
+
+   STATE values:
+     0 = IDLE    (no RF; motor at rest)
+     1 = TUNING  (motor moving; scanning for SWR minimum)
+     2 = LOCKED  (SWR < SWR_GOOD; motor holding position)
+     3 = HOMING  (homing cycle running; do not transmit)
+
+   TYPE values (CapDesign enum):
+     0 = CAP_QRP   (10–350 pF, 200V)
+     1 = CAP_HF100 (10–225 pF, 1500V)
+     2 = CAP_TX    (5–84 pF, 4000V)
+     3 = CAP_VHF   (2–47 pF, 500V)
+     4 = CAP_UHF   (0.5–12 pF, 200V)
+
+================================================================================
+END TM-VCAP-SCH-003
+================================================================================

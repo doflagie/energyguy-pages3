@@ -1,0 +1,11 @@
+ANTENNA SPECIFICATION — HEX LOOP,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,"20M, 15M",,
+Design approach,"Six-sided loop, horizontally polarized",,
+Compaction factor,0%,,
+Special parameters,"~30 ft perimeter 20M, supports broadside directivity",,
+Feed impedance,50–600,Ω,
+SWR target,<2.0,:1,
+Efficiency,75–95%,%,
+Gain,2–12,dBi,

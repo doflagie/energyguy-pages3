@@ -1,0 +1,47 @@
+CM ============================================================
+CM  VHF/UHF REMOTE ELEMENT SWITCHING SYSTEM
+CM  ANTENNA: 5-ELEMENT YAGI, 6 METERS (50.1 MHz)
+CM  TYPE: BASELINE - ALL ELEMENTS ACTIVE
+CM  DESIGN: DL6WU STYLE, OPTIMIZED FOR 50.1 MHz
+CM
+CM  ELEMENT DATA (all dimensions in meters):
+CM    Reflector:  L = 2.956 m  pos Y = -1.197 m
+CM    Driven:     L = 2.842 m  pos Y =  0.000 m
+CM    Director 1: L = 2.687 m  pos Y = +1.496 m
+CM    Director 2: L = 2.614 m  pos Y = +2.992 m
+CM    Director 3: L = 2.548 m  pos Y = +4.787 m
+CM
+CM  ELEMENT DIAMETER: 12.7 mm (1/2 in. aluminum tube)
+CM  BOOM HEIGHT AGL:  10.0 m
+CM  EXPECTED GAIN:    9.2 dBd (11.35 dBi)
+CM  EXPECTED F/B:     22 dB
+CM  IMPEDANCE:        ~50 ohms (folded dipole or gamma match)
+CM
+CM  ELEMENT SWITCHING:
+CM    Directors 1-3 can be switched OUT (open-circuited)
+CM    Reflector can be replaced with active element for REVERSE
+CM    All switching via G5V-2 DPDT relay at element center
+CM
+CM  NEC2 MODEL NOTES:
+CM    Boom along Y-axis (positive = forward/boresight)
+CM    Elements along X-axis (symmetric about Y-axis)
+CM    Z-axis = height above ground
+CM    Ground: Average soil (sigma=0.005 S/m, eps=13)
+CM    Frequency sweep: 50.0 to 50.5 MHz, 5 steps
+CM
+CM  FILE: yagi_6m_baseline_5el.nec
+CM  SYSTEM: Remote Element Switching, ant_gear project
+CM  DATE: 2026-04
+CE
+GW 1 11 -1.478 -1.197 10.000 1.478 -1.197 10.000 0.00635
+GW 2 11 -1.421 0.000 10.000 1.421 0.000 10.000 0.00635
+GW 3 11 -1.344 1.496 10.000 1.344 1.496 10.000 0.00635
+GW 4 11 -1.307 2.992 10.000 1.307 2.992 10.000 0.00635
+GW 5 11 -1.274 4.787 10.000 1.274 4.787 10.000 0.00635
+GE 0
+GN 2 0 0 0 13.0 0.005
+EX 0 2 6 0 1.0 0.0
+FR 0 5 0 0 50.0 0.1
+RP 0 361 1 1000 0.0 0.0 1.0 0.0
+RP 0 1 361 1000 90.0 0.0 0.0 1.0
+EN

@@ -1,0 +1,42 @@
+CM ============================================================
+CM  VHF/UHF REMOTE ELEMENT SWITCHING SYSTEM
+CM  ANTENNA: 5-ELEMENT YAGI, 70 CM (432.1 MHz)
+CM  TYPE: BASELINE - ALL ELEMENTS ACTIVE
+CM  DESIGN: DL6WU STYLE, OPTIMIZED FOR 432.1 MHz
+CM
+CM  LAMBDA = 0.6939 m at 432.1 MHz
+CM
+CM  ELEMENT DATA (all dimensions in meters):
+CM    Reflector:  L = 0.342 m  pos Y = -0.139 m
+CM    Driven:     L = 0.329 m  pos Y =  0.000 m
+CM    Director 1: L = 0.311 m  pos Y = +0.173 m
+CM    Director 2: L = 0.302 m  pos Y = +0.347 m
+CM    Director 3: L = 0.295 m  pos Y = +0.555 m
+CM
+CM  ELEMENT DIAMETER: 6.35 mm (1/4 in. aluminum rod)
+CM  BOOM HEIGHT AGL:  5.0 m
+CM  EXPECTED GAIN:    9.2 dBd (11.35 dBi)
+CM  EXPECTED F/B:     22 dB
+CM
+CM  ELEMENT SWITCHING: PIN DIODE (MA4P504 or HSMP-3814)
+CM    CRITICAL: At 432 MHz relay contacts have ~2 nH lead inductance
+CM    = j5.4 ohm at 432 MHz. PIN diode REQUIRED for low loss.
+CM    Forward bias: 15 mA, insertion loss < 0.4 dB
+CM    Isolation (reverse bias): > 35 dB at 432 MHz
+CM    Bias choke: 47 nH (0402 SMD) + 100 pF bypass
+CM
+CM  FREQUENCY SWEEP: 430.0 to 440.0 MHz, 5 steps
+CM
+CE
+GW 1 11 -0.171 -0.139 5.000 0.171 -0.139 5.000 0.003175
+GW 2 11 -0.165 0.000 5.000 0.165 0.000 5.000 0.003175
+GW 3 11 -0.156 0.173 5.000 0.156 0.173 5.000 0.003175
+GW 4 11 -0.151 0.347 5.000 0.151 0.347 5.000 0.003175
+GW 5 11 -0.148 0.555 5.000 0.148 0.555 5.000 0.003175
+GE 0
+GN 2 0 0 0 13.0 0.005
+EX 0 2 6 0 1.0 0.0
+FR 0 5 0 0 430.0 2.0
+RP 0 361 1 1000 0.0 0.0 1.0 0.0
+RP 0 1 361 1000 90.0 0.0 0.0 1.0
+EN

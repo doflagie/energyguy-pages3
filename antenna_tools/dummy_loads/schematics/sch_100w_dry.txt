@@ -1,0 +1,127 @@
+================================================================================
+SCHEMATIC: 100W DRY (AIR-COOLED) DUMMY LOAD
+TM-DL-100W-DRY  Rev A
+================================================================================
+
+RESISTOR NETWORK — 50 OHM, 100W
+Star/Distributed layout for minimum parasitic inductance
+
+4x Non-inductive resistors: 200 ohm, 25W each (Ohmite 270-1-R200E or equiv)
+Connected in parallel = 50 ohm, 100W
+
+                    SO-239 / N-Type Jack
+                         |
+                    CENTER PIN
+                         |
+              +----------+----------+
+              |          |          |
+              |          |          |
+       +------+---+  +---+---+  +--+----+  +-------+
+       |  R1      |  | R2    |  | R3    |  | R4    |
+       | 200R 25W |  |200R   |  |200R   |  |200R   |
+       |          |  |25W    |  |25W    |  |25W    |
+       +----------+  +-------+  +-------+  +-------+
+              |          |          |           |
+              +----------+----------+-----------+
+                                    |
+                              GROUND (CHASSIS)
+                              = Connector shell
+                              = Heatsink base
+
+
+TOP VIEW (component side, looking down):
+ ___________________________________________
+|                                           |
+|    R1      R2      R3      R4             |
+|  [===]   [===]   [===]   [===]           |
+|    \       /       \       /              |
+|     \     /         \     /              |
+|      \   /           \   /               |
+|       \ /             \ /                |
+|        *               *                 |
+|        +-------+-------+                 |
+|                |                         |
+|           [SO-239]                       |
+|___________________________________________|
+
+STAR WIRING (minimizes loop area):
+  All R1-R4 high ends wire-bonded to center conductor stud.
+  All R1-R4 low ends wire-bonded to chassis/ground bus.
+  Lead length <= 10mm each side.
+  Resistors oriented FLAT on heatsink surface.
+
+
+COOLING SYSTEM
+--------------
+
+Heatsink (required for 100W continuous):
+  Theta_sa <= 0.95 C/W for 25C ambient, 120C max resistor case
+  Recommended: Extruded Al heatsink, 150mm x 100mm x 40mm fins
+               Wakefield 433-40ABP or equivalent
+               Naturally cooled: theta_sa ~ 2.5 C/W (max 50W cont.)
+               Fan-cooled:       theta_sa ~ 0.7 C/W (100W continuous OK)
+
+Fan mounting:
+  80mm x 80mm x 25mm, 12VDC brushless
+  Airflow path: through perforated bottom plate, over heatsink fins, out top
+  Fan guard: required (injury hazard, coax debris ingestion)
+
+Temperature sensor:
+  NTC thermistor, 10 kohm @ 25C, B=3950
+  Mounted on heatsink base adjacent to R1
+  Connected to CYD monitor (see cyd/ directory) or LED cutoff circuit
+
+OVERHEAT CUTOFF (optional):
+  LM56 dual setpoint temp switch
+  Warning LED at 80C
+  Relay/solid-state switch opens antenna relay at 100C
+  Requires 12V supply for fan and control circuit
+
+  +12V ---+--- Fan (80mm)
+          |
+          +--- LM56 VCC (pin 6)
+               LM56 T+ out1 (pin 2) --> Warning LED (80C)
+               LM56 T+ out2 (pin 3) --> NC relay coil --> open at 100C
+               LM56 GND (pin 5) --> chassis GND
+               Thermistor: pin 1 to 10k NTC, other end to GND
+
+
+CONNECTOR
+---------
+  For HF (to 30 MHz):     UHF (SO-239) acceptable. SWR < 1.1:1 to 30 MHz.
+  For HF/VHF (to 150 MHz): N-type (female panel). SWR < 1.3:1 to 150 MHz.
+  For VHF/UHF:            N-type mandatory. SWR < 1.5:1 to 500 MHz.
+
+  Note: SO-239 is NOT acceptable above 150 MHz. Connector is the primary
+  SWR-limiting factor at VHF. Use N-type for any load intended for 2M use.
+
+
+PERFORMANCE SPECIFICATIONS
+--------------------------
+  Impedance:         50 ohm nominal
+  Power:             100W continuous (fan), 50W continuous (no fan)
+                     200W for 30 seconds (SSB peaks), 150W (no fan)
+  Frequency:         DC to 500 MHz (N connector)
+  SWR (DC-30 MHz):   < 1.05:1
+  SWR (30-150 MHz):  < 1.15:1
+  SWR (150-500 MHz): < 1.5:1
+  VSWR deteriorates at UHF due to lead inductance of resistors.
+  For VHF/UHF precision: use multi-chip SMT design (see sch_vna_cal.txt)
+
+PARTS LIST
+----------
+  Qty  Reference  Value/Part Number      Description
+  ---  ---------  --------------------   ---------------------------
+   4   R1-R4      200R 25W non-inductive  Ohmite 270-1-R200E or
+                                          TE Connectivity HSC25R200J
+                                          (DO NOT use wirewound inductive)
+   1   J1         SO-239 or N-type        Panel mount, chassis GND ring
+   1   HS1        150x100x40mm Al         Extruded heatsink
+   1   F1         80mm 12V fan            Brushless DC, 2-pin
+   1   TH1        10k NTC thermistor      B=3950, through-hole
+   4   --         6-32 x 1/2" SS screws  Mounting resistors to heatsink
+   4   --         6-32 nuts and washers
+   1   --         Thermal compound        Dow TC-5026 or equiv, all R faces
+   1   --         Enclosure               See openscad/enclosure_100w_dry.scad
+
+================================================================================

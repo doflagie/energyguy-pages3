@@ -1,0 +1,252 @@
+================================================================================
+SCHEMATIC: Active Op-Amp CW Audio Bandpass Filter
+TM-AF-001  Rev A
+CW Bandpass: 400–800 Hz center freq (switchable), Q = 5–25 variable
+State-Variable Filter topology; NE5532 dual op-amp
+================================================================================
+
+THEORY — STATE VARIABLE FILTER (SVF)
+──────────────────────────────────────
+The SVF (Kerwin-Huelsman-Newcomb) uses three op-amps:
+  U1A — summing amplifier (virtual ground summing node)
+  U1B — first integrator  (produces −90° bandpass output)
+  U2A — second integrator (produces −180° lowpass output)
+  HP output = −(input + BP + LP feedbacks)
+  Notch = LP + HP outputs
+
+Transfer functions (with unity gain integrators):
+  BP(s) = −(ω₀/Q) × s  /  (s² + (ω₀/Q)s + ω₀²)
+  LP(s) =  ω₀²          /  (s² + (ω₀/Q)s + ω₀²)
+  HP(s) = −s²            /  (s² + (ω₀/Q)s + ω₀²)
+
+Parameters:
+  ω₀ = 1/(R_INT × C_INT)       — integrator time constant sets center freq
+  Q  = R_Q / R_FB               — ratio of Q resistors (see schematic)
+  H₀ = −R2/R1                   — passband gain at center frequency
+
+Frequency selection (C_INT switched, R_INT = 10 kΩ fixed):
+  f₀ = 1 / (2π × R_INT × C_INT)
+  400 Hz: C = 1/(2π × 10k × 400) = 39.8 nF → 39 nF
+  500 Hz: C = 31.8 nF → 33 nF
+  600 Hz: C = 26.5 nF → 27 nF
+  700 Hz: C = 22.7 nF → 22 nF
+  800 Hz: C = 19.9 nF → 18 nF (or 20 nF)
+
+Q selection (R_Q variable, R_FB = 10 kΩ fixed):
+  Q = R_Q / R_FB; for Q=5 to 25, R_Q = 50 kΩ to 250 kΩ
+  Use 250 kΩ linear pot: R_Q = 50k–250k → Q = 5–25
+  Corresponding −3 dB bandwidth at 700 Hz center:
+    Q=5:  BW = 700/5  = 140 Hz   (wide CW or digital modes)
+    Q=10: BW = 700/10 =  70 Hz   (standard CW)
+    Q=15: BW = 700/15 =  47 Hz   (contest CW)
+    Q=25: BW = 700/25 =  28 Hz   (extreme narrow; selectivity limited)
+
+================================================================================
+SCHEMATIC — COMPLETE STATE VARIABLE CW FILTER
+================================================================================
+
+Power supply: ±9V (from 2× 9V batteries or dual supply)
+All op-amps: NE5532 (low-noise, 10 MHz GBW, adequate for audio)
+
+                               R_FB
+          R1       ┌──────────/\/\/──────────────────────────┐
+    IN ───/\/\/────┤          10kΩ                           │
+          10kΩ     │    R2                   R_Q             │
+                   └───/\/\/────┐    ┌──────/\/\/────────┐   │
+                       10kΩ    │    │    50k–250kΩ pot   │   │
+                               │    │                    │   │
+                            ───┴────┴───                 │   │
+                           │          │                  │   │
+   +9V ─────────────────── │   U1A    │                  │   │
+                           │  NE5532  │                  │   │
+   −9V ─────────────────── │          │                  │   │
+                            ───┬────┬───                 │   │
+                               │    │                    │   │
+                         HP OUT│    └────────────────────┘   │
+                               │                             │
+                 ┌─────────────┘                             │
+                 │   R_INT                 C_INT             │
+                 └───/\/\/────────────────┤├─────────────────┤
+                      10kΩ         SW: 39/33/27/22/18 nF     │
+                                                             │
+                                                    ─────────┴──────
+                                                   │                │
+         +9V ─────────────────────────────────── ──│   U1B         │──
+                                                   │  NE5532        │
+         −9V ─────────────────────────────────── ──│  (integrator1) │──
+                                                    ────────┬───────
+                                                            │
+                                                     BP OUT ┤ ◄── Bandpass output
+                                                            │
+                 ┌──────────────────────────────────────────┘
+                 │   R_INT                 C_INT
+                 └───/\/\/────────────────┤├─────────────────┐
+                      10kΩ        (same switch bank)         │
+                                                    ─────────┴──────
+                                                   │                │
+         +9V ─────────────────────────────────── ──│   U2A         │──
+                                                   │  NE5532        │
+         −9V ─────────────────────────────────── ──│  (integrator2) │──
+                                                    ────────┬───────
+                                                            │
+                                                     LP OUT ┤
+
+================================================================================
+SIMPLIFIED SCHEMATIC (functional, single-supply compatible with mid-rail bias)
+================================================================================
+
+SINGLE-SUPPLY MODIFICATION:
+  Replace ±9V with +9V single supply
+  Add V_mid = 4.5V reference: R_A=R_B=100kΩ from +9V to GND, bypass with 10µF
+  All op-amp non-inverting inputs biased to V_mid
+  Input/output coupling caps: 10 µF electrolytic, NP type
+
+V_MID BIAS CIRCUIT:
+         +9V
+          │
+         R_A 100kΩ
+          │
+          ├──────── V_mid (4.5V)  ──── to all op-amp (+) inputs via 100kΩ
+          │
+         C_mid 10µF
+          │
+         R_B 100kΩ
+          │
+         GND
+
+================================================================================
+DETAILED SCHEMATIC — SUMMING AMPLIFIER U1A
+================================================================================
+
+       R1 10k          R2 10k
+IN ────/\/\/──────┐────/\/\/──── HP feedback (from U2A output)
+                  │
+      R_Q pot      │   R_FB 10k
+BP ──/\/\/──────── ┼──/\/\/──── LP feedback (from LP output)
+  50k–250k         │
+                   │
+                 ──┴──
+  +9V ────────── │ −  │──── HP output (to integrator 1)
+                 │U1A │
+  GND────────── ─│ +  │─── V_mid
+                  ─────
+                  note: (−) summing, (+) = V_mid for single supply
+
+Op-amp feedback network at U1A output → HP_OUT:
+  HP = −R2/R1 × IN − (R2/R_FB) × LP − (R2/R_Q) × BP
+
+================================================================================
+DETAILED SCHEMATIC — INTEGRATOR 1 (U1B)
+================================================================================
+
+      R_INT 10k       C_INT (freq select)
+HP ───/\/\/─────────────┤├────── BP output
+                         │
+                     ────┴────
+  +9V ─────────── ──│ −      │
+                    │  U1B   │──────── BP output
+  GND (V_mid) ───── │ +      │
+                     ─────────
+
+C_INT frequency select switch (SW1):
+  Position 1 (400 Hz): C = 39 nF  (39n = 2× 22nF parallel − 5nF)
+  Position 2 (500 Hz): C = 33 nF  (standard)
+  Position 3 (600 Hz): C = 27 nF  (standard)
+  Position 4 (700 Hz): C = 22 nF  (standard)
+  Position 5 (800 Hz): C = 18 nF  (18nF = standard NP0)
+
+Note: both integrators use the SAME switch bank (ganged).
+Use a 2-pole 5-position rotary switch; SW1A for integrator 1, SW1B for integrator 2.
+
+================================================================================
+DETAILED SCHEMATIC — INTEGRATOR 2 (U2A, same topology as U1B)
+================================================================================
+
+      R_INT 10k       C_INT (SW1B)
+BP ───/\/\/─────────────┤├────── LP output
+                         │
+                     ────┴────
+  +9V ─────────── ──│ −      │
+                    │  U2A   │──────── LP output (feedback to U1A)
+  GND (V_mid) ───── │ +      │
+                     ─────────
+
+================================================================================
+Q CONTROL AND BANDWIDTH TABLE
+================================================================================
+
+R_Q range: 50 kΩ to 250 kΩ (250 kΩ pot, wiper + 50 kΩ series min stop)
+
+  R_Q (kΩ) | Q    | BW @700Hz | BW @500Hz | BW @400Hz | Application
+  ---------|------|-----------|-----------|-----------|------------
+      50   |  5   |  140 Hz   |  100 Hz   |   80 Hz   | DSB/narrow AM
+      70   |  7   |  100 Hz   |   71 Hz   |   57 Hz   | Wide CW
+     100   | 10   |   70 Hz   |   50 Hz   |   40 Hz   | Standard CW
+     140   | 14   |   50 Hz   |   36 Hz   |   28 Hz   | Narrow CW
+     200   | 20   |   35 Hz   |   25 Hz   |   20 Hz   | QRP CW
+     250   | 25   |   28 Hz   |   20 Hz   |   16 Hz   | DX CW (extreme)
+
+================================================================================
+GAIN CALIBRATION
+================================================================================
+
+Passband gain at center frequency:
+  H₀ = −R2/R1 = −10k/10k = −6 dB (unity with sign inversion)
+
+For +6 dB gain: R2 = 20k
+For  0 dB flat: R1 = R2 = 10k
+
+Output level with typical radio (0 dBu = 600mV RMS audio):
+  Output = Input − 1 dB insertion loss ≈ −1 dBu at passband center
+  Note: SVF BP output is inverting; add unity inverter stage if polarity matters
+
+================================================================================
+POWER SUPPLY SCHEMATIC (dual ±9V from 2× PP3)
+================================================================================
+
+BAT1 (+9V PP3)
+  (+) ──────────────────────────── +9V rail
+  (−) ──────────┬─────────────────  0V (GND/COMMON)
+                │
+BAT2 (−9V PP3)
+  (+) ──────────┘
+  (−) ──────────────────────────── −9V rail
+
+Bypass capacitors (mount at each op-amp supply pin):
+  +9V ──┬── 10 µF electrolytic (−) to GND
+        └── 100 nF ceramic (to GND)
+  −9V ──┬── 10 µF electrolytic (+) to GND
+        └── 100 nF ceramic (to GND)
+
+Battery life estimate (NE5532 × 2 op-amps):
+  I_supply ≈ 2 × 8 mA = 16 mA total (±9V rails)
+  PP3 capacity = 565 mAh → life ≈ 35 hours
+
+================================================================================
+PARTS LIST — ACTIVE CW SVF BANDPASS
+================================================================================
+
+Ref       | Qty | Value       | Description                  | Package
+----------|-----|-------------|------------------------------|--------
+U1        |  1  | NE5532      | Dual low-noise audio op-amp  | DIP-8
+U2        |  1  | NE5532      | Dual low-noise audio op-amp  | DIP-8
+R1,R2,R_FB|  3  | 10 kΩ       | Metal film 1%, 1/4W          | Axial
+R_INT (×2)|  2  | 10 kΩ       | Metal film 1%, 1/4W          | Axial
+R_A,R_B   |  2  | 100 kΩ      | Metal film 5%, 1/4W (bias)   | Axial
+R_Qmin    |  1  | 50 kΩ       | Metal film 1%, 1/4W (stop)   | Axial
+RV1       |  1  | 250 kΩ lin  | Q control potentiometer      | 16mm panel pot
+SW1       |  1  | 2P5T rotary | Frequency select (ganged)    | Panel rotary
+C_INT set |  2  | 39/33/27/22/18 nF | NP0/C0G caps 1%       | Axial
+C_mid     |  1  | 10 µF       | Electrolytic NP, 16V         | Axial
+C_byp ×4  |  4  | 100 nF      | Ceramic X7R, 25V             | Axial
+C_byp ×2  |  2  | 10 µF       | Electrolytic, 16V            | Axial
+C_in,out  |  2  | 10 µF       | Electrolytic NP, 16V         | Axial
+J1,J2     |  2  | 3.5mm TRS   | Stereo jack, panel           | Panel mount
+SW2       |  1  | DPDT toggle | Bypass switch                | Panel mount
+BAT1,BAT2 |  2  | 9V PP3      | Alkaline battery             | Snap connector
+BH1,BH2   |  2  | PP3 holder  | Battery holder               | Chassis mount
+LED1      |  1  | Green 3mm   | Power indicator              | Panel mount
+R_LED     |  1  | 470 Ω       | LED current limit            | Axial
+SW_PWR    |  1  | SPST toggle | Power switch                 | Panel mount
+
+================================================================================

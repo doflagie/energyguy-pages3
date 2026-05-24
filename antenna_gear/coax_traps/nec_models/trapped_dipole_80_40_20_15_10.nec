@@ -1,0 +1,101 @@
+CM ============================================================
+CM TRAPPED DIPOLE: 80M / 40M / 20M / 15M / 10M (5-BAND)
+CM Parallel resonant coaxial traps, horizontal, 15m AGL
+CM NEC-2 / EZNEC compatible
+CM
+CM Architecture (one side from feed outward):
+CM   Feed
+CM   -> [10M trap at 2.64m]
+CM   -> [15M trap at 3.54m]
+CM   -> [20M trap at 5.26m]
+CM   -> [40M trap at 10.05m]
+CM   -> tip at 20.1m
+CM
+CM Note: 15M uses loading effect of traps, not isolated element.
+CM Standard W3DZZ / commercial multiband trap dipole topology.
+CM
+CM Trap parameters (all RG-213):
+CM   10M trap: f0=28.5  MHz, L=0.50uH, C=63pF,  Q=55, Rp=4863  ohm
+CM   15M trap: f0=21.225MHz, L=0.74uH, C=75pF,  Q=63, Rp=6246  ohm
+CM   20M trap: f0=14.175MHz, L=1.23uH, C=103pF, Q=77, Rp=8452  ohm
+CM   40M trap: f0=7.150 MHz, L=2.87uH, C=173pF, Q=109,Rp=14024 ohm
+CM
+CM Wire layout (half dipole, feed at center, wires go in -X direction):
+CM   W1:  0.00 to -2.64m  (inner, 10M element)
+CM   W2: -2.64 to -3.54m  (10M to 15M trap)
+CM   W3: -3.54 to -5.26m  (15M to 20M trap)
+CM   W4: -5.26 to -10.05m (20M to 40M trap)
+CM   W5:-10.05 to -20.10m (40M to tip)
+CM Mirror for +X side: W6-W10
+CM ============================================================
+CE
+
+CM Tag Segs  X1      Y1    Z1      X2      Y2    Z2      Radius
+GW  1  3     0.0    0.0   15.0    -2.64   0.0   15.0    0.00095
+GW  2  1    -2.64   0.0   15.0    -3.54   0.0   15.0    0.00095
+GW  3  2    -3.54   0.0   15.0    -5.26   0.0   15.0    0.00095
+GW  4  5    -5.26   0.0   15.0   -10.05   0.0   15.0    0.00095
+GW  5  10  -10.05   0.0   15.0   -20.10   0.0   15.0    0.00095
+GW  6  3     2.64   0.0   15.0     0.0    0.0   15.0    0.00095
+GW  7  1     3.54   0.0   15.0     2.64   0.0   15.0    0.00095
+GW  8  2     5.26   0.0   15.0     3.54   0.0   15.0    0.00095
+GW  9  5    10.05   0.0   15.0     5.26   0.0   15.0    0.00095
+GW  10 10   20.10   0.0   15.0    10.05   0.0   15.0    0.00095
+
+GE  1
+GN  2  0  0  0  13.0  0.005
+
+CM Feed: Wire 1, segment 2 (near center)
+EX  0  1  2  0  1.0  0.0
+
+CM === TRAP LOADS ===
+CM 10M traps — wires 1 and 6, far end segments
+CM  Rs=1.61 ohm, L=0.50uH, C=63pF
+LD  0  1  3  3  1.61  5.0e-7  6.3e-11
+LD  0  6  3  3  1.61  5.0e-7  6.3e-11
+
+CM 15M traps — wires 2 and 7, far end
+CM  Rs=1.57 ohm, L=0.74uH, C=75pF
+LD  0  2  1  1  1.57  7.4e-7  7.5e-11
+LD  0  7  1  1  1.57  7.4e-7  7.5e-11
+
+CM 20M traps — wires 3 and 8, far end
+CM  Rs=1.43 ohm, L=1.23uH, C=103pF
+LD  0  3  2  2  1.43  1.23e-6  1.03e-10
+LD  0  8  2  2  1.43  1.23e-6  1.03e-10
+
+CM 40M traps — wires 4 and 9, far end
+CM  Rs=1.24 ohm, L=2.87uH, C=173pF
+LD  0  4  5  5  1.24  2.87e-6  1.73e-10
+LD  0  9  5  5  1.24  2.87e-6  1.73e-10
+
+CM Frequency sweep — 40M band
+FR  0  13  0  0  7.0  0.025
+
+CM Radiation pattern at 7.15 MHz
+RP  0  37  73  1000  0.0  0.0  5.0  5.0
+
+EN
+
+CM ============================================================
+CM FREQUENCY SWEEPS FOR EACH BAND (edit FR card):
+CM   10M: FR 0 17 0 0 28.0  0.1
+CM   15M: FR 0 23 0 0 21.0  0.02
+CM   20M: FR 0 15 0 0 14.0  0.025
+CM   40M: FR 0 13 0 0  7.0  0.025
+CM   80M: FR 0 11 0 0  3.5  0.025
+CM
+CM EXPECTED PERFORMANCE vs UNTRAPPED REFERENCE:
+CM   10M: ~1-2 dBd loss due to trap losses (Q=55)
+CM   15M: ~1-2 dBd loss
+CM   20M: ~0.5-1 dBd loss (higher Q=77)
+CM   40M: ~0.3-0.8 dBd loss (Q=109 traps)
+CM   80M: ~0.5-1.5 dBd loss (accumulated trap losses)
+CM
+CM TYPICAL IMPEDANCES AT RESONANCE:
+CM   10M: ~50-75 ohm (good direct match)
+CM   20M: ~60-80 ohm (good match)
+CM   40M: ~55-70 ohm (good match)
+CM   80M: ~45-65 ohm (acceptable)
+CM   15M: ~50-80 ohm
+CM ============================================================

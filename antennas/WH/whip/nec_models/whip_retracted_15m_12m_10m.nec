@@ -1,0 +1,65 @@
+CM TM-WHP-NEC-007
+CM 5.6m telescopic whip retracted — 15m/12m/10m bands
+CM ---------------------------------------------------------------
+CM Three band configurations in one file. Uncomment desired band.
+CM Active configuration: 15m (21.000-21.450 MHz)
+CM
+CM BAND CONFIGURATIONS:
+CM   15m: retract to 3.43m, QW at 21.225 MHz (vf=0.97) -> 3.43m
+CM        24 segments on main element, radials 3.43m
+CM        FR: 21.000-21.450 MHz, 10 points (0.050 step)
+CM
+CM   12m: retract to 2.92m, QW at 24.940 MHz (vf=0.97) -> 2.92m
+CM        20 segments on main element, radials 2.92m
+CM        FR: 24.890-24.990 MHz, 3 points (0.050 step)
+CM
+CM   10m: retract to 2.55m, QW at 28.850 MHz (vf=0.97) -> 2.55m
+CM        18 segments on main element, radials 2.55m
+CM        FR: 28.000-29.700 MHz, 9 points (0.213 step)
+CM
+CM To switch bands:
+CM   Comment out active GW/FR/RP blocks below
+CM   Uncomment desired band block
+CM
+CM Ground: real average soil (GN 2), sigma=0.005 S/m, epsilon_r=13
+CM Feed: voltage source EX 0 on segment 1 of GW1 (base of whip)
+CM No loading coil for any of these bands — resonant retracted whip
+CE
+CM ===== ACTIVE: 15m BAND (21.000-21.450 MHz) =====
+GW 1 24  0.0 0.0 0.005  0.0 0.0 3.435  0.006
+GW 2 12  0.0 0.0 0.005  3.43 0.0 0.005  0.006
+GW 3 12  0.0 0.0 0.005 -3.43 0.0 0.005  0.006
+GW 4 12  0.0 0.0 0.005  0.0 3.43 0.005  0.006
+GW 5 12  0.0 0.0 0.005  0.0 -3.43 0.005  0.006
+GE 1
+GN 2 0 0 0  13 0.005
+EX 0 1 1 0  1 0
+FR 0 10 0 0  21.000 0.050
+RP 0 37 73 1000  0 0 5 5
+EN
+CM
+CM ===== COMMENTED: 12m BAND (24.890-24.990 MHz) =====
+CM GW 1 20  0.0 0.0 0.005  0.0 0.0 2.925  0.006
+CM GW 2 10  0.0 0.0 0.005  2.92 0.0 0.005  0.006
+CM GW 3 10  0.0 0.0 0.005 -2.92 0.0 0.005  0.006
+CM GW 4 10  0.0 0.0 0.005  0.0 2.92 0.005  0.006
+CM GW 5 10  0.0 0.0 0.005  0.0 -2.92 0.005  0.006
+CM GE 1
+CM GN 2 0 0 0  13 0.005
+CM EX 0 1 1 0  1 0
+CM FR 0 3 0 0  24.890 0.050
+CM RP 0 37 73 1000  0 0 5 5
+CM EN
+CM
+CM ===== COMMENTED: 10m BAND (28.000-29.700 MHz) =====
+CM GW 1 18  0.0 0.0 0.005  0.0 0.0 2.555  0.006
+CM GW 2  9  0.0 0.0 0.005  2.55 0.0 0.005  0.006
+CM GW 3  9  0.0 0.0 0.005 -2.55 0.0 0.005  0.006
+CM GW 4  9  0.0 0.0 0.005  0.0 2.55 0.005  0.006
+CM GW 5  9  0.0 0.0 0.005  0.0 -2.55 0.005  0.006
+CM GE 1
+CM GN 2 0 0 0  13 0.005
+CM EX 0 1 1 0  1 0
+CM FR 0 9 0 0  28.000 0.213
+CM RP 0 37 73 1000  0 0 5 5
+CM EN

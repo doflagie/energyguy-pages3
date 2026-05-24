@@ -1,0 +1,29 @@
+CM ============================================================
+CM  VHF/UHF REMOTE ELEMENT SWITCHING SYSTEM
+CM  ANTENNA: 3-ELEMENT YAGI, 2 METERS (144.2 MHz)
+CM  TYPE: COMPACT - REFLECTOR + DE + 1 DIRECTOR
+CM  USE: PORTABLE/FIELD CONFIG, DIRECTORS 2&3 SWITCHED OUT
+CM
+CM  ELEMENT DATA (all dimensions in meters):
+CM    Reflector:  L = 1.027 m  pos Y = -0.416 m
+CM    Driven:     L = 0.988 m  pos Y =  0.000 m
+CM    Director 1: L = 0.934 m  pos Y = +0.520 m
+CM    (Directors 2 & 3 switched OUT via relay - open circuit)
+CM
+CM  ELEMENT DIAMETER: 6.35 mm (1/4 in. aluminum rod)
+CM  BOOM HEIGHT AGL:  6.0 m
+CM  BOOM LENGTH:      0.936 m
+CM  EXPECTED GAIN:    6.5 dBd
+CM  EXPECTED F/B:     10 dB
+CM
+CE
+GW 1 11 -0.514 -0.416 6.000 0.514 -0.416 6.000 0.003175
+GW 2 11 -0.494 0.000 6.000 0.494 0.000 6.000 0.003175
+GW 3 11 -0.467 0.520 6.000 0.467 0.520 6.000 0.003175
+GE 0
+GN 2 0 0 0 13.0 0.005
+EX 0 2 6 0 1.0 0.0
+FR 0 5 0 0 144.0 0.1
+RP 0 361 1 1000 0.0 0.0 1.0 0.0
+RP 0 1 361 1000 90.0 0.0 0.0 1.0
+EN

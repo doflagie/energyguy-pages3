@@ -1,0 +1,5 @@
+ANTENNA — TRAP_DIPOLE,,,
+Frequency bands,160M–10M,,
+Design approach,Multiband dipole using LC traps at junctions,,
+Compaction %,0,,
+Parameters,"Trap pairs for each band, tuned with dip meter",,

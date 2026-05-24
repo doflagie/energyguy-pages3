@@ -1,0 +1,311 @@
+================================================================================
+SCHEMATIC: DIGITAL FIELD STRENGTH METER — CYD VERSION
+TM-FSM-DIGITAL  Rev A
+ESP32-2432S028 (CYD), AD8307 Log Detector, ILI9341 2.8" TFT
+SD Card Logging, GPS, Audio Tone, S-meter + dBm + V/m Display
+================================================================================
+
+SYSTEM BLOCK DIAGRAM
+---------------------
+
+    [PROBE/ANTENNA]──[PROTECTION]──[ATTENUATOR]──[ERA-3SM]──[AD8307]
+                                                                │
+                                                          GPIO34 ADC
+                                                                │
+    [GPS MODULE]──UART2──[ESP32 / CYD]──SPI──[SD CARD]
+       NMEA 0183      GPIO16/17    └──SPI──[ILI9341 TFT built-in]
+                                   └──PWM GPIO25──[AUDIO OUT]
+                                   └──ADC GPIO35──[BATTERY MON]
+                                   └──GPIO27──[LED INDICATOR]
+
+
+COMPLETE GPIO ASSIGNMENT (ESP32-2432S028 / CYD)
+-------------------------------------------------
+
+  GPIO  Function           Dir    Notes
+  ----  --------           ---    -----
+  34    AD8307 VOUT        In     ADC1_CH6; main RF level input
+  35    Battery voltage    In     ADC1_CH7; via 330k/56k divider
+  36    Second probe ADC   In     ADC1_CH0; optional loop vs whip
+  39    Spare ADC          In     ADC1_CH3; future sensor
+  25    Audio tone PWM     Out    ledcWriteTone(); → RC LPF → speaker
+  26    Noise/mute         Out    GPIO; mutes audio if LOW
+  27    Status LED (green) Out    Active HIGH; blinks on log write
+  16    GPS UART2 RX       In     UART2; NEO-6M NMEA input
+  17    GPS UART2 TX       Out    UART2; not used (GPS RX only)
+  5     SD card CS         Out    VSPI chip select
+  18    SD card SCK        Out    VSPI clock (hardware SPI)
+  19    SD card MISO       In     VSPI MISO
+  23    SD card MOSI       Out    VSPI MOSI
+  13    TFT MOSI           Out    HSPI; built-in CYD
+  14    TFT SCK            Out    HSPI; built-in CYD
+  15    TFT CS             Out    HSPI; built-in CYD
+  2     TFT DC             Out    built-in CYD
+  12    TFT RST            Out    built-in CYD
+  33    Touch CS           Out    XPT2046; built-in CYD
+  21    TFT backlight      Out    PWM 5 kHz; brightness control
+  4     LED_R (debug)      Out    Active LOW; built-in CYD
+
+  NOTE: ADC1 channels only (34,35,36,39). ADC2 conflicts with WiFi.
+  WiFi not used in this application but avoiding ADC2 is best practice.
+
+
+RF INPUT CHAIN
+--------------
+
+    J1 SMA (50Ω input)
+         │
+    [BAT54S D1]     ESD / RF overload clamp: ±3.3V max
+    [clamp to 3.3V]
+         │
+    [SW_ATT rotary]  4-position: 0 / −10 / −20 / −30 dB
+    [Pi attenuator]  (See sch_active_fsm.txt for pad values)
+         │
+    [U1 ERA-3SM]     MMIC preamp, 20 dB gain, 0.1–3000 MHz
+    Bias: R1=75Ω from +9V to pin 4 (collector/drain)
+    C_IN: 100 pF DC block on input
+    C_OUT: 100 pF DC block on output
+         │
+    [U2 AD8307]      Log detector, −75 to +17 dBm, 25 mV/dB
+    Input match: R_SER = 51Ω to INHI
+    INLO bypass: 100 pF to GND
+    FILT pin: 1 nF to GND
+    VS bypass: 0.1 μF to GND
+    VOUT ──── R_PROTECT (1kΩ) ──── D_CLAMP (BZX84C3V3) ──── GPIO34
+                                                           (0–3.3V safe)
+
+
+AD8307 TO ADC CALCULATION
+--------------------------
+
+    AD8307 VOUT:
+      V_out = 0.025 × (P_dBm + 84)    [Volts]
+      P_dBm = V_out / 0.025 − 84      [dBm]
+            = V_out × 40 − 84
+
+    ESP32 ADC (12-bit, 3.3V reference):
+      V_adc = ADC_count × 3.3 / 4095  [Volts, 0 to ~3.3V]
+      P_dBm = (ADC_count × 3.3 / 4095) × 40 − 84
+
+    At ADC midpoint (count=2048, V=1.65V):
+      P_dBm = 1.65 × 40 − 84 = 66 − 84 = −18 dBm
+
+    At ADC near zero (count=100, V=0.08V):
+      P_dBm = 0.08 × 40 − 84 = 3.2 − 84 ≈ −81 dBm (below AD8307 floor)
+
+    At ADC near full (count=3900, V=3.14V):
+      P_dBm = 3.14 × 40 − 84 = 125.6 − 84 ≈ +42 dBm (above ERA-3SM limit)
+      In practice, ERA-3SM compresses before AD8307 reaches saturation.
+
+    Effective displayed range:
+      With ERA-3SM (20 dB gain): −95 dBm to +10 dBm at probe input
+      (AD8307 sees −75 to +30 dBm; ERA clips above its P1dB=+12 dBm)
+
+    NOTE: ESP32 ADC nonlinearity: up to ±5% of full scale.
+    For accurate measurements, use two-point calibration and store
+    correction polynomial in EEPROM. See calibration procedure in manual.
+
+
+S-METER SCALE MAPPING
+-----------------------
+
+    IARU / ARRL S-meter standard (HF):
+      S1 =  −121 dBm   (50Ω, 0.178 μV)
+      S2 =  −115 dBm
+      S3 =  −109 dBm
+      S4 =  −103 dBm
+      S5 =   −97 dBm
+      S6 =   −91 dBm
+      S7 =   −85 dBm
+      S8 =   −79 dBm
+      S9 =   −73 dBm   (50Ω, 50 μV)
+      S9+10 = −63 dBm
+      S9+20 = −53 dBm
+      S9+30 = −43 dBm
+      S9+40 = −33 dBm
+      S9+60 = −13 dBm
+
+    Each S-unit = 6 dB.
+    S9+XX indicates dB above S9.
+
+    Firmware S-unit calculation:
+      float s_units = (dBm + 127.0f) / 6.0f;   // S1 starts at -121 dBm
+      int s_int = constrain((int)s_units, 1, 9);
+      float s_over = dBm + 73.0f;  // dB above S9; positive = above S9
+
+
+FIELD STRENGTH CONVERSION
+---------------------------
+
+    From received power at 50Ω system:
+      Power (W) = 10^(dBm/10) / 1000
+      Voltage at 50Ω: V_rms = sqrt(P × 50)   [Volts RMS]
+
+    From voltage to field strength (requires antenna factor AF):
+      E (V/m) = V_rms × AF_linear             [V/m field strength]
+      E_dBuVm = V_dBuV + AF_dBm              [dB format]
+      where V_dBuV = 20 × log10(V_rms × 10^6)
+
+    Antenna factors for included probes (calibrated at 14.175 MHz):
+      50 cm telescoping whip:  AF ≈ 18 dB/m    (varies ±6 dB across HF)
+      λ/2 dipole (tuned):      AF = 20 × log10(4π/λ) ≈ varies by band
+      10 cm single-turn loop:  AF ≈ 50 dB/m    (HF near-field only)
+
+    Table: AF for λ/2 dipole (theoretical, free space):
+      Band  f(MHz)  λ(m)   AF(dB/m)
+      160M  1.85    162.2   −30.6
+      80M   3.75     80.0   −24.6
+      40M   7.15     41.9   −18.6
+      20M  14.175    21.2   −12.5
+      10M  28.5      10.5    −6.5
+      6M   50.0       6.0    −3.0
+      2M  144.0       2.08   +7.2
+      70cm 432.0      0.694  +17.2
+
+    Formula: AF(dB/m) = 20 log10(4π×f / c) + 20 log10(R_input/R_probe)
+    Simplified for 50Ω reference: AF ≈ 20 log10(f_MHz) − 29.8
+
+    NOTE: These are free-space theoretical values. Actual probe AF
+    must be measured against a calibrated reference per the
+    calibration procedure in Chapter 5 of TM-FSM-001.
+
+
+BATTERY VOLTAGE MONITOR
+-------------------------
+
+    18V (2×9V) or 9V battery supply:
+    Voltage divider: 330kΩ to +V, 56kΩ to GND, junction to GPIO35
+    ADC voltage at full 18V: 18 × 56/386 = 2.61V → ADC count ≈ 3240
+    ADC voltage at 15V (low): 15 × 56/386 = 2.18V → ADC count ≈ 2706
+
+    Conversion: V_batt = (ADC_count × 3.3 / 4095) × (386 / 56)
+
+    Battery indicator thresholds:
+      > 16.5V:  Full (5 bars)
+      15.0–16.5V: Good (4 bars)
+      14.0–15.0V: Medium (3 bars)
+      13.0–14.0V: Low (2 bars)
+      < 13.0V:    Replace immediately (1 bar, red)
+
+
+GPS MODULE INTERFACE
+---------------------
+
+    GPS module: u-blox NEO-6M, NEO-7M, or compatible
+    Interface: UART 9600 baud, NMEA 0183
+    Power: 3.3V or 5V (check module; use LDO if 3.3V only)
+
+    Connections:
+      GPS TX  → ESP32 GPIO16 (UART2 RX)
+      GPS RX  → ESP32 GPIO17 (UART2 TX) [optional; no config needed]
+      GPS VCC → +3.3V (from ESP32 3V3 pin)
+      GPS GND → GND
+
+    NMEA sentences used:
+      $GPRMC: Time, date, lat/lon, speed, course
+      $GPGGA: Fix quality, altitude, number of satellites
+      $GPGSV: Satellites in view
+
+    Firmware parses $GPRMC for:
+      lat, lon (decimal degrees)
+      date (DDMMYY → DD-MM-YYYY)
+      UTC time (HHMMSS.ss → HH:MM:SS UTC)
+
+    NOTE: Allow 90–180 seconds for cold GPS fix after power-on.
+    LED on GPIO27 blinks once per second when GPS is acquiring;
+    blinks twice per second when fix is obtained.
+
+
+SD CARD DATA LOGGING
+---------------------
+
+    SD card module: SPI, 3.3V compatible (level-shifted if 5V module)
+    File system: FAT32, up to 32 GB
+    SPI pins: MOSI=GPIO23, MISO=GPIO19, SCK=GPIO18, CS=GPIO5
+
+    Log file format: /FSM_LOG_YYYYMMDD.CSV
+    CSV columns:
+      UTC_Time, Date, Lat_deg, Lon_deg, Alt_m, Sats,
+      Band_Name, Freq_MHz, Atten_dB, dBm, V_rms_uV, E_Vm, S_units, Notes
+
+    Example log line:
+      14:23:45,2026-04-25,37.3023,-120.4812,52.3,8,40M,7.15,0,-45.2,3.89,0.107,4.7,
+
+    File naming: New file per day. If GPS unavailable, file is
+    FSM_LOG_NOGPS.CSV with "0,0" for lat/lon.
+
+    Log entry trigger:
+      Manual: Press LOG button on CYD touch screen
+      Auto: Configurable interval (5s, 10s, 30s, 1min) from settings
+
+
+AUDIO TONE OUTPUT
+------------------
+
+    GPIO25 → PWM square wave → RC low-pass filter → audio amplifier
+
+    RC low-pass: R=1kΩ, C=0.01μF → fc = 16 kHz (passes audio, rejects PWM)
+
+    Amplifier: LM386 (miniature audio amp IC, TO-92 or DIP-8)
+      Supply: 5V (from 78L05)
+      Gain: 200× (pins 1–8 capacitor)
+      Output: 8Ω piezo or small 8Ω dynamic speaker
+      Volume: 500Ω series pot between RC filter and LM386 input
+
+    Tone frequency mapping:
+      dBm ≤ −100:  Silent (muted)
+      dBm = −90:   300 Hz  (very weak)
+      dBm = −60:   700 Hz  (weak, S4 level)
+      dBm = −40:   1200 Hz (medium, S6 level)
+      dBm = −20:   2000 Hz (strong, S8 level)
+      dBm =   0:   3000 Hz (very strong, S9+ level)
+      dBm > +10:   3500 Hz (overload warning tone, steady)
+
+    Tone modes (selectable via CYD touch settings):
+      PROPORTIONAL: Continuous tone, frequency = f(dBm) as above
+      PULSE:        Pulse rate proportional (Geiger counter style)
+                    pulses/sec = 10^((dBm + 100)/20)
+      OFF:          Audio disabled
+
+
+CYD DISPLAY SCREENS
+--------------------
+
+    Screen 0 — MAIN S-METER
+      ┌────────────────────────────────────────────┐
+      │ FSM   [40M  7.15MHz]  [−0dB]   [BATT:▓▓▓░]│
+      │ ─────────────────────────────────────────  │
+      │ S1──S2──S3──S4──S5──S6──S7──S8──S9──+10dB │
+      │ [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░░░░░]  │
+      │ Level: −45.2 dBm    S6 +3 dB              │
+      │ Field: 0.107 V/m    E = 20.6 dBμV/m       │
+      │ ─────────────────────────────────────────  │
+      │ [BAND▼][ATT▼][HOLD][LOG ●][DIR][SET]       │
+      └────────────────────────────────────────────┘
+
+    Screen 1 — CALIBRATED READOUT
+      Full-screen numeric: dBm, V/m, dBμV/m, dBμV, S-units
+      Antenna factor readout and correction display
+
+    Screen 2 — DIRECTION FINDER
+      Compass rose showing current bearing
+      Peak/null indicator with bearing readout
+      Max hold, min hold, bearing to max
+
+    Screen 3 — DATA LOGGER
+      Current log file, entry count, GPS status
+      Recent log entries (scrollable)
+      GPS coordinates display
+
+    Screen 4 — BAND / FREQUENCY SELECT
+      Grid of band buttons: 160M–70cm (touchable)
+
+    Screen 5 — SETTINGS
+      Attenuator (0/10/20/30 dB)
+      Antenna factor calibration
+      Audio mode (proportional/pulse/off)
+      Log interval
+      Backlight brightness
+      ADC calibration (offset/scale)
+
+================================================================================

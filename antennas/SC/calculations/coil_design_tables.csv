@@ -1,0 +1,11 @@
+Band,Center_freq_MHz,L_required_uH,Xant_ohms,N_turns_active,Steps_from_home,Wheeler_L_actual_uH,Q_est,Rrad_ohms,Rcoil_ohms,Efficiency_pct,Zfeed_ohms,Notes
+10m,28.500,0.238,42.7,1.26,4673,0.2398,47.7,5.126,0.107,97.9,5.233,Near-full whip; wiper near bottom; highest efficiency
+12m,24.940,0.680,106.6,2.18,8087,0.6787,44.7,3.936,0.281,93.3,4.217,Very short loading; high efficiency; NMO mount works well
+15m,21.225,1.300,173.3,3.10,11501,1.3014,42.8,2.843,0.481,85.5,3.324,Moderate loading; good efficiency for mobile operation
+17m,18.118,2.210,251.1,4.16,15433,2.2117,40.2,2.073,0.739,73.7,2.812,Fixed tap (4T) nearly optimal for autotransformer match
+20m,14.175,4.210,374.8,6.01,22296,4.2034,36.7,1.270,1.171,52.0,2.441,Efficiency drops below 50%; typical for 20m mobile antenna
+30m,10.125,9.090,578.0,9.57,35514,9.0930,28.4,0.648,1.927,25.2,2.575,WARC band; low efficiency but usable with amplifier; 10W typical
+40m,7.150,19.240,864.0,15.54,57653,19.2391,21.8,0.323,3.086,9.5,3.409,Low efficiency; antenna acts mainly as dummy load at this band
+60m,5.330,35.330,1182.0,23.75,88113,35.3360,16.1,0.180,4.546,3.8,4.726,Very low efficiency; 5 channels only; 100W recommended to compensate
+80m,3.750,72.160,1698.0,41.00,152110,72.6792,10.6,0.089,7.075,1.2,7.164,Maximum coil position; efficiency below 2%; 100W yields ~1.2W radiated
+160m,1.900,282.500,3371.0,N/A,N/A,N/A,N/A,0.023,16.860,0.13,16.883,Requires add-on extension coil: ~90T wound on T200-2 toroid (~210uH); separate plug-in base coil module

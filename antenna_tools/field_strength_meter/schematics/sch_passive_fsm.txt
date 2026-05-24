@@ -1,0 +1,155 @@
+================================================================================
+SCHEMATIC: PASSIVE FIELD STRENGTH METER
+TM-FSM-PASSIVE  Rev A
+Germanium Diode Detector, Analog Meter Output
+Frequency Range: 100 kHz – 500 MHz (broadband, untuned)
+================================================================================
+
+OVERVIEW
+--------
+Passive (battery-free) field strength meter using a germanium point-contact
+diode to envelope-detect received RF. Output drives a 100 μA FSD moving-coil
+panel meter. Designed for relative field strength comparison at HF/VHF/UHF.
+No amplification; relies on probe antenna to develop sufficient voltage.
+Minimum detectable field (50 cm whip): approximately 0.5 mV/m at 7 MHz.
+
+COMPLETE SCHEMATIC
+------------------
+
+                   PROBE ANTENNA (J1)
+                         |
+             SMA/BNC 50Ω │ (or direct whip banana jack)
+                         │
+         +===SENSITIVITY===+
+         │   VR1           │
+         │   100kΩ LOG     │
+         │   (attenuator)  │
+         +-------+---------+
+                 │
+         +-------+--------+
+         │                │
+         │   L1 (optional)│ Series resonant trap (switchable per band)
+         │   BAND FILTER  │ Provides ~6 dB selectivity
+         │                │
+         +-------+--------+
+                 │
+                 │ RF INPUT NODE
+                 │
+         +-------+-------+
+         │               │
+        [C1]           [D1 1N34A]
+        100 pF          │   Cathode
+        RF bypass       │   │
+         │              │  [R1 100kΩ]  Load resistor
+         │              │   │
+         └──────────────+───+──── Vdet (DC after envelope)
+                                │
+                               [C2 10μF]  Integrator / ripple filter
+                                │
+                               [R2 10kΩ]  Series resistance to meter
+                                │
+                          +-----+-----+
+                          │  M1       │
+                          │  100 μA   │  Moving coil panel meter
+                          │  FSD      │  50–100 μA full scale
+                          └─────+─────+
+                                │
+                    +-----------+
+                    │
+                   [R3]         Zero set potentiometer
+                   [1kΩ]        (series with meter, set zero)
+                    │
+                   GND ═══════════════════════ CIRCUIT GND
+                                               (coax shield/BNC shell)
+
+METER SHUNT (if M1 is 50 μA FSD):
+    Add R_shunt across M1 to scale:
+    R_shunt = (V_det_max - V_meter_FSD) / I_meter_FSD
+    For Vdet_max ≈ 1V, I=50μA: R_shunt = 1V / 50μA = 20 kΩ
+    (Adjust R_shunt empirically for desired FSD level)
+
+
+OPTIONAL BAND-SWITCHED TUNED CIRCUIT
+--------------------------------------
+
+    Band switch S1 (1-pole 10-position rotary):
+
+        Position 1: 160M  L=10μH, C=560pF  (parallel LC trap)
+        Position 2: 80M   L=4.7μH, C=270pF
+        Position 3: 40M   L=2.2μH, C=150pF
+        Position 4: 30M   L=1μH, C=75pF
+        Position 5: 20M   L=560nH, C=47pF
+        Position 6: 15M   L=330nH, C=33pF
+        Position 7: 10M   L=220nH, C=20pF
+        Position 8: 6M    L=100nH, C=10pF
+        Position 9: 2M    L=33nH, C=5pF
+        Position 10: WIDE (bypass, all bands via broadband path)
+
+    Each position connects the probe to an LC parallel resonant circuit
+    tuned to band center. This provides bandpass selectivity (~6 dB/octave
+    rolloff), improving sensitivity to the desired band and rejecting
+    strong out-of-band signals that could saturate the detector.
+
+    LC values provide resonance: f = 1/(2π√LC)
+
+    Inductor construction (toroid for high Q):
+      160M: T-50-6, 31 turns #26 AWG ≈ 10 μH
+      80M:  T-37-6, 21 turns #26 AWG ≈ 4.7 μH
+      40M:  T-37-6, 15 turns #26 AWG ≈ 2.2 μH
+      20M:  T-37-6,  9 turns #26 AWG ≈ 560 nH
+      10M:  T-37-6,  6 turns #26 AWG ≈ 220 nH
+      2M:   T-25-6,  4 turns #28 AWG ≈ 33 nH (air coil acceptable)
+
+
+GERMANIUM DIODE DETECTOR NOTES
+---------------------------------
+
+    D1 = 1N34A (preferred) or 1N60, OA47, OA90, AAZ15
+         Germanium point-contact or Schottky (not silicon; Vf too high)
+         Forward voltage: ~0.2–0.3V at low current
+         Works at RF levels below 100 mVpp (silicon needs ~300 mVpp)
+
+    Detector output:
+      Vdet ≈ Vrf_peak - Vf_diode
+      For Vrf = 50 mV peak: Vdet ≈ 50 mV - 30 mV = 20 mV (weak signal)
+      For Vrf = 500 mV peak: Vdet ≈ 500 mV - 30 mV = 470 mV (strong)
+
+    NOTE: The detector is square-law (Vout ∝ Power) for very small
+    signals (Vrf < ~50 mV) and linear (Vout ∝ Vrf) for larger signals.
+    The meter scale is therefore nonlinear; calibration points are needed.
+
+
+SENSITIVITY / PROBE SELECTION
+--------------------------------
+
+    Probe type       Minimum detectable   Useful range
+    ----------       ------------------   ------------
+    50 cm whip       ~1 mV/m at 7 MHz     S5 signals
+    Dipole (λ/2)     ~0.1 mV/m at 7 MHz  S3 signals (connected)
+    Loop 10 cm       ~5 mV/m at 7 MHz     Near-field only
+    Small loop 2M+   ~0.1 mV/m at 145MHz  VHF near-field
+
+    To detect typical 100W station at 1 km distance on 40M:
+    Free-space E ≈ 5.5 V/m at 1 km from 100W dipole
+    Actual: much less (terrain, buildings); expect 0.1–1 V/m nearby
+
+
+PARTS LIST — PASSIVE FSM
+--------------------------
+
+  Ref    Value           Description
+  ---    -----           -----------
+  D1     1N34A           Germanium diode (point contact)
+  R1     100 kΩ, 1/4W    Detector load resistor
+  R2     10 kΩ, 1/4W     Series meter resistor
+  R3     1 kΩ trimmer    Zero set
+  C1     100 pF, 50V     RF bypass (NPO/C0G)
+  C2     10 μF, 16V      Integrating capacitor (electrolytic)
+  VR1    100 kΩ log      Sensitivity potentiometer
+  M1     100 μA FSD      Moving-coil panel meter (50–100 μA FSD)
+  L1-10  various         Tuned circuit inductors (see table above)
+  S1     1×10 rotary     Band switch
+  J1     SMA or BNC      Probe input connector
+  PCB    50×40 mm        Single-sided FR-4
+
+================================================================================

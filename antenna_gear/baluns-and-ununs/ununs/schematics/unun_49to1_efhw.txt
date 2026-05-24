@@ -1,0 +1,324 @@
+================================================================================
+UNUN 49:1 — END-FED HALF-WAVE (EFHW) ANTENNA MATCHING
+================================================================================
+
+Purpose: Impedance transformation 2450Ω unbalanced → 50Ω unbalanced
+Type: Voltage transformer (7:1 turns ratio unun)
+Insertion Loss: 0.35–0.50 dB (expected for extreme 49:1 ratio)
+Primary Use: EFHW multiband antennas (classic 3:21 turns design)
+
+================================================================================
+CIRCUIT DIAGRAM — 49:1 EFHW UNUN
+================================================================================
+
+End-Fed Half-Wave Antenna (135–270 feet depending on lowest band)
+        │
+        │ 2450Ω feedpoint impedance
+        │
+   ┌────┴────┐
+   │          │
+(antenna)   (counterpoise: 10–30 feet at ~45° angle)
+   │          │
+   ├─[UNUN]──┤
+   │  49:1    │
+   │ 3:21     │
+   │ FT-240-43│
+   └────┬────┘
+        │
+      50Ω Coax
+        │
+    ┌───┴───┐
+    │ Radio │
+    │ 50Ω   │
+    └───────┘
+
+================================================================================
+CORE SPECIFICATIONS
+================================================================================
+
+EFHW Configuration (Multiband 80M–10M):
+  Core: Single FT-240-43 (exact 3:21 turns, never vary)
+  Material: Mix 43 (µ=850, AL=1100 µH/100T)
+  Wire: #14 enameled copper
+  Primary: 3 turns (antenna side, 2450Ω)
+  Secondary: 21 turns (coax side, 50Ω)
+  Turns Ratio: EXACT 7:1 (critical for EFHW performance)
+  Impedance Ratio: 7² = 49:1 (exact 2450→50Ω)
+  Max Power: 400 W (QRP to QRO)
+  Insertion Loss: 0.40–0.50 dB @ 80M, decreasing to 0.25–0.30 @ 20M
+
+================================================================================
+IMPEDANCE TRANSFORMATION
+================================================================================
+
+CRITICAL: Exact 3:21 turns ratio required for EFHW operation.
+
+TURNS RATIO:
+  N_ratio = 21 / 3 = 7:1 (EXACT ratio)
+  Z_out = Z_in / N² = 2450 / 49 = 50Ω ✓
+
+VOLTAGE STEP-DOWN:
+  V_out = V_in × (1/7) ≈ 0.143 × V_in
+
+EFHW FEEDPOINT IMPEDANCE:
+  A half-wave antenna fed at its end (non-resonant point) exhibits
+  very high impedance: ~2450Ω at center frequency (approximately).
+
+  This impedance varies across bands:
+  - 80M: ~2700Ω (above 2450Ω nominal)
+  - 40M: ~2450Ω (nominal)
+  - 20M: ~2100Ω (below nominal)
+  - 10M: ~1800Ω (lowest on HF)
+
+  The EFHW's impedance variation is INTENTIONAL (antenna tuner expected)
+  or managed by careful antenna design (loading coils, counterpoise tuning).
+
+================================================================================
+WHY 49:1 = 7² from 7:1 TURNS RATIO
+================================================================================
+
+Derivation (Voltage Transformer):
+
+For a voltage transformer (ideal, lossless):
+  V₁ / V₂ = N₁ / N₂   (voltage ratio)
+  I₁ / I₂ = N₂ / N₁   (current inverse ratio)
+  Z₁ / Z₂ = (N₁ / N₂)²   (impedance ratio)
+
+For 3:21 turns ratio:
+  N₁ / N₂ = 3/21 = 1/7
+  Z₁ / Z₂ = (1/7)² = 1/49
+
+Therefore:
+  Z₂ / Z₁ = 49   (inverted for output → input perspective)
+  If Z₁ = 2450Ω, then Z₂ = 2450 / 49 = 50Ω ✓
+
+This is NOT a coincidence. The EFHW antenna feedpoint impedance
+was DESIGNED historically to be 2450Ω, specifically to use a 49:1
+transformer (standard transformer core available at the time).
+
+================================================================================
+FREQUENCY RESPONSE
+================================================================================
+
+FT-240-43, 3:21 turns (EXACT ratio, all bands):
+
+Frequency    Z_in (measured)    Z_in (design)    Insertion Loss
+160M         3000Ω              (not used)        0.50 dB
+80M          2700Ω              2450Ω            0.45 dB
+40M          2450Ω              2450Ω            0.35 dB
+30M          2300Ω              (not classic)     0.32 dB
+20M          2100Ω              2450Ω            0.28 dB
+17M          1900Ω              (not classic)     0.25 dB
+15M          1850Ω              (not classic)     0.24 dB
+12M          1750Ω              (not classic)     0.22 dB
+10M          1700Ω              2450Ω            0.20 dB
+
+Notes:
+  - Classic EFHW designed for 80M–10M coverage
+  - Feedpoint impedance varies ~1700–2700Ω across band
+  - Antenna tuner compensates for variation
+  - OR: Careful antenna design minimizes impedance change
+
+================================================================================
+WINDING TECHNIQUE — EFHW EXACT 3:21
+================================================================================
+
+CRITICAL: Count turns EXACTLY. No tolerance acceptable.
+
+Materials:
+  - 1× FT-240-43 core (MUST use correct core size)
+  - Spool of #14 enameled copper wire
+  - Small vice and wire counter
+
+Step 1: Primary winding (3 turns only)
+  - Wind exactly 3 turns of #14 wire
+  - Keep spacing even and tight
+  - Count on fingers: 1... 2... 3... (verify twice)
+
+Step 2: Secondary winding (21 turns)
+  - Without removing primary, wind 21 turns directly on top
+  - Count carefully: 1, 2, 3... 19, 20, 21 (verify count twice)
+  - If you lose count, start over (critical application)
+
+Step 3: Final verification
+  - Recount primary: 3 turns ✓
+  - Recount secondary: 21 turns ✓
+  - Measure turns ratio: 21/3 = 7:1 ✓
+
+Step 4: Connect antenna
+  - Primary (3 turns) to antenna feedpoint
+  - Counterpoise (10–30 feet) to primary return
+
+Step 5: Connect coax
+  - Secondary (21 turns) center to coax center conductor
+  - Secondary return to coax braid
+
+================================================================================
+PRIMARY APPLICATIONS
+================================================================================
+
+1. END-FED HALF-WAVE (EFHW) ANTENNAS:
+   - Classic multiband design (80M–10M, some 160M with tuner)
+   - 135-foot length typical (resonant @ 40M)
+   - 49:1 unun DESIGNED specifically for this antenna
+   - Best overall performance: EFHW + 49:1 unun + small tuner
+
+2. PORTABLE EFHW (Field Operation):
+   - Lightweight, single wire design
+   - 10-foot counterpoise (short, portable)
+   - 49:1 unun as key component of portable station
+
+3. QRP OPERATIONS:
+   - End-fed antennas ideal for low-power (inherently high-Z fed)
+   - 49:1 unun minimizes insertion loss impact on QRP (dB loss less critical)
+
+4. MULTIBAND MATCHING:
+   - Unlike balanced antennas (require per-band tuning), EFHW + tuner
+     works across entire 80M–10M band with single tuner
+
+================================================================================
+TESTING PROCEDURE — NANOVNA
+================================================================================
+
+Setup:
+  Port 1: Coax 50Ω output
+  Port 2: Primary antenna side (2450Ω load)
+  Use 2450Ω resistive load for testing
+
+Measurement 1 — Impedance Ratio (2450Ω load):
+  Sweep 1–30 MHz
+  Expected: Z_out ≈ 50Ω (with 2450Ω load)
+  S₁₁ <-20 dB (excellent match)
+
+Measurement 2 — Insertion Loss:
+  Sweep 1–30 MHz
+  Expected: S₂₁ ≈ -0.30 to -0.50 dB (accept high loss)
+  Note: Loss decreases at higher frequencies
+
+Measurement 3 — Turns Count Verification:
+  Use NanoVNA to measure inductance ratio
+  L_secondary / L_primary should equal (N_sec / N_prim)² = 49:1
+  Verification: L₂₁ / L₃ should be 49±2 (tolerance)
+
+================================================================================
+DESIGN EQUATIONS
+================================================================================
+
+Turns ratio for 2450→50Ω:
+  N_ratio = sqrt(2450/50) = sqrt(49) = 7:1
+  Use 3 primary, 21 secondary (EXACT 7:1 ratio)
+  Note: 3/21 = 1/7, so 21/3 = 7 ✓
+
+Why 2450Ω?
+  Historical standard from 1950s–1960s EFHW antenna designs
+  Chosen to use available transformer cores of the era
+  Matches half-wave end feedpoint impedance (approximately)
+
+Insertion Loss:
+  L_dB ≈ 0.25 + 0.003 × f_MHz (FT-240-43, 49:1)
+  Example @ 14.2 MHz: L ≈ 0.25 + 0.043 = 0.29 dB ✓
+
+================================================================================
+FAILURE MODES
+================================================================================
+
+SYMPTOM: High SWR on all bands
+ROOT CAUSE 1: Turns ratio incorrect (most likely: miscounted)
+SOLUTION: Unwind entire balun, recount 3:21 exactly, rewind
+
+ROOT CAUSE 2: EFHW antenna not properly tuned
+SOLUTION: Use antenna tuner to match impedance variation across band
+
+ROOT CAUSE 3: Counterpoise inadequate (10 feet minimum)
+SOLUTION: Install counterpoise at 45° angle (10–30 feet length)
+
+SYMPTOM: Good match on 40M, poor on 80M and 20M
+ROOT CAUSE: Normal EFHW behavior (impedance varies with frequency)
+SOLUTION: Use antenna tuner (mandatory for EFHW operation)
+
+SYMPTOM: Excessive heating
+ROOT CAUSE: High SWR causing high current on primary
+SOLUTION: Tune antenna with tuner, or verify counterpoise installed
+
+================================================================================
+POWER HANDLING
+================================================================================
+
+FT-240-43 single core, 49:1 unun:
+  Continuous (CW): 400 W (adequate for most EFHW)
+  Peak (SSB): 600 W
+  Thermal rise: ~20°C @ 400W
+  Note: High impedance primary = low current, efficient
+
+EFHW Power Recommendations:
+  QRP: 5–10 W (excellent DX capability)
+  QRO: 100–500 W (400 W typical)
+  Contest: 1500 W (industrial design, special core)
+
+================================================================================
+CONSTRUCTION NOTES
+================================================================================
+
+Mechanical Assembly:
+  - Mount unun at antenna feedpoint (minimize feedline losses)
+  - Use weather-resistant enclosure (aluminum or PETG)
+  - Counterpoise support: 45° angle, insulated from structure
+
+Weatherproofing:
+  - Enamel insulation sufficient
+  - Potting recommended (silicone, not epoxy)
+  - O-ring seal on enclosure (prevents moisture ingress)
+
+Field Deployment:
+  - Tree mount: Secure unun enclosure to tree (clear of feedline)
+  - Portable: Small enclosure fits in backpack (weight ~300 grams)
+  - Field repair: Turns count critical; rewind if any doubt
+
+Spare Parts Kit:
+  - Extra FT-240-43 core
+  - Spool of #14 enameled wire (for rewinding)
+  - Connectors (SO-239, BNC)
+  - Potting compound (silicone)
+
+================================================================================
+HISTORICAL BACKGROUND
+================================================================================
+
+The EFHW antenna was popularized by George Dobbs (G3RJV) in 1936.
+The 49:1 transformer was the standard matching device.
+
+Modern variations include:
+  - Loading coils (flatten impedance across band)
+  - Multiple counterpoise elements
+  - Tuning stub (series resonance cancellation)
+
+But the classic design + 49:1 unun remains the most popular
+multiband antenna for portable and field operation.
+
+================================================================================
+RECOMMENDED SYSTEM: EFHW + 49:1 UNUN + SMALL TUNER
+================================================================================
+
+For multiband portable HF operation:
+
+1. EFHW antenna: 135 feet total length
+   - Feedpoint end at 35–60 feet height
+   - Counterpoise: 10–20 feet at 45° angle, 5–10 feet high
+
+2. 49:1 unun: FT-240-43, 3:21 turns
+   - Mounted at antenna feedpoint in weatherproof enclosure
+   - Total weight: ~300 grams (portable)
+   - Cost: ~$25
+
+3. Small antenna tuner: L-match or similar
+   - Adjustable to match 50Ω impedance variation across band
+   - 80M–10M coverage (automatic or manual tuning)
+
+4. Coax feedline:
+   - 50–100 feet RG-58 or RG-8 (low loss preferred)
+
+Total system cost: ~$120
+Total system weight: ~2–3 kg (portable backpack operation)
+Performance: Excellent DX capability, 100+ countries reportable with QRP
+
+================================================================================

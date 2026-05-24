@@ -1,0 +1,193 @@
+================================================================================
+  FREQUENCY COUNTER                                       TM-CAL-SCH-002 Rev A
+  GPS-Gated, 1 Hz – 500 MHz
+================================================================================
+
+PERFORMANCE
+-----------
+Direct measurement:     1 Hz – 40 MHz  (ESP32 PCNT, no prescaler)
+With ÷10 prescaler:     10 MHz – 400 MHz  (74HC390)
+With ÷100 prescaler:    100 MHz – 500 MHz  (74HC390 ×2 stages cascaded)
+Gate time:              1 s (GPS 1PPS) or 10 s (GPS 10PPS count)
+Resolution (1s gate):   1 Hz absolute; 0.1 ppm at 10 MHz
+Resolution (10s gate):  0.1 Hz absolute; 0.01 ppm at 10 MHz
+Input impedance:        1 MΩ // 20 pF (through buffer; 50Ω switch optional)
+Input sensitivity:      >50 mVpp (>100 mVpp above 100 MHz)
+Input connector:        BNC(F) panel mount
+Input protection:       ±30V DC max, TVS + series 100Ω
+
+================================================================================
+  BLOCK DIAGRAM
+================================================================================
+
+  INPUT
+  BNC(F) ──[TVS]──[100Ω]──[74ACT14 Schmitt]──┬──[PCNT GPIO32]  (direct ≤40M)
+  signal                   trigger            │
+                                              ├──[÷2: 74HC390 stage A]──[GPIO33] (÷2 mode)
+                                              └──[÷10: 74HC390 A+B]───[GPIO35] (÷10 mode)
+
+  MODE SELECT:
+  ESP32 GPIO25 → RELAY_K1 (connects direct / ÷10 path to PCNT input via reed relay)
+  or use software: count on correct GPIO based on selected range
+
+  GATE:
+  NEO-M8N 1PPS ──[GPIO34] → ESP32 hardware interrupt → arm/disarm PCNT
+
+  DISPLAY:
+  ESP32 → I2C OLED (SSD1306, 128×64) or BT to CYD display
+
+================================================================================
+  SCHEMATIC — INPUT CONDITIONING
+================================================================================
+
+  INPUT PROTECTION & LEVEL ADJUSTMENT:
+  ─────────────────────────────────────
+  BNC J1 ──── node_IN
+  node_IN ──[TVS1: SMAJ5.0A bilateral]── GND   (protects against overvoltage)
+  node_IN ──[R1: 100Ω]── node_A
+  node_A  ──[C1: 10 pF NP0]── GND   (HF bypass, limits BW to ~500 MHz)
+  node_A  ──[R2: 1 MΩ]── GND   (input impedance to GND)
+
+  RANGE SWITCH (SPDT toggle or relay):
+  Position DIRECT (≤40 MHz):
+    node_A ── INV1 (74ACT14 Schmitt, VCC=3.3V)
+    INV1 OUT ── INV2 (restore polarity) ── GPIO32
+
+  Position DIV10 (40–400 MHz):
+    node_A ──[INV1]── 74HC390 CLK_A
+    74HC390:
+      QA (÷2) ── CLK_B      (cascaded for ÷4 or use ÷5 for ÷10 total)
+      74HC390 QD (÷10 output) ──[INV]── GPIO32
+    Note: 74HC390 = dual BCD decade counter; configure ÷10 per datasheet:
+      Stage A: CLK_A to pin 1; ÷2 output QA to CLK_B pin 10; ÷5 output = QB/QC/QD
+      Stage B: optional second decade for ÷100
+
+  74ACT14 (Schmitt trigger hex inverter, 74ACT for fast edges):
+  VCC = 3.3V; GND; Decoupling: 100nF NP0 close to VCC pin.
+  74ACT14 input threshold: ~0.8V (typ); switches cleanly from 50–500 mVpp signals.
+  74ACT14 max input frequency: specified to 125 MHz at 3.3V — use 74AC04 above 100M.
+
+  ATTENUATOR OPTION (strong signals):
+  Add 10 dB SMA inline attenuator between antenna and BNC for signals >1 Vpp.
+
+================================================================================
+  SCHEMATIC — 74HC390 PRESCALER
+================================================================================
+
+  74HC390 (TSSOP-16 or DIP-16):
+
+  Pin connections for ÷10 operation:
+  ────────────────────────────────────
+  Pin  1  (1CLK_A) ← input signal (from 74ACT14 output)
+  Pin  2  (1CLR)   → GND  (active high clear; hold low)
+  Pin  3  (1QA)    → Pin 10 (2CLK_A) of same IC  [÷2 → ÷5 chain = ÷10]
+                  also → Pin 10 (1CLK_B) for internal cascade
+  Pin  4  (1QB)    ─ (not used in ÷10 mode)
+  Pin  5  (1QC)    ─ (not used in ÷10 mode)
+  Pin  6  (1QD)    → ESP32 GPIO32 (this is the ÷10 output, or ÷2 intermediate)
+  Pin  7  (GND)    → GND
+  Pin  8  (2QD)    → ESP32 GPIO33 (second decade output, ÷100 if needed)
+  Pin  9  (2QC)    ─
+  Pin 10  (2QB)    ─
+  Pin 11  (2QA)    ─
+  Pin 12  (2CLR)   → GND
+  Pin 13  (2CLK_B) ← (connected per ÷10 config for 2nd stage)
+  Pin 14  (2CLK_A) ← 1QA (internal cascade for ÷100 = two ÷10 stages)
+  Pin 16  (VCC)    ← 3V3
+  (All unused outputs have 1kΩ pull-down to GND to prevent oscillation)
+
+  74HC390 max clock: 60 MHz at 3.3V (54 MHz guaranteed); use 74AC390 for >100M.
+
+================================================================================
+  SCHEMATIC — ESP32 PCNT PERIPHERAL
+================================================================================
+
+  ESP32 PCNT (Pulse Counter):
+  ───────────────────────────
+  PCNT unit 0: count input = GPIO32 (direct or prescaled)
+  PCNT positive edge count, threshold interrupt at overflow (±32767)
+
+  Overflow ISR increments 32-bit accumulator g_overflow_count.
+  Total count = g_overflow_count × 32768 + PCNT_UNIT0->cnt_val
+
+  Gate via GPS 1PPS ISR:
+    PPS rising edge: clear PCNT, start accumulator, arm gate timer
+    Next PPS rising edge: latch count, disarm gate
+
+  For 10-second gate: count 10 PPS intervals before latching.
+
+  Maximum direct count: 10 MHz × 10 s = 100,000,000 (requires 32-bit accumulator)
+  Prescaler ÷10, 400 MHz input, 10s gate: 400,000,000 × 10 / 10 = 400,000,000 counts.
+  All within 32-bit (max 4,294,967,295).
+
+  MEASURED FREQUENCY CALCULATION:
+    Direct mode (1s gate):    f_Hz = total_count
+    Direct mode (10s gate):   f_Hz = total_count / 10
+    ÷10 mode (1s gate):       f_Hz = total_count × 10
+    ÷100 mode (1s gate):      f_Hz = total_count × 100
+
+================================================================================
+  SCHEMATIC — OLED DISPLAY (OPTIONAL LOCAL DISPLAY)
+================================================================================
+
+  SSD1306 128×64 OLED, I2C:
+  VCC  ← 3V3
+  GND  ← GND
+  SDA  ← ESP32 GPIO21  (shared with Si5351A)
+  SCL  ← ESP32 GPIO22  (shared with Si5351A)
+  I2C address: 0x3C or 0x3D (jumper)
+
+  Display layout:
+  ┌──────────────────────────────┐
+  │ FREQ COUNTER   GPSDO  LOCKED│
+  │                             │
+  │     14.225 000 kHz          │
+  │                             │
+  │ Range: DIRECT  Gate: 10s    │
+  │ Last: 14.225 001  Δ: +1 Hz  │
+  └──────────────────────────────┘
+
+================================================================================
+  BILL OF MATERIALS
+================================================================================
+
+  Ref        Part                           Value/PN               Qty  ~Cost
+  ─────────────────────────────────────────────────────────────────────────────
+  J1         BNC(F) panel mount             counter input           1   $1.50
+  U1         74ACT14                        Schmitt hex inv         1   $0.60
+  U2         74HC390 (or 74AC390)           dual decade counter     1   $0.80
+  TVS1       SMAJ5.0A (or SMAJ5.0CA)       bilateral TVS           1   $0.30
+  R1         100 Ω                          input series protect     1   $0.05
+  R2         1 MΩ                           input termination       1   $0.05
+  C1         10 pF NP0                      input HF bypass         1   $0.05
+  C2–C3      100 nF NP0                     IC decoupling           2   $0.10
+  DSP1       SSD1306 OLED 128×64            I2C display (option)    1   $3
+  SW1        SPDT toggle                    direct/prescale         1   $1
+  ─────────────────────────────────────────────────────────────────────────────
+  NOTE: ESP32 and GPS module shared with GPSDO board (not duplicated here)
+  Counter function integrated into esp32_cal_master firmware.
+  ADDITIONAL TOTAL:                                                    ~$7.50
+
+================================================================================
+  MEASUREMENT CHECKLIST
+================================================================================
+
+  Before measurement:
+  [ ] GPS locked (LED solid green; LOCK LED solid blue)
+  [ ] Select range: DIRECT for f < 40 MHz; DIV10 for 40–400 MHz
+  [ ] Select gate: 1s for fast readings; 10s for 0.01 ppm resolution
+  [ ] Allow DUT oscillator 5 minutes warm-up before critical calibration
+
+  During measurement:
+  [ ] Apply signal ≥100 mVpp (use test lead with 50Ω termination for coax source)
+  [ ] Verify count display updates each gate interval
+  [ ] Record last 3 readings; reject if any differ by >5 Hz (instability in DUT)
+
+  Calibration pass criteria:
+  [ ] NanoVNA reference oscillator: within ±5 ppm (factory spec is ±10 ppm)
+  [ ] TinySA internal oscillator: within ±2 ppm after self-cal
+  [ ] SDR dongle TCXO: measure; record correction in ppm for software
+
+================================================================================
+  END OF TM-CAL-SCH-002
+================================================================================

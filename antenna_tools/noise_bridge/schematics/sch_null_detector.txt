@@ -1,0 +1,191 @@
+================================================================================
+SCHEMATIC: NULL DETECTOR WITH AUDIO AMPLIFIER
+TM-NB-NULLDET  Rev A
+Sensitivity: < -60 dBm (usable null indication)
+Audio output: 8-32 ohm headphones or speaker
+================================================================================
+
+TWO DETECTOR MODES:
+  MODE A: External receiver/transceiver (recommended for best sensitivity)
+  MODE B: Built-in audio detector (standalone, no receiver needed)
+  MODE C: AD8307 logarithmic detector (for digital readout, CYD display)
+
+
+================================================================================
+MODE A: EXTERNAL RECEIVER CONNECTION
+================================================================================
+
+The simplest null detector is a communications receiver or SDR tuned to a
+frequency within the noise band. Connect J_DET (BNC) on bridge to antenna
+input of receiver. Set receiver to AM mode (SSB also works).
+
+PROCEDURE:
+  1. Tune receiver to desired frequency (e.g., 14.200 MHz for 20M check).
+  2. Enable noise source. S-meter should show S3-S7 noise.
+  3. Adjust R_cal and X_cal until S-meter reads minimum (null).
+  4. Read R and X values.
+
+ADVANTAGES: Best sensitivity (receiver NF = 15-20 dB typical).
+            Frequency-selective (ignores other noise sources).
+DISADVANTAGES: Requires separate receiver. Cannot use transceiver in TX mode.
+
+
+================================================================================
+MODE B: BUILT-IN AUDIO DETECTOR
+================================================================================
+
+FULL SCHEMATIC:
+
+ BRIDGE DETECTOR PORT (J_DET, BNC)
+          |
+         R1 (51 ohm, 1%)  <-- input matching
+          |
+         C1 (100pF NP0)   <-- DC block
+          |
+   +------+------+
+   |      U1     |
+   |  [ERA-3SM]  |    <-- MMIC preamplifier (20dB gain, NF=7dB)
+   |  or MAR-6SM |        Bias: same as noise generator section
+   +------+------+
+          |
+         C2 (100pF NP0)   <-- DC block
+          |
+         D1 (1N60 or BAT54A)  <-- envelope detector diode
+          |   (anode to signal, cathode to filter)
+         C3 (10nF)             <-- detector filter (RC with R3)
+         R3 (10k, 1/4W)        <-- detector load
+          |
+         C4 (10uF/16V, ELCO)  <-- audio coupling
+          |
+         VR2 (10k log taper audio pot)  <-- volume control
+          |
+   +------+------+
+   |      U2     |
+   |   LM386-N4  |    <-- audio amplifier (1W, DIP8)
+   |  20x gain   |
+   +------+------+
+          |
+         R5 (10 ohm, 1W)   <-- speaker current limiter (for 8 ohm speaker)
+         C5 (220uF/25V)     <-- output coupling cap
+          |
+         J5 (3.5mm stereo TRS)  <-- headphone output
+
+
+LM386 FULL CIRCUIT:
+   VCC (+9V)
+    |
+    +----- pin 6 (V+)
+    |
+   C6 (100uF/16V from pin 6 to GND)  <-- bypass
+   C7 (10uF from pin 7 BYPASS to GND)  <-- extra ripple rejection
+
+   Input from VR2 wiper: pin 3 (+input)
+   pin 2 (-input): to GND
+   pins 1,8: open (20x gain default) or 10uF cap between pins 1 and 8 (200x gain)
+   pin 5 (output): via C5 to headphone jack
+
+   NOTE: LM386 is susceptible to RF oscillation. Install:
+     - 10 ohm + 0.047uF series RC from pin 5 to GND (Zobel network)
+     - Do not route pin 5 or output traces near input traces
+     - Shield LM386 section from RF stages if PCB area permits
+
+GAIN SELECTION (pins 1 and 8 of LM386):
+  Pins open:        20x gain = 26 dB
+  10uF cap across:  200x gain = 46 dB
+
+  Use 20x gain for initial setup. If headphones are quiet, add cap for 200x.
+  Too much gain causes instability -- verify layout first.
+
+
+NULL DETECTION PROCEDURE (MODE B):
+  1. Enable noise source. Hiss audible in headphones.
+  2. Adjust R_cal (R pot): hiss changes character as R changes.
+  3. Adjust X_cal (C or L): hiss changes as reactance changes.
+  4. At null: hiss drops noticeably (10-20 dB drop is typical for a good null).
+  5. Vary R slowly, then X, iterating until minimum hiss found.
+  6. The null is not always complete (bridge asymmetry, leakage) --
+     find the deepest minimum achievable, then read R and X.
+
+SENSITIVITY:
+  System noise floor (with MMIC preamp):
+    N_in = kTB at 25C, B = 1 Hz: N_in = -174 dBm/Hz
+    After MMIC (G=20dB, NF=7dB): N_out = -174 + 20 + 7 = -147 dBm/Hz
+    In 10 kHz audio bandwidth: N_floor = -147 + 40 = -107 dBm
+  Noise generator output at bridge null port: -40 to -60 dBm (good balance)
+  Signal well above noise floor: null detection feasible without receiver.
+
+HEADPHONE IMPEDANCE:
+  LM386-N4 rated for 8 ohm minimum load at 1W supply voltage.
+  Compatible with: 8 ohm, 16 ohm, 32 ohm headphones.
+  Do not connect 600 ohm headphones directly: use 47 ohm series resistor.
+
+
+================================================================================
+MODE C: AD8307 LOG DETECTOR (for CYD/ESP32 digital readout)
+================================================================================
+
+SCHEMATIC:
+
+ BRIDGE DETECTOR PORT
+          |
+         R7 (52.3 ohm, 1%)  <-- input matching (52.3 || 52.3 = 26 ohm... )
+          |                      Actually: AD8307 input Z = 1.1k || 1.4pF
+          |                      Match with 52.3R shunt to GND at input pin
+         C8 (47pF NP0)      <-- RF coupling to AD8307
+          |
+         AD8307 pin 8 (INP)
+         AD8307 pin 1 (INM) ---- GND (for single-ended input)
+          |
+         AD8307 pin 4 (ENB) ---- 5V (enable, active HIGH)
+         AD8307 pin 7 (VPOS)---- 5V (supply)
+         AD8307 pin 2 (GND) ---- GND
+         AD8307 pin 6 (VOUT)---- R8 (1k) ---- ESP32 GPIO34 (ADC1_CH6)
+                                            |
+                                           C9 (100nF)  <-- ADC low-pass filter
+                                            |
+                                           GND
+
+AD8307 CHARACTERISTICS:
+  Input range:  -75 dBm to +17 dBm (dynamic range: 92 dB)
+  Frequency:    DC to 500 MHz (-3 dB)
+  Output slope: 25 mV/dB
+  Output at -75 dBm: ~ 0.25V
+  Output at +17 dBm: ~ 2.55V (within ESP32 3.3V ADC range with 3.3V Vdd)
+
+  IMPORTANT: Use 5V for VPOS if available. If 3.3V used:
+    Output swing is reduced. Check datasheet for 3.3V operation.
+    Preferred: AD8307 at 5V with 3.3V Zener clamp on VOUT.
+
+READING POWER FROM AD8307:
+  V_out = 0.025 * (P_dBm + 84)    [V, for 5V supply, 25C]
+  P_dBm = (V_out / 0.025) - 84    [dBm]
+  P_watts = 10^((P_dBm - 30) / 10) / 50   [watts into 50 ohm]
+
+  Null condition: minimum V_out reading.
+  Null depth: the difference in dBm between off-null and null.
+  Typical null depth for good bridge: 20-35 dB minimum.
+  Excellent null: 40+ dB.
+
+PARTS LIST — BUILT-IN NULL DETECTOR
+=====================================
+  Qty  Ref    Value/Part#          Description
+  ---  -----  ------------------   ----------------------------------------
+   1   U1     ERA-3SM or MAR-6SM   MMIC preamplifier
+   1   U2     LM386-N4             Audio amplifier, DIP-8
+   1   U3     AD8307               Log detector IC, SOIC-8 (if digital out)
+   1   D1     BAT54A (SOD-123)     Schottky envelope detector
+   1   VR2    10k log audio pot    Volume control
+   1   R1     51R 1% 1/4W          Input matching
+   1   R3     10k 1/4W 5%          Detector load
+   2   R4,R5  10R 1W               Zobel + speaker limiter
+   1   R7     52.3R 1% 0805        AD8307 input matching
+   1   R8     1k 1% 0805           AD8307 output filter
+   3   C1-C3  100pF NP0 0805       RF bypass/coupling
+   1   C4     10uF/16V             Audio coupling
+   1   C5     220uF/16V            Output coupling
+   2   C6,C7  100uF/16V            LM386 decoupling
+   1   C8     47pF NP0 0402        AD8307 RF input
+   1   C9     100nF 0402            ADC filter
+   1   J5     3.5mm TRS stereo     Headphone jack
+
+================================================================================

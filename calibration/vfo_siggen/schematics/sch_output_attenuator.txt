@@ -1,0 +1,263 @@
+================================================================================
+SCHEMATIC: CALIBRATED OUTPUT ATTENUATOR AND LEVEL CONTROL
+TM-SG-001  Rev A
+−73 dBm to +13 dBm calibrated output; stepped π-attenuator; 50Ω
+AM/FM/CW level modulation path; AD8307 power monitor
+================================================================================
+
+OVERVIEW
+--------
+The output level control chain provides calibrated signal output from
+−73 dBm to +13 dBm in 1 dB steps using a combination of:
+
+  1. Synthesizer output: +0 to +5 dBm (ADF4351) or ~−3 dBm (DDS/Si5351)
+  2. Post-synthesizer amplifier: 0 to +13 dBm (ERA-3SM or GALI-39+)
+  3. Switched π-attenuator bank: 0, −10, −20, −40 dB steps
+  4. Fine attenuator (resistive DAC or DS1803 digital pot): 0 to −20 dB continuous
+
+Total range: +13 dBm − (0+10+20+40 dB) = +13 − 70 = −57 dBm (switched only)
+With fine attenuator: −57 − 20 = −77 dBm.
+Specified range: −73 dBm to +13 dBm. (86 dB total range.)
+
+LEVEL CONTROL BLOCK DIAGRAM:
+  Synthesizer output
+       │
+  [ERA-3SM amplifier, +13 dBm P1dB]  ←── optional; bypassed for raw synth output
+       │
+  [K_byp relay: amplifier in/out]
+       │
+  [π-att 10 dB: K1]──[π-att 20 dB: K2]──[π-att 40 dB: K3]
+       │
+  [Fine attenuator: 0–20 dB continuous, RF DAC]
+       │
+  [AD8307 directional coupler tap: −20 dB sample]
+       │
+  [SMA: SIGOUT, 50Ω]
+
+Total attenuation control: 0 to 70 dB switched + 20 dB fine = 90 dB
+Combined with amplifier +13 dBm: output range −77 dBm to +13 dBm.
+
+
+================================================================================
+AMPLIFIER STAGE — ERA-3SM OR GALI-39+
+================================================================================
+
+ERA-3SM (Mini-Circuits, DC-3 GHz, gain 21.5 dB, P1dB = +13 dBm):
+  Gain: 21.5 dB at 100 MHz; 20.0 dB at 1 GHz
+  P1dB: +13 dBm
+  OIP3: +25 dBm
+  NF: 4.8 dB
+  Supply: 3.1–5V bias via 270Ω bias resistor from 5V
+
+GALI-39+ (Mini-Circuits, DC-2 GHz, gain 14.5 dB, P1dB = +16 dBm):
+  Gain: 14.5 dB; better high-frequency performance than ERA-3
+  Use GALI-39+ for 1.25M/70cm/33cm/23cm bands.
+
+ERA-3SM BIASING SCHEMATIC:
+  5V ── [R_bias: 270Ω, ¼W] ── ERA-3SM pin 4 (output/VCC)
+                                      │
+                               [C_out: 100nF] ── output node
+                                      │
+                            [ERA-3SM: RF in/out]
+                                      │
+  Input: [C_in: 100nF] ── ERA-3SM pin 1 (input)
+         (Input and output ports are AC-coupled; internal 50Ω matched)
+
+  ERA-3SM current: (5V − 3.3V) / 270Ω ≈ 6.3 mA @ 5V supply.
+  Replace 270Ω with 150Ω for 5V: (5−3.3)/150 = 11 mA → check dissipation.
+
+BYPASS RELAY (amplifier in/out of signal path):
+  K_byp (DPDT relay):
+    Position 1 (amp IN):  Signal → ERA-3SM → attenuator
+    Position 2 (amp OUT): Signal → straight through (synthesizer direct)
+  Use when synthesizer output level is adequate (DDS ≈ 0 dBm; no boost needed).
+
+SCHEMATIC:
+  SYN_OUT ─┬─[through path]─────────────────────────────────────────────── K_byp-1
+            └─[C_in: 100nF]─[ERA-3SM]─[R_bias: 270Ω from 5V]─[C_out: 100nF]─ K_byp-2
+  K_byp output ─── attenuator input
+
+
+================================================================================
+SWITCHED π-ATTENUATOR BANK
+================================================================================
+
+THEORY:
+A π-attenuator maintains 50Ω impedance on input and output while providing
+precise attenuation.  The relay bypasses each section for the "0 dB" state.
+
+π-ATTENUATOR DESIGN EQUATIONS (Z0 = 50Ω):
+  For attenuation A dB:
+    K = 10^(A/20)
+    R_series = Z0 × (K² − 1) / (2K)
+    R_shunt  = Z0 × (K + 1) / (K − 1)
+
+  Values (50Ω):
+    A=10dB: K=3.162; R_series=35.14Ω (use 35Ω + 2.2Ω trim); R_shunt=96.25Ω (use 100Ω − 3.3Ω)
+    A=20dB: K=10.00; R_series=40.91Ω (use 39Ω + 2.2Ω); R_shunt=61.11Ω (use 62Ω)
+    A=40dB: K=100.0; R_series=49.50Ω (use 51Ω); R_shunt=50.51Ω (use 51Ω)
+
+  Use 1% resistors. For frequencies > 300 MHz, use 0402 SMD resistors only
+  (lead inductance of through-hole resistors degrades performance at VHF/UHF).
+
+ATTENUATOR SECTION SCHEMATICS:
+
+10 dB π-ATTENUATOR (bypassed by relay K1):
+
+  IN ──[K1a]──────────────────────────────────────────── OUT
+        │        (bypass)
+        ├──────────────────────────────────────────────┤
+              (attenuated path when K1 releases):
+  IN ─[R_sh1: 100Ω]──[R_s: 35Ω]──[R_sh2: 100Ω]─ OUT
+       to GND                         to GND
+
+  Full relay schematic (SPDT):
+  K1 common ─── input signal
+  K1 NO (relay off = bypass) ─── output (bypass path)
+  K1 NC (relay on = attenuation) ─── π-network input
+
+  Implement with DPDT relay for input and output switching (no stubs):
+  K1-pole1: routes input to bypass OR to π-input
+  K1-pole2: routes π-output OR bypass to attenuator output
+
+20 dB π-ATTENUATOR:
+  R_shunt = 61Ω (use 62Ω 1%); R_series = 41Ω (use 39Ω + 2.2Ω 1% in series)
+
+40 dB π-ATTENUATOR:
+  R_shunt = 51Ω; R_series = 51Ω (both)
+
+FULL SWITCHED ATTENUATOR STRING:
+  IN ─[K1: ±10dB]─[K2: ±20dB]─[K3: ±40dB]─ OUT
+
+  Maximum attenuation: 70 dB (all three in line)
+  Minimum attenuation: 0 dB (all bypassed)
+  Steps: 0, 10, 20, 30, 40, 50, 60, 70 dB (8 combinations of 3 relays)
+
+RELAY CONTROL (ESP32):
+  ESP32 GPIO27 ── [MOSFET: 2N7002; gate] ── [K1 coil] ── 5V
+  ESP32 GPIO26 ── [MOSFET] ── [K2 coil] ── 5V
+  ESP32 GPIO25 ── [MOSFET] ── [K3 coil] ── 5V
+  ESP32 GPIO33 ── [MOSFET] ── [K_byp coil] ── 5V
+  Each MOSFET has [D1: 1N4148 flyback] across relay coil.
+
+
+================================================================================
+FINE ATTENUATOR — RF DAC / DIGITAL POTENTIOMETER
+================================================================================
+
+For continuous (non-stepped) level control, use a voltage-controlled
+attenuator or digital potentiometer.
+
+OPTION A — HMC1119 Digital Attenuator (DC–4 GHz, 0 to 31.75 dB, 0.25 dB steps):
+  SPI interface; 7-bit control word; 50Ω nominal; 1 dB accuracy
+  ESP32 SPI → HMC1119 → output
+  Range: 0 to −31.75 dB in 0.25 dB steps (127 steps)
+  Combined with switched attenuators: total range 0 to −102 dB
+  Part: HMC1119LP3E (Mouser ~$8)
+
+OPTION B — PE4302 Digital Attenuator (DC–3 GHz, 0 to 31.5 dB, 0.5 dB steps):
+  SPI or parallel; lower cost (~$4)
+  6-bit control; 0.5 dB step size
+
+OPTION C — AD8330 Variable Gain Amplifier (−12 to +34 dB, voltage-controlled):
+  For applications requiring amplification as well as attenuation.
+  Control voltage: 0–1 V; linear in dB.
+  Bandwidth: DC to 150 MHz (not suitable for VHF/UHF).
+
+RECOMMENDED: HMC1119 for general-purpose lab use.
+
+HMC1119 INTERFACE:
+  3.3V ── HMC1119 VDD (pin 16) + [100nF bypass]
+  ESP32 GPIO18 ── CLK  ── HMC1119 CLK (pin 1)
+  ESP32 GPIO23 ── DATA ── HMC1119 DATA (pin 2)
+  ESP32 GPIO5  ── LE   ── HMC1119 LE (pin 3; latch on rising edge)
+  HMC1119 RFC (pin 7) ── RF input (from switched attenuator output)
+  HMC1119 RFOUT (pin 9) ── [C_dc: 10nF] ── SIGOUT SMA
+
+
+================================================================================
+AD8307 POWER MONITOR — OUTPUT LEVEL MEASUREMENT
+================================================================================
+
+The AD8307 log amplifier provides a calibrated DC voltage proportional to
+RF power level.  Used to verify and calibrate output level.
+
+AD8307 specifications:
+  Frequency range: DC to 500 MHz (−3 dB)
+  Detection range: −75 dBm to +17 dBm (50Ω input)
+  Slope: 25 mV/dB typical (calibrated to 24 mV/dB with correction)
+  Intercept: −84 dBm (output = 0 V at −84 dBm input)
+  Output: V_out = slope × (P_in_dBm − intercept) = 25 mV × (P_in − (−84))
+  At −73 dBm: V_out = 25 mV × (−73 + 84) = 25 mV × 11 = 275 mV
+  At 0 dBm:   V_out = 25 mV × (0 + 84) = 25 mV × 84 = 2100 mV
+  At +13 dBm: V_out = 25 mV × (97) = 2425 mV
+
+  ESP32 ADC measures V_out:
+    P_dBm = (V_out / 0.025) − 84       [where V_out in volts]
+    ESP32 ADC: 12-bit, 0–3.3V; resolution = 3.3/4095 = 0.806 mV/LSB
+    Power resolution at 25 mV/dB: 0.806/25 = 0.032 dB/LSB (excellent)
+
+DIRECTIONAL COUPLER FOR POWER SAMPLING:
+  20 dB directional coupler taps −20 dB sample of output signal.
+  Forward sample: to AD8307 input.
+  Coupled power at +13 dBm forward: +13 − 20 = −7 dBm at AD8307 input.
+  Coupled power at −73 dBm: −73 − 20 = −93 dBm (below AD8307 floor).
+  Use direct connection (no coupler) for monitoring low-level outputs.
+
+  Alternative (simpler): resistive power splitter −20 dB tap:
+  SIGOUT ──[R_tap: 50Ω]── output to SMA
+               │
+           [C_coup: 10nF]──[R_to_ADC: 50Ω]── to AD8307 input
+  R_tap = value such that −20 dB reaches AD8307; use -20 dB T-tap.
+
+AD8307 SCHEMATIC:
+  RF signal (−20 dB tap) ── [R_in: 52.3Ω] ── AD8307 INP (pin 8)
+  AD8307 INM (pin 1) ── GND (terminate; differential input)
+  AD8307 VPS (pin 7) ── 5V + [100nF + 10µF bypass]
+  AD8307 OFS (pin 3) ── GND via [C_ofs: 100nF]
+  AD8307 INT (pin 4) ── GND via [C_int: 100nF]
+  AD8307 OUT (pin 4) ── [R_load: 12.5kΩ optional] ── ESP32 GPIO36 (ADC1_CH0)
+  (AD8307 output is current-source; 12.5 kΩ gives standard 25 mV/dB slope)
+  Without R_load: internal 900Ω + 12.5 kΩ load = 22 mV/dB (re-calibrate)
+
+  Calibration formula (empirical):
+    P_dBm = (ADC_voltage − V_intercept) / slope_mV_per_dB
+
+
+================================================================================
+COMPLETE OUTPUT CHAIN SUMMARY
+================================================================================
+
+  Synthesizer → ERA-3SM (+13 dBm max) → K_byp relay
+              → 10dB π-att (K1) → 20dB π-att (K2) → 40dB π-att (K3)
+              → HMC1119 (0–31.75 dB fine)
+              → −20 dB tap to AD8307
+              → SMA SIGOUT
+
+  Output level range:
+    Maximum:   +13 dBm (amp in, no attenuation)
+    Minimum:   +13 − 70 − 31.75 = −88.75 dBm (theoretical)
+    Specified: +13 to −73 dBm (86 dB; conservatively guaranteed)
+
+  Level control:
+    ESP32 GPIO27/26/25: K1/K2/K3 relay control (0, 10, 20, 40 dB)
+    ESP32 SPI to HMC1119: fine attenuation (0 to 31.75 dB, 0.25 dB steps)
+    ESP32 GPIO36 ADC: reads AD8307 output for level verification
+
+PARTS LIST — OUTPUT ATTENUATOR
+--------------------------------
+  Ref      Qty  Value/Part      Description
+  ---      ---  ----------      -----------
+  U_amp    1   ERA-3SM          Gain block, +13 dBm (Mini-Circuits)
+  U_att    1   HMC1119LP3E      Digital attenuator 0–31.75 dB (Mouser)
+  U_pwr    1   AD8307JRWZ       Log detector, −75 to +17 dBm (Mouser)
+  K1–K3    3   G6K-2F-Y         π-attenuator bypass relays (DPDT, 5V)
+  K_byp    1   G6K-2F-Y         Amp bypass relay
+  Q1–Q4    4   2N7002           MOSFET relay drivers
+  D1–D4    4   1N4148           Flyback diodes
+  R_bias   1   270 Ω ¼W        ERA-3SM bias
+  R_π_*   12   See design       1% precision; 0402 for VHF
+  R_in     1   52.3 Ω           AD8307 input matching
+  C_*     10   100 nF           Bypass/DC block capacitors
+
+================================================================================

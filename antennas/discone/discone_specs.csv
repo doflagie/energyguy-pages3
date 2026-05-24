@@ -1,0 +1,18 @@
+ANTENNA SPECIFICATION — DISCONE,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,50–1300 MHz,,Center/allocated bands
+Design approach,Broadband VHF/UHF omnidirectional radiator,,Primary design method
+Compaction factor,0%,,Size reduction vs full-size
+Special parameters,"Wideband, 50Ω, scanner/monitoring standard",,Design-specific details
+,,,
+Feed impedance,50,Ω,Standard amateur radio
+SWR target,<1.5,:1,At band center
+Radiation pattern,Varies,,See NEC model
+Polarization,Linear,,Or circular for arrays
+,,,
+Typical efficiency,80–95%,%,Band-dependent
+Typical gain,2–10,dBi,Type-dependent
+,,,
+NEC model file,discone.nec,,See electromagnetic simulation
+Construction manual,discone.md,,Step-by-step procedures

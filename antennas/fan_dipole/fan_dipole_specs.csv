@@ -1,0 +1,14 @@
+ANTENNA SPECIFICATION — FAN DIPOLE,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,160M–10M (multiband),,Center/allocated bands
+Design approach,"Parallel dipoles for multiple bands, single feedpoint",,Primary design method
+Compaction factor,0%,,Size reduction vs full-size
+Special parameters,"5–7 dipole pairs, 50Ω parallel feed, selective tuning",,Design-specific details
+,,,
+Feed impedance,50–600,Ω,Antenna-type dependent
+SWR target,<2.0,:1,With tuner if required
+Radiation pattern,Varies,,See NEC model
+,,,
+Typical efficiency,75–95%,%,Design-dependent
+Typical gain,2–10,dBi,Antenna-type dependent

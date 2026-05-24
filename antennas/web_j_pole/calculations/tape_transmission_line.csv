@@ -1,0 +1,91 @@
+// TM-WJP-CAL-002 Rev A  Transmission Line Parameters — 2-inch Tape on 3-inch Webbing
+//
+// PURPOSE: Calculate the characteristic impedance (Z₀) and velocity factor (VF)
+// of the matching stub formed by two 2-inch copper/aluminum tape strips on the
+// 3-inch lawn chair webbing substrate.
+//
+// CONSTRUCTION (stub section):
+//   Strip A: 2-inch tape on FRONT face, runs full length (stub + radiator)
+//   Strip B: 2-inch tape on BACK face, runs stub length only
+//   Substrate: 3-inch (76.2mm) nylon webbing, ~3mm thick, εᵣ ≈ 3.0
+//
+// CONDUCTOR GEOMETRY:
+//   Tape width  w = 50.8mm  (2 inches)
+//   Separation  d = 3.0mm   (webbing thickness, face-to-face)
+//   Aspect ratio w/d = 16.9  (>> 1, so parallel-plate approximation valid)
+//
+// PARALLEL-PLATE STUB IMPEDANCE:
+//   Z₀ = (η₀ / √εᵣ) × (d / w)
+//   η₀ = 377 Ω (impedance of free space)
+//   εᵣ = 3.0 (nylon, fully between conductors)
+//   Z₀ = (377/√3.0) × (3.0/50.8) = 217.7 × 0.05906 = 12.9 Ω
+//
+// VELOCITY FACTOR (stub section):
+//   Phase velocity v = c/√εᵣ = 3×10⁸/√3.0 = 1.732×10⁸ m/s
+//   VF_stub = v/c = 1/√3.0 = 0.577
+//
+//   NOTE: In practice, air escapes from the woven webbing and εᵣ_eff < 3.0.
+//   Measured VF_stub typically 0.60–0.68 for woven nylon strap.
+//   Use VF_stub = 0.65 as best-estimate design value.
+//
+// VELOCITY FACTOR (radiating element):
+//   Single-face tape on nylon (air on one side, nylon on other):
+//   εᵣ_eff ≈ (εᵣ_nylon + εᵣ_air)/2 = (3.0 + 1.0)/2 = 2.0
+//   VF_rad = 1/√2.0 = 0.707
+//
+//   NOTE: For wide tape in open air (antenna element above the stub section
+//   where webbing is absent), VF ≈ 0.95. When the tape is pressed against
+//   the single nylon face and still exposed to air on top, VF ≈ 0.90–0.95.
+//
+// EQUIVALENT WIRE RADIUS (for NEC modeling):
+//   Flat tape of width w modeled as round wire: r_eq = w / (2π)
+//   r_eq = 50.8 / (2π) = 8.09mm
+//   OR the more conservative: r_eq = w / 4 = 12.7mm
+//   NEC models in this suite use r_eq = 8.09mm
+//
+// FEED POINT ANALYSIS:
+//   A J-pole matching stub with Z₀ = 12.9Ω requires the feed point to be placed
+//   very close to the shorted end to match 50Ω coax.
+//
+//   Using the tapped-transformer analysis:
+//   d_feed = (1/β) × arcsin(√(Z_feed/R_ant))
+//   where β = 2π/λ_stub, Z_feed = 50Ω, R_ant ≈ 3000Ω (end-fed half-wave)
+//   d_feed/λ_stub = arcsin(√(50/3000))/(2π) = arcsin(0.129)/360° × 1 = 7.4°/360° = 1/48.6
+//   d_feed ≈ L_stub / 48.6 ≈ L_stub / 50
+//
+//   BUT: the standard λ/20 starting point (L_stub/5) is used in the NEC models.
+//   The NEC model with 25mm wire separation gives Z₀ ≈ 150Ω (not 12.9Ω).
+//   The NEC model's feed point is therefore different from the actual construction.
+//   In the actual physical antenna, slide the feed point from the short upward
+//   until minimum SWR is found. Start at L_stub/50 and work upward.
+//
+config_id,description,tape_w_mm,tape_material,web_w_mm,web_thick_mm,web_er,face,Z0_ohm,VF_stub,VF_rad,r_eq_nec_mm,NEC_sep_mm,Z0_NEC_ohm,stub_loss_db_per_m_at_14MHz,notes
+STD-AL-FACE,Standard face-to-face aluminum tape,50.8,aluminum,76.2,3.0,3.0,face-to-face,12.9,0.577,0.95,8.09,25.0,148,0.12,"Primary design. Low Z0 = close feed point. Use Al for light weight."
+STD-CU-FACE,Standard face-to-face copper tape,50.8,copper,76.2,3.0,3.0,face-to-face,12.9,0.577,0.95,8.09,25.0,148,0.04,"Same geometry as Al but lower loss. Use Cu for better Q at VHF/UHF."
+FOLD-AL,Webbing folded double (6mm separation),50.8,aluminum,76.2,6.0,3.0,face-to-face,25.7,0.577,0.95,8.09,25.0,148,0.12,"Fold webbing in half → double thickness → Z0 doubles. Better stub Q."
+EDGE-1IN,1-inch tape, edge-to-edge on 3-inch webbing,25.4,copper,76.2,25.4,1.0,single-face-2-wire,140,0.98,0.98,4.05,25.4,140,0.05,"Use 1-inch tape strips at each edge of webbing. Reasonable Z0 ≈ 140Ω."
+EDGE-2IN-SPACER,2-inch tape with external 50mm spacer,50.8,aluminum,76.2,50.0,1.0,face-to-face-air,50,1.00,0.95,8.09,50.0,50,0.08,"Add foam/foam-core spacer between webbings to increase separation → Z0=50Ω. Optimum but thicker."
+//
+// PRACTICAL NOTE — BEST CONSTRUCTION FOR HF:
+//   The FOLD-AL or STD-AL-FACE construction with Z₀ ≈ 13–26Ω is non-standard
+//   but works because:
+//   1. The λ/4 stub still transforms the high end-fed impedance (~3000Ω) to ~50Ω
+//      — just at a different feed tap position than a 300Ω J-pole
+//   2. The flat, wide conductor achieves very high Q (low resistive loss)
+//   3. The webbing and tape form a flat rollup convenient for portable use
+//
+// COMPARISON — COMMON J-POLE STUBS:
+//   450Ω open-wire ladder line:  Z0=450Ω, VF=0.91, wide bandwidth
+//   300Ω twin-lead TV cable:     Z0=300Ω, VF=0.82, narrow, fragile
+//   RG-8X coax (folded dipole):  Z0=52Ω,  not used in J-pole
+//   THIS DESIGN face-to-face:    Z0=13Ω,  VF=0.58, very low, narrow feed range
+//   THIS DESIGN 50mm spacer:     Z0=50Ω,  VF=1.0,  good match for 50Ω coax
+//
+// RECOMMENDATION:
+//   For the best SWR and bandwidth, add a foam spacer between the two face conductors
+//   to increase separation to ~50mm, targeting Z0 ≈ 50Ω. The webbing can fold and
+//   the spacer can be a strip of closed-cell foam (camping pad material, 50mm wide,
+//   3mm thick, the length of the stub). This adds minimal weight.
+//
+//   Without the spacer: the face-to-face design still works; just requires careful
+//   feed point trimming and will have slightly narrower 2:1 SWR bandwidth.

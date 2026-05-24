@@ -1,0 +1,20 @@
+CM 6M DIPOLE WITH AIR-CORE COAX CHOKE
+CM Purpose: Demonstrate VHF CM suppression using air-core design
+CM Antenna: 9.8-foot dipole @ 15 feet height (6M resonant)
+CM Balun: Air-core RG-58 on 3.5" PVC form, 5 turns
+CM Expected: Z_CM >5000Ω @ 51 MHz, clean pattern
+CE
+CM Antenna geometry (9.8-foot dipole @ 15 feet)
+GW 1 4 -4.9 0.0 15.0 -2.4 0.0 15.0 0.00387
+GW 1 4 -2.4 0.0 15.0 0.0 0.0 15.0 0.00387
+GW 1 4 0.0 0.0 15.0 2.4 0.0 15.0 0.00387
+GW 1 4 2.4 0.0 15.0 4.9 0.0 15.0 0.00387
+GE 0
+EK
+CM Frequency sweep: 51 MHz (6M)
+FR 0 1 0 0 51.0 1.0
+CM Voltage source at feedpoint
+EX 0 1 11 0 1.0 0.0
+CM Radiation pattern
+RP 1 91 91 1111 -90.0 0.0 1.0 1.0
+EN

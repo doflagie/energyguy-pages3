@@ -1,0 +1,16 @@
+band,freq_mhz,wavelength_m,loop_type,side_m,n_turns,wire_awg,wire_radius_mm,total_wire_m,loop_area_m2,circ_lambda_ratio,L_uH,C_pF,Q,efficiency_pct,bandwidth_khz,vcap_5w_peak_V,vcap_100w_peak_V,coupling_loop_side_m,match_notes
+160m,1.900,157.79,STL,2.0,4,14,0.814,32.0,4.000,0.810,168.11,41.74,891,12.89,2.13,2791,12480,0.40,L-network or tapped Faraday loop; 4-turn 2m square
+80m,3.750,79.94,STL,1.5,3,14,0.814,18.0,2.250,0.676,68.28,26.38,904,22.14,4.15,2379,10640,0.30,Faraday coupling loop 0.30m square; cap needs vacuum rating
+40m,7.150,41.93,STL,1.2,2,14,0.814,9.6,1.440,0.548,23.55,21.04,807,29.23,8.86,1738,7773,0.24,Faraday coupling loop 0.24m square; air-variable cap
+30m,10.125,29.61,STL,1.0,2,14,0.814,8.0,1.000,0.541,19.13,12.92,936,44.68,10.82,1775,7938,0.20,Faraday coupling loop 0.20m square; air-variable cap
+20m,14.175,21.15,STL,0.9,2,14,0.814,7.2,0.810,0.645,16.96,7.43,1091,65.65,12.99,1682,7523,0.18,Faraday coupling loop 0.18m square; air-variable cap
+17m,18.118,16.55,STL,0.8,1,14,0.814,3.2,0.640,0.579,3.704,20.83,606,28.37,29.89,957,4279,0.16,Faraday coupling loop 0.16m square; silver-mica or NP0 cap
+15m,21.225,14.12,STL,0.7,1,14,0.814,2.8,0.490,0.596,3.178,17.69,643,31.59,33.00,966,4318,0.14,Faraday coupling loop 0.14m square; silver-mica or NP0 cap
+12m,24.940,12.02,STL,0.6,1,14,0.814,2.4,0.360,0.599,2.661,15.30,681,33.84,36.61,969,4335,0.12,Faraday coupling loop 0.12m square; silver-mica or NP0 cap
+10m,28.500,10.52,STL,0.5,1,14,0.814,2.0,0.250,0.570,2.155,14.47,708,32.07,40.26,963,4308,0.10,Faraday coupling loop 0.10m square; silver-mica or NP0 cap
+6m,51.000,5.88,Quad,1.397,1,14,0.814,5.59,1.952,0.951,0,0,600,98.0,85.0,0,0,0,Full-wave quad; Zin=125Ohm; 2.5:1 UNUN or gamma match
+2m,146.000,2.055,Quad,0.488,1,18,0.512,1.95,0.238,0.950,0,0,400,97.0,365.0,0,0,0,Full-wave quad; Zin=125Ohm; 2.5:1 UNUN
+1.25m,222.000,1.351,Quad,0.321,1,18,0.512,1.28,0.103,0.950,0,0,300,96.0,740.0,0,0,0,Full-wave quad; Zin=125Ohm; gamma match preferred
+70cm,446.000,0.673,Quad,0.160,1,18,0.512,0.640,0.026,0.951,0,0,200,95.0,2230.0,0,0,0,Full-wave quad; Zin=125Ohm; direct feed + 2.5:1 balun
+33cm,906.000,0.331,Quad,0.0785,1,18,0.512,0.314,0.006,0.949,0,0,150,92.0,6040.0,0,0,0,Rigid wire or PCB quad; 2.5:1 UNUN; verify at UHF
+20cm,1296.000,0.231,Quad,0.055,1,18,0.512,0.220,0.003,0.952,0,0,100,88.0,12960.0,0,0,0,SMD/PCB quad; NEC model approximate at 1.3GHz

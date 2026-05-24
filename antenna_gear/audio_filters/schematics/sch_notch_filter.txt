@@ -1,0 +1,302 @@
+================================================================================
+SCHEMATIC: Notch Filter — Manual Twin-T and Auto-Notch PLL
+TM-AF-001  Rev A
+Heterodyne / Beat Note Rejection, Tunable 300–3500 Hz
+================================================================================
+
+SECTION 1 — TWIN-T PASSIVE NOTCH
+──────────────────────────────────
+The twin-T null network produces a notch (band-reject) response at:
+  f_notch = 1 / (2π × R × C)
+
+Standard twin-T topology:
+  Upper T:  R–R–C/2   (two series resistors, one shunt capacitor)
+  Lower T:  C–C–R/2   (two series capacitors, one shunt resistor)
+
+For f_notch = 800 Hz (common CW heterodyne):
+  Choose C = 100 nF, polypropylene film:
+  R = 1 / (2π × 800 × 100e-9) = 1989 Ω → 2.0 kΩ
+  R/2 = 1.0 kΩ
+  C×2 = 200 nF (2× 100 nF in parallel)
+
+Notch depth (theoretical): −60 dB with matched components
+Notch depth (practical):   −30 to −45 dB with 1% components
+−3 dB bandwidth:           ~50 Hz each side at 800 Hz
+
+TWIN-T NOTCH — CIRCUIT DIAGRAM:
+
+                 R1 (2.0kΩ)       R2 (2.0kΩ)
+IN ─────────────/\/\/────────┬────/\/\/──────────────── OUT
+                              │
+                              C3 (200nF = 2×100nF)
+                              │
+                             GND
+
+          C1 (100nF)      C2 (100nF)
+IN ────────┤├────────┬──────┤├──────────────────── (connect to junction above)
+                     │
+                     R3 (1.0kΩ)
+                     │
+                    GND
+
+Full diagram with both T networks:
+
+         R1 2kΩ            R2 2kΩ
+IN ──────/\/\/──────┬──────/\/\/──────┬──── OUT
+                    │                 │
+                   C3               (same node = OUT)
+                  200nF
+                    │
+                   GND
+
+         C1 100nF        C2 100nF
+IN ───────┤├─────────────┤├────────── OUT (same input, same output nodes)
+                    │
+                   R3 1kΩ
+                    │
+                   GND
+
+Combined layout (both paths connect same IN and OUT nodes):
+
+                        R1(2k)   R2(2k)
+                   ┌───/\/\/──┬──/\/\/───┐
+                   │          │          │
+                   │         C3 200nF    │
+ IN ───────────────┤          │          ├──────────── OUT
+                   │         GND         │
+                   │                     │
+                   └───┤C1├──┬──┤C2├────┘
+                      100nF  │  100nF
+                             R3 1kΩ
+                              │
+                             GND
+
+STANDARD NOTCH FREQUENCIES (using C=100nF, vary R):
+
+  f_notch (Hz) | R (Ω)    | R/2 (Ω)  | Use
+  -------------|----------|----------|----------------------------
+      300      |  5.305kΩ | 2.65kΩ   | Low heterodyne / low beat
+      400      |  3.979kΩ | 1.99kΩ   | 400 Hz CW sidetone alt
+      500      |  3.183kΩ | 1.59kΩ   | 500 Hz beat note
+      600      |  2.653kΩ | 1.33kΩ   | 600 Hz beat note
+      700      |  2.274kΩ | 1.14kΩ   | Common CW pitch
+      800      |  1.989kΩ | 0.99kΩ   | Standard, common AM carrier
+     1000      |  1.592kΩ | 0.80kΩ   | 1 kHz reference / beat
+     1500      |  1.061kΩ | 0.53kΩ   | Higher heterodyne
+     2000      |  0.796kΩ | 0.40kΩ   | Carriers near upper SSB edge
+     3000      |  0.531kΩ | 0.27kΩ   | Whistle / high-pitched tone
+
+================================================================================
+SECTION 2 — VARIABLE TWIN-T WITH GANGED POT
+================================================================================
+
+For continuously variable notch frequency 300–3500 Hz, replace fixed resistors
+with a ganged dual-pot (three-gang preferred for R, R, and R/2 tracking):
+
+  Gang 1: R1 (series upper T)
+  Gang 2: R2 (series upper T)
+  Gang 3: R3 = R/2 (shunt lower T) — use pot in half-value configuration
+
+Option A — Three-gang pot (custom or dual pot + separate R/2 pot):
+  Three 5 kΩ linear pots
+  Gang 1 & 2 track together; Gang 3 tracks at half value
+  Achievable: use 10 kΩ triple-gang + series 1kΩ fixed for R3 null
+
+Option B — Two-gang + switched C (practical):
+  Switch between C=47nF and C=100nF to set frequency range
+  Range 1 (C=100nF): 300–1700 Hz with 1kΩ–5kΩ dual pot
+  Range 2 (C=47nF):  640–3600 Hz with 1kΩ–5kΩ dual pot
+
+Variable Twin-T (Option B) — modified circuit:
+
+         R1 (RV1A)            R2 (RV1B)
+IN ──────/\/\/──────┬──────/\/\/──────┬──── OUT
+   1kΩ–5kΩ         │   1kΩ–5kΩ       │
+   (gang A)        C3 (2×C_SW)  (gang B)
+                    │
+                   GND
+
+         C1 (C_SW)      C2 (C_SW)
+IN ───────┤├─────────────┤├──────── OUT
+                    │
+               R3 = wiper of RV1A/2 tracked at half value
+               (see note: use op-amp follower to halve pot output)
+                    │
+                   GND
+
+R/2 TRACKING CIRCUIT (op-amp divider):
+  Take RV1A wiper voltage, feed to voltage divider 10k/10k, buffer with op-amp
+  Op-amp output drives gate of JFET (2N5457) in drain-source ohmic region
+  JFET R_DS used as the R/2 element
+  Limitation: JFET R_DS non-linear; distortion at large signal levels
+  Better solution: use a 3-gang 5kΩ pot (Alps type, custom order)
+
+================================================================================
+SECTION 3 — ACTIVE NOTCH WITH ENHANCED DEPTH
+================================================================================
+
+Bootstrapping the twin-T shunt resistor to an op-amp follower GREATLY increases
+notch depth (limited only by op-amp gain-bandwidth product):
+
+         R1 2kΩ        R2 2kΩ
+IN ──────/\/\/──────┬──/\/\/──────────── OUT
+                    │
+                   C3 200nF
+                    │
+                   GND
+
+      C1 100nF    C2 100nF
+IN ────┤├──────┬──┤├────────────── OUT
+               │
+              R3 bootstrapped:
+               ┌───────── output of U_boot
+               │
+         R3_fixed (1kΩ) goes to V_mid point
+         V_mid driven by op-amp follower:
+           U_boot (+) input: follows V at top of R3_fixed
+           U_boot (−) connected to output (unity follower)
+           U_boot output feeds BOTTOM of R3_fixed, not GND
+
+Bootstrapped Active Twin-T — deeper notch, >60 dB practical:
+
+                      C3 (200nF)
+                    ┌────┤├────┐
+          R1(2kΩ)   │          │  R2(2kΩ)
+IN ───────/\/\/─────┼──────────┼──/\/\/──── OUT
+                    │          │
+                    C1(100nF) C2(100nF) in series upper path
+                    └──────────┘ (same IN–OUT path, see twin-T standard)
+
+                    Shunt R3 path replaced with:
+                    R3a(1kΩ) → node A → R3b(1kΩ) → GND
+                    Node A ──► U3A (+) input
+                    U3A (−) = output = Node_B
+                    Node_B drives: junction of C1/C2 shunt path
+
+Result: notch depth improves from ~35 dB to ~55–65 dB
+
+================================================================================
+SECTION 4 — AUTO-NOTCH (NE567 TONE DECODER PLL)
+================================================================================
+
+The NE567 is a phase-locked loop tone decoder that can track and notch a single
+frequency tone automatically within ±14% of center frequency.
+
+Principle of operation:
+  1. NE567 PLL locks to interfering tone
+  2. PLL VCO tracks the tone frequency
+  3. In-phase VCO output drives active notch circuit
+  4. Notch follows tone if it drifts (carrier offset in AM, heterodyne drift)
+
+NE567 AUTO-NOTCH CIRCUIT:
+
++9V ──────────────────────────────────────────── Vcc (pin 8)
+                                                  │
+                                                ──┴──
+ AF IN ──────────────────────────────────────── │ 3 │  Input (pin 3)
+                                                │   │
+ Lock detect LED ◄──────── 470Ω ──────────── │ 8 │  Output (pin 8, open collector)
+                                                │NE │
+ C_filter (2.2µF) ──────────────────────────── │ 2 │  Loop filter (pin 2)
+          │                                     │567│
+         GND                                    │   │
+                                                │ 5 │──── Timing R (VCO freq set)
+ VCO freq: f_0 = 1/(1.1×R_T×C_T)               │ 6 │──── Timing C
+ For f_0 = 800 Hz:                              │   │
+   R_T = 10kΩ, C_T = 0.1µF → f = 909 Hz        │ 7 │──── VCO out (reference signal)
+   R_T = 12kΩ, C_T = 0.1µF → f = 758 Hz ✓      └───┘
+   R_T = 10kΩ, C_T = 0.12µF → f = 758 Hz ✓      │
+                                                 GND
+
+NE567 output pins:
+  Pin 5 (timing R): connect to VCO frequency-setting resistor R_T
+  Pin 6 (timing C): connect to VCO frequency-setting capacitor C_T
+  Pin 7 (VCO out):  50% duty cycle square wave at tracked frequency
+  Pin 2 (LPF out):  loop filter node; sets tracking bandwidth
+  Pin 8 (output):   logic LOW when locked (active LOW)
+
+AUTO-NOTCH PRINCIPLE USING NE567 + ANALOG SWITCH:
+
+Phase-shifted version of input at the interfering frequency is summed with
+input to produce cancellation (notch).
+
+                         R_sum2 (10kΩ)
+                     ┌───/\/\/─────────────────────── OUT
+                     │
+          R_sum1     │
+ IN ──────/\/\/──────┤
+          10kΩ       │
+                     └───────── AF input also goes to NE567 for tracking
+
+NE567 VCO output (pin 7) → all-pass phase shifter → summing junction
+  When phase of VCO output = 180° relative to interfering tone,
+  summing cancels the tone.
+
+Phase shifter: 1st order RC all-pass
+  Phase shift = −2×arctan(ω/ω_p) where ω_p = 1/(RC)
+  For 90° shift at 800 Hz: RC = 1/(2π×800) = 198 µs → R=10kΩ, C=20nF
+
+Limitation of NE567 approach:
+  NE567 bandwidth ±14% means capture range ≈ 800 ± 112 Hz (688–912 Hz)
+  Works well for single-carrier heterodyne; not effective for multiple tones
+
+================================================================================
+SECTION 5 — DSP AUTO-NOTCH (ESP32 — see firmware)
+================================================================================
+
+For full-band auto-notch (tracks multiple tones simultaneously), use ESP32
+with LMS (Least Mean Squares) adaptive notch in firmware.
+
+LMS algorithm overview:
+  y[n] = x[n] − w[n]·d[n]     (output = input − adaptive notch term)
+  w[n+1] = w[n] + 2μ·e[n]·d[n] (weight update)
+  where d[n] is a delayed version of input (used as reference)
+  μ = adaptation rate (0.001 to 0.01; larger = faster, less stable)
+
+Benefit: automatically notches ANY steady tone in the passband, including
+multiple simultaneous carriers, without manual tuning.
+
+See: firmware/audio_filter_dsp.ino, function lms_autonotch()
+
+================================================================================
+NOTCH FILTER COMPARISON
+================================================================================
+
+  Type              | Notch Depth | Tune Method | Multiple Tones | Battery Life
+  ------------------|-------------|-------------|----------------|-------------
+  Fixed Twin-T      | 30–45 dB    | Fixed       | No             | N/A (passive)
+  Variable Twin-T   | 25–40 dB    | Manual pot  | No             | N/A
+  Active Bootstrapped | 55–65 dB  | Manual      | No             | ~35 hr (NE5532)
+  NE567 Auto        | 20–30 dB    | Auto ±14%   | No             | ~35 hr
+  ESP32 LMS Auto    | 40–60 dB    | Fully auto  | Yes (4+)       | ~8 hr
+
+================================================================================
+PARTS LIST — NOTCH FILTER
+================================================================================
+
+Fixed Twin-T (800 Hz):
+Ref    | Qty | Value    | Description                   | Package
+-------|-----|----------|-------------------------------|--------
+R1,R2  |  2  | 2.0 kΩ  | Metal film 1%, 1/4W           | Axial
+R3     |  1  | 1.0 kΩ  | Metal film 1%, 1/4W           | Axial
+C1,C2  |  2  | 100 nF  | PP film 1%                    | Axial
+C3     |  1  | 200 nF  | 2× 100 nF PP film in parallel | Axial
+
+Variable (Option B add-ons):
+RV1    |  1  | 5kΩ dual| Dual gang linear pot          | 16mm or 24mm
+SW_range| 1  | SPDT    | C range switch 47/100nF       | Panel toggle
+C_alt  |  2  | 47 nF   | PP film for range 2           | Axial
+
+Active bootstrapped add-ons:
+U3     |  1  | NE5532  | Dual op-amp                   | DIP-8
+R_boot |  2  | 1 kΩ    | Split R3 for bootstrap        | Axial
+
+NE567 Auto-Notch:
+U4     |  1  | NE567   | Tone decoder PLL              | DIP-8
+R_T    |  1  | 10–15kΩ | VCO timing (set per table)    | Trim pot
+C_T    |  1  | 0.1 µF  | VCO timing cap, PP film       | Axial
+C_filt |  1  | 2.2 µF  | Loop filter, electrolytic NP  | Axial
+LED1   |  1  | Yellow  | Lock indicator                | 3mm panel
+R_LED  |  1  | 470 Ω   | LED series resistor           | Axial
+
+================================================================================

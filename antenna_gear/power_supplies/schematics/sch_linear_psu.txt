@@ -1,0 +1,270 @@
+================================================================================
+SCHEMATIC: Linear Regulated Power Supply — 13.8V DC
+TM-PWR-001  Rev A
+5A (QRP bench), 10A (station), 20A (high-power HF)
+Output noise: < 1 mV RMS  |  Ripple: < 5 mV p-p  |  Regulation: ±0.5%
+================================================================================
+
+LINEAR PSU THEORY
+──────────────────
+A linear supply dissipates excess voltage across a series pass element (transistor).
+For 13.8V output from a 16–18V rectified supply, the pass element drops 2–4V.
+
+Power dissipated in pass element:
+  P_pass = (V_in - V_out) × I_out
+  At 10A output, V_in=17V: P_pass = (17 - 13.8) × 10 = 32W
+
+This is the fundamental efficiency limit:
+  η = V_out / V_in = 13.8 / 17 = 81% (theoretical max)
+  Practical: 70–78% (transformer copper losses, rectifier drops, etc.)
+
+Despite lower efficiency, linear supplies offer:
+  - Near-zero switching noise (no PWM harmonics)
+  - Output noise < 100 µV RMS (vs. SMPS 1–5 mV RMS with filtering)
+  - No conducted or radiated EMI
+  - Superior for sensitive HF receiver operation
+
+================================================================================
+STAGE 1: TRANSFORMER AND RECTIFIER
+================================================================================
+
+TRANSFORMER SELECTION:
+  Required secondary voltage:
+    V_sec(rms) ≥ V_out + V_drop_rectifier + V_drop_regulator + V_ripple
+    V_sec(rms) ≥ 13.8 + 1.4 (bridge) + 3.0 (regulator headroom) + 2.0 (ripple)
+    V_sec(rms) ≥ 20.2V → use 18V secondary (18V × √2 = 25.5V peak; ample headroom)
+    Or:          22V secondary is common for 13.8V/20A supplies.
+
+  Rectified DC (no load, full-wave bridge):
+    V_dc = V_sec × √2 - 2 × V_f = 18 × 1.414 - 1.4 = 24.1V
+
+  Under full load with filter capacitor:
+    V_dc(load) ≈ V_dc - ΔV_ripple where ΔV_ripple = I / (2f × C)
+
+  VA rating of transformer:
+    VA = V_out × I_out / η × 1.8  (1.8 factor for capacitor input filter)
+    5A supply:  VA = 13.8 × 5 / 0.75 × 1.8 = 165VA → use 200VA transformer
+    10A supply: VA = 13.8 × 10 / 0.75 × 1.8 = 331VA → use 350VA transformer
+    20A supply: VA = 13.8 × 20 / 0.75 × 1.8 = 662VA → use 750VA transformer
+
+BRIDGE RECTIFIER SELECTION:
+  Peak inverse voltage (PIV): 2 × V_sec × √2 = 2 × 22 × 1.414 = 62V → use 100V rated
+  Peak current: I_peak ≈ 3 × I_dc (capacitor charging pulse)
+  Average current: I_dc = output current
+  5A: BR610 (6A, 1000V) or GBPC1510 (15A, 1000V) — 10A rated for margin
+  10A: KBPC2510 (25A, 1000V) — bridge module on heatsink
+  20A: KBPC5010 (50A, 1000V) — large bridge on dedicated heatsink
+
+FILTER CAPACITOR:
+  C = I_out / (2 × f_line × ΔV_ripple)
+  Target ΔV_ripple = 2V (will be further filtered by regulator)
+  f_line = 60 Hz (USA), 50 Hz (EU)
+
+  5A,  60Hz: C = 5 / (120 × 2) = 20,833 µF → use 22,000 µF / 35V
+  10A, 60Hz: C = 10 / (120 × 2) = 41,667 µF → use 47,000 µF / 35V (2× 22,000µF in parallel)
+  20A, 60Hz: C = 20 / (120 × 2) = 83,333 µF → use 3× 33,000µF / 35V or 4× 22,000µF
+
+  CAPACITOR VOLTAGE RATING:
+    V_peak = V_sec × √2 = 22 × 1.414 = 31.1V
+    Use capacitors rated ≥ 35V; 50V preferred for reliability margin.
+    Electrolytic capacitors: general purpose OK; 105°C rated for long life.
+
+RECTIFIER BLOCK SCHEMATIC:
+
+  AC IN (L) ──────┬──────────────────────────┐
+                  │                          │
+  T1 18–22V SEC   │    BRIDGE D1–D4          │
+                  ├──[D1]+──[D3]──┬──── (+) DC OUT ──┬──── to regulator
+                  │               │                   │
+                  └──[D2]+──[D4]──┘                  [C1] 22000–100000µF
+                                                       │     / 35–50V
+  AC IN (N) ──────────────────────────────────────────┴──── GND
+
+  [F1] 5A fuse on AC primary side
+  [F2] 5A fast-blow fuse on DC output side (in addition to regulator protection)
+  [MOV1] 275V MOV across AC input (surge protection)
+  [CX1] 0.1µF X2 film cap across AC input (EMI)
+  [CY1,CY2] 2.2nF Y2 caps (L-to-chassis, N-to-chassis) — common mode EMI
+
+================================================================================
+STAGE 2: VOLTAGE REGULATOR — 5A VERSION (LM338)
+================================================================================
+
+LM338 ADJUSTABLE REGULATOR (5A TO-3 package):
+
+  V_out = 1.25V × (1 + R2/R1) + I_adj × R2
+  I_adj ≈ 50µA (typical); negligible for R2 < 10kΩ
+  For V_out = 13.8V: R2/R1 = (13.8/1.25) - 1 = 10.04
+  Using R1 = 240Ω: R2 = 10.04 × 240 = 2,410Ω → use 2.4kΩ + 100Ω trim pot
+  Fine-adjust with 100Ω pot: range covers 13.5–14.2V
+
+LM338 5A REGULATOR SCHEMATIC:
+
+  V_unregulated (+) ──[1µH inductor]──────────────── IN (pin 3)
+                                                         │
+                                          ADJ (pin 1) ──┤
+                                                 │      LM338
+                                               [R1]     │
+                                               240Ω    OUT (pin 2) ────── V_out (13.8V)
+                                                 │                          │
+                                               [R2]                       [C_out]
+                                             2.4kΩ+pot                   1000µF/25V
+                                                 │                        + 0.1µF
+                                                GND ─────────────────── GND
+
+PROTECTION COMPONENTS:
+  [D_prot]: 1N4002 from OUT to IN (protects against input short with charged output cap)
+  [D_adj]:  1N4002 from ADJ to OUT (protects against output capacitor discharge through R2)
+  [C_adj]:  10µF across R2 (improves ripple rejection; adds 20 dB to PSRR)
+  [C_in]:   0.1µF ceramic on IN pin (oscillation prevention)
+
+HEATSINK CALCULATION:
+  P_max = (V_in_max - V_out_min) × I_max
+  With V_in = 24V, V_out = 13.8V, I = 5A:
+    P = (24 - 13.8) × 5 = 51W
+  LM338 θ_jc = 1°C/W; for Tj_max = 150°C, Ta = 40°C ambient:
+    R_heatsink = (150 - 40 - 51×1) / 51 = 1.16°C/W
+  Use 0.8°C/W heatsink (Hammond HS151) with thermal grease.
+
+================================================================================
+STAGE 2 (ALT): REGULATOR — 10A AND 20A (LM723 + PASS TRANSISTORS)
+================================================================================
+
+For 10A and 20A, the LM338 alone is inadequate. Use LM723 as control/error amplifier
+with external Darlington pass transistors.
+
+LM723 + TIP35C/2N3055 DARLINGTON PASS STAGE:
+
+  V_in(unregulated) ─────────────────────── COLLECTOR (Q1)
+                                                    │
+  LM723 V+ (pin 12) ─── V_in                      │ TIP35C (10A NPN TO-218)
+  LM723 Vref (pin 6) ──[R_ref 5.1kΩ]── +Vref      │ or 2N3055 (15A NPN TO-3)
+  LM723 (+) (pin 5) ──[R_top]──┬── ADJ trim       BASE
+  LM723 (−) (pin 4) ──────[R1]─┤                    │  Q1
+                                │ SETPOINT DIVIDER   │
+                               [R2]          LM723 output ── R_drive (100Ω) ─── BASE
+                                │
+                               GND                  EMITTER ──── V_out
+
+For 10A DARLINGTON:
+  Q1: TIP35C (25A, 100V, NPN TO-218); drive from LM723 output (150mA max drive)
+  Or: 2× 2N3055 in parallel (two TO-3 NPN, 15A each)
+
+For 20A DARLINGTON:
+  PRE-DRIVER: LM723 output → Q_pre (BD139, 1.5A) → BASE of Q_main
+  Q_main: 3× 2N3055 in parallel with 0.1Ω emitter resistors for current sharing
+
+EMITTER SHARING RESISTORS (critical for parallel transistors):
+  Each parallel transistor must have equal emitter resistance to force current sharing.
+  If Q1 has higher hFE, it takes more current → thermal runaway in parallel NPN.
+  Emitter resistors: 0.1Ω to 0.22Ω per transistor, 3W–10W wirewound.
+  Equalizes current: ΔI = ΔV_be / R_emitter ≈ 60mV / 0.1Ω = 600mA max imbalance.
+
+10A REGULATOR BLOCK DIAGRAM:
+
+  V_unrg ──────────────────────────── TIP35C Collector
+                                              │
+  LM723──[100Ω]── TIP35C Base ──── TIP35C Emitter ─── 0.1Ω ─── V_out 13.8V
+                                                                       │
+  V_out ──[R_sense 0.1Ω]── LM723 CL+ (pin 2)                      [C_out]
+  V_out ──[R_CL 1kΩ]──── LM723 CL− (pin 3)                         1000µF
+  (current limit comparator: if V_sense > V_CL, reduce output)        │
+                                                                      GND
+
+CURRENT LIMITING (LM723 BUILT-IN):
+  V_sense = I_out × R_sense
+  Current limit trips at V_sense ≈ 0.65V (internal V_be)
+  R_sense = 0.65 / I_limit
+  5A limit:  R_sense = 0.65/5 = 0.130Ω → use 0.1Ω + 30Ω trim
+  10A limit: R_sense = 0.65/10 = 0.065Ω → use 0.05Ω wirewound
+  20A limit: R_sense = 0.65/20 = 0.0325Ω → use 0.033Ω (parallel 0.1Ω resistors)
+
+FOLDBACK CURRENT LIMITING:
+  Standard current limit: when I > I_limit, V_out stays, I stays at limit.
+  Foldback: as overload voltage drops, I_limit ALSO reduces.
+  Prevents transistor from being destroyed in dead-short condition.
+
+  FOLDBACK CIRCUIT (added to LM723 CL pins):
+  V_out ──[R_fb1: 1kΩ]──┬── LM723 CL− (pin 3)
+                         │
+                        [R_fb2: 2.7kΩ]
+                         │
+                        GND
+
+  At full output voltage: V_CL− = V_out × R_fb2/(R_fb1+R_fb2) = high; limit = high
+  As V_out sags (overload): V_CL− drops → limit set point drops → foldback
+  Recovery: must remove overload; V_out recovers automatically.
+
+================================================================================
+OUTPUT NOISE FILTER
+================================================================================
+
+A well-designed linear PSU already has < 5 mV p-p output ripple from the
+regulator's PSRR (~74 dB for LM723, ~65 dB for LM338 at 120 Hz).
+
+For receiver-quiet operation (< 1 mV RMS goal):
+
+OUTPUT FILTER (Π-TYPE):
+
+  V_reg_out ──[L1: 10µH, 20A ferrite]──┬──── V_filtered_out
+                                        │
+             [C3: 1000µF, 25V]         [C4: 100µF, 25V]
+             (before L1)                │
+                │                     [C5: 0.1µF ceramic]
+               GND                      │
+                                       GND
+
+  [L_CM1: common-mode choke, 10A, 1mH] — in series with both V_out and GND
+  Suppresses common-mode RF currents that ride on supply rails.
+
+  Additional: [C6: 0.01µF] from V_out to chassis, [C7: 0.01µF] from GND to chassis
+  (differential-to-common-mode decoupling; reduces RF on supply leads)
+
+MEASURED PERFORMANCE TARGETS:
+  Input ripple (unregulated): 2–4V p-p
+  Output ripple (regulated):  < 5 mV p-p (at 13.8V/10A)
+  Output noise (wideband, 10 Hz–100 kHz): < 500 µV RMS
+  Output noise (with output filter): < 100 µV RMS
+  Line regulation: < ±0.1% for ±10% line change
+  Load regulation: < ±0.5% from no-load to full load
+
+================================================================================
+PARTS LIST — LINEAR PSU
+================================================================================
+
+5A VERSION:
+Item    | Qty | Description                          | Source
+--------|-----|--------------------------------------|-------------------
+T1      |  1  | 200VA 22V CT or 18V secondary       | Antek, Hammond Mfg
+BR1     |  1  | KBPC1510 (15A 1000V bridge)          | Mouser
+C1      |  1  | 22,000µF 50V electrolytic            | Mouser
+C2      |  2  | 0.1µF 50V ceramic (bypass)           | Mouser
+IC1     |  1  | LM338T (TO-220, 5A adj regulator)   | Mouser
+Q1      |  —  | (not needed at 5A)                   | —
+R1      |  1  | 240Ω 1% metal film                  | Mouser
+R2      |  1  | 2.2kΩ 1% + 200Ω trim pot            | Mouser
+D1,D2   |  2  | 1N4002 protection diodes            | Mouser
+C_adj   |  1  | 10µF 25V electrolytic               | Mouser
+L1      |  1  | 10µH 5A ferrite core choke          | Mouser
+C_out   |  1  | 1000µF 25V + 0.1µF ceramic          | Mouser
+HS1     |  1  | 0.8°C/W heatsink for LM338          | Mouser
+MOV1    |  1  | 275V MOV (AC line)                  | Mouser
+F1      |  1  | 5A slow-blow (primary)              | Mouser
+F2      |  1  | 5A fast-blow (DC output)            | Mouser
+
+10A VERSION (additions/substitutions):
+IC1     |  1  | LM723 (DIP-14 voltage regulator)    | Mouser
+Q1      |  1  | TIP35C (25A NPN TO-218)             | Mouser
+R_sense |  1  | 0.05Ω 5W wirewound                  | Mouser
+HS1     |  1  | 0.5°C/W heatsink for Q1             | Mouser
+C1      |  1  | 47,000µF 50V (2× 22,000µF parallel) | Mouser
+
+20A VERSION (additions/substitutions):
+Q1–Q3   |  3  | 2N3055 (15A NPN TO-3)               | Mouser
+Q_pre   |  1  | BD139 (1.5A NPN pre-driver)         | Mouser
+R_eq    |  3  | 0.1Ω 5W emitter sharing resistors   | Mouser
+T1      |  1  | 750VA 22V transformer                | Antek AS-7T22
+C1      |  —  | 4× 22,000µF 50V in parallel         | Mouser
+HS1     |  1  | 0.25°C/W chassis heatsink (bolted)  | Custom/Hammond
+
+================================================================================

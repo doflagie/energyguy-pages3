@@ -1,0 +1,322 @@
+================================================================================
+TM-SC-SCH-001 Rev A
+SCREWDRIVER ANTENNA — MECHANICAL DESIGN
+2.4m MOTORIZED CONTINUOUSLY-VARIABLE HF MOBILE ANTENNA
+================================================================================
+
+DOCUMENT HISTORY
+Rev A  2026-05-06  Initial release.  Merv Martin KF6MRV
+
+--------------------------------------------------------------------------------
+1. THEORY OF OPERATION
+--------------------------------------------------------------------------------
+
+An electrically short mobile antenna presents a capacitive reactance to the
+feedline.  For a 2.4m whip, the characteristic impedance is:
+
+    Zc = 60 × [ln(2 × 2.4 / 0.008) - 1]
+       = 60 × [ln(600) - 1]
+       = 60 × [6.397 - 1]
+       = 60 × 5.397
+       = 323.8 Ω  (use Zc = 324 Ω)
+
+At any frequency below the antenna's natural resonance (~30 MHz for 2.4m), the
+antenna looks like a capacitor in series with a small radiation resistance.  To
+achieve resonance, we must add series INDUCTIVE reactance to cancel the capacitive
+reactance of the short whip.
+
+The loading coil provides this inductive reactance.  By varying how much coil is
+in the circuit (by moving the wiper contact), we continuously tune the resonant
+frequency across the HF spectrum.
+
+The autotransformer tap provides impedance transformation to match the low
+radiation resistance + coil resistance (typically 2–7 Ω) up toward 50 Ω coax.
+
+    Fundamental equations:
+    ─────────────────────
+    Resonance condition:    XL = XC  (at operating frequency)
+    Loading coil reactance: XL = 2π × f × L
+    Required inductance:    L = XC / (2π × f)
+    Radiation resistance:   Rrad = (λ/ℓ)² × Rfull   (short-antenna approx.)
+    Efficiency:             η = Rrad / (Rrad + Rcoil)
+    Autotransformer match:  Zmatch = Zant × (Ntap/Ntotal)²
+
+--------------------------------------------------------------------------------
+2. COMPLETE ANTENNA CROSS-SECTION
+--------------------------------------------------------------------------------
+
+      │◄───────── 2.4m = 2400mm ──────────────────────────────────────►│
+                                                    16mm base
+      ╔══════════════════════════════════════════════════════════════╗
+      ║    2.4m TAPERED WHIP (16mm base → 8mm tip)                  ║
+      ║    Material: 7075-T6 aluminum, or stainless steel            ║
+      ║    Avg radius: 8mm  Avg diam: 16mm                           ║
+      ╚══════════════════════════════════════════════════════════════╝
+                              │
+                              │  Whip-to-coil connection
+                              │  (top contact, springloaded)
+      ┌───────────────────────┴───────────────────────────────┐
+      │           UPPER WIPER CONTACT STOP                    │
+      │           (brass ring, max-extension limit)           │
+      ├───────────────────────────────────────────────────────┤  ─┐
+      │   ┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┐   │   │
+      │                 MAIN LOADING COIL                     │   │
+      │   │  41 turns #14 AWG (2.0mm dia)                │   │   │ 110mm
+      │   │  Former: 75mm OD × 95mm winding length       │   │   │ housing
+      │   │  Pitch: 2.3mm center-to-center               │   │   │
+      │   │  Wheeler L (full coil): 72.68 µH             │   │   │
+      │   │                                               │   │   │
+      │   │   ← Coil wound on white UHMW-PE cylinder →  │   │   │
+      │   └ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘   │   │
+      │                        │                              │   │
+      │           ╔════════════╧═══════╗                      │   │
+      │           ║  WIPER CONTACT     ║  ← current position  │   │
+      │           ║  phosphor bronze   ║    (shown mid-coil   │   │
+      │           ║  spring brush      ║     ~20m position)   │   │
+      │           ╚════════════╤═══════╝                      │   │
+      │                        │                              │   │
+      │               WIPER OUTPUT WIRE                       │   │
+      │               (to coax shield / counterpoise)         │   │
+      │                        │                              │   │
+      │           ─ ─ ─ ─ ─ ─ ┤ ─ ─ ─ ─ ─ ─ ─               │   │
+      │              TURN 4 TAP (fixed wire)                  │   │
+      │              from turn 4 bottom to                    │   │
+      │              coax center conductor                    │   │
+      │           ─ ─ ─ ─ ─ ─ ┘                              │   │
+      │                                                       │   │
+      │           ═══════════════════                         │   │
+      │           1/4-20 THREADED ROD                         │   │
+      │           120mm usable travel                         │   │
+      │           1.27mm/rev (20 TPI)                         │   │
+      │           ═══════════════════                         │   │
+      │                        │                              │   │
+      ├────────────────────────┼──────────────────────────────┤  ─┘
+      │                        │                              │
+      │           ┌────────────┴───────────┐                  │
+      │           │  HOME LIMIT SWITCH     │                  │
+      │           │  SPDT microswitch      │                  │
+      │           │  Wiper at bottom=HOME  │                  │
+      │           └────────────────────────┘                  │
+      │                        │                              │
+      │           ╔════════════╧═══════════╗                  │
+      │           ║  28BYJ-48 STEPPER      ║                  │
+      │           ║  Motor + ULN2003 board ║                  │
+      │           ║  2048 steps/rev        ║                  │
+      │           ╚═════════════╤══════════╝                  │
+      ├─────────────────────────┼──────────────────────────────┤
+      │     NMO OR SO-239 BASE MOUNT                          │
+      │     Counterpoise/radial terminals (4× binding posts)  │
+      │     Coax SO-239 jack at base                          │
+      └───────────────────────────────────────────────────────┘
+
+      Enclosure: 75mm OD PVC or aluminum tube, 110mm total length
+      Wall thickness: 3mm (PVC) or 2mm (aluminum)
+      End caps: aluminum machined, O-ring sealed
+
+--------------------------------------------------------------------------------
+3. WIPER POSITION vs. BAND (SIDE VIEW)
+--------------------------------------------------------------------------------
+
+     WHIP ↑
+      │
+  ────┤─────────────────── TOP (turn 41) ─── 80m ── full coil out
+      │ ◄── coil wound on white cylinder
+      ├ ──  turn 38
+      │
+      ├ ──  turn 30
+      │                 ←────── 60m wiper position (turn ~24)
+      │                 ╔══════╗
+      ├ ──  turn 24     ║WIPER ║ slides along coil wire
+      │                 ╚══════╝
+      ├ ──  turn 20
+      │
+      ├ ──  turn 16     ←────── 40m wiper position (turn ~15.5)
+      │
+      ├ ──  turn 10
+      │                 ←────── 30m wiper position (turn ~9.6)
+      ├ ──  turn 9
+      │
+      ├ ──  turn 6      ←────── 20m wiper position (turn ~6.0)
+      │
+      ├ ──  turn 4 ─────────── TAP (fixed) to coax center
+      │                 ←────── 17m wiper position (turn ~4.2)
+      ├ ──  turn 3      ←────── 15m wiper position (turn ~3.1)
+      ├ ──  turn 2      ←────── 12m wiper position (turn ~2.2)
+      ├ ──  turn 1      ←────── 10m wiper position (turn ~1.3)
+  ────┤─────────────────── BOTTOM (turn 0) ─── HOME ── 0 steps
+      │
+     BASE MOUNT / COAX
+
+--------------------------------------------------------------------------------
+4. WIPER CONTACT MECHANICAL DETAIL
+--------------------------------------------------------------------------------
+
+  TOP VIEW (looking down threaded rod axis):
+
+         ┌──────────────────────┐
+         │  UHMW-PE COIL FORM   │  (75mm OD)
+         │    ┌──────────────┐  │
+         │    │ #14 AWG coil │  │
+         │    │ wire surface │  │
+         │    └──────────────┘  │
+         │            ↑         │
+         │    ╔═══════╧══════╗  │
+         │    ║ wiper bracket ║  │
+         │    ║ rides on rod  ║  │
+         │    ╚═══════╤══════╝  │
+         │         NUT │        │
+         │     threaded│ rod    │
+         └─────────────┴────────┘
+
+  WIPER ASSEMBLY:
+  - Brass driving nut threaded onto 1/4-20 rod
+  - Phosphor-bronze brush spring contacts coil wire surface
+  - Anti-rotation pin rides in slot in coil form wall
+  - Flexible lead wire runs from brush to fixed output terminal
+  - Normal force ~0.5N; contact resistance < 5 mΩ
+
+  THREADED ROD TRAVEL:
+  - 20 TPI = 1.27 mm/revolution
+  - Motor: 2048 steps/rev
+  - Steps per mm travel: 2048 / 1.27 = 1613 steps/mm
+  - Steps per coil turn: (2.3mm pitch / 1.27mm/rev) × 2048 = 3710 steps/turn
+  - Full coil (41 turns × 3710) = 152,110 steps total travel
+
+--------------------------------------------------------------------------------
+5. AUTOTRANSFORMER / GAMMA MATCH ANALYSIS
+--------------------------------------------------------------------------------
+
+  The coil is tapped at turn 4 from the bottom.  The coax center conductor
+  connects to this tap.  The coax shield connects to the wiper output.
+
+  This creates an autotransformer with turns ratio:
+        N_tap     4
+       ─────── = ── = 0.0976
+       N_total   41
+
+  Impedance transformation ratio:
+        Zmatch = Zant × (Ntap/Ntotal)²
+               = Zant × (4/41)²
+               = Zant × 0.00952
+
+  For a given Zant (feed impedance at the wiper point):
+  ┌──────────┬───────────┬──────────────┬──────────────────┐
+  │  Band    │  Zant(Ω)  │  Zmatch(Ω)   │  Ideal Ntap      │
+  ├──────────┼───────────┼──────────────┼──────────────────┤
+  │  10m     │  5.23     │  0.050       │  13.26T for 50Ω  │
+  │  12m     │  4.22     │  0.040       │  11.91T for 50Ω  │
+  │  15m     │  3.32     │  0.032       │  10.57T for 50Ω  │
+  │  17m     │  2.81     │  0.027       │   9.72T for 50Ω  │
+  │  20m     │  2.44     │  0.023       │   9.06T for 50Ω  │
+  │  30m     │  2.58     │  0.025       │   9.30T for 50Ω  │
+  │  40m     │  3.41     │  0.032       │  10.71T for 50Ω  │
+  │  60m     │  4.73     │  0.045       │  12.61T for 50Ω  │
+  │  80m     │  7.16     │  0.068       │  15.52T for 50Ω  │
+  └──────────┴───────────┴──────────────┴──────────────────┘
+
+  NOTE: The fixed tap at 4T does NOT provide a 50Ω match on any band.
+  It provides a starting point for the SWR-sensing autotuner to fine-tune
+  wiper position.  The autotuner seeks the wiper position that minimizes SWR.
+  An external shunt-C tuner or the built-in L-net can trim the residual mismatch.
+
+  AUTOTRANSFORMER SCHEMATIC:
+                                           ← to whip
+       ┌─────────────────────────────────┐
+       │         LOADING COIL            │
+       │  (41 turns wound on form)       │
+       │                                 │
+  ─────┼──────── TAP (turn 4) ─── COAX CENTER CONDUCTOR ──→
+       │                                 │
+  ─────┼──────── WIPER OUTPUT ─── COAX SHIELD ────────────→
+       │                                 │
+       └─────────────────────────────────┘
+           (bottom of coil = counterpoise/ground bus)
+
+  Math:
+    V_out/V_in  = N_tap/N_total = 4/41
+    I_out/I_in  = N_total/N_tap = 41/4
+    Z_out/Z_in  = (N_tap/N_total)² = (4/41)² = 0.00952
+    If Z_in = 5000 Ω, then Z_out = 47.6 Ω ≈ 50 Ω  [for that specific case only]
+
+--------------------------------------------------------------------------------
+6. WHEELER FORMULA AND COIL DESIGN CALCULATIONS
+--------------------------------------------------------------------------------
+
+  Wheeler's formula for single-layer air-core solenoid (SI adjusted):
+
+       14.0625 × N²
+  L = ──────────────────   [µH]
+       85.73 + 5.842 × N
+
+  where N = number of turns active
+
+  Physical coil parameters:
+    - Form OD:    75 mm
+    - Form length: 110 mm total, 95 mm winding area
+    - Wire:        #14 AWG, 2.0 mm diameter
+    - Pitch:       2.3 mm center-to-center
+    - Max turns:   41 (95mm / 2.3mm = 41.3, use 41)
+    - Winding OD:  75mm + 2×2.0mm = 79 mm (includes wire diameter)
+
+  Calculated L values (Wheeler formula):
+  ┌─────────────┬──────────────┬────────────────┐
+  │  N_turns    │  L(µH) calc  │  Nearest band  │
+  ├─────────────┼──────────────┼────────────────┤
+  │   1.00      │   0.165      │  above 10m     │
+  │   1.26      │   0.240      │  10m           │
+  │   2.18      │   0.679      │  12m           │
+  │   3.10      │   1.301      │  15m           │
+  │   4.16      │   2.212      │  17m           │
+  │   6.01      │   4.203      │  20m           │
+  │   9.57      │   9.093      │  30m           │
+  │  15.54      │  19.239      │  40m           │
+  │  23.75      │  35.336      │  60m           │
+  │  41.00      │  72.679      │  80m           │
+  └─────────────┴──────────────┴────────────────┘
+
+  Coil Q at HF bands (estimated):
+    Q = XL / Rcoil = (2π × f × L) / Rcoil
+    Higher frequency bands: Q > 40 (excellent)
+    Lower bands (40m-80m): Q drops to 10–22 (acceptable for mobile)
+
+--------------------------------------------------------------------------------
+7. EFFICIENCY TABLE — MOBILE ANTENNA REALITY CHECK
+--------------------------------------------------------------------------------
+
+  THIS IS A SHORT MOBILE ANTENNA. Low efficiency on lower bands is NORMAL and
+  EXPECTED. The antenna functions as a tunable reactance transformer, not a
+  resonant radiator in the classical sense on lower bands.
+
+  ┌──────┬───────────┬──────────┬─────────────┬──────────┬──────────────────────┐
+  │ Band │ Freq(MHz) │ Rrad(Ω)  │ Rcoil(Ω)    │ Eff(%)   │ Comment              │
+  ├──────┼───────────┼──────────┼─────────────┼──────────┼──────────────────────┤
+  │ 10m  │ 28.500    │  5.126   │  0.107      │  97.9    │ Near-resonant; great  │
+  │ 12m  │ 24.940    │  3.936   │  0.281      │  93.3    │ Excellent mobile band │
+  │ 15m  │ 21.225    │  2.843   │  0.481      │  85.5    │ Very good for mobile  │
+  │ 17m  │ 18.118    │  2.073   │  0.739      │  73.7    │ WARC; good mobile     │
+  │ 20m  │ 14.175    │  1.270   │  1.171      │  52.0    │ Usable; most popular  │
+  │ 30m  │ 10.125    │  0.648   │  1.927      │  25.2    │ Low; 100W → 25W rad.  │
+  │ 40m  │  7.150    │  0.323   │  3.086      │   9.5    │ Very low; common use  │
+  │ 60m  │  5.330    │  0.180   │  4.546      │   3.8    │ Emergency use only    │
+  │ 80m  │  3.750    │  0.089   │  7.075      │   1.2    │ QRP possible; 100W in │
+  │ 160m │  1.900    │  0.023   │ 16.860      │   0.13   │ Ext. coil; mostly     │
+  │      │           │          │             │          │ point-to-point at     │
+  │      │           │          │             │          │ very short distances  │
+  └──────┴───────────┴──────────┴─────────────┴──────────┴──────────────────────┘
+
+  Power accounting example (100W input):
+    20m: 100W × 52.0% = 52W radiated ERP
+    40m: 100W ×  9.5% = 9.5W radiated ERP
+    80m: 100W ×  1.2% = 1.2W radiated ERP
+
+  Comparison to fixed dipole (reference 0 dBd):
+    A mobile screwdriver on 40m vs. a fixed 40m dipole:
+    Efficiency loss alone = 10 × log10(9.5/100) = -10.2 dB
+    Plus height/ground effects: total mobile penalty ~12-15 dB typical
+
+  CONCLUSION: Use the highest practical band for your path. The antenna works
+  and is entirely appropriate for mobile HF; understand its limitations.
+
+================================================================================
+END TM-SC-SCH-001 Rev A
+================================================================================

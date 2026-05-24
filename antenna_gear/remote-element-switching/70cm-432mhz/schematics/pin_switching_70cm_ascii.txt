@@ -1,0 +1,345 @@
+================================================================================
+  VHF/UHF REMOTE ELEMENT SWITCHING SYSTEM
+  70 CENTIMETERS (432.1 MHz) - PIN DIODE ELEMENT SWITCHING
+  COMPLETE IMPLEMENTATION FOR 5-ELEMENT YAGI
+================================================================================
+
+OVERVIEW
+────────
+At 70cm, relay contacts exhibit ~2 nH lead inductance, causing excessive loss
+and reactance. PIN diodes (MA4P504, HSMP-3814) provide < 0.4 dB insertion loss.
+This document specifies complete PIN diode switching for all parasitic elements.
+
+
+================================================================================
+PIN DIODE SELECTION FOR 70cm (432.1 MHz)
+================================================================================
+
+Candidate devices (all SOT-23 package, suitable for SMD):
+
+    Part         | Vj    | Ct   | Rs  | Vfm  | I_bias | F_max | Cost
+    ─────────────────────────────────────────────────────────
+    MA4P504      | 0.7V  | 0.6pF| 1Ω  | 1.1V @ 20mA | 500 MHz| $0.60
+    HSMP-3814    | 0.7V  | 0.6pF| 1Ω  | 1.1V @ 20mA | 500 MHz| $0.55
+    BAP51-02     | 0.75V | 0.5pF| 1.8Ω| 1.2V @ 10mA | 200 MHz| $0.45
+
+    RECOMMENDED: MA4P504 or HSMP-3814 (both equivalent, good availability)
+    Cost: $0.50-0.65 per diode (qty 100)
+    Qty needed: 3 units (one per director element)
+
+
+================================================================================
+COMPLETE PIN SWITCHING NETWORK FOR SINGLE ELEMENT (70cm)
+================================================================================
+
+                          Element stub to boom
+                                   ↑
+    From Driven       RF Loss @ 432 MHz: 0.4 dB
+    Element Coax    Isolation (reverse): > 35 dB
+         │
+    ┌────o────────────────────────────────┐
+    │                                      │
+ [C_iso]          [RFC 47nH]  [PIN-D]      │
+  1µF              (0402)     MA4P504       │
+   ╱╱              Murata      SOT-23       │
+   │            LQG15HS47     (anode+)      │
+   │                │                      │
+   │                o─────────┬────────────→ Element stub
+   │                │         │
+   │           [R_limit]  (cathode-)
+   │            1.5 kΩ        │
+   │            ±1%          [C_bypass]
+   │            1/4W         100 pF, 0402
+   │                          │
+   │                          o──────────── Bias Node (from 2N2222)
+   │
+   └──────────────────────────────────── RF Ground (boom return)
+
+
+================================================================================
+COMPONENT SPECIFICATIONS
+================================================================================
+
+RFC CHOKE (L1):
+──────────────
+  Part: Murata LQG15HS47NG00D (0402 SMD, 47 nH)
+  Impedance @ 432 MHz: Z_L = j*2π*432e6*47e-9 = j128 Ω (adequate choke)
+  Q: ~20 @ 1 GHz (low loss)
+  Self-resonant frequency (SRF): 1.2 GHz (above operating frequency, good)
+  Max current: 500 mA (excessive, only 10-15 mA needed, safe)
+  Cost: $0.10-0.15
+
+
+BIAS CURRENT LIMITING RESISTOR (R1):
+───────────────────────────────────
+  Part: Standard metal-film 1/4W ±1% resistor
+  Value: 1.5 kΩ (provides 8 mA forward bias @ 12V)
+  Power dissipation @ 10 mA: P = 10² × 1500 = 0.15 W (1/4W rated OK)
+  Tolerance: ±1% (ensures consistent bias across all elements)
+  Cost: $0.02-0.05
+
+
+BYPASS CAPACITOR (C2):
+──────────────────────
+  Part: Generic NPO ceramic 0402, 50V+
+  Value: 100 pF (provides RF bypass on bias node)
+  Impedance @ 432 MHz: Z_C = 1/(2π*432e6*100pF) = j3.7 Ω (good RF bypass)
+  Cost: $0.02-0.03
+
+
+ISOLATION CAPACITOR (C1):
+─────────────────────────
+  Part: Film capacitor or ceramic, 50V+ rating (blocking DC to boom)
+  Value: 1.0 µF (blocks DC bias from feeding to boom feedline)
+  Impedance @ 432 MHz: Z_C ≈ 0.37 Ω (negligible for RF)
+  Cost: $0.10-0.20
+
+
+PIN DIODE (D1):
+──────────────
+  Part: MA4P504 (SOT-23 package)
+  Absolute maximum ratings:
+    - Forward voltage: 1.1V @ 20 mA (typical)
+    - Peak reverse voltage: 6 V (applied -5V for isolation recommended)
+    - Switching speed: < 30 ns (adequate for element switching)
+  Packaging: SOT-23 (3-pin: Anode, Cathode, Substrate)
+  Cost: $0.55-0.70 per diode
+
+
+RELAY DRIVER (For bias control):
+────────────────────────────────
+  Part: 2N2222 NPN transistor (TO-92 package, or BC337 SMD equivalent)
+  Base-emitter voltage drop: VBE ≈ 0.7V
+  Collector-emitter saturation: VCE_sat ≈ 0.2V @ 10 mA
+  Max collector current: 500 mA (more than sufficient)
+  Hfe (current gain): ~100-200
+  Switching time: < 100 ns (fast enough for bias switching)
+  Cost: $0.05-0.10 per transistor
+
+
+================================================================================
+COMPLETE 5-ELEMENT PIN DIODE ARRAY (70cm)
+================================================================================
+
+Each element gets its own PIN diode switching network:
+
+    Driven Element (Fixed - No switching)
+         ├─ Reflector Element:  PIN diode D1
+         ├─ Director 1:         PIN diode D2
+         ├─ Director 2:         PIN diode D3
+         └─ Director 3:         (Optional, via separate GPIO)
+
+
+    BIAS CONTROL FROM ESP32:
+
+    GPIO2 ─[2N2222]─→ Bias Node (D1 reflector)   → D1 forward/reverse
+    GPIO4 ─[2N2222]─→ Bias Node (D2 dir1)        → D2 forward/reverse
+    GPIO5 ─[2N2222]─→ Bias Node (D3 dir2)        → D3 forward/reverse
+    GPIO17─[2N2222]─→ Bias Node (D4 dir3)        → D4 forward/reverse (if used)
+
+
+    PIN STATE TABLE (432.1 MHz Array, 5-Element Baseline):
+
+    Pattern          | D1(Refl) | D2(Dir1) | D3(Dir2) | D4(Dir3) | State | Gain
+    ────────────────────────────────────────────────────────────────────────
+    BASELINE 5-EL    |   FWD    |   FWD    |   FWD    |   FWD    |  ON   | 9.2dBd
+    COMPACT 3-EL     |   FWD    |   FWD    |   REV    |   REV    |  ON   | 6.5dBd
+    ENDFIRE FORWARD  |   REV    |   FWD    |   FWD    |   FWD    | BEAM  | 5dBd
+    ENDFIRE REVERSE  |   FWD    |   FWD    |   FWD    |   REV    | BEAM  | 5dBd
+
+    FWD = Forward bias (+12V applied via GPIO+2N2222) = element active
+    REV = Reverse bias (GND) = element isolated
+
+
+================================================================================
+PIN DIODE BIAS-SWITCHING CIRCUIT (Single Element)
+================================================================================
+
+Complete single-element switching node:
+
+    ESP32 GPIO2 (3V3 output)
+         │
+    ┌────o────────────────────────────────────┐
+    │                                          │
+    │      ULN2803 (shared for all elements)   │
+    │      Output → +12V relay supply          │
+    │                                          │
+    │    ULN2803 OUT(n) ────────────┐          │
+    │                                │          │
+    │    (or 2N2222 discrete:)      [R_base]   │
+    │                                │          │
+    │    GPIO─[R_1k]──→ 2N2222 Base  │ 1kΩ    │
+    │                   │            │         │
+    │    GND ─────→ Emitter          │         │
+    │                                │         │
+    │              Collector ────────┴────┐    │
+    │                                     │    │
+    │         +12V Bias Supply            │    │
+    │              │                      │    │
+    │              └─────────[C_coupling] │    │
+    │                         10 µF       │    │
+    │                                     │    │
+    │                          [R_limit]  │    │
+    │                           1.5 kΩ    │    │
+    │                                     │    │
+    │                              [PIN D] pin to Element stub
+    │                               (D cathode)
+    │                                     │
+    │                              [C_bypass] 100 pF
+    │                                     │
+    │                                   Boom GND
+
+
+================================================================================
+DETAILED PCB LAYOUT FOR 70cm PIN DIODE NODE
+================================================================================
+
+Constraints:
+  - All components within 5 mm of each other
+  - RFC choke + PIN diode physically adjacent (< 1 mm)
+  - Bypass cap at PIN cathode (< 2 mm)
+  - RF trace width: 50 mil (1.27 mm) at 50Ω
+  - Bias line: separate from RF trace, >2 mm spacing or orthogonal routing
+
+    Top layer (copper):
+
+    ┌─────────────────────────────────┐
+    │ Element Feed (SMA connector)     │
+    │          │                       │
+    │      [C_iso]                     │
+    │       1 µF                       │
+    │          │                       │
+    │          o───[RFC L1]────●       │
+    │          │   47 nH       │       │
+    │          │               [D1]    │
+    │          │           (MA4P504)   │
+    │ GND ─────┴───────────────┤───→ Element Stub
+    │ (continuous plane)       │       (to boost/combiner)
+    │          │         [C_bypass]    │
+    │          │         100 pF        │
+    │          │         (0402)        │
+    │          │               │       │
+    │          └───────────────o─→ Bias Node (to 2N2222)
+    │                                  │
+    │  (+12V Bias from 2N2222)         │
+    │                                  │
+    └─────────────────────────────────┘
+
+    Bottom layer (Ground plane):
+    ────────────────────────────
+    Solid GND, via grid every 10 mm
+
+
+================================================================================
+BIAS CONTROL CIRCUIT (2N2222 Transistor)
+================================================================================
+
+GPIO from ESP32 → 2N2222 Bias Driver:
+
+    ESP32 GPIO(2V3) ──[R_base 1kΩ]──→ 2N2222 Base (pin 1)
+                                       │
+                                   Collector (pin 2) ──→ +12V bias to PIN
+                                       │
+                                   Emitter (pin 3) ──→ GND
+
+
+    When GPIO = 3.3V (HIGH):
+      2N2222 Collector → 12V (less drop across bias R)
+      PIN diode forward biased → element active (acts as reflector/director)
+
+    When GPIO = 0V (LOW):
+      2N2222 Collector → 0V (grounded via emitter)
+      PIN diode reverse biased → element isolated (acts as free director or OFF)
+
+
+    DC Biasing calculation:
+    ──────────────────────
+    Forward bias current (desired): I = 10 mA
+    Across 1.5kΩ limit resistor: V_R = 10 mA × 1.5kΩ = 15V
+    But we only have +12V, so: I = 12V / (1.5kΩ + PIN diode ~1Ω) ≈ 8 mA
+    This is conservative but acceptable (min insertion loss ~0.35 dB)
+
+    For more aggressive bias (higher current):
+    Use 1.0 kΩ resistor: I = 12V / 1kΩ = 12 mA (0.4 dB insertion loss)
+    Use 0.68 kΩ resistor: I = 12V / 0.68kΩ = 17.6 mA (0.35 dB loss, higher risk)
+
+
+================================================================================
+ELEMENT STUB LENGTH & RESONANCE
+================================================================================
+
+For PIN diode switching at 70cm, use a short stub (< λ/4) at boom connection:
+
+    Element length (from NEC2): 0.342 m (half-wave)
+    Stub length at boom:        λ/4 = 0.694 / 4 = 0.173 m (short stub)
+
+    Stub function:
+    - When PIN forward biased (on): element shorted to boom via stub
+    - Stub acts as short circuit → element becomes reflector
+    - Stub impedance match: λ/4 line with ~70 Ω characteristic impedance
+
+    Stub implementation:
+    - Aluminum tube or tubing, ~6.35 mm OD
+    - Length: 0.170-0.175 m (tuned empirically with NanoVNA)
+    - Mounted directly below driven element
+
+
+================================================================================
+MEASUREMENT & VERIFICATION (Network Analyzer)
+================================================================================
+
+Test setup:
+    VNA Port 1 → Element feed (at C_iso)
+    VNA Port 2 → 50Ω load (or antenna port)
+    Bias voltage: Apply +12V to PIN cathode
+
+    S21 (Insertion Loss):
+    ────────────────────
+    Forward bias (+12V):  S21 ≈ -0.4 dB (acceptable)
+    Reverse bias (0V):    S21 ≈ -0.4 dB (RF path unaffected by OFF state)
+
+    S11 (Reflection):
+    ────────────────
+    Forward bias (+12V):  S11 ≈ -15 dB @ 432 MHz
+    Reverse bias (0V):    S11 ≈ -8 dB @ 432 MHz (element looks capacitive)
+
+
+================================================================================
+PARTS LIST (Single Element, 70cm)
+================================================================================
+
+    Qty  Part Number        | Description              | Value    | Cost
+    ──────────────────────────────────────────────────────────────────
+     1   MA4P504            | PIN diode, SOT-23        | -        | $0.55
+     1   Murata LQG15HS47   | RFC choke, 0402 SMD      | 47 nH    | $0.12
+     1   Metal-film resistor| Bias limit resistor      | 1.5 kΩ   | $0.05
+     1   NPO ceramic 0402   | Bypass capacitor         | 100 pF   | $0.02
+     1   KEMET C315C105M5U  | Isolation capacitor      | 1.0 µF   | $0.15
+     1   2N2222 or BC337    | Bias driver transistor   | -        | $0.08
+     1   1N4148             | Flyback diode            | -        | $0.03
+
+    TOTAL (per element): ~$1.00-1.20
+    TOTAL (5 elements): ~$5.00-6.00 in PIN diode components
+
+
+================================================================================
+ASSEMBLY NOTES
+================================================================================
+
+1. Solder C_iso capacitor first (large coupling cap at element entry)
+2. Solder RFC choke immediately next to element stub connection point
+3. Solder PIN diode (SOT-23) with cathode facing toward bias control
+4. Solder bypass capacitor directly at PIN diode cathode
+5. Wire bias control (2N2222 output or ULN2803 output) to PIN anode
+6. Add ferrite bead on bias line (100Ω @ 432 MHz)
+7. Use shielded twisted pair if control line > 1 meter from main PCB
+
+
+================================================================================
+RELATED DOCUMENTS
+================================================================================
+
+    - pin_diode_switching_ascii.txt: General PIN diode overview
+    - bias_tee_ascii.txt: Bias-tee coupling network details
+    - rf_isolation_filter_ascii.txt: Control line shielding
+    - yagi_70cm_baseline_5el.nec: NEC2 antenna model

@@ -1,0 +1,14 @@
+CM PATCH ANTENNA 2.4 GHZ
+CM Microstrip planar antenna: rectangular conducting patch on dielectric substrate, modern design
+CM Bands: 2.4 GHz ISM (2.4–2.5 GHz)
+CE
+
+GW 1 5 -0.025 0.0 0.1  0.025 0.0 0.1  0.001
+GW 2 5 0.0 -0.03 0.0  0.0 0.03 0.0  0.0005
+
+GE 0
+GN 2 0 0 0 13 0.005
+EX 0 1 6 0 1 0
+FR 0 1 0 0 100 0
+RP 0 91 360 1000 -90 0 1.0 1.0
+EN

@@ -1,0 +1,5 @@
+ANTENNA — T_ANTENNA,,,
+Frequency bands,"160M, 80M, 40M",,
+Design approach,Inverted-T vertical with top-loaded horizontal section,,
+Compaction %,40,,
+Parameters,"Vertical + horizontal sections, capacitive loading",,

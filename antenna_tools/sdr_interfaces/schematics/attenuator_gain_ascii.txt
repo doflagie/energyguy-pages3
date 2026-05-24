@@ -1,0 +1,262 @@
+================================================================================
+  attenuator_gain_ascii.txt — TM-SDR-SCH-005 Rev A
+  Attenuator, Gain Control, and LNA Cascade for SDR Dynamic Range Optimization
+  PE4302 Digital Step Attenuator + SPF5189Z LNA + AD8307 RSSI
+  Document: TM-SDR-SCH-005 Rev A
+================================================================================
+
+OVERVIEW
+--------
+  The SDR front-end dynamic range is optimized by:
+  1. Variable attenuation: prevent ADC overload from strong signals
+  2. Low-noise amplification: improve sensitivity for weak signals
+  3. RSSI feedback: automatic level control based on AD8307 log-amp output
+  4. Cascaded NF calculation: Friis formula to optimize gain staging
+
+  Signal flow:
+  [Antenna] → [Preselector BPF] → [ATT] → [LNA] → [SDR upconverter/direct]
+                                    ↑          ↑
+                                PE4302      SPF5189Z
+                               (0–31.5 dB) (+19 dB)
+
+KEY SPECIFICATIONS
+------------------
+  PE4302 Digital Step Attenuator:
+    Range:        0 – 31.5 dB in 0.5 dB steps (6-bit)
+    Frequency:    DC – 3 GHz
+    IP3:          +43 dBm (excellent linearity)
+    Insertion loss (0 dB state): 1.5 dB at 200 MHz, 2.0 dB at 1 GHz
+    SPI interface: CLK, DATA, LE (Latch Enable)
+    Supply:        3.3V, 2 mA
+
+  SPF5189Z Low Noise Amplifier:
+    Gain:          19 dB (typical at UHF; 21 dB at HF)
+    Noise figure:  0.6 dB
+    IIP3:          +27 dBm
+    IP1dB:         +17 dBm
+    Frequency:     50 MHz – 4 GHz (usable from 1 MHz at HF with reduced gain)
+    Supply:        3.0 – 5.0V, 60 mA
+
+  AD8307 Log Amplifier (RSSI):
+    Dynamic range:  −75 to +17 dBm (92 dB)
+    Slope:          25 mV/dB
+    Frequency:      DC – 500 MHz
+    Output:         0–2.5V analog (read by ESP32 ADC)
+    Supply:         2.7 – 5.5V, 7.5 mA
+
+SCHEMATIC — PE4302 DIGITAL STEP ATTENUATOR
+--------------------------------------------
+  PE4302 (SOT-26 or SOT-363, 6-pin):
+    Pin 1 (RFIN):   RF input from preselector BPF output
+    Pin 2 (CLK):    SPI clock from ESP32 GPIO_ATT_CLK
+    Pin 3 (DATA):   SPI data from ESP32 GPIO_ATT_DATA
+    Pin 4 (LE):     Latch enable from ESP32 GPIO_ATT_LE (active HIGH latch)
+    Pin 5 (GND):    Ground
+    Pin 6 (RFOUT):  RF output to LNA input
+    Pin 7 (Vcc):    3.3V via 100 nF bypass to GND
+    Pin 8 (GND):    Ground (some packages have 2 GND pins)
+
+  NOTE: PE4302 is 6-bit; 6-wire serial data shifted in LSB first.
+    Bit 0 (LSB): 0.5 dB step
+    Bit 1:       1.0 dB step
+    Bit 2:       2.0 dB step
+    Bit 3:       4.0 dB step
+    Bit 4:       8.0 dB step
+    Bit 5 (MSB): 16.0 dB step
+    Set all 0 = 0 dB attenuation (full pass)
+    Set all 1 = 31.5 dB attenuation
+
+  SPI TIMING (PE4302):
+    Shift 6 bits in on rising CLK edge.
+    After all 6 bits shifted, assert LE HIGH for >1 µs, then LOW.
+    New attenuation takes effect immediately after LE goes LOW.
+    SPI speed: up to 50 MHz; use 1 MHz for reliable operation with long wires.
+
+  WIRING:
+                       ┌─────────────────────────────┐
+    BPF OUT ──50Ω──── │ RFIN    Vcc │ ─── 3.3V        │
+                       │             │                 │
+    ESP32_CLK ────────│ CLK    GND  │ ─── GND          │
+    ESP32_DATA ───────│ DATA   GND  │ ─── GND          │
+    ESP32_LE  ────────│ LE   RFOUT  │ ────── to LNA IN │
+                       └─────────────┘
+    Decoupling: 100 nF NP0 0402 at Vcc pin; GND planes under chip.
+
+  ALTERNATIVE — FIXED LADDER ATTENUATOR:
+    For simpler build without SPI, use 3 relay-switched Pi-pads:
+    K_ATT0: 0 dB bypass (0Ω series, no shunt)
+    K_ATT1: 10 dB Pi-pad (R_series = 25.97Ω, R_shunt = 35.14Ω)
+    K_ATT2: 20 dB Pi-pad (R_series = 40.91Ω, R_shunt = 10.10Ω)
+    K_ATT3: 30 dB Pi-pad (R_series = 49.01Ω, R_shunt = 3.17Ω)
+
+    PI-PAD design (50Ω in/out):
+      Attenuation (dB) = 20 × log10(A), where A = linear voltage ratio
+      R1 = R3 (shunt) = 50 × (A+1)/(A−1)
+      R2 (series)     = 50 × (A²−1)/(2A)
+
+    10 dB: A=3.162, R1=R3=71.15Ω (use 71.5Ω std), R2=35.14Ω
+    20 dB: A=10.00, R1=R3=61.11Ω (use 61.9Ω std), R2=247.5Ω
+    30 dB: A=31.62, R1=R3=53.26Ω (use 53.6Ω std), R2=792.7Ω
+
+    Use 1% tolerance metal film; 0805 for HF, 0402 for VHF/UHF.
+    Stack in series for combinations: 10+20=30 dB, 10+10=20 dB, etc.
+
+SCHEMATIC — SPF5189Z LNA
+--------------------------
+  SPF5189Z (SOT-89-3):
+    Pin 1 (IN):   Input from PE4302 RFOUT (via 100 pF NP0 coupling cap)
+    Pin 2 (GND):  Ground (thermal slug, solder to exposed pad)
+    Pin 3 (Vcc):  3.0–5.0V supply
+    Pin 3 (OUT):  Output (same pin as Vcc on this package — combined)
+
+  WIRING:
+    ATT OUT ── C_in (100 pF NP0 0402) ── SPF Pin 1 (IN)
+    SPF Pin 2 → GND (via copper pour, thermal relief)
+    SPF Pin 3 → L_choke (100 nH, Coilcraft 0402CS-101) → 3.3V rail
+    SPF Pin 3 → C_byp1 (100 nF 0402) → GND
+    SPF Pin 3 → C_byp2 (10 µF tantalum) → GND
+    SPF Pin 3 (RF out path) ── C_out (100 pF NP0 0402) ── SDR input
+
+  The bias choke L_choke separates DC supply from RF output on the same pin.
+  RF output flows through C_out; DC blocked by C_out.
+
+  LNA BYPASS RELAY (K_LNA):
+    When strong signal environment threatens to overdrive SA612A or ADC:
+    K_LNA SPDT relay bypasses SPF5189Z.
+    K_LNA COM: from ATT OUT
+    K_LNA NO:  to SPF Pin 1 (LNA engaged)
+    K_LNA NC:  direct 50Ω path to SDR input (LNA bypassed)
+    GPIO_LNA (ESP32) controls K_LNA via ULN2003A.
+
+SCHEMATIC — AD8307 RSSI LOG AMPLIFIER
+----------------------------------------
+  AD8307 (SOIC-8 or DIP-8, Analog Devices):
+    Provides calibrated signal level for automatic gain control feedback.
+    Output voltage = K × (Pin_dBm + 84): where K = 25 mV/dB, intercept = −84 dBm.
+    At −75 dBm: Vout = 25 × (−75 + 84) = 225 mV
+    At 0 dBm:   Vout = 25 × (0 + 84)   = 2100 mV (2.1V)
+    At +10 dBm: Vout = 25 × (10 + 84)  = 2350 mV
+    ESP32 ADC reads this voltage (12-bit, 0–3.3V range).
+
+  WIRING:
+                       ┌────────────────────┐
+    RF sample ── C_s ──│ INP (+)   Vpos │── 5V via 10µF + 100nF
+    (via 10dB  (1pF)   │               │
+     directional coupler│ INM (−)  OFLT │── 10 nF to GND (filter cap)
+    or inline tap)      │               │
+               GND ────│ COM    SLOPE  │── not connected (internal set)
+                        │               │
+    ADC_RSSI ──────────│ OUT     ENB   │── 3.3V (enable, active HIGH)
+                        └────────────────────┘
+
+  RSSI COUPLER:
+    For RSSI measurement without interrupting signal path:
+    Use directional coupler (Mini-Circuits ADC-10 or ZFDC-10) — 10 dB coupling.
+    Main line: signal to SDR.
+    Coupled port: signal sample −10 dB → to AD8307 INP.
+
+  ALTERNATIVE SIMPLE RSSI TAP:
+    Resistive divider after PE4302:
+      Signal line ── R_main (47Ω) ── continue to LNA/SDR
+                     │
+                   R_tap (470Ω) ── AD8307 INP (1 pF coupling cap)
+    Loss: small (0.1 dB), acceptable.
+    AD8307 input impedance: ~1.1 kΩ (parallel with R_tap = ~320 Ω seen by main line)
+
+  ESP32 reads AD8307 output:
+    GPIO36 (ADC1_CH0): AD8307 VOUT
+    Resolution: 4096 counts, 3.3V ref → 0.806 mV/count
+    RSSI calculation: RSSI_dBm = (Vadc / 0.025) − 84
+
+CASCADE NOISE FIGURE AND IIP3 ANALYSIS
+-----------------------------------------
+  Friis formula for cascade noise figure:
+    NF_total = NF1 + (NF2−1)/G1 + (NF3−1)/(G1×G2) + ...
+  Where NF is in linear power ratio (not dB).
+  Convert: NF_lin = 10^(NF_dB/10)
+
+  SCENARIO 1: Preselector only, no LNA (strong signal mode):
+    Stage 1: BPF (NF_dB=0.7dB, G_dB=−0.7dB)
+    Stage 2: PE4302 0 dB (NF_dB=1.5dB, G_dB=−1.5dB)
+    Stage 3: SA612A mixer (NF_dB=4.5dB, G_dB=−2dB)
+    ─────────────────────────────────────────────────
+    NF_lin cascade: 10^(0.07) × ... (dominated by SA612A after losses)
+    Approximate result: NF ≈ 6.0 dB, Gain ≈ −4.7 dB
+
+  SCENARIO 2: Full LNA + preselector (weak signal mode):
+    Stage 1: BPF (NF=0.7 dB, G=−0.7 dB)
+    Stage 2: PE4302 0 dB (NF=1.5 dB, G=−1.5 dB)
+    Stage 3: SPF5189Z (NF=0.6 dB, G=+19 dB)
+    Stage 4: SA612A (NF=4.5 dB, G=−2 dB)
+    ─────────────────────────────────────────────────
+    F1 = 1.175, G1 = 0.851
+    F2 = 1.413, G2 = 0.708
+    F3 = 1.148, G3 = 79.4 (19 dB linear)
+    F4 = 2.818
+
+    F_total = F1 + (F2−1)/G1 + (F3−1)/(G1×G2) + (F4−1)/(G1×G2×G3)
+            = 1.175 + 0.413/0.851 + 0.148/0.602 + 1.818/47.8
+            = 1.175 + 0.485 + 0.246 + 0.038
+            = 1.944
+    NF = 10×log10(1.944) = 2.89 dB ≈ 2.9 dB
+    Total gain: −0.7 − 1.5 + 19 − 2 = +14.8 dB
+
+  SCENARIO 3: LNA + 10 dB attenuation (signal control):
+    Stage 2: PE4302 10 dB (NF=11.5 dB effective, G=−11.5 dB)
+    Cascade NF increases significantly.
+    Used only when ADC shows overload (use minimum necessary attenuation).
+
+  IIP3 CASCADE:
+    IIP3_cascade = 1/(1/IIP3_last + G_last/IIP3_prev + ...)
+    With SPF5189Z (+27 dBm) feeding SA612A (−14 dBm):
+    IIP3_cascade ≈ −12 dBm (SA612A dominates, LNA gain reduces its IIP3 headroom)
+    → In strong-signal environments: bypass LNA.
+    → With 10 dB ATT + no LNA: IIP3 improves to −3 dBm.
+
+AUTOMATIC LEVEL CONTROL (ALC) ALGORITHM
+-----------------------------------------
+  ESP32 implements ALC using AD8307 RSSI feedback:
+
+  Target RSSI: −30 dBm at SDR input (typical optimal for 8-bit RTL-SDR ADC)
+  Lower bound: −50 dBm (add gain)
+  Upper bound: −15 dBm (add attenuation)
+
+  Every 100 ms:
+    1. Read AD8307 voltage → convert to dBm.
+    2. If RSSI > −15 dBm: increase ATT by 3 dB (PE4302).
+    3. If RSSI < −50 dBm: decrease ATT by 3 dB (PE4302).
+    4. If ATT already 0 dB and RSSI < −50 dBm: enable LNA.
+    5. If ATT already 31.5 dB and RSSI > −15 dBm: disable LNA, alert user.
+    6. Enforce hysteresis: 5 dB band before adjusting.
+
+  ALC can be enabled/disabled via BT command or web UI.
+  Manual override: set ATT and LNA directly, disables ALC.
+
+SPURIOUS RESPONSE PERFORMANCE TABLE
+--------------------------------------
+  Source             Mechanism           Suppression    Mitigation
+  ───────────────────────────────────────────────────────────────────────
+  FM broadcast (88-108) ADC overload    >60 dB (LPF)   Anti-alias LPF
+  AM broadcast (0.5-1.8) direct pickup  >40 dB (BPF)   Preselector
+  MW harmonics    2nd/3rd harmonic mix  >35 dB          BPF + LO purity
+  SA612A half-IF  0.5×IF spur          −10 dBc native  N/A (inherent)
+  LO leakage      LO at output          −60 dBm         IF BPF
+  IMD-3           SA612A IIP3 −14 dBm  varies          ALC/attenuation
+  Birdies         digital noise         varies          shielding
+
+BILL OF MATERIALS — ATTENUATOR/GAIN BOARD
+-------------------------------------------
+  Qty  Part           Value/Type               Package
+  ────────────────────────────────────────────────────────
+   1   U1  PE4302     Digital step attenuator  SOT-26/363
+   1   U2  SPF5189Z   LNA 19 dB NF 0.6 dB     SOT-89-3
+   1   U3  AD8307     Log amp RSSI             SOIC-8
+   1   K_LNA  SPDT relay  5V coil, RF          SIL-4
+   1   L1  100 nH     0402 RF choke            0402
+   4   100 nF NP0     bypass caps              0402
+   2   10 µF          tantalum bypass          case B
+   2   SMA            edge mount 50Ω           PCB
+   1   6-pin header   2.54mm SPI interface     TH
+   10  0402 caps      various NP0              0402
+
+================================================================================

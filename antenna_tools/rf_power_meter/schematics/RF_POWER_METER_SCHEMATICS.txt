@@ -1,0 +1,1018 @@
+================================================================================
+          COMPACT PORTABLE RF POWER METER - COMPLETE CIRCUIT SCHEMATICS
+                Coverage: All 15 Ham Bands (160M through 20CM)
+                          Design: Claude Code - 2025
+================================================================================
+
+CONTENTS
+================================================================================
+
+Section 1:  Overview and Block Diagram
+Section 2:  HF Directional Sampler (160M-10M)
+Section 3:  VHF/UHF Directional Sampler (6M-20CM)
+Section 4:  True RMS Detector Circuit (AD8361)
+Section 5:  Alternative Schottky Diode Detector
+Section 6:  Analog Meter Driver Circuit
+Section 7:  Digital Display Circuit (Arduino-based)
+Section 8:  Range Switching (1W/10W/100W/1000W)
+Section 9:  Power Supply (9V Battery or USB-C)
+Section 10: Complete Parts List
+Section 11: PCB Layout Guidelines
+Section 12: Calibration Circuits
+Section 13: Arduino Code (Digital Version)
+
+
+SECTION 1: OVERVIEW AND BLOCK DIAGRAM
+================================================================================
+
+This RF power meter measures forward power only (not reflected power).
+
+SYSTEM BLOCK DIAGRAM:
+
+                    ┌─────────────────────────────────────────┐
+    Transmitter     │                                         │    Antenna
+                    │         RF POWER METER                  │     /Load
+                    │                                         │
+        ├───────────┤  ┌──────────────────────────────────┐  ├─────────
+        │           │  │  HF SAMPLER (160M-10M)           │  │
+        │  INPUT    │  │  Transmission Line, -40 dB       │  │  OUTPUT
+        │  SO-239   │  │                                  │  │  SO-239
+        │           │  └──────────────────────────────────┘  │
+        │           │         │                              │
+        │           │      Power Sample                       │
+        │           │         │                              │
+        │           │         ▼                              │
+        │           │  ┌──────────────────────────────────┐  │
+        │           │  │  DETECTOR                        │  │
+        │           │  │  True RMS (AD8361) or Diode     │  │
+        │           │  └──────────────────────────────────┘  │
+        │           │         │                              │
+        │           │      DC Voltage                        │
+        │           │         │                              │
+        │           │         ▼                              │
+        │           │  ┌──────────────────────────────────┐  │
+        │           │  │  METER DRIVER / DISPLAY          │  │
+        │           │  │  Range switching, scaling        │  │
+        │           │  └──────────────────────────────────┘  │
+        │           │         │                              │
+        │           │         ▼                              │
+        │           │   [ANALOG METER]                       │
+        │           │   or [DIGITAL DISPLAY]                 │
+        │           │                                         │
+        │           │  ┌──────────────────────────────────┐  │
+        │           │  │  VHF/UHF SAMPLER (6M-20CM)       │  │
+        │           │  │  Microstrip PCB, -30 dB          │  │
+        │           │  └──────────────────────────────────┘  │
+        │           │                                         │
+        │           │  [HF/VHF Selector Switch]              │
+        ├───────────┤                                         ├─────────
+                    │                                         │
+                    └─────────────────────────────────────────┘
+
+OPERATING PRINCIPLE:
+1. Select HF or VHF/UHF sampler using selector switch
+2. RF passes through selected sampler (main line)
+3. Sampler extracts small sample of power (coupled line)
+4. Detector converts RF sample to DC voltage
+5. Meter driver scales DC voltage for display
+6. Read power directly from meter or LCD
+
+
+SECTION 2: HF DIRECTIONAL SAMPLER (160M-10M)
+================================================================================
+
+TOPOLOGY: Transmission Line Directional Sampler
+
+For power measurement only, we use single-direction sampling (forward only).
+
+PHYSICAL CONSTRUCTION:
+
+    Main Line (Coax carrying full power):
+    ═══════════════════════════════════════════════════════
+                    │
+                    │ Coupled Line (single wire)
+                    ───────────────────────────────────
+                    │                            │
+                 FWD Sample                    50Ω Term
+                    │                            │
+                   GND                          GND
+
+DETAILED SCHEMATIC:
+
+INPUT Connector                                          OUTPUT Connector
+    (SO-239)                                                (SO-239)
+        │                                                       │
+        │         ╔════════════ MAIN LINE ════════════╗         │
+        ├─────────╢   RG-58 or RG-213 Coax, 50Ω      ╟─────────┤
+        │         ╚═══════════════════════════════════╝         │
+        │                                                       │
+       GND                                                     GND
+
+    Coupled Line (Forward sampling only):
+        ┌────────────────────────────────────────────┐
+        │  Single wire, 150-200mm length            │
+        │  Placed parallel to main coax              │
+        └────────────────────────────────────────────┘
+         │                                          │
+         │                                          │
+        ─┴─ 100pF                                  ┌┴┐ 50Ω
+        ─┬─ (DC block)                             │ │ Term
+         │                                         └┬┘
+         │                                          │
+         │                                         GND
+         │
+         └──────────→ To Detector
+
+COUPLING FACTORS:
+
+For different power ranges, use different coupling:
+
+1000W Range: -40 dB coupling
+  At 1000W: Sample = 0.1W (100 mW)
+  Wire distance from coax: ~10mm
+
+100W Range: -30 dB coupling
+  At 100W: Sample = 0.1W (100 mW)
+  Wire distance from coax: ~3mm
+
+Tighter coupling = stronger sample, but more insertion loss.
+For multiple ranges, use -40 dB and scale with range switching.
+
+CONSTRUCTION DETAILS:
+
+Main Line:
+- RG-58 (50Ω, 5mm OD) for ≤200W
+- RG-213 (50Ω, 10mm OD) for >200W
+- Length: ~200mm through enclosure
+- Straight run, no sharp bends
+
+Coupled Line:
+- 20 AWG solid copper wire
+- Parallel to main coax for 150-200mm
+- Distance: 10mm for -40 dB, 3mm for -30 dB
+- Secured with cable ties or clips
+
+Termination:
+- 50Ω resistor, 1/4W, 5%
+- Connects far end of coupled line to ground
+- Absorbs unwanted signals
+- Improves directivity
+
+DC Blocking:
+- 100pF ceramic capacitor
+- 50V rating minimum
+- Blocks any DC on coupled line
+- Passes RF to detector
+
+DIRECTIVITY:
+
+With proper construction, directivity >25 dB.
+
+This means:
+- Forward power: Fully sampled
+- Reflected power: Attenuated by 25 dB (ignored)
+
+Good enough for power measurement (not critical like SWR).
+
+
+SECTION 3: VHF/UHF DIRECTIONAL SAMPLER (6M-20CM)
+================================================================================
+
+TOPOLOGY: Microstrip PCB Directional Sampler
+
+Same principle as SWR meter VHF coupler, but single-direction sampling.
+
+PCB LAYOUT (Top View):
+
+         Input                                        Output
+           │                                            │
+           │         Main Line (50Ω microstrip)        │
+           ├─══════════════════════════════════════════─┤
+           │                                            │
+           │                                            │
+           │    Coupled Line (50Ω microstrip, 0.5mm gap)
+           │    ─────────────────────────────────────
+           │    │                                   │
+           │    │                                   │
+          PWR  │                                  50Ω
+         Sample│                                  Term
+           │  GND                                 GND
+           │
+           └──────────→ To Detector
+
+MICROSTRIP DIMENSIONS:
+
+For 50Ω on 1.6mm FR4 (εr = 4.5):
+- Trace width: 3.0mm
+- Gap: 0.5mm (for -30 dB coupling)
+- Length: 30mm (λ/4 at 50 MHz)
+
+SCHEMATIC:
+
+                    MAIN LINE
+                    ══════════════════════
+    INPUT ─────┬───╪                      ╪───┬───── OUTPUT
+              GND  ║                      ║  GND
+                   ║                      ║
+                   ║ Coupled Line         ║
+                   ║ ──────────────────────
+                   ║ │                    │
+                   ▼ ▼                    ▼
+                  PWR                    Term
+                Sample                   50Ω
+                   │                      │
+                  ─┴─ 100pF              ┌┴┐ 50Ω
+                  ─┬─                    │ │
+                   │                     └┬┘
+                   │                      │
+                   │                     GND
+                   │
+                   └──────────→ To Detector
+
+COMPONENT ASSEMBLY:
+
+On PCB:
+- Termination resistor: 50Ω, 0805 SMD, 1%
+- DC blocking cap: 100pF, 0805 SMD
+- Bypass cap: 100nF, 0805 SMD (near detector input)
+
+PCB FABRICATION:
+
+- Standard FR4, 1.6mm thickness
+- 1 oz copper
+- Solid ground plane on bottom
+- Via stitching around perimeter (5-10mm spacing)
+
+Order from JLCPCB, OSH Park, or PCBWay (~$10-20 for 5 boards)
+
+
+SECTION 4: TRUE RMS DETECTOR CIRCUIT (AD8361)
+================================================================================
+
+RECOMMENDED DETECTOR: Analog Devices AD8361
+
+The AD8361 is a true RMS-to-DC converter, providing accurate power
+measurement regardless of signal modulation (CW, SSB, FM, digital).
+
+ADVANTAGES:
+✓ True RMS response (accurate for all modes)
+✓ Wide dynamic range (60 dB)
+✓ Linear in dB scale
+✓ Temperature compensated
+✓ Fast response (<1 μs)
+
+BASIC AD8361 CIRCUIT:
+
+From Sampler                                    To Meter/Arduino
+     │
+    ─┴─ C1 (100pF, DC block)
+    ─┬─
+     │
+     │                    AD8361
+     │                 ┌─────────┐
+     ├─────────────────┤1 INP    │
+     │                 │         │
+    ─┴─ C2 (10nF)      │    VRMS│────┬──────→ DC Output
+    ─┬─ (AC couple)    │      8 │    │       (0-1.8V)
+     │                 │         │   ─┴─ C5 (10μF)
+    GND                │   COMM  │   ─┬─
+                       │      4  │    │
+                       └─────────┘   GND
+                           │
+                          ─┴─ C3 (100nF)
+                          ─┬─ C4 (10μF)
+                           │
+                          GND
+
+PIN CONNECTIONS:
+
+Pin 1 (INP):   RF input from sampler (via coupling caps)
+Pin 2 (INRT):  Internal (leave open)
+Pin 3 (GND):   Ground
+Pin 4 (COMM):  Common, connect to ground via decoupling caps
+Pin 5 (PADJ):  Not used (leave open or tie to GND)
+Pin 6 (VSET):  Not used (internal reference)
+Pin 7 (VOUT):  Not used (this is VPEAK output, we use VRMS)
+Pin 8 (VRMS):  RMS output voltage (0-1.8V for -60 to 0 dBm input)
+
+COMPONENTS:
+
+C1: 100pF (DC blocking, from sampler)
+C2: 10nF (AC coupling for AD8361 input)
+C3: 100nF (decoupling, COMM pin)
+C4: 10μF (bulk decoupling)
+C5: 10μF (output filtering)
+
+All ceramic capacitors except C4, C5 which should be tantalum or electrolytic.
+
+POWER SUPPLY:
+
+AD8361 requires +5V supply:
+- Connect V+ pin (pin not shown in simplified diagram)
+- Bypass with 100nF + 10μF caps near IC
+- Use 5V regulator if battery powered (see Section 9)
+
+OUTPUT SCALING:
+
+AD8361 output:
+- 0 dBm input → ~1.8V output
+- -60 dBm input → ~0V output
+- Linear in dB: 30 mV/dB approximately
+
+For power measurement, we need to convert dB to Watts:
+  P(W) = 10^((P(dBm) - 30) / 10)
+
+This conversion done in Arduino for digital version.
+For analog version, logarithmic response creates challenges - see Section 6.
+
+
+SECTION 5: ALTERNATIVE SCHOTTKY DIODE DETECTOR
+================================================================================
+
+For budget builds or analog meter versions, Schottky diode detector is simpler.
+
+BASIC DIODE DETECTOR:
+
+From Sampler                      To Meter Driver
+     │
+    ─┴─ C1 (100pF, DC block)
+    ─┬─
+     │
+     │    ┌─┐
+     ├────┤ │ D1 (Schottky: HP2835 or 1N5711)
+     │    └─┘
+     │     │
+    ─┴─   │
+    ─┬─ C2│ (100nF, filter)
+     │    │
+    GND  ┌┴┐ R1 (10kΩ, load)
+         │ │
+         └┬┘
+          │
+         ───→ DC Output
+          │   (0-2V depending on power)
+         GND
+
+OPERATION:
+
+1. RF from sampler passes through C1
+2. D1 rectifies RF (conducts on positive half-cycles)
+3. C2 filters rectified signal to DC
+4. R1 provides load impedance
+5. DC voltage proportional to RF power
+
+RESPONSE:
+
+Non-linear! Approximately:
+- Low power (square-law region): Vout ∝ Pin
+- High power (linear region): Vout ∝ √Pin
+
+Transition around 0 dBm (1 mW).
+
+ADVANTAGES:
+✓ Simple (3 components)
+✓ Inexpensive
+✓ No power supply needed
+✓ Fast response
+
+DISADVANTAGES:
+✗ Non-linear response (harder to calibrate)
+✗ Not true RMS (reads peak)
+✗ Less accurate with modulated signals
+✗ Temperature drift
+
+COMPONENT SELECTION:
+
+D1: HP2835 (best) or 1N5711
+  - Low forward voltage (0.15-0.3V)
+  - Fast switching
+  - Match diodes if possible
+
+C1: 100pF ceramic
+C2: 100nF ceramic
+R1: 10kΩ, 1/4W
+
+IMPROVED VERSION (Compensation):
+
+Add bias compensation for better low-power response:
+
+         From Sampler
+              │
+             ─┴─ C1
+             ─┬─
+              │
+    ┌─────────┴─────────┐
+    │                   │
+    │    D1             │
+    │    ┌─┐            │
+    ├────┤ │            │
+    │    └─┘            │
+    │     │             │
+    │    ─┴─ C2        ┌┴┐ R2
+    │    ─┬─           │ │ 100kΩ
+    │     │            └┬┘
+   ┌┴┐   ┌┴┐ R1        │
+   │ │   │ │ 10kΩ      │
+R3 │100kΩ └┬┘           │
+   │ │    │             │
+   └┬┘   ───→ Out       │
+    │     │             │
+    └─────┴─────────────┘
+          │
+         GND
+
+R2, R3 provide slight forward bias, reducing dead zone.
+
+
+SECTION 6: ANALOG METER DRIVER CIRCUIT
+================================================================================
+
+For analog meter display (100 μA meter).
+
+BASIC CIRCUIT:
+
+From Detector                           To Meter
+     │
+     │
+    ┌┴┐ VR1 (Calibration pot, 10kΩ multi-turn)
+    │ │
+    │ │    ┌────────────────┐
+    └┬┘    │                │
+     ├─────┤                ├───→ Meter (100μA FSD)
+     │     │                │
+    ┌┴┐ R1 │ Range          │
+    │ │ (Series resistance)│
+    │ │    │                │
+    └┬┘    │                │
+     │     └────────────────┘
+     │
+    GND
+
+PROBLEM WITH AD8361:
+
+AD8361 output is logarithmic (dB scale), but meter needs linear (Watts).
+
+Solutions:
+1. Use exponential amplifier (complex)
+2. Calibrate meter face in dBm, read power from dBm (requires calculation)
+3. Use diode detector instead (simpler for analog)
+
+RECOMMENDED FOR ANALOG VERSION: Use Schottky diode detector
+
+DIODE DETECTOR SCALING:
+
+Detector outputs 0-2V depending on power and range.
+Meter needs 100 μA at full scale.
+
+Voltage divider:
+    R_total = V_detector / I_meter
+
+Example:
+  At 100W on 100W range:
+  Detector: ~1.5V
+  Meter: 100 μA FSD
+
+  R_total = 1.5V / 0.0001A = 15,000Ω = 15 kΩ
+
+Use: 10 kΩ fixed + 10 kΩ pot (VR1)
+
+RANGE SWITCHING:
+
+Different series resistance for each range:
+
+From Detector                     To Meter
+     │
+     │         ┌──────┐
+     ├─────────┤      ├── Position 1: R_1000W (for 1000W range)
+     │         │      │
+     ├─────────┤Range ├── Position 2: R_100W (for 100W range)
+     │         │Switch│
+     ├─────────┤      ├── Position 3: R_10W (for 10W range)
+     │         │      │
+     ├─────────┤      ├── Position 4: R_1W (for 1W range)
+     │         └──────┘
+    GND            │
+                   ▼
+                 Meter
+
+Example values (adjust during calibration):
+- R_1000W = 27 kΩ (1000W full scale)
+- R_100W = 15 kΩ (100W full scale, 10× more sensitive)
+- R_10W = 6.8 kΩ (10W full scale, 100× more sensitive)
+- R_1W = 2.2 kΩ (1W full scale, 1000× more sensitive)
+
+METER PROTECTION:
+
+Add protection diode:
+
+    From Driver
+         │
+         │
+        ┌┴────┐
+        │     │
+        │    ─┤├─ D1 (1N4148)
+        │    ─┤├─
+       ┌┴┐    │
+       │ │    │
+    Meter│    │
+       │ │    │
+       └┬┘    │
+        │     │
+        └─────┘
+         │
+        GND
+
+D1 prevents reverse voltage from damaging meter.
+
+
+SECTION 7: DIGITAL DISPLAY CIRCUIT (Arduino-based)
+================================================================================
+
+For digital version with LCD or OLED display.
+
+SYSTEM OVERVIEW:
+
+AD8361 Detector → Arduino ADC → Process → LCD Display
+
+ARDUINO CIRCUIT:
+
+                    Arduino Nano
+                   ┌─────────────┐
+    From          │             │
+    AD8361 ───────┤A0 (ADC)     │
+    (VRMS)        │             │
+                  │             │
+   Range     ─────┤A1 (ADC)     │
+   Voltage        │             │
+   Divider        │             │
+                  │      D2~D7  ├───────→ LCD Data
+    +5V      ─────┤VIN          │
+                  │      D8~D9  ├───────→ LCD Control
+    GND      ─────┤GND          │
+                  │             │
+    USB-C    ─────┤USB          │ (Programming & Power)
+                  └─────────────┘
+
+LCD CONNECTIONS (16x2 with HD44780):
+
+Arduino → LCD
+D2 → D4 (LCD data 4)
+D3 → D5 (LCD data 5)
+D4 → D6 (LCD data 6)
+D5 → D7 (LCD data 7)
+D8 → E (Enable)
+D9 → RS (Register Select)
+GND → RW (Read/Write, tie to GND for write-only)
+GND → VSS (Ground)
++5V → VDD (Power)
++5V (via pot) → V0 (Contrast adjust)
++5V (via resistor) → LED+ (Backlight, use 220Ω resistor)
+GND → LED- (Backlight ground)
+
+RANGE DETECTION:
+
+Use voltage divider on range switch to identify selected range:
+
+Range Switch → Voltage Divider → Arduino A1
+
+        +5V
+         │
+        ┌┴┐ R1 (from range switch)
+        │ │ Variable resistance based on position
+        └┬┘
+         ├────────→ Arduino A1
+        ┌┴┐ R2 (fixed, 10kΩ)
+        │ │
+        └┬┘
+         │
+        GND
+
+Range resistor values:
+- 1W range: R1 = 0Ω → V = 0V
+- 10W range: R1 = 10kΩ → V = 2.5V
+- 100W range: R1 = 20kΩ → V = 3.3V
+- 1000W range: R1 = 30kΩ → V = 3.75V
+
+Arduino reads voltage, determines range.
+
+POWER SUPPLY:
+
+Options:
+1. 9V battery → 5V regulator → Arduino
+2. USB-C connector → Arduino (5V from USB)
+3. Both (switch selectable)
+
+5V Regulator (if using battery):
+- LM7805 or L7805
+- Input: 9V battery
+- Output: 5V regulated
+- Bypass caps: 100nF input, 100nF output
+
+
+SECTION 8: RANGE SWITCHING (1W/10W/100W/1000W)
+================================================================================
+
+Range switch selects different scaling factors.
+
+ROTARY SWITCH CONFIGURATION:
+
+4-position rotary switch (1P4T):
+
+                Detector Output
+                      │
+       ┌──────────────┼──────────────┐
+       │              │              │
+   Position 1    Position 2    Position 3    Position 4
+    (1000W)        (100W)        (10W)         (1W)
+       │              │            │            │
+      ┌┴┐            ┌┴┐          ┌┴┐          ┌┴┐
+   R1 │ │         R2 │ │       R3 │ │       R4 │ │
+      │ │            │ │          │ │          │ │
+      └┬┘            └┬┘          └┬┘          └┬┘
+       │              │            │            │
+       └──────────────┴────────────┴────────────┘
+                      │
+              Meter or Arduino ADC
+
+ANALOG VERSION:
+
+Resistor values determine meter sensitivity.
+
+DIGITAL VERSION:
+
+Arduino reads range from voltage divider (see Section 7).
+Software applies appropriate scaling:
+
+  Power (W) = ADC_reading × Scale_factor[range]
+
+  Scale_factor[1000W] = 10000 (10× previous range)
+  Scale_factor[100W] = 1000
+  Scale_factor[10W] = 100
+  Scale_factor[1W] = 10
+
+Exact values determined during calibration.
+
+USER OPERATION:
+
+1. Estimate transmitter power
+2. Select appropriate range (start with highest)
+3. If reading too low, switch to more sensitive range
+4. If meter pegs (analog) or shows overrange (digital), switch to less sensitive range
+
+
+SECTION 9: POWER SUPPLY (9V Battery or USB-C)
+================================================================================
+
+OPTION 1: 9V Battery (Portable)
+
+For digital version:
+
+    9V Battery
+       │
+       ├──── S1 (ON/OFF switch)
+       │
+      ┌┴────────┐
+      │ LM7805  │ 5V Regulator
+      │   VIN   │
+      │         │
+      │   VOUT  ├────┬───→ +5V (Arduino, AD8361, LCD)
+      │         │    │
+      │   GND   │   ─┴─ C1 (100nF)
+      └┬────────┘   ─┬─
+       │             │
+      GND           GND
+
+Components:
+- 9V battery clip
+- LM7805 regulator (TO-220 package)
+- C1: 100nF ceramic (output filter)
+- Optional: 100nF on input as well
+- S1: SPST toggle or slide switch
+
+Current draw:
+- Arduino: ~20 mA
+- LCD: ~3 mA
+- AD8361: ~10 mA
+- Total: ~35 mA
+- 9V battery life: 300 mAh / 35 mA ≈ 8-10 hours
+
+OPTION 2: USB-C Power
+
+For bench use or permanent installation:
+
+    USB-C Connector
+         │
+         ├──── +5V
+         │
+         ├──── GND
+         │
+         └──── CC1, CC2 (configuration)
+
+Arduino Nano has built-in USB for programming and power.
+
+Use USB-C connector on enclosure:
+- USB-C → Arduino USB
+- Provides 5V directly
+- No battery or regulator needed
+
+OPTION 3: Both (Selectable)
+
+Use switch to select battery or USB:
+
+    9V Battery ──┬── S1 (Battery/USB switch)
+                 │
+    USB +5V ─────┘
+                 │
+                 └───→ Arduino VIN
+
+When USB plugged in, use USB power.
+When no USB, use battery.
+
+ANALOG VERSION:
+
+Analog meter requires no power!
+Detector (if using diode) is passive.
+No power supply needed.
+
+If using AD8361 with analog meter, need 5V:
+- Small 9V battery with regulator
+- Or USB power module
+
+POWER CONSUMPTION:
+
+Analog (diode detector): 0 mA (passive!)
+Analog (AD8361 detector): ~10 mA
+Digital (full system): ~35 mA
+
+
+SECTION 10: COMPLETE PARTS LIST
+================================================================================
+
+HF DIRECTIONAL SAMPLER:
+
+ITEM                        QTY   SPECS                      EST. COST
+─────────────────────────────────────────────────────────────────────────
+RG-58 coax (main line)      1     50Ω, 200mm length         $2-5
+Wire (coupled line)         1     20 AWG solid, 200mm       $1
+DC blocking cap             1     100pF, 50V, ceramic       $0.50
+Termination resistor        1     50Ω, 1/4W, 5%             $0.25
+SO-239 connectors          2     Panel mount               $4-8
+
+VHF/UHF DIRECTIONAL SAMPLER:
+
+PCB (FR4, 1.6mm)            1     60×40mm, order or DIY     $10-20
+SMD resistor (50Ω)          1     0805, 1%                  $0.25
+DC blocking cap             1     100pF, 0805               $0.25
+Bypass cap                  1     100nF, 0805               $0.25
+SMA or SO-239 connectors    2     PCB mount                 $3-6
+
+DETECTOR (CHOOSE ONE):
+
+Option A: True RMS
+AD8361 IC                   1     LFCSP-8                   $8-15
+Capacitors (various)        5     10nF, 100nF, 10μF         $2-3
+
+Option B: Diode
+HP2835 or 1N5711           1     Schottky diode            $1-2
+Capacitors                  2     100pF, 100nF              $0.50
+Resistor                    1     10kΩ, 1/4W                $0.10
+
+ANALOG DISPLAY:
+
+Panel meter                 1     100μA, 60mm face          $8-15
+Protection diode            1     1N4148                    $0.25
+Calibration pot             1     10kΩ, multi-turn          $2-4
+Series resistors            4     Various values            $1-2
+
+DIGITAL DISPLAY:
+
+Arduino Nano                1     ATmega328P                $3-8
+16x2 LCD display            1     HD44780 compatible        $3-8
+  or OLED                   1     0.96" I2C                 $5-12
+Contrast pot (LCD)          1     10kΩ                      $0.50
+Backlight resistor          1     220Ω                      $0.10
+
+SWITCHES AND CONTROLS:
+
+HF/VHF selector (DPDT)      1     Toggle, 3A rating         $3-8
+Range selector              1     Rotary, 1P4T              $5-10
+
+POWER SUPPLY (Digital):
+
+9V battery clip             1     Standard                  $0.50
+LM7805 regulator            1     TO-220                    $0.50
+Power switch                1     SPST toggle               $1-3
+Capacitors                  2     100nF                     $0.50
+Optional: USB-C connector   1     PCB mount                 $1-2
+
+ENCLOSURE:
+
+3D printing filament        -     PETG, ~150g               $6-10
+  or aluminum enclosure     1     160×100×50mm              $20-30
+
+HARDWARE AND WIRING:
+
+Project wire                -     22-24 AWG, various        $3-5
+Hardware (screws, nuts)     -     M3, M2.5                  $3-5
+Standoffs                   -     Various heights           $2-4
+
+TOTAL COST ESTIMATE:
+────────────────────
+Budget analog (diode):           $58-95
+Standard analog (AD8361):        $78-125
+Digital (AD8361 + LCD):          $95-155
+Digital (AD8361 + OLED):         $100-165
+
+
+SECTION 11: PCB LAYOUT GUIDELINES
+================================================================================
+
+For VHF/UHF sampler and detector circuit.
+
+VHF SAMPLER PCB:
+
+Same guidelines as SWR meter VHF coupler:
+- 50Ω microstrip traces (3mm width on 1.6mm FR4)
+- 0.5mm gap for coupling
+- Solid ground plane
+- Via stitching
+
+DETECTOR PCB:
+
+Small board (30×40mm) can hold:
+- AD8361 IC (or diode detector)
+- Support components
+- Connection to sampler
+
+Layout principles:
+- AD8361 near sampler output (short RF path)
+- Ground plane under IC
+- Decoupling caps close to IC pins
+- Output trace to meter/Arduino
+
+COMBINED PCB:
+
+Single PCB can integrate:
+- VHF sampler
+- Detector circuit
+- Connections for meter/display
+
+Size: 80×50mm
+Cost: $10-20 for 5 boards from JLCPCB
+
+
+SECTION 12: CALIBRATION CIRCUITS
+================================================================================
+
+Calibration adjustments for each range.
+
+ANALOG VERSION:
+
+Trimpot per range:
+
+From Detector
+     │
+     ├───── VR1 (1000W range cal, 10kΩ)
+     │
+     ├───── VR2 (100W range cal, 10kΩ)
+     │
+     ├───── VR3 (10W range cal, 10kΩ)
+     │
+     ├───── VR4 (1W range cal, 10kΩ)
+     │
+     └───── Range Switch ───→ Meter
+
+During calibration:
+- Apply known power
+- Select range
+- Adjust appropriate VR until meter reads correctly
+
+DIGITAL VERSION:
+
+Software calibration:
+- Calibration constants stored in EEPROM
+- Arduino applies scaling based on constants
+- Calibration mode in Arduino sketch
+- Adjustments made via serial terminal or buttons
+
+
+SECTION 13: ARDUINO CODE (Digital Version)
+================================================================================
+
+OVERVIEW:
+
+The Arduino reads the AD8361 output voltage, determines the power range,
+calculates the power in watts, and displays on LCD.
+
+LIBRARIES NEEDED:
+
+#include <LiquidCrystal.h>  // For LCD display
+#include <EEPROM.h>          // For storing calibration
+
+PIN DEFINITIONS:
+
+// LCD connections
+LiquidCrystal lcd(9, 8, 5, 4, 3, 2); // RS, E, D4, D5, D6, D7
+
+// Analog inputs
+#define POWER_INPUT A0      // AD8361 output
+#define RANGE_INPUT A1      // Range detection
+
+MAIN FUNCTIONS:
+
+void setup() {
+  // Initialize LCD
+  lcd.begin(16, 2);
+  lcd.print("RF Power Meter");
+  delay(2000);
+
+  // Load calibration from EEPROM
+  loadCalibration();
+}
+
+void loop() {
+  // Read AD8361 output
+  int adc_reading = analogRead(POWER_INPUT);
+  float voltage = adc_reading * (5.0 / 1023.0);
+
+  // Detect range
+  int range = detectRange();
+
+  // Convert to power
+  float power = calculatePower(voltage, range);
+
+  // Display
+  displayPower(power, range);
+
+  delay(100); // Update rate
+}
+
+int detectRange() {
+  int adc = analogRead(RANGE_INPUT);
+  // Decode range based on voltage divider
+  if (adc < 100) return 1000; // 1000W range
+  else if (adc < 400) return 100; // 100W range
+  else if (adc < 700) return 10; // 10W range
+  else return 1; // 1W range
+}
+
+float calculatePower(float voltage, int range) {
+  // AD8361 outputs ~30 mV/dB
+  // Calculate dBm from voltage
+  float dBm = (voltage / 0.03) - 60; // Approximate
+
+  // Convert dBm to watts
+  float watts = pow(10, (dBm - 30) / 10);
+
+  // Apply calibration factor for range
+  float cal_factor = getCalFactor(range);
+  watts *= cal_factor;
+
+  // Apply range scaling
+  watts *= (range / 100.0);
+
+  return watts;
+}
+
+void displayPower(float power, int range) {
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Power: ");
+  lcd.print(power, 1); // 1 decimal place
+  lcd.print(" W");
+
+  lcd.setCursor(0, 1);
+  lcd.print("Range: ");
+  lcd.print(range);
+  lcd.print("W");
+}
+
+COMPLETE ARDUINO SKETCH:
+
+A full Arduino sketch with calibration mode, EEPROM storage, and averaging
+is provided in the manual (Part 13).
+
+LIBRARIES:
+
+Standard Arduino libraries, no special hardware libraries needed.
+
+PROGRAMMING:
+
+1. Install Arduino IDE
+2. Connect Arduino via USB
+3. Select board: "Arduino Nano"
+4. Select processor: "ATmega328P"
+5. Upload sketch
+6. Open serial monitor for calibration
+
+================================================================================
+
+This completes the circuit schematics. Refer to the manual for detailed
+construction instructions, calibration procedures, and complete Arduino code.
+
+Design: Claude Code - 2025
+Location: /antennas/rf_power_meter/schematics/
+
+================================================================================
+END OF RF POWER METER SCHEMATICS
+================================================================================

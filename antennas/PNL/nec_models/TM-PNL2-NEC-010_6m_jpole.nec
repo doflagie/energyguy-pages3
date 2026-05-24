@@ -1,0 +1,20 @@
+CM ============================================================
+CM  TM-PNL2-NEC-010 — Pool Noodle J-Pole Antenna
+CM  Band: 6m  f = 51.0 MHz
+CM  Antenna type: J-pole, λ/4 matching stub + λ/2 radiator
+CM  Radiator: 279.23 cm   Stub: 139.61 cm
+CM  Feed tap: 13.96 cm above short
+CM  Velocity factor: 0.95
+CM  Wire: #14 AWG, copper
+CM  Ground: free space (antenna used elevated/portable)
+CM ============================================================
+CE
+GW  1  83  0.0  0.0  0.0    0.0  0.0  1.3961   0.000645  ! matching stub
+GW  2  167   0.0  0.025  1.4211  0.0  0.025  4.2134   0.000645  ! radiator
+GS  0  0  1.0
+GE  1
+GN  2  0  0  0  13.0  0.005
+EX  0  1  8  0  1.0  0.0       ! source at tap point on stub
+FR  0  1  0  0  51.000  0
+RP  0  181  1  1000  -90.0  0.0  1.0  0.0
+EN

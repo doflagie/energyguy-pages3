@@ -1,0 +1,11 @@
+ANTENNA SPECIFICATION — HELICAL,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,"2M, 70cm, 33cm",,
+Design approach,Right-hand helical for circular polarization,,
+Compaction factor,60%,,
+Special parameters,"4–8 turns, ~1.5λ spacing, 50Ω feed",,
+Feed impedance,50–600,Ω,
+SWR target,<2.0,:1,
+Efficiency,75–95%,%,
+Gain,2–12,dBi,

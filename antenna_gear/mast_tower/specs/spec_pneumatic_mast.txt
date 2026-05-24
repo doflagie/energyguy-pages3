@@ -1,0 +1,212 @@
+================================================================================
+SPECIFICATION: PNEUMATIC AND HYDRAULIC TELESCOPING MAST
+TM-MAST-001  Rev A
+Rapid-deployment air-driven or hydraulic telescoping mast — 20 to 40 foot
+================================================================================
+
+REFERENCE DOCUMENTS:
+  spec_wind_load_calculations.txt   — Structural loading
+  spec_guy_anchor_systems.txt       — Anchoring for stabilization
+  base_plates_mounts.scad           — 3D-printable base hardware
+
+================================================================================
+SECTION 1 — CONCEPT AND APPLICATIONS
+================================================================================
+
+DESCRIPTION:
+  A pneumatic mast uses compressed air or hydraulic fluid pressure to extend
+  nested tube sections without manual lift. Deployed with a single air valve
+  operation; full height achieved in 15–60 seconds depending on system pressure
+  and tube diameter. Extremely useful for rapid deployment in emergency comm,
+  tactical field operations, and SOTA/POTA where erecting a guyed mast quickly
+  is critical.
+
+CONFIGURATIONS:
+  A. Air-over-piston (single tube): One large-bore air cylinder inside a
+     structural outer tube. Limited height (~6m / 20 ft) due to cylinder length.
+
+  B. Multi-stage telescoping (nested tubes, air pressure):
+     Each nested section is sealed with a piston ring / O-ring; air pressure
+     acts on the annular area of each section to extend outward.
+     Height range: 6–12m (20–40 ft). Standard commercial "pneumatic mast" design.
+
+  C. Pneumatic winch-assist: Air motor drives cable drum; cable raises a guyed
+     push-up mast. More complex; allows arbitrary height with proper cable design.
+
+  D. Hydraulic jack assist: 3-ton bottle jack or hydraulic ram at base; lifts
+     base section of guyed mast over a hinged base plate (tilt-up pneumatic).
+     Practical for 6–10m (20–33 ft) masts.
+
+COMMERCIAL REFERENCE DESIGNS:
+  Aluma Tower / Clark Masts / Comrod pneumatic telescoping masts
+  Will-Burt "Night Scan" series (pneumatic LED support — same mechanical principle)
+  Crantec series pneumatic masts
+
+================================================================================
+SECTION 2 — PNEUMATIC MULTI-STAGE MAST DESIGN
+================================================================================
+
+OPERATING PRINCIPLE:
+  Nested aluminum tubes, each sealed by a UHMWPE or PTFE piston ring.
+  Bottom of each tube receives air pressure from manifold in base.
+  Air pressure × annular area = upward force on each section.
+  Upper sections extend first (smallest OD, largest annular area ratio).
+
+                    ↑ Section 1 (top, smallest)
+                    │  Piston ring seals against inside of Section 2
+                    │  F₁ = P × π/4 × (OD₂² − OD₁²)  [annular area]
+                    ↓
+                    ↑ Section 2 extends second
+                    │  Piston ring seals against Section 3
+                    │  F₂ = P × π/4 × (OD₃² − OD₂²)
+                    ↓
+                    │  Section N (base) fixed; air inlet at base
+
+LOCKING:
+  Each section locks at full extension via a spring-loaded ball detent or
+  annular groove + snap ring. Locked sections support structural loads; air
+  pressure is only required for extension, not for standing load.
+  (Some designs require continuous pressure — inferior for field use.)
+
+  PREFERRED: Mechanical lock at full extension; air pressure only for raising.
+  Field version: section lock pins manually inserted after extension.
+
+AIR SUPPLY REQUIREMENTS:
+  Working pressure: 80–120 PSI (5.5–8.3 bar) — standard compressor range
+  Volume per extension: 2–5 liters at working pressure (small portable compressor)
+  Field sources:
+    - Portable 12V compressor (from vehicle 12V or battery pack)
+    - Pre-charged SCBA/paintball cylinder (68 cu in / 4500 PSI with regulator)
+    - Hand pump (slow but usable for 20 ft systems)
+    - CO₂ cartridge: NOT recommended — temperature drop reduces pressure
+
+  SCBA/paintball approach:
+    68 cu-in / 4500 PSI cylinder → regulator set to 100 PSI → pilot valve
+    One 68 cu-in cylinder provides approximately 40 full-raise operations at 100 PSI
+
+PILOT VALVE:
+  3-way valve: RAISE / HOLD / LOWER
+    RAISE: Connects air supply to mast base manifold
+    HOLD:  Closes supply; mast stays up
+    LOWER: Vents mast slowly through needle valve (controlled descent)
+
+  Use 1/4" NPT brass 3-way ball valve. Add inline 0–160 PSI gauge at manifold.
+
+================================================================================
+SECTION 3 — PISTON RING / SEAL DESIGN
+================================================================================
+
+SEAL MATERIAL:
+  UHMWPE (ultra-high molecular weight polyethylene): low friction, self-lubricating
+  PTFE (Teflon): lower friction coefficient; harder to machine
+  Buna-N O-ring: easy to source; requires lubrication; sufficient for <40°C use
+  Viton O-ring: for high-temperature or chemical exposure deployments
+
+PISTON RING DESIGN (printed PETG):
+  See mast_collars.scad: pneumatic_piston_ring() module
+  Ring OD matches inner diameter of outer tube (snug fit, 0.1–0.2mm clearance)
+  Ring groove machined/printed into inner tube upper end
+  Air groove: 3mm × 2mm rectangular cross-section O-ring groove
+  Lubrication: Light silicone grease applied to sealing surfaces at assembly
+
+SEAL PERFORMANCE:
+  Maximum working pressure: 150 PSI with PTFE piston ring
+  Leakage rate: <0.5 PSI/minute with properly fitted rings
+  Service life: ~500 raise/lower cycles before seal replacement
+
+================================================================================
+SECTION 4 — COMPLETE SYSTEM SPECIFICATION (20-FOOT PNEUMATIC)
+================================================================================
+
+TUBE STACK:
+  Section | OD   | ID    | Wall | Length | Seal OD (ring)
+  --------|------|-------|------|--------|----------------
+    1 top | 38mm | 34mm  | 2mm  | 1.5m   | 34mm
+    2     | 44mm | 39mm  | 2.5mm| 1.5m   | 39mm
+    3     | 50mm | 44mm  | 3mm  | 1.5m   | 44mm
+    4 base| 57mm | 50mm  | 3.5mm| 1.5m   | 50mm
+
+  Nested height: 1.6m (base section 1.5m + end fittings)
+  Extended height: ~5.5m (18 ft) after accounting for overlaps and end fittings
+
+EXTENSION FORCE (at 100 PSI = 6.9 bar):
+  F₁ = 6.9 × 10⁵ × π/4 × (0.044² − 0.038²) = 6.9e5 × π/4 × 0.000492 = 267 N
+  F₂ = 6.9 × 10⁵ × π/4 × (0.050² − 0.044²) = 6.9e5 × π/4 × 0.000564 = 307 N
+  F₃ = 6.9 × 10⁵ × π/4 × (0.057² − 0.050²) = 6.9e5 × π/4 × 0.000749 = 408 N
+
+  Net upward force (all stages): 982 N (100 kgf) — sufficient to raise mast + antenna
+  Section 1 top-load limit: 267 N ≈ 27 kg — adequate for VHF/UHF antenna + rotator
+
+TIME TO EXTEND:
+  At 100 PSI supply from 68 cu-in / 4500 PSI cylinder + regulator:
+  Air volume to fill = π/4 × (ID_1² × L₁ + ID_2² × L₂ + ID_3² × L₃) × P_ratio
+  Approximate time with 1/4" supply line: 8–15 seconds
+
+BILL OF MATERIALS (PNEUMATIC 20-FOOT):
+  Item  | Qty | Description                              | Cost
+  ------|-----|------------------------------------------|-------
+  AL    |  4  | Aluminum tube sections (see above)       | $160
+  SEAL  |  3  | Piston seal rings (print PETG)            | (print)
+  VALVE |  1  | 3-way 1/4" NPT brass valve               | $22
+  GAUGE |  1  | 0–160 PSI panel gauge, 1/4" NPT          | $15
+  REG   |  1  | 0–125 PSI adjustable regulator, 1/4" NPT | $35
+  CYL   |  1  | 68 cu-in paintball/SCBA cylinder (used)  | $40
+  HOSE  | 2m  | 1/4" ID push-to-connect air hose         | $12
+  BASE  |  1  | Base manifold + ground mount (print)      | (print)
+  GW    | 20m | 3mm Dyneema guy line                     | $12
+  TOTAL |     |                                          | ~$300
+
+================================================================================
+SECTION 5 — HYDRAULIC JACK TILT-RAISE VARIANT
+================================================================================
+
+CONCEPT:
+  A bottle jack or hydraulic ram at the base of a guyed push-up mast raises
+  the base section from horizontal to vertical. No special mast construction
+  required; standard telescoping sections used. Useful for 20–33 ft masts where
+  one operator must erect without a gin pole.
+
+PROCEDURE:
+  1. Assemble and extend all mast sections horizontally.
+  2. Attach all guys; anchor far-side guy wires.
+  3. Position bottle jack under mast at 2m from base pivot.
+  4. Jack raises mast; near-side operators manage tag lines.
+  5. At 60° angle, mast is self-supporting; tension guys and lower jack.
+
+JACK RATING:
+  Moment from mast weight = mass × g × distance to pivot
+  30 ft (9m) mast, 8.3 kg, CG at 4.5m from base:
+  M = 8.3 × 9.81 × 4.5 = 366 N·m
+  At 2m jack arm: F_jack = 366 / 2 = 183 N (19 kgf) — 1.5-ton jack more than sufficient
+
+PNEUMATIC BOTTLE JACK (12V):
+  Compact 12V electric or air-over-hydraulic bottle jack
+  Allows single-operator raise of mast up to 33 ft (10m)
+  Weight: ~3 kg; fits in vehicle toolbox
+
+================================================================================
+SECTION 6 — SAFETY REQUIREMENTS FOR PNEUMATIC SYSTEMS
+================================================================================
+
+PRESSURE VESSEL SAFETY:
+  □ NEVER exceed rated working pressure of air cylinder or tubing
+  □ Install pressure relief valve set at 125% working pressure (125 PSI for 100 PSI system)
+  □ Inspect all fittings for leaks before pressurizing with soap bubble test
+  □ Never use CO₂ cylinders near temperatures <-10°C (pressure drops sharply)
+  □ Store pressurized cylinders upright; never in enclosed vehicle in sun
+
+EXTENSION SAFETY:
+  □ Clear all personnel from beneath mast during extension
+  □ Extension radius = mast height + 20% (stay outside this radius during raise)
+  □ Install lower safety strap to prevent uncontrolled collapse if seal fails
+  □ Never stand beneath extended mast during windy conditions (>25 mph)
+
+SEAL FAILURE PROTOCOL:
+  If rapid air loss occurs while mast is extended:
+  1. Immediately move all personnel away from mast (collapse zone)
+  2. Do not attempt to manually support or catch mast
+  3. Evacuate to distance ≥ mast height from base
+  4. Mast will collapse progressively (not explosive); sections fall inward
+  5. Inspect sections for damage before reuse
+
+================================================================================

@@ -1,0 +1,226 @@
+================================================================================
+  common_mode_choke_ascii.txt — TM-RFI-SCH-002 Rev A
+  Common-Mode Chokes for Coax Feed Lines and Signal Cables
+  Ferrite Core Selection, Winding Tables, Impedance Specifications
+  Document: TM-RFI-SCH-002 Rev A
+================================================================================
+
+OVERVIEW
+--------
+  Common-mode current on coax braid is the primary mechanism by which:
+  1. RFI enters the shack from the antenna feed line (noise antenna effect)
+  2. Transmitter RF enters the shack (RF in the shack)
+  3. Radiation from the feed line distorts antenna patterns
+  4. Computer and appliance noise couples to the antenna system
+
+  A common-mode choke (also called "choke balun" or "1:1 current balun")
+  presents high impedance to current flowing on the outside of the coax braid
+  while presenting near-zero impedance to the differential signal inside the coax.
+
+THEORY: COMMON-MODE vs. DIFFERENTIAL-MODE
+-------------------------------------------
+  Coax cable carries two current paths:
+  1. DIFFERENTIAL MODE: Current flows from transmitter (+) on center conductor,
+     returns via inner surface of braid. This is the desired signal path.
+     CMC does NOT affect this path.
+
+  2. COMMON-MODE: Current flows in the same direction on both conductors
+     (both forward on center AND on outside of braid). This is the interference.
+     CMC presents high impedance (Z_CM = 2πf × L_CM) to block this.
+
+  Effect of common-mode current on noise:
+  - Coax acts as a receiving antenna for any common-mode noise source
+  - At 40m (7 MHz): λ/4 = 10.7m — typical 10m feedline is significant antenna
+  - Common-mode current creates radiation resistance: effective receive area
+
+FERRITE CORE SELECTION GUIDE
+-------------------------------
+  Different ferrite mixes have different impedance vs. frequency characteristics.
+  Choose core mix to match the frequency range of interference.
+
+  Mix 31 (Ferroxcube 3S4 / Fair-Rite 31):
+    Complex permeability: µ' peaks ~1–10 MHz range
+    Best for: 1–30 MHz (HF bands), especially medium-wave and broadcast
+    Color code: gray (Fair-Rite)
+    FT-240-31: 1600 R_loss at 7 MHz (most loss = most noise absorbed)
+    FT-240-31: 800 Ω at 14 MHz, 300 Ω at 30 MHz
+
+  Mix 43 (Ferroxcube 4C6 / Fair-Rite 43):
+    Best for: 1–300 MHz (wide HF + low VHF)
+    More resistive loss in 10–100 MHz range
+    Color code: black (Fair-Rite)
+    FT-240-43: 1000 Ω at 10 MHz, 1400 Ω at 30 MHz, 1200 Ω at 100 MHz
+
+  Mix 61 (Fair-Rite 61):
+    Best for: 10–200 MHz (upper HF + VHF)
+    Higher Q — more inductive, less resistive (not ideal for noise absorption)
+    Color code: off-white/cream
+
+  Mix 75 (Fair-Rite 75):
+    Best for: 0.1–5 MHz (LF/MF, medium-wave broadcast interference)
+    Very high µ, very lossy at low frequencies
+    Best choice if primary noise source is AM broadcast
+
+  RECOMMENDATION BY PROBLEM:
+    40m/80m/160m noise primarily:   FT-240-31 (best mix)
+    HF broadband noise:             FT-240-31 (primary), FT-240-43 (secondary stage)
+    VHF noise on coax:              FT-240-43
+    USB/Ethernet cable noise:       Mix 31 snap-on clamps
+    LED driver noise (broadband):   FT-140-31 or clip-on Fair-Rite 0431167281
+
+COAX CHOKE WINDING TABLE
+--------------------------
+  For a given feed line coax and frequency, select winding parameters.
+  Impedance guideline: Z_CM > 1000 Ω required at problem frequency for >20 dB suppression.
+  Z_CM > 5000 Ω achieves >34 dB suppression.
+
+  COAX THROUGH TOROID WINDING ("W2DU" style):
+  Thread coax through hole of FT-240-xx toroid N times.
+  L_CM ≈ N² × AL (nH), where AL = nH/turn² for the core at frequency.
+
+  FT-240-31 AL values (approximate, from Fair-Rite data):
+    At 1.8 MHz: AL ≈ 1200 nH/T²   (very lossy, use resistive model)
+    At 7 MHz:   AL ≈ 800 nH/T²
+    At 14 MHz:  AL ≈ 400 nH/T²
+    At 30 MHz:  AL ≈ 200 nH/T²
+
+  BETTER: Use impedance |Z| tables from Fair-Rite or Jim Brown's (K9YC) data.
+  The published |Z| = R + jX where R is the resistive (absorbing) component.
+
+  FAIR-RITE FT-240-31 IMPEDANCE PER SINGLE TURN:
+  (Multiple turns on same core: multiply single-turn Z by approximately N²)
+    1.8 MHz:  |Z|₁T ≈ 180 Ω    (R: 120 Ω, X: 130 Ω)
+    3.5 MHz:  |Z|₁T ≈ 350 Ω    (R: 250 Ω, X: 240 Ω)
+    7.0 MHz:  |Z|₁T ≈ 700 Ω    (R: 500 Ω, X: 490 Ω)
+    14 MHz:   |Z|₁T ≈ 1100 Ω   (R: 850 Ω, X: 700 Ω)
+    28 MHz:   |Z|₁T ≈ 1500 Ω   (R: 1300 Ω, X: 700 Ω)
+
+  CHOKE DESIGN: N = 8 turns on FT-240-31:
+    |Z| scales as N² × |Z|₁T per core (approximately):
+    7 MHz: |Z|_8T ≈ 64 × 700 = 44.8 kΩ  ← excellent, >40 dB suppression
+    3.5 MHz: |Z|_8T ≈ 64 × 350 = 22.4 kΩ  ← excellent
+    14 MHz: |Z|_8T ≈ 64 × 1100 = 70 kΩ  ← excellent
+    Note: actual winding-to-winding capacitance limits high-frequency performance
+
+  RECOMMENDED CHOKE CONFIGURATIONS BY BAND/APPLICATION:
+
+  APPLICATION A — HF Feed Line Choke, 160m–10m:
+    Core: 2× FT-240-31 stacked (tape together before winding)
+    Turns: 8 turns of RG-8X (small enough to fit through FT-240 hole)
+    RG-8X OD: 7.5mm. FT-240 hole: 25mm dia. → fits 8T through 25mm hole
+    Method: coil 8 turns inside 3D-printed housing (see choke_housing.scad)
+
+  APPLICATION B — HF Feed Line Choke (larger coax RG-8/RG-213):
+    Core: Snap-on type with larger aperture: Fair-Rite 0443167251 (large)
+    Or: 4× FT-240-31 stacked with RG-213 (OD 10.3mm) threading
+    Turns: 5–6 turns (larger coax, fewer turns possible)
+
+  APPLICATION C — VHF/UHF Feed Line Choke (RG-8X on FT-240-43):
+    Core: 2× FT-240-43
+    Turns: 6 turns (fewer at VHF — VHF needs less impedance but SRF concerns)
+    Verify SRF (self-resonant frequency) above operating frequency.
+    SRF check: use NanoVNA, find frequency where |Z| drops (capacitive resonance).
+
+  APPLICATION D — Computer USB Cable:
+    Core: Fair-Rite 0431167281 (snap-on, 7mm aperture, Mix 31)
+    Method: snap over USB cable at BOTH ends (device end and host end)
+    If noise persists: use 2 clamps at each end, or make 2 turns through one clamp
+
+  APPLICATION E — Ethernet Cable:
+    Core: Fair-Rite 0431167281 (snap-on, 7mm aperture)
+    Method: snap over Ethernet cable near shack equipment
+    Better: use shielded Cat6A (STP) with shielded RJ45 connectors
+    Ground shield at ONE end only (avoid ground loops)
+
+  APPLICATION F — LED Driver Power Cables:
+    Replace with ferrite bead snap-ons on both AC power lead and DC output lead
+    Core: Mix 31 or Mix 75 (if LED noise primarily below 5 MHz)
+    If LED noise persists: replace LED bulb/driver with "amateur-grade" low-noise type
+    (Look for EN55015 Class B certified LED drivers)
+
+SCHEMATIC — COAX FEED LINE CHOKE
+-----------------------------------
+
+  OPTION 1: Toroid Threading (most common for HF)
+
+  [TRX] ───── [Coax, PL-259] ─────── [Choke] ──────── [Antenna]
+                                       │  │
+                               ┌──────────────────┐
+                               │  FT-240-31 × 2   │
+                               │  (stacked/taped) │
+                               │                  │
+                               │  Coax threaded   │
+                               │  8 turns through │
+                               │  each core hole  │
+                               └──────────────────┘
+                               (inside 3D printed housing)
+                               Mount at: antenna feed point
+                               OR: base of feed line at shack entry
+
+  OPTION 2: Choke Using Coax Wound on Coil Form ("ugly balun")
+  For large coax that won't thread through toroids:
+
+     ┌────────────────────────────────────────────┐
+     │  Coil 8–12 turns of coax (RG-8) on        │
+     │  4" diameter PVC form or 3D-printed core   │
+     │  Turns touching, neat winding              │
+     │  Tie with cable ties; weatherproof         │
+     └────────────────────────────────────────────┘
+
+  "Ugly balun" or "coax balun": the distributed capacitance of the coiled coax
+  creates a resonant circuit. At resonance, |Z| is very high.
+  Self-resonant frequency: fSRF = 1 / (2π√(L_coil × C_coil))
+  For 8 turns of RG-8 on 4" form: fSRF ≈ 7–10 MHz (tune with extra/fewer turns)
+  Less effective than toroid choke but easier to make with large coax.
+
+SCHEMATIC — MULTI-POINT GROUNDING AND CHOKE PLACEMENT
+-------------------------------------------------------
+
+  OPTIMAL PLACEMENT:
+
+  Antenna ─── AT ANTENNA FEED POINT: Choke A (FT-240-31, 8T)
+        │
+        │  Coax run (outside, weatherproofed)
+        │
+  Shack entry ─── AT SHACK ENTRY: Choke B (FT-240-31, 8T)
+        │
+        │  Short jumper inside shack
+        │
+  Transceiver ─── AT TRANSCEIVER: Choke C (optional, FT-240-43, 4T) for VHF
+
+  THREE-CHOKE SYSTEM benefits:
+  - Choke A: stops noise from shack from going up feed line
+  - Choke B: stops noise on outside of coax from entering shack
+  - Choke C: secondary protection for VHF path
+
+  SINGLE-CHOKE minimum: install Choke A at antenna feed point.
+  If RF-in-shack problem: ALSO install Choke B at shack entry.
+
+IMPEDANCE vs. FREQUENCY — PERFORMANCE SUMMARY
+------------------------------------------------
+  All values for 2× FT-240-31, 8 turns, RG-8X coax:
+
+  Frequency   |Z| (kΩ)   R (kΩ)   X (kΩ)   Suppression (dB)
+  ─────────────────────────────────────────────────────────────
+  1.8 MHz     8.4        5.6      6.4       40 dB (good for 160m)
+  3.5 MHz     16         11       11        43 dB (good for 80m)
+  7.0 MHz     28         20       20        47 dB (excellent 40m)
+  14 MHz      40         31       26        48 dB (excellent 20m)
+  28 MHz      44         39       20        47 dB (excellent 10m)
+  50 MHz      30 (est)   28       12        45 dB (good 6m)
+  144 MHz     12 (est)   12        4        38 dB (good 2m, FT-240-43 better)
+
+  NOTE: At high frequencies, winding self-capacitance limits performance.
+  For 2m/70cm, use fewer turns on FT-240-43 for better SRF margin.
+
+BILL OF MATERIALS — HF COAX CHOKE (PER CHOKE)
+------------------------------------------------
+  Qty  Part             Spec                   Source
+  ────────────────────────────────────────────────────────────
+   2   FT-240-31        2.4" OD ferrite toroid  Amidon, kitsandparts.com
+   1   RG-8X            ~2m for 8 turns         any RF supplier
+   2   PL-259           SO-239 compatible       DX Engineering
+   1   Choke housing    3D printed              see choke_housing.scad
+   1   Self-amalgamating tape  50mm ×0.5m      weatherproof joints
+
+================================================================================

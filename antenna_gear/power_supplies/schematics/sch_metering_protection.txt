@@ -1,0 +1,524 @@
+================================================================================
+SCHEMATIC: Voltage/Current Metering and Protection Circuits
+TM-PWR-001  Rev A
+INA219/INA226 power monitoring  |  ADS1115 precision ADC  |  Foldback limiting
+Anderson Powerpole distribution  |  Overvoltage/overcurrent protection
+Output noise: < 10 mV RMS  |  Measurement accuracy: ±0.5%
+================================================================================
+
+METERING OVERVIEW
+──────────────────
+The power supply monitor system measures:
+  - Output voltage (V_out): ±0.5% accuracy, 0–20V range
+  - Output current (I_out): ±1% accuracy, 0–30A range
+  - Input voltage (V_in): panel or mains-derived bus voltage
+  - Battery voltage (V_bat): per cell via BMS UART, or pack voltage
+  - Temperature: pass element, inductor, battery cell (NTC thermistors)
+  - Power (P_out = V × I): computed in firmware
+  - Energy (Wh): integrated over time; accumulated in NVS
+
+SENSOR SELECTION BY APPLICATION:
+  INA219:  Budget V+I sensor; I2C; 26V max; 12-bit ADC; ±0.5% typical.
+           Best for: output monitoring on 13.8V supplies, solar panel port.
+  INA226:  Precision V+I sensor; I2C; 36V max; 16-bit ADC; ±0.1% typical.
+           Best for: battery pack, high-accuracy metering, Wh integration.
+  ADS1115: 4-channel 16-bit delta-sigma ADC; I2C; ±0.0078% FSR/bit.
+           Best for: NTC temperature, multi-channel differential ADC.
+  Internal ESP32 ADC: 12-bit, ±5% accuracy; good only for rough monitoring.
+           Use for: panel voltage divider (MPPT control), low-precision tasks.
+
+RECOMMENDED CONFIGURATION (per supply type):
+  Linear PSU:  INA226 on output; ADS1115 ch0/ch1 for NTC temperature ×2
+  SMPS:        INA226 on output; INA219 on input; ADS1115 NTC
+  Solar ctrl:  INA219 ×2 (panel + battery); ADS1115 NTC; V_panel divider ADC
+  Battery:     JK BMS UART (preferred); or INA226 on pack output
+
+================================================================================
+INA219 METERING CIRCUIT
+================================================================================
+
+INA219 SPECIFICATIONS:
+  Supply:         3.0–5.5V (compatible with ESP32 3.3V and 5V systems)
+  Bus voltage:    0–26V (on V_bus pin, 12-bit, 4mV/LSB)
+  Shunt voltage:  ±320 mV across shunt (12-bit, 10µV/LSB in ±320mV mode)
+  Current (calc): I = V_shunt / R_shunt (computed by INA219 internally)
+  Max I (no sat):  V_shunt_max / R_shunt; at 0.1Ω: 3.2A max; at 0.01Ω: 32A max
+  I2C addresses:  0x40 (A0=GND A1=GND), 0x41, 0x44, 0x45 (4 per bus)
+
+SHUNT RESISTOR SELECTION:
+  Goal: maximum resolution without saturating shunt amplifier (±320 mV FSR)
+  R_shunt = V_shunt_max / I_max
+  For  5A output: R = 320mV / 5A = 0.064Ω → use 0.05Ω (V_shunt_max = 250mV, 79%)
+  For 10A output: R = 320mV / 10A = 0.032Ω → use 0.025Ω (or 0.02Ω)
+  For 20A output: R = 320mV / 20A = 0.016Ω → use 0.01Ω
+  For solar 10A:  R = 320mV / 10A = 0.032Ω → use 0.05Ω (conservative)
+  Shunt power:   P = I² × R; at 20A / 0.01Ω: P = 4W → use 5W resistor minimum
+
+SHUNT RESISTOR CONSTRUCTION:
+  DO NOT use carbon film or metal film resistors for precision shunts.
+  USE: wirewound or manganese-copper alloy (Isabellenhütte BMF, Vishay WSL series)
+  4-wire (Kelvin) construction: sense connections separate from current connections.
+    Current terminals: high-current lugs for bus bars
+    Sense terminals: low-current wires to INA219 IN+ and IN−
+  Example: Vishay LVK24R010FER (0.01Ω, 3W, 4-terminal, 1% accuracy)
+
+INA219 WIRING (13.8V / 10A OUTPUT):
+
+  Load (+) ─── [shunt 0.025Ω 3W] ─── Load current to output rail
+                   │             │
+                  IN+            IN− ──────────── VIN−
+                           INA219
+                  VIN+ ───────────────────────── Output rail (+13.8V)
+                  GND  ─────────────────────── Supply GND
+                  VCC  ─────────────── 3.3V
+                  SDA  ─────────────── ESP32 GPIO21
+                  SCL  ─────────────── ESP32 GPIO22
+                  A0   ─── GND (addr 0x40)
+                  A1   ─── GND
+
+BYPASS CAPACITORS:
+  100nF ceramic from VCC to GND (close to INA219 VCC pin).
+  10µF electrolytic from supply rail to GND (bulk decoupling for ADC noise).
+  Ferrite bead (600Ω at 100 MHz, 1A) in series with VCC trace.
+
+INA219 CALIBRATION REGISTER:
+  Cal = 0.04096 / (I_max_expected × R_shunt)
+  For 10A, 0.025Ω: Cal = 0.04096 / (10 × 0.025) = 163.84 → write 163 (0x00A3)
+  LSB_current = I_max / 32768 = 10 / 32768 = 0.305 mA/bit
+
+  Arduino library (Adafruit INA219):
+  ```cpp
+  Adafruit_INA219 ina219_out(0x40);
+  ina219_out.begin();
+  ina219_out.setCalibration_16V_400mA(); // or custom calibration
+  float busvoltage = ina219_out.getBusVoltage_V();
+  float current_mA = ina219_out.getCurrent_mA();
+  float power_mW   = ina219_out.getPower_mW();
+  ```
+
+================================================================================
+INA226 PRECISION METERING CIRCUIT (PREFERRED FOR FINAL PRODUCT)
+================================================================================
+
+INA226 SPECIFICATIONS:
+  Supply:         2.7–5.5V
+  Bus voltage:    0–36V; 16-bit, 1.25 mV/LSB
+  Shunt voltage:  ±81.92 mV; 16-bit, 2.5 µV/LSB
+  Current:        calculated from V_shunt / Cal; up to ±32.768A with 0.0025Ω shunt
+  Accuracy:       ±0.1% (gain = ×1); far better than INA219 ±0.5%
+  Alert pin:      configurable over/undervoltage, overcurrent, power limit alert
+  I2C:            1.8–5.5V logic; addresses 0x40–0x4F (16 addresses via A0/A1 pins)
+  Averaging:      16 sample average built-in (reduces noise by 12 dB)
+
+INA226 CALIBRATION:
+  Cal = 0.00512 / (I_LSB × R_shunt)
+  Choose I_LSB = I_max / 32768
+  For I_max = 20A: I_LSB = 20/32768 = 610 µA/LSB
+  R_shunt = 0.005Ω (5 mΩ): Cal = 0.00512 / (610e-6 × 0.005) = 1679 → write 0x068F
+
+  Full-scale current: 20A in 32768 bits → 610 µA resolution
+  Power register: P = I × V; 25 mW/bit at 1.25mV bus LSB and 610µA current LSB
+
+ALERT FUNCTION FOR PROTECTION:
+  Write to MASK/ENABLE register (0x06):
+    Bit 14 (SOL): alert on shunt over-limit (overcurrent)
+    Bit 12 (BOL): alert on bus over-limit (overvoltage)
+    Bit 11 (BUL): alert on bus under-limit (undervoltage)
+  Write limit value to ALERT LIMIT register (0x07).
+  ALERT pin (open-drain): pulls LOW when limit triggered.
+  Wire ALERT to ESP32 GPIO with 10kΩ pull-up + interrupt handler.
+
+  Example (overcurrent alert at 15A):
+    V_shunt_limit = 15A × 0.005Ω = 75mV
+    Alert limit register = 75mV / 2.5µV = 30,000 → write 0x7530
+    Alert fires → ESP32 ISR → GPIO: disable PWM, latch protection
+
+================================================================================
+ADS1115 PRECISION ADC FOR TEMPERATURE AND AUXILIARY MEASUREMENTS
+================================================================================
+
+ADS1115 SPECIFICATIONS:
+  16-bit delta-sigma ADC; 860 SPS maximum
+  4 single-ended or 2 differential input channels
+  Programmable gain: ±0.256V to ±6.144V full scale
+  I2C: address 0x48–0x4B (via ADDR pin)
+
+CHANNEL ASSIGNMENTS (typical power supply monitor):
+  AIN0: NTC thermistor (pass element / MOSFET heatsink)
+  AIN1: NTC thermistor (battery / transformer)
+  AIN2: Auxiliary voltage (e.g., fan tachometer or battery pack internal)
+  AIN3: Spare / panel temperature sensor
+
+NTC TEMPERATURE CIRCUIT (10kΩ NTC, B=3950):
+
+  3.3V ──[R_ref: 10kΩ 1%]──┬── ADS1115 AIN0
+                             │
+                           [NTC: 10kΩ at 25°C]
+                             │
+                            GND
+
+  V_adc = 3.3V × NTC_R / (10000 + NTC_R)
+  NTC_R = R_ref × V_adc / (3.3 - V_adc)
+
+STEINHART-HART APPROXIMATION (B-parameter equation):
+  1/T = 1/T_0 + (1/B) × ln(R/R_0)
+  B = 3950, R_0 = 10000Ω at T_0 = 298.15K (25°C)
+  T (K) = B / (B/T_0 + ln(R/R_0))
+  T (°C) = T(K) - 273.15
+
+  Firmware:
+  ```cpp
+  float ntc_temp(float v_adc, float v_ref=3.3, float r_ref=10000.0,
+                 float r_0=10000.0, float t_0=298.15, float B=3950.0) {
+      float r_ntc = r_ref * v_adc / (v_ref - v_adc);
+      float t_k   = B / (B/t_0 + log(r_ntc / r_0));
+      return t_k - 273.15;
+  }
+  ```
+
+ADS1115 WIRING:
+  ADS1115 VDD ─── 3.3V
+  ADS1115 GND ─── GND
+  ADS1115 SDA ─── ESP32 GPIO21 (shared I2C bus)
+  ADS1115 SCL ─── ESP32 GPIO22
+  ADS1115 ADDR── GND (address 0x48)
+  ADS1115 ALRT── ESP32 GPIO35 (interrupt; 10kΩ pull-up to 3.3V)
+  AIN0–AIN3 ──── NTC voltage dividers as above
+
+================================================================================
+FOLDBACK CURRENT LIMITING — DETAIL
+================================================================================
+
+PROBLEM WITH SIMPLE CURRENT LIMITING:
+  Without foldback: at V_out short, pass element dissipates P = V_in × I_limit.
+  Example: V_in=24V, I_limit=10A: P = 24 × 10 = 240W → destroys pass transistor.
+  With foldback: as V_out drops, I_limit also drops, protecting the pass element.
+
+FOLDBACK OPERATION (LM723 CIRCUIT):
+
+  V_out ──[R_fb1: 1kΩ]──┬── LM723 pin 3 (CL−)
+                         │
+                        [R_fb2: 2.7kΩ]  ← to ground (sets foldback ratio)
+                         │
+                        GND
+
+  R_sense in series with output; LM723 pin 2 (CL+) sees V_sense.
+  Current limit trips when V_CL+ − V_CL− = 0.65V (internal V_be)
+
+  AT FULL VOLTAGE (V_out = 13.8V):
+    V_CL− = 13.8 × 2700/(1000+2700) = 13.8 × 0.730 = 10.07V  ← too high
+    Actual circuit uses resistor divider from V_out + V_sense:
+
+  CORRECTED FOLDBACK IMPLEMENTATION:
+  V_out ──────────────────────────── CL− (via divider for reference to Vbe)
+  Series R_sense (0.065Ω for 10A):   CL+ = V_out + V_sense
+
+  Foldback currents at two operating points:
+    Full output (13.8V): I_limit = I_knee (design full-load limit)
+    Short circuit (0V):  I_limit = I_sc = I_knee × R_fb2/(R_fb1 + R_fb2)
+
+  For I_knee = 10A, I_sc = 2A:
+    Ratio: I_sc/I_knee = R_fb2/(R_fb1 + R_fb2) = 0.20 → R_fb2 = 0.25 × R_fb1
+    R_fb1 = 3.3kΩ, R_fb2 = 820Ω (0.25 × 3.3k = 825Ω → nearest 820Ω)
+
+  Verify:
+    V_CL−(at V_out=13.8V): = V_out × 820/(3300+820) = 13.8 × 0.199 = 2.74V
+    V_CL+ at I_knee=10A: V_out + I × R_sense = 13.8 + 10 × 0.065 = 14.45V
+    Difference = 14.45 − 2.74 − 0.65... wait — CL uses V_CL+ − V_CL− ≥ 0.65V
+    Restating: LM723 pin 2 = CL+ (positive end of R_sense = V_out)
+              LM723 pin 3 = CL− (connected to voltage divider from output)
+    Current limit fires when: V_sense ≥ V_CL− + 0.65
+    At V_out = 13.8V: V_CL− = 2.74V; fires when V_sense ≥ 3.39V... (too high)
+
+  PRACTICAL FOLDBACK (2-resistor simpler approach):
+  The LM723 uses V_be tracking: as V_out drops, V_CL− drops, and current limit
+  set-point drops proportionally. Design using textbook formulas:
+
+    I_sc  = (V_knee − V_out_min) × R_fb2 / (R_fb1 × R_sense × (R_fb1 + R_fb2))
+    → Select R_sense first for I_knee, then add R_fb1/R_fb2 for desired I_sc ratio.
+
+  RECOMMENDED COMPONENT VALUES FOR 10A/2A FOLDBACK:
+    R_sense = 0.065Ω wirewound 3W (LM723 pin 2 to output; pin 2 = CL+)
+    R_fb1   = 3.3kΩ (V_out to LM723 pin 3 = CL−)
+    R_fb2   = 820Ω  (LM723 pin 3 to GND)
+  Output current at normal operation: 10A (V_sense = 0.65V at pin 2 relative to pin 3)
+  Output current at V_out = 0V: 2A (foldback)
+
+ELECTRONIC CROWBAR (OVERVOLTAGE PROTECTION):
+
+  If the pass element or regulator fails, V_out can rise to V_in (24V+).
+  A crowbar circuit immediately short-circuits the output, blowing the output fuse.
+  This protects connected equipment (radio, amplifier) from overvoltage damage.
+
+  CROWBAR SCHEMATIC (SCR-based):
+
+  V_out ──[R_div_top: 10kΩ]──┬──── SCR gate (via 100Ω)
+                              │
+  Vref ──[Zener DZ1: 15V]───┴────────────────────── SCR cathode
+                                                           │
+  V_out ──────────────────────────────── SCR anode      SCR1 (MCR100-6, 0.8A TO-92)
+                                              │
+  [F_out: 10A fast-blow] ───── SCR anode   SCR fires when V_out > 15.7V
+                                              │     (Zener + 0.7V gate V_be)
+                                             GND
+
+  HOW IT WORKS:
+    Normal operation: V_out = 13.8V < 15V Zener → SCR gate = 0 → SCR off.
+    Overvoltage: V_out rises above ~15V → Zener conducts → SCR gate fires.
+    SCR latches ON → V_out pulled to ~1V (SCR V_anode) → F_out blows.
+    SCR stays latched until power removed.
+
+  ZENER SELECTION:
+    V_trip = V_zener + V_be + I_gate × R_gate
+    For V_trip = 15V: V_zener = 15 - 0.7 - 0.1 = 14.2V → use 13V Zener (conservative)
+    Or use LM431 programmable reference instead of Zener (better accuracy):
+
+  LM431 CROWBAR (more precise):
+  V_out ──[R_top: 10kΩ]──┬── LM431 REF pin
+                          │
+                         [R_bot: 1.5kΩ]  (adjusts trip voltage)
+                          │
+                         GND
+  LM431 conducts when V_ref = 2.495V: V_trip = 2.495 × (1 + R_top/R_bot)
+  For V_trip = 15.5V: R_top/R_bot = 5.21 → R_bot = 1.8kΩ, R_top = 9.4kΩ ≈ use 9.1kΩ
+  LM431 cathode → SCR1 gate (100Ω) → when LM431 fires, SCR fires.
+
+================================================================================
+ANDERSON POWERPOLE DISTRIBUTION CENTER
+================================================================================
+
+STANDARD POWERPOLE WIRING (ARES/RACES/ARRL):
+  30A RED contact:  Positive terminal
+  30A BLACK contact: Negative terminal
+  Orientation: RED top-right, BLACK bottom-left when viewed from mating face.
+  Always assemble in matched pairs: red and black click together.
+
+DISTRIBUTION BLOCK — 1 INPUT / 4 OUTPUT:
+
+  MAIN FEED (45A):
+  Battery B+ ──[60A ANL fuse]──────────────── PP_IN (+) RED 45A
+  Battery P− (BMS out) ────────────────────── PP_IN (−) BLACK 45A
+
+  DISTRIBUTION BUS (4 ports):
+  PP_IN (+) ──┬──[F1: 20A]──────────────── PP_OUT1 (+)  ← HF radio (100W)
+              ├──[F2: 15A]──────────────── PP_OUT2 (+)  ← accessories
+              ├──[F3: 15A]──────────────── PP_OUT3 (+)  ← VHF/UHF radio
+              └──[F4: 15A]──────────────── PP_OUT4 (+)  ← charger/misc
+
+  PP_IN (−) ──┬──────────────────────────── PP_OUT1 (−)
+              ├──────────────────────────── PP_OUT2 (−)
+              ├──────────────────────────── PP_OUT3 (−)
+              └──────────────────────────── PP_OUT4 (−)
+
+  (All negatives common — no fuse on negative returns)
+
+FUSE SELECTION PER PORT:
+  Port 1 (HF 100W): I_max = P_in / V_bat = 200W / 12V = 16.7A → 20A fuse
+  Port 2 (accessories): 15A blade fuse (lighter, TNC meter, accessories)
+  Port 3 (VHF/UHF): 15A blade fuse (typical 50W VHF = 10A)
+  Port 4 (charger): match charger input fuse rating; 15A for 100W solar ctrl
+
+WIRE SIZING FOR DISTRIBUTION:
+  Main feed (60A): #6 AWG welding cable to ANL fuse
+  45A connector: #8 AWG from fuse to PP_IN
+  30A per port: #12 AWG from fuse block to PP outlet
+  15A per port: #14 AWG acceptable; #12 AWG preferred for robustness
+
+POWERPOLE ASSEMBLY TORQUE:
+  Do not over-crimp: inspect crimp visually; conductor must fill barrel.
+  Locking tabs: fully engage; audible click when housings mate.
+  Inspect for reversed polarity before connecting equipment.
+  Marker: use red/black heat shrink behind each connector for polarity coding.
+
+VOLTAGE DROP CALCULATION FOR POWERPOLE SYSTEM:
+  Wire resistance: #12 AWG = 0.00193 Ω/ft (1.59 mΩ/ft × 2 for round trip)
+  At 20A, 3 ft total run: V_drop = 20 × 0.00193 × 3 = 0.116V (acceptable)
+  At 20A, 10 ft total run: V_drop = 20 × 0.00193 × 10 = 0.386V (marginal)
+  For long runs (> 5 ft): use #10 AWG; V_drop < 0.5V at 20A over 12 ft
+
+GROUND LIFTOFF DETECTION:
+  If P− connection is lost while rig is transmitting, RF can appear on chassis.
+  Add: 10kΩ resistor from P− to chassis (detects loss of negative return).
+  Add: Power indicator LED (green, 5mA) from + to − with 2.7kΩ series resistor.
+  → LED extinguishes if either conductor opens.
+
+================================================================================
+OUTPUT NOISE AND RFI SUPPRESSION
+================================================================================
+
+NOISE FLOOR SPECIFICATIONS:
+  Linear PSU output (unfiltered):    < 5 mV p-p at 120 Hz (ripple)
+  Linear PSU output (Π-filtered):    < 500 µV RMS (broadband, 10 Hz–100 kHz)
+  Linear PSU output (CM choke):      < 100 µV RMS (goal for receiver supply)
+
+  SMPS output (without filter):      50–200 mV p-p at switching frequency
+  SMPS output (DM filter only):      < 10 mV p-p
+  SMPS output (DM + CM filter):      < 5 mV RMS; meets spec for field use
+
+NOISE MEASUREMENT METHOD:
+  Use oscilloscope, 20 MHz bandwidth limit, AC-coupled, 10× probe.
+  Do NOT use ground lead clip — induces loop; use spring ground adapter.
+  Measure at load terminals (rig end of cable, not supply output).
+  Load supply to 50% rated current for valid measurement.
+
+DIFFERENTIAL MODE (DM) FILTER — COMPLETE DESIGN:
+
+  PSU out ──[L1: 10µH, 20A, ferrite]──┬──[L2: 2.2µH, 20A, ferrite]──── Out+
+                                       │
+          [C1: 1000µF/25V low-ESR]  [C2: 100µF/25V] [C3: 10µF] [C4: 0.1µF]
+                                       │
+                                      GND ──────────────────────────────── GND
+
+  Cutoff frequencies:
+    Stage 1 (L1=10µH, C1=1000µF): f_c = 1/(2π√LC) = 1592 Hz
+    Stage 2 (L2=2.2µH, C2=100µF): f_c = 10.7 kHz
+    Decoupling (C3+C4): resonant at ~330 kHz (kills SMPS harmonics)
+
+  At 100 kHz (SMPS switching):
+    Stage 1 attenuation: 20 × log10(100000/1592)² = 20 × log10(39.5) = −32 dB
+    Stage 2 attenuation: 20 × log10(100000/10700) = −19 dB
+    Total: −51 dB
+    50 mV p-p input → 50 × 10^(−51/20) = 1.4 mV p-p → meets < 10 mV spec ✓
+
+COMMON MODE (CM) FILTER — SUPPLY RAIL DESIGN:
+
+  Out+ ──[L_CM_a: 10mH winding]────────────── Filtered Out+
+  GND  ──[L_CM_b: 10mH winding]────────────── Filtered GND
+
+  Both windings on same core: common-mode currents (same direction) add → blocked.
+  Differential currents (supply current) cancel → no impedance to DC or audio.
+
+  CM CHOKE SELECTION:
+    CMC = Würth 7448031008 (10mH, 8A, 35 mΩ DCR) or equivalent.
+    Alternatively: wound on Fair-Rite 2643625702 (43 material, 3 turns each = ~18 µH CM)
+    For HF receive: 10mH CM choke blocks 1.4 MHz and above on supply rails.
+
+  Y-CAPACITORS (supply-to-chassis):
+    [CY1: 4.7 nF] from Filtered Out+ to chassis GND
+    [CY2: 4.7 nF] from Filtered GND to chassis GND
+    These shunt RF currents to chassis without affecting DC regulation.
+    Y-cap type required: rated for safety (Y1 or Y2 type, 250V AC rated).
+    Do NOT use standard ceramic caps — safety concern if supply-to-chassis shorts.
+
+FERRITE SUPPRESSOR BEADS ON OUTPUT LEADS:
+  Install on the DC output cable, 1 inch from connector:
+  Fair-Rite 2643480002 (1 bead, #12 wire, 195Ω at 25 MHz)
+  Stack 3 beads per conductor: 585Ω at 25 MHz → < −21 dB on 25 MHz noise
+
+MEASURED PERFORMANCE TARGETS:
+  14 MHz noise floor (received S-unit): 1 µV = S9; goal < 0.1 µV at receiver
+  PSU noise at receiver: < 0.01 µV referred to antenna input (−100 dBm)
+  At 20 dB coax isolation: PSU noise must be < 0.1 µV at supply terminals
+  Achievable with CM choke + Y-caps + ferrite on cable.
+
+QUICK TEST (field): Connect receiver directly to supply.
+  Listen on weakest signal band (typically 40M dawn/dusk).
+  Switch supply from battery to PSU. If S-meter rises: PSU noise is intruding.
+  Add CM choke in series with supply leads (can add externally using clip-on snap-on core).
+  Snap-on cores: Fair-Rite 0431177081 (31 material, 28–600 MHz attenuation).
+
+================================================================================
+PROTECTION RELAY AND SEQUENCING
+================================================================================
+
+SOFT-START INRUSH SUPPRESSION (SMPS and capacitor banks):
+  Problem: bulk capacitors at SMPS input look like a short at power-on.
+  Without soft-start: peak inrush current = V_in / ESR_total → 100A+ possible.
+  This trips breakers, damages rectifier, and can weld relay contacts.
+
+INRUSH LIMITER OPTIONS:
+  1. NTC thermistor (passive): 10Ω cold → 0.5Ω hot.
+     Limits inrush; after 2–3 seconds thermistor is hot and low-resistance.
+     Problem: if power cycled quickly, NTC is still hot → no protection on second cycle.
+  2. Relay bypass (active): NTC in series; relay shorts NTC after 200 ms.
+     Timer: 555 monostable (R=200kΩ, C=1µF → t=220 ms); output drives relay coil.
+     Relay: 12V SPST, 10A contact; shorts the NTC thermistor.
+  3. Electronic soft-start (MOSFET ramp): preferred for SMPS designs.
+     N-channel MOSFET in series with supply; gate voltage ramps from 0 to VGS(th) over 50 ms.
+     Gate RC: 100kΩ × 470µF → τ = 47 ms. Output current limited during ramp.
+
+RELAY BYPASS SOFT-START SCHEMATIC:
+
+  V_in ──[NTC: 10Ω, CL-50]──┬──── Buck converter input
+                              │
+                          [Relay NO contacts]  (relay closed = bypass NTC)
+                              │
+                         NTC bypass
+
+  Timer: 555 in monostable mode
+    R = 200kΩ, C = 1µF (electrolytic, 25V)
+    t_on = 1.1 × R × C = 1.1 × 200000 × 0.000001 = 220 ms
+    After 220 ms: 555 output HIGH → relay driver → relay closes → NTC bypassed.
+    Once bypassed, supply operates normally; NTC dissipates < 0.5W in bypass.
+
+POWER SEQUENCING FOR RADIO STATION:
+  Recommended turn-on sequence:
+    1. Battery / PSU energized (no loads)
+    2. Metering and control (ESP32) powers up — needs 500 ms boot time
+    3. Transceiver audio subsystem (prevents pop)
+    4. Transceiver RF subsystem
+    5. Linear amplifier (last — most sensitive to voltage transients)
+
+  Sequence can be automated with ESP32 + relay outputs:
+    GPIO 12 → K1 relay → PSU output enable
+    GPIO 13 → K2 relay → Radio audio enable (+200 ms)
+    GPIO 14 → K3 relay → Radio RF enable (+500 ms)
+    GPIO 15 → K4 relay → Amplifier enable (+1000 ms)
+
+  On shutdown: reverse order (amplifier first).
+  Use normally-closed contacts: relays open on loss of ESP32 power (failsafe).
+
+================================================================================
+METERING AND PROTECTION — I2C BUS SUMMARY
+================================================================================
+
+I2C BUS MAP (ESP32 GPIO21/SDA, GPIO22/SCL):
+  Address | Device       | Function
+  --------|--------------|------------------------------------------
+  0x40    | INA219 #1    | Panel/input current + voltage
+  0x41    | INA219 #2    | Output current + voltage (or battery)
+  0x44    | INA219 #3    | Optional: second output port
+  0x45    | INA219 #4    | Optional: charger input
+  0x48    | ADS1115      | NTC × 4 (temperature channels)
+  0x40    | INA226 #1    | High-accuracy output (conflicts with INA219 #1)
+  0x3C    | SSD1306 OLED | 128×64 standalone display (if no CYD)
+  0x68    | DS3231 RTC   | Real-time clock for energy logging timestamps
+
+  NOTE: INA219 and INA226 share the 0x40–0x4F address space.
+  Cannot use INA219 at 0x40 AND INA226 at 0x40 on same bus.
+  Solution: use INA226 at 0x45 (A0=VCC, A1=VCC) to avoid conflict.
+
+I2C PULLUP RESISTORS:
+  One set of pullups per bus; do NOT add pullups on every module board.
+  2.2kΩ from SDA to 3.3V + 2.2kΩ from SCL to 3.3V (fast mode, 400 kHz bus).
+  If using slow (100 kHz) bus: 4.7kΩ pullups acceptable.
+  Multiple modules on bus: remove pullup resistors from module boards except one.
+
+================================================================================
+PARTS LIST — METERING AND PROTECTION CIRCUITS
+================================================================================
+
+Item      | Qty | Description                              | Source
+----------|-----|------------------------------------------|-------------------
+INA219    |  2  | INA219 I2C power monitor module         | Mouser, AliExpress
+INA226    |  1  | INA226 high-accuracy power monitor      | Mouser
+ADS1115   |  1  | ADS1115 16-bit ADC module (4-ch)       | Mouser, AliExpress
+SHUNT_05  |  2  | 0.05Ω 3W Kelvin shunt (panel/MPPT)     | Mouser
+SHUNT_01  |  1  | 0.01Ω 5W Kelvin shunt (20A output)     | Mouser (Vishay LVK)
+NTC_10K   |  4  | 10kΩ NTC thermistor (B=3950)           | Mouser
+R_ntc     |  4  | 10kΩ 1% metal film (NTC reference)     | Mouser
+SCR1      |  1  | MCR100-6 SCR (crowbar, 0.8A TO-92)     | Mouser
+LM431     |  1  | LM431 adjustable shunt reference        | Mouser
+DZ_15V    |  1  | 15V 1W Zener (backup crowbar)          | Mouser
+NTC_RT    |  1  | 10Ω NTC thermistor (inrush, CL-50)     | Mouser (Ametherm)
+RELAY_SW  |  4  | OMRON G5LE-1-36 12V relay (sequencer)  | Mouser
+ULN2003A  |  1  | ULN2003A Darlington driver (relay ctrl) | Mouser
+555_TIM   |  1  | LM555 timer (soft-start timer)         | Mouser
+PP_45A    |  2  | Anderson Powerpole 45A (main input)     | PowerWerx
+PP_30A    |  8  | Anderson Powerpole 30A × 4 pairs        | PowerWerx
+FUSE_20A  |  4  | 20A automotive blade fuse + inline holder| Amazon
+L_CM      |  1  | Würth 7448031008 CMC 10mH 8A            | Mouser
+CY_4N7    |  4  | 4.7nF Y2-rated safety cap (CM filter)  | Mouser
+FERRITE   |  6  | Fair-Rite 2643480002 bead (output leads)| Mouser
+R_divider |  4  | Resistor kit 1% for voltage dividers    | Mouser
+================================================================================

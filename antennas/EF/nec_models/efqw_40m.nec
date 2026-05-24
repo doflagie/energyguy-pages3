@@ -1,0 +1,26 @@
+CM EFQW_40M.NEC — End-Fed Quarter-Wave Vertical, 40 Meters
+CM TM-EF-NEC-003 Rev A
+CM
+CM Band:       40m (7.000 – 7.300 MHz)
+CM Center:     7.150 MHz
+CM QW length:  10.18 m (VF=0.97, #18 AWG)
+CM Feed Z:     35 + j0 Ω (perfect ground); 40 + j5 Ω (avg, 4 radials)
+CM Radials:    4× 10.18m at ground level (or elevated 0.5m)
+CM Matching:   L=0.524uH (7T T50-2), C=390pF + 0-82pF variable
+CM
+CM Portable notes: Can elevate the entire antenna 1-2m using
+CM   a fiberglass pole for improved takeoff angle.
+CM   Sloped at 45° drops feedpoint impedance slightly to ~30Ω.
+
+CE
+GW 1 40  0 0 0.01  0 0 10.18  0.000816
+GW 2 1   0 0 0.01  10.18 0 0.01  0.000816
+GW 3 1   0 0 0.01  0 10.18 0.01  0.000816
+GW 4 1   0 0 0.01  -10.18 0 0.01  0.000816
+GW 5 1   0 0 0.01  0 -10.18 0.01  0.000816
+GE 1
+GN 2 0 0 0  13 0.005
+EX 0 1 1 0  1 0
+FR 0 13 0 0  7.000 0.025
+RP 0 37 73 1000  0 0 5 5
+EN

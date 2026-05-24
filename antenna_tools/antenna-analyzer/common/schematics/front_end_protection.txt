@@ -1,0 +1,432 @@
+================================================================================
+  INTEGRATED ANTENNA ANALYZER - FRONT-END PROTECTION
+  RF Limiter, Overvoltage Protection, and Absorptive Switch Safety
+================================================================================
+
+OVERVIEW
+────────
+Protects sensitive RF measurement frontend (AD8302, ADS1115, input stages) from
+damage due to excessive input signals during antenna measurement.
+
+Three protection layers:
+  1. Passive RF limiter (fast response, < 100 ns clipping)
+  2. Diode-based overvoltage suppression (protects AD8302 inputs)
+  3. Absorptive RF switch (mutes measurement during impedance mismatch transients)
+
+Maximum safe input levels:
+  AD8302 input: ±6V (absolute maximum, ±3.5V typical linear)
+  RF coupler nominal output: -30 to -5 dBm (typical reflection, 0.1-0.7V)
+  DUT port direct (worst case): +30 dBm (1W incident, 0.316V to coupler -20dB)
+  → 0.0316V to AD8302 input (safe)
+
+Hazard scenarios:
+  - Transmitter accidentally connected to DUT port during measurement
+  - High-power antenna near analyzer during sweep
+  - Lightning-induced transient on feed cable
+  → Analyzer must survive and not damage antenna being tested
+
+
+SYSTEM BLOCK DIAGRAM
+────────────────────
+    DUT PORT ──→ [Absorptive switch] ──→ [RF limiter] ──→ [Coupler] ──→ [Suppr diodes] ──→ AD8302
+   (50Ω SMA)      (mute on high V)       (fast clip)      (passive)     (clamping)        input
+                  GPIO control          Schottky diodes   -20dB         BAV99 pair
+
+
+SECTION 1: ABSORPTIVE RF SWITCH (PE4259 or SPDT Relay)
+──────────────────────────────────────────────────────
+
+Purpose: Rapidly mute RF path when overvoltage detected
+  Allows operator to disconnect live transmitter without harming analyzer
+  Also protects during rapid VSWR transients (open-to-short transitions)
+
+Topology A: Solid-State SPDT Switch (Fast, < 1 µs)
+  Device: Peregrine PE4259-63 (SPDT, 2.5 µs switching, 35 dB isolation)
+  Control: GPIO12 = MUTE_RF (active high enables RF path, low blocks)
+  Supply: 3.3V logic
+
+Pinout (PE4259):
+  IN  → from DUT SMA connector
+  OUT1 → to RF limiter / coupler path (main measurement path)
+  OUT2 → to 51Ω absorptive load (when muted, RF dissipated)
+  GND → power return
+  CTRL → GPIO12, active high (OUT1 connected when high, OUT2 connected when low)
+
+Schematic:
+    ┌────────────────────────────────────┐
+    │ DUT PORT                           │
+    │ (50Ω)                             │
+    │    │                              │
+    │  [10nF]  AC couple                │
+    │    │                              │
+    │    v                              │
+    │ ┌──────────────────────────┐      │
+    │ │ PE4259 SPDT SWITCH       │      │
+    │ │                          │      │
+    │ │ IN  (50Ω DUT)            │      │
+    │ ├─→ OUT1 (to limiter)      │  Ctrl: GPIO12
+    │ │                          │  High: Path to limiter
+    │ ├─→ OUT2 (absorptive load) │  Low:  Path to dump
+    │ │                          │       (mute mode)
+    │ └──────────────────────────┘      │
+    │    │              │               │
+    │   [51Ω]      To limiter           │
+    │    │         (normal path)        │
+    │    v                              │
+    │   GND                             │
+    │                                   │
+    │ Firmware control:                 │
+    │   GPIO12=HIGH  → measure RF       │
+    │   GPIO12=LOW   → mute (dump to load)
+    └────────────────────────────────────┘
+
+Absorptive load specification:
+  - 51Ω film resistor (0603 package, 1% tolerance)
+  - 1/4W rating (handles sustained +10 dBm, 10 mW dissipation)
+  - Lead length: < 5 mm directly to GND plane via
+  - Frequency: Stable 50-2000 MHz (nichrome or tantalum nitride film)
+
+Topology B: Electromechanical Relay (Maximum Isolation, > 100 dB)
+  Device: Dow-Key Microwave SPDT coax relay (10 GHz rated)
+  Switching time: ~2 ms (slower than FET)
+  Isolation: > 100 dB (better than PE4259)
+  Insertion loss: < 0.3 dB
+  Cost: ~$80-150 vs. ~$5 for PE4259
+
+Choose Topology A (PE4259) for portable analyzer (size, power, cost).
+Relay alternative available for bench-top variant.
+
+Control logic (firmware):
+```cpp
+const uint8_t GPIO_MUTE_RF = 12;
+
+void init_protection() {
+  pinMode(GPIO_MUTE_RF, OUTPUT);
+  digitalWrite(GPIO_MUTE_RF, HIGH);  // Default: RF path open
+  delay(100);  // Let switch settle
+}
+
+void muteRF() {
+  digitalWrite(GPIO_MUTE_RF, LOW);   // Switch to absorptive load
+  delay(5);    // 5 µs switching time + margin
+}
+
+void unmuteRF() {
+  digitalWrite(GPIO_MUTE_RF, HIGH);  // Switch back to measurement path
+  delay(5);
+}
+
+// During measurement:
+for (each frequency step) {
+  unmuteRF();
+  readMeasurement();
+  if (voltage > SAFETY_THRESHOLD) {
+    muteRF();  // Protect on overvoltage
+    displayWarning("RF OVERLOAD - MUTED");
+    break;  // Abort measurement
+  }
+}
+```
+
+Safety interlocks:
+  - Mute on startup (power-on state = GPIO12 LOW)
+  - Mute if ADC reading > 4.5V (out of spec, possible TX)
+  - Mute on watchdog timeout (ESP32 reset in progress)
+  - Operator can manually invoke MUTE button (dedicated GPIO)
+
+
+SECTION 2: PASSIVE RF LIMITER (Schottky Diode Pair)
+────────────────────────────────────────────────────
+
+Purpose: Hard-limit RF voltage to safe levels for AD8302 input
+  Clipping threshold: ±350 mV (diode forward voltage ~350 mV @ 1 GHz)
+  Response time: < 100 ns (diode switching speed)
+  Frequency range: DC-2 GHz (covers all measurement bands)
+
+Topology: Parallel Schottky diode pair (shunt limiter)
+  Diodes in parallel for voltage symmetry (clips positive and negative peaks)
+  Both cathodes to GND, anodes toward AD8302 input
+  Provides current bypass path during clipping
+
+Device: BAV99 dual Schottky diode array
+  Two independent Schottky junctions in SOT-23 package
+  Forward voltage: Vf ≈ 0.3-0.35V @ 10 mA (1 GHz)
+  Reverse leakage: < 10 µA @ 6V (before breakdown)
+  Maximum current: 200 mA (pulsed)
+  Frequency: Suitable for RF up to 3 GHz
+
+Schematic (limiter + filtering):
+
+    FROM ABSORPTIVE SWITCH (50Ω) ──[10nF]──┬──→ To coupler
+                                            │
+                                    [100Ω series]
+                                            │
+                              ┌─────────────┤
+                              │             │
+                         [BAV99]        [10nF]
+                         anode          filter
+                              │             │
+                             GND           GND
+
+Alternative: Discrete Schottky pair (if BAV99 unavailable)
+  Device 1: SMS7621 (single Schottky, Vf=0.33V @ 10mA, SOD-323)
+  Device 2: Same (parallel pair)
+  Both cathodes tied to GND
+
+Protection operation:
+  Normal signal (< ±350 mV): Diodes reverse-biased, high impedance (> 10 MΩ)
+  Input overvoltage (> ±350 mV): Forward-biased, conducts excess current to GND
+  Peak clipping: ±350 mV ≈ -9 dBm RF power (safe for AD8302)
+
+Temperature behavior:
+  Vf decreases ~2 mV/°C (slight leakage increase at high temp)
+  Operation stable from -10°C to +60°C
+  At 70°C: Vf ≈ 0.32V, minimal performance change
+
+Maximum dissipation:
+  Worst case: +20 dBm input (100 mW) clipped to ±350 mV
+  Current: I = (0.316V - 0.35V) / 100Ω ≈ 0.34 mA average
+  Power per diode: P ≈ 20 mW (well below 500 mW limit)
+
+
+SECTION 3: SUPPRESSION DIODES AT AD8302 INPUT (Final Protection)
+─────────────────────────────────────────────────────────────────
+
+Purpose: Ultra-fast overvoltage clamp at AD8302 pins (final stage)
+  Protects against transients that exceed limiter capability
+  Also prevents internal diodes from damage during surge
+
+Device: BAV99 (same as limiter, placed near AD8302 pins)
+  One pair on INPA, one pair on INPB
+  Connected: Anodes to signal, cathodes to ±3.5V rails (for clamping voltage)
+
+Schematic (AD8302 input stage):
+
+    FROM BALUN ──[10nF]──┬──────→ INPA (AD8302 pin)
+                         │
+                    ┌────┤
+                    │    │
+                [10nF]   │  Clamping
+              [100Ω]  [BAV99 pair]
+                    │    │
+                   GND   ├──[10kΩ]──→ +3.3V (upper clamp)
+                        │
+                        ├──[10kΩ]──→ -5V (lower clamp)
+                        │
+                       GND
+
+Clamping voltage:
+  Upper: VCC(+5V) - Vf ≈ 4.65V (won't trigger, signal max 3.5V)
+  Lower: GND + Vf ≈ 0.35V (signal min 0V, protected)
+
+Actually, use BAV99 directly across the ±supply rails:
+    ┌──→ INPA signal
+    │
+  ──┤
+    │ BAV99 cathode to GND, anode to signal
+    │
+    GND
+
+This provides symmetric ±350 mV protection around 0V (signal swing -3.5 to +3.5V).
+
+
+OVERVOLTAGE DETECTION (ADC-BASED FIRMWARE MONITORING)
+──────────────────────────────────────────────────────
+
+Firmware continuously monitors input voltage and triggers muting if exceeded.
+
+Monitoring approach:
+  1. ADS1115 Channel 2: Monitors VMAG output (0.6-3.2V range)
+  2. ADS1115 Channel 3: Monitors VPHS output (0-1.8V range)
+  3. Software threshold: If VMAG > 3.2V OR VPHS > 1.8V, trigger MUTE
+
+Firmware code:
+```cpp
+const float VMAG_MAX_SAFE = 3.2;  // V (max output of AD8302)
+const float VPHS_MAX_SAFE = 1.8;  // V
+const uint8_t GPIO_MUTE_RF = 12;
+
+void checkOvervoltage() {
+  float vmag = readADS1115(AIN0);
+  float vphs = readADS1115(AIN1);
+
+  if (vmag > VMAG_MAX_SAFE || vphs > VPHS_MAX_SAFE) {
+    // Overvoltage detected
+    muteRF();  // Switch to absorptive load
+    displayWarning("OVERVOLTAGE DETECTED");
+    Serial.printf("VMAG=%.3f V, VPHS=%.3f V\n", vmag, vphs);
+
+    // Abort current sweep
+    sweepAbort = true;
+
+    // Wait for user intervention
+    while (readUserButton() == 0) {
+      delay(100);
+    }
+
+    // Recheck before resuming
+    vmag = readADS1115(AIN0);
+    if (vmag < VMAG_MAX_SAFE) {
+      unmuteRF();
+      displayMessage("RF RESTORED");
+    }
+  }
+}
+```
+
+Hardware overvoltage indicator:
+  Optional: GPIO35 (ADC input on ESP32) samples analog voltage from VMAG output
+  Can trigger LED or buzzer without firmware intervention (reliability backup)
+
+  Circuit: VMAG (0-3.2V) → [100kΩ / 220kΩ divider] → GPIO35 (0-1.05V)
+  Threshold set via ADC code (GPIO35 > 0.9V ≈ VMAG > 3.0V = WARNING)
+
+
+STATIC PROTECTION (ESD SUPPRESSION)
+────────────────────────────────────
+
+DUT port (SMA connector) can accumulate static charge during transport.
+Add TVS (transient voltage suppression) diode at connector.
+
+Device: PESD5V0S2BTR (dual TVS, SOT-23)
+  Clamping voltage: 5.0V (doesn't interfere with normal operation)
+  Response time: < 1 ns
+  Break-down: > 15 kV (good ESD protection)
+  Cost: ~$0.20
+
+Placement:
+    DUT SMA CONNECTOR
+         │
+       [ESD TVS] ──→ Anode to SMA center, Cathode to GND
+         │
+       [10nF coupling cap]
+         │
+    To absorptive switch
+
+
+MUTING MECHANISM (Automated Safety)
+──────────────────────────────────
+
+Scenarios that trigger automatic MUTING:
+
+1. Transmitter detection (DC bias):
+   If DUT impedance drops below 10Ω (short circuit indicator):
+     → Likely active transmission line, mute RF path
+
+2. Voltage transient (di/dt protection):
+   If dV/dt > 100 V/µs detected (rapid change):
+     → Possible TX keying, mute immediately
+
+3. Measurement timeout:
+   If sweep takes > 30 seconds per frequency:
+     → Possible RF application, mute and abort
+
+4. Manual operator button:
+   Dedicated pushbutton (GPIO37) wired to pull-down
+     → Press = immediate mute, hold 2s = reset analyzer
+
+Implementation:
+```cpp
+volatile bool mute_requested = false;
+
+void ISR_mute_button() {
+  mute_requested = true;
+  muteRF();
+}
+
+void setup() {
+  attachInterrupt(digitalPinToInterrupt(GPIO37), ISR_mute_button, FALLING);
+}
+
+void detectTransmitter() {
+  // Check for DC bias (transmitter active)
+  int raw_vmag = analogRead(GPIO35);  // VMAG output
+
+  if (raw_vmag < 50) {  // Below noise floor, likely shorted (TX on)
+    muteRF();
+    displayError("TRANSMITTER DETECTED - RF MUTED");
+    return true;
+  }
+  return false;
+}
+
+void detectVoltageSpike() {
+  static float last_vmag = 0;
+  float vmag = readADS1115(AIN0);
+
+  float dv = abs(vmag - last_vmag);
+  float dt = 0.01;  // 10 ms between samples
+  float dvdt = dv / dt;  // V/µs
+
+  if (dvdt > 100) {  // 100 V/µs threshold
+    muteRF();
+    displayError("VOLTAGE SPIKE - RF MUTED");
+    return true;
+  }
+  last_vmag = vmag;
+  return false;
+}
+```
+
+
+TEST PROCEDURE FOR PROTECTION CIRCUITS
+───────────────────────────────────────
+
+1. Verify absorptive switch operation:
+   - Apply 3.3V to GPIO12 (MUTE_RF)
+   - Measure RF path continuity with ohmmeter (should read ~50Ω)
+   - Apply 0V to GPIO12
+   - Measure RF path (should read > 10 MΩ, indicating absorptive load)
+
+2. Verify RF limiter clipping:
+   - Connect TinySA to limiter input
+   - Sweep 0.1 to 2 GHz at +10 dBm output power
+   - Limiter output should clip at ±350 mV
+   - Measure 1 dB compression point (should be ≈ -20 dBm input)
+
+3. Test AD8302 protection diodes:
+   - Apply ±5V transient (100 ns pulse) to INPA
+   - Measure AD8302 output with oscilloscope
+   - Output should clamp to ±350 mV
+
+4. Verify overvoltage detection firmware:
+   - Manually set VMAG = 3.5V (outside safe range) via simulator
+   - Confirm GPIO12 goes LOW (MUTE_RF triggered)
+   - Confirm LCD displays warning message
+
+5. Test manual MUTE button:
+   - Press GPIO37 pushbutton
+   - Confirm GPIO12 goes LOW immediately
+   - Confirm RF path is muted
+
+
+HAZARD ANALYSIS
+────────────────
+
+Risk: Analyzer connected to active transmitter
+  Severity: HIGH (internal damage, permanent failure)
+  Mitigation: Absorptive switch + overvoltage detection
+  Residual risk: LOW (manual mute button backup)
+
+Risk: Lightning transient on DUT port during thunderstorm
+  Severity: HIGH (large currents, component vaporization)
+  Mitigation: ESD protection, TVS diodes, absorptive load
+  Residual risk: MEDIUM (still requires surge arrester on external cabling)
+
+Risk: Accidental calibration with powered transmitter
+  Severity: MEDIUM (OSL standards may be damaged, measurement error)
+  Mitigation: Transmitter detection firmware, manual verification
+  Residual risk: LOW (operator training required)
+
+Risk: Fast VSWR transients (operator connects/disconnects antenna)
+  Severity: LOW (brief overvoltage, quickly damped by limiter)
+  Mitigation: RF limiter response < 100 ns, clamping diodes
+  Residual risk: MINIMAL
+
+
+RELATED DOCUMENTS
+──────────────────
+  - rf_coupler_multiband.txt: Output ports connected to this protection stage
+  - ad8302_vector_detector.txt: Protected inputs to AD8302
+  - integrated_antenna_analyzer.ino: Firmware muting logic and overvoltage detection
+  - INTEGRATED_ANTENNA_ANALYZER_MANUAL.txt: Safety procedures and transmitter detection

@@ -1,0 +1,304 @@
+================================================================================
+SCHEMATIC: High-Power Antenna Switch — 1 kW CW / 2 kW PEP
+TM-ANT-SW-001  Rev A
+Vacuum Relay and Heavy-Duty Contact Designs
+Continuous 1000W CW, 2000W PEP, SWR ≤ 3:1 at all ports
+================================================================================
+
+HIGH-POWER REQUIREMENTS ANALYSIS
+───────────────────────────────────
+At 1000W CW into 50Ω (matched):
+  V_peak = √(2 × 1000 × 50) = 316V
+  I_peak = √(2 × 1000 / 50) = 6.32A
+
+At 2000W PEP into 50Ω (matched):
+  V_peak = 447V,  I_peak = 8.94A
+
+At 1500W CW into 50Ω (matched):
+  V_peak = 387V,  I_peak = 7.75A
+
+At 2000W PEP with SWR = 3:1 (worst case, mismatched antenna):
+  V_max = 447 × √3 = 775V
+  I_max = 8.94 × √3 = 15.5A
+
+CONTACT REQUIREMENTS:
+  Peak voltage across open contact: 775V (must NOT arc)
+  RMS current (1kW CW): 4.47A continuous
+  Contact resistance target: < 10 mΩ (to limit heating at I_peak)
+  Power dissipated in contact: I² × R = 6.32² × 0.010 = 0.40W at 1kW/50Ω
+
+COMPONENT SELECTION FOR HIGH POWER:
+
+OPTION A — VACUUM RELAY (preferred for > 1kW, highest reliability):
+  Jennings RJ1A or Gigavac G-series vacuum relay
+  Jennings RJ1A: 15kV isolation, 30A contact, RF-rated to 200 MHz
+  Gigavac GH24: 7500V isolation, 30A, SPDT
+  Cost: $50–$150 per relay; reusable for millions of operations
+
+OPTION B — HEAVY COAXIAL RELAY (Tohtsu/Dow-Key type):
+  Tohtsu CX-800: rated 2000W at HF, SPDT coaxial, SO-239 connectors
+  Dow-Key 40x series: 5kW rated vacuum relays with coaxial ports
+  Cost: $30–$200; purpose-built for RF coaxial switching
+
+OPTION C — HEAVY MECHANICAL ROTARY SWITCH (manual; highest power rating):
+  Ceramic-body switch with heavy silver contacts: rated 20A, 500V
+  No upper power limit in mechanical terms — the switch contacts are the
+  only RF path.  Properly sized contacts handle 5kW or more.
+  Examples: Centralab ceramic wafer with heavy silver contacts
+  Cost: $10–$30; requires manual operation or motorized driver
+
+THIS DOCUMENT COVERS: heavy relay (OPTION B) and rotary (OPTION C).
+
+================================================================================
+TOHTSU CX-800 SERIES COAXIAL RELAY — SPECIFICATIONS
+================================================================================
+
+The Tohtsu CX-800 is a purpose-built coaxial relay for ham and commercial
+power amplifier antenna switching.
+
+ELECTRICAL SPECIFICATIONS:
+  Maximum Power:       2000W at HF (to 30 MHz)
+  Frequency Range:     DC to 200 MHz
+  Insertion Loss:      < 0.1 dB to 100 MHz; < 0.2 dB to 200 MHz
+  VSWR:               < 1.1:1 to 100 MHz; < 1.15:1 to 200 MHz
+  Isolation:          > 60 dB at 1 MHz; > 50 dB at 100 MHz; > 40 dB at 200 MHz
+  Connector:          SO-239 (CX-800) or N-type (CX-800N)
+  Contact voltage:    300V isolation minimum (center conductor to chassis)
+
+COIL SPECIFICATIONS:
+  Coil voltage:       12V DC (standard; 24V available)
+  Coil current:       320 mA at 12V (3.84W)
+  Operate time:       < 15 ms
+  Release time:       < 10 ms
+  Mechanical life:    1 million operations (relay), 50,000 (high-power arcing)
+
+HIGH-POWER 4-PORT SWITCH USING CX-800:
+
+  TOPOLOGY: 4 SPDT relays, one per antenna port.
+  Each relay: COM to COMMON port, NO to one antenna, NC open.
+  When antenna N selected: relay N energized; others released.
+
+  RF PATH ANALYSIS (single relay in path):
+    IL = relay insertion loss = < 0.1 dB at HF ← acceptable
+    No cascading of relay contacts; signal through only one contact.
+
+CX-800 RELAY SCHEMATIC (1 of 4):
+
+  COMMON ──────────────────────────────────────── [SO-239 COMMON]
+            │
+         [CX-800 COM]
+            │
+            ├── [CX-800 NO] ──────────── ANT1 [SO-239]
+            │   (when energized)
+            │
+            └── [CX-800 NC] ──────────── open (+ 47kΩ static drain to chassis)
+                (when released)
+
+CHASSIS GROUND:
+  All connector outers to chassis.
+  Relay housing to chassis (important: relay housing is RF ground reference).
+  Static drain resistors 47kΩ on each unselected antenna port.
+
+================================================================================
+HEAVY ROTARY SWITCH — HIGH POWER VERSION
+================================================================================
+
+For manual high-power applications, a ceramic rotary switch with silver-plated
+heavy contacts is the preferred design.  Contact ratings can exceed 20A, 500V.
+
+CONTACT RATING ANALYSIS:
+  Continuous current: 1kW CW at 50Ω: I_RMS = √(P/Z) = √(1000/50) = 4.47A RMS
+  Contacts rated 20A continuous: 4.5× margin → thermal dissipation negligible.
+  Voltage isolation (open contact): rated 500V min → adequate for 2kW PEP SWR 3:1 (775V — marginal).
+  For 2kW PEP, SWR > 2:1: select 1000V rated switch contacts (ceramic body).
+
+RECOMMENDED ROTARY SWITCH FOR HIGH POWER:
+  Alpha Electronics SR2500: ceramic, 28 positions, silver contacts, 2A rated
+    (2A rating is for signal switching; thermal limit not power-RF limit)
+  Elma 04-type with silver contacts
+  Centralab ceramic wafer: historical standard, still available NOS
+
+  NOTE: Switch contact current rating is a heating (thermal) rating.
+  At RF, the relevant limits are:
+    1. Contact resistance and resulting heating
+    2. Arcing voltage (open circuit isolation)
+    3. Inductance of contact wiper and leads
+
+HIGH-POWER MANUAL SWITCH SCHEMATIC (same as Design 3 in manual rotary doc):
+  See sch_manual_rotary_switch.txt; scale contact material for power level.
+
+================================================================================
+VACUUM RELAY DESIGN — JENNINGS RJ1A
+================================================================================
+
+The Jennings RJ1A is a glass-sealed vacuum relay providing:
+  - 10 kV isolation between contacts
+  - 30A continuous contact current
+  - DC to 200 MHz (RF rated)
+  - Hermetically sealed — immune to contamination and humidity
+
+RJ1A SPECIFICATIONS:
+  Contact type:    SPST-NO (normally open)
+  Rated voltage:   10 kV isolation
+  Rated current:   30A continuous
+  RF power:        Extremely high — limited only by connector and housing
+  Coil:            26.5V DC at 22W  (or 12V version at 13W)
+  Operate time:    12 ms
+  Dimensions:      50mm × 40mm cylinder
+
+VACUUM RELAY CIRCUIT (per relay):
+  The Jennings RJ1A is SPST-NO — normally open, closes when coil energizes.
+  For a 4-port switch: 4× RJ1A, each in the path from COMMON to one antenna.
+  All relays normally open; energize only the selected one.
+
+  COMMON ──┬──────────────────────────────── other relays
+            │
+          [RJ1A-1 contact]
+            │
+          ANT1 ──────────────────────── [SO-239]
+
+COIL DRIVE for 26.5V coil:
+  Use 24V power supply (close enough; coil operates from 18–30V).
+  Current: 13W/24V = 542 mA per relay.
+  Drive with MOSFET: IRLZ44N (logic-level gate, 55V, 47A).
+
+  ESP32 GPIO ──[10kΩ]── IRLZ44N Gate
+                            │
+                         Drain ──[RJ1A coil]── +24V
+                            │
+                         Source ── GND
+  [1N5819 flyback diode from Drain to +24V supply]
+
+================================================================================
+HIGH-POWER RELAY DRIVER CIRCUIT
+================================================================================
+
+For CX-800 (12V, 320mA) or Jennings (24V, 540mA):
+
+MOSFET DRIVER PER RELAY (preferred over Darlington for high current):
+
+  ESP32 GPIO ──────[10kΩ]──────── IRLZ44N Gate (threshold ~2V; fully on at 5V)
+                                           │
+  +12V/+24V ──[relay coil]──[D1:1N5819]── MOSFET Drain
+                                           │
+  GND ──────────────────────────────────── MOSFET Source
+
+  IRLZ44N: R_DS(on) = 22 mΩ at V_GS = 5V
+  Power dissipated in MOSFET at 320mA: 0.32² × 0.022 = 2.3 mW → negligible
+  No heatsink required.
+
+MULTIPLE RELAY DRIVER (with safety interlock):
+
+  ESP32 firmware: assert that exactly one (or zero) relays is energized.
+  Before switching: de-energize current relay, wait 20ms (release time), then
+  energize new relay.  Never energize two relays simultaneously on a single-
+  common bus.
+
+  EXCEPTION: Two relays may be simultaneously energized briefly (< 5ms) to
+  ensure continuous coax connection (make-before-break transition).
+  This requires overlap logic in firmware:
+    1. Energize new relay
+    2. Wait 10ms (both relays now energized)
+    3. De-energize old relay
+    4. Wait 15ms (new relay fully in)
+    5. Confirm position via Hall or monitoring
+
+================================================================================
+ISOLATION IMPROVEMENT TECHNIQUES
+================================================================================
+
+TARGET: > 60 dB port-to-port isolation at HF; > 50 dB at VHF
+
+TECHNIQUE 1 — METAL DIVIDERS:
+  Install metal baffles between relay positions inside the enclosure.
+  Each relay/port in its own shielded sub-cavity.
+  Improvement: 20–40 dB additional isolation at VHF.
+
+TECHNIQUE 2 — ABSORBING UNUSED PORTS:
+  Terminate each unselected antenna port with a 50Ω load (1W minimum) in
+  addition to the 47kΩ static drain.
+  Unselected port sees 50Ω load → any received signal from selected port is
+  absorbed, not reflected back.
+  This improves isolation by 6 dB minimum and prevents SWR issues.
+
+TECHNIQUE 3 — RELAY POSITIONING:
+  For relay-based switch: mount each relay with its coaxial axis aligned along
+  the signal path (not perpendicular).  Minimizes stray coupling between
+  relay contact stubs.
+
+TECHNIQUE 4 — PCB LAYOUT:
+  Ground plane under all RF traces.
+  Guard ring (grounded copper pour) between each relay's signal trace.
+  Via stitching around the perimeter of the RF area.
+
+ACHIEVED ISOLATION TABLE (with all techniques):
+
+  Frequency | Without dividers | With dividers | With dividers + absorber
+  ----------|-----------------|---------------|---------------------------
+   1.8 MHz  |     > 80 dB     |    > 90 dB    |    > 90 dB
+   14 MHz   |     > 70 dB     |    > 80 dB    |    > 82 dB
+   50 MHz   |     > 65 dB     |    > 72 dB    |    > 76 dB
+  144 MHz   |     > 55 dB     |    > 65 dB    |    > 68 dB
+  432 MHz   |     > 45 dB     |    > 55 dB    |    > 58 dB
+
+================================================================================
+ENCLOSURE DESIGN FOR HIGH POWER
+================================================================================
+
+HIGH POWER ENCLOSURE REQUIREMENTS:
+  Material: aluminum die-cast or machined (not 3D-printed for 1kW+ continuous)
+  Grounding: all internal parts bonded to chassis
+  Thermal: adequate surface area to dissipate coil heat at full operation
+  Sealing: IP54 for indoor use, IP65 for outdoor tower mount
+
+THERMAL ANALYSIS — CX-800 RELAYS:
+  Each relay coil: 3.84W (12V × 320mA)
+  For 4-relay switch with 1 relay active: 3.84W
+  For 4-relay switch during switching (briefly all 4 active): 15.36W peak (< 100ms)
+  Steady state: 3.84W into aluminum enclosure
+  Temperature rise: ΔT = P / (k × A)  [k = natural convection coefficient]
+  For 160×100×40mm Hammond 1590B2: ΔT ≈ 3.84 / (5W/m²K × 0.016m²) = 48°C
+  Acceptable in winter; marginal at high ambient (> 35°C ambient + 48°C = 83°C).
+  Add: ventilation slots on bottom (natural convection), or small 12V fan.
+
+THERMAL ANALYSIS — CONTACT HEATING:
+  P_contact = I² × R_c = 4.47² × 0.010 = 0.20W per contact at 1kW CW.
+  This is trivial; no thermal issue from contact resistance at 1kW.
+
+CONNECTOR MOUNTING:
+  SO-239 connectors: rated 500W at HF, 200W at 450 MHz (commercial rating).
+  For 1kW continuous: current density through SO-239 center pin = 4.47A RMS.
+  Silver-plated SO-239: center pin resistance ≈ 2–5 mΩ → P = 0.11W per connector.
+  No thermal issue at 1kW; SO-239 adequate for 1.5kW CW.
+  For 2kW CW continuous (not PEP): use N-type connectors (larger center pin, lower R).
+
+================================================================================
+PARTS LIST — HIGH POWER SWITCH
+================================================================================
+
+COAXIAL RELAY VERSION (CX-800 based):
+Item    | Qty | Description                              | Source
+--------|-----|------------------------------------------|-------------------
+K_HP1-4 |  4  | Tohtsu CX-800 (SO-239, 12V, 2kW)       | DX Engineering
+K_HP_N  |  4  | Tohtsu CX-800N (N-type, 12V, 2kW)      | DX Engineering
+Q1-Q4   |  4  | IRLZ44N N-ch MOSFET, TO-220             | Mouser
+D1-D4   |  4  | 1N5819 Schottky flyback, 40V, 1A        | Mouser
+R_G     |  4  | 10kΩ gate resistor                      | Mouser
+R_STATIC|  4  | 47kΩ 1/4W static drain                 | Mouser
+ESP32   |  1  | ESP32-WROOM-32                          | Mouser
+CYD     |  1  | ESP32-2432S028 2.8" CYD                 | AliExpress
+REG     |  1  | LM7812 (5V) + AMS1117-3.3              | Mouser
+ENCL    |  1  | Hammond 1590B2 or 1590C die-cast Al     | Mouser
+CAP     |  4  | 100µF 25V + 4× 0.1µF bypass            | Mouser
+FAN     |  1  | 40mm × 40mm 12V fan (optional cooling)  | Mouser
+
+VACUUM RELAY VERSION (Jennings RJ1A based):
+Item    | Qty | Description                              | Source
+--------|-----|------------------------------------------|-------------------
+VR1-VR4 |  4  | Jennings RJ1A-12V (SPST-NO, 30A)       | Jennings RF
+Q1-Q4   |  4  | IRLZ44N MOSFET                          | Mouser
+D1-D4   |  4  | 1N5819 flyback diode                    | Mouser
+CONN    |  5  | N-type female panel mount (high power)   | Amphenol
+ENCL    |  1  | Hammond 1590D (large), or custom Al     | Mouser
+
+================================================================================

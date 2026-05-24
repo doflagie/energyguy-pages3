@@ -1,0 +1,70 @@
+CM EFQW_VHF_UHF.NEC — VHF/UHF Quarter-Wave Verticals
+CM TM-EF-NEC-012 Rev A
+CM 1.25m / 70cm / 33cm / 20cm models (uncomment desired band)
+CM All: rigid element, direct coaxial feed, 4 rigid radials
+CM
+CM ── 1.25M MODEL (222–225 MHz, center 222 MHz) ─────────────────────────
+CM QW: 0.321m (VF=0.95), 3mm aluminum rod, direct N-type feed
+
+CE
+GW 1 10  0 0 0.005  0 0 0.326  0.0015
+GW 2 2   0 0 0.005  0.321 0 0.005  0.0015
+GW 3 2   0 0 0.005  0 0.321 0.005  0.0015
+GW 4 2   0 0 0.005  -0.321 0 0.005  0.0015
+GW 5 2   0 0 0.005  0 -0.321 0.005  0.0015
+GE 1
+GN 2 0 0 0  13 0.005
+EX 0 1 1 0  1 0
+FR 0 13 0 0  222.000 0.250
+RP 0 37 73 1000  0 0 5 5
+EN
+
+CM ── 70CM MODEL (420–450 MHz, center 446 MHz) ──────────────────────────
+CM QW: 0.160m, 6mm aluminum tube, N-type connector
+CM
+CM CE
+CM GW 1 10  0 0 0.005  0 0 0.165  0.003
+CM GW 2 2   0 0 0.005  0.160 0 0.005  0.003
+CM GW 3 2   0 0 0.005  0 0.160 0.005  0.003
+CM GW 4 2   0 0 0.005  -0.160 0 0.005  0.003
+CM GW 5 2   0 0 0.005  0 -0.160 0.005  0.003
+CM GE 1
+CM GN 2 0 0 0  13 0.005
+CM EX 0 1 1 0  1 0
+CM FR 0 16 0 0  420.000 2.000
+CM RP 0 37 73 1000  0 0 5 5
+CM EN
+
+CM ── 33CM MODEL (902–928 MHz, center 906 MHz) ──────────────────────────
+CM QW: 0.0785m, 6mm tube or PCB trace, SMA connector
+CM
+CM CE
+CM GW 1 8   0 0 0.003  0 0 0.0815  0.003
+CM GW 2 2   0 0 0.003  0.0785 0 0.003  0.003
+CM GW 3 2   0 0 0.003  0 0.0785 0.003  0.003
+CM GW 4 2   0 0 0.003  -0.0785 0 0.003  0.003
+CM GW 5 2   0 0 0.003  0 -0.0785 0.003  0.003
+CM GE 1
+CM GN 1 0 0 0
+CM EX 0 1 1 0  1 0
+CM FR 0 14 0 0  902.000 2.000
+CM RP 0 37 73 1000  0 0 5 5
+CM EN
+
+CM ── 20CM MODEL (1240–1300 MHz, center 1270 MHz) ───────────────────────
+CM QW: 0.0559m, machined or PCB element, SMA connector
+CM NOTE: NEC-2 accuracy degrades at this frequency; use NEC-4 or simulation
+CM Segment length / wire radius must maintain ratio >10:1
+CM
+CM CE
+CM GW 1 8   0 0 0.002  0 0 0.0579  0.002
+CM GW 2 2   0 0 0.002  0.0559 0 0.002  0.002
+CM GW 3 2   0 0 0.002  0 0.0559 0.002  0.002
+CM GW 4 2   0 0 0.002  -0.0559 0 0.002  0.002
+CM GW 5 2   0 0 0.002  0 -0.0559 0.002  0.002
+CM GE 1
+CM GN 1 0 0 0
+CM EX 0 1 1 0  1 0
+CM FR 0 13 0 0  1240.000 5.000
+CM RP 0 37 73 1000  0 0 5 5
+CM EN

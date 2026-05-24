@@ -1,0 +1,254 @@
+================================================================================
+SCHEMATIC: WHEATSTONE BRIDGE CIRCUIT
+TM-NB-BRIDGE  Rev A
+RF Noise Bridge, 0.5 - 60 MHz
+Measures: R (0-200 ohm), X (-200 to +200 ohm)
+================================================================================
+
+BRIDGE TOPOLOGY
+---------------
+Standard 4-arm Wheatstone bridge adapted for RF impedance measurement.
+Two fixed arms (R1=R2=51 ohm) establish the bridge reference.
+One variable arm (R_cal + jX_cal) is the calibrated reference.
+One unknown arm (Z_ant) is the antenna under test.
+The null detector sees zero voltage when bridge is balanced.
+
+          NOISE IN (from generator)
+               |
+           [T1 pri]  (1:1:1 trifilar transformer, 50 ohm all ports)
+           /       \
+     T1 sec-A     T1 sec-B  (two 50-ohm bridge drive ports)
+          |            |
+         R1           R2
+        (51R)         (51R)
+          |            |
+          +---[DET]----+     <-- NULL DETECTOR connected across bridge midpoints
+          |            |
+        Z_CAL         J_ANT
+     (R_var+jX)      (BNC to
+          |           antenna)
+          |            |
+         GND          GND
+
+
+FULL SCHEMATIC (all components):
+
+ NOISE IN (J3, SMA)
+      |
+      C5 (100pF)  <-- DC block
+      |
+  T1 primary (6 turns #26 AWG on BN-43-202)
+      |
+     GND (T1 center tap if used; for trifilar this is the common)
+
+
+ T1 WINDING DETAIL (BN-43-202 binocular core):
+   Wind all three windings simultaneously (trifilar):
+   - Wire A: Noise In winding (IN+ to IN-)
+   - Wire B: Calibration arm winding (CAL+ to CAL-)
+   - Wire C: Antenna arm winding (ANT+ to ANT-)
+   Number of turns: 6 trifilar (18 total wire passes through core)
+   Wire: #26 AWG Teflon or enameled
+   Label and verify with continuity meter before assembly.
+   Interleave twist: twist all 3 wires together before winding.
+
+ T1 EQUIVALENT CIRCUIT:
+   Each secondary winding presents 50 ohm to its termination.
+   Total impedance transformation: 1:1 (equal windings).
+   Insertion loss < 0.5 dB, 1-60 MHz.
+   Core material: Mix 43 (Mn-Zn ferrite) -- good 0.5-100 MHz.
+   Alternatives: BN-61-202 (Mix 61, better above 30 MHz)
+                 BN-43-3312 (larger, higher power)
+
+
+ RESISTANCE ARM (R_cal):
+ ========================
+
+  T1 sec-A (arm terminal)
+       |
+      R4 (10 ohm, 1%, 1/4W fixed)    <-- minimum R offset (prevents R=0)
+       |
+      VR1 (0-200 ohm, 10-turn cermet pot, Bourns 3590S-2-201)
+       |    (or 0-200 ohm multi-turn, Vishay T93YA-201)
+      R5 (1 ohm, 1%, 1/4W)           <-- anti-taper end-stop
+       |
+      +----+----+
+           |
+        To X_cal arm and then to GND
+
+
+ REACTANCE ARM (X_cal):
+ =======================
+
+ CAPACITIVE REACTANCE (for capacitive antennas, XC positive in convention):
+
+   R_cal junction
+       |
+      C_CAL (variable, 0-200 pF)  <-- main reactance control
+       |                              Polyvaricon air-variable: 12-230 pF
+      GND                             Alternatives: Jackson Brothers, Millen
+
+ OR (for wider range): Series switched capacitor banks:
+
+   R_cal junction
+       |
+      S2 ----C10 (200pF) in series---- |
+      S3 ----C11 (100pF) in series---- +-- to GND
+      S4 ---- C12 (50pF) in series---- |
+      S5 ---- C13 (25pF) in series---- |
+      C14 (0-30pF trimmer in parallel) |  <-- fine tune
+   (S2-S5 = SPST micro switches or DIP switch)
+
+ INDUCTIVE REACTANCE (for inductive antennas, XL negative in convention):
+
+   R_cal junction
+       |     NOTE: Inductors are switched in to REPLACE the capacitor
+       |     for inductive loads. Cannot use both simultaneously.
+      S6 ---- L10 (22uH) ---- |
+      S7 ---- L11 (10uH) ---- +-- to GND
+      S8 ----  L12 (4.7uH)--- |
+      S9 ----  L13 (2.2uH)--- |
+   (for fine tune: C_FINE trimmer 5-50pF in parallel with selected L)
+
+ X_REACTANCE DIRECTION SWITCH:
+   S_XL_XC (DPDT center-off toggle):
+   Position CAP: connects variable capacitor to R_cal junction
+   Position IND: connects inductor bank to R_cal junction
+   Center (OFF): open circuit (R only, no reactance)
+
+
+DETECTOR OUTPUT:
+================
+
+  T1 sec-B null point (this is the node between R2 and Z_ant)
+       |
+  C_DET (100pF, DC block)
+       |
+  R6 (51 ohm, 1%) -- optional 50-ohm input matching for external receiver
+       |
+  J4 (BNC) -- to receiver or built-in null detector
+
+
+ANTENNA PORT:
+=============
+
+  T1 sec-C lower node
+       |
+  J_ANT (SO-239 or BNC) -- antenna under test
+       |
+  Optional: BNC for external impedance standard (SHORT, OPEN, 50R for cal)
+
+
+CALIBRATION STANDARDS (build and label, store in kit):
+  SHORT: BNC male with direct short across center-to-shell
+  50R:   BNC male with 51R 1% across center-to-shell
+  OPEN:  BNC male cap installed, no resistor (open circuit)
+  100R:  BNC male with 100R 1% across center-to-shell
+  200R:  BNC male with 200R 1% across center-to-shell
+
+
+REACTANCE CALIBRATION (X scale derivation):
+============================================
+
+  For CAPACITIVE reactance at frequency f:
+    XC = 1 / (2 * pi * f * C_cal)
+
+  TABLE: XC (ohm) vs C_cal at key frequencies
+
+    C_cal   1.8 MHz    7 MHz    14 MHz   28 MHz   50 MHz
+    ------  -------    ------   ------   ------   ------
+      10pF  8842       2274     1137      568      318
+      20pF  4421       1137      568      284      159
+      50pF  1768        455      227      114       64
+     100pF   884        227      114       57       32
+     150pF   590        152       76       38       21
+     200pF   442        114       57       28       16
+
+  NOTE: At lower frequencies (1.8 MHz), even 200pF gives XC=442 ohm.
+  For 160M operation: extend C range to 1000pF or add switchable C banks.
+
+  For INDUCTIVE reactance at frequency f:
+    XL = 2 * pi * f * L_cal
+
+  TABLE: XL (ohm) vs L_cal at key frequencies
+
+    L_cal   1.8 MHz    7 MHz    14 MHz   28 MHz   50 MHz
+    ------  -------    ------   ------   ------   ------
+    1 uH     11.3       44.0     88.0    176.0    314.0
+    2 uH     22.6       88.0    176.0    352.0    628.0
+    5 uH     56.5      220.0    440.0      ---      ---
+   10 uH    113.0      440.0      ---      ---      ---
+   22 uH    249.0        ---      ---      ---      ---
+
+
+BRIDGE BALANCE CONDITION:
+=========================
+
+  When null is achieved:
+    Z_unknown = Z_calibration
+    R_antenna = R_cal (reading of R pot)
+    X_antenna = X_cal (reading from C or L bank)
+
+  Sign convention used in this bridge:
+    X positive = CAPACITIVE (XC)  -- antenna has excess capacitance
+    X negative = INDUCTIVE (XL)   -- antenna is too long, has inductance
+
+  NOTE: Some references use the opposite convention. The manual
+  uses the convention most natural for above/below-resonance description:
+  a SHORT antenna (too short = capacitive) has positive X.
+  A LONG antenna (too long = inductive) has negative X.
+
+
+TRANSFORMER CONSTRUCTION DETAIL:
+==================================
+
+  Core: BN-43-202 binocular ferrite (Fair-Rite 2843000202)
+        OR FT-37-43 toroid (use 2 stacked for adequate AL)
+        OR FT-50-43 toroid (single core, adequate AL)
+
+  Winding (trifilar method):
+    1. Cut 3 pieces of #26 AWG enameled wire, each 400mm long.
+       Use three different colors if available (red, green, white).
+    2. Twist all three together: approximately 3 twists per 25mm.
+       Use drill or pin vise to hold one end while twisting.
+    3. Wind 6 turns of the trifilar bundle through both holes of the
+       binocular core (BN-43-202). Wind in the same direction.
+    4. The result is three windings of 6 turns each, all closely coupled.
+    5. Mark start and end of each winding with colored tape.
+    6. Verify with LCR meter: each winding ~2-3 uH (AL ≈ 50-80 nH/N^2
+       for Mix 43 at 1 MHz, N=6: L = 36 * AL ≈ 1.8-2.9 uH).
+    7. Verify coupling: short one winding, measure others -- should drop
+       to < 50 nH if coupling is adequate.
+
+  CRITICAL: The noise source winding and the two bridge arm windings
+  must be phase-coherent. Verify:
+    - Connect pin 1 of all three windings together (common start)
+    - Short the load on winding B
+    - Measure voltage on winding C: should be << 1% of driven voltage
+    If not, reverse one winding's connections.
+
+
+COMPLETE PARTS LIST — BRIDGE CIRCUIT
+=====================================
+  Qty  Ref     Value/Part#            Description
+  ---  ------  ---------------------- ----------------------------------------
+   1   T1      BN-43-202              Binocular ferrite core (Fair-Rite)
+  18   --      #26 AWG enamel wire    Trifilar winding (400mm each x 3)
+   2   R1,R2   51R 1% 1/4W           Bridge arm resistors (match to <0.5%)
+   1   R3      51R 1% 1/4W           Noise source series resistance
+   1   R4      10R 1% 1/4W           R_cal offset (minimum R)
+   1   R5      1R 1% 1/4W            R_cal end-stop
+   1   VR1     200R 10-turn cermet   R calibration pot (Bourns 3590S-2-201)
+   1   C_CAL   12-230pF air variable  X capacitive arm
+   1   C_FINE  3-40pF trimmer cermet  X fine adjust (Murata TZB4)
+   4   C10-C13 25/50/100/200pF NP0   Switched capacitor banks
+   4   L10-L13 22/10/4.7/2.2uH      Switched inductor bank
+   4   S2-S5   SPST micro switch     Capacitor bank switches
+   4   S6-S9   SPST micro switch     Inductor bank switches
+   1   S_XL    DPDT center-off       XL/XC direction switch
+   1   J1      SO-239 chassis        Antenna port
+   2   J2,J3   BNC chassis           Noise in, Detector out
+   5   --      BNC male plug         Calibration standards (SHORT/50R/100R/200R/OPEN)
+   1   --      PCB or matrix board   80mm x 60mm minimum
+
+================================================================================

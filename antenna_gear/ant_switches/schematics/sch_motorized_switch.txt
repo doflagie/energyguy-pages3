@@ -1,0 +1,274 @@
+================================================================================
+SCHEMATIC: Motorized Rotary Antenna Switch with ESP32 Control
+TM-ANT-SW-001  Rev A
+Stepper Motor + Hall Sensor Position Feedback
+4-Port and 6-Port versions  |  SP4T and SP6T mechanical switching
+HF through 500 MHz  |  Power: 1.5 kW CW
+================================================================================
+
+DESIGN CONCEPT
+───────────────
+The motorized antenna switch uses a physical rotary wafer switch (same as the
+manual version) driven by a small stepper motor or DC gear motor through a
+direct-drive or gear-reduction coupling.
+
+Advantages over relay switch:
+  - True mechanical switching (wiper contact, not relay)
+  - High isolation and low IL from proven rotary switch contacts
+  - No relay RF path — original SO-239 to SO-239 wiping contact
+  - Can retro-fit an existing manual switch
+
+Disadvantages vs. relay switch:
+  - Mechanical wear (mitigated by slow switching, no hunting)
+  - Motor drive circuit complexity
+  - Slower switching time (100 ms–500 ms vs. relay 10 ms)
+  - Position sensing required
+
+MOTOR TYPE SELECTION:
+
+  OPTION A: 28BYJ-48 Stepper + ULN2003A driver
+    Cost: $2–$5 complete
+    Torque: 34 mN·m (after 1/64 internal gearing)
+    Step resolution: 5.625° / 64 steps per full shaft revolution
+    Voltage: 5V coil, 64 mA per phase
+    Advantage: high resolution, no overshoot, no position sensor needed
+                if steps are not lost (holding torque maintains position)
+    Disadvantage: step loss possible if mechanically obstructed;
+                  must re-home on power-up if using relative position count
+
+  OPTION B: N20 DC Gear Motor + L9110H driver
+    Cost: $3–$6 complete
+    Speed: 30–200 RPM (gear ratio selectable)
+    Voltage: 3–12V
+    Advantage: fast, simple driver
+    Disadvantage: requires absolute position sensing (encoder or Hall sensors)
+
+  OPTION C: NEMA 14 Stepper (external; more torque)
+    Cost: $15–$30
+    Torque: 200–400 mN·m
+    For heavy-duty switches or long shaft applications
+
+THIS DESIGN USES: 28BYJ-48 stepper + Hall sensor absolute position verification
+
+================================================================================
+STEPPER MOTOR DRIVE CIRCUIT
+================================================================================
+
+28BYJ-48 STEPPER MOTOR (5-wire, unipolar):
+  5 wires: VCC (red), IN1 (orange), IN2 (yellow), IN3 (pink), IN4 (blue)
+  4 phases driven in sequence; internal gearbox 1:64 reduction
+  Full-step mode: 512 steps per output shaft revolution (8 steps × 64)
+  Half-step mode: 1024 steps per revolution (8 half-steps × 64 × 2)
+
+DRIVE CIRCUIT — ULN2003A STEPPER DRIVER:
+
+  ESP32 GPIO          ULN2003A           28BYJ-48
+  GPIO26 ──[R:none]── IN1 ── OUT1 ────── IN1 (orange)
+  GPIO27 ──           IN2 ── OUT2 ────── IN2 (yellow)
+  GPIO14 ──           IN3 ── OUT3 ────── IN3 (pink)
+  GPIO12 ──           IN4 ── OUT4 ────── IN4 (blue)
+                      COM ────────────── VCC (red) ← 5V
+
+  ULN2003A maximum: 500 mA per channel, 50V.
+  28BYJ-48 coil current: ~130 mA per phase × 2 active = ~260 mA.
+  ULN input threshold: 1V; ESP32 GPIO at 3.3V → drives reliably.
+
+HALF-STEP SEQUENCE (8 steps for one electrical cycle):
+
+  Step | IN1 | IN2 | IN3 | IN4 | Coil active
+  -----|-----|-----|-----|-----|------------
+   1   |  1  |  0  |  0  |  0  | A
+   2   |  1  |  1  |  0  |  0  | A+B
+   3   |  0  |  1  |  0  |  0  | B
+   4   |  0  |  1  |  1  |  0  | B+C
+   5   |  0  |  0  |  1  |  0  | C
+   6   |  0  |  0  |  1  |  1  | C+D
+   7   |  0  |  0  |  0  |  1  | D
+   8   |  1  |  0  |  0  |  1  | D+A
+
+Reverse direction: run table in reverse order.
+
+STEP TIMING:
+  Minimum step interval: 2 ms (limited by inductance/current rise time)
+  Recommended: 3–5 ms for reliable operation
+  Total time to advance one position (90°):
+    90° / (360°/512 steps) = 128 full steps
+    At 5 ms/step = 640 ms per position change (0.64 seconds)
+  For 6-position switch (60° per step):
+    60° / (360°/512) = 85 steps × 5 ms = 425 ms per position
+
+POWER HOLD (keeping position without hunting):
+  After reaching target position, reduce to 50% duty cycle (PWM on ULN inputs).
+  This halves holding current (~65 mA) while maintaining position against the
+  detent spring.  In practice, the detent spring holds position; de-energize
+  coils entirely after settling to zero power draw.
+
+  CAUTION: If power is removed and re-applied, stepper has no absolute reference.
+  Must execute home sequence or use Hall sensors for absolute position.
+
+================================================================================
+HALL SENSOR POSITION FEEDBACK
+================================================================================
+
+A4122 or OH090U Hall-effect sensor detects magnet on rotating shaft.
+One small neodymium magnet (3mm × 1.5mm disc) epoxied to the switch shaft.
+
+MOUNTING: Magnet on rotating shaft face; sensor fixed to enclosure, 1–2mm air gap.
+
+For 4-position switch (90° spacing):
+  Install 4 magnets at 0°, 90°, 180°, 270° on a small disc attached to shaft.
+  One Hall sensor generates a pulse each time a magnet passes.
+  Count pulses to determine position.
+
+  Alternatively: one sensor at the HOME position, count steps from there.
+  On power-up: rotate to HOME, then count steps to reach desired position.
+
+FOR ABSOLUTE POSITION WITHOUT COUNTING:
+  4-position: 4 hall sensors at 0°, 90°, 180°, 270°.
+  At each detent position, exactly one sensor sees the magnet.
+
+HALL SENSOR WIRING (SS49E or A3144 type):
+
+  +3.3V ──────────────────── VCC
+  GND ────────────────────── GND
+  GPIO (input, pull-up) ──── OUT (open-drain output)
+  [10kΩ pull-up from OUT to 3.3V]
+
+  Output: LOW when magnet present, HIGH when absent.
+  ESP32 reads LOW as "magnet here = this position."
+
+HALL SENSOR ARRAY FOR 4-POSITION ABSOLUTE:
+
+  +3.3V ──[10kΩ]── S1_OUT ── ESP32 GPIO4   (position 1 sensor)
+  +3.3V ──[10kΩ]── S2_OUT ── ESP32 GPIO5   (position 2 sensor)
+  +3.3V ──[10kΩ]── S3_OUT ── ESP32 GPIO18  (position 3 sensor)
+  +3.3V ──[10kΩ]── S4_OUT ── ESP32 GPIO19  (position 4 sensor)
+
+  Position decoding: only one sensor LOW at any given detent position.
+  If two or zero sensors are LOW: in-transit (valid during motor movement).
+
+================================================================================
+COMPLETE CIRCUIT OVERVIEW — MOTORIZED 4-PORT SWITCH
+================================================================================
+
+POWER:
+  12V DC → 7805 or LM2596 → 5V for stepper motor
+         → AMS1117-3.3 → 3.3V for ESP32, Hall sensors, LEDs
+
+12V INPUT (J1, 2.1mm barrel) ──────────── +12V rail
+                                │
+                            [LM2596]      ← adjustable buck; set to 5V
+                                │
+                              +5V ────────────────── stepper motor VCC
+                              +5V → [AMS1117-3.3] → +3.3V ── ESP32 VIN
+
+BLOCK DIAGRAM:
+
+  ┌─────────────────────────────────────────────────────────────────┐
+  │                     ESP32 CONTROLLER                            │
+  │                                                                  │
+  │  GPIO 26,27,14,12 ─── ULN2003A ─── 28BYJ-48 STEPPER           │
+  │                                            │                     │
+  │  GPIO 4,5,18,19 ──── HALL SENSORS ────────┘ (shaft position)   │
+  │                                                                  │
+  │  GPIO 25,33,32,35─── LED STATUS (position indicators)          │
+  │  GPIO 4,5,18,19 ──── PUSH BUTTONS (manual position select)     │
+  │                                                                  │
+  │  SPI ──────────────── CYD TFT DISPLAY (position + status)      │
+  │                                                                  │
+  │  WiFi ─────────────── Web UI (remote position control)         │
+  │                                                                  │
+  │  UART 16/17 ─────── Band data input (from transceiver)        │
+  └─────────────────────────────────────────────────────────────────┘
+                              │
+              ┌───────────────┴────────────────┐
+              │   ROTARY SWITCH ASSEMBLY        │
+              │   SP4T or SP6T wafer switch     │
+              │   driven by stepper shaft       │
+              │   Hall sensors on shaft         │
+              │   SO-239 or N-type ports        │
+              └─────────────────────────────────┘
+
+RF PATH (identical to manual rotary switch):
+  See sch_manual_rotary_switch.txt — same wafer switch, same connector layout.
+  Only difference: manual shaft knob replaced with stepper motor coupling.
+
+================================================================================
+SHAFT COUPLING AND MECHANICAL INTEGRATION
+================================================================================
+
+28BYJ-48 shaft: 5mm diameter, D-shape or round
+Rotary switch shaft: typically 6mm, 1/4" round, or D-shape
+
+COUPLING OPTIONS:
+
+1. Direct coupling with 3D-printed adapter (preferred for same-axis):
+   Print a coupler hub: 5mm bore one side, 6mm bore other.
+   Secure with M3 set screws on each side.
+
+2. Gear reduction (if more torque needed):
+   Print a simple spur gear pair: 2:1 ratio.
+   Input gear (15T) on motor shaft; output gear (30T) on switch shaft.
+   This doubles torque and halves step size (more positioning resolution).
+
+3. Belt drive (quietest; for remote mounting):
+   GT2 belt, 2× pulleys (20T and 40T for 2:1 reduction).
+   Motor can be off-axis from switch shaft.
+
+HOMING SEQUENCE (on power-up):
+  1. Read all Hall sensors.
+  2. If exactly one sensor active: already at a valid position.
+  3. If no sensor active (between detents): step motor slowly until one activates.
+  4. Record that position as home reference.
+  5. Then move to last-saved position (stored in ESP32 NVS/Preferences).
+
+DETENT ENGAGEMENT:
+  Stepper holds at electrical step positions.
+  Mechanical detent on switch provides additional position security.
+  After reaching position: de-energize stepper (saves power, reduces heat).
+  Detent spring holds position mechanically.
+
+================================================================================
+MOTOR PROTECTION CIRCUIT
+================================================================================
+
+STALL DETECTION:
+  Motor current spikes when stalled.
+  Add 0.1Ω sense resistor in series with motor ground leg.
+  ESP32 ADC reads voltage across sense resistor.
+  If V_sense > 50 mV (500 mA) for > 100 ms: stop motor, report error.
+
+THERMAL PROTECTION:
+  28BYJ-48 at full step: 260 mA average = 1.3W.
+  Temperature rise in enclosure: acceptable with passive cooling.
+  De-energize coils 2 seconds after reaching position to prevent heating.
+
+CURRENT LIMITING FOR HOLDING:
+  PWM the ULN2003A inputs at 50% duty cycle for holding.
+  Software: after reaching target position, set GPIO PWM at 50% on all active coils.
+  Holding current drops to 65 mA; holding torque still adequate against detent spring.
+
+================================================================================
+PARTS LIST — MOTORIZED SWITCH
+================================================================================
+
+Item    | Qty | Description                              | Source
+--------|-----|------------------------------------------|-------------------
+MOTOR   |  1  | 28BYJ-48 stepper + ULN2003A driver      | AliExpress, Mouser
+SENSOR  |  4  | A3144 Hall effect sensor, TO-92          | Mouser, AliExpress
+MAGNET  |  4  | 3mm × 1.5mm neodymium disc magnets      | AliExpress
+COUPLE  |  1  | 3D printed shaft coupler, 5mm-6mm       | Print from scad file
+ESP32   |  1  | ESP32-WROOM-32 or DOIT DevKit           | Mouser
+CYD     |  1  | ESP32-2432S028 2.8" TFT (CYD)          | AliExpress
+7805    |  1  | LM7805 or LM2596-5 regulator            | Mouser
+REG33   |  1  | AMS1117-3.3 regulator                   | Mouser
+R_HALL  |  4  | 10kΩ 1/4W (Hall sensor pull-ups)        | Mouser
+R_SENSE |  1  | 0.1Ω 1W current sense resistor          | Mouser
+CAP     |  4  | 100µF 25V + 4× 0.1µF bypass            | Mouser
+SW      |  1  | SP4T or SP6T rotary switch, ceramic     | Grayhill, Alpha
+CONN    |  5  | SO-239 silver panel mount                | Amphenol
+ENCL    |  1  | Die-cast Al 160×130×60mm                | Hammond 1590B2X
+KNOB    |  1  | Optional manual override knob            | Davies Molding
+HW      | 20  | M3 SS machine screws, set screws        |
+
+================================================================================

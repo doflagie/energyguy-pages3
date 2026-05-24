@@ -1,0 +1,287 @@
+================================================================================
+SCHEMATIC: DETECTOR, LOG AMP, AND SWR CALCULATION CIRCUITS
+TM-COUP-001  Rev A
+Forward/reflected power detection: peak, RMS, and logarithmic
+SWR calculation: analog and digital methods
+Calibrated output for power meter or spectrum analyzer
+================================================================================
+
+REFERENCE DOCUMENTS:
+  sch_toroidal_bruene_coupler.txt    — Upstream coupler (HF)
+  sch_transmission_line_coupler.txt  — Upstream coupler (VHF/UHF)
+  rf_power_monitor_esp32.ino         — ESP32 firmware (ADC, display, BLE)
+
+================================================================================
+SECTION 1 — DETECTOR TYPES AND SELECTION
+================================================================================
+
+THREE DETECTOR METHODS FOR DIFFERENT APPLICATIONS:
+
+METHOD A — SCHOTTKY PEAK DETECTOR (simplest, field use):
+  Best for: CW power measurement, SWR bridge, field wattmeter
+  Frequency range: DC – 500 MHz (BAT41, 1N5711); DC – 2 GHz (HSMS-2850)
+  Dynamic range: 20–30 dB (limited by diode forward voltage)
+  Accuracy: ±0.5–1 dB with calibration table
+  Output: DC voltage proportional to RF peak amplitude
+
+METHOD B — LOG AMP DETECTOR (AD8307, calibrated):
+  Best for: Precision power measurement, spectrum analyzer input, wideband logging
+  Frequency range: 1 MHz – 500 MHz (AD8307)
+  Dynamic range: 92 dB (−75 dBm to +17 dBm)
+  Accuracy: ±1 dB over temperature (-40 to +85°C)
+  Output: 25 mV/dB, 600 mV at 0 dBm reference
+  Cost: ~$4 each (AD8307ARNZ, SOIC-8)
+
+METHOD C — RMS DETECTOR (AD8361):
+  Best for: modulated signals (SSB, FM, AM), accurate power regardless of waveform
+  Frequency range: DC – 2.5 GHz
+  Dynamic range: 36 dB (−30 dBm to +6 dBm input range)
+  Output: 7.5 mV/mW_rms into 50Ω (scaled output)
+  Notes: Required for SSB power measurement (CW-calibrated meter reads wrong on SSB)
+
+SELECTION GUIDE:
+  CW-only field wattmeter:         Method A (simplest, cheapest)
+  All-mode HF monitor (SSB/CW/FM): Method B (AD8307 logarithmic)
+  SSB power accuracy:              Method C (AD8361 true RMS)
+  Spectrum analyzer reference:     Method B (log scale output natural for SA)
+
+================================================================================
+SECTION 2 — SCHOTTKY PEAK DETECTOR CIRCUIT
+================================================================================
+
+DUAL PEAK DETECTOR (forward + reflected):
+
+                       FWD RF in (from coupler)
+                             │
+                          D1 (BAT41)
+                          ─┤►├─────────────────────── FWD_DC
+                 anode ───┘   └─── cathode
+                                        │
+                              C1 = 1 nF (ceramic, 500V)
+                                        │
+                              R_L = 2.2 kΩ
+                                        │
+                                       GND
+
+                       REF RF in (from coupler)
+                             │
+                          D2 (BAT41) — matched to D1
+                          ─┤►├─────────────────────── REF_DC
+                                        │
+                              C2 = 1 nF
+                                        │
+                              R_L = 2.2 kΩ
+                                        │
+                                       GND
+
+  FWD_DC and REF_DC → ESP32 ADC inputs (via voltage divider if >3.3V)
+
+DETECTOR DC VOLTAGE vs. POWER:
+  V_dc = V_peak_RF − V_f_diode
+  V_peak_RF = √(2 × P_coupled × Z_det)
+
+  With −20 dB coupler, P_coupled = P_input × 0.01:
+    At P_in = 100W: P_coupled = 1W; V_peak = √(2×1×50) = 10V
+    After BAT41 (Vf ≈ 0.23V at peak): V_dc ≈ 9.77V (exceeds ESP32 ADC input!)
+
+  VOLTAGE DIVIDER REQUIRED: Divide V_dc by 4 for 3.3V ADC range:
+    R_div1 = 10kΩ, R_div2 = 3.3kΩ → V_adc = V_dc × 3.3/13.3 = 0.248 × V_dc
+
+  At 100W input: V_adc = 9.77 × 0.248 = 2.42V (within 3.3V ADC range ✓)
+  At 1W input:   V_adc = 0.097 × 0.248 × ... but Vf dominates below ~0.5V.
+
+DIODE THRESHOLD CORRECTION:
+  Below about 100 mW input to coupler (P_coupled < 1 mW → V_RF < 0.32V):
+    The diode Vf (0.23–0.35V for BAT41) dominates; detector response is non-linear.
+  Below this threshold: use AD8307 log amp for accurate low-power measurement.
+
+  Two-range design:
+    High power (>1W):  Schottky peak detector (linear in V²)
+    Low power (<1W):   AD8307 log amp (linear in dBm)
+    Switchover at ~1W: ADC multiplexer or two detector channels
+
+================================================================================
+SECTION 3 — LOG AMP CIRCUIT (AD8307)
+================================================================================
+
+AD8307 APPLICATION CIRCUIT (FWD channel — duplicate for REF):
+
+  FWD RF from coupler (BNC/SMA, 50Ω) ─────────────────────────────────────
+                                                        │
+                                          AC coupling capacitor C_ac
+                                          C_ac = 0.1 µF (electrolytic or ceramic)
+                                                        │
+                                               ┌────────┴───────┐
+                                               │    AD8307       │
+                                    ─────[R_i]─┤ INP  (pin 8)   │
+                                               │                 │
+                                    50Ω term─[R_t=52.3Ω]─┤ INM  (pin 1)  │
+                                               │                 │
+                                               │   VOUT (pin 4)  ├── LOG_OUT → ADC
+                                               │                 │
+                                               │   VPS (pin 7)   ├── +5V
+                                               │                 │
+                                               │   COM (pin 3)   ├── GND
+                                               │                 │
+                                               │   ENB (pin 6)   ├── +5V (enable)
+                                               └─────────────────┘
+
+  R_i = 52.3Ω (with R_t = 52.3Ω forms 50Ω input impedance: R_i || R_t = 26.15 ≈ 25Ω...
+  Actually: Use R_t = 50Ω directly to GND; R_i = 0Ω (direct connect for 50Ω source).
+  AD8307 input impedance = 1.1kΩ || 1.4 pF; shunted by R_t=50Ω → ≈ 50Ω system.
+
+CORRECT WIRING:
+  INP (pin 8) ──── RF input (directly, no R_i needed for 50Ω source)
+  INM (pin 1) ──[50Ω to GND]  ← single-ended 50Ω termination
+  VOUT (pin 4) → ESP32 ADC
+  VPS (pin 7) → +5V, decoupled with 0.1µF + 100pF ceramic
+  COM (pin 3) → GND
+  ENB (pin 6) → +5V (always enabled); or GPIO for power save
+
+TRANSFER FUNCTION:
+  V_out = slope × (P_in_dBm − intercept)
+  slope ≈ 25 mV/dB (0.025 V/dB)
+  intercept ≈ −84 dBm (output = 0V when input = −84 dBm)
+
+  V_out = 0.025 × (P_dBm + 84)
+
+  At P_in = +10 dBm (10 mW):  V_out = 0.025 × (10+84) = 2.35V
+  At P_in = 0 dBm  (1 mW):   V_out = 0.025 × (0+84)  = 2.10V
+  At P_in = −20 dBm:          V_out = 0.025 × (−20+84) = 1.60V
+  At P_in = −75 dBm:          V_out = 0.025 × (−75+84) = 0.225V
+
+INPUT POWER FROM ADC READING:
+  P_dBm = (V_adc / 0.025) − 84 = V_adc × 40 − 84
+
+POWER FROM COUPLED PORT (−20 dB coupler):
+  P_main_dBm = P_coupled_dBm + 20   (add back coupling factor)
+  P_main_watts = 10^((P_main_dBm − 30) / 10)
+
+AD8307 FREQUENCY RANGE:
+  Usable: 1 MHz – 500 MHz (specified to 500 MHz)
+  With care: extends to 900 MHz with >1 dB uncertainty
+  Below 1 MHz: output valid but ripple increases; add larger C_ac (10 µF)
+
+================================================================================
+SECTION 4 — SWR CALCULATION CIRCUIT (ANALOG AND DIGITAL)
+================================================================================
+
+ANALOG SWR METER (simplified):
+
+  V_fwd_dc ──────────────────────────────────── S1(SWR meter, normalized)
+                                                 (signal derived from ratio)
+
+  SWR calculated from:
+    ρ = |Γ| = V_ref / V_fwd   (reflection coefficient, voltage)
+    SWR = (1 + ρ) / (1 − ρ)
+
+ANALOG ρ COMPUTER:
+  Requires V_fwd − V_ref and V_fwd + V_ref.
+  An op-amp difference and sum circuit:
+
+  V_fwd_dc ──[R]──┬────────────── (+) input of op-amp OA1
+  V_ref_dc  ──[R]──┤────────────── (−) input → V_diff = V_fwd − V_ref
+                   └──────────────  (and sum separately)
+
+  Analog SWR computation:
+    SWR_voltage = (V_fwd + V_ref) / (V_fwd − V_ref)
+    Implement with dual op-amp (TL072 or LM358) + resistor divider.
+    Output drives analog meter movement (200µA full scale).
+
+DIGITAL SWR (ESP32 firmware — see rf_power_monitor_esp32.ino):
+  Preferred; higher accuracy; display on CYD; data logging via BLE.
+
+SWR METER DRIVE (for panel meter, analog output):
+  Some field applications require a traditional SWR meter movement.
+  Output: 0–1 mA for SWR 1.0 to ∞.
+
+  CIRCUIT:
+    V_swr (from op-amp) ──[R_meter = 4.7kΩ]── meter movement (1mA FSD, 50Ω)
+    Scale: V_swr at SWR=2 → calibrated on front panel
+
+================================================================================
+SECTION 5 — CALIBRATED POWER METER OUTPUT
+================================================================================
+
+TWO OUTPUT CONFIGURATIONS:
+
+CONFIGURATION A — ANALOG DC VOLTAGE (0–3.3V):
+  Suitable for ADC input (ESP32 or standalone panel meter).
+  Range: 0–3.3V = 0–P_max watts (scaled by voltage divider).
+  Calibration: V_out = k × √P_in where k = calibration constant.
+
+CONFIGURATION B — BUFFERED LOG AMP OUTPUT (25 mV/dB):
+  Suitable for spectrum analyzer REF input (calibration reference).
+  Output impedance: 50Ω (buffer op-amp with 50Ω series resistor).
+  Direct connect to SA AUX input or calibration port.
+
+BUFFER AMPLIFIER:
+                                         +5V
+                                          │
+  AD8307_VOUT ──[0.1µF]──┬── (+) LMH6702 ──┤── 50Ω ──── VOUT_buffered
+                          │                  │
+                        100kΩ              100kΩ
+                          │                  │
+                         GND              (feedback, unity gain)
+
+  LMH6702: 1.7 GHz unity-gain bandwidth; suitable for buffering up to 300 MHz signals.
+  ALT: OPA690 or AD8057 for lower cost.
+
+POWER METER CALIBRATION TABLE:
+  P_out (W) | P_coupled (mW) | V_peak (V) | V_DC (after diode) | ADC counts
+  ----------|----------------|------------|---------------------|------------
+  0.001 (1mW)| 0.01 µW       | 0.001V     | <Vf (non-linear)   | Use AD8307
+  0.01 (10mW)| 0.1 µW        | 0.003V     | Non-linear          | Use AD8307
+  0.1 (100mW)| 0.001 mW      | 0.010V     | Non-linear          | Use AD8307
+  1W         | 0.01W         | 1.0V       | 0.77V               | 478 (12-bit)
+  5W         | 0.05W         | 2.24V      | 2.01V               | 2,493
+  10W        | 0.1W          | 3.16V      | 2.93V               | 3,634
+  25W        | 0.25W         | 5.0V       | 4.77V (→ divide ×2) | 2,963
+  50W        | 0.5W          | 7.07V      | 6.84V (→ divide ×3) | 2,828
+  100W       | 1.0W          | 10.0V      | 9.77V (→ divide ×4) | 3,033
+  200W       | 2.0W          | 14.14V     | 13.9V (→ divide ×6) | 2,883
+
+  ADC count assumes: 12-bit (4096 max), 3.3V reference; after voltage divider
+
+DIVIDER SELECTION TABLE:
+  Max power | Divider ratio | R_div1 | R_div2
+  ----------|---------------|--------|-------
+  10W       | 1.0×          | 0Ω     | open
+  25W       | 2.0×          | 10kΩ   | 10kΩ
+  50W       | 3.0×          | 20kΩ   | 10kΩ
+  100W      | 4.0×          | 30kΩ   | 10kΩ
+  200W      | 6.0×          | 50kΩ   | 10kΩ
+
+================================================================================
+SECTION 6 — COMPLETE DETECTOR MODULE ASSEMBLY
+================================================================================
+
+DUAL-CHANNEL DETECTOR PCB (FWD + REF):
+  Board size: 50mm × 30mm
+  Contains: D1/D2 Schottky pair, R_L, C_filt, voltage dividers, test points
+
+  COMPONENT PLACEMENT:
+  ┌───────────────────────────────────────────────────────┐
+  │  J_FWD ──[D1]──[C1]──[R_div]──── TP_FWD ── J_ADC1    │
+  │  (SMA)      │         │                               │
+  │            GND       GND                              │
+  │                                                       │
+  │  J_REF ──[D2]──[C2]──[R_div]──── TP_REF ── J_ADC2    │
+  │  (SMA)      │         │                               │
+  │            GND       GND                              │
+  │                                                       │
+  │  [TP_GND]                [TP_5V]                      │
+  └───────────────────────────────────────────────────────┘
+
+  TP_FWD, TP_REF: test points for DC voltage measurement (calibration)
+  J_ADC1, J_ADC2: header pins to ESP32 ADC inputs
+
+TEMPERATURE COMPENSATION:
+  Schottky diode Vf changes −1.5 mV/°C.
+  At Vf = 0.30V (20°C), at 60°C: Vf = 0.30 − (40 × 0.0015) = 0.24V
+  This causes ~0.3 dB error at low power. For calibration-grade use:
+    - Use AD8307 (internally temperature-compensated)
+    - Or measure case temperature and apply firmware correction:
+      V_corrected = V_raw + (T_case − 25) × 0.002   [correction in volts]
+
+================================================================================

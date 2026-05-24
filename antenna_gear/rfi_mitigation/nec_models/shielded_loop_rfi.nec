@@ -1,0 +1,95 @@
+CM ============================================================
+CM  shielded_loop_rfi.nec — TM-RFI-NEC-002 Rev A
+CM  Shielded H-Field Loop for Near-Field RFI Detection
+CM  100mm diameter loop, 7.15 MHz (40m) and 14.175 MHz (20m)
+CM
+CM  Models:
+CM    A: Simple unshielded loop (responds to E and H field)
+CM    B: Faraday-shielded loop (responds to H field only)
+CM       Simulated by splitting loop at top (gap = open circuit for CM)
+CM
+CM  Geometry:
+CM    Loop in XZ plane (vertical, facing +Y direction)
+CM    Center at origin
+CM    Diameter: 0.1m (100mm)
+CM    Divided into 4 wire segments (one per quadrant)
+CM    Shield gap at top (1mm modeled as open circuit between seg 3 and seg 4)
+CM
+CM  Analysis goals:
+CM    1. Confirm figure-8 H-field pattern in horizontal plane
+CM    2. Confirm null along Y-axis (broadside to loop)
+CM    3. Confirm peak along X-axis (along loop plane)
+CM    4. Near-field sensitivity for locating RFI sources
+CM    5. Compare shielded vs. unshielded null depth
+CM ============================================================
+CE
+
+CM ── LOOP GEOMETRY: 100mm square in XZ plane ─────────────────
+CM Use square approximation (4 sides, 25mm each)
+CM Square loop same area as circular: A_square = (0.1/√π × 2)² ≈ same
+CM Side = 50mm for 100mm diameter equivalent area
+CM
+CM Bottom side (z=0, from x=-0.05 to x=+0.05): tag 1
+GW 1 5 -0.05 0.0 0.0 0.05 0.0 0.0 0.001
+CM Right side (x=+0.05, from z=0 to z=0.1): tag 2
+GW 2 5  0.05 0.0 0.0 0.05 0.0 0.1 0.001
+CM Top right (z=0.1, from x=+0.05 to x=0): tag 3
+GW 3 3  0.05 0.0 0.1 0.0  0.0 0.1 0.001
+CM Top left (z=0.1, from x=0 to x=-0.05): tag 4 — GAP between tag 3 and 4 = Faraday gap
+GW 4 3 0.0  0.0 0.1 -0.05 0.0 0.1 0.001
+CM Left side (x=-0.05, from z=0.1 to z=0) — feed at bottom of this side: tag 5
+GW 5 5 -0.05 0.0 0.1 -0.05 0.0 0.0 0.001
+
+CM ── FREE SPACE (elevated loop probe, not ground mounted) ─────
+GE 0
+
+CM ── FREQUENCY ──────────────────────────────────────────────────
+FR 0 1 0 0 7.15 0
+
+CM ── EXCITATION ─────────────────────────────────────────────────
+CM Source at bottom of left side segment (segment 5, last segment = near x=-0.05, z=0)
+EX 0 5 5 0 1.0 0.0
+
+CM ── RADIATION PATTERNS ─────────────────────────────────────────
+CM Azimuth pattern at elevation=0° (horizontal plane): should show figure-8
+RP 0 1 73 1000 0.0 0.0 0.0 5.0
+CM Elevation pattern in XZ plane (loop plane, azimuth=0°):
+RP 0 91 1 1000 -90.0 0.0 2.0 0.0
+CM Elevation pattern in YZ plane (broadside, azimuth=90°, should be null):
+RP 0 91 1 1000 -90.0 90.0 2.0 0.0
+
+EN
+
+CM ============================================================
+CM  EXPECTED RESULTS:
+CM
+CM  AZIMUTH PATTERN (elevation = 0°):
+CM    Bidirectional (figure-8): peaks at ±X (azimuth 0° and 180°)
+CM    Nulls at ±Y (azimuth 90° and 270°, broadside to loop plane)
+CM    Null depth: >30 dB for well-constructed loop (physically symmetric)
+CM    In NEC model: theoretically infinite (geometrically symmetric)
+CM    Real-world: 25–35 dB limited by construction asymmetry
+CM
+CM  NEAR-FIELD USE:
+CM    In near-field (distance << λ), loop responds to local H-field.
+CM    At 7 MHz, λ = 42m. At probe distance 0.01–0.1m, pure near-field.
+CM    Orientation:
+CM      Loop plane faces noise source: MAXIMUM response
+CM      Loop plane perpendicular to source: MINIMUM (use to null and identify direction)
+CM      Rotate probe 90° to locate exact bearing of noise source
+CM
+CM  FARADAY SHIELD EFFECT (gap at top):
+CM    Without gap: loop also responds to E-field (displacement current through gap)
+CM    With gap: E-field induced current has no complete circuit → zero E-field response
+CM    H-field: induces current in LOOP (center conductor) → unaffected by shield gap
+CM    Net result: 20–30 dB reduction in E-field response (electrostatic rejection)
+CM    This prevents confusing voltage-switching noise (E-field) with current
+CM    switching noise (H-field) during RFI hunting.
+CM
+CM  PROBE SENSITIVITY at 7 MHz (H-field coupling):
+CM    V_oc = 2π × f × µ₀ × H × A
+CM    For A = 0.0025 m² (50mm square), H = 1 mA/m at probe distance 10cm:
+CM    V_oc = 2π × 7e6 × 4πe-7 × 0.001 × 0.0025 ≈ 0.14 µV
+CM    After +19 dB preamp: 1.6 µV → detectable on SDR with ADC noise ~1 µV
+CM    So: probe detects H-field of ~1 mA/m at 10cm from source — excellent sensitivity
+CM ============================================================

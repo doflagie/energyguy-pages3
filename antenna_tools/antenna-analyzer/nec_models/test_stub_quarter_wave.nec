@@ -1,0 +1,48 @@
+CM ============================================================================
+CM  INTEGRATED ANTENNA ANALYZER - TEST REFERENCE MODELS
+CM  ANTENNA: QUARTER-WAVE OPEN STUB (Resonance Algorithm Test)
+CM  PURPOSE: Verify resonance detection algorithm (Im(Z) = 0 finder)
+CM  TYPE: Open-circuit transmission line stub, vertical orientation
+CM ============================================================================
+CM
+CM  STUB SPECIFICATIONS:
+CM    Frequency: 100.0 MHz (arbitrary test frequency)
+CM    Wavelength λ = 3.0 m
+CM    Stub length: 0.25λ = 0.75 m
+CM    Stub characteristic impedance: 50Ω (typical coax)
+CM    Termination: OPEN (Z_load = ∞)
+CM    Feed point impedance: 50Ω × j∞ (open circuit, purely capacitive)
+CM
+CM  ELECTRICAL BEHAVIOR:
+CM    At 100.0 MHz (λ/4 length):
+CM      Z_in = Z0 × cot(βl) = 50 × cot(π/2) = 50 × 0 = 0 + j∞ (open)
+CM    At 200.0 MHz (λ/2 length): Z_in ≈ 0 + j0 (resonance point)
+CM    At 50.0 MHz (λ/8 length): Z_in highly capacitive
+CM
+CM  RESONANCE ALGORITHM TEST:
+CM    1. Sweep frequency: 50.0 to 250.0 MHz (5 MHz steps, 41 points)
+CM    2. Algorithm should find: Im(Z) crosses zero at ~200 MHz
+CM    3. At resonance: Z_real ≈ 0, Z_imag ≈ 0, Q undefined (low loss)
+CM    4. Measure phase transition: Phase should flip 180° through resonance
+CM    5. Verify: Phase unwrapping algorithm, reactance sign change detection
+CM
+CM  NEC2 MODEL (Approximation):
+CM    - Segment of wire 0.75 m long, 1 mm diameter (thin wire approx of stub)
+CM    - Open at far end (no connection to ground return)
+CM    - Frequency sweep: 50 to 250 MHz (41 points)
+CM    - This is a simplified model; actual coax stub would need TL model
+CM
+CM  NOTES:
+CM    - NEC2 wire model is not ideal for transmission line, but gives
+CM      qualitative resonance behavior
+CM    - For precise stub behavior, use equivalent circuit model
+CM    - This test verifies algorithm robustness with known resonance
+CM
+CE
+GW 1 11 0 0 0 0 0 0.75 0.001
+GE 0
+GN 2 0 0 0 13.0 0.005
+EX 0 1 6 0 1.0 0.0
+FR 0 41 0 0 50.0 5.0
+RP 0 361 1 1000 0.0 0.0 1.0 0.0
+EN

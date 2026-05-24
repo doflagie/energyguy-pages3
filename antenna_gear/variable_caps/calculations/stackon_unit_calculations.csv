@@ -1,0 +1,81 @@
+// TM-VCAP-CAL-006 Rev A  Stack-On Modular Capacitor Unit Calculations
+//
+// CONSTRUCTION CONCEPT:
+//   Each unit is a flat-plate capacitor sandwich:
+//     [PVC backing / foil tape (bottom conductor)] + [polymer sheet dielectric] + [foil tape (top conductor)]
+//   Units stack in PARALLEL (foil tabs align and contact) to add capacitance
+//   Velcro patches or rubber bands hold the stack together
+//   Quick band changes: peel off/add units while radio is idle
+//
+// FLAT PLATE CAPACITANCE:
+//   C = ε₀ × εᵣ × A / d
+//   where A = plate overlap area (m²), d = dielectric thickness (m)
+//
+//   For overhead transparency film (OHP): εᵣ = 3.20, d = 0.100mm
+//     C [pF] = 8.854e-12 × 3.20 × A_mm² × (1e-6) / (0.0001)
+//            = 8.854e-12 × 3.20 × 10000 × A_mm²
+//            = 2.833 × 10⁻⁷ × A_mm² [F] → × 10¹² = 0.2833 pF/mm²
+//
+//   NOTE: Multiple polymer layers halve C per layer added (series capacitors):
+//     1 layer (0.1mm): 0.2833 pF/mm²
+//     2 layers (0.2mm): 0.1417 pF/mm²
+//     3 layers (0.3mm): 0.0944 pF/mm²
+//
+// VOLTAGE RATING per LAYER of OHP transparency:
+//   E_break(OHP) ≈ 45 MV/m → V_break = 45 MV/m × 0.0001 m = 4500 V per layer
+//   V_working = 4500 / 3 = 1500 V per layer (3× safety factor)
+//   2 layers: V_working = 3000 V — more than adequate for 500W transmitter
+//   1 layer: V_working = 1500 V — adequate for 100W
+//
+// STACKING FOR PARALLEL CONNECTION:
+//   N units in parallel → C_total = N × C_unit
+//   Units connect with copper foil tabs at front edge (bottom-to-bottom, top-to-top)
+//   Velcro on PVC side faces holds mechanical stack
+//   Spring contact strip (phosphor bronze) on tab edge ensures reliable parallel connection
+//
+// BAND SELECTION BY STACKING (typical L-network series capacitor values):
+//   See column "band_example" — stack the listed units for that band starting point
+//   Fine-tune with sliding pipe cap or manual rotary cap in series
+//
+unit_id,description,plate_W_mm,plate_L_mm,plate_area_mm2,n_dielectric_layers,layer_material,layer_thickness_mm,layer_er,total_dielectric_mm,C_pF_calculated,V_working_per_stack_V,mass_approx_g,velcro_type,band_example,stack_C_target_pF,notes
+CSM-A,160m primary,50,35,1750,1,OHP transparency 0.100mm,0.100,3.20,0.100,495,1500,8,25mm hook-and-loop,"1×A = 495 pF — 160m starting point; too high so use 2-layer version",495,"Use 2-layer for 200pF: C=248pF; trim with pipe cap"
+CSM-A2,160m 2-layer,50,35,1750,2,OHP transparency 0.100mm each,0.200,3.20,0.200,248,3000,9,25mm hook-and-loop,"1×A2 = 248 pF → 160m (200pF nominal)",248,"2× OHP transparency sheets; safer for 100W; easier to store band setting"
+CSM-B,80m,40,28,1120,1,OHP transparency 0.100mm,0.100,3.20,0.100,317,1500,5,20mm hook-and-loop,"1×B = 317 pF — good for 80m; use 2-layer for 158pF",317,"Single layer; alternatively CSM-B2 at 158pF better matches 80m tuner C"
+CSM-B2,80m 2-layer,40,28,1120,2,OHP transparency 0.100mm each,0.200,3.20,0.200,159,3000,6,20mm hook-and-loop,"1×B2 = 159pF → 80m starting point",159,""
+CSM-C,40m,32,22,704,1,OHP transparency 0.100mm,0.100,3.20,0.100,199,1500,3,20mm hook-and-loop,"1×C = 199 pF — 40m starting point (130pF nominal; fine-tune with pipe)",199,"Use 2-layer for 100pF: C2=100pF → better 40m match"
+CSM-C2,40m 2-layer,32,22,704,2,OHP transparency 0.100mm each,0.200,3.20,0.200,100,3000,4,20mm hook-and-loop,"1×C2 = 100pF → 40m",100,""
+CSM-D,30m-20m,22,16,352,1,OHP transparency 0.100mm,0.100,3.20,0.100,100,1500,2,12mm hook-and-loop,"1×D = 100pF → 30m (80pF); 2×D = 200pF → back to 160m via stack",100,"Useful trim unit; 4 fit in shirt pocket"
+CSM-E,20m-17m,16,12,192,1,OHP transparency 0.100mm,0.100,3.20,0.100,54,1500,1,12mm hook-and-loop,"1×E = 54pF → 20m (55pF) — excellent match",54,"Bread-bag tie size; very portable"
+CSM-F,15m-12m,12,9,108,1,OHP transparency 0.100mm,0.100,3.20,0.100,31,1500,0.5,Rubber band only,"1×F = 31pF → 15m (35pF); 2×F = 62pF; 3×F = 93pF",31,"Small; rubber band alone is sufficient fastening"
+CSM-G,10m,9,7,63,1,OHP transparency 0.100mm,0.100,3.20,0.100,18,1500,0.3,Rubber band only,"1×G = 18pF → 10m (22pF); 2×G = 36pF",18,"Fingernail size; trim with semi-rigid coax stub or trimmer"
+CSM-VHF,VHF 6m-2m,7,5,35,1,OHP transparency 0.100mm,0.100,3.20,0.100,10,1500,0.2,Rubber band only,"1×VHF = 10pF → 6m; 2×VHF = 20pF; 3×VHF = 30pF",10,"Mount directly on PCB-style carrier; leads <5mm for 6m"
+//
+// COMPLETE BAND SELECTION TABLE:
+// Band | Target C | Recommended stack | Notes
+// 160m | 200–250pF | 1×CSM-A2 (248pF) | Fine-tune with pipe cap
+// 80m  | 130–160pF | 1×CSM-B2 (159pF) | ±25pF with pipe cap
+// 40m  | 80–120pF  | 1×CSM-C2 (100pF) |
+// 30m  | 55–85pF   | 1×CSM-D + 1×CSM-E (154pF) or 1×CSM-C2 (100pF) |
+// 20m  | 30–60pF   | 1×CSM-E (54pF) |
+// 17m  | 22–40pF   | 1×CSM-F + 1×CSM-E (85pF) or 1×CSM-F + 1×CSM-G (49pF)
+// 15m  | 18–30pF   | 2×CSM-F (62pF) or 1×CSM-E (54pF) |
+// 12m  | 12–22pF   | 1×CSM-F + 1×G (49pF) or 1×CSM-E (54pF) |
+// 10m  | 10–18pF   | 1×CSM-G (18pF) |
+// 6m   | 8–20pF    | 2×CSM-VHF (20pF) |
+// 2m   | 4–10pF    | 1×CSM-VHF (10pF) |
+//
+// FABRICATION NOTES:
+//   1. Cut PVC backing strip from flat PVC sheet (or flatten PVC pipe by heating)
+//      or use foam-core board, ABS sheet, or PCB laminate (FR4 without copper) as substrate
+//   2. Apply copper foil tape to BOTH faces of a polymer dielectric sheet
+//      OR: copper foil on substrate, polymer sheet on top, second copper foil on polymer
+//   3. Leave 5mm tab extending beyond polymer sheet on one end for electrical connection
+//   4. Solder 20 AWG wire lead to each foil tab (top and bottom)
+//   5. Apply velcro patch to long edge of each unit
+//   6. To stack: align units side-by-side; top foil of unit N connects to top foil of unit N+1
+//      (all top foils = one terminal; all bottom foils = other terminal)
+//
+// QUALITY CHECK:
+//   Measure with NanoVNA or LCR meter: C should match table ±15%
+//   Check with ohmmeter: >10MΩ between top and bottom foil (no short through dielectric)
+//   Check voltage withstand: apply 100VDC briefly; no breakdown indicates >1kV rating

@@ -1,0 +1,28 @@
+CM EFQW_2M.NEC — End-Fed Quarter-Wave Vertical, 2 Meters
+CM TM-EF-NEC-007 Rev A
+CM
+CM Band:       2m (144.000 – 148.000 MHz)
+CM Center:     146.000 MHz
+CM QW length:  0.488 m (VF=0.95, 3mm aluminum rod)
+CM Feed Z:     33 + j0 Ω (perfect ground); 36 + j2 Ω (avg, 4 radials)
+CM Radials:    4× 0.488m rigid aluminum rods at 90° horizontal
+CM Matching:   Hairpin (beta) match preferred; or sleeve balun + direct
+CM             Hairpin: 12mm wide, 28mm long, 50Ω → 36Ω
+CM
+CM Coaxial vertical option:
+CM   Center conductor: 48.8mm element above UHF/N-type connector
+CM   Outer shield: 4 bent radials forming ground plane
+CM   Feed: direct to center conductor pin
+
+CE
+GW 1 20  0 0 0.01  0 0 0.498  0.0015
+GW 2 3   0 0 0.01  0.488 0 0.01  0.0015
+GW 3 3   0 0 0.01  0 0.488 0.01  0.0015
+GW 4 3   0 0 0.01  -0.488 0 0.01  0.0015
+GW 5 3   0 0 0.01  0 -0.488 0.01  0.0015
+GE 1
+GN 2 0 0 0  13 0.005
+EX 0 1 1 0  1 0
+FR 0 21 0 0  144.000 0.200
+RP 0 37 73 1000  0 0 5 5
+EN

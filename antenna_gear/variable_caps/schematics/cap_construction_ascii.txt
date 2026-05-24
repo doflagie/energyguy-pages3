@@ -1,0 +1,166 @@
+================================================================================
+TM-VCAP-SCH-001 Rev A    VARIABLE CAPACITOR MECHANICAL CONSTRUCTION
+                         Five-Design Schematic Reference
+================================================================================
+
+1. PARALLEL PLATE VARIABLE CAPACITOR — PRINCIPLE OF OPERATION
+==============================================================
+
+   STATOR PLATES (fixed, on insulating rods)
+   |     |     |     |     |     |
+   |     |     |     |     |     |
+───┤ S₁  ├────┤ S₂  ├────┤ S₃  ├──── STATOR TERMINAL (T₁)
+   |     |     |     |     |     |
+   |     |     |     |     |     |
+      ↕d    ↕d    ↕d    ↕d    ↕d     d = plate spacing (air gap)
+   |     |     |     |     |     |
+   ╠═════╬═════╬═════╬═════╬═════╣ ── ROTOR SHAFT ──→ ROTOR TERMINAL (T₂)
+   |  R₁ |  R₂ |  R₃ |  R₄ |  R₅|   (via spring brush or shaft end contact)
+   |     |     |     |     |     |
+       ↑ ↑ ↑   rotating plates (semicircular)
+       ↑
+   θ = rotation angle (0° = unmeshed, 180° = fully meshed)
+
+   Circuit symbol:
+        T₁
+        |
+       ─┤├──────── T₂
+        |
+   Stator    Rotor
+   (variable C between T₁ and T₂)
+
+   Capacitance law (semicircular plates):
+     C(θ) = C_min + (C_max - C_min) × θ/180°
+     Linear with angle — ideal for calibration scale
+
+
+2. PLATE GEOMETRY — SEMICIRCULAR (TOP VIEW)
+===========================================
+
+   ROTOR PLATE (rotates with shaft)       STATOR PLATE (fixed)
+
+        ←──── 2r ────→                      ←──── 2r ────→
+        ┌─────────────┐                     ┌─────────────┐
+       /               \                   /               \
+      /   SEMICIRCLE    \                 /   SEMICIRCLE    \
+     |      active       |               |      active       |
+     |       area        |               |       area        |
+      \     π·r²/2      /                \     π·r²/2      /
+       \               /                  \               /
+        └──────┬──────┘                    └──────┬──────┘
+               │ ← shaft hole                     │ ← large clear hole
+               │   (press-fit)                    │   (r_clear = shaft_dia/2 + 3mm)
+
+   At θ = 0°:   No overlap → C = C_min (stray only)
+   At θ = 90°:  Half overlap → C = (C_min + C_max)/2
+   At θ = 180°: Full overlap → C = C_max
+
+   SIDE VIEW — showing plate stack and rotor shaft:
+
+   BEARING        STATOR BUS ROD          BEARING
+     │       ─────────────────────────       │
+   ──┼────   S₁  R₁  S₂  R₂  S₃  R₃  S₄   ────┼──  ← SHAFT
+     │       │   │   │   │   │   │   │       │
+   front     │←──┼───┼───┼───┼───┼───┼──→│  back
+   bearing   │   └── plate spacing d ──┘   bearing
+   plate     └─────────────────────────────┘  plate
+             ← frame depth (n_gaps × pitch + margin) →
+
+   CONTACT BRUSH DETAIL (rotor connection):
+
+   Shaft ────●━━━━━━━━━━━━━━
+              ↑ silver-plate
+   ══╗ spring finger (phosphor bronze, 0.15mm)
+     ╠═══════════════════ to ROTOR TERMINAL (T₂)
+   ══╝
+   (press against shaft at low pressure; do NOT over-compress — increases contact R)
+
+
+3. INDIVIDUAL DESIGN CROSS-SECTIONS
+=====================================
+
+VC-QRP (50×50×45mm)   VC-HF100 (80×80×70mm)   VC-TX (120×120×90mm)
+┌────────────────┐     ┌──────────────────┐     ┌──────────────────────┐
+│  ○ shaft ○     │     │    ○ shaft ○      │     │    ○  SHAFT  ○       │
+│  ← 40mm → │   │     │    ←  60mm  → │  │     │    ←    80mm   → │  │
+│  ┌─┬─┬─┬─┤   │     │    ┌──┬──┬──┬──┤  │     │    ┌───┬───┬───┬───┤ │
+│  │S│R│S│R│S  │     │    │S │R │S │R │  │     │    │ S │ R │ S │ R │S│ │
+│  └─┴─┴─┴─┘   │     │    └──┴──┴──┴──┘  │     │    └───┴───┴───┴───┘ │ │
+│ d=0.5mm t=0.4 │     │  d=1.5mm t=0.5   │     │  d=4.0mm t=1.0       │ │
+│ n=16R+17S     │     │  n=14R+15S        │     │  n=8R+9S             │ │
+│ V_work=200V   │     │  V_work=1500V     │     │  V_work=4000V        │ │
+│ PETG frame OK │     │  PETG/Delrin OK   │     │  Aluminum frame ONLY │ │
+└────────────────┘     └──────────────────┘     └──────────────────────┘
+  WARNING: At 160m/80m with high-Q tank, even VC-HF100 can see >1500V!
+  Always verify V_peak in your circuit before operating.
+
+
+VC-VHF (40×40×35mm)        VC-UHF (25×25×20mm)
+┌────────────────┐          ┌──────────────┐
+│  ○ shaft ○     │          │  ○ shaft ○   │
+│  ← 30mm → │   │          │  ← 16mm → │  │
+│  ┌─┬─┬─┬─┤   │          │  ┌─┬─┬─┬─┤  │
+│  │S│R│S│R│S  │          │  │S│R│S│R│S  │
+│  └─┴─┴─┴─┘   │          │  └─┴─┴─┴─┘  │
+│ d=1.0mm t=0.5 │          │ d=0.5mm t=0.3│
+│ n=8R+9S       │          │ n=4R+5S      │
+│ V_work=500V   │          │ V_work=200V  │
+│ SRF=519 MHz   │          │ SRF=1453 MHz │
+│ Min lead len! │          │ PCB-mount!   │
+└────────────────┘          └──────────────┘
+
+
+4. POSITION INDICATOR DIAL
+============================
+
+Printed scale (see TM-VCAP-ENC-005 OpenSCAD):
+
+   ┌─────────────────────────────────────────────────────────────┐
+   │                                                             │
+   │   0    20   40   60   80   100  120  140  160  180         │
+   │   │    │    │    │    │    │    │    │    │    │            │
+   │───┼────┼────┼────┼────┼────┼────┼────┼────┼────┼───        │
+   │                        DEGREES                              │
+   │                                                             │
+   │  VC-QRP pF scale:                                          │
+   │   8   76   144  213  281  177  345  ← read at degree mark  │
+   │  ← Note: NOT a uniform pF scale; read degree then convert  │
+   │                                                             │
+   │  BAND MARKS (20m=55°, 40m=87°, 80m=131°, 160m=160° approx)│
+   │                                                             │
+   └─────────────────────────────────────────────────────────────┘
+
+   Laser-engravable or engraved during 3D print on position_indicator_dial.scad
+
+
+5. CONTACT WIRING AND TERMINATION
+====================================
+
+   HF / Low Power:                HV Transmitting:
+
+   T₁ (stator) ────┤ capacitor ├──── T₂ (rotor)
+                                      |
+   Use silver-plated wire ≥18 AWG    Use 12 AWG copper or
+   or bare copper braid              silver-plated copper braid
+   Keep leads <25mm for HF           Round all solder points and
+   Keep leads <5mm for VHF           terminals (no sharp edges)
+   Keep leads <2mm for UHF           Maintain 10mm clearance for 4kV
+                                     (1kV per 2.5mm in air)
+
+   STATOR MOUNTING RODS:
+   - Use PTFE (Teflon) rod, 2–3mm Ø (HF); PTFE sheet spacers OK
+   - NEVER use PVC — lossy dielectric at RF, softens near RF heating
+   - PETG is acceptable for ≤1500V, <100W duty cycle
+   - For VC-TX: use PTFE rod/sheet for all insulators; aluminum for frame
+   - Thread M2 or M2.5 into PTFE for stator rod mounting
+
+   ROTOR CONTACT SPRING:
+   - Phosphor-bronze (CuSn8) strip, 0.10–0.15mm × 3mm, spring-formed
+   - Silver-plated if possible (reduces contact resistance 3×)
+   - Contact pressure: ~10–20 gf (measured with digital scale)
+   - Wipe arc: 3–5mm across shaft; multiple spring fingers = lower R
+   - Clean with IPA and cotton swab; re-silver with Caig Deoxit Gold annually
+
+================================================================================
+END TM-VCAP-SCH-001
+================================================================================

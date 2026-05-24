@@ -1,0 +1,202 @@
+================================================================================
+  rfi_sniffer_probe_ascii.txt — TM-RFI-SCH-004 Rev A
+  RFI Near-Field Sniffer Probe Set: H-Field Loop and E-Field Rod
+  Preamplifier Circuit, Shielded Loop Design, and Usage Procedures
+  Document: TM-RFI-SCH-004 Rev A
+================================================================================
+
+OVERVIEW
+--------
+  Near-field sniffer probes allow you to locate the SOURCE of QRM/RFI by
+  holding the probe near suspected devices and observing the S-meter or
+  spectrum analyzer. When the probe is held near the noise source, the
+  S-meter peaks. Move toward the source until you identify the exact device
+  and coupling point.
+
+  Two complementary probes:
+  1. H-field (magnetic) loop: responds to CURRENT in conductors
+     - Sensitive to transformer/inductor switching noise
+     - Directional: null when loop plane faces source
+     - Reject: electrostatic pickup (use Faraday shield)
+
+  2. E-field (electric) rod: responds to VOLTAGE on conductors
+     - Sensitive to voltage switching (transistors, switching rails)
+     - Omnidirectional
+     - Use with attenuator to prevent SDR overload
+
+PROBE A — SHIELDED H-FIELD LOOP
+---------------------------------
+
+  DIMENSIONS:
+    Loop diameter: 100 mm (convenient for near-field, ~λ/3000 at 10 MHz)
+    Wire: 1mm OD coax (RG-178 or RG-316 miniature coax)
+    Shield gap: 10 mm at top (prevents electrostatic response)
+
+  WHY FARADAY SHIELD:
+    An unshielded loop responds to BOTH magnetic (H) and electric (E) fields.
+    A Faraday-shielded loop has a copper shield with a gap at the top:
+    - Shield shorts the electric field (E-field voltage → induced current blocked by shield)
+    - Gap prevents shield current from flowing (if no gap: shield is a shorted turn)
+    - Loop wire inside sees only magnetic flux (H-field) through the gap
+
+  CONSTRUCTION (from coax):
+    1. Bend 34 cm of RG-178 into 100 mm circle (circumference = π × 100 = 314 mm ≈ 34 cm)
+    2. Strip 5 mm braid at one end (feed point, bottom)
+    3. Leave 10 mm gap at top: strip 10 mm braid away but keep center conductor continuous
+       → This gap in the outer shield = electrostatic shield gap
+    4. Solder feed end to SMA connector:
+       center conductor → SMA center pin
+       braid → SMA ground/shield
+    5. Seal non-feed end with epoxy (prevent moisture)
+    6. Optional: wrap loop in heat-shrink tubing for mechanical protection
+
+  SCHEMATIC:
+  ┌────────────────────────────────────────────────────────────┐
+  │                   100mm diameter loop                       │
+  │                                                            │
+  │   ←────────── coax shield (Faraday screen) ─────────────→  │
+  │   |← feed    ←──────────────────────── 10mm GAP           │
+  │                                                            │
+  │   Inner coax center conductor forms the loop throughout    │
+  └────────────────────────────────────────────────────────────┘
+
+  SENSITIVITY:
+  Open-circuit voltage of small loop:
+    V_oc = µ₀ × A × N × dH/dt = 2π × f × µ₀ × B × A × N
+    At 10 MHz, B = 1 nT, A = 7850 mm² = 7.85×10⁻³ m², N = 1 turn:
+    V_oc = 2π × 10e6 × 4πe-7 × 1e-9 × 7.85e-3 = 0.62 µV
+  → Preamplifier needed for useful sensitivity.
+
+  PREAMPLIFIER:
+  The 100mm shielded loop has source impedance of:
+    R_rad + jωL where L ≈ µ₀ × r × [ln(8r/a) − 2] ≈ 290 nH for 100mm loop
+    jωL at 10 MHz ≈ j18.2 Ω
+
+  Use SPF5189Z or J310 JFET source follower for buffering:
+
+  Loop terminal ── C_in (47pF) ── SPF5189Z pin 1 (IN)
+                                  SPF5189Z pin 2 (GND) → GND
+                                  SPF5189Z pin 3 (OUT+Vcc):
+                                    → C_out (100pF) → SMA center (output)
+                                    → L_choke (100nH) → +3.3V supply
+
+  Gain: +19 dB. NF: 0.6 dB.
+  Effective sensitivity: detects B-field variations of ~0.1 pT at 10 MHz (SNR=0 dB)
+
+  ALTERNATIVE: Mini-Circuits MAR-6+ wideband MMIC (20 dB gain, 6 mA, 50Ω in/out)
+    MAR-6+ at SMA connector (50Ω matching): place directly at loop feed point.
+
+PROBE B — E-FIELD ROD PROBE
+------------------------------
+  Short rod (whip) with buffer amplifier.
+
+  ROD: 50–100mm stainless steel rod, 2mm diameter.
+  Tip contact: brass SMA inner contact pressed into rod.
+
+  SCHEMATIC:
+  Rod ── R_protect (1kΩ) ── JFET gate ── [J310 source follower] ── 50Ω output
+
+  J310 source follower (same as active noise canceller preamp):
+    Drain (+5V via 470Ω)
+    Gate: rod input via 1kΩ
+    Source: 2.2kΩ to GND; output via 1µF NP0 cap
+
+  ATTENUATION: E-field probe can pick up very strong near-field voltages.
+  Add SMA 20 dB attenuator at output before connecting to SDR to prevent overload.
+  Signals >+10 dBm will damage RTL-SDR input. Always use attenuator with E-field probe.
+
+PROBE HANDLE AND CABLE
+------------------------
+  HANDLE: 3D printed grip (see rfi_sniffer_handle.scad)
+  Cable: RG-178 miniature coax, 1–1.5m, SMA(M) to SMA(M)
+  Tip connection: strain relief sleeve, loops at front end of handle
+  Power: LiPo cell 100mAh (for preamp) OR phantom power via bias-T from SDR
+
+  BIAS-T PHANTOM POWER:
+  RTL-SDR v3 has built-in bias-T (software enabled):
+  rtl_biast -b 1 (from command line, or in SDR++ settings)
+  Provides +4.5V at 100mA via coax center conductor.
+  Add 100nF blocking cap + 100nH choke at probe to separate RF from DC.
+
+USAGE PROCEDURE — RFI HUNTING
+-------------------------------
+
+  STEP 1: IDENTIFY PROBLEM FREQUENCY
+  Using SDR or receiver, tune to the interference frequency.
+  Note: does it appear at a specific frequency? Multiple harmonically-related spikes?
+    → Harmonic series: switching power supply (fundamental = PS switching frequency)
+    → Single carrier: oscillator, clock signal
+    → Broadband hash: motor brush arcing, plasma arc
+    → Pulsed: microcontroller running periodic task
+    → S-meter sync with video: HDMI cable, LCD backlight
+
+  STEP 2: LOCATE NOISE SOURCE BUILDING/ROOM
+  From your antenna, rotate a directional antenna (Yagi, loop, or beam).
+  Note bearing of maximum noise. This points toward noise source.
+
+  STEP 3: ROOM HUNT WITH H-FIELD PROBE
+  Move through room holding H-field probe near:
+    - Power supply bricks and wall warts
+    - Computer motherboards (near CPU and GPU VRM)
+    - LED light fixtures and dimmers
+    - Smart meters (outside wall)
+    - Solar inverters / battery charge controllers
+    - Ethernet switches and routers
+    - TV sets and monitors (near power supply area)
+  S-meter peaks when probe near source.
+
+  STEP 4: DEVICE-LEVEL IDENTIFICATION
+  Once room identified, disconnect appliances one at a time.
+  Monitor S-meter: when noise floor drops significantly, last-disconnected = culprit.
+
+  STEP 5: COUPLING PATH IDENTIFICATION
+  Once source identified:
+    - Check if noise conducts via mains wiring (power line filter may help)
+    - Check if noise radiates from device body (shielding may help)
+    - Check if noise couples via data cables (ferrite clamps help)
+  Use E-field probe to identify high-voltage switching rails.
+  Use H-field probe to identify high-current switching nodes.
+
+  STEP 6: APPLY REMEDIATION AND VERIFY
+  Apply fix (ferrite clamp, filter, replacement component).
+  Re-measure noise level to confirm improvement.
+  Log: device, frequency, cure applied, improvement achieved.
+
+PROBE CALIBRATION (ROUGH)
+---------------------------
+  For relative measurements only (identifying sources, not absolute calibration):
+  1. Set receiver to CW, narrow BW (500 Hz).
+  2. Tune to clean frequency (no known signals).
+  3. Record baseline S-meter level.
+  4. Move probe near each suspect device.
+  5. Record S-meter change above baseline.
+  6. Largest delta = primary noise source.
+
+  For quantitative field strength measurements, use:
+  - Calibrated EMC antenna (not covered in this document)
+  - Spectrum analyzer with calibration factor
+  - LISN (Line Impedance Stabilization Network) for conducted EMC measurements
+
+BILL OF MATERIALS — SNIFFER PROBE SET
+-----------------------------------------
+  H-Field Loop:
+    1m RG-178 or RG-316 miniature coax
+    1× SMA(F) right-angle PCB connector
+    1× SPF5189Z or MAR-6+ MMIC preamp
+    1× 100nH Coilcraft 0402CS RF choke
+    1× 100pF NP0 0402 cap
+    Handle: see rfi_sniffer_handle.scad
+
+  E-Field Rod:
+    100mm × 2mm stainless steel rod
+    1× J310 JFET
+    1× 2.2kΩ, 1× 470Ω, 1× 1kΩ resistors
+    1× 1µF NP0 cap
+    Handle + PCB: integrated in rfi_sniffer_handle.scad
+
+  Common:
+    2× SMA(M)-to-SMA(M) 1.5m RG-178 cable assemblies
+    1× 20 dB SMA attenuator pad (protect SDR from strong near-field)
+    1× LiPo 100mAh 3.7V (or use RTL-SDR bias-T at 4.5V)
+
+================================================================================

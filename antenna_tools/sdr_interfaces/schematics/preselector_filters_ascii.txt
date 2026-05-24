@@ -1,0 +1,308 @@
+================================================================================
+  preselector_filters_ascii.txt — TM-SDR-SCH-004 Rev A
+  Switchable Bandpass Preselector Filters for All 16 Ham Bands
+  160M through 20CM — 3-pole Chebyshev Bandpass Filter Suite
+  Document: TM-SDR-SCH-004 Rev A
+================================================================================
+
+OVERVIEW
+--------
+  16 switchable bandpass filters (one per ham band) providing:
+  - Rejection of out-of-band signals and intermodulation sources
+  - Improved dynamic range for SDR front-end
+  - FM broadcast (88–108 MHz) rejection when tuned to HF
+  - Harmonic suppression from upconverter
+
+  Architecture: SP4T × 4 cascaded relay tree = 16-position switch
+  Control: 4-to-16 decoder (74HC154) driven by ESP32 GPIO[3:0]
+
+BAND SPECIFICATIONS TABLE
+--------------------------
+  Band   Freq Range       Center    BW      Filter  Topology  Topol.
+  ─────────────────────────────────────────────────────────────────────────
+  160M   1.800–2.000 MHz  1.900 MHz  200 kHz  F01   3-pole LC BPF
+  80M    3.500–4.000 MHz  3.750 MHz  500 kHz  F02   3-pole LC BPF
+  40M    7.000–7.300 MHz  7.150 MHz  300 kHz  F03   3-pole LC BPF
+  30M   10.100–10.150 MHz 10.125 MHz  50 kHz  F04   5-pole LC BPF (narrow)
+  20M   14.000–14.350 MHz 14.175 MHz 350 kHz  F05   3-pole LC BPF
+  17M   18.068–18.168 MHz 18.118 MHz 100 kHz  F06   3-pole LC BPF
+  15M   21.000–21.450 MHz 21.225 MHz 450 kHz  F07   3-pole LC BPF
+  12M   24.890–24.990 MHz 24.940 MHz 100 kHz  F08   3-pole LC BPF
+  10M   28.000–29.700 MHz 28.850 MHz 1700 kHz F09   3-pole LC BPF
+  6M    50.000–54.000 MHz 52.000 MHz 4000 kHz F10   3-pole LC BPF (helical)
+  2M   144.000–148.000 MHz 146.0 MHz 4000 kHz F11   3-pole interdigital
+  1.25M 222.000–225.000 MHz 223.5 MHz 3000 kHz F12  3-pole interdigital
+  70cm  420.000–450.000 MHz 435.0 MHz  30 MHz F13   3-pole stripline
+  33cm  902.000–928.000 MHz 915.0 MHz  26 MHz F14   3-pole stripline/SAW
+  23cm 1240.000–1300.000 MHz 1270 MHz  60 MHz F15   SAW or cavity
+  WIDE  Bypass (no filter) —————————————————  F16   relay bypass
+
+FILTER TOPOLOGY — 3-POLE CHEBYSHEV BPF
+-----------------------------------------
+  Standard form (series resonator — shunt resonator — series resonator):
+
+       Cs1      Ls1      Cs2      Ls2      Cs3      Ls3
+  IN ──┤├──┬────UUU────┬──┤├──┬────UUU────┬──┤├──┬────UUU────┬── OUT
+          │            │       │            │       │            │
+         Lp1          Cp1     Lp2          Cp2     Lp3          Cp3
+          │            │       │            │       │            │
+         GND          GND     GND          GND     GND          GND
+
+  Each section: series LC (Cs, Ls) and shunt LC (Lp, Cp) resonating at f0.
+  Coupling between sections by series capacitors Cs1, Cs2, Cs3.
+
+  Simplified 3-pole shorthand:
+    - Series coupling caps: Cs (controls bandwidth coupling factor k)
+    - Shunt resonators: Lp||Cp resonating at f0
+    The three shunt resonators tune to f0; coupling caps set bandwidth.
+
+COMPONENT VALUES — HF BANDPASS FILTERS
+-----------------------------------------
+  All values ±5%. Use NP0/C0G capacitors. Wind inductors on T50-2 or T50-6 toroids.
+  After assembly, align with NanoVNA for S21 minimum passband loss.
+
+  F01 — 160M (1.9 MHz, BW 200 kHz, Q=9.5):
+    Shunt resonators:
+      Lp = 22 µH (T50-2, ~75 turns 24 AWG)
+      Cp = 320 pF (220 + 100 pF NP0 in parallel)
+    Series coupling capacitors:
+      Cs = 39 pF NP0
+    Passband insertion loss: ~1 dB
+    Note: winding 75 turns is tedious; use T80-2 or T94-2 for easier winding.
+    Alternate Lp: 22 µH pot-core inductor (much easier to wind and trim).
+
+  F02 — 80M (3.75 MHz, BW 500 kHz, Q=7.5):
+    Lp = 5.6 µH (T50-6, 38 turns 24 AWG)
+    Cp = 330 pF (NP0)
+    Cs = 100 pF NP0
+    Passband insertion loss: ~0.8 dB
+
+  F03 — 40M (7.15 MHz, BW 300 kHz, Q=23.8):
+    Lp = 2.2 µH (T50-6, 24 turns 24 AWG)
+    Cp = 220 pF (NP0)
+    Cs = 33 pF NP0
+    Passband insertion loss: ~0.7 dB
+
+  F04 — 30M (10.125 MHz, BW 50 kHz, Q=202) — 5-pole for narrower BW:
+    5-pole needed for high Q. Practical 3-pole has minimum BW ~250 kHz.
+    PRACTICAL COMPROMISE: Use 3-pole with 250 kHz BW (centered on 10.125 MHz).
+    Lp = 1.8 µH (T50-6, 22 turns)
+    Cp = 140 pF (100 + 39 pF NP0)
+    Cs = 18 pF NP0
+    Passband insertion loss: ~0.8 dB (accepts some adjacent-channel signals)
+    NOTE: 30M band is narrow (50 kHz). No LC BPF can achieve 50 kHz BW at 10 MHz
+    without complex crystal-filter construction. Use 250 kHz practical BW.
+
+  F05 — 20M (14.175 MHz, BW 350 kHz, Q=40.5):
+    Lp = 1.0 µH (T50-6, 17 turns)
+    Cp = 120 pF NP0
+    Cs = 22 pF NP0
+    Passband insertion loss: ~0.7 dB
+
+  F06 — 17M (18.118 MHz, BW 100 kHz, Q=181) — high Q:
+    PRACTICAL BW: 200 kHz (achievable with precision components, VNA alignment)
+    Lp = 680 nH (T50-6, 14 turns)
+    Cp = 110 pF NP0 (82 + 27 pF)
+    Cs = 12 pF NP0
+    Passband insertion loss: ~1.0 dB (higher Q = higher loss)
+
+  F07 — 15M (21.225 MHz, BW 450 kHz, Q=47.2):
+    Lp = 560 nH (T50-6, 13 turns)
+    Cp = 100 pF NP0
+    Cs = 22 pF NP0
+    Passband insertion loss: ~0.8 dB
+
+  F08 — 12M (24.940 MHz, BW 100 kHz, Q=249) — use 200 kHz practical:
+    Lp = 390 nH (T50-6, 11 turns)
+    Cp = 100 pF NP0
+    Cs = 10 pF NP0
+    Passband insertion loss: ~1.2 dB
+
+  F09 — 10M (28.85 MHz, BW 1700 kHz, Q=17):
+    Lp = 330 nH (Coilcraft 0805CS-331 or wound, 10 turns T50-6)
+    Cp = 82 pF NP0
+    Cs = 56 pF NP0 (wider BW requires larger coupling cap)
+    Passband insertion loss: ~0.6 dB
+
+COMPONENT VALUES — VHF/UHF FILTERS
+--------------------------------------
+  VHF and UHF filters use helical resonator or interdigital topology.
+  LC lumped elements practical to ~200 MHz; above that use distributed.
+
+  F10 — 6M (52 MHz, BW 4 MHz, Q=13):
+    LUMPED LC (still practical at 52 MHz):
+    Lp = 100 nH (Coilcraft 0805HS-101, Q>30 at 50 MHz)
+    Cp = 82 pF NP0
+    Cs = 47 pF NP0
+    Passband insertion loss: ~0.6 dB
+
+  F11 — 2M (146 MHz, BW 4 MHz, Q=36.5):
+    HELICAL RESONATOR DESIGN:
+    3 helical resonators in cavity.
+    Each resonator: 10 mm diameter, 30 mm length, 8T winding.
+    Cavity: aluminum, 70 × 25 × 25 mm.
+    Coupling: inductive loop at input/output (2T link coil).
+    Tuning: adjust screws to compress/expand coil.
+    Expected insertion loss: 2–4 dB.
+
+    ALTERNATIVE — LUMPED LC (easier to build, more loss):
+    Lp = 22 nH (Coilcraft 0805HS-22NK, SRF > 500 MHz)
+    Cp = 47 pF NP0 (verify resonance: f0 = 1/(2π√(LC)) ≈ 157 MHz with 22nH/47pF)
+    Cs = 6.8 pF NP0
+    Passband insertion loss: ~2 dB (lumped at 146 MHz has higher loss)
+
+  F12 — 1.25M (223.5 MHz, BW 3 MHz):
+    INTERDIGITAL BPF or LUMPED:
+    Lp = 12 nH, Cp = 39 pF → f0 = 232 MHz (adjust for 223 MHz)
+    Cs = 4.7 pF NP0
+    Passband insertion loss: ~2.5 dB (lumped, acceptable)
+
+  F13 — 70cm (435 MHz, BW 30 MHz):
+    STRIPLINE or MICROSTRIP BPF (PCB-based):
+    3 coupled half-wavelength resonators on 1.6mm FR4.
+    λ/2 at 435 MHz ≈ 34.5 mm (effective in FR4: 34.5/√4.4 = 16.4 mm)
+    Coupling gap: 0.2–0.5 mm (tuned for BW)
+    PCB width for 50Ω: ~3 mm on 1.6 mm FR4
+    Insertion loss: 2–3 dB on FR4 (higher loss substrate than PTFE)
+    For < 1.5 dB loss: use Rogers RO4003C substrate.
+
+    PURCHASED ALTERNATIVE: 70cm BPF module (Minicircuits SBP-435 or similar) ~$20.
+
+  F14 — 33cm (915 MHz, BW 26 MHz):
+    SAW FILTER (simplest for UHF): Murata SAFEA915MHZ0F00R0 or similar.
+    SAW (915 MHz ISM band): insertion loss 1.5–3 dB, shape factor excellent.
+    Caution: SAW has fixed frequency, not tunable.
+    Wiring: input match (39 pF to GND) ── SAW ── output match (39 pF to GND).
+
+    STRIPLINE ALTERNATIVE: same as 70cm but scaled for 915 MHz.
+    λ/2 in FR4 at 915 MHz: 7.8 mm (very small, tight tolerance needed).
+
+  F15 — 23cm/20cm (1270 MHz, BW 60 MHz):
+    SAW FILTER (1.27 GHz GPS/ham band): Murata SAFFB1G27FA0F0A.
+    Or: cavity filter (SMA in/out), small aluminum machined cavity.
+    Insertion loss SAW: 2–4 dB.
+    PCB coupling lines: λ/2 at 1270 MHz ≈ 5.6 mm (requires precision PCB).
+
+  F16 — BYPASS (wideband):
+    Relay K_bypass closes SMA-to-SMA path; no filtering.
+    Useful when wideband spectrum analysis desired (panadapter).
+
+RELAY SWITCHING ARCHITECTURE
+------------------------------
+  16 filter positions require 16 relay outputs.
+  Two layers of SP4T switching:
+
+  Layer 1 (Band Group Select): 1× SP4T = selects HF-Low, HF-High, VHF, UHF
+    K_GRP1 (DPDT/SP4T relay or 4× SPST relays):
+      Position 1: Route to HF-Low BPF bank (F01–F04)
+      Position 2: Route to HF-High BPF bank (F05–F09)
+      Position 3: Route to VHF BPF bank (F10–F12)
+      Position 4: Route to UHF BPF bank (F13–F15) + Bypass (F16)
+
+  Layer 2 (Individual Band Select): 4× SP4T = selects within each group
+    K_HF_LO (routes to F01, F02, F03, or F04)
+    K_HF_HI (routes to F05, F06, F07, F08, or F09)  ← needs SP5T; use SP4T + relay
+    K_VHF   (routes to F10, F11, or F12)
+    K_UHF   (routes to F13, F14, F15, or F16 bypass)
+
+  RELAY TYPES:
+    HF paths (< 100 MHz): use Axicom V23105 SPDT 5V coil, RF-rated.
+    VHF paths (< 500 MHz): use Panasonic TQ2-5V or equivalent RF relay.
+    UHF paths (> 500 MHz): use high-frequency relay (Pickering 50-series) or
+      PIN diode switch (PE4259 or HMC544A GaAs SPDT, 0.1–4 GHz).
+
+  CONTROL LINES:
+    74HC154 (4-to-16 line decoder, active-low outputs):
+      Inputs: A0–A3 from ESP32 GPIO[3:0]
+      Outputs Y0–Y15: each low output → ULN2003A → relay coil
+      Power: 5V for relay coils, 3.3V for 74HC154 inputs
+
+    ESP32 GPIO pin map:
+      GPIO26: BPF_A0 (LSB of band select)
+      GPIO27: BPF_A1
+      GPIO14: BPF_A2
+      GPIO12: BPF_A3 (MSB)
+      GPIO33: BPF_EN  (enable decoder, active HIGH)
+      Total: 5 GPIO for full 16-band selection
+
+74HC154 DECODER TRUTH TABLE (BPF select)
+-----------------------------------------
+  A3  A2  A1  A0   Active Filter   Band
+   0   0   0   0   Y0 = F01       160M
+   0   0   0   1   Y1 = F02       80M
+   0   0   1   0   Y2 = F03       40M
+   0   0   1   1   Y3 = F04       30M
+   0   1   0   0   Y4 = F05       20M
+   0   1   0   1   Y5 = F06       17M
+   0   1   1   0   Y6 = F07       15M
+   0   1   1   1   Y7 = F08       12M
+   1   0   0   0   Y8 = F09       10M
+   1   0   0   1   Y9 = F10       6M
+   1   0   1   0   Y10 = F11      2M
+   1   0   1   1   Y11 = F12      1.25M
+   1   1   0   0   Y12 = F13      70cm
+   1   1   0   1   Y13 = F14      33cm
+   1   1   1   0   Y14 = F15      23cm
+   1   1   1   1   Y15 = F16      BYPASS
+
+ULN2003A RELAY DRIVER WIRING
+------------------------------
+  74HC154 output Y_n (active LOW, 0V when selected) →
+  ULN2003A INn (active HIGH input, needs inversion) →
+  NEED INVERTER: 74HC04 inverter between 74HC154 and ULN2003A.
+
+  OR: use 74HC138 (active LOW outputs) + ULN2003A (active HIGH input):
+  Actually ULN2003A drives relay when input is HIGH (sinks current from +5V).
+  74HC154 output = LOW when active.
+  So: 74HC154 Y_n ── 74HC04 inv ── ULN2003A IN_n ── relay coil GND side.
+      Relay coil (+5V) ──────────────────────────── relay coil power side.
+
+  Wiring per relay:
+    +5V ──────── Relay coil pin 1
+    ULN2003A OUT ─── Relay coil pin 2
+    ULN2003A IN  ─── 74HC04 output
+    74HC04 IN    ─── 74HC154 Y_n
+
+  Flyback diode: ULN2003A has internal flyback diodes (1N4148 equivalent).
+  External 1N4148 across relay coil also acceptable for extra protection.
+
+FILTER BOARD LAYOUT GUIDELINES
+---------------------------------
+  PCB: 160 × 100 mm, 2-layer, 1 oz copper, FR4.
+  Ground plane: solid on bottom layer.
+  All GND connections: via to bottom ground plane.
+
+  Filter sections: physical grouping by band.
+    Section A (HF-Low: 160m, 80m, 40m, 30m): left 40mm of board.
+    Section B (HF-High: 20m–10m): center-left 40mm.
+    Section C (VHF: 6m, 2m, 1.25m): center-right.
+    Section D (UHF: 70cm–23cm + bypass): right.
+    Relay bank: along bottom edge.
+    74HC154 + ULN2003A + 74HC04: near right edge.
+
+  Trace width for 50Ω:
+    HF sections (<30 MHz): width not critical (<10% effect on HF filter)
+    VHF sections (>30 MHz): 3.0 mm for 50Ω on 1.6mm FR4
+    UHF sections (>300 MHz): 3.0 mm or use PTFE/Rogers substrate
+
+INSERTION LOSS AND PERFORMANCE SUMMARY
+-----------------------------------------
+  Band   Typ. Insertion Loss   Spurious Rejection (nearest band)
+  ─────────────────────────────────────────────────────────────────────
+  160M   1.0 dB               >40 dB at 3.5 MHz (80m)
+  80M    0.8 dB               >40 dB at 1.8 MHz (160m), >35 dB at 7 MHz
+  40M    0.7 dB               >40 dB at 3.75 MHz, >40 dB at 14 MHz
+  30M    1.0 dB               >35 dB at 7 MHz, >30 dB at 14 MHz
+  20M    0.7 dB               >40 dB at 21 MHz
+  17M    1.2 dB               >35 dB at 14 MHz, >30 dB at 21 MHz
+  15M    0.8 dB               >35 dB at 18 MHz
+  12M    1.2 dB               >30 dB at 21 MHz
+  10M    0.6 dB               >35 dB at 24 MHz
+  6M     0.8 dB               >40 dB at 28 MHz (TX harmonic!)
+  2M     2–4 dB               >40 dB at 144 MHz ×2 (288 MHz)
+  1.25M  2–3 dB               >35 dB at 146 MHz
+  70cm   2–3 dB               >35 dB at 222 MHz
+  33cm   1.5–3 dB             >35 dB (SAW shape factor)
+  23cm   2–4 dB               >30 dB
+
+================================================================================

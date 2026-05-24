@@ -1,0 +1,178 @@
+================================================================================
+  VHF/UHF REMOTE ELEMENT SWITCHING SYSTEM
+  PIN DIODE SWITCHING NETWORK - PARASITIC ELEMENT CONTROL
+  For: 1.25M (222 MHz), 70cm (432 MHz), 33cm (902 MHz), 20cm (1296 MHz)
+================================================================================
+
+BLOCK DIAGRAM: PIN DIODE RF SWITCHING WITH DC BIAS INJECTION
+
+    Element ─┬────[RFC]────[PIN DIODE]────┬──── To Boom/Reflector Stub
+             │  (47-100 nH)                │
+             │                         ┌───┴─── Bias Network
+             │                         │
+    Boom ────┴─────────────────────────┴──────── Boom Return (RF Gnd)
+
+    Bias Control (from ESP32 GPIO):
+         +12V ────[2N2222 Transistor]──┬──── Cathode of PIN
+                                        │
+         GND ───────────────[100Ω Resistor]
+
+
+================================================================================
+DETAILED SCHEMATIC FOR SINGLE PARASITIC ELEMENT (70cm EXAMPLE: MA4P504)
+================================================================================
+
+Pin Diode: MA4P504 (or HSMP-3814)
+
+                           Element Stub to Boom
+                                   ↑
+                     Insertion Loss: 0.4-0.6 dB (fwd bias)
+                     Isolation:      > 35 dB (reverse bias)
+
+
+    ╔═══════════════════════════════════════════════════════════════╗
+    ║                   ELEMENT RF PATH                             ║
+    ╚═══════════════════════════════════════════════════════════════╝
+
+
+    Element Center       RFC Choke          PIN Diode            Boom
+    (SMA or coax)      (47 nH SMD)         MA4P504           (RF Return)
+         │                 │                  │                 │
+         o────────────[L]──o────────[D]───────o─────────────────o
+                      0402              SOT-23                    │
+                                                          Lambda/4 stub
+                                                          (optional)
+         │                 │                  │                 │
+         └─────────────────┴──────────────────┴─────────────────┘
+                     RF Ground Plane (0V)
+
+
+    ╔═══════════════════════════════════════════════════════════════╗
+    ║                   BIAS CONTROL CIRCUIT                        ║
+    ╚═══════════════════════════════════════════════════════════════╝
+
+
+    From ESP32 GPIO Pin (3V3 logic)
+           │
+           o───────────[R_base]──────┬──── Base of 2N2222
+                        1.0kΩ        │    Collector────┬──── +12V Supply
+                                     │    Emitter────┬─┤    (Separate supply)
+           GND ──────────────────────┴────[R_e]──────┘ │
+                                   100-470Ω          Flyback Diode
+                                                        (1N4148)
+                                    │
+                                    o─────────────┬──[R_current]──┬─ PIN Anode
+                                                  │  1.5k or 2k   │
+    Bias-T Coupling Network    ┌───┴──────────────┤              ┌┴─ PIN Cathode
+                               │                  │              │
+                         ┌─[C]─┴──────────────────┴──────────────┘
+                         │   100 pF
+                         │   0402
+              RFC ─[L]───┴─ (DC blocking on bias line)
+             (see below)
+
+
+    BIAS-T COUPLING ON ELEMENT COAX:
+
+    Element ─────[C_iso]─────●────[L_fc]────[Bias Diode Network]
+               (empty link)    │            100 pF + 47 nH combo
+                              ├─[C_bypass]─ GND
+                              │  100 pF
+
+
+
+================================================================================
+COMPONENT SELECTION BY BAND
+================================================================================
+
+    BAND        | FREQ     | PIN DIODE         | RFC CHOKE | Bypass Cap | INSERT LOSS
+    ------------|----------|-------------------|-----------|------------|-------------
+    1.25M       | 222 MHz  | BAP51-02          | 100 nH    | 100 pF     | 0.3 dB
+    70cm        | 432 MHz  | MA4P504 or HSMP   | 47 nH     | 100 pF     | 0.4 dB
+    33cm        | 902 MHz  | SMP1320-074       | 47 nH     | 10 pF      | 0.6 dB
+    20cm        | 1296 MHz | SMP1320-074       | 22 nH     | 10 pF      | 0.8 dB
+
+
+    PIN DIODE PART NUMBERS (SOT-23 OR CASE-405):
+    ────────────────────────────────────────
+    BAP51-02:     Vj=0.75V, Ct=0.5pF, Rs=1.8Ω, Vfm=1.2V @ 10mA, 200 MHz+
+    MA4P504:      Vj=0.7V,  Ct=0.6pF, Rs=1.0Ω, Vfm=1.1V @ 20mA, 500 MHz+
+    HSMP-3814:    Vj=0.7V,  Ct=0.6pF, Rs=1.0Ω, Vfm=1.1V @ 20mA, 500 MHz+
+    SMP1320-074:  Vj=0.63V, Ct=0.63pF, Rs=1.0Ω, Vfm=1.0V @ 10mA, 900 MHz+
+
+
+================================================================================
+BIAS VOLTAGE & CURRENT SPECIFICATIONS
+================================================================================
+
+    FORWARD BIAS (Element Active - Connected to Boom):
+    ──────────────────────────────────────────────
+    Applied Bias:     +12V (from 2N2222 collector rail)
+    Forward Current:  10-20 mA (typical)
+    Voltage Drop:     0.8-1.0V across PIN diode
+    Series R Drop:    10-20mV across 1-2kΩ limit resistor
+
+    Net 12V supply voltage for bias network: 12V
+    After 1.5kΩ limit resistor at 10mA: ~12V - 15mV ≈ 11.985V applied to diode
+
+    Series RFC Choke (47 nH) impedance at 432 MHz:
+      Z_L = j*ω*L = j*2π*432e6 * 47e-9 = j128 Ω
+    This is acceptable for DC bias (choke acts as short @ DC).
+
+
+    REVERSE BIAS (Element OFF - Isolated):
+    ──────────────────────────────────────────
+    Applied Bias:     0V (GND) or -5V (optional for better isolation)
+    Reverse Current:  < 1 µA (leakage, must stay negligible)
+    Isolation Impedance: > 10 kΩ at bias frequency
+    Off-state RF impedance: > 30 dB isolation at operating frequency
+
+
+================================================================================
+PREFERRED PCB LAYOUT (Critical for UHF/Microwave Bands)
+================================================================================
+
+    1. Keep all SMD components within 2-3 mm of each other
+    2. Place RFC choke and bypass cap DIRECTLY at PIN diode cathode
+    3. RF trace from element to RFC choke should be < 2 mm, wide (50 mil)
+    4. Bias line to PIN cathode kept separate from RF line, routed orthogonal
+    5. Ground plane on all layers: both sides of PCB
+    6. For 20cm band (1296 MHz): consider microstrip bias choke instead of lumped
+    7. No stubs or dangling traces - all traces terminated
+
+    Recommended PCB substrate:
+      - FR-4 for 70cm/33cm (acceptable loss)
+      - RT/duroid 5880 for 20cm (lower loss tangent, better stability)
+      - Trace width at 50Ω: ~30 mil on standard 1.6mm FR-4
+
+
+================================================================================
+MEASUREMENT NOTES
+================================================================================
+
+    Forward Bias Verification (using network analyzer):
+    ─────────────────────────────────────────────────
+    - Apply +12V to cathode via 1-2kΩ limit resistor
+    - Measure S21 (transmission): should see < -0.5 dB loss
+    - Measure S11 (reflection): should see < -15 dB return loss
+    - Best insertion loss occurs at optimal bias current (~15 mA)
+
+
+    Reverse Bias Verification:
+    ──────────────────────────
+    - Ground cathode (0V), or apply -5V bias for maximum isolation
+    - Measure S21: should see < -30 dB isolation at operating frequency
+    - Measure S11: should see > -10 dB return loss (element now looks like
+      capacitive stub, ~0.6 pF to ground)
+
+
+================================================================================
+RELATED DOCUMENTS
+================================================================================
+
+    - bias_tee_ascii.txt: Detailed RF+DC coupling network schematic
+    - pin_switching_70cm_ascii.txt: 70cm band specific implementation
+    - pin_switching_33cm_ascii.txt: 33cm band specific implementation
+    - pin_switching_20cm_ascii.txt: 20cm band specific implementation
+    - rf_isolation_filter_ascii.txt: Control line filtering and shielding
+

@@ -1,0 +1,214 @@
+VARIABLE CAPACITOR MOTORIZED CONTROLLER SCHEMATIC
+TM-VCAP-ESP32-001 Rev A
+ASCII Schematic — ESP32 + DRV8825 + Pot Position Sensor + HV Safety
+======================================================================
+
+POWER SUPPLY SECTION
+────────────────────
+
+  J1 (DC Barrel 2.1mm, 12V/2A)
+  ┌─────────────────────────────────────────────────────────────┐
+  │  +12V ─── D1 (1N4007) ──┬──────────────────── +12V(motor)  │
+  │           (polarity       │                                   │
+  │            protect)      C1 (470µF/25V)  ← bulk filter     │
+  │                           │                                   │
+  │                      U1 (LM7805, TO-220)                    │
+  │                      IN ─┤     ├─ OUT ──────── +5V          │
+  │                          │GND  │                             │
+  │                         C2(10µF) C3(100nF)                  │
+  │  GND ─────────────────────────────────────────── PGND       │
+  └─────────────────────────────────────────────────────────────┘
+
+  NOTE: All grounds star at J1 GND pin (minimize motor noise coupling).
+
+
+DRV8825 STEPPER DRIVER
+───────────────────────
+
+  +12V ─── VMOT ┐
+                 │  DRV8825 MODULE
+  C4(100µF)      │  ┌──────────────────────────┐
+  ═══ (to GND)   │  │ VMOT   GND               │
+                 └──┤                          ├── 1B ──── Coil A−
+  +5V ────────────┤ VDD    GND               │
+  GND ────────────┤                          ├── 1A ──── Coil A+
+                   │                          │
+  ESP32-GPIO25 ───┤ STEP                    ├── 2A ──── Coil B+
+  ESP32-GPIO26 ───┤ DIR                     ├── 2B ──── Coil B−
+  ESP32-GPIO27 ───┤ EN (active LOW)         │
+                   │                          │
+  +5V ─┬──────── ┤ MS3 (tied HIGH = 1/16)  │   J3 (4-pin Molex, to NEMA17)
+  GND ─┴          │ MS2 (tied HIGH)         │
+                   │ MS1 (tied HIGH)         │   J4 (6-pin header, for future
+                   │                          │   current-sense/decay config)
+  R1 (0.1Ω trim) ─┤ VREF (0.5V = 1.0A)     │
+                   │  FAULT ─── ESP32-GPIO33  │
+                   └──────────────────────────┘
+
+  Microstepping (MS3:MS2:MS1 = 1:1:1) → 1/16 step mode
+  Total steps per revolution: 200 × 16 = 3200 steps/rev
+
+
+ESP32-WROOM-32 GPIO ASSIGNMENTS
+─────────────────────────────────
+
+  ┌──────────────────────────────────────────────────────────────────┐
+  │  GPIO  Function          Dir     Notes                           │
+  ├──────────────────────────────────────────────────────────────────┤
+  │    2   STATUS_LED        Out     Onboard LED (blink codes)       │
+  │    4   BTN_HOME          In/PU   Soft home (pot calibrate)       │
+  │    5   BTN_C_PLUS        In/PU   Increase capacitance step       │
+  │   16   BTN_C_MINUS       In/PU   Decrease capacitance step       │
+  │   17   BTN_PRESET        In/PU   Next band preset                │
+  │   21   I2C_SDA           BiDir   OLED display / ADS1115          │
+  │   22   I2C_SCL           Out     OLED display / ADS1115          │
+  │   25   STEP              Out     DRV8825 step pulse              │
+  │   26   DIR               Out     DRV8825 direction               │
+  │   27   ENABLE            Out     DRV8825 enable (LOW=on)         │
+  │   32   POT_ADC           In      Wiper pot (position feedback)   │
+  │   33   FAULT             In/PU   DRV8825 fault (active LOW)      │
+  │   34   LIM_MIN           In/PU   Minimum rotation limit switch   │
+  │   35   LIM_MAX           In/PU   Maximum rotation limit switch   │
+  │   36   SWR_ADC           In      SWR input from bridge detector  │
+  │   39   POWER_ADC         In      Ref power input (optional)      │
+  └──────────────────────────────────────────────────────────────────┘
+
+  ADC note: GPIO32/36/39 are ADC1 pins (usable with WiFi off).
+  GPIO34/35 are input-only (no internal pullup — use external 10k).
+  Bluetooth uses radio — ADC1 works with BT, ADC2 does NOT.
+
+
+POSITION SENSING — ROTARY POTENTIOMETER
+────────────────────────────────────────
+
+  Two sensing methods are implemented; use either or both:
+
+  METHOD A: LINEAR POTENTIOMETER (Absolute Position — PREFERRED)
+  ─────────────────────────────────────────────────────────────────
+  +3.3V
+    │
+   POT (10kΩ linear, 270° rotation, e.g. Bourns 3590S or Alps RK09)
+    │  CCW terminal ── +3.3V
+    │  CW terminal  ── GND
+    │  Wiper        ── R_series(100Ω) ── ESP32-GPIO32
+    │                                       │
+    │                                   C_filter (100nF to GND)
+    │
+  GND
+
+  POT voltage → angle:
+    V_wiper = V_cc × (angle / 270°)   [for 270° rotation pot]
+    angle   = (V_wiper / V_cc) × 270°
+    0V = 0° (minimum capacitance), 3.3V = 270° (maximum travel)
+
+  NOTE: Variable capacitors typically rotate 0–180° for full mesh.
+  Map 180° cap travel onto 0–270° pot range, leaving margin at each end.
+  Actual mapping: cap_angle = pot_angle × (180/230) for 0–230° pot travel.
+
+  METHOD B: QUADRATURE ENCODER (Relative, High Resolution)
+  ─────────────────────────────────────────────────────────
+  Encoder on capacitor shaft, 100 PPR, quadrature A/B:
+    A → GPIO32 (replaces POT_ADC — choose one method)
+    B → GPIO36
+    Both with 10k pullups to +3.3V
+
+  Encoder resolution: 100 PPR × 4 (quadrature) = 400 counts/revolution
+  With 10:1 gear: 4000 motor counts per capacitor revolution
+  Resolution: 180° / 4000 = 0.045° per count → 0.05 pF resolution at 10pF
+
+
+SWR / RF POWER INPUT (OPTIONAL AUTO-TUNE FEEDBACK)
+────────────────────────────────────────────────────
+
+  External SWR bridge detector → bridge rectified DC → voltage divider:
+
+  V_swr ─── R_div1 (10kΩ) ─── ESP32-GPIO36 ─── R_div2 (10kΩ) ─── GND
+
+  SWR voltage range: 0–3.3V representing SWR 1.0–10.0
+  Scale: 0.3V = SWR 1.0 (forward power reference), higher = worse SWR
+
+  NOTE: This input is for future auto-tune extension. Populate when
+  interfacing to an external directional coupler / SWR meter.
+
+
+LIMIT SWITCHES
+──────────────
+
+  +3.3V ── R2 (10kΩ) ── GPIO34 (LIM_MIN) ── SW1 (NO, SPDT) ── GND
+  +3.3V ── R3 (10kΩ) ── GPIO35 (LIM_MAX) ── SW2 (NO, SPDT) ── GND
+
+  LIM_MIN: trips when capacitor at minimum mesh (minimum capacitance end)
+  LIM_MAX: trips when capacitor at maximum mesh (maximum capacitance)
+  Both Active LOW (GPIO reads 0 when tripped).
+  Debounce: 5 ms in firmware.
+
+  IMPORTANT: At minimum-C position, rotor plates are just clearing stator
+  plates. Do NOT drive past LIM_MIN — plates will crash into end frame.
+
+
+HV ISOLATION — MOTOR CIRCUITRY vs. RF CIRCUITRY
+──────────────────────────────────────────────────
+
+  The capacitor shaft is at RF potential (potentially kV) during transmit.
+  The motor shaft is at DC circuit ground.
+  ISOLATION between them is provided by the SHAFT COUPLER:
+
+  RF High Voltage          Isolation Gap           DC/Motor Side
+  (capacitor shaft)        (jaw coupler or          (worm gear shaft)
+       │                    ceramic disc)                 │
+  ─────┤ ═══ INSULATING COUPLER (Delrin/ceramic) ═══ ────┤─────
+       │   Min. 15mm creepage, 8mm clearance @ 10kV      │
+                     (IEC 60664-1 Table F.2)
+
+  For vacuum variable capacitors (up to 15kV):
+  Use a 25mm Delrin shaft spacer (εr=3.7, dielectric strength 20kV/mm).
+  Physical distance 25mm × 20kV/mm = 500kV → 50:1 safety margin at 10kV.
+
+  WARNING: DO NOT USE CONDUCTIVE COUPLER (metal solid-shaft coupling)
+  AT ANY POWER LEVEL WITH A FLOATING CAPACITOR. A CONDUCTIVE SHAFT WILL
+  PLACE THE MOTOR DRIVER PCB AT RF POTENTIAL.
+
+
+FULL SYSTEM BLOCK DIAGRAM
+───────────────────────────
+
+  ┌─────────────┐  12V DC  ┌──────────────────────────────────────────┐
+  │ 12V/2A      ├──────────┤                                          │
+  │ Power       │          │      ESP32 CAP TUNER CONTROLLER          │
+  └─────────────┘          │         TM-VCAP-ESP32-001                │
+                            │                                          │
+  ┌─────────────┐          │  ┌─────────┐  Coil A/B                  │
+  │ NEMA 17     ├──────────┼──┤ DRV8825 ├──────────────────          │
+  │ Stepper     │          │  └─────────┘                            │
+  └─────────────┘          │                                          │
+                            │  GPIO32 ← Wiper pot (position)          │
+  ┌─────────────┐          │  GPIO34 ← LIM_MIN switch                │
+  │ Rot. Pot    ├──────────┤  GPIO35 ← LIM_MAX switch                │
+  │ (position)  │          │  GPIO36 ← SWR feedback (opt.)           │
+  └─────────────┘          │                                          │
+                            │  BT SPP → CYD display                   │
+  ┌─────────────┐          │  USB Serial → PC terminal               │
+  │ Limit SW ×2 ├──────────┤                                          │
+  └─────────────┘          │  Commands: SETC GOTO BAND SAVE RECALL   │
+                            │            HOME SWEEP STATUS STEP INFO  │
+                            └──────────────────────────────────────────┘
+
+
+POWER CONSUMPTION SUMMARY
+──────────────────────────
+
+  Component               Voltage   Current     Notes
+  ──────────────────────────────────────────────────────
+  ESP32-WROOM-32          3.3V      240 mA      BT active
+  DRV8825 (motor run)     12V       1.5 A       2 phases energized
+  DRV8825 (hold)          12V       0.5 A       current limited
+  OLED display            3.3V      20 mA       optional
+  Pot + resistors         3.3V      0.3 mA      10k pot
+  ──────────────────────────────────────────────────────
+  Total (motor running)   12V       ~1.7 A      → 20.4 W
+  Supply rating:          12V / 2A minimum
+
+======================================================================
+END OF VARIABLE CAPACITOR CONTROLLER SCHEMATIC
+TM-VCAP-ESP32-001 Rev A
+======================================================================

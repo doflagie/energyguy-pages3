@@ -1,0 +1,16 @@
+band,freq_mhz,lambda_cm,n_elements,element,length_mm,spacing_from_reflector_mm,boom_length_cm,gain_dBd,gain_dBi,fb_ratio_dB,noodle_sections_boom,wire_gauge,element_material,notes
+70cm,446.000,67.220,3,Reflector,329.38,0.00,20.84,7.1,9.25,20,1.7,#14 AWG,Bare copper wire,Driven element: gamma match or hairpin match to 50Ω
+70cm,446.000,67.220,3,Driven Element,310.56,94.11,20.84,7.1,9.25,20,1.7,#14 AWG,Bare copper wire,Split driven element for direct 50Ω feed with balun
+70cm,446.000,67.220,3,Director 1,295.77,208.38,20.84,7.1,9.25,20,1.7,#14 AWG,Bare copper wire,Insulated from boom via printed mount
+33cm,906.000,33.091,5,Reflector,163.80,0.00,23.83,9.2,11.35,25,2.0,#16 AWG,Bare copper wire,All elements insulated from pool noodle boom
+33cm,906.000,33.091,5,Driven Element,153.87,49.64,23.83,9.2,11.35,25,2.0,#16 AWG,Bare copper wire,Split driven; connect to hairpin match
+33cm,906.000,33.091,5,Director 1,147.25,110.85,23.83,9.2,11.35,25,2.0,#16 AWG,Bare copper wire,Press into printed element clip
+33cm,906.000,33.091,5,Director 2,143.94,175.38,23.83,9.2,11.35,25,2.0,#16 AWG,Bare copper wire,Press into printed element clip
+33cm,906.000,33.091,5,Director 3,142.29,238.25,23.83,9.2,11.35,25,2.0,#16 AWG,Bare copper wire,Press into printed element clip
+20cm,1296.000,23.133,7,Reflector,114.51,0.00,27.53,11.2,13.35,28,2.3,#18 AWG,Bare copper wire,All elements: solid copper wire; lengths precise to 0.5mm
+20cm,1296.000,23.133,7,Driven Element,107.80,34.70,27.53,11.2,13.35,28,2.3,#18 AWG,Bare copper wire,Split driven; N-connector at boom center
+20cm,1296.000,23.133,7,Director 1,103.63,78.65,27.53,11.2,13.35,28,2.3,#18 AWG,Bare copper wire,Accuracy ±0.5mm required at 1296 MHz
+20cm,1296.000,23.133,7,Director 2,101.78,126.07,27.53,11.2,13.35,28,2.3,#18 AWG,Bare copper wire,Accuracy ±0.5mm required at 1296 MHz
+20cm,1296.000,23.133,7,Director 3,100.63,174.65,27.53,11.2,13.35,28,2.3,#18 AWG,Bare copper wire,Accuracy ±0.5mm required at 1296 MHz
+20cm,1296.000,23.133,7,Director 4,99.47,224.39,27.53,11.2,13.35,28,2.3,#18 AWG,Bare copper wire,Accuracy ±0.5mm required at 1296 MHz
+20cm,1296.000,23.133,7,Director 5,99.01,275.28,27.53,11.2,13.35,28,2.3,#18 AWG,Bare copper wire,Accuracy ±0.5mm required at 1296 MHz

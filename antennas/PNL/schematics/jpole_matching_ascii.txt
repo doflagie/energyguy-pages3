@@ -1,0 +1,172 @@
+================================================================================
+  J-POLE ANTENNA MATCHING AND CONSTRUCTION              TM-PNL2-SCH-002 Rev A
+  Pool Noodle J-Pole — 6m, 2m, 1.25m
+================================================================================
+
+================================================================================
+  1. J-POLE ANTENNA THEORY
+================================================================================
+
+  The J-pole (Zepp antenna variation) consists of:
+    1. A half-wave (λ/2) radiating element
+    2. A quarter-wave (λ/4) matching stub (shorted at base)
+
+  The λ/4 stub acts as an impedance transformer between the low-impedance
+  feed coax (50Ω) and the high-impedance end-feed point of the λ/2 element.
+
+  1.1  Radiator Impedance
+
+    A half-wave element fed at its end (high-impedance end) presents:
+
+      Z_end ≈ 2500 – 5000 Ω    (high voltage, high impedance)
+
+    This is the top of the matching stub; it connects to the bottom of the
+    radiator.
+
+  1.2  Matching Stub Impedance
+
+    The λ/4 shorted stub has input impedance:
+
+      Z_stub_top = ∞  (open circuit at λ/4 from short, parallel resonant)
+
+    At the tap point below the top:
+
+      Z_tap = Z₀_stub × sin(2πd/λ)   [Ω]
+
+    where d = distance from the short (bottom) to the tap point.
+    As d increases from 0, Z_tap increases from 0 to Z_stub_top.
+
+    Finding the 50Ω tap:
+
+      d_50 = (λ/4) × (1/π) × arcsin(50/Z₀_stub)   [approximate]
+
+    Practical shortcut: start at d = λ/4 × 0.05 (5% of stub length from short).
+    Adjust for SWR minimum.
+
+  1.3  The 1/5 Sizing Rule vs. Foster Reactance
+
+    The J-pole works because the short at the stub base forms a current maximum;
+    the tap slides along the voltage standing wave to find 50Ω.
+
+    The stub and radiator share a common conductor (they are parallel wires
+    separated by a small gap). The effective length of each is modified by
+    mutual coupling. This is why VF correction (0.95) is applied.
+
+================================================================================
+  2. J-POLE DIMENSIONS
+================================================================================
+
+  All dimensions assume VF = 0.95 (pool noodle supported wire).
+
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │                                                                         │
+  │   J-POLE SCHEMATIC                                                     │
+  │                                                                         │
+  │        ──────────────────────────── Top of radiator (free end)         │
+  │                  │                                                      │
+  │                  │   Radiator                                           │
+  │                  │   (λ/2 = half-wave element)                         │
+  │                  │                                                      │
+  │   ───────────────┼──────── ←── Gap (25mm): NO connection here          │
+  │                  │                                                      │
+  │                  │   Matching stub                                      │
+  │                  │   (λ/4 = quarter-wave shorted section)               │
+  │                  │                                                      │
+  │       ←coax→ ──►─┤  ← Tap point (5% up from short)                    │
+  │   Center = one wire, Shield = other wire                               │
+  │                  │                                                      │
+  │          ────────┘   ← Short (both wires connected at base)            │
+  │                                                                         │
+  │   POOL NOODLE: Runs alongside the matching stub section                 │
+  │   Wire groove on noodle surface keeps stub wire straight               │
+  │                                                                         │
+  └─────────────────────────────────────────────────────────────────────────┘
+
+  Band    | f(MHz) | Radiator (cm) | Stub (cm) | Tap above short (cm)
+  ────────┼────────┼───────────────┼───────────┼─────────────────────
+  6m      | 51.000 |    279.2      |   139.6   |    14.0 (start; adjust)
+  2m      |146.000 |     97.5      |    48.8   |     4.9 (start; adjust)
+  1.25m   |222.000 |     64.1      |    32.1   |     3.2 (start; adjust)
+
+================================================================================
+  3. POOL NOODLE MOUNTING DETAILS
+================================================================================
+
+  The pool noodle provides a rigid, lightweight support for the matching stub wire.
+  The stub wire runs in the groove on the outside surface of the noodle.
+
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │                                                                         │
+  │   CROSS-SECTION — STUB SECTION (looking down)                          │
+  │                                                                         │
+  │         Radiator wire (runs parallel, 25mm to side)                    │
+  │            ●                                                            │
+  │                                                                         │
+  │     ╔═════════════════╗                                                 │
+  │     ║  Pool Noodle    ║   OD = 47mm                                    │
+  │     ║  (stub support) ║                                                 │
+  │     ║    ○ bore       ║                                                 │
+  │     ║                 ║                                                 │
+  │     ║● ← stub wire    ║   Wire runs in groove on noodle surface        │
+  │     ╚═════════════════╝                                                 │
+  │                                                                         │
+  │   Wire groove depth: 2mm (protect from slipping during assembly)       │
+  │   Secure with self-fusing silicone tape at 300mm intervals             │
+  │                                                                         │
+  └─────────────────────────────────────────────────────────────────────────┘
+
+  Stub shorting bar (bottom):
+    Connect both stub wire ends with a 5cm #12 AWG jumper.
+    Solder both connections; this is the current maximum point.
+
+  Radiator and stub spacing:
+    Maintain 25mm separation between radiator wire and stub wire.
+    Use spacers printed from jpole_base.scad every 30–40cm.
+
+================================================================================
+  4. MATCHING AND SWR ADJUSTMENT
+================================================================================
+
+  4.1  Initial Tap Position
+
+    Connect antenna analyzer to the feed point.
+    Start with tap 5% of stub length from short.
+    Example: 2m band, stub = 48.8cm → initial tap = 2.4cm from short.
+
+  4.2  Adjustment Procedure
+
+    a. Apply RF from antenna analyzer at band center frequency.
+    b. Observe SWR vs. tap position:
+       - Moving tap UP (away from short): impedance increases.
+       - Moving tap DOWN (toward short): impedance decreases.
+    c. Adjust tap for minimum SWR (< 1.5:1 target).
+    d. If minimum SWR achieved but > 1.5:1:
+       - Verify gap between stub and radiator is not shorted.
+       - Verify stub length = λ/4 (±5mm for 2m band).
+       - Try slight length adjustment (±5mm) of stub.
+
+  4.3  Common-Mode Choke
+
+    A ferrite bead or coax coil choke is strongly recommended at the coax
+    feed point to prevent RF on the coax outer shield:
+
+      Ferrite bead: 1–3 turns of coax on FT-50-43 toroid.
+      This is mandatory for clean pattern and SWR stability.
+
+================================================================================
+  5. RADIATION PATTERN
+================================================================================
+
+  The J-pole has essentially the same pattern as a λ/2 dipole oriented
+  vertically: omnidirectional in the horizontal plane with nulls at the poles.
+
+  Gain:
+    Free space: ≈ 2.15 dBi (same as dipole)
+    Over ground: depends on height; at λ/2 above ground ≈ 5–6 dBi
+
+  For 6m SSB/DX use: mount at maximum achievable height.
+  For 2m/1.25m portable: 5m height gives approximately 7–8 dBi effective.
+
+================================================================================
+  END OF TM-PNL2-SCH-002
+================================================================================

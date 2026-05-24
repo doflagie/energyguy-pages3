@@ -1,0 +1,328 @@
+================================================================================
+  VHF/UHF REMOTE ELEMENT SWITCHING SYSTEM
+  6 METERS (50.1 MHz) - RELAY-BASED ELEMENT SWITCHING
+  COMPLETE IMPLEMENTATION FOR 5-ELEMENT YAGI SWITCHING
+================================================================================
+
+OVERVIEW
+────────
+At 6M, SPDT relays are ideal for element control. Contact loss is < 0.15 dB.
+This document specifies component values, wiring, and PCB layout for complete
+5-element yagi with reflector + 3 director switching via 4× DPDT relays.
+
+
+================================================================================
+RELAY MATRIX: 5-ELEMENT YAGI (50.1 MHz)
+================================================================================
+
+    ELEMENT         | Function              | Relay Type | Supply
+    ─────────────────────────────────────────────────────────────
+    Reflector       | Reflector/Bypass      | K1 DPDT    | +5V
+    Director 1      | Director/Bypass       | K2 DPDT    | +5V
+    Director 2      | Director/Bypass       | K3 DPDT    | +5V
+    Director 3      | Director/Bypass       | K4 DPDT    | +5V
+
+
+RELAY SWITCHING TABLE (Simplified):
+
+    Pattern             | K1(Refl) | K2(Dir1) | K3(Dir2) | K4(Dir3) |  Gain  | F/B
+    ───────────────────────────────────────────────────────────────────────────
+    OMNI (all free)     |   OFF    |   OFF    |   OFF    |   OFF    | ~9 dBd | 20 dB
+    5-ELEMENT (baseline)|   OFF    |   OFF    |   OFF    |   OFF    | ~9 dBd | 20 dB
+    3-ELEMENT COMPACT   |   OFF    |   OFF    |   ON*    |   ON*    | ~6 dBd | 10 dB
+    REVERSE (back)      |   ON*    |   OFF    |   OFF    |   OFF    | ~3 dBd | 8 dB
+    CARDIOID-E          |   OFF    |   OFF    |   OFF    |   ON*    | ~7 dBd | 12 dB
+
+    * ON = relay energized = relay NC contact open = element free (director)
+    OFF = relay de-energized = relay NC contact closed = element shorted (reflector)
+
+
+================================================================================
+COMPONENT SPECIFICATIONS
+================================================================================
+
+Relays (K1, K2, K3, K4):
+─────────────────────
+  Part: Omron G5V-2-5 (DPDT, 5V coil, 40 mA, gold-plated contacts)
+  Packaging: Plug-in 8-pin DIL package
+  Coil Voltage:     5V DC
+  Coil Resistance:  ~125 Ω
+  Coil Power:       0.2 W typical
+  Contact Rating:   2A @ 30V DC (more than sufficient)
+  Contact Bounce:   ~1 ms
+  Isolation:        > 40 dB
+  RF Loss @ 50 MHz: < 0.15 dB
+  RF Loss @ 144 MHz:< 0.25 dB
+
+  Cost: $1.50-2.50 per relay (Digi-Key, Mouser, etc.)
+  Total for 4 relays: $6-10
+
+
+Driver IC (U1):
+──────────────
+  Part: Texas Instruments ULN2803 (Darlington Array, 8-channel)
+  Function: Convert 3V3 ESP32 GPIO to 5V relay drive current
+  Pin configuration: 18-pin DIP
+  Max output current: 500 mA per channel (sufficient for 4× relays @ 40 mA each)
+  Max total current: 2.7 A (all channels)
+  Flyback protection: Built-in (integrated catch diodes)
+
+  Cost: $0.30-0.50 per IC
+
+
+Power Supply:
+─────────────
+  Relay coil supply: +5V DC @ 200 mA (4 relays × 40 mA + margin)
+  Source: Separate regulated 5V from wall supply OR boost from 12V buck
+  Decoupling: 1000 µF electrolytic + 100 nF ceramic across +5V rail
+
+
+Control Signals (from ESP32):
+────────────────────────────
+  GPIO2  → ULN2803 Input 1 → K1 (Reflector)
+  GPIO4  → ULN2803 Input 2 → K2 (Director 1)
+  GPIO5  → ULN2803 Input 3 → K3 (Director 2)
+  GPIO17 → ULN2803 Input 4 → K4 (Director 3)
+
+  Input impedance: ~1 MΩ (standard CMOS logic, 3V3 levels acceptable)
+  Max input frequency: > 10 kHz (relays are slow, ~100 Hz switching sufficient)
+
+
+================================================================================
+DETAILED SCHEMATIC: SINGLE RELAY CIRCUIT
+================================================================================
+
+    ESP32 GPIO2 (3V3 output)
+             │
+             o─────────[R_1k]─────┐
+                       1 kΩ       │
+                       ±5%        │
+                                  │
+         GND ──────────────────────┴─→ ULN2803 IN(1)
+                                      (pin 1, 18-pin DIP)
+
+
+    ULN2803 OUTPUT (pin 16):
+
+         +5V relay supply
+             │
+          ┌──o──────────┐
+          │             │
+        [K1_coil]    [K1]
+          │           ├─ Pin 2: COM (connected to element)
+          │           ├─ Pin 3: NO (connected to nothing)
+          │           └─ Pin 8: NC (connected to boom GND)
+          │             (When coil ON: COM to NO path open, element free = director)
+          │             (When coil OFF: COM to NC path closed, element shorted to boom)
+          │
+    [Flyback 1N4007]  ← Built-in to ULN2803, no external needed
+          │
+    ULN2803 Output 1 (pin 16)
+             │
+      Common ─────→ Pin 9 (COM of ULN2803)
+             │
+           GND
+
+
+================================================================================
+RELAY WIRING: ELEMENT-TO-BOOM SHORTING CONFIGURATION
+================================================================================
+
+For a single parasitic element (e.g., Director 1):
+
+    Element Center Feed Point (from boom)
+         │
+      [C_iso 1 µF] ← Isolate DC from boom
+         │
+         o─────────┬──── To coax connector (towards receiver/amp)
+                   │
+            [K2 relay] ← Omron G5V-2-5
+                   │
+         K2-PIN2 (COM) ← element input
+         K2-PIN3 (NO)  ← Unused/open circuit
+         K2-PIN8 (NC)  ← Connected to boom RF ground
+
+    When K2 relay is OFF (not energized):
+      Element connects through K2-NC to boom, acts as shorted stub (reflector)
+
+    When K2 relay is ON (energized via ULN2803):
+      Element is isolated (NO path is open), acts as free director
+
+
+================================================================================
+PCB LAYOUT (Single-sided OR two-sided FR-4, 50 mil trace minimum)
+================================================================================
+
+    Layout strategy: Minimize relay coil lead length (< 50 mm total)
+    Separate analog and digital grounds, merge at single star point
+
+    LAYER 1 (Top):
+    ──────────────
+    ┌─────────────────────────────────────────────────┐
+    │                                                   │
+    │  ╔═══════════════════════════════════════════╗   │
+    │  ║ ULN2803 IC (U1)                           ║   │
+    │  ║ Input pins 1-4: from ESP32 GPIO via 1k Ω ║   │
+    │  ║ Output pins: to relay coils                ║   │
+    │  ║ PIN 9 (COM): to GND plane                 ║   │
+    │  ╚═══════════════════════════════════════════╝   │
+    │          │      │      │      │                   │
+    │          │      │      │      │                   │
+    │        [K1]   [K2]   [K3]   [K4]  (Relay modules) │
+    │          │      │      │      │                   │
+    │          └──────┴──────┴──────┘                   │
+    │                  │                                │
+    │            GND PLANE (continuous)                │
+    │                                                   │
+    └─────────────────────────────────────────────────┘
+
+    LAYER 2 (Bottom):
+    ─────────────────
+    Solid ground plane (connected to via grid)
+    Power and signal traces use top layer
+
+
+    Power Distribution:
+    ───────────────────
+    +5V comes from separate power supply (or 12V buck converter)
+    1000 µF bulk cap + 100 nF ceramic at ULN2803 Vcc pin
+    Relay coils connect to +5V via ULN2803 outputs
+
+
+    Via Placement:
+    ──────────────
+    Ground vias every ~10 mm in GND plane
+    Power vias under each relay coil (< 5 mm)
+
+
+================================================================================
+CONNECTOR PINOUT (DB9 Control Interface)
+================================================================================
+
+    Control Connector (male DB9, facing outward):
+
+         PIN SIGNAL      | Description
+    ─────────────────────────────────────
+     1   +12V (aux)      | Optional 12V supply for future expansion
+     2   GPIO2 (K1)      | Reflector relay control
+     3   GPIO4 (K2)      | Director 1 relay control
+     4   GPIO5 (K3)      | Director 2 relay control
+     5   GPIO17 (K4)     | Director 3 relay control
+     6   GND             | Ground reference
+     7   +5V (relay)     | 5V relay supply (local, on PCB)
+     8   SPARE           | Future use
+     9   GND (return)    | Ground return, shield connection
+
+
+    Shielded cable from ESP32 to relay box (>1m): Ferrite bead on each signal line
+
+
+================================================================================
+FIRMWARE PSEUDO-CODE (Arduino, ESP32)
+================================================================================
+
+    // GPIO assignments
+    #define RELAY_REFL GPIO_NUM_2
+    #define RELAY_DIR1 GPIO_NUM_4
+    #define RELAY_DIR2 GPIO_NUM_5
+    #define RELAY_DIR3 GPIO_NUM_17
+
+    // Pattern definitions
+    enum Pattern {
+      OMNI,
+      BASELINE_5EL,
+      COMPACT_3EL,
+      REVERSE,
+      CARDIOID_E,
+      // ... more patterns
+    };
+
+    void setPattern(Pattern p) {
+      // Step 1: De-energize all relays (all elements shorted = reflector mode)
+      gpio_set_level(RELAY_REFL, LOW);
+      gpio_set_level(RELAY_DIR1, LOW);
+      gpio_set_level(RELAY_DIR2, LOW);
+      gpio_set_level(RELAY_DIR3, LOW);
+      delay(50); // Wait for contact settling
+
+      // Step 2: Apply pattern-specific GPIO states
+      switch(p) {
+        case BASELINE_5EL:
+          // All directors free (OFF state)
+          gpio_set_level(RELAY_DIR1, LOW);
+          gpio_set_level(RELAY_DIR2, LOW);
+          gpio_set_level(RELAY_DIR3, LOW);
+          break;
+        case COMPACT_3EL:
+          // Dir 2 & 3 shorted, Dir 1 free
+          gpio_set_level(RELAY_DIR1, LOW);
+          gpio_set_level(RELAY_DIR2, HIGH); // Shorted
+          gpio_set_level(RELAY_DIR3, HIGH); // Shorted
+          break;
+        // ... more patterns
+      }
+      delay(50); // Wait for settle
+      updateSWR(); // Check via NanoVNA or RF sensor
+    }
+
+
+================================================================================
+TESTING & COMMISSIONING
+================================================================================
+
+1. VISUAL INSPECTION:
+   ─────────────────
+   - All solder joints clean and shiny
+   - No bridges between traces
+   - Relay coil leads securely soldered
+
+
+2. CONTINUITY TEST (with ohmmeter):
+   ────────────────────────────────
+   - NC contact (when relay OFF): should be ~ 0.5 Ω
+   - NO contact (when relay ON): should be open (> 10 MΩ)
+   - Repeat for all 4 relays
+
+
+3. VOLTAGE TEST (with multimeter):
+   ──────────────────────────────
+   - +5V rail: should be 5.0 ± 0.2V when relays OFF
+   - Relay coil voltage when ON: should be 4.9 V (drop across ULN2803)
+
+
+4. PATTERN VERIFICATION (at antenna):
+   ──────────────────────────────────
+   - Connect to NanoVNA, measure S11 at driven element
+   - Apply each pattern via ESP32 WebUI
+   - Verify SWR changes appropriately
+   - Measure antenna pattern with field strength meter or satellite doppler
+
+
+================================================================================
+PARTS LIST (6M System, 5-Element Array)
+================================================================================
+
+    Qty  Part Number         | Description          | Value     | Cost
+    ────────────────────────────────────────────────────────────────
+     4   Omron G5V-2-5       | Relay DPDT 5V        | 40 mA     | $2.00 each
+     1   ULN2803APC          | Darlington Array IC  | 8-channel | $0.40
+     1   1N4007              | Flyback diode        | 1A/1kV    | $0.05
+     1   C315C105M5U         | Capacitor, isolation | 1 µF/50V  | $0.15
+     4   100 nF 0402         | Capacitor, bypass    | 100 nF    | $0.02 each
+     1   1000 µF electrolytic| Capacitor, bulk      | 1000 µF   | $0.20
+     1   DB9M connector      | Control interface    | 9-pin     | $0.30
+     4   1 kΩ ±5% resistors  | Input base resistors | 1/4 W     | $0.02 each
+     1   PCB blank (2"x2")   | Single-sided FR-4    | 50 mil    | $1.00
+     1   4-pin JST header    | Element feed pigtail | 2.54mm    | $0.10
+
+    TOTAL COMPONENT COST: ~$12-15 per array
+
+
+================================================================================
+RELATED DOCUMENTS
+================================================================================
+
+    - relay_switching_ascii.txt: General relay switching overview
+    - yagi_6m_baseline_5el.nec: NEC2 antenna model
+    - yagi_6m_reversible_3el.nec: Reversible yagi model
+    - rf_isolation_filter_ascii.txt: Control line EMI filtering

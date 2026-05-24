@@ -1,0 +1,41 @@
+CM Pool Noodle Magnetic Loop — 40m Band        TM-PNL-NEC-003 Rev A
+CM Square STL: 1.2m side, 2 turns actual (NEC: 1-turn equivalent)
+CM Faraday coupling loop: 0.24m square, coplanar
+CM Tuning cap LD: XC=-311.1678 Ω (C=71.54 pF) at 7.15 MHz
+CM Loop height: 1.0m AGL
+CM -----------------------------------------------------------------------
+CM Single-turn values (NEC model):
+CM   L1 = 6.9264 µH
+CM   XL1 = 311.1678 Ω
+CM   Rrad_1T = 33.8357 mΩ
+CM   Rloss_1T = 0.655507 Ω
+CM -----------------------------------------------------------------------
+CM Actual 2-turn values (apply to NEC results):
+CM   Rrad_2T = 541.371 mΩ  (= Rrad_1T × 16)
+CM   Rloss_2T = 1.311015 Ω  (= Rloss_1T × 2)
+CM   Efficiency = 29.2256%
+CM   Q = 451.4
+CM   Bandwidth = 15.84 kHz
+CM   Vcap peak at 5W = 838.0 V
+CE
+! Main loop: square 1.2m, #14 AWG, centered, z=1.0m AGL
+GW  1  8  -0.6000  -0.6000  1.0   0.6000  -0.6000  1.0  0.000814
+GW  2  8   0.6000  -0.6000  1.0   0.6000   0.6000  1.0  0.000814
+GW  3  8   0.6000   0.6000  1.0  -0.6000   0.6000  1.0  0.000814
+GW  4  8  -0.6000   0.6000  1.0  -0.6000  -0.6000  1.0  0.000814
+! Coupling loop: 0.24m square, coplanar with main loop
+GW  5  4  -0.1200  -0.1200  1.0   0.1200  -0.1200  1.0  0.000814
+GW  6  4   0.1200  -0.1200  1.0   0.1200   0.1200  1.0  0.000814
+GW  7  4   0.1200   0.1200  1.0  -0.1200   0.1200  1.0  0.000814
+GW  8  4  -0.1200   0.1200  1.0  -0.1200  -0.1200  1.0  0.000814
+GS  0  0  1.0
+GE  1
+GN  2  0  0  0  13  0.005
+! Tuning capacitor: series LD at wire 3 (top), segment 4 (center)
+! R=0.1Ω (cap ESR), X=-311.1678 Ω (negative = capacitive)
+LD  0  3  4  4  0.1  -311.1678
+! Excite coupling loop at wire 5, segment 2
+EX  0  5  2  0  1.0  0.0
+FR  0  1  0  0  7.15  0
+RP  0  37  73  1001  0.0  0.0  5.0  5.0
+EN

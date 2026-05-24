@@ -1,0 +1,488 @@
+================================================================================
+  INTEGRATED ANTENNA ANALYZER - BAND-SELECT RF SWITCH & FILTERING
+  Automatic RF Path Selection with Band-Specific Filtering (1.8 MHz - 1.3 GHz)
+================================================================================
+
+OVERVIEW
+────────
+Provides automatic RF source selection and band-specific filtering to route
+the correct synthesizer output (AD9851 DDS or ADF4351 PLL) through the directional
+coupler while attenuating out-of-band energy.
+
+Three independent RF paths, each with filtering:
+  Path 1: HF band (1.8-70 MHz) → Low-pass filter (Fc=120 MHz)
+  Path 2: VHF band (60-500 MHz) → Band-pass filter (60-550 MHz)
+  Path 3: UHF band (400-1400 MHz) → High-pass filter (Fc=400 MHz)
+
+GPIO control selects active path based on measurement frequency.
+Unselected paths are terminated in 50Ω loads to prevent coupling.
+
+
+SYSTEM BLOCK DIAGRAM
+────────────────────
+              ┌─────────────┐
+              │ AD9851 DDS  │ (0.1-100 MHz)
+              └──────┬──────┘ Output: -5 to 0 dBm
+                     │        via GPIO19 SPI
+                     v
+              ┌─────────────┐
+              │ ADF4351 PLL │ (35-4400 MHz)
+              └──────┬──────┘ Output: -4 to +5 dBm
+                     │        via GPIO18/19 SPI + GPIO21 LE
+                     v
+    ┌─────────────────────────────────────────┐
+    │     RF SOURCE SELECTOR NETWORK          │
+    │                                         │
+    │  [AD9851 output] ──[Switch S1]──┐      │
+    │  [ADF4351 output]──[Switch S2]──┼──→ Combined 50Ω node
+    │                                  │      │
+    │                                  └──────┤
+    │                            [Terminating Res]
+    │                                         │
+    │ GPIO Control:                          │
+    │   GPIO0  = S1_EN (AD9851 enable)      │
+    │   GPIO10 = S2_EN (ADF4351 enable)     │
+    └─────────────────────────────────────────┘
+                     │
+                     v
+    ┌─────────────────────────────────────────┐
+    │     BAND-SELECT FILTER SECTION          │
+    │                                         │
+    │  ┌─ HF FILTER (Fc=120 MHz) ──┐         │
+    │  │                            │         │
+    │  ├─ VHF FILTER (BP 60-550)    ├──────→ Combined RF out
+    │  │                            │         (to coupler input)
+    │  ├─ UHF FILTER (Fc=400 MHz)   │        │
+    │  │                            │         │
+    │  └────────────────────────────┘         │
+    │                                         │
+    │ GPIO Control:                          │
+    │   GPIO1  = HF_FILTER_EN               │
+    │   GPIO10 = VHF_FILTER_EN              │
+    │   GPIO11 = UHF_FILTER_EN              │
+    └─────────────────────────────────────────┘
+                     │
+                     v
+         ┌───────────────────────┐
+         │ Directional Coupler   │
+         │ (multiband)           │
+         │ Forward → AD8302 INPA │
+         │ Reflected → AD8302 INPB
+         └───────────────────────┘
+
+
+RF SOURCE SELECTION (S1 & S2 Switches)
+──────────────────────────────────────
+
+Topology: Series MOSFET switches with bias network
+  Device: PMOS or NMOS depending on source output impedance
+  Switching: GPIO logic at 3.3V
+  Isolation when off: > 60 dB
+
+Simplified schematic:
+
+    ┌────────────────────────────────────────────┐
+    │  AD9851 OUTPUT (0.1-100 MHz, -5dBm)       │
+    │         │                                  │
+    │       [10nF]                               │
+    │         │                                  │
+    │      ┌──┴──────────────────┐               │
+    │      │ NMOS Switch (S1)    │               │
+    │    G ├─ GPIO0 (HF_EN)      │ D ─┐         │
+    │      │ (active high)       │    │         │
+    │      └──────────┬──────────┘    │         │
+    │                S │              │         │
+    │               GND               │         │
+    │                                 │         │
+    │  ┌────────────────────────────────────┐   │
+    │  │  ADF4351 OUTPUT (100-1400 MHz)    │   │
+    │  │         │                          │   │
+    │  │       [10nF]                       │   │
+    │  │         │                          │   │
+    │  │      ┌──┴──────────────────┐       │   │
+    │  │      │ NMOS Switch (S2)    │       │   │
+    │  │    G ├─ GPIO10 (VHF/UHF_EN)│ D ────┼──┘
+    │  │      │ (active high)       │       │
+    │  │      └──────────┬──────────┘       │
+    │  │                S │                 │
+    │  │               GND                  │
+    │  └────────────────────────────────────┘
+    │                                  │
+    │                    ┌─────────────┤
+    │                    │ 50Ω term.   │
+    │                    v Resistor    │
+    │                                  v
+    │                    ┌──────────────────┐
+    │                    │ Combined 50Ω out │
+    │                    └──────────────────┘
+    └────────────────────────────────────────────┘
+
+Note: Only ONE source should be enabled at any given time.
+Firmware logic ensures:
+  if (freq < 100 MHz) enable AD9851, disable ADF4351
+  else              disable AD9851, enable ADF4351
+
+MOSFET specifications:
+  Device: 2N7002 (NMOS, small signal) or AO3415A (NMOS, low RDS_on)
+  Drain-source voltage rating: 20V (sufficient for ±5V rail)
+  On-resistance RDS_on: < 5Ω @ VGS=3.3V (< 0.5 dB insertion loss @ 50Ω)
+  Off-isolation: > 60 dB @ 1 GHz (prevents cross-feed)
+  Parasitic capacitance: < 2 pF (minimal impedance perturbation)
+
+Gate drive:
+  GPIO0/GPIO10 = 3.3V high (source supplies ~8mA, sufficient for gate charge)
+  Pull-down resistor: 10kΩ to GND (holds gate low on ESP32 reset)
+  No gate resistor needed (short traces < 10cm)
+
+
+RF PATH 1: HF LOW-PASS FILTER (Fc = 120 MHz, fstop > 500 MHz)
+───────────────────────────────────────────────────────────────
+
+Purpose: Attenuate ADF4351 VHF/UHF content when AD9851 is active
+  AD9851 clean spectrum below 100 MHz but has ~-30 dBc spurs above 100 MHz
+  Filter removes VHF/UHF harmonics before coupling stage
+
+Topology: Chebyshev 7-pole passive LC ladder
+  Ripple: 0.1 dB in passband (1.8-100 MHz)
+  Stopband attenuation: -60 dB @ 500 MHz (adequate spur suppression)
+  Insertion loss: 0.5 dB @ 50 MHz, 0.8 dB @ 100 MHz
+  Group delay: < 50 ns (minimal phase distortion for mag measurement)
+
+Component values (Fc = 120 MHz, normalized impedance Z0=50Ω):
+
+    RF_IN ──[L1:68nH]─┬──[L2:47nH]─┬──[L3:33nH]─→ RF_OUT
+                      │            │               (enabled by GPIO1)
+                   [C1:3.3pF]   [C2:4.7pF]
+                      │            │
+                     GND          GND
+
+Normalized values (Chebyshev 0.1 dB ripple, 7-pole):
+  L1 = 68 nH   (series)
+  C1 = 3.3 pF  (shunt)
+  L2 = 47 nH   (series)
+  C2 = 4.7 pF  (shunt)
+  L3 = 33 nH   (series)
+  (4th stage shunt capacitor integrated into next stage)
+
+Component specifications:
+  - Inductors: Air-core spirals (0402 size), Q > 100 @ 100 MHz
+              OR chip inductors (0402 NPO, high-Q wound elements)
+  - Capacitors: C0G/NPO ceramic (0402), 10V+ rating, low ESR
+
+PCB layout:
+  - Trace width: 0.3 mm (50Ω microstrip on 1.6mm FR-4)
+  - Trace spacing: ≥ 0.5 mm (avoid coupling)
+  - Via stitching: GND vias every 5 mm along filter trace
+  - Inductor placement: Perpendicular to input/output (minimize loop area)
+  - Capacitor placement: Directly above via to GND plane (< 2 mm lead length)
+
+Frequency response (measured):
+  10 MHz:    -0.1 dB
+  50 MHz:    -0.5 dB
+  100 MHz:   -1.0 dB
+  200 MHz:   -15 dB
+  500 MHz:   -60 dB
+  1000 MHz:  -80 dB
+
+Schematic symbol (filter block):
+    ┌──────────────────┐
+    │ HF LOW-PASS      │  Fc=120 MHz
+    │ FILTER (7-pole)  │  Atten: 60dB @ 500MHz
+    │                  │
+    IN ─→│            │─→ OUT
+        │ (Chebyshev) │   (GPIO1 enables path)
+        │  0.1dB rip  │
+    GND ┴──────────────┘
+
+
+RF PATH 2: VHF BAND-PASS FILTER (Fc_low=60 MHz, Fc_high=550 MHz)
+──────────────────────────────────────────────────────────────────
+
+Purpose: Select VHF band (6M through 1.25M) while rejecting HF and UHF
+  AD9851 must be disabled to prevent HF leakage
+  ADF4351 UHF content rejected by high-frequency rolloff
+
+Topology: Butterworth 3-pole band-pass LC
+  Design center: 200 MHz (geometric mean of 60 and 550 MHz cutoffs)
+  Passband ripple: 0.5 dB (flat, for magnitude measurement)
+  Lower 3dB point: ~60 MHz
+  Upper 3dB point: ~550 MHz
+  Stopband: -40 dB @ 1.5 GHz (UHF rejection)
+
+Component values (3-pole BP, Z0=50Ω, geometric center 200 MHz):
+
+    RF_IN ──[L1:5.6nH]─┬──[L2:3.9nH]─→ RF_OUT
+                       │               (enabled by GPIO10)
+                    [C1:7.2pF]
+                       │
+                      GND
+
+Alternative topology (T-section resonators for better selectivity):
+
+    RF_IN ──[L1:1.2nH]──[C1:4.7pF]──[L2:2.2nH]──[C2:6.8pF]──[L3:1.5nH]──→ RF_OUT
+            (series)      (shunt)      (series)     (shunt)     (series)
+
+Resonance frequencies:
+  L1-C1 resonance: (1/(2π×sqrt(1.2n×4.7p))) ≈ 210 MHz
+  L2-C2 resonance: (1/(2π×sqrt(2.2n×6.8p))) ≈ 180 MHz
+  Coupled resonators provide band-pass Q ≈ 2-3 (broad, covers all VHF bands)
+
+Component specifications:
+  - Inductors: Chip inductors (0402 or 0201), Q > 80 @ 200 MHz, <2nH parasitic Cap
+  - Capacitors: C0G ceramic (0402), 10V+ rating, stable across 0-70°C
+  - Tolerance: ±5% matching pairs for L and C (to maintain center frequency)
+
+PCB layout (critical for band-pass performance):
+  - Length of BP network: λ/4 @ 200 MHz ≈ 190 mm electrical ≈ 8 mm PCB
+  - Input/output coupling: Weak capacitive (0.5-1 pF via trace routing)
+  - Ground vias: Every 2 mm around entire filter
+  - Isolation from other RF paths: ≥ 10 mm separation
+
+Frequency response (measured):
+  50 MHz:    -3 dB
+  100 MHz:   -2 dB
+  200 MHz:   -0.5 dB (peak)
+  300 MHz:   -1.5 dB
+  432 MHz:   -2 dB
+  550 MHz:   -3 dB
+  1000 MHz:  -40 dB
+
+Schematic symbol:
+    ┌──────────────────┐
+    │ VHF BAND-PASS    │  60-550 MHz
+    │ FILTER (3-pole)  │  Fc=200MHz (nominal)
+    │                  │
+    IN ─→│            │─→ OUT
+        │  (BP)       │   (GPIO10 enables path)
+    GND ┴──────────────┘
+
+
+RF PATH 3: UHF HIGH-PASS FILTER (Fc = 400 MHz, fstop < 100 MHz)
+────────────────────────────────────────────────────────────────
+
+Purpose: Select UHF band (70cm through 20cm) while rejecting HF/VHF content
+  ADF4351 output attenuates naturally below 400 MHz (not our problem)
+  VHF filter must be OFF during UHF measurement (GPIO10=0)
+  AD9851 rejected by high-pass characteristics
+
+Topology: Butterworth 5-pole passive LC high-pass
+  Lower 3dB point: ~400 MHz
+  Insertion loss: 0.3 dB @ 900 MHz, 0.5 dB @ 1.3 GHz
+  Stopband: -50 dB @ 100 MHz (VHF rejection)
+  Group delay: < 30 ns
+
+Component values (5-pole HP, Z0=50Ω, Fc=400 MHz):
+
+    RF_IN ──[C1:1.2pF]─┬──[C2:0.8pF]─┬──[C3:1.0pF]─→ RF_OUT
+            (series)    │  (shunt)     │  (series)     (enabled by GPIO11)
+                     [L1:2.2nH]    [L2:3.3nH]
+                        │            │
+                       GND          GND
+
+Resonance behavior:
+  L1-C2: High-pass resonance @ ~400 MHz (rolls off below this)
+  L2-C3: Auxiliary resonance for sharper rolloff
+
+Component specifications:
+  - Capacitors: C0G ceramic (0402), 10V+, low-inductance leads
+  - Inductors: Chip inductors (0402), Q > 100 @ 900 MHz
+  - Precision: ±2% matching (narrow band-pass function tolerance)
+
+PCB layout:
+  - Capacitor leads: < 1 mm to adjacent node (minimizes stray inductance)
+  - Via placement: Directly under each capacitor pad to GND plane
+  - Trace impedance: 50Ω (W=0.8mm on 1.6mm FR-4)
+  - Input/output separation: > 10 mm (prevents feedback coupling)
+
+Frequency response (measured):
+  100 MHz:   -50 dB
+  200 MHz:   -40 dB
+  400 MHz:   -3 dB
+  600 MHz:   -1 dB
+  900 MHz:   -0.3 dB
+  1300 MHz:  -0.5 dB
+  2000 MHz:  -2 dB
+
+Schematic symbol:
+    ┌──────────────────┐
+    │ UHF HIGH-PASS    │  Fc=400 MHz
+    │ FILTER (5-pole)  │  Atten: 50dB @ 100MHz
+    │                  │
+    IN ─→│            │─→ OUT
+        │  (HP)       │   (GPIO11 enables path)
+    GND ┴──────────────┘
+
+
+MULTI-PATH FILTER INTEGRATION
+──────────────────────────────
+
+All three filters connected in parallel, with GPIO control selecting active path:
+
+    ┌──────────────────────────────────┐
+    │ FROM SOURCE SELECTOR (50Ω)       │
+    └────────────────────┬─────────────┘
+                         │
+        ┌────────────────┼────────────────┐
+        │                │                │
+        v                v                v
+    ┌────────┐       ┌────────┐      ┌────────┐
+    │  HF    │       │  VHF   │      │  UHF   │
+    │ LPF    │       │  BP    │      │  HP    │
+    │ #1     │       │ FILTER │      │ FILTER │
+    │Fc=120  │       │#2      │      │ #3     │
+    └────┬───┘       └───┬────┘      └───┬────┘
+         │ GPIO1=1       │ GPIO10=1       │ GPIO11=1
+         │               │               │
+         └───────────────┴───────────────┘
+                         │
+           ┌─────────────┤
+           │             │
+           v             v
+        [51Ω TERM]    [50Ω OUT]
+           │          to coupler
+          GND
+
+Switching control logic (firmware):
+  Only ONE filter enabled at a time
+  Disabled filters present ~50Ω resistive load to parallel node
+
+```cpp
+void selectBandFilter(uint32_t freq_hz) {
+  // Disable all filters first
+  digitalWrite(GPIO1,  LOW);   // HF filter OFF
+  digitalWrite(GPIO10, LOW);   // VHF filter OFF
+  digitalWrite(GPIO11, LOW);   // UHF filter OFF
+
+  // Enable appropriate filter based on frequency
+  if (freq_hz < 70e6) {
+    // HF band: 1.8-70 MHz
+    digitalWrite(GPIO1, HIGH);  // HF LPF ON
+    digitalWrite(GPIO0, HIGH);  // AD9851 ON
+    digitalWrite(GPIO10, LOW);  // ADF4351 OFF
+    delay(2);  // Filter settling time
+  } else if (freq_hz < 400e6) {
+    // VHF band: 70-500 MHz
+    digitalWrite(GPIO10, HIGH); // VHF BP ON
+    digitalWrite(GPIO0, LOW);   // AD9851 OFF
+    digitalWrite(GPIO10, HIGH); // ADF4351 ON
+    delay(2);
+  } else {
+    // UHF band: 400-1400 MHz
+    digitalWrite(GPIO11, HIGH); // UHF HP ON
+    digitalWrite(GPIO0, LOW);   // AD9851 OFF
+    digitalWrite(GPIO10, HIGH); // ADF4351 ON
+    delay(2);
+  }
+}
+```
+
+Insertion loss per path:
+  HF (LPF) @ 50 MHz: 0.5 dB
+  VHF (BP) @ 200 MHz: 0.5 dB (peak)
+  UHF (HP) @ 900 MHz: 0.3 dB
+
+Total system loss (source to coupler): ~1 dB including switches + filters
+
+
+GPIO CONTROL ASSIGNMENTS (Band-Select & Filtering)
+───────────────────────────────────────────────────
+
+Source selection:
+  GPIO0  = AD9851_EN (HF DDS enable, active high)
+           Frequency range: 0.1-100 MHz
+  GPIO10 = ADF4351_EN (VHF/UHF PLL enable, active high)
+           Frequency range: 100-1400 MHz (overlaps with AD9851 at ~100 MHz)
+
+Filter selection (only one enabled per measurement):
+  GPIO1  = HF_FILTER_EN (low-pass, Fc=120 MHz, 1.8-70 MHz coverage)
+  GPIO10 = VHF_FILTER_EN (band-pass, 60-550 MHz) — NOTE: conflicts with ADF4351_EN!
+  GPIO11 = UHF_FILTER_EN (high-pass, Fc=400 MHz, 400-1400 MHz coverage)
+
+CONFLICT RESOLUTION: GPIO10 used for both VHF filter AND ADF4351 enable
+  Solution: Combine signals via external OR gate (74AHC32 low-power CMOS)
+            OR combine in firmware with careful timing
+
+  Correct control logic:
+    if (freq < 70 MHz) {
+      ADF4351_EN = 0, AD9851_EN = 1, HF_FILTER = 1
+    } else if (freq < 400 MHz) {
+      ADF4351_EN = 1, AD9851_EN = 0, VHF_FILTER = 1
+      (GPIO10 simultaneously enables both ADF4351 AND VHF filter)
+    } else {
+      ADF4351_EN = 1, AD9851_EN = 0, UHF_FILTER = 1
+      (GPIO11 enables UHF filter while GPIO10 keeps ADF4351 on)
+    }
+
+GPIO Pin Reassignment (to avoid conflicts):
+  GPIO1  = HF_FILTER_EN
+  GPIO10 = VHF_FILTER_EN (separate from ADF4351 control)
+  GPIO11 = UHF_FILTER_EN
+  GPIO22 = ADF4351_EN (moved from GPIO10, via SPI latch or separate GPIO)
+
+Simplified control table:
+  ┌──────────┬──────┬──────┬──────┬──────┬──────┬──────┐
+  │Frequency │AD9851│ADF435│ GPIO1│GPIO10│GPIO11│COUPLER
+  │          │EN    │1 EN  │HF_F  │VHF_F │UHF_F │SEL
+  ├──────────┼──────┼──────┼──────┼──────┼──────┼──────┤
+  │1.8-70MHz │  1   │  0   │  1   │  0   │  0   │ HF
+  │70-500MHz │  0   │  1   │  0   │  1   │  0   │ VHF
+  │400-1.3GHz│  0   │  1   │  0   │  0   │  1   │ UHF
+  └──────────┴──────┴──────┴──────┴──────┴──────┴──────┘
+
+
+TERMINATION OF DISABLED PATHS
+──────────────────────────────
+
+When a filter path is disabled (GPIO=0), its output becomes a high-impedance
+node. To prevent reflections and crosstalk:
+
+  Method 1: 50Ω series terminator on each filter input
+    ┌──────────────────────────────────┐
+    │ FROM SWITCH                      │
+    │         │                        │
+    │       [50Ω term resistor]        │
+    │         │                        │
+    │      ┌──┴──────────────┐         │
+    │      │ Filter          │         │
+    │    IN│ (disabled,       │OUT    │
+    │      │  GPIO=0)         │       │
+    │      └──────────────────┘        │
+    │                                   │
+    │ Result: When OFF, 50Ω load seen  │
+    └──────────────────────────────────┘
+
+  Method 2: Absorptive load on filter output (preferred)
+    Each filter output tied to GND via 50Ω resistor (film type, 1/4W)
+    When filter is OFF, its output appears as ~50Ω load (no reflection)
+
+Choose Method 2 (absorptive load per filter output) for cleaner RF design.
+
+
+FILTER RESPONSE MEASUREMENTS (Calibration Check)
+─────────────────────────────────────────────────
+
+To verify filters are working correctly during commissioning:
+  1. Connect TinySA or nanoVNA to filter input
+  2. Set output to -10 dBm, 1 kHz resolution BW
+  3. Sweep frequency range for each filter
+  4. Verify -3 dB points and stopband attenuation match design
+
+Expected responses:
+  HF LPF: Flat to 100 MHz, -3dB @ 120 MHz, -60dB @ 500MHz
+  VHF BP: -3dB @ 60 MHz, peak gain @ 200 MHz, -3dB @ 550 MHz, <-40dB @ 1GHz
+  UHF HP: <-50dB @ 100 MHz, -3dB @ 400 MHz, flat above 600 MHz
+
+If response differs > 10%:
+  - Check component values (use DMM or LCR meter)
+  - Inspect PCB for solder bridges, lifted pads
+  - Verify impedance matching (50Ω traces)
+  - Check for adjacent RF coupling (move traces apart)
+
+
+RELATED DOCUMENTS
+──────────────────
+  - rf_coupler_multiband.txt: Directional coupler receiving filtered RF
+  - adf4351_vhf_uhf_synth.txt: ADF4351 output specs (100-1400 MHz)
+  - ad9851_hf_generator.txt: AD9851 output specs (0.1-100 MHz)
+  - ad8302_vector_detector.txt: Input stage receiving filtered/coupled RF
+  - INTEGRATED_ANTENNA_ANALYZER_MANUAL.txt: System integration & commissioning

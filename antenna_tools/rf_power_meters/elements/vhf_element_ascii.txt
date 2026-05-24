@@ -1,0 +1,190 @@
+================================================================================
+  VHF/UHF PLUG-IN ELEMENT DESIGNS  —  TM-PWR-EL-VU-001 Rev A
+  VHF: 50–148 MHz  |  UHF: 420–1300 MHz  |  1–100W  |  Bird 43 compatible
+================================================================================
+
+VHF ELEMENT OVERVIEW
+───────────────────────────────────────────────────────────────────────────────
+
+  VHF elements use the BN-43-202 binocular ferrite core.  This core is
+  superior to single-hole toroids at VHF because:
+  — Lower distributed winding capacitance
+  — More uniform coupling 50–200 MHz
+  — Better directivity across entire 2m/6m band
+
+  Core: Fair-Rite 2843002402 (BN-43-202)
+    OD = 21.4mm,  Hole OD = 6.4mm,  Length = 11.2mm
+    Initial permeability µi = 950 (Mix 43)
+    Al ≈ 2890 nH/T²
+
+  For slug format (22mm PCB), the binocular core is mounted transversely.
+  The center conductor passes through both holes of the core (2-turn primary).
+
+
+VHF ELEMENT SCHEMATIC (BN-43-202, 2T/20T, –26 dB)
+───────────────────────────────────────────────────────────────────────────────
+
+  BODY CENTER CONDUCTOR  (passes through both holes of BN-43-202)
+         │  ───── LOOP 1: through hole 1 ─────────────────
+         │  ───── LOOP 2: through hole 2 ─────────────────
+         │        (2-turn primary as described)
+
+  SECONDARY WINDING (20 turns, #28 AWG, through both holes alternating):
+         │
+    ─────┴─────────────────────────────────────
+    │                                          │
+  SEC(+)                                  SEC(-)
+    │                                          │
+   ─►─[D1 HSMS-2822]──┬── V_DET            R2 51Ω ─── GND
+                       │
+                  C1 100pF NP0   (VHF bypass, Fc=31 MHz with R=51Ω)
+                  R1 51Ω         (secondary termination)
+                  C_trim 10-47pF (directivity trim, across SEC(+)/SEC(-))
+                       │
+                      GND
+
+  V_DET ──[R3 2.2kΩ]──► BANANA JACK OUTPUT (0–100 mV FS at 100W)
+
+  DIRECTIVITY TRIM: C_trim soldered between SEC(+) and SEC(-) ends.
+    Start with 10 pF.  Adjust (or add) to minimize V_DET with 50Ω load
+    and signal applied (this minimizes cross-coupling, maximizes directivity).
+    Typical optimal: 15–25 pF for 50–148 MHz.
+
+  NOTE: HSMS-2822 is a dual diode in SOT-23.
+    Pin 1 = Anode,  Pin 2 = Cathode,  Pin 3 = GND (common cathode)
+    Use as half-wave detector: Pin1→SEC(+), Pin2→V_DET, Pin3→GND.
+
+
+VHF SECONDARY WINDING INSTRUCTIONS
+───────────────────────────────────────────────────────────────────────────────
+
+  BN-43-202 winding (20 turns, left-to-right, through both holes):
+
+  Visual:
+    ┌─[hole 1]─[hole 2]─┐
+    │→              →   │  ← winding direction (each pass = 1 turn)
+    └───────────────────┘
+
+  (1) Cut 500mm of #28 AWG enameled wire.  Mark start with red tape (+).
+  (2) Start at left side of hole 1, facing you.
+  (3) Pass wire through hole 1, over top, through hole 2, back under = 1T.
+  (4) Repeat 20 times, keeping turns tight and even.
+  (5) Leave 40mm lead at each end.
+  (6) Strip and tin ends.  SEC(+) = start (red), SEC(-) = end.
+
+  Primary (body center conductor):
+  (1) Cut 50mm of #18 AWG solid copper.
+  (2) Pass straight through hole 1, back through hole 2 = 2T.
+      Or: single pass through hole 1 only = 1T (for –30 dB instead of –26 dB).
+      2T primary recommended: gives better insertion loss vs. coupling trade-off.
+
+  Verify coupling at 146 MHz:
+    Expected V_det at 10W input = √(10×100) × 10^(–26/20) = 31.6 × 0.050 = 1.58 V rms
+    Rectified: ≈ 44 mV on 51Ω load (square-law region)
+    This drives 44/10 = 4.4 mV per watt → 100W → 440 mV (need attenuator)
+    Use R3 = 440/200µA = 2.2kΩ for full-scale 200µA meter at 100W.
+
+
+VHF ELEMENT DATA TABLE
+───────────────────────────────────────────────────────────────────────────────
+
+  Element   Range      N2   Coupling   Detector   R3 (meter)  V_FS
+  ────────  ─────────  ───  ─────────  ─────────  ──────────  ──────
+  VHF-10    1–10W      20T  –26 dB     HSMS-2822  22kΩ        44 mV
+  VHF-100   10–100W    20T  –26 dB     HSMS-2822  2.2kΩ       440 mV*
+  * VHF-100 adds 20dB pad before detector to stay in square-law region.
+
+  20 dB PAD (50Ω, added in VHF-100 element on same PCB):
+    ──[R_s 39Ω]──┬──[R_s 39Ω]──
+                R_p 180Ω
+                 │
+                GND
+
+
+UHF ELEMENT (420–1300 MHz)  —  Coupled Microstrip PCB Wafer
+───────────────────────────────────────────────────────────────────────────────
+
+  At UHF frequencies, the binocular ferrite core becomes lossy (Mix 43
+  permeability drops sharply above 300 MHz).  The UHF element uses a
+  small coupled microstrip PCB instead of a ferrite coupler.
+
+  PCB wafer dimensions: 22mm × 18mm × 0.8mm Rogers RO4003C (εr=3.55)
+  (or FR4 1.0mm if Rogers unavailable — see dimension correction below)
+
+  MICROSTRIP COUPLER DIMENSIONS (RO4003C, εr=3.55, h=0.8mm, 35µm Cu):
+  ─────────────────────────────────────────────────────────────────────
+
+  Design center: 860 MHz
+  εr_eff ≈ (3.55+1)/2 + (3.55–1)/2 × (1/√(1+12h/w))
+         ≈ 2.28 + 1.28 × 0.72 = 3.20 (for W≈h)
+
+  λ/4 length at 860 MHz:
+    L = 300/(4 × 0.860 × √3.20) = 48.8 mm → EXCEEDS 22mm PCB!
+
+  Solution: Use a meandered (serpentine) λ/4 section to fit in 22mm.
+  Two-section meander, each 11mm, with 1mm gap between bends.
+
+  ALTERNATIVE: Operate coupler at a shorter electrical length (not λ/4)
+    and accept reduced directivity. A 22mm section at 860 MHz represents:
+    θ = 360° × 22/(4 × 48.8) = 40.6° (vs. ideal 90°)
+    This gives directivity ≈ –10 dB (vs. –20 dB ideal), acceptable for
+    single-direction (forward power only) measurement.
+
+  For best performance, use a short section (10mm) capacitive coupler
+  with controlled gap, which has lower directivity but is electrically simpler.
+
+  CAPACITIVE COUPLER (UHF elements, preferred for 22mm PCB):
+  ──────────────────────────────────────────────────────────
+
+  RF LINE ──[W=1.5mm strip, 22mm long, on top layer]──► continues in body
+                         │
+                     [C_coup: fringing field capacitance]
+                     [Set by gap S between strips]
+                         │
+            COUPLED STRIP (same layer, W=1.5mm, L=22mm, gap S from main)
+
+    Gap S:    0.3mm → coupling ≈ –20 dB at 500 MHz, –24 dB at 1 GHz
+              0.5mm → coupling ≈ –25 dB at 500 MHz, –29 dB at 1 GHz
+              0.7mm → coupling ≈ –30 dB at 500 MHz, –33 dB at 1 GHz
+
+  UHF ELEMENT CIRCUIT:
+
+  MAIN LINE ──[capacitive coupled strip]──┬── PORT3 (FWD)
+                                          │
+                                       [D1 HSMS-2852]──┬── V_DET
+                                       [R1 51Ω to GND]  C1 1nF
+                                                         │
+                                                        GND
+
+  ISOLATED PORT4 ──[R2 51Ω]──GND  (termination for directivity)
+
+  V_DET ──[R3 1kΩ]──► BANANA JACK OUTPUT
+
+
+UHF ELEMENT DATA TABLE
+───────────────────────────────────────────────────────────────────────────────
+
+  Element   Range      Detector    Coupling   Gap S    R3       V_FS at 10W
+  ────────  ─────────  ──────────  ─────────  ──────   ──────   ──────────
+  UHF-10    1–10W      HSMS-2852   –25 dB     0.5mm    1kΩ      55 mV
+  UHF-100   10–100W    HSMS-2852   –25 dB     0.5mm    100Ω     550 mV*
+  * Apply 20dB pad before detector for UHF-100 to stay in square-law.
+
+
+ELEMENT FREQUENCY COVERAGE SUMMARY
+───────────────────────────────────────────────────────────────────────────────
+
+  Element   Freq Low   Freq High   Core/Method    Usable Bands
+  ────────  ─────────  ──────────  ─────────────  ─────────────────────────
+  HF-10W    1.8 MHz    30 MHz      FT-114-43      160m–10m amateur
+  HF-100W   1.8 MHz    30 MHz      FT-114-43      160m–10m amateur
+  HF-1kW    1.8 MHz    30 MHz      FT-114-43      160m–10m amateur
+  HF-3kW    1.8 MHz    30 MHz      FT-114-43      160m–10m amateur
+  VHF-10W   50 MHz     200 MHz     BN-43-202      6m, 2m amateur
+  VHF-100W  50 MHz     200 MHz     BN-43-202      6m, 2m amateur
+  UHF-10W   400 MHz    1400 MHz    Microstrip     70cm, 33cm, 23cm amateur
+  UHF-100W  400 MHz    1400 MHz    Microstrip     70cm, 33cm, 23cm amateur
+
+================================================================================
+  END OF VHF/UHF ELEMENT DESIGNS  — TM-PWR-EL-VU-001 Rev A
+================================================================================

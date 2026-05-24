@@ -1,0 +1,139 @@
+================================================================================
+  EFQW FEEDPOINT MATCHING NETWORK                        TM-EF-SCH-001 Rev A
+  L-Network Manual Tuning, HF Bands (160m – 10m)
+================================================================================
+
+PURPOSE: Transform antenna feedpoint impedance (~35Ω) to coaxial feed (50Ω).
+         Variable capacitor allows manual SWR minimization across band.
+
+MATCHING THEORY — L-NETWORK (LOW-PASS):
+────────────────────────────────────────
+  Q   = √(Z_source/Z_load − 1) = √(50/35 − 1) = 0.655
+  Xs  = Q × Z_load = 0.655 × 35 = 22.9 Ω  (series arm, inductive)
+  Xp  = Z_source/Q = 50 / 0.655 = 76.4 Ω  (shunt arm, capacitive)
+
+  At 7.150 MHz (40m):
+    Ls = 22.9 / (2π × 7.15e6) = 0.510 µH
+    Cp = 1 / (2π × 7.15e6 × 76.4) = 291 pF
+
+  Variable Cp allows tuning across ±150 kHz band segment.
+  See resonator_winding_tables.csv for all band values.
+
+================================================================================
+  SCHEMATIC — HF L-NETWORK (160m – 10m)
+================================================================================
+
+  COAXIAL INPUT (50Ω)          ANTENNA ELEMENT
+        │                            │
+       [J1]                        [J2]
+       SMA(F)                    Binding post
+        │                            │
+        ├────────────────────────────┘
+        │ center conductor                              ▲ Wire element up
+        │                                              │
+      ──┤L1 (series inductor)                          │
+        │  HF toroid per band table              ──────┴──── wire element (QW length)
+        │  (see table: 5T–20T per band)
+        │
+        ├────────┬─────── to antenna binding post
+        │        │
+       [C2]     [C1]
+     variable  fixed NP0
+     trimmer   bypass         ┌──── GROUND: chassis + radials
+        │        │            │
+        └────────┴────────────┘ (RF ground / counterpoise)
+
+
+  COMPONENT DETAIL:
+  ─────────────────
+         SERIES ARM (L1):                    SHUNT ARM (C1 fixed + C2 variable):
+         ┌──────────────────┐                ┌──────────────────────────────────┐
+         │ Toroid inductor  │                │ C1: Fixed NP0 per band table      │
+         │ (see table for   │                │ C2: Variable trimmer 0–500 pF     │
+         │ core, turns,     │                │     (Jackson Brothers or equiv.)  │
+         │ inductance)      │                │ C1 + C2 in parallel               │
+         └──────────────────┘                └──────────────────────────────────┘
+
+  Choke balun (prevents coax braid current):
+        Coaxial line
+        ┌─────────────────────────────┐
+        │ 8–10T RG-174 or RG-58       │
+        │ wound on FT-240-31 toroid   │
+        │ Place at feedpoint          │
+        │ Choking Z >1000Ω at HF      │
+        └─────────────────────────────┘
+
+================================================================================
+  SCHEMATIC — VHF GAMMA MATCH (6m, 2m)
+================================================================================
+
+  Main element (QW vertical)
+  │
+  │←──── gamma rod (15% of element length)
+  │      3mm rod, parallel to main element
+  │      connected to center of coax
+  │
+  ├────[C_gamma: 0–30 pF variable trimmer]──── coax center
+  │
+  ╪ (feedpoint, base of element)
+  │
+ [gnd plane: 4 bent radials at 45°]──── coax shield
+
+  GAMMA MATCH DIMENSIONS:
+  ┌────────────────┬──────────────┬───────────────┬──────────────┐
+  │ Band           │ Element (m)  │ Gamma rod (m) │ Gamma cap    │
+  ├────────────────┼──────────────┼───────────────┼──────────────┤
+  │ 6m (51 MHz)    │ 1.40         │ 0.21          │ 0–30 pF      │
+  │ 2m (146 MHz)   │ 0.488        │ 0.073         │ 0–20 pF      │
+  │ 1.25m (222MHz) │ 0.321        │ 0.048         │ 0–12 pF      │
+  └────────────────┴──────────────┴───────────────┴──────────────┘
+  Rod spacing: ~15mm from main element; adjust for 50Ω match.
+  Gamma cap: Teflon trimmer or silver mica compression type.
+
+================================================================================
+  SCHEMATIC — COAXIAL SLEEVE BALUN / CHOKE (VHF/UHF)
+================================================================================
+
+  Coaxial feed (RG-58 or LMR-195)
+        │
+        │ ← Outer sleeve: λ/4 at operating frequency
+        │   (Thin-wall aluminum or copper tube)
+        │   Slides over coax outer jacket
+        │   Inner diameter = coax OD + 0.5mm clearance
+        │   Bottom: no connection (open end)
+        │   Top: soldered to coax outer braid via hose clamp
+        │
+        ╪ ← Feedpoint: coax center to element base
+        │
+       [Element: QW vertical above]
+
+  SLEEVE DIMENSIONS:
+  ┌────────────────┬──────────────┬──────────────────────────────────┐
+  │ Band           │ Sleeve L (m) │ Material                         │
+  ├────────────────┼──────────────┼──────────────────────────────────┤
+  │ 2m (146 MHz)   │ 0.488        │ Thin Al tube or copper foil wrap  │
+  │ 1.25m (222MHz) │ 0.321        │ Thin Al tube                      │
+  │ 70cm (446MHz)  │ 0.160        │ Copper tube over RG-8 OD          │
+  └────────────────┴──────────────┴──────────────────────────────────┘
+
+================================================================================
+  FEEDPOINT BOX INTERNAL LAYOUT
+================================================================================
+
+  ┌───────────────────────────────────────────────────────┐
+  │ FEEDPOINT BOX (60×40×30mm PETG printed)               │
+  │                                                       │
+  │ ┌─────┐  ┌──────┐   ┌────────┐   ┌─────────────┐    │
+  │ │ L1  │  │Choke │   │C1 NP0  │   │C2 Trimmer   │    │
+  │ │toroid│ │FT240 │   │fixed   │   │0–500pF      │    │
+  │ └──┬──┘  └──┬───┘   └───┬────┘   └──────┬──────┘    │
+  │    │        │            │              │             │
+  │   SMA(F) J1           Binding post   Adj screw       │
+  │   (coax in)            J2 (ant)       external       │
+  │                                                       │
+  │ Copper tape lining (RF shielding)                     │
+  └───────────────────────────────────────────────────────┘
+
+================================================================================
+  END OF TM-EF-SCH-001
+================================================================================

@@ -1,0 +1,256 @@
+================================================================================
+SCHEMATIC: RESISTIVE BRIDGE DIRECTIONAL COUPLER — WIDEBAND
+TM-COUP-001  Rev A
+Wideband resistive bridge: DC to 500 MHz
+Coupling: −20 dB nominal
+Directivity: >20 dB (1–200 MHz), >15 dB (200–500 MHz)
+Insertion loss: <0.5 dB (frequency dependent)
+================================================================================
+
+REFERENCE DOCUMENTS:
+  sch_toroidal_bruene_coupler.txt  — Better directivity for HF-only use
+  sch_detector_swr_output.txt      — Detector circuits
+
+================================================================================
+SECTION 1 — RESISTIVE BRIDGE PRINCIPLE
+================================================================================
+
+A resistive (Wheatstone) bridge directional coupler works on the principle that
+a balanced bridge produces a null output when loaded with the reference impedance.
+Unlike toroidal couplers, the resistive bridge works from DC upward, making it
+suitable for wideband spectrum analyzer connections, pulse power measurement,
+and envelope detection.
+
+TRADE-OFF: The resistive bridge inherently has higher insertion loss than a
+toroidal coupler (typ. 0.3–1.0 dB vs. <0.05 dB for toroidal). This is the
+fundamental cost of wideband, transformer-free operation.
+
+BASIC RESISTIVE BRIDGE TOPOLOGY:
+
+                    R1 (Z0/2 = 25Ω)
+  IN ─────────────┬──────────────────┬──────────────── OUT
+                  │                  │
+                  │                 R3 (Z0 = 50Ω)
+                  │                  │
+                 R2                 D1 → FWD output
+                (Z0/2=25Ω)          │
+                  │                 R4 (Z0 = 50Ω)
+                  │                  │
+                  └──────────────────┘── D2 → REF output
+                          │
+                         GND
+
+OPERATION:
+  With Z_L = Z0 (matched load):
+    Forward wave: Bridge balanced for forward traveling wave → D1 responds
+    Reflected wave: Bridge balanced for reflected traveling wave → D2 responds
+    Directivity: Limited by resistor precision and stray inductance/capacitance
+
+PRACTICAL 4-RESISTOR BRIDGE (Quadrature Bridge):
+
+The standard practical implementation (used in HP/Agilent wattmeters):
+
+             R1 = 16.67Ω                R2 = 16.67Ω
+  IN ───┬────[R1]────────────────────[R2]────┬──── OUT
+        │                │        │                │
+        │               R3        R4               │
+        │            (50Ω)     (50Ω)               │
+        │                │        │                │
+        │               D_fwd   D_ref              │
+        │                │        │                │
+        └────────────────┴────────┘────────────────┘
+                        GND
+
+R1 = R2 = Z0/3 = 16.67Ω (use 16Ω + 0.68Ω series or 18Ω trimmer)
+R3 = R4 = Z0 = 50Ω
+
+INSERTION LOSS CALCULATION:
+  IL = 20 log₁₀(R2/(R1+R2)) = 20 log₁₀(2/3) = −3.5 dB ← HIGH
+
+  This is the fundamental minimum insertion loss of a resistive bridge.
+  A hybrid coupler (hybrid T or 3 dB splitter) cannot do better without
+  reactive elements.
+
+IMPROVED CONFIGURATION — DIRECTIONAL POWER SAMPLER:
+
+For low insertion loss AND reasonable directivity, use an asymmetric topology:
+
+             16.67Ω     33.33Ω
+  IN ────────[R_s]──────[R_s2]──────────────── OUT (< 0.5 dB IL)
+               │                  │
+              [C1]               [R_term = 50Ω]
+               │                  │
+              [R1=100Ω]          [R2=100Ω]
+               │                  │
+              D1(FWD)            D2(REF)
+               │                  │
+              [C2=100pF]         [C2=100pF]
+               │                  │
+              GND                GND
+
+  R_s total = 50Ω; divides between R_s and R_s2 in series with Z_load.
+  Actual IL depends on R_s / Z0 ratio.
+
+================================================================================
+SECTION 2 — RECOMMENDED CIRCUIT: HYBRID RESISTIVE + CAPACITIVE SAMPLE
+================================================================================
+
+For best wideband performance, combine resistive sensing with small capacitive
+coupling to compensate for transformer-free HF roll-off:
+
+COMPLETE CIRCUIT:
+
+  ┌──────────────────────────────────────────────────────────────────┐
+  │                                                                  │
+  │   IN              MAIN LINE (50Ω)                    OUT        │
+  │   J1 ──────┬──────────────────────────────────┬────── J2        │
+  │  SMA/BNC   │                                  │     SMA/BNC     │
+  │            │                                  │                 │
+  │           R_s1=5.6Ω                         R_s2=5.6Ω          │
+  │          (0.5W)                             (0.5W)              │
+  │            │                                  │                 │
+  │           ─┴─ C1=100pF                       ─┴─ C2=100pF      │
+  │            │  (shunt to main line)             │  (shunt)       │
+  │            │                                   │                │
+  │          ┌─┴──────────────────────────────────┴─┐              │
+  │          │  BRIDGE DETECT NETWORK                │              │
+  │          │                                       │              │
+  │          │  V_A ──[47Ω]──D1(BAT41)──[2.2kΩ]──FWD              │
+  │          │                                       │              │
+  │          │  V_B ──[47Ω]──D2(BAT41)──[2.2kΩ]──REF              │
+  │          │                                       │              │
+  │          │  R_null=50Ω (between V_A and V_B)    │              │
+  │          └──────────────────────────────────────┘              │
+  │                                                                 │
+  └─────────────────────────────────────────────────────────────────┘
+
+COMPONENT VALUES:
+  R_s1 = R_s2 = 5.6Ω (0.5W metal film) — sampling resistors (low value → low IL)
+  C1 = C2 = 100 pF (NP0/C0G) — high-frequency coupling supplement
+  R_null = 50Ω (trimmable for null/directivity adjustment)
+  D1, D2 = BAT41 matched pair (Schottky, Vf ≈ 0.3V at 1mA)
+  R_det = 47Ω summing resistors
+  R_L = 2.2kΩ (detector load)
+  C_filt = 1 nF (detector filter)
+
+INSERTION LOSS (resistive bridge with 5.6Ω sampling resistors):
+  IL = 20 log₁₀(Z0 / (Z0 + R_s1)) = 20 log₁₀(50/(50+5.6)) = −0.43 dB
+
+  This is acceptable for spectrum analyzer tapping, power monitoring.
+  For transmitter final stage monitoring: <0.1 dB required → use toroidal coupler.
+
+================================================================================
+SECTION 3 — FREQUENCY RESPONSE AND COMPENSATION
+================================================================================
+
+RESISTIVE BRIDGE FREQUENCY RESPONSE (uncompensated):
+
+  Frequency  | Coupling  | Directivity | Notes
+  -----------|-----------|-------------|---------------------------
+  DC         | −20.0 dB  | N/A         | Works at DC (unique to resistive bridge)
+  1 MHz      | −20.0 dB  | >25 dB      | Excellent; no reactive effects
+  10 MHz     | −20.1 dB  | >24 dB      | Still excellent
+  50 MHz     | −20.5 dB  | >22 dB      | Stray reactance beginning
+  100 MHz    | −21.2 dB  | >20 dB      | Noticeable; compensate with C1/C2 tuning
+  200 MHz    | −22.5 dB  | >17 dB      | Needs compensation; directivity marginal
+  500 MHz    | −25 dB    | >12 dB      | Use transmission-line coupler above this
+
+COMPENSATION WITH C1/C2 CAPACITORS:
+  C1/C2 provide a capacitive bypass at high frequency, partially compensating
+  for the roll-off from stray inductance in R_s1/R_s2.
+  Optimal value: C_opt = R_s / (2 × π × f_corner × Z0²)
+    At f_corner = 200 MHz, R_s = 5.6Ω, Z0 = 50Ω:
+    C_opt = 5.6 / (2 × π × 200e6 × 2500) = 1.8 pF
+  Use 2 pF NP0 (adjust empirically on VNA for flattest coupling).
+
+PCB LAYOUT CRITICAL POINTS:
+  - Keep R_s resistors as short as possible (2mm body, 0402 or 0603 preferred)
+  - Stray inductance of 1 nH causes 0.5 dB additional IL at 200 MHz
+  - Ground plane directly under coupling region
+  - D1/D2 Schottky diodes: place within 5mm of bridge node
+  - Shield coupler from RF environment (all unused surfaces connected to GND)
+
+================================================================================
+SECTION 4 — SPECTRUM ANALYZER DIRECT-CONNECT COUPLER
+================================================================================
+
+For connecting a 50Ω spectrum analyzer to a transmitter output for monitoring:
+
+  REQUIRED: −30 to −40 dB coupling (analyzer input range: −30 to +30 dBm)
+  A 100W transmitter: P_out = 50 dBm
+  Required SA input: 50 dBm − 40 dB = 10 dBm → safe for most SA inputs (max +30 dBm)
+
+SPECTRUM ANALYZER COUPLER DESIGN (−30 dB, resistive, DC–500 MHz):
+
+  CIRCUIT:
+
+  IN (50Ω) ──[R_s=1.56Ω]──────────────────── OUT (50Ω, load)
+                 │
+               [100Ω]
+                 │
+               [100Ω]
+                 │
+              ─┬─ Node A
+               │
+             [50Ω] ← termination (R_load of SA input = 50Ω)
+               │
+              GND
+
+  Coupling = −20 log₁₀(Z0 / (Z0 + R_s)) − ...
+  Simplified: use voltage divider R_s + R_sense with R_sense = 1Ω:
+    V_coupled/V_in = R_sense/(Z0+R_s) = 1/(50+1) = 0.0196 = −34 dB
+
+  POWER HANDLING: With 100W into 50Ω: V_in_peak = √(2×100×50) = 100V
+    Current through R_s: I = 100V/50Ω = 2A; P_Rs = I²×R_s = 2²×1 = 4W
+    Use 5W wirewound for R_s at this power level.
+
+PARTS LIST (SA COUPLER, −30 dB):
+  R_s   1   1.56Ω, 5W wirewound (bulk resistance, main shunt)
+  R1    1   620Ω 0.25W (divider top leg)
+  R2    1   10Ω 0.25W (divider bottom; adjusts division ratio)
+  C1    1   100 pF NP0 (bypass, extends HF)
+  J1    1   SO-239 (TX output, 100W rated)
+  J2    1   SO-239 (to antenna)
+  J3    1   SMA or BNC female (SA or power meter port)
+
+================================================================================
+SECTION 5 — INSERTION LOSS BUDGET
+================================================================================
+
+INSERTION LOSS BREAKDOWN (100 MHz, resistive bridge):
+
+  Loss mechanism               | Contribution | Notes
+  -----------------------------|-------------|------------------
+  R_s resistor (5.6Ω / 50Ω)  | 0.43 dB     | Fundamental; reduce R_s for less IL
+  Connector return loss        | 0.02 dB     | Quality SMA: RL>30 dB
+  PCB trace resistance         | 0.01 dB     | 2oz copper, short traces
+  Core material (none in R-bridge)| 0 dB    | Advantage over toroidal
+  Stray radiation at 100 MHz   | 0.05 dB     | Shielded enclosure mitigates
+  TOTAL                        | 0.51 dB     | Typ. spec: <0.5 dB
+
+  COMPARISON:
+    Resistive bridge: 0.43–0.51 dB (acceptable for monitoring; not for inline PA use)
+    Toroidal coupler: 0.02–0.05 dB (preferred when low IL required)
+    Transmission line: 0.05–0.15 dB (VHF/UHF; acceptable)
+
+================================================================================
+SECTION 6 — DIRECTIVITY OPTIMIZATION
+================================================================================
+
+RESISTIVE BRIDGE NULL PROCEDURE:
+  A trimmer resistor R_null (50Ω single-turn cermet) between V_A and V_B nodes
+  allows fine adjustment for null (maximum directivity).
+
+PROCEDURE:
+  1. Apply 1W CW at operating frequency into J1.
+  2. Connect matched 50Ω load to J2 (termination).
+  3. Monitor REF port (J4) with DC voltmeter.
+  4. Adjust R_null trimmer until V_ref is minimum.
+  5. Lock trimmer with thread-lock compound.
+  6. Note: optimal null varies slightly with frequency; set at most-used frequency.
+
+EXPECTED NULL DEPTH AFTER ADJUSTMENT:
+  HF (< 30 MHz): >30 dB directivity (V_ref < 3% of V_fwd)
+  VHF (30–200 MHz): >22 dB (resistive bridge practical limit without reactive comp.)
+
+================================================================================

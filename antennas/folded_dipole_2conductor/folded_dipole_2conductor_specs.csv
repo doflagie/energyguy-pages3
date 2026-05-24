@@ -1,0 +1,14 @@
+ANTENNA SPECIFICATION — FOLDED-DIPOLE-2CONDUCTOR,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,80M–10M,,Center/allocated bands
+Design approach,"Two-wire folded dipole, 200Ω feedpoint",,Primary design method
+Compaction factor,0%,,Size reduction vs full-size
+Special parameters,"Twin radiator, 4:1 impedance step-up, broadband",,Design-specific details
+,,,
+Feed impedance,50–600,Ω,Antenna-type dependent
+SWR target,<2.0,:1,With tuner if required
+Radiation pattern,Varies,,See NEC model
+,,,
+Typical efficiency,75–95%,%,Design-dependent
+Typical gain,2–10,dBi,Antenna-type dependent

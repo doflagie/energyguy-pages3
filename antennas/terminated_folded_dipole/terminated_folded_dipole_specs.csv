@@ -1,0 +1,5 @@
+ANTENNA — TERMINATED_FOLDED_DIPOLE,,,
+Frequency bands,"40M, 20M, 10M",,
+Design approach,Folded dipole with 600Ω terminator for bandwidth,,
+Compaction %,0,,
+Parameters,"Balanced terminator, wide SWR bandwidth",,

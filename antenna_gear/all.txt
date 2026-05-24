@@ -1,0 +1,1258 @@
+antennas_misc
+
+8< ---------------------------
+
+Sloped dipole
+
+design compact portable sloped dipole antennas for 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands.
+
+design compact portable sloped dipole antennas for 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands using parallel resonators and LC traps for portable "roll-up" versions..
+
+design compact portable sloped dipole antennas for 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands, using parallel resonators and LC traps for less than 30 foot antenna length.
+
+
+8< ---------------------------
+
+Folded dipole 2 conductors
+
+design compact portable folded dipole with 2 parallel conductor antennas for 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands.
+
+design compact portable folded dipole with 2 parallel conductor antennas for 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands using parallel resonators and LC traps for portable "roll-up" versions..
+
+design compact portable folded dipole with 2 parallel conductor antennas for 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands, using parallel resonators and LC traps for less than 30 foot antenna length.
+
+8< ---------------------------
+
+Folded dipole 3 conductors
+
+design compact portable folded dipole with 3 parallel conductor antennas for 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands.
+using parallel resonators and LC traps 
+
+design compact portable folded dipole with 3 parallel conductor antennas for 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands using parallel resonators and LC traps for portable "roll-up" versions..
+
+design compact portable folded dipole with 3 parallel conductor antennas for 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands, using parallel resonators and LC traps for less than 30 foot antenna length.
+
+8< ---------------------------
+
+Vertical EFQW
+
+Design individual compact vertical portable end fed quarter wave antennas with manual tuning for the 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+Design individual compact vertical portable end fed quarter wave antennas with manual tuning for the 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands using parallel resonators and LC traps for portable "roll-up" versions.
+
+Design individual compact vertical portable end fed quarter wave antennas with manual tuning for the 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands using parallel resonators and LC traps for less than 30 foot antenna length
+
+8< ---------------------------
+
+Vertical EFHW
+
+Design individual compact vertical portable end fed half wave antennas with manual tuning for the 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+Design individual compact vertical portable end fed half wave antennas with manual tuning for the 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands using parallel resonators and LC traps for portable "roll-up" versions.
+
+Design individual compact vertical portable end fed half wave antennas with manual tuning for the 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands using parallel resonators and LC traps for less than 30 foot antenna length 
+
+8< ---------------------------
+
+Full Wave Loop  (Delta, Frame, Hex, Octal)
+
+Design individual compact portable loop antennas with manual tuning for the 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+Design individual compact portable loop antennas using KMR400 Coaxial Cable instead of copper pipe with manual tuning for the 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+8< ---------------------------
+
+mag loop
+
+Design individual compact portable magnetic loop antennas with manual tuning for the 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands 
+
+8< ---------------------------
+
+flower pot
+
+Design individual compact portable flower pot antennas with manual tuning for the 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+8< ---------------------------
+
+moxon
+
+Design individual compact portable moxon antennas with manual tuning for the 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands 
+
+8< ---------------------------
+
+screwdriver
+
+Design individual compact portable screwdriver antennas with manual tuning for the 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands 
+
+8< ---------------------------
+
+yagi
+
+Design individual compact portable yagi antennas with manual tuning for the 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands 
+
+8< ---------------------------
+
+end fed random wire
+
+Design individual compact portable end fed random wire antennas with manual tuning.
+
+Design individual compact portable end fed random wire antennas with manual tuning for the 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands  
+
+8< --------------------------
+
+Rybakov
+
+Design individual compact portable Rybakov antennas with manual tuning for the 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+8< --------------------------
+
+shunt fed
+
+Design individual compact portable shunt fed antennas with manual tuning for the 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands 
+
+8< --------------------------
+
+telescopic mast
+
+Design individual compact portable vertical antennas with manual tuning for the 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands using telescopic whips and loading coils
+
+8< --------------------------
+
+rhombic
+
+Design individual compact portable rhombic antennas with manual tuning for the 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+8< --------------------------- snip --------------------------- >8
+
+add flower pot, end fed half wave, moxon, screwdriver, end fed random wire, 
+rybakov, shunt fed, telescopic mast vertical, rhombic 
+add flower pot, end fed half wave, moxon, screwdriver, end fed random wire, 
+rybakov, shunt fed, telescopic mast vertical, rhombic 
+
+8< --------------------------- snip --------------------------- >8
+
+with manual tuning for the 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+use parallel resonators and LC traps to make portable "roll-up" versions.
+
+With EZNEC/.NEC model files. 
+
+Exact winding tables for traps and resonators in .csv format. 
+
+Create a comprehensive manual in .md format including 
+antenna schematics in ascii. 
+detailed calculations for all antenna parts
+
+Place each of these antenna files in an appropriate folder under the /home/merv/Public/claude/ant_t_r folder
+
+
+8< --------------------------- snip --------------------------- >8
+8< --------------------------- snip --------------------------- >8
+
+parametric equalizer
+
+Design a compact portable audio parametric equalizer, battery powered, 12 volt maximum.
+
+8< --------------------------
+
+power meter
+
+Design a compact portable RF power meters for the 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+8< --------------------------
+
+SWR meter
+
+x a compact portable SWR meters, for the 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands 
+
+8< --------------------------
+
+antenna trans match
+
+Design a compact portable transmatch for the 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+
+8< --------------------------
+
+roller inductor
+
+Design a compact portable roller inductor 
+
+Design a compact portable roller inductor for tuning the 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands  
+
+8< --------------------------
+
+variable capacitor
+
+Design a compact portable variable capacitor 
+
+Design a compact portable variable capacitor for tuning the 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm  ham bands. 
+
+8< --------------------------
+
+tunable loading coil
+design a tuneable loading coil that tunes across the 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+8< --------------------------- snip --------------------------- >8
+8< --------------------------- snip --------------------------- >8
+
+pocket QRP
+
+design a pocket QRP transciever for ham bands 160, 80, 60, 40, 30, 20, 17, 15, 12, 10, 6 m
+
+design a pocket QRP transciever for ham bands 2M, 1.25M, 70cm, 33cm, 20cm 
+ 
+design a pocket QRP satellite transciever 
+
+8< --------------------------- snip --------------------------- >8
+
+Design separate individual compact portable phased array of 2 antennas with manual tuning for each of the 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands include delay line calculations. a left, center, right selector switch. remote selection using bluetooth and wifi. controlled with an esp32, include esp32 code
+With EZNEC/.NEC model files. Exact winding tables in ods format. 3d printable parts in openscad format for a 200x200x200 printing area. Create MATCHING NETWORK SCHEMATICS (ascii). Create COMPREHENSIVE MANUAL (.MD Format).
+
+8< --------------------------
+
+MOTORIZED TUNING
+
+Design motorized tuning systems for compact portable antennas covering 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+Design motorized variable capacitor with stepper motor control for automatic tuning
+Design motorized roller inductor with stepper motor control for automatic tuning
+Design motorized LC matching network with ESP32 control, bluetooth and wifi connectivity
+Design motorized antenna tuner with SWR feedback loop for automatic impedance matching
+Include limit switches, position encoders, and calibration routines
+With EZNEC/.NEC model files. Exact winding tables in ods format. 3d printable parts in openscad format for 200x200x200 printing area. Create circuit schematics in ASCII and KiCad 9.0.2 format. Create COMPREHENSIVE MANUAL with diagrams (.TXT Format). Include ESP32 firmware code, Android app source code, PCB layouts and Gerber files.
+
+8< --------------------------
+
+REMOTE ELEMENT SWITCHING (VHF/UHF)
+
+Design remote element switching systems for VHF/UHF antennas covering 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+Design remotely switchable element director/reflector configurations for yagi antennas
+Design PIN diode switching networks for parasitic element control
+Design relay-based element switching for beam pattern control
+Design ESP32-controlled switching matrix with bluetooth and wifi connectivity
+Design Android app for remote beam direction control
+Include weather-sealed relay enclosures and RF-isolated control lines
+With EZNEC/.NEC model files. 3d printable parts in openscad format for 200x200x200 printing area. Create circuit schematics in ASCII and KiCad 9.0.2 format. Create COMPREHENSIVE MANUAL with diagrams (.TXT Format). Include ESP32 firmware code, Android app source code, PCB layouts and Gerber files.
+
+8< --------------------------
+
+
+AUTOMATIC DIRECTION FINDING
+
+Design automatic direction finding (ADF) systems for portable operation covering 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+Design phased array with 2-element and 4-element configurations
+Design motorized rotary loop antenna with servo control for RDF
+Design switched directional antenna arrays with delay line calculations
+Design ESP32-based signal strength comparison and bearing calculation
+Design doppler RDF system for VHF/UHF bands
+Design Watson-Watt RDF system for HF bands
+Include GPS integration for bearing display and mapping
+Include digital compass/magnetometer for absolute bearing reference
+With EZNEC/.NEC model files. 3d printable parts in openscad format for 200x200x200 printing area. Create circuit schematics in ASCII and KiCad 9.0.2 format. Create COMPREHENSIVE MANUAL with diagrams (.TXT Format). Include ESP32 firmware code, Android app source code with mapping display, PCB layouts and Gerber files.
+
+8< --------------------------
+
+ANTENNA ANALYZER INTEGRATION
+
+Design integrated antenna analyzer for portable antenna systems covering 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+Design ESP32-based vector network analyzer (VNA) for SWR, impedance, and reactance measurement
+Design AD9851 DDS-based swept frequency generator (0.1-200 MHz)
+Design dual-channel ADC front-end for forward/reflected power measurement
+Design Smith chart display on OLED/TFT screen
+Design frequency sweep and resonance detection algorithms
+Design data logging to SD card with timestamp and GPS coordinates
+Design bluetooth and wifi connectivity for smartphone integration
+Design Android app for real-time analyzer display and data export
+Include calibration routines for OSL (Open-Short-Load) and through measurements
+With EZNEC/.NEC model files. 3d printable parts in openscad format for 200x200x200 printing area. Create circuit schematics in ASCII and KiCad 9.0.2 format. Create COMPREHENSIVE MANUAL with diagrams (.TXT Format). Include ESP32 firmware code, Android app source code, PCB layouts and Gerber files.
+
+8< --------------------------
+
+4-ELEMENT ARRAY
+
+Design 4-element phased arrays for portable operation covering 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+Design 4-element vertical array with elevated radials
+Design 4-element horizontal array with phasing network
+Design 4-element end-fire array with delay lines
+Design 4-element broadside array with equal phasing
+Design 4-element yagi with optimized director/reflector spacing
+Design remotely switchable phasing for beam steering (forward/reverse/left/right/omni patterns)
+Design ESP32-controlled relay matrix for phase selection
+Design Android app for pattern selection and monitoring
+Include feed point impedance matching and current balancing
+Include delay line calculations and coaxial phase stubs
+With EZNEC/.NEC model files. Exact phasing tables in ods format. 3d printable parts in openscad format for 200x200x200 printing area. Create circuit schematics in ASCII and KiCad 9.0.2 format. Create COMPREHENSIVE MANUAL with diagrams (.TXT Format). Include ESP32 firmware code, Android app source code, PCB layouts and Gerber files.
+
+8< --------------------------
+
+ELEVATED RADIAL SYSTEM
+
+Design elevated radial systems for vertical antennas covering 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+Design 2-radial elevated counterpoise systems (minimum configuration)
+Design 4-radial elevated counterpoise systems (standard configuration)
+Design 8-radial elevated counterpoise systems (optimum configuration)
+Design elevated radial mounting at 1/4 wavelength height above ground
+Design sloping radial configurations for portable deployment
+Design resonant radial lengths with loading coils for size reduction
+Design folding/telescoping radial support structuresclaude
+
+Design current baluns and common-mode choke integration
+Design radial material specifications (wire gauge, guy rope, fiberglass poles)
+Include mechanical stress calculations and wind loading
+With EZNEC/.NEC model files comparing 2/4/8 radial configurations. Exact radial length tables in ods format. 3d printable parts in openscad format for 200x200x200 printing area (radial mounting hubs, wire tensioners). Create COMPREHENSIVE MANUAL with diagrams (.TXT Format).
+
+8< --------------------------
+
+RFI
+
+my radios will be operated in my home alongside computers, peripherals and appliances. Design methods to shield against RFI and QRM
+With EZNEC/.NEC model files. 3d printable parts in openscad format for 200x200x200 printing area. Create circuit schematics in ASCII and KiCad 9.0.2 format. Create COMPREHENSIVE MANUAL with diagrams (.TXT Format). Include ESP32 firmware code, Android app source code, PCB layouts and Gerber files.
+
+8< --------------------------
+
+analyze what I've got
+
+You have permission to read and write in the antennas folder and all sub folders
+Review the antenna_misc.txt file.
+Put each antenna in an appropriate folder, create folders as needed.
+Put each project in an appropriate folder, create folders as needed.
+
+All projects and antennas should have, as appropriate, Complete EZNEC/.NEC model files. Create as necessary.
+All projects and antennas should have, as appropriate, Exact winding tables in ods format. Create as necessary.
+All projects and antennas should have, as appropriate, 3d printable parts in openscad format for a 200x200x200 printing area. Create as necessary.
+All projects and antennas should have, as appropriate, schematic files, pcb layout, and gerber files in kicad 9.0.2 format for all printed circuit boards. Create as necessary.
+All projects and antennas should have, as appropriate, MATCHING NETWORK SCHEMATICS (ascii). Create as necessary.
+All projects and antennas should have, as appropriate, a COMPREHENSIVE MANUAL with diagrams (.TXT Format). Create as necessary.
+
+Make corrections as needed.
+
+Keep the manual tuning antennas.
+
+8< --------------------------
+
+
+
+
+Make suggestions of devices to append to this collection append them to the bottom of the antenna_misc.txt file. 
+
+8< ---------------------------
+
+Design individual compact portable Rybakov antennas with manual tuning for the 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+8< --------------------------- SUGGESTED ADDITIONS --------------------------- >8
+
+BALUNS AND UNUNS
+
+Design compact portable baluns (1:1, 4:1, 6:1, 9:1) for impedance matching and common-mode suppression covering 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+Design compact portable ununs (4:1, 9:1, 16:1, 49:1, 64:1) for end-fed and long-wire antenna matching covering 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+Design toroidal core baluns with FT-240, FT-140 cores using bifilar/trifilar windings
+Design air-core baluns with coaxial choke construction
+Design current baluns and voltage baluns for different applications
+Include weatherproof enclosures and SO-239/BNC connectors
+With EZNEC/.NEC model files. Exact winding tables in ods format (turns, wire gauge, core material). 3d printable enclosures in openscad format for 200x200x200 printing area. Create circuit schematics in ASCII and KiCad 9.0.2 format. Create COMPREHENSIVE MANUAL with impedance transformation theory (.TXT Format).
+
+8< --------------------------
+
+COAXIAL CABLE TRAPS
+
+Design compact portable coaxial cable traps for multiband dipole and vertical antennas covering 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+Design parallel resonant coaxial traps using RG-58, RG-8X, RG-213 coaxial cable
+Design series resonant coaxial traps for trap vertical antennas
+Calculate exact coil diameter and number of turns for each band
+Design weatherproof trap enclosures with UV-resistant materials
+Design adjustable traps with trimmer capacitors for fine tuning
+Include SWR bandwidth measurements and Q factor calculations
+With EZNEC/.NEC model files comparing trapped vs untrapped antennas. Exact trap winding tables in ods format (coax type, diameter, turns, resonant frequency). 3d printable trap formers and enclosures in openscad format for 200x200x200 printing area. Create COMPREHENSIVE MANUAL with trap theory and construction (.TXT Format).
+
+8< --------------------------
+
+DUMMY LOADS
+
+Design compact portable dummy loads (50Ω, 100W/500W/1kW) for safe transmitter testing covering 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+Design oil-cooled dummy loads using non-inductive power resistors
+Design dry (air-cooled) dummy loads with forced-air cooling
+Design cantenna-style dummy loads using mineral oil
+Design precision 50Ω loads for VNA calibration (DC-6 GHz)
+Include SWR specifications (<1.1:1 to 30 MHz, <1.3:1 to 500 MHz)
+Include thermal management and temperature monitoring
+Include directional coupler for forward/reflected power monitoring
+With 3d printable enclosures in openscad format for 200x200x200 printing area. Create circuit schematics in ASCII and KiCad 9.0.2 format showing resistor networks. Create COMPREHENSIVE MANUAL with power derating curves and duty cycle calculations (.TXT Format).
+
+8< --------------------------
+
+NOISE BRIDGE
+
+Design compact portable noise bridges for antenna impedance measurement (1-30 MHz covering 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M ham bands)
+
+Design Wheatstone bridge circuit with calibrated resistance and reactance nulling
+Design wideband noise generator using zener diode or transistor noise source
+Design null detector with audio amplifier and headphone output
+Design digital readout with LCD display for R and X values
+Include battery operation (9V or 18V for extended range)
+Include weatherproof enclosure for field use
+With 3d printable enclosures in openscad format for 200x200x200 printing area. Create circuit schematics in ASCII and KiCad 9.0.2 format. Create COMPREHENSIVE MANUAL with bridge balancing procedures and Smith chart plotting (.TXT Format). Include PCB layouts and Gerber files.
+
+8< --------------------------
+
+FIELD STRENGTH METER
+
+Design compact portable field strength meters for antenna testing and RF detection covering 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+Design passive field strength meter with germanium diode detector and analog meter
+Design active field strength meter with RF amplifier and logarithmic detector
+Design digital field strength meter with ESP32, ADC, and OLED display
+Design relative field strength indication (S-meter style)
+Design calibrated field strength meter (dBm, V/m readings)
+Include directional sensing with small loop or dipole probe
+Include audio tone output proportional to field strength
+Include data logging to SD card with GPS coordinates
+With 3d printable enclosures and probe housings in openscad format for 200x200x200 printing area. Create circuit schematics in ASCII and KiCad 9.0.2 format. Create COMPREHENSIVE MANUAL with calibration procedures (.TXT Format). Include ESP32 firmware code, PCB layouts and Gerber files.
+
+8< --------------------------
+
+FREQUENCY COUNTER
+
+Design compact portable frequency counters for VFO/transmitter frequency measurement (0.1 MHz - 3 GHz covering all ham bands)
+
+Design direct-count frequency counter using ESP32 or Arduino with precision timebase
+Design prescaler-based counter for VHF/UHF/microwave frequencies
+Design reciprocal frequency counter for high resolution at low frequencies
+Design TCXO or OCXO timebase for ±0.5 ppm accuracy
+Design period measurement mode for low frequency accuracy
+Include OLED/LCD display with frequency, period, and gate time readout
+Include GPSDO (GPS-disciplined oscillator) option for laboratory accuracy
+Include antenna input with selectable attenuator and input protection
+Include bluetooth and wifi for remote frequency monitoring
+With 3d printable enclosures in openscad format for 200x200x200 printing area. Create circuit schematics in ASCII and KiCad 9.0.2 format. Create COMPREHENSIVE MANUAL with timebase calibration procedures (.TXT Format). Include ESP32/Arduino firmware code, PCB layouts and Gerber files.
+
+8< --------------------------
+
+HYBRID COUPLERS AND POWER DIVIDERS
+
+Design compact portable hybrid couplers (90° and 180°) and power dividers for phased arrays and antenna switching covering 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+Design Wilkinson power divider (2-way, 4-way) with resistive isolation
+Design quadrature hybrid (90° phase difference) for circular polarization
+Design 180° hybrid (rat-race coupler) for phased arrays
+Design transmission-line transformers for wideband operation
+Design lumped-element hybrids for compact HF designs
+Include SWR, isolation, and phase balance specifications
+Include weatherproof enclosures for outdoor installation
+With EZNEC/.NEC model files for phased array applications. 3d printable enclosures in openscad format for 200x200x200 printing area. Create circuit schematics in ASCII and KiCad 9.0.2 format. Create COMPREHENSIVE MANUAL with phase and amplitude balance measurements (.TXT Format). Include PCB layouts and Gerber files.
+
+8< --------------------------
+
+INVERTED-V DIPOLE
+
+Design individual compact portable inverted-V dipole antennas with manual tuning for the 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+Design inverted-V dipoles with apex angles (90°, 120°, 160°) for different radiation patterns
+Design multiband inverted-V using coaxial traps for size reduction
+Design fan-dipole inverted-V with multiple wire elements for multiband operation
+Design portable inverted-V with telescopic mast and guy rope deployment
+Design balun integration (1:1 current balun) at feed point
+Include height vs. apex angle optimization tables
+With EZNEC/.NEC model files comparing apex angles and heights. Exact element length tables in ods format. 3d printable apex insulators and center support in openscad format for 200x200x200 printing area. Create COMPREHENSIVE MANUAL with deployment procedures (.TXT Format).
+
+8< --------------------------
+
+OFF-CENTER-FED DIPOLE (OCFD)
+
+Design individual compact portable off-center-fed dipole antennas for multiband operation covering 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M ham bands
+
+Design classic Windom antenna (OCFD with 1/3 - 2/3 split)
+Design Carolina Windom with 4:1 balun at off-center feed point
+Design G5RV-style OCFD with matching stub
+Calculate feed point impedances for each band
+Design portable OCFD with telescopic supports and guy ropes
+Include balun specifications (4:1 or 6:1 current balun)
+With EZNEC/.NEC model files comparing feed point locations and matching methods. Exact element length tables in ods format. 3d printable feed point insulators in openscad format for 200x200x200 printing area. Create COMPREHENSIVE MANUAL with multiband tuning procedures (.TXT Format).
+
+8< --------------------------
+
+T2FD (TILTED TERMINATED FOLDED DIPOLE)
+
+Design individual compact portable T2FD antennas for wideband operation covering 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M ham bands
+
+Design T2FD with non-inductive terminating resistor (390-800Ω)
+Design folded dipole structure with 4:1 impedance transformation
+Design tilt angle optimization (45° typical) for low-angle radiation
+Design wideband matching network (4:1 or 9:1 unun)
+Design portable T2FD with telescopic supports
+Include terminating resistor power dissipation calculations
+Include SWR bandwidth measurements (typically <2:1 across all HF bands)
+With EZNEC/.NEC model files comparing tilt angles and termination values. Exact dimension tables in ods format. 3d printable terminating resistor enclosure and spreaders in openscad format for 200x200x200 printing area. Create COMPREHENSIVE MANUAL with wideband antenna theory (.TXT Format).
+
+8< --------------------------
+
+BEVERAGE ANTENNA (RECEIVING)
+
+Design individual compact portable Beverage receiving antennas for low-band DX reception covering 160M, 80M, 40M, 30M ham bands
+
+Design single-wire Beverage with ground stake and terminating resistor (450-600Ω)
+Design reversible Beverage with relay switching for bi-directional operation
+Design phased Beverage array (2 parallel wires) for improved directivity
+Design elevated Beverage (3-6 feet height) for improved performance
+Design portable Beverage with fiberglass support poles and ground stakes
+Design matching transformer (9:1 or 16:1 unun) at feed point
+Include length calculations (1-2 wavelengths typical, 200-600 feet for 160m)
+Include directivity patterns and front-to-back ratio measurements
+With EZNEC/.NEC model files comparing lengths and heights. Exact length tables in ods format. 3d printable terminating resistor enclosure in openscad format for 200x200x200 printing area. Create COMPREHENSIVE MANUAL with deployment and orientation procedures (.TXT Format).
+
+8< --------------------------
+
+DISCONE ANTENNA
+
+Design individual compact portable discone antennas for wideband VHF/UHF operation covering 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands plus public service monitoring
+
+Design classic discone with cone angle optimization (25-30°)
+Design compact discone with reduced vertical height
+Design dual-band discone with separate disc/cone sets
+Calculate element lengths (disc diameter = 0.7λ at lowest frequency, cone length = 0.6λ)
+Design portable discone with collapsible disc and cone radials
+Design all-aluminum construction for weather resistance
+Include SWR bandwidth measurements (typically 2:1 from 50 MHz to 1.3 GHz)
+With EZNEC/.NEC model files. Exact dimension tables in ods format. 3d printable feed point hub and radial supports in openscad format for 200x200x200 printing area. Create COMPREHENSIVE MANUAL with assembly procedures (.TXT Format).
+
+8< --------------------------
+
+SLIM JIM / J-POLE
+
+Design individual compact portable Slim Jim and J-pole antennas for VHF/UHF operation covering 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+Design classic J-pole with stub matching section
+Design Slim Jim (folded J-pole) for improved bandwidth
+Design copper pipe J-pole for permanent installations
+Design copper tape Slim Jim for portable roll-up version
+Design ladder-line Slim Jim for multiband operation
+Design end-fed Slim Jim with minimal ground plane requirement
+Calculate exact stub lengths and tap points for 50Ω match
+Include SWR bandwidth and vertical pattern measurements
+With EZNEC/.NEC model files. Exact dimension tables in ods format. 3d printable spreaders and mounting hardware in openscad format for 200x200x200 printing area. Create COMPREHENSIVE MANUAL with tuning procedures (.TXT Format).
+
+8< --------------------------
+
+HENTENNA (HENTAI ANTENNA)
+
+Design individual compact portable hentenna antennas for UHF operation covering 70cm, 33cm, 20cm ham bands
+
+Design square-loop hentenna with capacitive loading
+Design rectangular hentenna for compact dimensions
+Design folding/portable hentenna with quick-deploy mechanism
+Calculate loop dimensions and loading capacitor values
+Design direct 50Ω feed without matching network
+Design PVC or fiberglass frame construction
+Include horizontal and vertical polarization mounting options
+With EZNEC/.NEC model files. Exact dimension tables in ods format. 3d printable corner brackets and capacitor mounts in openscad format for 200x200x200 printing area. Create COMPREHENSIVE MANUAL with construction and tuning (.TXT Format).
+
+8< --------------------------
+
+HELICAL ANTENNA
+
+Design individual compact portable helical antennas for satellite and EME operation covering 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+Design axial-mode helical with circular polarization
+Design normal-mode helical for compact HF portable antennas
+Calculate helix diameter, pitch, and number of turns for gain optimization
+Design RHCP (right-hand circular polarization) and LHCP options
+Design portable helical with collapsible support boom
+Design ground plane reflector (0.8λ to 1.2λ diameter)
+Include gain, beamwidth, and axial ratio specifications
+Include RHCP/LHCP switching for satellite work
+With EZNEC/.NEC model files. Exact winding tables in ods format (diameter, turns, pitch, wire gauge). 3d printable reflector mounting and helix support in openscad format for 200x200x200 printing area. Create COMPREHENSIVE MANUAL with satellite tracking procedures (.TXT Format).
+
+8< --------------------------
+
+LOG PERIODIC DIPOLE ARRAY (LPDA)
+
+Design individual compact portable log periodic dipole arrays for wideband operation covering 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm ham bands
+
+Design HF LPDA with τ = 0.8-0.9, σ = 0.05-0.15 for wideband coverage
+Design VHF/UHF LPDA for scanner/monitoring applications
+Calculate element lengths, spacing, and boom length using LPDA design equations
+Design portable LPDA with telescoping boom and fold-down elements
+Design transmission-line phasing network (crisscross feed)
+Include gain, front-to-back ratio, and SWR bandwidth specifications
+Include polarization options (horizontal, vertical)
+With EZNEC/.NEC model files. Exact element dimension and spacing tables in ods format. 3d printable element mounting brackets and boom couplers in openscad format for 200x200x200 printing area. Create COMPREHENSIVE MANUAL with LPDA theory and construction (.TXT Format).
+
+8< --------------------------
+
+TURNSTILE / CROSS-POLARIZED ANTENNA
+
+Design individual compact portable turnstile and cross-polarized antennas for satellite reception covering 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+Design classic turnstile (two crossed dipoles with 90° phasing)
+Design QFH (Quadrifilar Helix) for NOAA/APT satellite reception
+Design eggbeater antenna (crossed loops with 90° phasing)
+Design circular polarization (RHCP/LHCP) for satellite work
+Design portable deployable crossed elements with quick-connect phasing harness
+Design ground plane mounting for hemispherical coverage
+Include axial ratio and elevation pattern measurements
+Include RHCP/LHCP switching capability
+With EZNEC/.NEC model files. Exact dimension and phasing tables in ods format. 3d printable element crosses and phasing harness support in openscad format for 200x200x200 printing area. Create COMPREHENSIVE MANUAL with satellite pass prediction (.TXT Format).
+
+8< --------------------------
+
+ACTIVE RECEIVING ANTENNAS
+
+Design compact portable active receiving antennas for HF/VHF reception covering 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M ham bands
+
+Design active whip antenna with FET amplifier for compact HF reception
+Design active loop antenna (10-20 cm diameter) with low-noise amplifier
+Design active monopole with wideband matching and gain control
+Design E-field probe (short vertical element) with high-impedance amplifier
+Design H-field probe (small loop) with transformer-coupled amplifier
+Design bias-T for remote powering via coaxial feedline
+Include IP3, noise figure, and dynamic range specifications
+Include overload protection and attenuator for strong signal environments
+With 3d printable enclosures and mounting hardware in openscad format for 200x200x200 printing area. Create circuit schematics in ASCII and KiCad 9.0.2 format. Create COMPREHENSIVE MANUAL with active antenna theory and noise performance (.TXT Format). Include PCB layouts and Gerber files.
+
+8< --------------------------
+
+CRYSTAL RADIO
+
+Design compact portable crystal radios for AM broadcast reception (530-1700 kHz) and LF/MF ham bands (160M)
+
+Design classic crystal radio with ferrite rod antenna and germanium diode detector
+Design regenerative crystal radio with Q-multiplier for improved sensitivity
+Design TRF (tuned radio frequency) crystal radio with multiple tuned circuits
+Design antenna coupling network for long-wire or ground-plane antennas
+Design headphone matching transformer (1000:8 impedance ratio)
+Design variable capacitor tuning (365 pF broadcast type)
+Include selectivity and sensitivity measurements
+Include no-battery operation (powered entirely by received RF)
+With 3d printable enclosures and coil formers in openscad format for 200x200x200 printing area. Create circuit schematics in ASCII and KiCad 9.0.2 format. Create COMPREHENSIVE MANUAL with crystal radio theory and construction (.TXT Format).
+
+8< --------------------------
+
+SDR INTERFACE / UPCONVERTER
+
+Design compact portable SDR interfaces and upconverters for software-defined radio operation covering 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+Design HF upconverter (0-30 MHz to 125-155 MHz) for RTL-SDR dongles
+Design direct sampling SDR interface for HF with anti-aliasing filters
+Design bias-T for remote antenna amplifier powering
+Design switchable preselector filters (bandpass filters per ham band)
+Design attenuator and gain control for dynamic range optimization
+Design ESP32-controlled filter switching with Android app
+Include IP3, noise figure, and spurious rejection specifications
+Include USB or network connectivity for remote SDR operation
+With 3d printable RF-shielded enclosures in openscad format for 200x200x200 printing area. Create circuit schematics in ASCII and KiCad 9.0.2 format. Create COMPREHENSIVE MANUAL with SDR software setup and filter alignment (.TXT Format). Include ESP32 firmware code, PCB layouts and Gerber files.
+
+8< --------------------------
+
+VFO / SIGNAL GENERATOR
+
+Design compact portable VFO and signal generators for test equipment covering 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+Design DDS-based signal generator using AD9850/AD9851 (0-40 MHz)
+Design Si5351 clock generator for multiband VFO (8 kHz to 160 MHz)
+Design PLL-based VFO with VCO and fractional-N synthesizer
+Design microcontroller-controlled frequency synthesis with OLED display
+Design calibrated output level control with attenuator (-73 dBm to +13 dBm)
+Design modulation capability (AM, FM, CW keying)
+Design frequency sweep mode for filter and antenna testing
+Design TCXO or OCXO reference for frequency stability
+Include spurious and harmonic suppression specifications
+Include battery operation and USB power options
+With 3d printable enclosures in openscad format for 200x200x200 printing area. Create circuit schematics in ASCII and KiCad 9.0.2 format. Create COMPREHENSIVE MANUAL with frequency calibration procedures (.TXT Format). Include ESP32/Arduino firmware code, PCB layouts and Gerber files.
+
+8< --------------------------
+
+AUDIO FILTERS (CW/SSB)
+
+Design compact portable audio filters for CW and SSB operation
+
+Design passive LC audio filters (300-3000 Hz bandpass for SSB)
+Design active audio filters with op-amp for steep roll-off (CW 500-800 Hz bandpass)
+Design variable bandwidth audio filter with switchable Q
+Design notch filter (manual or auto-notch) for heterodyne rejection
+Design DSP-based audio filter using ESP32 or STM32 with FIR/IIR filtering
+Design adjustable center frequency for CW pitch preference (400-800 Hz)
+Design bypass switch for filter in/out comparison
+Include filter response plots and insertion loss measurements
+Include battery operation for portable use
+With 3d printable enclosures in openscad format for 200x200x200 printing area. Create circuit schematics in ASCII and KiCad 9.0.2 format. Create COMPREHENSIVE MANUAL with filter theory and alignment (.TXT Format). Include ESP32/STM32 firmware code for DSP version, PCB layouts and Gerber files.
+
+8< --------------------------
+
+COMMON-MODE CHOKE / RF CHOKE
+
+Design compact portable common-mode chokes for RFI suppression covering 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+Design coaxial cable common-mode choke using ferrite toroid cores (FT-240, FT-140)
+Design coaxial cable choke using snap-on ferrite beads (Mix 31, Mix 43)
+Design ugly balun (coiled coax) for HF common-mode suppression
+Design bead-on-coax with multiple ferrite cores for wideband choking
+Design sleeve balun (λ/4 stub) for VHF/UHF common-mode suppression
+Calculate choking impedance vs. frequency for different core materials
+Design weatherproof enclosures for outdoor installation
+Include common-mode rejection measurements (dB of isolation)
+With tables of ferrite core materials and choking impedance vs. frequency in ods format. 3d printable choke enclosures and mounting brackets in openscad format for 200x200x200 printing area. Create COMPREHENSIVE MANUAL with RFI troubleshooting procedures (.TXT Format).
+
+8< --------------------------
+
+LIGHTNING ARRESTOR / SURGE PROTECTOR
+
+Design compact portable lightning arrestors and surge protection for antenna systems covering 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+Design gas-discharge tube (GDT) arrestor for SO-239/N-Type connectors
+Design multi-stage protection (GDT + MOV + TVS diode) for low insertion loss
+Design DC-grounded arrestor for static charge bleed-off
+Design DC-blocked arrestor for DC-powered antennas (active antennas, bias-T)
+Design chassis grounding with low-impedance bond to ground rod
+Include insertion loss and VSWR specifications (<0.1 dB, <1.1:1)
+Include clamping voltage and peak current ratings
+Include weatherproof enclosure for outdoor installation
+With 3d printable mounting brackets for mast/tower installation in openscad format for 200x200x200 printing area. Create circuit schematics in ASCII and KiCad 9.0.2 format. Create COMPREHENSIVE MANUAL with grounding and lightning protection theory (.TXT Format).
+
+8< --------------------------
+
+COAXIAL SWITCHES / ANTENNA SWITCH
+
+Design compact portable coaxial switches for antenna selection covering 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+Design manual rotary switch (2-position, 4-position, 6-position) with SO-239 connectors
+Design relay-based remote antenna switch with ESP32 control
+Design motorized antenna switch with Android app control
+Design automatic antenna switch with band-data input from transceiver
+Design high-power antenna switch (1 kW continuous, 2 kW PEP)
+Design low-loss switch design (<0.2 dB insertion loss to 500 MHz)
+Design isolation specifications (>60 dB port-to-port isolation)
+Include position indicator LEDs and remote status feedback
+Include weatherproof enclosure for outdoor installation
+Include ground all unused antenna ports for static discharge
+With 3d printable switch enclosures and mounting hardware in openscad format for 200x200x200 printing area. Create circuit schematics in ASCII and KiCad 9.0.2 format. Create COMPREHENSIVE MANUAL with switching logic and installation (.TXT Format). Include ESP32 firmware code, Android app source code, PCB layouts and Gerber files.
+
+8< --------------------------
+
+POWER SUPPLY (12V/13.8V)
+
+Design compact portable power supplies for QRP and mobile operation
+
+Design linear regulated power supply (13.8V, 5A, 10A, 20A) with low noise for receiver operation
+Design switching power supply (13.8V, 10A, 20A, 30A) with high efficiency for portable operation
+Design battery-based power supply using LiFePO4 cells with BMS (12.8V nominal)
+Design solar charge controller integration for field operation
+Design voltage and current metering with LCD/OLED display
+Design overload protection and foldback current limiting
+Design Anderson Powerpole outputs for ham radio standard
+Design noise filtering and RFI suppression for receiver-quiet operation
+Include ripple and noise specifications (<10 mV RMS)
+Include efficiency measurements and thermal management
+With 3d printable enclosures in openscad format for 200x200x200 printing area. Create circuit schematics in ASCII and KiCad 9.0.2 format. Create COMPREHENSIVE MANUAL with power supply theory and troubleshooting (.TXT Format). Include PCB layouts and Gerber files.
+
+8< --------------------------
+
+BATTERY MANAGEMENT SYSTEM
+
+Design compact portable battery management systems for field operation
+
+Design LiFePO4 battery management system (BMS) for 4S (12.8V nominal) battery packs
+Design lithium-ion battery management system (BMS) for 3S/4S battery packs
+Design charge balancing and cell monitoring with voltage/temperature sensing
+Design overcharge, over-discharge, and overcurrent protection
+Design ESP32-based battery monitor with bluetooth connectivity
+Design Android app for real-time battery status (voltage, current, SoC, temperature)
+Design solar charge controller (MPPT) integration for field charging
+Design low-voltage disconnect (LVD) to protect battery from deep discharge
+Design capacity estimation using coulomb counting and Kalman filtering
+Include charge/discharge efficiency measurements
+With 3d printable battery enclosures and mounting hardware in openscad format for 200x200x200 printing area. Create circuit schematics in ASCII and KiCad 9.0.2 format. Create COMPREHENSIVE MANUAL with battery chemistry and safety (.TXT Format). Include ESP32 firmware code, Android app source code, PCB layouts and Gerber files.
+
+8< --------------------------
+
+GROUND PLANE ANTENNA (VHF/UHF)
+
+Design individual compact portable ground plane antennas for VHF/UHF operation covering 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+Design 1/4-wave ground plane with 4 radials (horizontal or drooping)
+Design 5/8-wave ground plane for improved low-angle radiation
+Design no-radial ground plane (J-pole style) for portable operation
+Calculate radial angle optimization (droop angle 30-45° for 50Ω match)
+Design collapsible/telescoping ground plane for portable deployment
+Design magnetic mount ground plane for vehicle installation
+Design radome-enclosed ground plane for permanent outdoor installation
+Include gain, takeoff angle, and SWR bandwidth measurements
+With EZNEC/.NEC model files comparing radial configurations. Exact dimension tables in ods format. 3d printable radial hub and mounting hardware in openscad format for 200x200x200 printing area. Create COMPREHENSIVE MANUAL with ground plane theory (.TXT Format).
+
+8< --------------------------
+
+CUBICAL QUAD
+
+Design individual compact portable cubical quad antennas for HF/VHF operation covering 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M ham bands
+
+Design 2-element quad (1 driven element, 1 reflector) for 6-8 dBi gain
+Design 3-element quad (1 driven element, 1 reflector, 1 director) for 9-10 dBi gain
+Design multiband quad with interlaced elements for 20M/15M/10M
+Design spider-style quad with wire elements on fiberglass spreaders
+Design portable quad with collapsible spreaders for field deployment
+Calculate loop dimensions (1.00λ driven, 1.05λ reflector, 0.95λ director)
+Design gamma match or split-driven element for 50Ω feed impedance
+Include gain, front-to-back ratio, and SWR bandwidth measurements
+With EZNEC/.NEC model files. Exact dimension tables in ods format. 3d printable spreader hubs and element supports in openscad format for 200x200x200 printing area. Create COMPREHENSIVE MANUAL with quad antenna theory (.TXT Format).
+
+8< --------------------------
+
+DELTA LOOP
+
+Design individual compact portable delta loop antennas for HF operation covering 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M ham bands
+
+Design full-wave delta loop (apex-fed) for horizontal polarization
+Design full-wave delta loop (bottom corner-fed) for vertical polarization
+Design half-wave delta loop for compact installations
+Design multiband delta loop with trap or parallel resonator loading
+Design inverted delta loop with apex at ground level for stealth operation
+Calculate loop perimeter (1.005λ to 1.08λ depending on wire diameter)
+Design matching network (4:1 balun or gamma match) for 50Ω feed
+Include polarization, gain, and radiation pattern measurements
+With EZNEC/.NEC model files comparing feed points and orientations. Exact dimension tables in ods format. 3d printable apex insulators and corner supports in openscad format for 200x200x200 printing area. Create COMPREHENSIVE MANUAL with loop antenna theory (.TXT Format).
+
+8< --------------------------
+
+NVIS ANTENNA (NEAR VERTICAL INCIDENCE SKYWAVE)
+
+Design individual compact portable NVIS antennas for regional communications covering 160M, 80M, 60M, 40M, 30M ham bands
+
+Design horizontal dipole at 0.1λ to 0.25λ height for NVIS operation
+Design inverted-V at low height (10-20 feet) for NVIS operation
+Design NVIS loop antenna (horizontal full-wave loop at low height)
+Design AS-2259 military NVIS antenna (fan dipole at ground level with radials)
+Design portable NVIS with low-profile supports for tactical deployment
+Design ground plane or radial system to enhance skyward radiation
+Calculate optimum height for 80° to 90° takeoff angle
+Include NVIS propagation predictions and skip zone coverage (0-300 mile radius)
+With EZNEC/.NEC model files comparing antenna heights and ground types. Exact dimension tables in ods format. 3d printable support stakes and wire tensioners in openscad format for 200x200x200 printing area. Create COMPREHENSIVE MANUAL with NVIS propagation theory and deployment (.TXT Format).
+
+8< --------------------------
+
+TERMINATED SLOPER (RECEIVING)
+
+Design individual compact portable terminated sloper receiving antennas for low-band DX reception covering 160M, 80M, 40M, 30M ham bands
+
+Design single-wire sloper with top feed and ground termination resistor (450-800Ω)
+Design reversible sloper with relay switching for bi-directional operation
+Design elevated sloper (feed point at 30-60 feet height)
+Design ground-mounted sloper (feed point at 10-20 feet height)
+Calculate sloper length (0.2λ to 0.4λ typical) and angle (30-60° from vertical)
+Design matching transformer (9:1 or 16:1 unun) at feed point
+Design terminating resistor with RF power rating (5-10W for receive)
+Include directivity patterns and front-to-back ratio measurements
+With EZNEC/.NEC model files comparing lengths, angles, and heights. Exact dimension tables in ods format. 3d printable terminating resistor enclosure in openscad format for 200x200x200 printing area. Create COMPREHENSIVE MANUAL with receiving antenna theory (.TXT Format).
+
+8< --------------------------
+
+TAPE MEASURE YAGI (VHF/UHF)
+
+Design individual compact portable tape measure yagi antennas for VHF/UHF foxhunting and portable operation covering 2M, 1.25M, 70cm ham bands
+
+Design 3-element tape measure yagi with driven element, reflector, and director
+Design 4-element and 5-element designs for increased gain
+Design folding/roll-up yagi using steel tape measure elements
+Design PVC boom construction for lightweight portable operation
+Design direct 50Ω feed or folded dipole driven element
+Calculate element lengths and spacing for optimum gain
+Design handle grip integration for handheld direction finding
+Include gain, front-to-back ratio, and beamwidth measurements
+With EZNEC/.NEC model files. Exact dimension tables in ods format. 3d printable element mounting blocks and boom couplers in openscad format for 200x200x200 printing area. Create COMPREHENSIVE MANUAL with foxhunting techniques (.TXT Format).
+
+8< --------------------------
+
+MULTIBAND FAN DIPOLE
+
+Design individual compact portable multiband fan dipole antennas with multiple parallel elements for 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M ham bands
+
+Design fan dipole with 2-8 parallel wire elements (each cut for different band)
+Design element spreading (5-10° angle between adjacent elements) to minimize interaction
+Design common feed point with 1:1 current balun
+Design portable fan dipole with telescoping supports
+Calculate element lengths for resonance with interaction effects
+Design insulator arrangement at center and ends
+Include SWR measurements on each band
+Include multiband matching and interaction analysis
+With EZNEC/.NEC model files comparing 2-element, 4-element, and 8-element fan configurations. Exact element length tables in ods format. 3d printable center insulator with multiple wire attachment points in openscad format for 200x200x200 printing area. Create COMPREHENSIVE MANUAL with fan dipole theory (.TXT Format).
+
+8< --------------------------
+
+PORTABLE TOWER / MAST SYSTEM
+
+Design compact portable tower and mast systems for antenna elevation
+
+Design telescoping fiberglass mast (20-40 feet) for portable antenna support
+Design aluminum telescoping mast with guy rope stabilization
+Design pneumatic mast (air or hydraulic lift) for rapid deployment
+Design crank-up tower sections for portable DX operation
+Design guy rope anchor system (screw anchors, stake anchors, sandbag anchors)
+Design rotator mounting for directional antennas
+Design tilt-over base for antenna installation at ground level
+Design wind load calculations and guy rope tension requirements
+Include safety considerations and installation procedures
+With 3d printable mast collars, guy rope tensioners, and base plates in openscad format for 200x200x200 printing area. Create COMPREHENSIVE MANUAL with mast raising procedures and safety (.TXT Format).
+
+8< --------------------------
+
+RF SAMPLER / DIRECTIONAL COUPLER
+
+Design compact portable RF samplers and directional couplers for power monitoring covering 160M, 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 1.25M, 70cm, 33cm, 20cm ham bands
+
+Design transmission-line directional coupler (-20 dB, -30 dB, -40 dB coupling)
+Design resistive bridge coupler for wideband operation
+Design toroidal transformer coupler for HF bands
+Design forward and reflected power sampling for SWR calculation
+Design calibrated output for power meter or spectrum analyzer connection
+Include directivity specifications (>25 dB typical)
+Include frequency range and coupling flatness specifications
+Include insertion loss specifications (<0.1 dB)
+With 3d printable enclosures with SO-239/SMA connectors in openscad format for 200x200x200 printing area. Create circuit schematics in ASCII and KiCad 9.0.2 format. Create COMPREHENSIVE MANUAL with directional coupler theory (.TXT Format). Include PCB layouts and Gerber files.
+
+8< --------------------------
+
+ANTENNA MODELING SOFTWARE INTEGRATION
+
+Design automated antenna modeling workflows integrating EZNEC, NEC2, NEC4, 4NEC2 with Python scripts
+
+Design Python scripts to generate .NEC files from parametric antenna specifications
+Design automated frequency sweeps and pattern generation
+Design batch processing for multiband antenna optimization
+Design CSV export of antenna parameters (gain, F/B, SWR, impedance vs. frequency)
+Design 3D radiation pattern export for visualization
+Design optimization algorithms (genetic algorithm, particle swarm) for antenna tuning
+Design ESP32 integration for automatic antenna tuner adjustment based on NEC modeling
+Design cloud-based antenna modeling service with web API
+With Python scripts for automated NEC file generation and post-processing. Create COMPREHENSIVE MANUAL with antenna modeling theory and workflow (.TXT Format).
+
+8< --------------------------
+
+FLOWERPOT ANTENNA (DUAL-BAND VHF/UHF)
+
+Design individual compact portable flowerpot dipole antennas for dual-band VHF/UHF operation covering 2M and 70cm ham bands
+
+Design flowerpot dipole with sleeve balun (coaxial stub choke)
+Design dual-band resonance at 2M (146 MHz) and 70cm (440 MHz)
+Design coaxial sleeve length (λ/4 at 2M, approximately 500mm)
+Design radiating element (vertical dipole above sleeve)
+Design SO-239 feed point connector at base
+Design portable mounting with magnetic base or tripod adapter
+Design weatherproof construction for outdoor deployment
+Calculate element lengths for dual-band resonance
+Include SWR curves on both 2M and 70cm bands
+Include radiation patterns showing omnidirectional coverage
+With EZNEC/.NEC model files for 2M and 70cm. Exact dimension tables in ods format. 3d printable sleeve former, element holders, and base mount in openscad format for 200x200x200 printing area. Create COMPREHENSIVE MANUAL with flowerpot antenna theory and dual-band operation (.TXT Format).
+
+8< --------------------------
+
+END-FED HALF WAVE (EFHW)
+
+Design individual compact portable end-fed half wave antennas for all HF bands covering 160M, 80M, 60M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M ham bands
+
+Design half-wave wire element with end feeding at high impedance point
+Design 49:1 impedance transformer (2400-2800Ω to 50Ω)
+Design toroidal transformer using FT-140-43 or FT-240-43 core
+Design counterpoise wire (0.05λ length, approximately 5% of element length)
+Design multiband operation with harmonically related bands
+Design portable deployment with throw line and weight
+Design weather-resistant transformer enclosure with SO-239 connector
+Calculate wire lengths for resonance on each band
+Design matching network variations for optimum SWR across bands
+Include transformer winding specifications and core selection
+Include SWR measurements showing multiband coverage
+Include radiation patterns comparing sloper, inverted-L, and horizontal configurations
+With EZNEC/.NEC model files for each band and configuration. Exact wire length tables in ods format. Winding specifications for 49:1 transformer in ods format. 3d printable transformer enclosure with SO-239 connector and wire strain relief in openscad format for 200x200x200 printing area. Create circuit schematics in ASCII and KiCad 9.0.2 format for 49:1 transformer. Create COMPREHENSIVE MANUAL with EFHW theory, transformer construction, and deployment techniques (.TXT Format).
+
+8< --------------------------
+
+MOXON RECTANGLE
+
+Design individual compact portable Moxon rectangle antennas for 2-element beam operation covering 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M, 70cm ham bands
+
+Design 2-element beam with driver and reflector in rectangular configuration
+Design compact dimensions (approximately 0.4λ wide by 0.2λ tall)
+Design wire or tube element construction
+Design direct 50Ω feed with excellent SWR bandwidth
+Design portable lightweight construction with fiberglass spreaders or PVC
+Design gamma match or direct feed at driver element
+Calculate element lengths and corner dimensions using Moxon Rectangle Designer formulas
+Design element spacing (typically 0.125λ to 0.15λ)
+Include gain (approximately 6 dBi free space, 12 dBi over ground)
+Include front-to-back ratio (>25 dB typical)
+Include azimuth and elevation radiation patterns
+Include mechanical construction for wind loading
+With EZNEC/.NEC model files for each band. Exact dimension tables (element lengths, spacing, corner dimensions) in ods format. 3d printable corner insulators, element mounting blocks, and boom couplers in openscad format for 200x200x200 printing area. Create COMPREHENSIVE MANUAL with Moxon theory, construction, and tuning procedures (.TXT Format).
+
+8< --------------------------
+
+SCREWDRIVER ANTENNA (MOBILE HF)
+
+Design individual compact portable screwdriver antennas for mobile HF operation covering 80M, 60M, 40M, 30M, 20M, 17M, 15M, 12M, 10M ham bands
+
+Design center-loaded vertical with motorized variable inductor (screwdriver motor)
+Design base-loaded or center-loaded coil configurations
+Design continuous coverage from 3.5 MHz to 30 MHz
+Design motor drive system (12V DC motor with worm gear)
+Design coil winding (2-3 inches diameter, 12-18 inches long, #12-#14 wire)
+Design contact wiper system for coil tap selection
+Design ground plane system (vehicle body or artificial radials)
+Design capacitance hat (top loading) for efficiency on lower bands
+Design controller (manual switch or automatic band-following with ESP32)
+Calculate inductance range required for each band
+Design matching network at feedpoint (typically requires matching for mobile installation)
+Include coil Q factor calculations and efficiency estimations
+Include SWR measurements across all bands with motor positioning
+Include radiation patterns for mobile installation (vertical polarization)
+With EZNEC/.NEC model files for various coil positions and bands. Exact coil winding specifications and inductance tables in ods format. 3d printable coil former with helical groove, motor mount, and wiper contact assembly in openscad format for 200x200x200 printing area. Create ESP32 firmware code for automatic band-following tuning. Create circuit schematics in ASCII and KiCad 9.0.2 format for motor controller and position sensing. Create COMPREHENSIVE MANUAL with screwdriver antenna theory, construction, installation, and tuning (.TXT Format).
+
+8< --------------------------
+
+END-FED RANDOM WIRE (EFRW)
+
+Design individual compact portable end-fed random wire antennas for multiband HF operation covering 160M, 80M, 60M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M ham bands
+
+Design long wire element (20-130 feet, non-resonant random length)
+Design 9:1 impedance transformer (450Ω to 50Ω) for wide impedance range matching
+Design toroidal transformer using FT-240-43 or FT-140-43 core
+Design antenna tuner interface (requires external tuner for multiband operation)
+Design counterpoise wire (16-33 feet, or multiple radials)
+Design portable deployment with throw line and support rope
+Design weather-resistant transformer enclosure with SO-239 connector
+Calculate recommended wire lengths avoiding problematic resonances
+Design matching for various wire lengths and configurations
+Include transformer winding specifications for 9:1 ratio
+Include SWR measurements with antenna tuner on each band
+Include radiation patterns for horizontal, sloper, and inverted-L configurations
+With EZNEC/.NEC model files for various wire lengths (20', 35', 45', 53', 67', 84', 130'). Wire length recommendation tables in ods format. Winding specifications for 9:1 transformer in ods format. 3d printable transformer enclosure with SO-239 connector and wire attachment points in openscad format for 200x200x200 printing area. Create circuit schematics in ASCII and KiCad 9.0.2 format for 9:1 transformer. Create COMPREHENSIVE MANUAL with random wire theory, wire length selection, tuner operation, and deployment techniques (.TXT Format).
+
+8< --------------------------
+
+RYBAKOV ANTENNA (ASYMMETRIC VERTICAL DIPOLE)
+
+Design individual compact portable Rybakov antennas for multiband vertical operation covering 80M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M ham bands
+
+Design asymmetric vertical dipole with unequal radiator and counterpoise lengths
+Design elevated feed point (5-15 feet above ground)
+Design upper radiator wire (vertical or sloping, 0.25λ to 0.4λ)
+Design lower counterpoise wire (sloping downward, 0.15λ to 0.25λ)
+Design 4:1 or 6:1 impedance transformer at feed point
+Design multiband operation through wire length selection
+Design portable deployment with single support mast
+Design radial-free operation (suitable for portable and field use)
+Calculate radiator and counterpoise lengths for each band
+Design impedance matching variations (4:1, 6:1, 9:1 ununs)
+Include SWR measurements showing multiband characteristics
+Include radiation patterns showing low-angle radiation
+Include comparison with standard quarter-wave vertical
+With EZNEC/.NEC model files for each band and length combination. Exact wire length tables in ods format. Winding specifications for impedance transformers in ods format. 3d printable feed point insulator with transformer enclosure and wire attachment points in openscad format for 200x200x200 printing area. Create circuit schematics in ASCII and KiCad 9.0.2 format for unun transformers. Create COMPREHENSIVE MANUAL with Rybakov antenna theory, wire length optimization, and field deployment (.TXT Format).
+
+8< --------------------------
+
+SHUNT-FED VERTICAL (TOWER OR MAST)
+
+Design individual compact portable shunt-fed vertical antennas using grounded tower or mast for HF operation covering 160M, 80M, 60M, 40M, 30M, 20M ham bands
+
+Design shunt feed wire parallel to grounded tower (6-12 inches spacing)
+Design feed point at base with series capacitor for impedance matching
+Design gamma match or omega match configuration
+Design tower height (0.2λ to 0.6λ typical, 40-130 feet)
+Design ground radial system (16-120 radials, 0.25λ to 0.5λ length)
+Design base insulation (tower remains grounded, shunt wire feeds RF)
+Design matching network (L-network, series capacitor, or gamma match)
+Calculate shunt wire length and spacing for each band
+Design remote tuning for multiband operation
+Include impedance measurements at feed point vs. shunt wire attachment height
+Include SWR measurements on each band with optimized matching
+Include radiation patterns showing omnidirectional low-angle radiation
+Include comparison with base-fed and top-fed configurations
+With EZNEC/.NEC model files for various tower heights and shunt wire configurations. Exact matching network component values in ods format. 3d printable shunt wire spacers and standoffs in openscad format for 200x200x200 printing area. Create circuit schematics in ASCII and KiCad 9.0.2 format for matching networks. Create COMPREHENSIVE MANUAL with shunt feeding theory, matching network design, and installation procedures (.TXT Format).
+
+8< --------------------------
+
+TELESCOPIC MAST VERTICAL
+
+Design individual compact portable telescopic mast vertical antennas for HF/VHF operation covering 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M, 2M ham bands
+
+Design telescoping aluminum mast as radiating element (20-30 feet extended)
+Design base-loaded coil for 40M and 30M operation
+Design capacitance hat (top loading) for lower bands
+Design elevated radial system (4-8 radials at base, 0.25λ length)
+Design ground-mounted radial system for improved efficiency
+Design base matching network (L-network or unun transformer)
+Design quick-deployment portable base with ground stakes or tripod
+Design collapsible radials with coaxial cable or wire
+Calculate loading coil requirements for each band
+Design remote tuning capability for multiband operation
+Include base impedance measurements with various radial configurations
+Include SWR measurements on each band
+Include radiation patterns showing omnidirectional coverage
+Include mechanical specifications for wind loading and stability
+With EZNEC/.NEC model files for various mast heights and loading coil positions. Exact coil winding specifications and radial length tables in ods format. 3d printable base insulator, coil former, radial attachment hub, and capacitance hat in openscad format for 200x200x200 printing area. Create circuit schematics in ASCII and KiCad 9.0.2 format for matching network and loading coil. Create COMPREHENSIVE MANUAL with telescopic vertical theory, loading coil design, radial systems, and portable deployment (.TXT Format).
+
+8< --------------------------
+
+SWR METER (STANDING WAVE RATIO METER)
+
+Design individual compact portable SWR meters for measuring antenna system match covering HF, VHF, and UHF amateur radio bands
+
+Design directional coupler-based SWR meter (-20dB, -30dB, -40dB coupling)
+Design forward and reflected power sampling with separate diode detectors
+Design analog meter display (dual meters or single meter with switch)
+Design digital display with microcontroller (Arduino, ESP32)
+Design frequency coverage: HF (1.8-30 MHz), VHF (50-148 MHz), UHF (420-1300 MHz)
+Design power range: 1W to 1000W continuous
+Design impedance: 50Ω (standard for amateur radio)
+Design directivity: >25dB typical (ensures accurate SWR reading)
+Design insertion loss: <0.1dB (minimal effect on transmitted signal)
+Calculate SWR from forward and reflected power: SWR = (1 + √(Pr/Pf)) / (1 - √(Pr/Pf))
+Design calibration procedure with known load resistances
+Include circuit protection for high VSWR conditions
+Include auto-ranging for wide power range coverage
+With circuit schematics in ASCII and KiCad 9.0.2 format. 3d printable enclosure with SO-239 connectors and meter mounting in openscad format for 200x200x200 printing area. Create firmware code for digital version (ESP32) with OLED display, data logging, and Bluetooth output. Create COMPREHENSIVE MANUAL with directional coupler theory, SWR calculation, calibration procedures, and usage instructions (.TXT Format). Include PCB layouts and Gerber files.
+
+8< --------------------------
+
+RF POWER METER (WATTMETER)
+
+Design individual compact portable RF power meters for measuring transmitter output power covering HF, VHF, and UHF amateur radio bands
+
+Design bird-type directional wattmeter with plug-in elements for different frequency ranges
+Design inline power meter with directional coupler (forward power only or forward+reflected)
+Design terminating power meter with dummy load (for transmitter testing)
+Design frequency coverage: HF (1.8-30 MHz), VHF (50-148 MHz), UHF (420-1300 MHz)
+Design power ranges: 1-10W, 10-100W, 100-1000W, 1-3kW (selectable or auto-ranging)
+Design peak power detection and average power display
+Design analog meter (moving coil) or digital display (LCD/OLED)
+Design true RMS power measurement for accurate readings
+Design temperature-compensated diode detectors
+Calculate power from RF voltage: P = V² / (2 × 50Ω)
+Design calibration using known power standards or reference meters
+Include overload protection circuits
+Include data logging capability (for digital versions)
+With circuit schematics in ASCII and KiCad 9.0.2 format. 3d printable enclosure with SO-239 connectors and meter/display mounting in openscad format for 200x200x200 printing area. Create firmware code for digital version (ESP32) with peak hold, averaging, data logging to SD card, and USB/Bluetooth output. Create COMPREHENSIVE MANUAL with RF power measurement theory, detector types, calibration procedures, and measurement techniques (.TXT Format). Include PCB layouts and Gerber files.
+
+8< --------------------------
+
+ROLLER INDUCTOR (VARIABLE INDUCTOR)
+
+Design individual compact portable roller inductors for antenna tuners and impedance matching covering HF amateur radio bands
+
+Design coil wound on ceramic or fiberglass former (2-4 inch diameter, 6-12 inch length)
+Design roller contact mechanism with silver-plated roller bearing
+Design inductance range: 1-30 µH typical (adjustable by moving roller along coil)
+Design coil wire: Silver-plated copper (AWG 10-14, heavy duty for high current)
+Design coil turns: 20-40 turns with 8-16 turns per inch winding density
+Design current rating: 10A continuous, 20A peak (for 1kW transmitter)
+Design voltage rating: >5kV (for high-Q antenna systems)
+Design reduction drive mechanism (10:1 or 20:1 gear ratio for fine tuning)
+Design motorized tuning option with stepper motor (ESP32 controller)
+Calculate inductance: L = (d² × N²) / (18d + 40l) (Wheeler's formula, µH)
+Design counter mechanism or position indicator (for repeatability)
+Design weather-resistant construction for outdoor antenna tuner use
+Include Q factor optimization (minimize contact resistance)
+Include mechanical design for vibration resistance
+With 3d printable coil former with helical groove, roller carriage, gear mechanism, and motor mount in openscad format for 200x200x200 printing area. Create circuit schematics in ASCII and KiCad 9.0.2 format for motorized controller (ESP32). Create ESP32 firmware code for position sensing (encoder or limit switches) and automatic tuning. Create COMPREHENSIVE MANUAL with inductor theory, roller contact design, construction techniques, calibration procedures, and maintenance (.TXT Format).
+
+8< --------------------------
+
+VARIABLE CAPACITOR (TUNING CAPACITOR)
+
+Design individual compact portable variable capacitors for antenna tuners, impedance matching, and transmitters covering HF/VHF/UHF amateur radio bands
+
+Design air variable capacitor (parallel plate or butterfly configuration)
+Design capacitance range: 10-250pF (typical for antenna tuner), 5-500pF (wide range)
+Design voltage rating: 2kV, 5kV, 10kV (depends on power level and impedance)
+Design current rating: Calculate from Q factor and reactance at operating frequency
+Design plate spacing: 1-5mm (depends on voltage rating, closer spacing = higher C but lower voltage)
+Design number of plates: 10-50 plates (more plates = higher capacitance)
+Design reduction drive mechanism (6:1, 10:1, 20:1 gear ratio for fine tuning)
+Design motorized tuning option with stepper motor (ESP32 controller)
+Design vacuum variable capacitor for high power applications (>1kW)
+Design split-stator capacitor (two independent sections) for balanced tuners
+Calculate capacitance: C = ε₀ × εᵣ × A × (N-1) / d
+Design shaft coupling and mounting arrangement
+Design weather-resistant enclosure for outdoor use
+Include wiping contacts for reliable electrical connection
+Include position indicator or capacitance scale
+With 3d printable capacitor mounting bracket, shaft coupler, reduction drive gears, and enclosure in openscad format for 200x200x200 printing area. Create circuit schematics in ASCII and KiCad 9.0.2 format for motorized controller (ESP32). Create ESP32 firmware code for position sensing (encoder or potentiometer) and automatic tuning. Create COMPREHENSIVE MANUAL with capacitor theory, voltage and current ratings, construction and assembly, calibration procedures, and high-voltage safety (.TXT Format).
+
+8< --------------------------
+
+MOTORIZED COIL WINDER
+
+Design individual compact portable motorized coil winder for winding inductors, transformers, and RF chokes covering all amateur radio applications
+
+Design base platform with stepper motor drive (NEMA 17 or NEMA 23 motor)
+Design chuck mechanism to hold coil former (adjustable for 0.25" to 4" diameter forms)
+Design wire tensioner and guide mechanism (keeps wire tight and evenly spaced)
+Design turn counter (optical sensor or encoder-based, displays on LCD/OLED)
+Design pitch control (adjustable spacing between turns for air-wound coils)
+Design traverse mechanism (moves wire guide along coil length for layer winding)
+Design foot pedal or hand switch for start/stop control
+Design microcontroller (Arduino Mega or ESP32) with LCD display and control panel
+Design speed control (variable RPM for different wire gauges and coil sizes)
+Design wire size range: AWG 10 (heavy) to AWG 30 (fine) and magnet wire
+Design coil length capacity: Up to 12 inches (300mm)
+Calculate number of turns from inductance requirements using Wheeler's formula
+Design automatic layer winding with programmable turns per layer
+Design helical groove cutting tool (for RF coils requiring precise spacing)
+Include safety features: Emergency stop, wire break detection, overload protection
+Include preset storage (save winding patterns for repeated coils)
+With 3d printable parts: base plate, chuck mechanism, wire tensioner, wire guide carriage, control panel enclosure in openscad format for 200x200x200 printing area. Create circuit schematics in ASCII and KiCad 9.0.2 format for motor controller, stepper drivers (A4988 or TMC2208), and control electronics. Create Arduino/ESP32 firmware code with menu system, turn counter, speed control, automatic mode, and SD card data logging. Create COMPREHENSIVE MANUAL with coil winding theory, machine assembly, operation procedures, winding tables for common inductors, and troubleshooting (.TXT Format). Include PCB layouts and Gerber files for controller board.
+
+8< --------------------------
+
+KMR400 MAGNETIC LOOP ANTENNA
+
+Design individual compact portable magnetic loop antennas using KMR400 semi-rigid coaxial cable for VHF/UHF/SHF operation covering 2M, 1.25M, 70cm, 33cm, 23cm ham bands
+
+Design small loop antenna (circumference < 0.1λ) using KMR400 coaxial cable as radiating element
+Design loop diameters: 2M (60mm), 1.25M (40mm), 70cm (20mm), 33cm (10mm), 23cm (7mm)
+Design high-Q variable capacitor tuning (0.5-5pF, >2kV voltage rating)
+Design coupling loop (1/5 diameter of main loop, Faraday shielded)
+Design remote motorized tuning with stepper motor and ESP32 controller
+Design band-specific designs optimized for each amateur band
+Design portable base with tripod mount or magnetic base
+Design matching network (typically 50-100Ω to 50Ω at feed point)
+Calculate radiation resistance (typically 0.1-1.0Ω) and efficiency
+Calculate bandwidth (typically 1-5% depending on loop Q factor)
+Design weatherproof construction for outdoor portable use
+Include Q factor calculations (typically 200-500 for small loops)
+Include gain patterns (typically -5 to 0 dBi depending on band and loop size)
+Include SWR measurements at resonance and bandwidth characteristics
+Include comparison with full-size dipole and vertical antennas
+With EZNEC/.NEC model files for each band (2M, 1.25M, 70cm, 33cm, 23cm). Exact loop dimensions, capacitor values, and coupling loop specifications in ods format. 3d printable loop holder, capacitor mount, coupling loop holder, base plate, and tuning mechanism in openscad format for 200x200x200 printing area. Create circuit schematics in ASCII and KiCad 9.0.2 format for matching network and motorized tuning controller (ESP32). Create ESP32 firmware code for automatic band-following tuning with stepper motor control. Create COMPREHENSIVE MANUAL with magnetic loop theory, Q factor calculations, efficiency estimations, construction techniques, tuning procedures, and safety considerations for high RF voltage (.TXT Format).
+
+8< --------------------------
+
+RHOMBIC ANTENNA (TERMINATED LONG-WIRE)
+
+Design individual compact portable rhombic antennas for directional long-wire operation covering 80M, 60M, 40M, 30M, 20M, 17M, 15M, 12M, 10M, 6M ham bands
+
+Design rhomboid shape with four equal wire legs forming diamond pattern
+Design each leg length (1λ to 3λ per leg at lowest frequency)
+Design tilt angle (approximately 60° to 75° for optimum gain)
+Design terminating resistor (400-800Ω non-inductive, 10-50W power rating)
+Design feed point impedance (approximately 600-800Ω)
+Design 12:1 or 16:1 impedance transformer (600-800Ω to 50Ω) at feed point
+Design support masts at four corners (20-40 feet height typical)
+Design bi-directional operation (switch feed and termination points for reversible beam)
+Calculate leg lengths and angles for each band
+Design matching network for optimum SWR
+Include directivity patterns showing main lobe direction and beamwidth
+Include gain estimates (10-15 dBi typical for multi-wavelength rhombic)
+Include front-to-back ratio measurements
+Include comparison with Beverage and V-beam antennas
+With EZNEC/.NEC model files for each band and leg length. Exact dimension tables (leg length, height, tilt angle) in ods format. Winding specifications for impedance transformers in ods format. 3d printable corner insulators, feed point enclosure, and terminating resistor enclosure in openscad format for 200x200x200 printing area. Create circuit schematics in ASCII and KiCad 9.0.2 format for impedance transformer and terminating resistor assembly. Create COMPREHENSIVE MANUAL with rhombic antenna theory, construction, aiming, and tuning (.TXT Format).
+
+8< --------------------------- END SUGGESTED ADDITIONS --------------------------- >8
+
+
+
+

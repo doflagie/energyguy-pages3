@@ -1,0 +1,18 @@
+ANTENNA SPECIFICATION — CAGE_DIPOLE,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,"80M, 40M, 20M",,Center/allocated bands
+Design approach,Wide-bandwidth dipole using cage construction,,Primary design method
+Compaction factor,0%,,Size reduction vs full-size
+Special parameters,"4–6 parallel wires per arm, 30–50cm cage dia",,Design-specific details
+,,,
+Feed impedance,50,Ω,Standard amateur radio
+SWR target,<1.5,:1,At band center
+Radiation pattern,Varies,,See NEC model
+Polarization,Linear,,Or circular for arrays
+,,,
+Typical efficiency,80–95%,%,Band-dependent
+Typical gain,2–10,dBi,Type-dependent
+,,,
+NEC model file,cage_dipole.nec,,See electromagnetic simulation
+Construction manual,cage_dipole.md,,Step-by-step procedures

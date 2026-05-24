@@ -1,0 +1,17 @@
+CM DOUBLE_BAZOOKA ANTENNA
+CM Frequency bands: 40M, 20M
+CM Design: Balanced parallel-wire dipole, inherent balun
+CM Compaction: 0%
+CM Special parameters: 300Ω twin-lead sections, high impedance, excellent BW
+CE
+
+' Antenna geometry (type-specific)
+GW 1 11 -5.0 0.0 8.0  0.0 0.0 8.0  0.002
+GW 2 11  0.0 0.0 8.0  5.0 0.0 8.0  0.002
+
+GE 0
+GN 2 0 0 0 13 0.005
+EX 0 1 6 0 1 0
+FR 0 1 0 0 100 0
+RP 0 91 360 1000 -90 0 1.0 1.0
+EN

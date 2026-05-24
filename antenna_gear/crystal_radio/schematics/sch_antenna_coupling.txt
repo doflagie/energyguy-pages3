@@ -1,0 +1,366 @@
+================================================================================
+SCHEMATIC: ANTENNA COUPLING NETWORKS FOR CRYSTAL RADIOS
+TM-CR-001  Rev A
+Long-wire, ground-plane, and ferrite loopstick coupling
+AM broadcast 530–1700 kHz; 160M (1.8–2.0 MHz)
+================================================================================
+
+OVERVIEW
+--------
+Antenna coupling transfers RF energy from the antenna into the crystal radio
+tank circuit without loading the high-Q resonator.  Improper coupling kills Q
+and selectivity.  Three primary methods are documented:
+
+  METHOD 1 — DIRECT TAP (ferrite rod, self-contained antenna)
+    Antenna connected to a low-impedance tap on the main coil.
+    Simple; minimal components; preferred for ferrite loopstick operation.
+
+  METHOD 2 — LINK COUPLING (separate coupling winding)
+    A few turns of wire on the same ferrite rod or coil form.
+    Isolates antenna impedance from main tank; preserves Q.
+    Recommended for long-wire antennas (high impedance).
+
+  METHOD 3 — SERIES/SHUNT CAPACITIVE COUPLING
+    Capacitor network matches high-impedance long wire to tank input.
+    Maintains fixed coupling; no extra winding required.
+    Best for outdoor long-wire when ferrite rod is used as tank only.
+
+  METHOD 4 — TUNED COUPLING LOOP (separate resonator)
+    A separate tuned loop couples to the main tank by mutual inductance.
+    Used with large loop antennas for LF/MF DX reception.
+    Also used in preamplifier-less "DX" crystal radio designs.
+
+
+================================================================================
+METHOD 1 — DIRECT TAP COUPLING (FERRITE ROD)
+================================================================================
+
+THEORY:
+The ferrite rod coil has impedance that varies with position along the winding.
+At the cold (ground) end: low impedance ≈ 0 Ω.
+At the hot (top) end: high impedance = Q² × (2πf × L).
+At turn N out of N_total: impedance ≈ (N/N_total)² × Z_hot.
+
+For Q=100, L=220µH, f=1 MHz: Z_hot ≈ 100² × 1382 Ω ≈ 13.8 MΩ (theoretical).
+Antenna source impedance (long wire, 15m): 500–5000 Ω resistive + capacitive.
+Tap at 20 turns of 110 total: Z_tap = (20/110)² × 13.8 MΩ ≈ 456 kΩ.
+Not a perfect match, but acceptable; loading effect limited by tap ratio.
+
+SCHEMATIC — DIRECT TAP:
+
+  ANT ──────────────────────────────────────────────── ANT terminal
+                                                         │
+  ┌──────────────────────────────────────────────────────────┐
+  │                                                           │
+  │   L1: 220 µH ferrite rod coil (110 turns)                │
+  │                                                           │
+  │   [GND]──────[tap@20t]────────[tap@50t]──────[hot end]  │
+  │      │            │                │              │       │
+  │     GND          ANT              MED            TANK    │
+  │   coupling      LOW-Z         coupling          output   │
+  │                                                           │
+  └──────────────────────────────────────────────────────────┘
+
+  The physical coil:
+
+  GND end                    20t tap     50t tap             HOT end (110t)
+     │                          │            │                    │
+     ├─ winds ──────────────────┴────────────┴────────────────────┤
+     │                                                             │
+    GND                     ANT (low-Z)   ANT (med-Z)          → DETECTOR
+
+TAP SELECTION GUIDE:
+  Tap position    Approx Z    Antenna type         Notes
+  ------------    ---------   ----------------     -----
+  10 turns (9%)   ~115 kΩ     Long-wire > 20 m     Best for strong signals
+  20 turns (18%)  ~460 kΩ     Long-wire 10–20 m    Standard; good balance
+  25 turns (23%)  ~720 kΩ     Long-wire 5–10 m     Typical recommendation
+  35 turns (32%)  ~1.4 MΩ     Telescoping whip     Short antennas
+  50 turns (45%)  ~2.8 MΩ     Indoor antenna       Very short antennas
+  110 turns (100%)   Z_hot    No coupling tap       No antenna (loopstick only)
+
+  Rule of thumb: use the lowest tap that gives adequate volume.
+  A too-high tap will load the tank and reduce selectivity.
+  A too-low tap will not transfer enough signal.
+
+FERRITE ROD (SELF-CONTAINED ANTENNA):
+  The ferrite rod itself IS the antenna for local stations.
+  No external wire needed within 10–30 km of strong AM stations.
+  For DX: external long-wire connected to tap increases sensitivity 10–20 dB.
+
+  Directional property:
+    Ferrite rod null: perpendicular to rod axis (90° off the end).
+    Ferrite rod maximum: broadside to rod (along the rod's side).
+    Rotate rod for null to reject an interfering station.
+
+EXTERNAL ANTENNA VIA TAP:
+  Connect long wire to the 20-turn tap terminal.
+  No additional components needed for simple operation.
+  Optional: 100 pF–470 pF series cap between antenna wire and tap
+            to reduce antenna loading effect on tank Q.
+
+  ANT ──── [C_ant: 100–470 pF optional] ──── 20-turn tap ──── L1 ──── to DETECTOR
+
+
+================================================================================
+METHOD 2 — LINK COUPLING WINDING
+================================================================================
+
+THEORY:
+A small coupling winding (link) of 3–10 turns is placed on the same ferrite rod
+as the main tank coil.  Mutual inductance M = k × √(L_link × L_main).
+The link presents low impedance to the antenna while the main coil Q is unaffected.
+
+  Coupling coefficient k (link on same rod, adjacent to main coil): 0.1–0.5
+  For 5-turn link, L_link ≈ 5 µH (on same core as 220 µH main):
+    M = 0.3 × √(5µH × 220µH) = 0.3 × 33.2 = 9.95 µH
+    Z_link (at 1 MHz) = 2π × 10⁶ × 5µH = 31.4 Ω (low impedance — good for antenna)
+
+SCHEMATIC — LINK COUPLING:
+
+  ANT ──────────────────────────────── ANT terminal
+                                          │
+              COUPLING WINDING            │
+              L_link (5 turns)            │
+              ┌───────┐                  │
+  ANT ────────┤       ├──────────────────┘
+              │       │
+              └───────┘───── GND
+                  │
+          (wound on rod,
+           near GND end of L1)
+
+  MAIN TANK:
+              L1 (110 turns, 220µH)
+              ┌─────────────────────┐
+  GND ────────┤                     ├──── C1 (365pF) ──── GND
+              │    ferrite rod      │
+              └─────────────────────┘
+                         │
+                    → DETECTOR
+
+  FULL PICTURE (coils on rod):
+
+  Rod: [GND]──[L_link 5t]───[gap 10mm]───[L1 110t]──[HOT END → DETECTOR]
+                  │                              │
+                 ANT input + GND              C1 + DETECTOR
+
+LINK WINDING SPECIFICATIONS:
+  Turns:    3–8 turns (5 turns typical for 10–20 m antenna)
+  Wire:     #28 AWG enameled (same as main coil)
+  Position: At ground end of L1, toward end of ferrite rod
+  Separation: 5–15 mm from start of L1 winding
+  Direction: Winding direction does not matter for coupling (non-phased)
+
+  Tuning: Not tuned; broadband coupling. Adjust turns for best signal.
+  Increasing turns: more coupling, more signal, slightly more loading.
+  Decreasing turns: less coupling, less signal, higher Q preserved.
+
+IMPEDANCE TRANSFORMATION:
+  The link winding acts as a step-down transformer from high-Z antenna
+  to the very high-Z tank circuit.
+
+  Turns ratio: N = N_main / N_link = 110/5 = 22:1
+  Impedance ratio: Z_ratio = 22² = 484:1
+  If Z_tank (loaded) = 200 kΩ, then Z_antenna_port = 200 kΩ / 484 = 413 Ω.
+
+  This ~413 Ω source impedance is a good match to typical long-wire
+  antenna feed impedance.  Antenna loading of main tank: minimal.
+
+PRACTICAL LINK COUPLING (PREFERRED FOR LONG WIRE):
+
+  BINDING POST "ANT" ─────────────── [L_link: 5 turns on rod] ─────── J1 ANT
+                                              │
+  BINDING POST "GND" ─────────────── [L_link bottom] ──────────────── J1 GND
+                                              │
+  [L1 main coil 110t] ─────────────── [C1 365pF] ──────── GND
+                         │
+                      [DETECTOR]
+
+  Antenna can be:
+    Long wire (10–30 m) + earth ground connection
+    Telescoping whip (1–2 m) + counterpoise
+    Magnetic loop (see Method 4)
+    Just the ferrite rod itself (no wire needed for local AM)
+
+
+================================================================================
+METHOD 3 — CAPACITIVE COUPLING (SERIES CAP)
+================================================================================
+
+THEORY:
+A series capacitor between the antenna and the HOT end of the tank circuit
+provides a high-pass characteristic that limits antenna loading.
+
+  C_series reactance: X_C = 1/(2π × f × C)
+  At 1 MHz, C = 33 pF: X_C = 4823 Ω
+  Tank impedance (loaded): ~200 kΩ – 2 MΩ
+  Coupling ratio: C_series/(C_series + C_tank_equiv)
+  For C_series=33pF, C_tank_equiv≈100pF: ratio = 33/(33+100) = 25% coupling
+
+SCHEMATIC — SERIES CAPACITIVE COUPLING:
+
+  ANT ─── [C_s: 5–47 pF] ─── HOT end of L1 ─── [D1] ─── AF output
+                                   │
+                               [C1: 365pF] ─── GND
+
+  Simple and effective; C_s reduces antenna loading.
+  Larger C_s: more signal, but more loading (lower Q, wider bandwidth).
+  Smaller C_s: less signal, less loading, higher Q.
+
+RECOMMENDED C_s VALUES:
+  Antenna type         C_s (pF)   Loading effect   Notes
+  ---------------      --------   --------------   -----
+  Ferrite rod only     —          None             No C_s; rod is antenna
+  Short whip < 1 m     47         Low              Direct or via cap
+  Telescoping 1–2 m    33         Low-medium       Good balance
+  Long-wire 5–10 m     22         Medium           Moderate coupling
+  Long-wire 10–20 m    10–15      Low              Use link if possible
+  Long-wire > 20 m     5–10       Very low         Link coupling preferred
+
+NOTE: C_s ADDS to tank capacitance, shifting resonant frequency upward.
+  Compensate: reduce C1 maximum by C_s value when using series coupling.
+  At 1 MHz with C_s=22pF and C1=365pF: shift = 22/(365+22) × (−) → small.
+
+SHUNT CAPACITIVE COUPLING (ALTERNATIVE):
+
+  ANT ─────────────────────── HOT end of L1
+                               │
+                           [C_shunt: 10–100pF]
+                               │
+                              GND
+
+  C_shunt divides the antenna signal between itself and the tank.
+  C_shunt to GND reduces high-frequency antenna signal.
+  Useful to attenuate strong local stations and prevent overloading.
+
+
+================================================================================
+METHOD 4 — TUNED LOOP ANTENNA COUPLING
+================================================================================
+
+THEORY:
+A separate large loop antenna is resonated with a trimmer capacitor and
+coupled to the crystal radio tank by proximity (mutual inductance).
+The loop antenna has much higher effective aperture than a ferrite rod at LF/MF.
+
+  Large loop (1 m diameter, 3 turns):  L ≈ 10 µH, Q ≈ 200–400 on LF
+  Resonating C: C = 1/(4π² × f² × L) = 1/(4π² × 10⁶ × 10µH) = 2530 pF
+
+  At 1 MHz: Use 2.5 nF variable (or 2200 pF + 365 pF variable in parallel).
+
+SCHEMATIC — TUNED LOOP TO CRYSTAL RADIO:
+
+  ┌─────────────────────────────────────┐
+  │  TUNED LOOP ANTENNA                  │
+  │                                       │
+  │  L_loop (1m dia, 3 turns)            │
+  │  C_loop (2200 + 365 pF variable)     │
+  │                                       │
+  │  Resonated to station frequency      │
+  └─────────────────────────────────────┘
+               │                │
+              [mutual coupling, k=0.02–0.1]
+               │                │
+  ┌────────────────────────────────────────┐
+  │  CRYSTAL RADIO TANK                     │
+  │  L1 (ferrite rod, 220µH) + C1 (365pF)  │
+  │  → DETECTOR                             │
+  └────────────────────────────────────────┘
+
+  Position the loop 0.5–2 m from the crystal radio.
+  Rotate for best coupling (parallel planes → maximum; perpendicular → null).
+  No direct connection between loop and crystal radio.
+
+LOOP ANTENNA SPECIFICATIONS (1 m diameter):
+  Turns:   3 (for 1 MHz operation)
+  Wire:    #18 AWG solid copper (or litz wire for higher Q)
+  Support: PVC pipe frame or 3D-printed form
+  C_loop:  2200 pF fixed + 365 pF variable (in parallel)
+  Q:       200–400 (air-core loop, no ferrite losses)
+
+  Advantage: highly directional (figure-8 pattern perpendicular to loop plane).
+  Use loop null to reject one interfering station.
+
+
+================================================================================
+GROUND AND COUNTERPOISE
+================================================================================
+
+EARTH GROUND:
+  Best ground: copper ground rod driven ≥ 3 m deep, or copper mesh buried.
+  Acceptable: cold-water pipe (NOT gas pipe), building structural steel.
+  Poor: short ground wire, just the receiver case.
+
+  Crystal radio sensitivity is directly proportional to ground quality.
+  A long antenna with poor ground performs WORSE than a short antenna with good ground.
+
+COUNTERPOISE (when earth ground unavailable):
+  A counterpoise is a wire of ¼ wavelength or longer, laid on or near ground.
+  At 1 MHz: ¼λ = 75 m (too long for most locations; use shorter with degraded sensitivity).
+  Practical: 5–20 m counterpoise wire laid on ground or along floor indoors.
+
+  ANT ─────── [crystal radio] ─────── GND/COUNTERPOISE
+                                            │
+                        Counterpoise wire (5–20 m, any direction)
+
+ANTENNA LENGTH vs SENSITIVITY (approximate, 1 MHz, Q=80 tank):
+  Antenna length    Min. detectable E-field   Audible range
+  -------------     ----------------------    -------------
+  Ferrite rod only  ≈ 20–50 mV/m              Local stations within 10 km
+  1 m whip          ≈ 10–20 mV/m              Local; moderate signals only
+  5 m wire          ≈ 5–10 mV/m               Medium stations to 50 km
+  10 m wire         ≈ 2–5 mV/m                Good coverage to 100 km
+  15–20 m wire      ≈ 1–3 mV/m                Excellent; DX possible at night
+  30 m wire         ≈ 0.5–1 mV/m              Maximum; DX 500+ km possible
+
+RF SAFETY NOTE:
+  Long outdoor antennas accumulate static charge.  Install a bleed resistor
+  or gas discharge tube (NE-2 neon) between antenna lead and ground.
+  This prevents static shock; does not significantly affect signal.
+
+  ANT terminal ─── [R_bleed: 1 MΩ] ─── GND  (or NE-2 neon lamp in series)
+
+
+================================================================================
+COUPLING NETWORK SELECTOR GUIDE
+================================================================================
+
+  Situation                          Recommended method     Notes
+  ---------                          ------------------     -----
+  Ferrite rod, local AM              None / rod only        Rod is the antenna
+  Short whip (< 1 m), ferrite rod    Series C (33 pF)       Simple
+  Telescoping whip (1-2 m)           Tap at 20t             Direct; easy
+  Long-wire (5–20 m), indoor         Link coupling (5t)     Preserves Q best
+  Long-wire (> 20 m), outdoor        Link coupling (3–5t)   Maximum sensitivity
+  Loop antenna (external)            Proximity coupling     No connection needed
+  Multiple antennas (switchable)     Relay + link coupling  Switch at link
+
+ANT SWITCHING (two antennas):
+
+  ANT1 ─── [S1a] ─┐
+                    ├─── [L_link] ─── crystal radio
+  ANT2 ─── [S1b] ─┘
+
+  S1: DPDT switch; switch feeds L_link from either antenna.
+  J1/J2: Binding posts for ANT1, ANT2 (typical: outdoor wire vs. ferrite rod).
+
+
+================================================================================
+PARTS LIST — ANTENNA COUPLING
+================================================================================
+
+  For long-wire link coupling variant:
+  Ref   Qty  Value/Part     Description
+  ---   ---  ----------     -----------
+  L_lk   1   5 turns        #28 AWG enameled, on ferrite rod, near GND end
+  C_ant  1   33–100 pF      Optional series cap (C0G/NP0 preferred)
+  R_bl   1   1 MΩ           Static bleed resistor (1/4 W carbon)
+  J1     2   Binding posts  ANT + GND (5-way binding posts)
+  S1     1   SPDT toggle    Antenna selector (optional)
+
+  For counterpoise operation:
+  R_bl   1   1 MΩ           Between counterpoise and GND terminal (bleed)
+  Wire   —   5–20 m         #18–22 AWG insulated, stranded; antenna wire
+
+================================================================================

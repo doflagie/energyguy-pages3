@@ -1,0 +1,271 @@
+================================================================================
+SCHEMATIC: Lithium-Ion (Li-Ion / NMC / LCO) Battery Management System
+TM-BMS-001  Rev A
+3S (10.8V nominal) and 4S (14.4V nominal) configurations
+Primary IC: BQ76930 (6–10 cell) or S-8254 (4S) or standalone discrete
+Protection: OV/UV/OC/SC/Temperature  |  Balance: Passive
+Max continuous: 20A (3S portable) / 30A (4S station)
+================================================================================
+
+LI-ION / NMC CELL PARAMETERS
+───────────────────────────────
+Li-Ion (NMC = Nickel Manganese Cobalt) is the most common lithium chemistry
+for portable consumer electronics. It has higher energy density than LiFePO4
+but is more sensitive to overcharge and temperature.
+
+  Nominal voltage:           3.60V per cell (NMC)
+  Full charge voltage:       4.20V (NEVER exceed; leads to thermal runaway)
+  Full discharge cutoff:     3.00V (capacity severely degraded below 2.8V)
+  Optimal range:             3.0V–4.0V (maximize cycle life)
+  Self-discharge:            2–3% per month
+
+  LCO (Lithium Cobalt, phone batteries):
+    Full charge: 4.20V; same as NMC
+    More sensitive to overcharge; avoid for field use
+
+  NCA (Lithium Nickel Cobalt Aluminum, Tesla cells):
+    Full charge: 4.20V; higher energy density; wider temperature range
+
+  IMPORTANT: LiFePO4 is a separate chemistry. Do NOT use this BMS with LiFePO4.
+  Do NOT mix cell chemistries in a pack. All cells must be identical model/batch.
+
+PACK CONFIGURATIONS:
+  3S: V_nominal = 10.8V, V_max = 12.6V, V_min = 9.0V
+      Suitable: QRP rigs (< 12V minimum), 12V USB chargers, portable lights
+  4S: V_nominal = 14.4V, V_max = 16.8V, V_min = 12.0V
+      Suitable: 12V nominal ham gear (radios with 13.8V supply)
+      NOTE: 4S Li-Ion max voltage 16.8V is above 13.8V standard — use voltage
+      regulator or accept lower charge set-point (4.1V/cell = 16.4V for longevity)
+
+CAPACITY AND C-RATE:
+  18650 cell: 2.5–3.5 Ah (3.0 Ah typical, Panasonic NCR18650B, Samsung INR18650-30Q)
+  21700 cell: 4.0–5.0 Ah (4.8 Ah typical, Samsung 50E, Molicel P50B)
+  Pouch / prismatic: project-specific
+
+  Parallel cells (xP): V same, Ah multiplied.
+  3S2P (6× 18650): V = 10.8V, Ah = 6.0 Ah (two 3.0 Ah cells in parallel per group)
+  3S4P (12× 18650): V = 10.8V, Ah = 12 Ah
+
+  Max charge rate: 0.5C–1C (protect cycle life; fast charge ≤ 2C for quality cells)
+  Max discharge rate: 1C–5C (depends on cell; confirm cell datasheet)
+
+CELL-TO-CELL MATCHING:
+  All cells in a series string must match:
+    Capacity: within 5% of each other
+    Internal resistance: within 10% of each other
+    Age/cycle count: start fresh; do not mix new and used cells
+  Mismatch accelerates imbalance and reduces effective pack capacity.
+
+================================================================================
+OPTION A: SEIKO S-8254 SERIES (4S LI-ION, SIMPLE)
+================================================================================
+
+The S-8254 is a simple 4-cell protection IC with no I2C — suitable for
+standalone protection without ESP32 integration.
+
+S-8254AAA:
+  OV threshold: 4.250V ± 25 mV per cell
+  UV threshold: 2.300V ± 100 mV per cell
+  OCD threshold: 0.20V on sense resistor
+  SCD threshold: 1.00V on sense resistor
+  Output: CHG_OUT and DSG_OUT control external N-channel FETs
+
+LIMITATION: No I2C; no per-cell voltage readout to host; no coulomb counter.
+USE CASE: Low-cost protection-only BMS for fixed installations where monitoring
+  is handled separately (e.g., add INA226 externally for current/voltage monitoring).
+
+S-8254 CONNECTION (4S):
+  VSS (pin 1)  ── CELL1− (GND)
+  VDD (pin 20) ── CELL4+ (through 100Ω R_REG)
+  V1  (pin 19) ── CELL1+ / CELL2−
+  V2  (pin 18) ── CELL2+ / CELL3−
+  V3  (pin 17) ── CELL3+ / CELL4−
+  CS+ (pin 15) ── to P−; CS− (pin 16) ── to B−  (sense resistor between)
+  VM  (pin 14) ── discharge mosfet drain; FO output at pin 13
+  VIN (pin 12) ── charge input detect
+  CO  (pin 10) ── charge mosfet gate drive
+  DO  (pin 9)  ── discharge mosfet gate drive
+
+MOSFET STAGE (S-8254):
+  B− ──[R_sense: 50mΩ]── DSG FET (source to R_sense; drain to CHG FET source)
+                       ── CHG FET (source at P−)
+  Gate resistors: 100Ω each; 1MΩ gate-source bleeder (prevents float gate)
+
+================================================================================
+OPTION B: BQ76930 (6–10 CELL, CONFIGURABLE 3S OR 4S WITH I2C)
+================================================================================
+
+The BQ76930 is a higher-capability version of the BQ76920 supporting up to
+10 cells. Configured here for 3S or 4S Li-Ion with full I2C monitoring.
+
+DIFFERENCES FROM BQ76920:
+  - Supports 3–10 cells (BQ76920 = 3–5 cells)
+  - Same register map; compatible firmware with minor address changes
+  - Internal coulomb counter
+  - 14-bit ADC, 1.22 mV resolution
+
+BQ76930 4S LI-ION THRESHOLD CONFIGURATION:
+  OV_TRIP:   4.20V → (4.20 - 2.0) / 0.0506 - 1 = 42.5 → 0x2A (4.194V actual)
+              For 4.10V/cell charge (extended cycle life): 0x27 (4.091V)
+  UV_TRIP:   3.00V → (3.00 - 1.0) / 0.0506 - 1 = 38.5 → 0x26 (3.024V)
+  PROTECT1:  SCD_THRESH = 0b100 (200 mV), SCD_DELAY = 0b00 (70µs)
+             With R_sense = 5mΩ: I_SCD = 200mV / 5mΩ = 40A
+  PROTECT2:  OCD_THRESH = 0b100 (100 mV), OCD_DELAY = 0b10 (160 ms)
+             With R_sense = 5mΩ: I_OCD = 100mV / 5mΩ = 20A
+
+BQ76930 3S CONFIGURATION:
+  VC1–VC3 connected; VC4–VC10 tied to VC3 (top of string).
+  OV/UV thresholds same as 4S above.
+  Pack V_max = 3 × 4.2V = 12.6V; pack V_min = 3 × 3.0V = 9.0V.
+
+================================================================================
+OPTION C: DISCRETE PROTECTION CIRCUIT (EDUCATIONAL/BACKUP)
+================================================================================
+
+DISCRETE 4S OVERVOLTAGE PROTECTION (one cell shown — replicate for each):
+
+  V_cell ──[R1: 43kΩ]──┬── LM393 (+) input
+                        │
+                       [R2: 33kΩ]    V_+ = V_cell × 33/(43+33) = V_cell × 0.434
+                        │          Trip: V_cell = 4.2V → V_+ = 1.824V
+                       GND
+
+  V_ref ──[R3: 10kΩ]──┬── LM393 (−) input (V_ref = 1.8V derived from 3.3V + divider)
+                       │
+                      [R4: 22kΩ]     Use: TL431 set to 1.824V reference
+                       │
+                      GND
+
+  LM393 output (open-drain): LOW when V_cell > 4.2V → pulled HIGH by load R
+    → drives P-channel MOSFET gate high → MOSFET opens charge path
+
+DISCRETE UV PROTECTION (comparator with hysteresis):
+  LM393 with positive feedback for hysteresis (prevents chatter at threshold):
+    Hysteresis voltage: ΔV = V_out_swing × R_hys / (R_hys + R_top)
+    For ±50 mV hysteresis: select R_hys accordingly.
+
+  At V_cell = 3.00V: comparator trips → UV flag set → DSG FET opens.
+  Recovery: V_cell must rise to 3.05V (hysteresis) before DSG FET re-closes.
+
+COMBINED OV+UV LOGIC:
+  OV from any cell → inhibit CHG FET (logic AND of all cell comparators)
+  UV from any cell → inhibit DSG FET
+  Both via: open-drain comparator outputs → wired-AND → FET gate
+
+  WIRED-AND: multiple open-drain outputs on one pull-up resistor.
+  Any output goes LOW → pulled node goes LOW → triggers protection.
+  Simple; no logic ICs required.
+
+================================================================================
+PACK ASSEMBLY — SERIES/PARALLEL CELL GROUPING
+================================================================================
+
+3S2P ASSEMBLY (12× 18650 cells, 10.8V / 6 Ah):
+
+  GROUP 1 (at bottom):
+  CELL_1A (−) ──┬── GROUP1_NEG (to BMS B−)
+  CELL_1B (−) ──┘
+  CELL_1A (+) ──┬── GROUP1_POS (to BMS VC1 and GROUP2_NEG)
+  CELL_1B (+) ──┘
+
+  GROUP 2 (middle):
+  CELL_2A,2B in parallel (same as group 1 structure)
+  GROUP2_POS = BMS VC2 = GROUP3_NEG
+
+  GROUP 3 (top):
+  CELL_3A,3B in parallel
+  GROUP3_POS = BMS VC3 = B+
+
+  PARALLEL WITHIN GROUP: cells spot-welded or wire-bonded (pure nickel strip).
+    Do NOT solder directly to cell terminals — heat damages the cell.
+    Use 0.1 mm × 6 mm pure nickel strip; resistance-weld or spot-weld.
+  SERIES BETWEEN GROUPS: nickel strips connect GROUP(n) positive to GROUP(n+1) negative.
+
+NICKEL STRIP SIZING:
+  Current carrying capacity: 0.1mm × 6mm strip ≈ 4A (conservative)
+  For 10A: use 0.15mm × 8mm or two strips in parallel
+  For 20A: use 0.2mm × 10mm pure nickel
+
+CELL HOLDER OPTIONS:
+  Plastic cell holder (18650, 2P3S arrangement): allows replacement without welding.
+  Spring contacts: higher resistance (5–15 mΩ per contact); acceptable for < 5A.
+  Spot-welded nickel: much lower resistance; permanent.
+  Rule: use welded nickel for > 5A applications.
+
+================================================================================
+PROTECTION IC COMPARISON TABLE
+================================================================================
+
+Feature          | BQ76920   | BQ76930   | S-8254    | Discrete
+-----------------|-----------|-----------|-----------|-----------
+Cell count       | 3–5       | 6–10 (3S+)| 4S fixed  | Any (design)
+I2C interface    | Yes       | Yes       | No        | No
+Coulomb counter  | Yes       | Yes       | No        | No (ext. INA226)
+Per-cell voltage | Yes       | Yes       | No        | No (ext. INA226)
+Cell balancing   | Passive   | Passive   | Passive   | Passive or active
+Cost             | ~$3       | ~$4       | ~$1       | ~$10 (components)
+Package          | TSSOP-24  | TSSOP-24  | SOP-20    | Through-hole
+Accuracy         | ±1%       | ±1%       | ±2%       | ±5% (comparator)
+ESP32 compatible | Yes (I2C) | Yes (I2C) | No        | Via ADC / GPIO
+
+RECOMMENDATION FOR FIELD USE:
+  Primary protection: BQ76920 (LiFePO4) or BQ76930 (Li-Ion) + ESP32 via I2C
+  Backup: Discrete TL431/LM393 comparators for independent OV/UV
+  Current sense: INA226 (higher accuracy than BQ76920 internal ADC for coulomb count)
+
+================================================================================
+LI-ION CHARGING PROFILE
+================================================================================
+
+CC/CV CHARGING (standard for all Li-Ion):
+  Stage 1 — Pre-charge (if V_cell < 3.0V):
+    Charge at 0.1C until V_cell reaches 3.0V.
+    Low voltage cells may be damaged; discard if pre-charge takes > 30 min.
+
+  Stage 2 — Bulk CC:
+    Charge at 0.5C to 1C until V_pack reaches charge cutoff.
+    3S: charge until V_pack = 12.6V (4.2V/cell)
+    4S: charge until V_pack = 16.8V (4.2V/cell)
+
+  Stage 3 — Absorption CV:
+    Hold V at charge cutoff voltage.
+    Current decreases exponentially.
+    Terminate when I < C/10 (some designs: C/20 for better capacity).
+
+  Stage 4 — Charger disconnect.
+    Li-Ion does NOT have a float mode like lead-acid.
+    Leave charger disconnected after termination.
+    Reconnect when SOC drops to ~20–40% for next charge cycle.
+
+CHARGE VOLTAGE OPTIONS (trade-off: capacity vs. cycle life):
+  4.20V/cell: 100% capacity; ~500 cycles typical
+  4.10V/cell: 88% capacity; ~1500 cycles
+  4.00V/cell: 78% capacity; ~3000 cycles
+  For ham radio field use: 4.10V/cell (BQ76930 OV_TRIP = 0x27) recommended.
+
+TEMPERATURE LIMITS FOR CHARGING:
+  Below 10°C: reduce charge rate to 0.1C (cold reduces insertion rate)
+  Below 0°C:  do not charge (lithium plating, same as LiFePO4)
+  Above 45°C: stop charging (thermal runaway risk increases significantly)
+  Above 60°C: immediate emergency disconnect (all FETs open)
+
+================================================================================
+PARTS LIST — LI-ION BMS
+================================================================================
+
+Item      | Qty | Description                               | Source
+----------|-----|-------------------------------------------|-------------------
+BQ76930   |  1  | BQ76930 3–10 cell BMS IC (TSSOP-24)      | Mouser/TI
+            (OR)
+S-8254AAA |  1  | Seiko S-8254 4S protection IC (SOP-20)   | Mouser/Digi-Key
+IRLB3034  |  4  | N-FET 40V 195A (CHG/DSG × 2 each)       | Mouser
+R_SENSE   |  1  | 5mΩ 3W Kelvin shunt                      | Mouser
+NTC       |  2  | 10kΩ NTC thermistor                      | Mouser
+INA226    |  1  | INA226 precision current sensor           | Mouser
+18650_HLD |  6  | 18650 cell holder for 3S2P               | Amazon/AliExpress
+NICKEL    |  1  | 0.15×8mm pure nickel strip, 1m           | Amazon/18650space
+SPOT_WLD  |  1  | Spot welder or nickel-strip tabs kit      | AliExpress
+CELL_18650|  6  | 18650 cells, matched (Samsung 30Q)       | Illumn/18650battstore
+PCB       |  1  | Custom or perfboard BMS carrier           | JLC/OSH Park
+
+================================================================================

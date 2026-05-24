@@ -1,0 +1,17 @@
+CM DIPOLE ANTENNA
+CM Frequency bands: 160M, 80M, 40M, 20M, 10M
+CM Design: Half-wave dipole, center-fed, horizontal deployment
+CM Compaction: 0%
+CM Special parameters: Inverted vee or horizontal, 50Ω feed, 1:1 balun
+CE
+
+' Antenna geometry (type-specific)
+GW 1 11 -5.0 0.0 10.0  0.0 0.0 10.0  0.003
+GW 2 11  0.0 0.0 10.0  5.0 0.0 10.0  0.003
+
+GE 0
+GN 2 0 0 0 13 0.005
+EX 0 1 6 0 1 0
+FR 0 1 0 0 100 0
+RP 0 91 360 1000 -90 0 1.0 1.0
+EN

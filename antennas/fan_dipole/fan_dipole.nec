@@ -1,0 +1,17 @@
+CM FAN DIPOLE ANTENNA
+CM Frequency bands: 160M–10M (multiband)
+CM Design: Parallel dipoles for multiple bands, single feedpoint
+CM Compaction: 0%
+CM Special parameters: 5–7 dipole pairs, 50Ω parallel feed, selective tuning
+CE
+
+GW 1 11 -5.0 0 10.0  5.0 0 10.0  0.002
+GW 2 11 -5.0 0.5 10.0  5.0 0.5 10.0  0.002
+GW 3 11 -5.0 1.0 10.0  5.0 1.0 10.0  0.002
+
+GE 0
+GN 2 0 0 0 13 0.005
+EX 0 1 6 0 1 0
+FR 0 1 0 0 100 0
+RP 0 91 360 1000 -90 0 1.0 1.0
+EN

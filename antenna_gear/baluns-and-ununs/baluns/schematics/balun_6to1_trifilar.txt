@@ -1,0 +1,326 @@
+================================================================================
+BALUN 6:1 TRIFILAR — 300Ω WINDOW LINE MATCHING
+================================================================================
+
+Purpose: Impedance transformation 300Ω balanced → 50Ω unbalanced
+Type: Trifilar current balun (three wires wound together)
+CM Suppression: Excellent (ferrite + trifilar symmetry)
+Insertion Loss: 0.15–0.20 dB (single core, good balance of loss/size)
+Primary Use: Folded dipoles, 300Ω open-wire feedlines, broadband matching
+
+================================================================================
+CIRCUIT DIAGRAM — 6:1 TRIFILAR BALUN
+================================================================================
+
+         ┌────────────────────────────┐
+         │    300Ω BALANCED FEED      │
+         │  (window line, open-wire)  │
+         └──────────┬─────────────────┘
+                    │
+           ┌────────┴─────────┐
+           │                  │
+        Leg A              Leg B
+           │                  │
+        ┌──┴──────┐    ┌──────┴──┐
+        │ Trifilar│    │ Trifilar │
+        │ 5 turns │    │ 12 turns │
+        │ on      │    │ (5:12 =  │
+        │FT-240-43│   │√6:1 ratio)
+        │ core    │    │FT-240-43 │
+        └──┬──────┘    └──────┬──┘
+           │                  │
+           ├────────┬─────────┤
+                    │
+                  Coax
+                    │
+              ┌─────┴────┐
+              │  50Ω Out │
+              │ (unbal.  │
+              │  to coax)│
+              └──────────┘
+
+================================================================================
+CORE SPECIFICATIONS
+================================================================================
+
+HF Configuration (80M–10M):
+  Core: Single FT-240-43 (some designs use FT-140-43 @ 20M+)
+  Material: Mix 43 (µ=850, AL=1100 µH/100T)
+  Wire: #16 enameled copper
+  Turns: 5 primary, 12 secondary (exact 2.4:1 ratio)
+  Total turns on core: 5+12 = 17 wire passes (= 17 turns bifilar secondary)
+  Max Power: 450 W
+  Insertion Loss: 0.15–0.20 dB
+
+Band-Specific Configuration:
+  80M (3.75 MHz):   5 primary, 12 secondary (FT-240-43)
+  40M (7.15 MHz):   4 primary, 10 secondary (FT-240-43)
+  20M (14.2 MHz):   3 primary, 7 secondary (FT-140-43 adequate)
+  10M (28.4 MHz):   3 primary, 7 secondary (upper HF limit)
+
+Wire Lengths:
+  Primary: ~60 inches (5 turns, large core)
+  Secondary: ~120 inches (12 turns)
+  Total: ~180 inches per balun
+
+================================================================================
+IMPEDANCE TRANSFORMATION THEORY — TRIFILAR
+================================================================================
+
+The 6:1 balun uses TRIFILAR configuration (three separate wire paths).
+
+TURNS RATIO INTERPRETATION:
+  N_ratio = 5:12 = 1:2.4
+  Z_ratio = N_ratio² = (2.4)² ≈ 5.76 ≈ 6:1 (nominal 6:1)
+
+VOLTAGE TRANSFORMATION:
+  V_out / V_in = 1 / 2.4 ≈ 0.42 (voltage step-down)
+  V_in × I_in = V_out × I_out (power conservation)
+
+IMPEDANCE TRANSFORMATION:
+  Z_out = Z_in / N² = 300 / 5.76 ≈ 52Ω ✓
+
+TRIFILAR ADVANTAGE:
+  Three wire paths provide balanced transformation
+  Each leg of antenna sees equal impedance and phase
+  No imbalance → minimal CM current generation
+
+================================================================================
+WINDING TECHNIQUE — TRIFILAR
+================================================================================
+
+The trifilar configuration is more complex than bifilar.
+
+Materials:
+  - 1× FT-240-43 core
+  - 3× spools of #16 enameled copper wire
+  - Small vice and wire-guiding jig
+
+Step 1: Prepare three wire strands
+  - Cut three equal lengths (~180 inches each)
+  - Stripe ends ~0.5" (for connection)
+  - Do NOT twist together yet (keep parallel)
+
+Step 2: Wind three wires simultaneously
+  - Hold all three strands parallel
+  - Feed through core hole together
+  - Wrap around core in synchronized pattern
+  - Each "pass" = 3 turns (one per strand)
+  - 5 passes = 5 turns per strand = 15 total wire turns
+
+Step 3: Separate and reconnect
+  - Group wires 1+2 as "primary" (lower impedance)
+  - Group wire 3 + center-tap as "secondary return"
+  - Primary connections: Solder wires 1+2 to antenna legs A and B
+  - Secondary center tap: Between primary coil and secondary
+  - Secondary output: Solder wire 3 to coax center
+
+Step 4: Alternative winding (2+1 split)
+  - Some designs: Wind 5 turns total, then add 12 turns of separate secondary
+  - Less balanced, but works if primary/secondary isolated by ferrite
+
+Step 5: Weatherproofing
+  - Trifilar is delicate (three separate wires)
+  - Potting recommended (protects against environmental damage)
+  - Use silicone (flexible, won't crack enamel)
+
+================================================================================
+COMMON-MODE OPERATION — TRIFILAR
+================================================================================
+
+Differential (desired):
+  Each wire carries different signal components
+  Three-phase-like distribution cancels external fields
+  Z_differential ≈ 50Ω (design impedance)
+
+Common-Mode (unwanted):
+  All three wires carry identical current
+  Ferrite core impedance: Z_CM = 2π × f × L_core
+
+Example @ 80M (3.75 MHz), FT-240-43, 5 turns primary + 12 turns secondary:
+  Total turns on core: effectively "17 turns" for CM path
+  L_CM ≈ 1100 × 17² / 10000 = 31.8 µH (higher than simple coil)
+  Z_CM = 2π × 3.75×10⁶ × 31.8×10⁻⁶ ≈ 750 Ω (excellent!)
+
+DESIGN BENEFIT:
+  Trifilar provides better CM suppression than bifilar or voltage balun
+  Due to longer physical winding path on single core
+
+================================================================================
+FREQUENCY RESPONSE
+================================================================================
+
+FT-240-43, 5:12 turns (with adaptive turns for higher frequencies):
+
+Frequency    Turns    Z_in/Z_out    Z_CM      Loss
+80M          5:12     300→50        750 Ω     0.20 dB
+40M          4:10     300→48        520 Ω     0.18 dB
+30M          4:9      300→47        480 Ω     0.17 dB
+20M          3:7      300→45        380 Ω     0.15 dB
+15M          3:7      300→45        350 Ω     0.13 dB
+10M          3:7      300→45        320 Ω     0.11 dB
+
+Note: Z_in varies slightly across band (300Ω nominal at each frequency)
+      Design adjusted by turns count per band
+
+================================================================================
+PRIMARY APPLICATIONS
+================================================================================
+
+1. OPEN-WIRE 300Ω FEEDLINES:
+   - G5RV multiband antenna (80M–10M) with ladder line
+   - Folded dipole antennas (nominal 300Ω impedance)
+   - High-efficiency broadband systems
+
+2. WINDOW LINE ANTENNAS:
+   - Commercial 300Ω twin-lead or window line
+   - Broad bandwidth (low loss, matching across multiple bands)
+
+3. BALANCED MATCHING NETWORKS:
+   - Antenna tuner with balanced input port
+   - Tuner sees 300Ω load, outputs 50Ω coax
+
+4. BROADBAND DIPOLE ARRAYS:
+   - Coupled dipoles operating as balanced system
+   - 6:1 balun converts to standard 50Ω
+
+5. DELTA LOOP ANTENNAS:
+   - Some delta loops exhibit ~300Ω feedpoint impedance
+   - 6:1 transformation provides low-loss match
+
+================================================================================
+TESTING PROCEDURE — NANOVNA
+================================================================================
+
+Setup:
+  Port 1: Coax 50Ω output
+  Port 2: Primary input (via 50Ω adapter to maintain reference impedance)
+  OR: Use test load (300Ω resistor across primary)
+
+Measurement 1 — Impedance Ratio (300Ω load):
+  Sweep 1–30 MHz
+  Expected: S₁₁ <-20 dB (excellent match)
+  Z_in ≈ 300Ω (verify with 300Ω load connected)
+
+Measurement 2 — Insertion Loss:
+  Sweep with 300Ω load
+  Expected: S₂₁ ≈ -0.15 to -0.20 dB across band
+
+Measurement 3 — Phase balance (trifilar check):
+  Measure phase of three wires @ primary
+  Expected: Equal phase within ±10° (indicates balanced winding)
+
+Measurement 4 — Common-Mode Impedance:
+  With primary open, measure Z_CM to ground
+  Expected: Z_CM >300Ω @ design frequency, rising with frequency
+
+================================================================================
+FAILURE MODES
+================================================================================
+
+SYMPTOM: Very high SWR (>3:1) on 300Ω antenna
+ROOT CAUSE 1: Trifilar winding incorrect (one wire misaligned)
+SOLUTION:
+  - Carefully unwind
+  - Re-wind ensuring all three wires synchronized
+  - Check with ohmmeter (all three should have similar resistance)
+
+ROOT CAUSE 2: One wire of trifilar strand broken
+SOLUTION:
+  - Check continuity on each of three wires
+  - If broken, unwind and repair the broken strand
+
+SYMPTOM: Imbalance detected (pattern distorted)
+ROOT CAUSE: One wire path has higher loss than others
+SOLUTION:
+  - Check wire connections for cold solder joints
+  - Verify enamel insulation intact on all three strands
+  - Consider re-soldering primary connections
+
+SYMPTOM: Excessive heating
+ROOT CAUSE: High CM current flowing (antenna imbalance)
+SOLUTION:
+  - Verify antenna is symmetrical (equal leg lengths)
+  - Add secondary 1:1 choke if heating persists
+  - Check for RF in shack (indicates CM current)
+
+================================================================================
+POWER HANDLING
+================================================================================
+
+FT-240-43 single core, continuous operation:
+  450 W @ 50°C ambient
+  Thermal rise: ~20°C @ 400W
+  Thermal rise: ~35°C @ 700W
+
+For higher power (>500W):
+  Option 1: Use FT-240-43×2 stacked (doubles core area, halves loss)
+  Option 2: Reduce number of turns (lowers core loss, increases SRF)
+  Option 3: Potting with high-thermal-conductivity compound
+
+================================================================================
+DESIGN EQUATIONS
+================================================================================
+
+Turns ratio for 300→50Ω transformation:
+  N_ratio = sqrt(Z_in / Z_out) = sqrt(300/50) = sqrt(6) ≈ 2.45
+  Use N_primary : N_secondary = 1 : 2.45
+  Practical: 5:12 (ratio = 2.4, impedance ratio = 5.76 ≈ 6)
+
+Alternative combinations:
+  4:10 (ratio = 2.5, Z = 6.25)
+  3:7  (ratio = 2.33, Z = 5.43) — use for higher frequencies
+
+Insertion Loss:
+  L_dB ≈ 0.1 + 0.002 × f_MHz (single FT-240-43)
+  Example @ 14.2 MHz: L ≈ 0.13 dB
+
+Common-Mode Impedance:
+  Z_CM = 2π × f × L_total
+  where L_total accounts for ALL turns on core (primary + secondary)
+
+================================================================================
+CONSTRUCTION NOTES
+================================================================================
+
+Mechanical Assembly:
+  - Trifilar is delicate (do not stress wires during installation)
+  - Support balun on antenna mast or feedpoint bracket
+  - Keep three wires separate (avoid crushing)
+
+Potting Recommendation:
+  - Silicone potting highly recommended for trifilar
+  - Protects enamel from UV and environmental moisture
+  - Allows thermal expansion without cracking (unlike epoxy)
+
+Weatherproofing:
+  - Enclosure: Plastic or aluminum, with O-ring seal
+  - Drain hole: 1/16" for moisture prevention
+  - Cable glands: Stainless steel, with strain relief
+
+Field Deployment:
+  - Mount at antenna feedpoint (minimize high-impedance feedline length)
+  - Counterpoise or ground plane recommended (improves CM suppression)
+  - Use open-wire or window line (do NOT use coax on primary)
+
+Spare Parts:
+  - Keep extra FT-240-43 cores (can retro-fit existing winding)
+  - Stock #16 enameled wire (can rewind if needed)
+  - Pre-made connectors (SO-239, BNC) for field repair
+
+================================================================================
+COMPARISON: 6:1 TRIFILAR vs OTHER BALUNS
+================================================================================
+
+Feature        6:1 Trifilar    4:1 Guanella    9:1 Trifilar
+──────────────────────────────────────────────────────────
+Impedance      300→50Ω         200→50Ω         450→50Ω
+CM Suppression Good (750Ω@80M) Excellent       Fair (500Ω)
+Insertion Loss 0.15–0.20 dB    0.20–0.25 dB    0.25–0.35 dB
+Winding Ease   Moderate        Difficult       Difficult
+Power Handling 450 W           350–400 W       400 W
+Cost           ~$15           ~$18            ~$16
+Recommended    Window line,    Balanced        450Ω ladder
+Use Case       folded dipole   feedlines       line (G5RV)
+
+================================================================================

@@ -1,0 +1,17 @@
+CM RYBAKOV ANTENNA
+CM Frequency bands: 2M, 70cm
+CM Design: End-fed VHF array, folded dipole variant
+CM Compaction: 30%
+CM Special parameters: 2 elements, 30cm spacing, 50Ω feed
+CE
+
+' Antenna geometry (type-specific)
+GW 1 11 -5.0 0.0 8.0  0.0 0.0 8.0  0.002
+GW 2 11  0.0 0.0 8.0  5.0 0.0 8.0  0.002
+
+GE 0
+GN 2 0 0 0 13 0.005
+EX 0 1 6 0 1 0
+FR 0 1 0 0 100 0
+RP 0 91 360 1000 -90 0 1.0 1.0
+EN

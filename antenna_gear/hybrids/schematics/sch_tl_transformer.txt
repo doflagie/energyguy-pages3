@@ -1,0 +1,304 @@
+================================================================================
+SCHEMATIC: TRANSMISSION LINE TRANSFORMERS (TLT)
+TM-HYB-001  Rev A
+Guanella and Ruthroff types; wideband 1:1 balun, 4:1, 9:1 unun
+Coverage: 1.5 MHz – 50 MHz (HF/low-VHF); for hybrids and phased arrays
+================================================================================
+
+OVERVIEW
+--------
+Transmission line transformers (TLTs) use the transmission line mode (Lecher
+line) rather than transformer flux linkage, giving decade-wide bandwidth.
+Unlike wound transformers, TLTs are efficient from 1.5 MHz to 50 MHz+ with
+the correct core material.
+
+Types covered:
+  1. Guanella 1:1 Balun     — balanced/unbalanced; 50Ω:50Ω
+  2. Guanella 4:1 Balun     — balanced/unbalanced; 200Ω:50Ω
+  3. Ruthroff 4:1 Unun      — unbalanced; 200Ω:50Ω (voltage-adding, narrower BW)
+  4. 9:1 Unun               — 450Ω:50Ω (for open-wire to coax)
+  5. 180° Hybrid TLT        — in-phase/antiphase split for phased arrays
+  6. Wideband 90° Hybrid TLT — quadrature split, 1–50 MHz
+
+CORE SELECTION
+---------------
+  Material    Fair-Rite Mix  Use Case                    Perm (µ)
+  --------    -------------  --------                    --------
+  Mix 43       #43           HF general, 1–50 MHz        950
+  Mix 61       #61           HF/low VHF, 10–200 MHz      125
+  Mix 31       #31           1–100 MHz (broadband)       1500
+  Mix 73       #73           AM broadcast/low HF         2500
+  Amidon        43           BN-43-202, BN-43-3312        950
+
+  RECOMMENDATION: Mix 43 for 1.5–30 MHz phased array applications.
+  Mix 61 for 15–50 MHz and above.
+  Binocular cores (BN-xx-202, BN-xx-3312) are compact and allow
+  bifilar/trifilar winding without transformer geometry constraints.
+
+WIRE TYPES
+-----------
+  For 50Ω TLT (coax-wound): use RG-174 or RG-316 wound on core.
+  For low-Z TLT (twisted pair): use #26 AWG bifilar (Teflon-coated preferred).
+  For high-power (100W+): #18 AWG bifilar or RG-58 on large cores.
+  Twisted pair impedance ≈ 50–100Ω (depends on wire spacing and coating).
+  Coax-wound impedance = coax characteristic impedance.
+
+================================================================================
+1. GUANELLA 1:1 BALUN
+================================================================================
+
+PURPOSE: Converts unbalanced (coaxial) to balanced (balanced twin-lead/dipole).
+         Provides common-mode isolation without impedance transformation.
+         Essential for phased dipole arrays to prevent feedline radiation.
+
+SCHEMATIC:
+
+  COAX IN                              BALANCED OUT
+  (Unbalanced, 50Ω)                    (Balanced, 50Ω each leg to center)
+      │
+  ────┼──── CENTER CONDUCTOR ─────────────────── (+) OUT
+      │         │
+      │     [T1: Coax wound on Mix-43 toroid or binocular core]
+      │         │           (this is the transmission line; not a transformer)
+      │
+  ────┼──── COAX BRAID ──────────────────────── (−) OUT
+      │     │
+      │   [Core choke action: common-mode impedance Z_cm = jωµN²A/l]
+
+  The coax (or twisted pair) forms a transmission line through the core.
+  Differential mode (inside coax): passes unchanged, core does nothing.
+  Common mode (outside coax): sees high impedance from core → blocked.
+
+WINDING PROCEDURE (BN-43-202 binocular core):
+  1. Thread RG-174 or #26 bifilar through both holes of BN-43-202.
+  2. Pass 6 turns through both apertures.
+  3. Connect inner conductor of coax to one balanced terminal.
+  4. Connect outer conductor (braid end) to other balanced terminal.
+  5. Center tap of outer conductor: connect to ground at input side only.
+
+  Schematic symbol:
+  IN ─────[====== 6t on BN-43-202 ======]───── OUT(+)
+  GND ────[                              ]───── OUT(−)
+
+COMMON-MODE IMPEDANCE vs FREQUENCY (BN-43-202, 6 turns, Mix 43):
+  f (MHz)    |Z_cm| (Ω)
+  1           100
+  3           300
+  7           700
+  14         1200
+  28         1800
+  50         1200 (permeability falling off)
+
+  For Z_cm > 500Ω: effective common-mode suppression.
+  For Z_cm > 1000Ω: excellent suppression (>25 dB).
+
+INSERTION LOSS: < 0.1 dB from 1.5 to 30 MHz.
+POWER RATING: 200W PEP on BN-43-202; 1 kW on FT-240-43.
+SWR: < 1.1:1 from 1.5 to 30 MHz when terminated in matched balanced load.
+
+================================================================================
+2. GUANELLA 4:1 CURRENT BALUN
+================================================================================
+
+PURPOSE: 200Ω balanced input to 50Ω unbalanced output (or vice versa).
+         Used with folded dipoles (200Ω feedpoint) or 4-square arrays.
+
+SCHEMATIC:
+
+  200Ω BALANCED IN                          50Ω OUT
+  (+)  ────────────[===T1: 6t, BN-43-202===]──────── CENTER CONDUCTOR
+                   [                       ]         │
+  (−)  ────────────[===T2: 6t, BN-43-202===]──────── BRAID
+                                                     │
+                                                    GND (bottom of T2)
+
+  Two identical TLT units (T1, T2) in series at input, parallel at output.
+  Series connection: presents 2 × 50Ω = 100Ω? No —
+
+  Correct Guanella 4:1 topology:
+  T1 and T2 each are transmission lines with Z0 = 50Ω.
+  T1: + input terminal to (+ output) through line.
+  T2: − input terminal to (− output = GND) through line.
+  Series at input: V_in appears across both lines in series → 2V_in total.
+  Parallel at output: currents add, voltage is V_in → impedance ratio 4:1.
+
+  Detailed wiring:
+  Input (+) ──── T1 start (+) ────[T1]──── T1 end (+) ──── Output (+)
+  Input (−) ──── T2 start (+) ────[T2]──── T2 end (+) ──── Ground
+  T1 end (−) tied to T2 start (−): common midpoint.
+  Output: T1 end (+) to center conductor; T2 end (−) to ground (braid).
+
+  Actual layout on BN-43-202:
+    Wind two separate 6-turn coaxes (or bifilar pairs) on two cores.
+    Connect in series at high-Z side, parallel at low-Z side.
+    OR: wind both on a SINGLE BN-43-3312 (larger binocular) — 2 × 6t.
+
+POWER RATING: 200W PEP on BN-43-202; 1 kW on BN-43-3312.
+BANDWIDTH: 1.5 MHz – 40 MHz (−0.5 dB limits).
+
+================================================================================
+3. RUTHROFF 4:1 UNUN
+================================================================================
+
+PURPOSE: Unbalanced 200Ω to 50Ω impedance transformation (no balanced output).
+         Simpler than Guanella but narrower bandwidth (voltage-summing type).
+
+SCHEMATIC:
+
+  200Ω INPUT ──────────── WINDING START
+                          │
+                       [T1: 6t bifilar on T-200-2 or FT-114-43]
+                          │
+  50Ω OUTPUT ─────────────┤
+                          │   (delayed output line adds to direct)
+                     INPUT + DELAYED OUTPUT = 2V → 4:1 Z ratio
+
+  In detail:
+  V_in applied across winding 1 (series arm).
+  Winding 2 (parallel arm) adds same voltage in series with output.
+  Output voltage = 2 × V_in / 2 = V_in (voltage halved, current doubled).
+  Z_out = Z_in / 4.
+
+  This "voltage adder" action is inherently frequency-limited by the
+  propagation delay through the line (works well when line ≤ λ/8).
+  Maximum useful frequency: ~40 MHz for 30 cm line on core.
+
+WINDING TABLE:
+  Power (W)   Core         Turns   Wire gauge
+  ---------   ----         -----   ----------
+  50          FT-50-43     8t      #26 AWG bifilar
+  100         FT-114-43    8t      #22 AWG bifilar
+  500         FT-240-43    8t      #18 AWG bifilar or RG-58 coax
+  1500        T-300-43     10t     RG-58 (coax-wound)
+
+================================================================================
+4. 9:1 UNUN (50Ω TO 450Ω)
+================================================================================
+
+PURPOSE: Matches coaxial 50Ω feed to 450Ω open-wire ladder line or
+         end-fed wire antennas in a phased array context.
+
+TOPOLOGY: Guanella type using three 50Ω lines in series (input)
+          and parallel (output). Z ratio = 3² = 9:1.
+
+  3 LINES IN SERIES at 450Ω input:
+  Line 1: V₁  Line 2: V₂  Line 3: V₃
+  V_total = V₁ + V₂ + V₃ = 3V
+
+  3 LINES IN PARALLEL at 50Ω output:
+  Total current = 3I
+  Z_out = V / 3I = Z_line / 3 = 50 / 3 ≠ 50 → use Z_line = 150Ω for 3:1 turn ratio
+  → Actually for 9:1: use 3 identical 50Ω lines; Z_out = Z_in/9.
+
+  Simplified winding: 3 × 6-turn RG-174 sections on FT-114-43, connected
+  series at high-Z end and parallel at 50Ω end.
+
+BANDWIDTH: 1.5–30 MHz, ±0.5 dB.
+POWER RATING: 100W on FT-114-43; 500W on FT-240-43.
+
+================================================================================
+5. 180° HYBRID FROM TLT (WIDEBAND HF PHASE SPLITTER)
+================================================================================
+
+PURPOSE: Provides 0° and 180° outputs from single input, 1.5–50 MHz.
+         Used in phased array to feed elements 0° and 180°.
+
+SCHEMATIC:
+
+  IN (50Ω) ──────┬───────────────────────────── OUT-A (0°, −3 dB)
+                 │
+                [T1: 1:1 Guanella balun on BN-43-3312]
+                 │
+                 └───────────────────────────── OUT-B (180°, −3 dB)
+
+  Actually: use a center-tapped toroid winding:
+
+  IN ──[50Ω]──┬────────────────────── OUT-A (0°)
+              │
+           [T1 primary: N turns, FT-114-43]
+              │ center tap → GND (reference)
+           [T1 secondary: N turns, same core]
+              │
+              └────────────────────── OUT-B (180°)
+
+  The secondary winding reversal gives the 180° phase inversion.
+  Each output is −3 dB (half power into matched 50Ω loads).
+
+  T1 winding: 10t bifilar #22 AWG on FT-114-43.
+  Center tap of secondary to shield/ground.
+  Isolation between OUT-A and OUT-B: >20 dB (core provides).
+  Bandwidth: 2–50 MHz, amplitude balance < 0.3 dB, phase balance < 2°.
+
+  ALTERNATIVE with isolation (for use as hybrid, not just splitter):
+  Add 100Ω resistor between OUT-A and OUT-B (Wilkinson-style isolation).
+  This dissipates reflected power if outputs are mismatched.
+
+================================================================================
+6. WIDEBAND 90° HYBRID FROM TLT (HF QUADRATURE SPLITTER)
+================================================================================
+
+PURPOSE: Provides 0° and −90° outputs, 1–50 MHz wideband.
+         Used for circular polarization feed or phased array endfire element.
+
+APPROACH: Wideband all-pass constant-resistance phase shift network.
+  Not a transmission line quarter-wave section (which is narrowband).
+  Instead: use a Schiffman coupler or all-pass network.
+
+SCHIFFMAN PHASE SECTION (WIDEBAND 90° PHASE DIFFERENCE):
+  Uses a coupled transmission line section in a ring topology.
+  Broadband: achieves ±5° phase error over 5:1 bandwidth.
+  Difficult to implement at HF with lumped elements.
+
+PRACTICAL HF QUADRATURE HYBRID:
+  Use a lumped all-pass network pair:
+    Section A: 0° passthrough (reference path)
+    Section B: −90° all-pass network at center frequency
+
+  All-pass bridged-T for −90°:
+    IN ──[R]──────────────────────── OUT (0°)
+         │
+        [L] ─[parallel C]─ GND     (series L in parallel with shunt C)
+
+  The all-pass network introduces −90° at resonance:
+    At ω₀ = 1/√(LC): phase = −90° exactly.
+    R = Z0 = 50Ω for impedance match.
+    L = Z0 / ω₀ = 50 / (2πf₀)
+    C = 1 / (Z0 × ω₀) = 1 / (2πf₀ × 50)
+
+  Same as Wilkinson arm values — a −90° all-pass filter.
+  Amplitude: flat (all-pass passes all frequencies at 0 dB).
+  Phase error: ±10° over 2:1 bandwidth (adequate for most arrays).
+
+  COMPONENT TABLE (50Ω all-pass 90° section):
+  Band    f₀(MHz)   L(µH)    C(pF)    Application
+  ----    -------   -----    -----    -----------
+  160M     1.85     4.30     1719     λ/4 substitute for 4-square
+  80M      3.75     2.12      849     80M 4-square array
+  40M      7.15     1.113     446     40M 2-element phased array
+  20M     14.175    0.561     225     20M driven/reflector array
+  15M     21.225    0.375     150     15M 2-element endfire
+
+  This all-pass network gives the 90° phase shift used in the reference
+  NEC model phased arrays (see nec_models directory).
+
+
+PARTS LIST — TLT BALUN FAMILY (ONE UNIT)
+------------------------------------------
+
+  Ref     Qty  Value/Part         Description
+  ---     ---  ----------         -----------
+  T1      1    BN-43-202          Binocular core, Mix 43 (1:1 balun)
+               or FT-114-43       Toroid, Mix 43 (higher power)
+  Wire    —    #22–#26 AWG        Teflon-coated magnet wire (bifilar)
+               or RG-174          For coax-wound version
+  J1      1    SO-239 or SMA      Unbalanced (coax) port
+  J2, J3  2    Binding posts      Balanced port (or SMA with matching)
+  Housing —    see openscad files  Weatherproof enclosure
+
+TORQUE / SEALING NOTE FOR OUTDOOR USE:
+  Apply 3M Scotch-88 tape over all connections.
+  Pot with urethane conformal coat.
+  Use stainless or gold-plated SMA connectors.
+  Mount with sealant around connector flanges.
+
+================================================================================

@@ -1,0 +1,23 @@
+CM ============================================================
+CM  TM-PNL2-NEC-015 — Pool Noodle Yagi-Uda Antenna
+CM  Band: 20cm  f = 1296.0 MHz
+CM  7-element Yagi on pool noodle boom
+CM  All elements: #18 AWG bare copper wire
+CM  Boom: pool noodle OD=47mm; elements insulated from boom
+CM  Feed: split driven element, 50Ω direct or hairpin match
+CM  Ground: free space (directional antenna, elevated use)
+CM ============================================================
+CE
+GW  1  11  0.00000  -0.05726  2.000   0.00000  0.05726  2.000   0.000511  ! Reflector: 114.51mm
+GW  2  11  0.03470  -0.05390  2.000   0.03470  0.05390  2.000   0.000511  ! Driven: 107.80mm
+GW  3  11  0.07865  -0.05181  2.000   0.07865  0.05181  2.000   0.000511  ! Dir 1: 103.63mm
+GW  4  11  0.12607  -0.05089  2.000   0.12607  0.05089  2.000   0.000511  ! Dir 2: 101.78mm
+GW  5  11  0.17465  -0.05031  2.000   0.17465  0.05031  2.000   0.000511  ! Dir 3: 100.63mm
+GW  6  11  0.22439  -0.04974  2.000   0.22439  0.04974  2.000   0.000511  ! Dir 4: 99.47mm
+GW  7  11  0.27528  -0.04951  2.000   0.27528  0.04951  2.000   0.000511  ! Dir 5: 99.01mm
+GE  1
+GN  2  0  0  0  13.0  0.005
+EX  0  2  6  0  1.0  0.0
+FR  0  1  0  0  1296.000  0
+RP  0  181  1  1000  -90.0  0.0  1.0  0.0
+EN

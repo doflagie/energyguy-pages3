@@ -1,0 +1,389 @@
+================================================================================
+RF POWER METER - PCB LAYOUT GUIDE
+================================================================================
+
+Design: Claude Code - 2025
+
+This document provides guidance for creating printed circuit boards (PCBs)
+for the RF Power Meter components that benefit from PCB construction.
+
+================================================================================
+PCB #1: VHF/UHF MICROSTRIP DIRECTIONAL SAMPLER
+================================================================================
+
+PURPOSE:
+Directional coupler for 50-1300 MHz using microstrip transmission line
+
+BOARD SPECIFICATIONS:
+- Material: FR-4 (standard PCB substrate)
+- Thickness: 1.6mm (standard)
+- Copper weight: 1 oz (35 μm)
+- Surface finish: HASL or ENIG
+- Soldermask: Green (standard) or any color
+- Silkscreen: White
+
+BOARD DIMENSIONS:
+- Length: 100mm
+- Width: 40mm
+- 2-layer board (top and bottom copper)
+
+DESIGN FILES:
+Due to the specialized nature of microstrip design, full Gerber files
+would typically be generated using RF PCB design software (KiCad, Altium,
+or similar). Below are the design parameters needed to create the layout.
+
+MICROSTRIP CALCULATION:
+
+For 50Ω characteristic impedance on FR-4 (εr = 4.5):
+- Substrate height (h): 1.6mm
+- Trace width (W): ~3.0mm
+- Spacing (S): ~1.5mm (for -20dB coupling)
+
+Formula (approximate):
+Z0 = 87 / sqrt(εr + 1.41) * ln(5.98 * h / (0.8 * W + t))
+
+Where:
+- Z0 = characteristic impedance (50Ω)
+- εr = dielectric constant (4.5 for FR-4)
+- h = substrate height (1.6mm)
+- W = trace width
+- t = copper thickness (0.035mm for 1 oz copper)
+
+LAYOUT DESCRIPTION:
+
+TOP LAYER:
+┌────────────────────────────────────────────────────┐
+│                                                    │
+│  [SMA-IN]═══════════════════════════════[SMA-OUT] │
+│              Main Line (3mm wide)                  │
+│                                                    │
+│            ─────────────────────                   │
+│           Coupled Line (3mm wide, -20dB coupling)  │
+│                                                    │
+│  [GND]                                    [OUTPUT] │
+│   SMD pad                                  SMD pad │
+│                                                    │
+└────────────────────────────────────────────────────┘
+
+COMPONENTS:
+- 2x SMA edge-mount connectors (INPUT and OUTPUT)
+- 2x 0805 capacitors (100pF, DC block)
+- 1x 0805 resistor (50Ω, termination)
+- RF trace: Main line and coupled line
+
+CRITICAL DESIGN NOTES:
+
+1. MICROSTRIP TRACES:
+   - Main line: 3.0mm wide, 80mm long
+   - Coupled line: 3.0mm wide, 80mm long, parallel to main line
+   - Spacing: 1.5mm between main and coupled line
+   - Both traces should be same length for best directivity
+
+2. GROUND PLANE:
+   - Bottom layer: Complete ground plane (no breaks)
+   - Top layer: Ground pour around traces (leave clearance)
+   - Multiple vias connecting top and bottom ground (spacing: 5mm)
+
+3. COUPLING REGION:
+   - Length: 80mm (approximately λ/4 at geometric mean frequency)
+   - Uniform spacing throughout coupling region
+   - Taper traces gradually at ends (not abrupt)
+
+4. CONNECTOR PLACEMENT:
+   - SMA connectors: Edge-mount, centered on board width
+   - Ensure ground pins connect to ground plane with short traces
+   - Center pins connect to microstrip traces
+
+5. TERMINATION CIRCUIT:
+   One end of coupled line terminated with:
+   - 100pF capacitor to ground (DC block)
+   - 50Ω resistor to ground (absorbs reverse wave)
+
+6. OUTPUT CIRCUIT:
+   Other end of coupled line:
+   - 100pF capacitor (DC block)
+   - Connects to SMD pad for wire to detector
+
+TRACE WIDTH VARIATIONS FOR DIFFERENT BOARDS:
+
+Board Thickness | Trace Width for 50Ω | Notes
+----------------|---------------------|---------------------------
+0.8mm (thin)    | 1.5mm              | Good for UHF
+1.0mm           | 1.9mm              |
+1.6mm (std)     | 3.0mm              | Standard FR-4
+2.0mm           | 3.8mm              |
+2.4mm (thick)   | 4.6mm              | Less common
+
+Use online calculators or tools like AppCAD, LinCalc, or Saturn PCB
+to verify trace width for your specific board stackup.
+
+MANUFACTURING:
+
+Recommend PCB fabrication services:
+- OSH Park: $10-20 for 3 boards, made in USA, purple soldermask
+- JLCPCB: $5-15 for 5 boards, made in China, fast turnaround
+- PCBWay: $10-20 for 5 boards, good quality
+
+Order specifications:
+- Layers: 2
+- Dimensions: 100mm × 40mm
+- PCB Thickness: 1.6mm
+- Copper Weight: 1 oz
+- Surface Finish: HASL
+- Min Track/Spacing: 6/6 mil (0.15mm)
+- Min Hole Size: 0.3mm
+
+ASSEMBLY:
+
+1. Solder SMA connectors first (requires good soldering iron, 60W+)
+2. Solder SMD components (0805 size, use tweezers)
+3. Test with VNA if available (check S21 and directivity)
+4. If no VNA, test with known signal source and power meter
+
+
+================================================================================
+PCB #2: DETECTOR CIRCUIT BOARD
+================================================================================
+
+PURPOSE:
+Mount AD8361 True RMS detector and supporting components
+
+BOARD SPECIFICATIONS:
+- Material: FR-4 (standard)
+- Thickness: 1.6mm
+- Copper weight: 1 oz
+- 2-layer board
+- Size: 30mm × 40mm (small board)
+
+DESIGN:
+
+This is a simple support board for AD8361 TSSOP-8 IC and passive components.
+
+LAYOUT (simplified):
+
+┌─────────────────────────────┐
+│  [INPUT]                    │
+│     │                       │
+│   100pF (0805)              │
+│     │                       │
+│  ┌──┴──────────┐           │
+│  │   AD8361    │           │
+│  │  TSSOP-8    │           │
+│  └──┬──────────┘           │
+│     │                       │
+│   10μF (0805)               │
+│     │                       │
+│  [OUTPUT]                   │
+│                             │
+│  [+5V]  [GND]              │
+└─────────────────────────────┘
+
+COMPONENTS:
+- 1x AD8361ARMZ (TSSOP-8 package)
+- 1x 100pF capacitor (0805, input coupling)
+- 1x 10nF capacitor (0805, AC coupling)
+- 2x 10μF capacitors (0805, power supply filtering)
+- SMD pads for wire connections
+
+DESIGN NOTES:
+
+1. Keep traces short (minimize parasitics)
+2. Ground plane on bottom layer
+3. Power supply decoupling close to IC
+4. Use thermal reliefs on ground pads for easier soldering
+
+ALTERNATIVE:
+Instead of custom PCB, use pre-made AD8361 breakout boards:
+- Available on Tindie, eBay, AliExpress
+- Cost: $15-25
+- Already assembled, just add wires
+- RECOMMENDED for beginners
+
+
+================================================================================
+PCB #3: MAIN CONTROLLER BOARD (Optional)
+================================================================================
+
+PURPOSE:
+Integrate Arduino Nano, LCD, buttons, and detector circuits on single board
+
+BOARD SPECIFICATIONS:
+- Size: 100mm × 80mm
+- 2-layer board
+- Arduino Nano mount (DIP socket or header pins)
+- LCD header (16-pin)
+- Button switches
+- Detector circuit integration
+
+LAYOUT (block diagram):
+
+┌─────────────────────────────────────────┐
+│  [LCD 16x2 Header]                      │
+│                                         │
+│  ┌─────────────┐                       │
+│  │ Arduino     │  [Mode Btn] [Range]  │
+│  │ Nano        │                       │
+│  │ Socket      │  ┌──────────┐        │
+│  └─────────────┘  │ Detector │        │
+│                    │ Circuit  │        │
+│  [9V Batt] [5V]   └──────────┘        │
+│  [Power SW]                            │
+└─────────────────────────────────────────┘
+
+This is a convenience PCB that makes assembly cleaner. It's optional -
+you can build the project with point-to-point wiring or perfboard instead.
+
+FEATURES:
+- Socket for Arduino Nano
+- Header for LCD connection
+- Tactile switches for Mode and Range buttons
+- Detector circuit area with SMD pads
+- Power supply section (battery input, voltage regulator)
+- Screw terminals for RF sampler connections
+
+DESIGN SOFTWARE:
+
+To create these PCBs, use:
+- KiCad (free, open source) - RECOMMENDED
+- EasyEDA (free, web-based)
+- Altium Designer (commercial, expensive)
+- Eagle (commercial)
+
+CREATING GERBER FILES:
+
+1. Design schematic in chosen software
+2. Create PCB layout following guidelines above
+3. Run design rule check (DRC)
+4. Generate Gerber files:
+   - Top copper layer (.GTL)
+   - Bottom copper layer (.GBL)
+   - Top soldermask (.GTS)
+   - Bottom soldermask (.GBS)
+   - Top silkscreen (.GTO)
+   - Bottom silkscreen (.GBO)
+   - Board outline (.GKO)
+   - Drill file (.TXT or .DRL)
+
+5. Zip all Gerber files
+6. Upload to PCB fab service
+7. Order boards
+
+
+================================================================================
+ALTERNATIVE: PERFBOARD CONSTRUCTION
+================================================================================
+
+If you don't want to order custom PCBs, you can build on perfboard:
+
+PERFBOARD SPECIFICATIONS:
+- Type: Solderable breadboard or standard 0.1" perfboard
+- Size: 50mm × 70mm (for detector circuit)
+- Material: FR-4 with copper pads
+
+CONSTRUCTION METHOD:
+
+1. PLAN LAYOUT:
+   - Draw component placement on paper
+   - Plan wire routing
+   - Minimize wire length
+
+2. MOUNT COMPONENTS:
+   - Start with smallest (diodes, resistors)
+   - Then capacitors
+   - Finally, larger components
+
+3. SOLDER POINT-TO-POINT:
+   - Use 22-24 AWG solid wire for connections
+   - Keep wires close to board surface
+   - Use buss wire for power and ground rails
+
+4. TEST AS YOU GO:
+   - Check continuity after each section
+   - Verify no shorts before powering up
+
+ADVANTAGES OF PERFBOARD:
+✓ No waiting for PCB fabrication
+✓ No minimum order quantity
+✓ Easy to modify during build
+✓ Good for one-off projects
+✓ Lower cost ($2-5 vs $10-20)
+
+DISADVANTAGES OF PERFBOARD:
+✗ Less professional appearance
+✗ Lower reliability (cold solder joints possible)
+✗ Not suitable for VHF/UHF sampler (needs microstrip)
+✗ Harder to reproduce identical units
+✗ Takes longer to assemble
+
+
+================================================================================
+PCB TESTING
+================================================================================
+
+After receiving PCBs, test before assembly:
+
+VISUAL INSPECTION:
+[ ] No damaged traces
+[ ] Soldermask intact
+[ ] Holes properly drilled
+[ ] Silkscreen readable
+[ ] Board dimensions correct
+
+ELECTRICAL TESTING:
+[ ] Continuity between ground pads
+[ ] No shorts between adjacent traces
+[ ] Power and ground planes isolated (except at connections)
+
+ASSEMBLY VERIFICATION:
+After populating components:
+[ ] All components in correct orientation
+[ ] No solder bridges
+[ ] All joints shiny and complete
+[ ] No cold solder joints (dull, grainy appearance)
+
+
+================================================================================
+RESOURCES
+================================================================================
+
+PCB DESIGN TUTORIALS:
+- KiCad Getting Started: https://www.kicad.org/help/getting-started/
+- YouTube: Search "KiCad tutorial PCB design"
+- Sparkfun PCB Basics: https://learn.sparkfun.com/tutorials/pcb-basics
+
+MICROSTRIP CALCULATORS:
+- Saturn PCB Toolkit (free Windows software)
+- AppCAD (Broadcom, free)
+- Online: https://www.everythingrf.com/rf-calculators/microstrip-calculator
+
+PCB MANUFACTURERS:
+- OSH Park: https://oshpark.com/
+- JLCPCB: https://jlcpcb.com/
+- PCBWay: https://www.pcbway.com/
+- DirtyPCBs: https://dirtypcbs.com/
+
+COMPONENT SOURCES:
+- Mouser Electronics: https://www.mouser.com/
+- Digi-Key: https://www.digikey.com/
+- Sparkfun: https://www.sparkfun.com/
+- Adafruit: https://www.adafruit.com/
+
+
+================================================================================
+CONCLUSION
+================================================================================
+
+PCB fabrication is optional but recommended for:
+1. VHF/UHF microstrip sampler (required for good performance)
+2. AD8361 detector board (if hand-soldering SMD)
+3. Main controller board (convenience, not required)
+
+For HF-only operation, you can build entirely with perfboard and the
+transmission-line sampler (no PCB needed).
+
+Choose the approach that matches your skills, tools, and budget!
+
+
+================================================================================
+END OF PCB LAYOUT GUIDE
+================================================================================

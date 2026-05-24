@@ -1,0 +1,14 @@
+CM SLOT ANTENNA UHF
+CM Slot antenna: slot cut in metal sheet or PCB ground plane, complementary to dipole, wideband variant
+CM Bands: 70cm band (430–440 MHz)
+CE
+
+GW 1 10 -0.018 0.0 0.1  0.018 0.0 0.1  0.0005
+GW 2 8 -0.04 -0.02 0.0  0.04 -0.02 0.0  0.001
+
+GE 0
+GN 2 0 0 0 13 0.005
+EX 0 1 6 0 1 0
+FR 0 1 0 0 100 0
+RP 0 91 360 1000 -90 0 1.0 1.0
+EN

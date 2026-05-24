@@ -1,0 +1,11 @@
+ANTENNA SPECIFICATION — LOG_PERIODIC,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,6M–2M,,
+Design approach,"Compact LPDA for VHF, boom-fed array",,
+Compaction factor,0%,,
+Special parameters,"8–12 elements, 1.5–2m boom, directional",,
+Feed impedance,50–600,Ω,
+SWR target,<2.0,:1,
+Efficiency,75–95%,%,
+Gain,2–12,dBi,

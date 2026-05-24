@@ -1,0 +1,27 @@
+CM EFQW_70CM.NEC — End-Fed Quarter-Wave Vertical, 70cm
+CM TM-EF-NEC-008 Rev A
+CM
+CM Band:       70cm (420 – 450 MHz)
+CM Center:     446.000 MHz (FM simplex) / 440 MHz (repeater)
+CM QW length:  0.160 m (VF=0.95, 6mm aluminum tube)
+CM Feed Z:     34 + j0 Ω (4 radials); direct match via N-type connector
+CM Radials:    4× 0.160m rigid aluminum rods
+CM Matching:   Direct 50Ω coaxial vertical; N-type or UHF connector
+CM
+CM Construction: standard ground-plane vertical (J-pole or GP)
+CM   Use 6mm aluminum or brass tube for element
+CM   SO-239 or N-type chassis mount connector as base
+CM   Solder/press element to connector center pin
+
+CE
+GW 1 10  0 0 0.005  0 0 0.165  0.003
+GW 2 2   0 0 0.005  0.160 0 0.005  0.003
+GW 3 2   0 0 0.005  0 0.160 0.005  0.003
+GW 4 2   0 0 0.005  -0.160 0 0.005  0.003
+GW 5 2   0 0 0.005  0 -0.160 0.005  0.003
+GE 1
+GN 2 0 0 0  13 0.005
+EX 0 1 1 0  1 0
+FR 0 16 0 0  420.000 2.000
+RP 0 37 73 1000  0 0 5 5
+EN

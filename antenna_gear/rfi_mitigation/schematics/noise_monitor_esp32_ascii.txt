@@ -1,0 +1,217 @@
+================================================================================
+  noise_monitor_esp32_ascii.txt — TM-RFI-SCH-005 Rev A
+  ESP32 Automated RF Noise Floor Monitor and Band Logger
+  Si5351 LO + SA612A Mixer + AD8307 RSSI — Scanning Superheterodyne
+  Document: TM-RFI-SCH-005 Rev A
+================================================================================
+
+OVERVIEW
+--------
+  The noise floor monitor is a scanning superheterodyne receiver that measures
+  the received noise power on each amateur band. It logs noise floor levels
+  over time, allowing you to:
+  1. Identify time-of-day noise patterns (diurnal variation)
+  2. Correlate noise with appliance use (e.g., refrigerator compressor cycles)
+  3. Track improvement after mitigation measures
+  4. Alert when noise floor rises above threshold (appliance malfunction)
+  5. Compare noise on different bands simultaneously (time-division scanning)
+
+SYSTEM ARCHITECTURE
+--------------------
+
+  [ANTENNA (20cm whip or small loop)]
+       │
+       ├── [LPF 30 MHz, 3-pole] (suppress out-of-band signals)
+       │
+       ├── [SA612A mixer] ────── [Si5351 LO output A]
+       │           │                    (f_LO = f_band + 10.7 MHz)
+       │      [10.7 MHz IF]
+       │           │
+       │     [10.7 MHz ceramic BPF]
+       │           │
+       │     [IF amplifier, +20 dB]
+       │           │
+       │     [AD8307 log amp, RSSI]
+       │           │
+       │     [ESP32 ADC1 GPIO34]
+       │
+  [ESP32 WROOM-32]
+       │
+       ├── I2C → Si5351 (0x60) — tunes LO for band scanning
+       ├── SPI → SD card (data logging)
+       ├── WiFi AP → web dashboard (noise floor history charts)
+       ├── BT Serial → CYD display
+       └── GPIO34 (ADC) → AD8307 RSSI voltage
+
+KEY SPECIFICATIONS
+------------------
+  Scan range:         1.8 – 30 MHz (HF bands)
+  IF frequency:       10.7 MHz (standard FM ceramic filter)
+  IF bandwidth:       280 kHz (standard FM ceramic filter)
+                      OR 150 kHz (narrow CFWLA10M7KA0 filter, better selectivity)
+  Sensitivity:        −100 dBm (with +20 dB IF amp, NF ~ 15 dB)
+  Dynamic range:      80 dB (AD8307: −75 to +5 dBm input)
+  Scan period:        10 bands × 2 seconds = 20 seconds per full scan cycle
+  Data logging:       SD card CSV, 1 reading per band per scan
+  Display:            WiFi web dashboard (chart.js graphs) + CYD touchscreen
+
+SCHEMATIC — Si5351 LOCAL OSCILLATOR
+--------------------------------------
+  Si5351A (I2C programmable clock, 8kHz–160MHz, 3 outputs):
+  Adafruit breakout or bare SOIC-10 chip.
+
+  Si5351A Pinout (SOIC-10):
+    Pin 1 (XTALIN): 25 MHz crystal ─── 22pF to GND each side
+    Pin 2 (XTALOUT): 25 MHz crystal other end
+    Pin 3 (VDD): 3.3V via 100nF bypass
+    Pin 4 (SDA): I2C SDA → ESP32 GPIO21 via 4.7kΩ pullup to 3.3V
+    Pin 5 (SCL): I2C SCL → ESP32 GPIO22 via 4.7kΩ pullup to 3.3V
+    Pin 6 (OEB): active LOW output enable → GND (always enabled)
+    Pin 7,8,9 (CLK0,CLK1,CLK2): clock outputs; use CLK0 for LO
+    Pin 10 (GND): GND
+
+  Si5351 LO frequency setup:
+    Library: Etherkit Si5351 (si5351.h) on Arduino
+    si5351.set_freq(f_LO_hz × 100ULL, SI5351_CLK0);  // frequency in hundredths of Hz
+    si5351.output_enable(SI5351_CLK0, 1);
+
+  LO FREQUENCY TABLE:
+  Tune Si5351 CLK0 to f_LO = f_band_center + 10.700 MHz for high-side injection.
+
+  Band      f_center (MHz)   f_LO = f + 10.7 (MHz)
+  ─────────────────────────────────────────────────────
+  160M      1.900            12.600
+  80M       3.750            14.450
+  40M       7.150            17.850
+  30M       10.125           20.825
+  20M       14.175           24.875
+  17M       18.118           28.818
+  15M       21.225           31.925
+  12M       24.940           35.640
+  10M       28.850           39.550
+  6M        52.000           62.700  ← Si5351 max output 160 MHz; OK
+  Extra     7.040 (CW)       17.740  (tune to CW segment)
+
+  Si5351 output level: ~8 mA square wave into 50Ω ≈ +7 dBm.
+  SA612A requires −7 to 0 dBm LO drive. Add 10 dB pad (π-type, 50Ω):
+    R_series = 26Ω, R_shunt = 72Ω → reduces to ~−3 dBm for SA612A LO port.
+
+SCHEMATIC — RF INPUT LPF (30 MHz, 3-POLE BUTTERWORTH)
+-------------------------------------------------------
+  Same topology as SDR direct sampling LPF (simple 3-pole, adequate here):
+
+  ANT SMA ──+── L1 (220nH) ──+── L2 (220nH) ──+── to SA612A pin 1
+            │                │                 │
+           C1 (68pF)        C2 (120pF)        C3 (68pF)
+            │                │                 │
+           GND              GND               GND
+
+  Values: 3-pole Butterworth, 50Ω, 30 MHz.
+  Attenuation at 60 MHz: −18 dB. At 120 MHz: −36 dB. Adequate for noise rejection.
+
+SCHEMATIC — SA612A MIXER
+--------------------------
+  Same as HF upconverter (see hf_upconverter_ascii.txt), but:
+  - RF IN: from antenna LPF (HF signal under test)
+  - LO: from Si5351 CLK0 via 10 dB pad
+  - IF OUT: 10.7 MHz → ceramic BPF
+
+  SA612A (DIP-8):
+    Pin 1: RF IN (+) ← from LPF via 10pF coupling cap
+    Pin 2: RF IN (−) → 470pF to GND (single-ended)
+    Pin 3,4: GND
+    Pin 5: IF OUT (+) → 10.7 MHz ceramic BPF
+    Pin 6: IF OUT (−) → 100pF to GND
+    Pin 7: LO bypass ← 100pF to GND
+    Pin 8: Vcc ← +5V via 470Ω + 100pF bypass
+
+  SA612A Vcc drive from USB:
+    5V USB → R (470Ω) → SA612A pin 8
+    Bypassed with 100pF NP0 and 10µF tantalum to GND.
+
+SCHEMATIC — 10.7 MHz IF CERAMIC FILTER + IF AMPLIFIER
+-------------------------------------------------------
+  10.7 MHz Ceramic BPF:
+    Murata CFWLA10M7KA0-B0 (or SFELA10M7FA00-R0 for wider 280 kHz version)
+    Input impedance: 330Ω. Output impedance: 330Ω.
+    Requires matching resistors for 50Ω system:
+      50Ω drive impedance → 330Ω requires nothing extra (SA612A output is ~1.5kΩ)
+      330Ω filter output → 50Ω requires buffer or matching network
+
+  MATCHING:
+    SA612A pin 5 → (no match needed, SA612A outputs high-Z differential)
+    Filter input: SA612A pin5 → 330Ω shunt to GND (match to filter)
+    Filter output → shunt 330Ω to GND → next stage
+
+  IF Amplifier (SPF5189Z, +19 dB, NF 0.6 dB):
+    Filter output (330Ω matched) → via 100pF coupling → SPF5189Z IN
+    SPF5189Z output → via 100pF coupling → AD8307 IN
+
+  ALTERNATIVE: MMIC amplifier MAR-8A (+19 dB gain, IP3 +27 dBm, 50Ω in/out)
+    MAR-8A (SOT-89 or microstrip): similar to SPF5189Z, used commonly in IF chains.
+
+SCHEMATIC — AD8307 RSSI MEASUREMENT
+---------------------------------------
+  AD8307 (same as SDR system, see attenuator_gain_ascii.txt):
+  IF Amp output → 1pF coupling → AD8307 INP (+)
+  AD8307 INM (−) → GND
+
+  AD8307 output voltage:
+    V_out = 0.025 × (P_dBm + 84)
+  P_dBm = (V_out / 0.025) − 84
+
+  ESP32 ADC1_CH6 (GPIO34): reads V_out
+  analogSetAttenuation(ADC_11db); // 0–3.3V
+  float v = analogRead(34) × 3.3f / 4095.0f;
+  float power_dBm = (v / 0.025f) − 84.0f;
+
+  NOISE FLOOR vs. SIGNAL LEVEL:
+  The AD8307 measures total power in the 280 kHz IF bandwidth.
+  Thermal noise floor at IF bandwidth:
+    P_thermal = −174 dBm/Hz + 10×log10(280e3) = −174 + 54.5 = −119.5 dBm
+  With SA612A NF (4.5 dB) + IF amp NF (0.6 dB) + conversion gain (−2 dB):
+    System NF ≈ 6 dB (from antenna to AD8307)
+  MDS in 280 kHz BW: −119.5 + 6 = −113.5 dBm
+  Minimum readable AD8307 input: −75 dBm (spec minimum)
+  → Any signal above −75 dBm at the antenna (after SA612A gain/loss) is measurable.
+
+FULL ESP32 GPIO ASSIGNMENT
+-----------------------------
+  GPIO21  I2C SDA → Si5351 SDA
+  GPIO22  I2C SCL → Si5351 SCL
+  GPIO34  ADC1_CH6 ← AD8307 VOUT (input only pin)
+  GPIO5   SD card CS
+  GPIO18  SD card CLK (SPI)
+  GPIO19  SD card MISO
+  GPIO23  SD card MOSI
+  GPIO2   LED indicator (scanning flash)
+  GPIO4   Alert LED (noise threshold exceeded)
+
+  WiFi: built-in (uses ADC2 — do NOT use ADC2 channels when WiFi active)
+
+POWER SUPPLY
+--------------
+  USB 5V → AMS1117-3.3 → 3.3V for Si5351, ESP32 logic
+  USB 5V → SA612A Vcc (via 470Ω)
+  USB 5V → 3.3V for SPF5189Z (via 100nH choke)
+  Total current: ~280 mA (ESP32 WiFi 240mA + SA612A 25mA + Si5351 10mA + SPF5189Z 6mA)
+  USB cable: use ≥26 AWG, ≤1m cable for reliable power.
+
+BILL OF MATERIALS — NOISE FLOOR MONITOR
+-----------------------------------------
+  Qty  Part              Value/Type               Notes
+  ──────────────────────────────────────────────────────────
+   1   U1  Si5351A       I2C clock gen SOIC-10    Adafruit breakout $8
+   1   U2  SA612AN       DBM mixer DIP-8          NXP ~$2
+   1   U3  SPF5189Z      IF amp SOT-89            ~$3
+   1   U4  AD8307        Log amp SOIC-8           ~$8
+   1   U5  AMS1117-3.3   LDO regulator SOT-223
+   1   XTAL 25 MHz crystal HCMOS, 18pF load caps Si5351 reference
+   1   CF1 10.7 MHz BPF  CFWLA10M7KA0-B0         Murata ~$1
+   3   LPF inductors     220nH 0805CS             LPF
+   3   LPF capacitors    68/120 pF NP0            LPF
+   1   SD card module    SPI, 3.3V compatible     optional logging
+   1   ESP32 DevKit      WROOM-32 38-pin          ~$6
+   various bypass caps   100nF/10µF               decoupling
+
+================================================================================

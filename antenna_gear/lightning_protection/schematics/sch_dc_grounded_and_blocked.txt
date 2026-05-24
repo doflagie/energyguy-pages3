@@ -1,0 +1,375 @@
+================================================================================
+SCHEMATIC: DC-Grounded and DC-Blocked Lightning Arrestors
+TM-LSP-001  Rev A
+DC-Grounded: Static Bleed-Off; DC-Blocked: Active Antenna / Bias-T Compatibility
+================================================================================
+
+================================================================================
+SECTION A — DC-GROUNDED ARRESTOR (STATIC DISCHARGE PATH)
+================================================================================
+
+THEORY — WHY DC GROUNDING MATTERS
+───────────────────────────────────
+Static charge accumulates on antenna elements and feedlines continuously:
+  - Wind-driven precipitation (snow, rain, dust): generates triboelectric charge
+  - Ionospheric field gradients: can charge a resonant antenna to thousands of volts
+  - Pre-lightning charge buildup: antenna is in the elevated electric field
+    as charged cloud approaches (potential rises to kV range BEFORE the stroke)
+
+Without a DC ground path, static charge has no place to go EXCEPT through
+the receiver front-end when the coax is connected.  Even relatively modest
+static accumulations (1–5 kV) are sufficient to destroy MOSFET front-ends.
+
+A DC-grounded arrestor provides:
+  1. A continuous DC path from antenna center conductor to ground
+     → prevents static accumulation entirely
+  2. RF choke (high impedance at operating frequency) in the DC path
+     → does not short the RF signal to ground
+  3. GDT in parallel for fast transient suppression
+     → two-layer protection (slow static + fast surge)
+
+HOW THE RF CHOKE WORKS:
+  The RF choke (inductor) has impedance Z = 2πfL.
+  At DC: Z = 0 (short circuit → static bleeds freely to ground)
+  At RF: Z >> Z₀ (high impedance → minimal signal is diverted to ground)
+
+  For L = 10 µH (RFC):
+    At DC:         Z = 0 Ω         → DC ground (desired)
+    At 1.8 MHz:    Z = 113 Ω       → some signal diverted; use larger L
+    At 3.5 MHz:    Z = 220 Ω       → moderate loss
+    At 7 MHz:      Z = 440 Ω       → 440 vs 50 Ω: ~21 dB return loss
+    At 14 MHz:     Z = 880 Ω       → 25 dB return loss
+
+  For L = 47 µH (RFC):
+    At 1.8 MHz:    Z = 531 Ω       → minimal loss
+    At 3.5 MHz:    Z = 1031 Ω      → good for 80M up
+    At 7 MHz:      Z = 2.07 kΩ     → excellent for 40M up
+
+  INSERTION LOSS from shunt RFC (in 50Ω line):
+    IL (dB) = 20 × log₁₀( |Z_RFC| / (|Z_RFC| + 25Ω) ) × 2  [approx]
+    For L = 47µH at 1.8 MHz: IL ≈ 20 × log₁₀(531/556) = −0.41 dB (marginal)
+    For L = 100µH at 1.8 MHz: IL ≈ 20 × log₁₀(1131/1156) = −0.19 dB (better)
+    For L = 220µH at 1.8 MHz: IL ≈ 20 × log₁₀(2488/2513) = −0.09 dB ✓
+
+  RECOMMENDATION: Use RFC ≥ 220 µH for 160M operation.
+  Use RFC ≥ 47 µH for 40M–10M.  Use RFC ≥ 1 µH for VHF.
+
+RFC CONSTRUCTION OPTIONS:
+  Option A — Pre-wound toroid choke (recommended):
+    220 µH: 90 turns #26 AWG on T-130-2 (Mix 2, red, HF):
+             A_L = 27 nH/N²; N = √(220000/27) = 90 turns
+    47 µH:  42 turns #26 AWG on T-130-2: N = √(47000/27) = 42 turns
+    1 µH:   6 turns #22 AWG on T-80-10 (Mix 10, black/yellow):
+
+  Option B — Ferrite bead RFC:
+    For 40M–10M: 10t #26 AWG on FT-37-43 → L ≈ 10 × 557 nH × 100 = 55.7 µH
+                 (N² × A_L: A_L = 557 nH for FT-37-43, 1 turn ≈ 557 nH,
+                  10 turns = 100 × 557 = 55.7 µH → adequate for 40M)
+
+  Option C — Commercial RF choke:
+    Bourns 78F series: 47 µH or 100 µH, axial lead, 1A rated
+    Use for 40M–6M operation; two in series for 160M.
+
+================================================================================
+DC-GROUNDED ARRESTOR SCHEMATIC — HF (160M through 10M)
+================================================================================
+
+  ANTENNA COAX                                        TO SHACK
+  (SO-239 IN)                                        (SO-239 OUT)
+      │                                                   │
+  ════╪═══════════════════════════════════════════════╪════
+  center ─────────────────────────────────────────── center
+      │                                                   │
+      │   RFC1 (220µH, DC-ground choke)                   │
+      ├───UUUU────────────────────────────────────────────┤
+      │   L1                                              │
+      │   │                                               │
+      │ [GDT1] 90V, 2.5kA                                │
+      │   │                                               │
+  ════╪═══╪═══════════════════════════════════════════════╪════
+  shield ─┘                                           shield
+           │
+          CHASSIS GND
+
+SIGNAL PATH:
+  Center IN → center OUT (direct through; no series components)
+  No insertion loss from signal path elements (RFC is shunt, not series)
+
+DC PATH:
+  Center conductor → RFC1 (220µH) → GDT1 (normally open) → chassis GND
+  Static charge: bleeds continuously through RFC1 (DC resistance = coil DCR ~5Ω)
+  Surge: GDT1 fires, bypasses RFC1, handles kA current directly
+
+EQUIVALENT CIRCUIT:
+
+  IN_center ─────────────────────────────────────── OUT_center
+                │
+            RFC1 (220µH, R_DC~5Ω)
+                │
+            GDT1 (90V, in parallel with RFC1 from node to chassis)
+            (GDT1 connects center-node to chassis, parallel with RFC1 lower terminal)
+                │
+            CHASSIS GND
+
+Actually more precisely:
+
+  IN_center ───────────────────────────────────── OUT_center
+               │
+            ┌──┴──┐
+            │RFC1 │ 220µH (DC continuity to ground)
+            │     │
+            └──┬──┘
+               │ ← This node is at center conductor potential
+               │
+            ┌──┴──┐
+            │GDT1 │ 90V sparkover (surge bypass)
+            │     │
+            └──┬──┘
+               │
+           CHASSIS GND ──── ground strap ──── ground rod
+
+INSTALLATION NOTE:
+  This is an IN-LINE design.  The arrestor is installed at the antenna
+  feedpoint OR at the shack entry bulkhead.
+  If installed at feedpoint: the RFC provides DC ground at antenna base (good).
+  If installed at bulkhead entry: reduces static on the long feedline run (adequate).
+  BEST: Install DC-grounded arrestors at BOTH feedpoint AND bulkhead.
+
+================================================================================
+INSERTION LOSS TABLE — DC-GROUNDED ARRESTOR (RFC=220µH)
+================================================================================
+
+  Freq (MHz) | Z_RFC (kΩ) | IL (dB) | VSWR  | Note
+  -----------|-----------|---------|-------|------------------------------
+    1.8      |   2.49    | −0.090  | 1.10  | Just within spec at 160M
+    3.5      |   4.84    | −0.046  | 1.05  | Good 80M
+    7.0      |   9.67    | −0.023  | 1.025 | Excellent 40M
+   10.1      |  13.96    | −0.016  | 1.018 | Excellent 30M
+   14.0      |  19.35    | −0.011  | 1.013 | Excellent 20M
+   28.0      |  38.7     | −0.006  | 1.006 | Excellent 10M
+   50.0      |  69.1     | −0.003  | 1.003 | Excellent 6M
+
+For 160M operation with IL < 0.1 dB: RFC ≥ 220 µH confirmed.
+For 80M–10M: RFC = 47–100 µH adequate.
+
+================================================================================
+SECTION B — DC-BLOCKED ARRESTOR (ACTIVE ANTENNA / BIAS-T COMPATIBLE)
+================================================================================
+
+THEORY — WHY DC BLOCKING IS NEEDED
+─────────────────────────────────────
+Active antennas (wideband receive amplifiers, LNA preamplifiers) and phased
+array element amplifiers are powered via DC bias injected on the coaxial feedline.
+Typical bias voltages: 5V, 9V, 12V, 15V DC.
+
+A standard GDT arrestor (V_s = 90V) would NOT be triggered by 12V DC bias.
+HOWEVER: a DC-grounded arrestor would SHORT the DC bias to ground through the
+RFC, preventing the antenna from being powered.  A DC-blocked design is needed.
+
+The DC-blocked arrestor:
+  1. Series capacitor: passes RF, blocks DC bias from grounding
+  2. GDT: provides surge protection (fires on lightning/ESD, not on DC bias)
+  3. Bleed resistor: provides high-resistance static discharge path
+     (R_bleed = 1 MΩ: drains static slowly; too high to significantly
+     load the DC bias supply; negligible effect on RF signal)
+
+DC BIAS COMPATIBILITY:
+  V_s (GDT) must be GREATER than the DC bias voltage × safety margin:
+  V_bias_max = 15V (high-end bias)
+  Required V_s ≥ 15V × 3 (safety margin) = 45V minimum
+
+  Use V_s = 90V: passes 0–40V DC without spurious triggering.
+  Check: RF peak voltage + DC bias must not approach V_s.
+  At 100mW into 50Ω: V_RF_peak = 3.16V; total max = 3.16 + 15 = 18.2V << 90V ✓
+
+BLOCKING CAPACITOR SELECTION:
+  C_block must have low reactance at operating frequency:
+  X_C = 1/(2πfC)
+
+  For HF (1.8 MHz): X_C < 1Ω → C > 1/(2π × 1.8e6 × 1) = 88 nF → use 100 nF
+  For VHF (50 MHz): X_C < 0.1Ω → C > 32 nF → 47 nF adequate
+  For UHF (432 MHz): X_C < 0.01Ω → C > 37 nF → 47 nF adequate
+
+  INSERTION LOSS from series C_block in 50Ω line:
+  IL (dB) ≈ 20 × log₁₀( 1 / √(1 + (X_C/25)²) )  [C in series with 50Ω]
+
+  For C = 100 nF:
+    At 1.8 MHz: X_C = 0.88Ω → IL = 20×log₁₀(1/√(1+(0.88/25)²)) = −0.013 dB ✓
+    At 3.5 MHz: X_C = 0.45Ω → IL = −0.003 dB ✓
+    All HF bands: IL < 0.015 dB ✓
+
+  Capacitor type: NP0/C0G 100 nF, 200V DC rating (handles bias + RF peaks)
+  Use X5R at 100V if NP0 100nF unavailable; avoid Y5V/Z5U (large TCC)
+
+================================================================================
+DC-BLOCKED ARRESTOR SCHEMATIC — HF + ACTIVE ANTENNA
+================================================================================
+
+  ACTIVE ANT. COAX                                  TO SHACK / BIAS-T
+  (SO-239 IN)                                       (SO-239 OUT)
+      │                                                   │
+  ════╪═══════════════════════════════════════════════╪════
+  center ──[C_block 100nF]────────── [C_block 100nF]── center
+      │    blocking cap  │             blocking cap   │
+      │                  │ node A                     │
+      │              [R_bleed]                        │
+      │              1 MΩ                             │
+      │                  │                            │
+      │              [GDT1]                           │
+      │              90V, 2.5kA                       │
+      │                  │                            │
+  ════╪═══════════════════╪═══════════════════════════╪════
+  shield ─────────────────┘──────────────────────── shield
+  (chassis GND)
+
+ALTERNATE SIMPLIFIED VERSION (single C_block, IN side only):
+
+  IN_center ──[C_block 100nF]──────────────────── OUT_center
+                                │
+                            [R_bleed 1MΩ]  ← static drain
+                                │
+                            [GDT1 90V]     ← surge protection
+                                │
+                            CHASSIS GND
+
+  This version: DC from IN side is blocked by C_block.
+  OUT_center is direct connection to node between C_block and GDT.
+  DC bias from OUT (shack/bias-T side) passes through to antenna:
+    OUT_center → (no blocking cap on OUT side) → antenna via C_block
+    Wait: C_block blocks DC from going from OUT to antenna as well.
+    WRONG: Need DC to pass from shack side to antenna side!
+
+  CORRECT TOPOLOGY for DC-powered active antenna:
+  DC flows: SHACK BIAS-T → OUT connector → center conductor → ANTENNA
+  RF flows: ANTENNA → IN connector → C_block → OUT connector → SHACK
+
+  Therefore: C_block must be on ANTENNA (IN) side ONLY.
+  OUT side connects directly to center conductor without blocking.
+  GDT on antenna-side of C_block to ground (protects antenna + blocks DC from GDT).
+
+  CORRECT SCHEMATIC:
+
+  IN (ANT) ──[C_block 100nF]──────────────────── OUT (SHACK)
+  center                       │                 center (DC from bias-T passes through)
+                               │← Node A
+                           [R_bleed 1MΩ]
+                               │
+                           [GDT1 90V]
+                               │
+                           CHASSIS GND
+
+  - DC from bias-T: OUT_center → Node_A → antenna through (C_block = DC BLOCKED!)
+  PROBLEM: C_block is on antenna (IN) side; it blocks DC going TO the antenna.
+
+  ACTUAL CORRECT TOPOLOGY:
+  The C_block should be on the SHACK (OUT) side to block DC from the
+  arrestor's GDT ground path, while allowing DC to pass to the antenna:
+
+  IN (ANT) ──────────────────[C_block 100nF]──── OUT (SHACK)
+  center    │                                    center
+            │← Node B (connects to antenna center)
+        [R_bleed 1MΩ] + [GDT1 90V] to CHASSIS GND
+
+  This allows: DC from OUT → C_block → Node_B → antenna (WRONG again — C blocks DC)
+
+  ── RESOLUTION: TWO-CAPACITOR TOPOLOGY ─────────────────────────────────────
+  For active antenna applications, use a SPLIT design:
+
+  IN (ANT) ──[C_block_IN]──────────────────[C_block_OUT]── OUT (SHACK)
+  center         100nF     │                  100nF       center
+                           │← Node_mid
+                      [R_bleed 1MΩ]
+                           │
+                      [GDT1 90V]
+                           │
+                      CHASSIS GND
+
+  DC path: OUT_center → C_block_OUT (BLOCKED) → Node_mid → C_block_IN (BLOCKED) → ANT_center
+  DC CANNOT pass through — this is WRONG for bias injection.
+
+  ── CORRECT APPROACH FOR BIAS-T COMPATIBLE ARRESTOR: ──────────────────────
+  The bias-T (inductor + capacitor) is SEPARATE from the arrestor.
+  The arrestor uses standard DC-grounded design; the bias-T provides DC injection.
+  See Section C — Combined Bias-T + Arrestor schematic below.
+
+================================================================================
+SECTION C — COMBINED BIAS-T + ARRESTOR (ACTIVE ANTENNA SYSTEM)
+================================================================================
+
+A complete active antenna protection system uses:
+  1. Standard GDT arrestor at antenna feedpoint
+  2. DC-blocking capacitor at the arrestor's GDT ground side
+  3. RF choke (bias-T) at the shack end for DC injection
+
+COMPLETE SYSTEM BLOCK DIAGRAM:
+
+  [ACTIVE ANTENNA AMP]
+          │ coax (DC bias + RF together)
+          │
+  ┌───────┴───────────────┐
+  │   ARRESTOR AT         │
+  │   ANTENNA BASE        │
+  │                       │
+  │ ANT ──────────── ANT  │
+  │ center           shield│
+  │    │                  │
+  │  [GDT] 90V,           │
+  │  [C_blk] 1nF (DC blk) │ ← prevents DC from shunting to ground via GDT ground
+  │    │                  │
+  │  chassis (float)      │
+  │  bonded via C_gnd     │
+  │  (1nF HV cap to gnd)  │
+  └───────────────────────┘
+          │ coax (DC bias + RF)
+          │ long coax run
+          │
+  ┌───────┴───────────────┐
+  │   BIAS-T INJECTOR     │
+  │   (in shack)          │
+  │                       │
+  │ RF ──[C_bypass]────── RF OUT
+  │         1nF           (to radio, RF only)
+  │ DC ──[RFC_bias]──────
+  │         47µH          │
+  │                   combined DC+RF
+  │                   to antenna coax
+  └───────────────────────┘
+
+BIAS-T SCHEMATIC (in-shack):
+
+  RF PORT ─────[C_dc_block 1nF]────── RF+DC OUTPUT ──── coax to antenna
+                                           │
+                              [RFC 47µH] ──┘
+                                           │
+  DC POWER (+12V) ─────────────────────────
+
+  RF signal passes through C_dc_block; DC is blocked from going back to RF port.
+  DC passes through RFC (high impedance at RF); RFC prevents RF from going to DC supply.
+  Both appear on the combined output.
+
+================================================================================
+PARTS LIST — DC-GROUNDED AND DC-BLOCKED DESIGNS
+================================================================================
+
+DC-GROUNDED HF ARRESTOR:
+Ref    | Qty | Value/Part            | Description                | Notes
+-------|-----|----------------------|----------------------------|--------
+RFC1   |  1  | 220 µH toroid        | DC-ground RF choke, 160M   | See winding
+RFC1   |  1  | 47 µH choke          | DC-ground RF choke, 40M+   | Bourns 78F
+GDT1   |  1  | B88069X1140B232      | 90V GDT surge bypass       | Mouser
+J1,J2  |  2  | SO-239 silver        | Panel mount connectors     |
+
+DC-BLOCKED ACTIVE ANT ARRESTOR:
+GDT1   |  1  | B88069X1140B232      | 90V, 2.5kA GDT             |
+R_bleed|  1  | 1 MΩ 2W carbon film  | Static drain resistor      |
+C_gnd  |  1  | 1 nF 2kV ceramic     | HV cap for chassis float   |
+J1,J2  |  2  | N-type panel female  | IP67 connectors            |
+
+BIAS-T (IN-SHACK):
+RFC_bias|  1  | 47 µH ferrite bead   | Bias injection choke       |
+C_block|  1  | 1 nF NP0 100V        | RF bypass on DC port       |
+J_RF   |  1  | SO-239 female        | RF input connector         |
+J_OUT  |  1  | SO-239 female        | RF+DC output               |
+J_DC   |  1  | 2.1mm barrel DC jack | DC power input             |
+
+================================================================================

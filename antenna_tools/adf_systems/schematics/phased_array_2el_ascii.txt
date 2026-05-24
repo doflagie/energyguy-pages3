@@ -1,0 +1,202 @@
+================================================================================
+ 2-ELEMENT PHASED ARRAY RDF — TM-ADF-003 Rev A
+ Switched-Phase Cardioid Direction Finding
+ HF/VHF Coverage with Varactor Phase Control
+================================================================================
+
+PRINCIPLE OF OPERATION
+========================
+Two verticals spaced λ/4 apart. By adjusting the phase of one element,
+the combined pattern becomes a cardioid (heart-shaped) with a deep null
+pointing away from the desired signal direction.
+
+  0° phase: cardioid with null pointing WEST, peak pointing EAST
+  +90° phase: cardioid null pointing NORTH, peak pointing SOUTH
+  etc.
+
+Bearing = direction of the MINIMUM (null) signal + 180°
+(null points away from transmitter; cardioid peak faces transmitter)
+
+  Cardioid pattern: G(θ) = 1 + cos(θ - φ)
+  where φ = phase shift applied and θ = angle from array axis.
+  Null at θ = φ + 180°, peak at θ = φ.
+
+================================================================================
+SYSTEM BLOCK DIAGRAM
+================================================================================
+
+  Element A (Reference)          Element B (Phase shifted)
+  λ/4 vertical                   λ/4 vertical
+      │                               │
+      │  50Ω coax                     │  50Ω coax
+      ▼                               ▼
+  ┌────────────────────────────────────────────────────────────────────────┐
+  │              2-ELEMENT COMBINING NETWORK                              │
+  │                                                                        │
+  │  A ─────────────────────────────────────────────────────────────────► │──▶ SUM output
+  │                                                                        │
+  │  B ──▶ [Variable Phase Shifter 0°–360°] ──────────────────────────► │──▶ (combined)
+  │         Varactor BB112 + L network                                    │
+  │         Vcontrol = 0–3.3V from DAC GPIO25                            │
+  │                                                                        │
+  │  Combined ──▶ [Power Combiner Wilkinson] ──▶ 50Ω output              │
+  └────────────────────────────────────────────────────────────────────────┘
+           │
+           ▼
+  ┌──────────────────────┐
+  │  AD8307 LOG AMP       │  RSSI: 0–3.3V = −75 dBm to +12 dBm
+  │  50 dB dynamic range  │  Slope: 25 mV/dB
+  │  100 mV/decade        │
+  └──────────┬────────────┘
+             │
+             ▼ ADC GPIO35 (ESP32)
+  ┌──────────────────────┐
+  │  ESP32 CONTROLLER    │
+  │  Sweep phase 0–360°  │
+  │  Find minimum RSSI   │
+  │  Bearing = null + 180│
+  └──────────────────────┘
+
+================================================================================
+VARACTOR PHASE SHIFTER CIRCUIT
+================================================================================
+
+  Control voltage ─── GPIO25 (ESP32 DAC) ──── 0–3.3V
+
+                    ┌───────────────────────────────────────────────────┐
+                    │           VARACTOR PHASE SHIFTER                  │
+                    │                                                    │
+  V_ctrl ──[10kΩ]──┤              ┌──── L1 ────┬─── RF out            │
+                    │              │    82nH    │                       │
+                    │  BB112 ──────┘            │                       │
+  RF in ───────────┤  (varactor)        BB112 ──┘                      │
+                    │  |      |          (varactor)                     │
+                    │  GND   GND                                        │
+                    │                                                    │
+                    │  L1 = 82nH (for 40m: ω₀ ≈ 45 MHz, tune lower)   │
+                    │  Varactor C range: 2–20 pF (BB112)                │
+                    │  Phase shift: ≈ 0–180° over varactor range        │
+                    │  For 0–360°: use two-stage design or SPDT relay   │
+                    └───────────────────────────────────────────────────┘
+
+  TWO-STAGE 0–360° DESIGN:
+  Stage 1: varactor gives 0–180°
+  Stage 2: SPDT relay adds fixed 180° when needed
+  RELAY control: GPIO27 → ULN2003A → 12V relay coil
+
+  VARACTOR TUNING TABLE (BB112):
+  ┌──────────────┬─────────────────┬──────────────────────────────────┐
+  │ Control V    │ Capacitance     │ Phase (approximate, 14 MHz)      │
+  ├──────────────┼─────────────────┼──────────────────────────────────┤
+  │ 0.3V         │ 18 pF           │ 165°                             │
+  │ 0.5V         │ 16 pF           │ 150°                             │
+  │ 1.0V         │ 12 pF           │ 120°                             │
+  │ 1.5V         │  9 pF           │  90°                             │
+  │ 2.0V         │  7 pF           │  65°                             │
+  │ 2.5V         │  5 pF           │  45°                             │
+  │ 3.0V         │  4 pF           │  30°                             │
+  │ 3.3V         │  3 pF           │  20°                             │
+  └──────────────┴─────────────────┴──────────────────────────────────┘
+  NOTE: Re-calibrate for each band. Reactance changes with frequency.
+
+================================================================================
+WILKINSON POWER COMBINER
+================================================================================
+
+  Combines two 50Ω inputs to one 50Ω output, with isolation between ports.
+
+  Input A ──────[λ/4 transmission line, 70.7Ω]──────┬──── Output 50Ω
+                                                       │
+  Input B ──────[λ/4 transmission line, 70.7Ω]──────┘
+                              │
+                         100Ω (2× 50Ω) isolation resistor between inputs
+
+  For HF bands: replace λ/4 lines with LC equivalents:
+    70.7Ω quarter-wave → L = 70.7/(2πf) Henry, C = 1/(70.7 × 2πf) Farad
+
+  SWITCHED BEAM (4-position discrete):
+  Instead of continuous phase sweep, use 4 DPDT relays for 4 beam directions:
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │  Relay 1: 0° phase → beam toward EAST, null toward WEST             │
+  │  Relay 2: 90° phase → beam toward SOUTH, null toward NORTH          │
+  │  Relay 3: 180° phase → beam toward WEST, null toward EAST           │
+  │  Relay 4: 270° phase → beam toward NORTH, null toward SOUTH         │
+  │                                                                       │
+  │  Compare RSSI at all 4 positions → null = direction AWAY from TX    │
+  │  Peak = direction TOWARD TX (2 positions have ambiguity)             │
+  └──────────────────────────────────────────────────────────────────────┘
+
+================================================================================
+RSSI MEASUREMENT — AD8307 LOG AMPLIFIER
+================================================================================
+
+  RF in (from combiner output, 50Ω)
+       │
+       ▼
+  ┌────────────────────────────────────────────────────────────────┐
+  │              AD8307 LOG AMP (Analog Devices)                  │
+  │                                                                │
+  │  Pin 1 (INP+) ──── 100pF ──── RF input                       │
+  │  Pin 8 (INM-) ──── GND                                        │
+  │  Pin 4 (OUT)  ──────────────────────────────────────────────► │──▶ ADC GPIO35
+  │  Pin 7 (VPS)  ──── +5V                                        │
+  │  Pin 3 (COM)  ──── GND                                        │
+  │                                                                │
+  │  Dynamic range: −75 dBm to +12 dBm (87 dB total)             │
+  │  Output slope: 25 mV/dB                                        │
+  │  Output range: 0.1V to 2.5V for full input range              │
+  │  Frequency: DC to 500 MHz                                      │
+  │                                                                │
+  │  Supply bypass: 100nF + 10µF between Pin 7 and GND            │
+  │  Input bypass: 0.1µF in series with RF input for DC blocking  │
+  └────────────────────────────────────────────────────────────────┘
+
+  ADC reading → dBm conversion:
+    dBm = (ADC_voltage - 0.1) / 0.025 - 75 + calibration_offset
+
+================================================================================
+2-ELEMENT ARRAY ELEMENT SPACING TABLE
+================================================================================
+
+  ┌──────────┬────────────┬───────────────┬───────────────────────────────┐
+  │ Band     │ Freq (MHz) │ λ/4 spacing   │ Notes                         │
+  ├──────────┼────────────┼───────────────┼───────────────────────────────┤
+  │ 160m     │ 1.85       │ 40.5 m        │ Requires large field          │
+  │ 80m      │ 3.75       │ 20.0 m        │ Manageable portable           │
+  │ 40m      │ 7.15       │ 10.5 m        │ Good portable option          │
+  │ 30m      │ 10.125     │  7.4 m        │                               │
+  │ 20m      │ 14.175     │  5.3 m        │                               │
+  │ 17m      │ 18.118     │  4.1 m        │                               │
+  │ 15m      │ 21.225     │  3.5 m        │                               │
+  │ 12m      │ 24.940     │  3.0 m        │                               │
+  │ 10m      │ 28.850     │  2.6 m        │ Compact portable              │
+  │  6m      │ 52.000     │  1.4 m        │                               │
+  │  2m      │ 146.000    │  0.51 m       │ Very compact                  │
+  └──────────┴────────────┴───────────────┴───────────────────────────────┘
+
+================================================================================
+AMBIGUITY RESOLUTION (2-element: 2 solutions 180° apart)
+================================================================================
+
+  Problem: cardioid gives one null → direction is X or X+180°
+  Solution: compare signal strength at two nearby beam positions
+
+  Step 1: Find null direction θ_null (RSSI minimum)
+  Step 2: Steer beam to θ_null + 90° and θ_null - 90°
+  Step 3: If RSSI(+90°) > RSSI(-90°), transmitter is at θ_null + 180°
+          If RSSI(-90°) > RSSI(+90°), transmitter is at θ_null
+
+  This 3-step comparison resolves the 180° ambiguity without a sense antenna.
+
+================================================================================
+ESP32 PIN ASSIGNMENTS — 2-ELEMENT ARRAY
+================================================================================
+
+  GPIO  Function           Notes
+  ────  ───────────────    ──────────────────────────────────────────
+   25   PHASE_DAC          Varactor control voltage 0–3.3V
+   27   RELAY_180          DPDT relay for +180° phase switch
+   35   RSSI_ADC           AD8307 output, ADC1_CH7
+   21   SDA / 22 SCL       I2C (OLED + compass)
+   16   GPS_RX / 17 TX     UART GPS
+    2   BT_LED             Bluetooth status

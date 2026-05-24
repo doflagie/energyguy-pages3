@@ -1,0 +1,383 @@
+================================================================================
+  VHF/UHF MOTORIZED COAXIAL STUB TUNER — ASCII SCHEMATIC
+  Project: RF-HFTuner / Motorized Antenna Tuner Suite
+  File:    vhf_stub_tuner_ascii.txt
+  Rev:     1.0  2026-05-01
+  Controller: ESP32-PICO-D4 (compact module)
+  Coverage:   144 MHz (2M) through 2304 MHz (13cm)
+================================================================================
+
+OVERVIEW
+--------
+Motorized sliding-short coaxial stub tuner for VHF/UHF antenna matching.
+A NEMA 17 stepper motor drives a 4mm leadscrew that positions a shorting
+plunger inside a section of RG-405 semi-rigid coaxial stub. The stub is
+connected in parallel (shunt) with the antenna feedline, or in series as
+a notch filter (switchable via relay).
+
+Stub length range: 10mm to 200mm
+  — covers quarter-wave resonance from 375 MHz (200mm) to 7.5 GHz (10mm)
+  — practical useful range: 144 MHz (λ/4 = 130mm) to 2304 MHz (λ/4 = 14mm)
+  — at 144 MHz: λ/4 open stub = 75000/144 = 521mm (exceeds range)
+               λ/4 SHORT stub = 75000/144 = 521mm stub would be shorted at 521mm
+               BUT: a 130mm shorted stub is λ/8, presenting jX at input
+               Full λ/4 stub at 144MHz requires 500mm travel (not this unit)
+  NOTE: This unit's 200mm travel gives λ/4 at 375 MHz; for 2M use λ/8 stubs.
+
+================================================================================
+  SECTION 1: MECHANICAL ASSEMBLY
+================================================================================
+
+  OVERVIEW (side cross-section view):
+
+  ┌──────────────────────────────────────────────────────────────────────────┐
+  │                    STUB TUNER MECHANICAL ASSEMBLY                        │
+  │                                                                          │
+  │  ┌─────┐                                                      ┌─────┐   │
+  │  │ N   │                                                      │ N   │   │
+  │  │ TYPE│                                                      │ TYPE│   │
+  │  │ IN  │                                                      │ OUT │   │
+  │  └──┬──┘                                                      └──┬──┘   │
+  │     │              MAINLINE COAX (RG-8X or LMR-240)             │      │
+  │     └──────────────────────────────────────────────────────────┘       │
+  │                              │                                           │
+  │                              │ SMA or N-type TEE junction                │
+  │                              │                                           │
+  │                    ┌─────────┴──────────────────────────────────────┐   │
+  │                    │         STUB CAVITY (RG-405 outer conductor)    │   │
+  │                    │                                                 │   │
+  │  [NEMA17]──[COUPL]─[4mm LEADSCREW]──────────────────────[PLUNGER]   │   │
+  │     │                                │                      │       │   │
+  │     │                         [CARRIAGE]                    │       │   │
+  │     │                      [linear optical]                 │       │   │
+  │     │                         [encoder]                     │       │   │
+  │                                                                     │   │
+  │                    └─────────────────────────────────────────────────┘  │
+  │                                                                          │
+  └──────────────────────────────────────────────────────────────────────────┘
+
+  Components:
+    - Stub cavity: RG-405 outer conductor, 200mm long, 3.58mm ID center conductor
+    - OR: custom machined aluminum tube, 10mm ID, 150mm long (for VHF)
+    - Shorting plunger: beryllium-copper finger-stock contact in brass piston
+    - Leadscrew: 4mm diameter, 0.7mm pitch T8 type (or M4 threaded rod)
+    - Travel: 200mm max (limited by end-stop blocks)
+    - Carriage: delrin slide with linear optical encoder strip
+    - Motor coupling: flexible jaw coupling (to absorb leadscrew wobble)
+
+  Electrical connection to stub:
+    - Outer conductor of stub: connected to mainline outer conductor at TEE
+    - Center conductor of stub: soldered to plunger carriage (sliding contact)
+    - Sliding contact: spring-loaded silver-plated beryllium copper
+    - At short position: center conductor shorted to outer → quarter-wave stub
+
+================================================================================
+  SECTION 2: RF SIGNAL PATH — SHUNT STUB (PARALLEL CONNECTION)
+================================================================================
+
+  SHUNT STUB MODE (default, K1 = energized, shunt path closed):
+
+   TX/ANT ──────────────────────── MAINLINE ─────────────────── ANT/LOAD
+               │                                      │
+               │                                      │
+          [N-type TEE]                           (optional 2nd TEE
+               │                                 for dual-stub)
+               │
+          [RELAY K1]
+          SHUNT PATH
+               │
+          STUB INPUT (center conductor of coaxial stub)
+               │
+               │ ← stub length L controlled by plunger position
+               │
+          PLUNGER SHORTING CONTACT
+          (stub terminated in short circuit)
+
+  In shunt mode: the stub presents an impedance at its input of:
+    Z_stub = j × Z0 × tan(2π × L / λ)
+  where Z0 = 50Ω (RG-405), L = stub length, λ = wavelength in coax
+  λ_coax = λ_free × VF = (300 / f_MHz) × VF × 1000 mm
+
+  At λ/4: Z_stub = ∞ (parallel resonance, stub is transparent)
+  At λ/8: Z_stub = +j50Ω (inductive)
+  At 3λ/8: Z_stub = -j50Ω (capacitive)
+
+================================================================================
+  SECTION 3: RF SIGNAL PATH — SERIES NOTCH STUB (RELAY SWITCHED)
+================================================================================
+
+  SERIES NOTCH MODE (K1 = deenergized, K2 = energized):
+
+   TX ─── [K2 IN] ─── SERIES STUB ─── [K2 OUT] ─── ANT
+
+  In series notch mode: the stub is placed in series with the feedline.
+  A λ/4 shorted stub in series presents a SHORT at resonance (notch filter).
+  Used for: harmonic suppression, image rejection, interference notching.
+
+  RELAY SWITCHING:
+    K1 (SHUNT): SPDT relay
+      NC (normally closed) = shunt stub connected to mainline TEE
+      NO (normally open)   = shunt stub disconnected
+      COM                  = TEE junction
+
+    K2 (SERIES BYPASS): SPDT relay
+      NC = direct mainline bypass (series stub bypassed)
+      NO = route through series stub
+      COM = TX input
+
+  ┌──────────────────────────────────────────────────────┐
+  │ MODE       │ K1     │ K2     │ Configuration          │
+  ├──────────────────────────────────────────────────────┤
+  │ SHUNT STUB │ ON(NC) │ OFF(NC)│ Stub in parallel       │
+  │ SERIES     │ OFF    │ ON(NO) │ Stub in series path    │
+  │ BYPASS     │ OFF    │ OFF(NC)│ Stub disconnected      │
+  └──────────────────────────────────────────────────────┘
+
+  RF relay specifications:
+    Rating: minimum 50W continuous at 50Ω
+    Frequency: DC to 3 GHz
+    Insertion loss: < 0.1 dB at 1 GHz
+    Isolation: > 40 dB at 1 GHz
+    Recommended: Fujitsu FTR-B3 series, Omron G6K-2F-RF, or SMA relay
+
+================================================================================
+  SECTION 4: ESP32-PICO-D4 CONTROLLER
+================================================================================
+
+  ESP32-PICO-D4: compact 7×7mm module (SIP) with integrated flash and PSRAM.
+  Suitable for small form factor VHF/UHF tuner enclosure.
+
+                    ┌──────────────────────────────────────┐
+                    │          ESP32-PICO-D4 (U1)           │
+                    │                                      │
+    3.3V ─────────── ┤VDD            LNAIN├── (N/C)         │
+    GND  ─────────── ┤GND                 │                  │
+                    │                    │  [Integrated]    │
+  GPIO18 (STEP) ─── ┤GPIO18              │  [2MB PSRAM]     │
+  GPIO19 (DIR)  ─── ┤GPIO19              │  [4MB Flash]     │
+  GPIO21 (EN)   ─── ┤GPIO21              │                  │
+  GPIO22 (SCL)  ─── ┤GPIO22          GPIO0├── [BOOT button]  │
+  GPIO23 (SDA)  ─── ┤GPIO23              │                  │
+  GPIO25 (ENCDR)─── ┤GPIO25              │  [WiFi/BT        │
+  GPIO26 (RELAY)─── ┤GPIO26              │   antenna built  │
+  GPIO27 (K2)   ─── ┤GPIO27              │   into package]  │
+  GPIO32 (VFWD) ─── ┤GPIO32              │                  │
+  GPIO33 (VREV) ─── ┤GPIO33              │                  │
+  GPIO34 (LIM_N)─── ┤GPIO34              │                  │
+  GPIO35 (LIM_P)─── ┤GPIO35              │                  │
+    TX0  ─────────── ┤TXD0               │                  │
+    RX0  ─────────── ┤RXD0               │                  │
+                    └──────────────────────────────────────┘
+
+================================================================================
+  SECTION 5: TMC2208 STEPPER DRIVER (SINGLE AXIS)
+================================================================================
+
+  One TMC2208 driver for the stub plunger motor.
+
+                      ┌─────────────────────────────────┐
+                      │         TMC2208 (U2)              │
+                      │                                  │
+  12V ──────────────── ┤VM                     A1├── MOTOR_A+
+  GND ──────────────── ┤GND       NEMA17        A2├── MOTOR_A-
+  3.3V ─────────────── ┤VCC_IO   STUB DRIVE     B1├── MOTOR_B+
+                      │                        B2├── MOTOR_B-
+  GPIO18 (STEP) ────── ┤STEP                      │
+  GPIO19 (DIR)  ────── ┤DIR       R_sense: 0.2Ω  │
+  GPIO21 (EN)   ────── ┤EN        (1.0A RMS)      │
+  GND ────────────── ┤MS1                        │
+  GND ────────────── ┤MS2                        │
+  GPIO20 (UART) ────── ┤PDN_UART                  │
+                      └─────────────────────────────────┘
+
+  Motor current: 1.0A RMS (stub plunger is light load, reduce for quiet ops)
+  Microstepping: 1/16 (smooth motion for precise frequency tuning)
+  Step resolution: 200 steps/rev × 16 microsteps = 3200 steps/rev
+  Leadscrew pitch: 0.7mm/rev (M4) or 2mm/rev (T8)
+  With M4: 3200 steps × 0.7mm = 2240mm travel per rev → 0.22µm per step
+  With T8 (2mm): 3200 steps × 2mm = 6400mm → 0.625µm per step
+  For VHF: frequency resolution ≈ Δf = -f² × ΔL × VF / 75000
+
+  Frequency resolution at 432 MHz with T8 leadscrew:
+    ΔL = 0.625µm per step
+    Δf = 432² × 0.000000625 / 75000 ≈ 1.56 kHz/step  (excellent resolution)
+
+================================================================================
+  SECTION 6: POSITION SENSOR — LINEAR OPTICAL ENCODER
+================================================================================
+
+  Linear optical encoder strip on stub plunger carriage.
+  Provides absolute/incremental position feedback.
+
+  Options:
+    A) Reflective strip encoder: 0.1mm line pitch, photointerrupter head
+       (Broadcom AEDR-8300 series or equivalent)
+    B) Magnetic linear encoder: AS5311 (0.488µm resolution, 2mm pitch scale)
+    C) Inductive: LDC1614 (sub-µm resolution, coil-based)
+
+  Preferred for this design: Option A (optical, 0.1mm pitch)
+
+  Encoder interface:
+    Encoder A channel → GPIO25 (interrupt-capable)
+    Encoder B channel → GPIO26 (interrupt-capable, for direction)
+    Encoder Index     → GPIO27 (home reference pulse, optional)
+
+  Resolution: 0.1mm pitch / 4 (quadrature) = 0.025mm per count
+  Position range 200mm: 200 / 0.025 = 8000 counts
+  Frequency resolution at 432 MHz: 432² × 0.000025 / 75000 ≈ 62 kHz/count
+
+  Optical encoder wiring:
+
+  ENCODER VCC (3.3V) ─── encoder header pin 1
+  ENCODER GND        ─── encoder header pin 2
+  ENCODER A          ─── GPIO25 ─── 10kΩ pull-up to 3.3V
+  ENCODER B          ─── GPIO26 ─── 10kΩ pull-up to 3.3V
+  ENCODER IDX        ─── GPIO27 ─── 10kΩ pull-up to 3.3V
+
+================================================================================
+  SECTION 7: LIMIT SWITCHES AND HOME SENSING
+================================================================================
+
+  Two limit switches (physical travel limits):
+
+  STUB_MIN (plunger fully retracted, stub = 10mm):
+    GPIO34 ─── 10kΩ to 3.3V ─── SW_MIN ─── GND
+    (GPIO34 is input-only; external pull-up mandatory)
+
+  STUB_MAX (plunger at maximum insertion, stub = 200mm):
+    GPIO35 ─── 10kΩ to 3.3V ─── SW_MAX ─── GND
+    (GPIO35 is input-only; external pull-up mandatory)
+
+  Home sequence:
+    1. Drive toward MIN until SW_MIN asserts
+    2. Back off 1mm (encoder-tracked)
+    3. Set position counter to STUB_MIN_MM (10mm)
+    4. HOME complete
+
+================================================================================
+  SECTION 8: SWR BRIDGE (SIMPLIFIED, VHF VARIANT)
+================================================================================
+
+  At VHF/UHF, the toroid coupler is replaced by a microstrip directional
+  coupler on PCB. The detection circuit is otherwise similar.
+
+  Microstrip coupler at VHF (PCB-based, 20dB coupling):
+    - 50Ω microstrip, length = λ/4 at design frequency
+    - Coupled line: 4mm gap, tuned for 144-450 MHz
+    - At 1296 MHz: use SMA connector + external coupler module
+
+  For simplicity, this controller uses the same SWR bridge as the HF tuner
+  via an SMA connector input. See swr_bridge_ascii.txt for full circuit.
+
+  ADC connections:
+    VFWD → GPIO32 (ADC1_CH4)
+    VREV → GPIO33 (ADC1_CH5)
+
+================================================================================
+  SECTION 9: STUB LENGTH TO FREQUENCY TABLE
+================================================================================
+
+  VELOCITY FACTORS:
+    RG-405 (PTFE-filled semi-rigid): VF = 0.695
+    RG-405 (LD-PTFE):                VF = 0.695
+    Air-dielectric coax (machined):  VF = 0.98
+    LMR-240 (solid PE):              VF = 0.84
+    RG-58 (solid PE):                VF = 0.66
+
+  FORMULA:
+    λ/4 stub length (mm) = (75000 × VF) / f_MHz
+    λ/8 stub length (mm) = (37500 × VF) / f_MHz
+
+  USING VF = 0.695 (RG-405):
+
+  ┌────────────┬───────────┬──────────────┬──────────────┬─────────────────┐
+  │ Band       │ Freq(MHz) │ λ/4 L (mm)   │ λ/8 L (mm)   │ In range?       │
+  ├────────────┼───────────┼──────────────┼──────────────┼─────────────────┤
+  │ 2M         │ 144       │ 362 mm       │ 181 mm       │ λ/8 marginal    │
+  │ 1.25M      │ 222       │ 235 mm       │ 118 mm       │ λ/8 in range    │
+  │ 70cm       │ 432       │ 121 mm       │ 60 mm        │ λ/4 in range ✓  │
+  │ 33cm       │ 902       │ 58 mm        │ 29 mm        │ λ/4 in range ✓  │
+  │ 23cm       │ 1296      │ 40 mm        │ 20 mm        │ λ/4 in range ✓  │
+  │ 13cm       │ 2304      │ 23 mm        │ 11 mm        │ λ/4 in range ✓  │
+  └────────────┴───────────┴──────────────┴──────────────┴─────────────────┘
+
+  USING VF = 0.66 (PTFE, common cable):
+
+  ┌────────────┬───────────┬──────────────┬──────────────────────────────────┐
+  │ Band       │ Freq(MHz) │ λ/4 L (mm)   │ Notes                            │
+  ├────────────┼───────────┼──────────────┼──────────────────────────────────┤
+  │ 144 MHz    │ 144       │ 344 mm       │ Exceeds 200mm travel; use λ/8    │
+  │ 222 MHz    │ 222       │ 223 mm       │ Marginal; use λ/8 at 112mm       │
+  │ 432 MHz    │ 432       │ 115 mm       │ λ/4 at 115mm — in range ✓        │
+  │ 902 MHz    │ 902       │ 55 mm        │ In range ✓                       │
+  │ 1296 MHz   │ 1296      │ 38 mm        │ In range ✓                       │
+  │ 2304 MHz   │ 2304      │ 21 mm        │ In range ✓                       │
+  └────────────┴───────────┴──────────────┴──────────────────────────────────┘
+
+  NOMINAL VALUES (per spec, VF = 0.66):
+    144 MHz  → 130 mm  (λ/4 with VF=0.624, or λ/8 effective stub)
+    222 MHz  →  84 mm
+    432 MHz  →  43 mm
+    902 MHz  →  21 mm
+    1296 MHz →  14 mm
+    2304 MHz →   8 mm
+
+  NOTE: These nominal values from spec may use a different VF assumption.
+  Calibrate stub length vs. frequency with NanoVNA during commissioning.
+  Store calibration table in NVS: f_MHz → optimal_stub_mm.
+
+================================================================================
+  SECTION 10: GPIO ASSIGNMENT TABLE
+================================================================================
+
+  ┌─────────┬────────────────────┬────────────────────────────────────────────┐
+  │ GPIO    │ Function           │ Notes                                      │
+  ├─────────┼────────────────────┼────────────────────────────────────────────┤
+  │ GPIO18  │ STEP               │ Step pulse to TMC2208                      │
+  │ GPIO19  │ DIR                │ Direction to TMC2208                       │
+  │ GPIO20  │ UART (TMC2208)     │ UART config to TMC2208 PDN_UART            │
+  │ GPIO21  │ EN                 │ Enable to TMC2208 (LOW=enabled)            │
+  │ GPIO22  │ I2C_SCL            │ OLED, or I2C SWR chip                      │
+  │ GPIO23  │ I2C_SDA            │ OLED, or I2C SWR chip                      │
+  │ GPIO25  │ ENCODER_A          │ Quadrature encoder A channel (interrupt)   │
+  │ GPIO26  │ ENCODER_B          │ Quadrature encoder B channel (interrupt)   │
+  │ GPIO27  │ ENCODER_IDX / K2   │ Encoder index pulse OR series relay K2    │
+  │ GPIO32  │ VFWD_ADC           │ ADC1_CH4, forward power                    │
+  │ GPIO33  │ VREV_ADC           │ ADC1_CH5, reflected power                  │
+  │ GPIO34  │ STUB_MIN_SW        │ Input only; 10kΩ pull-up required          │
+  │ GPIO35  │ STUB_MAX_SW        │ Input only; 10kΩ pull-up required          │
+  │ GPIO36  │ RELAY_K1           │ Shunt/series mode relay control            │
+  │ GPIO1   │ UART0_TX           │ Debug serial                               │
+  │ GPIO3   │ UART0_RX           │ Debug serial                               │
+  └─────────┴────────────────────┴────────────────────────────────────────────┘
+
+================================================================================
+  SECTION 11: VELOCITY FACTOR COMPENSATION IN FIRMWARE
+================================================================================
+
+  Stub length calculation in firmware:
+
+    float stubLengthMM(float freq_mhz, float vf, int harmonic_n) {
+        // harmonic_n = 1 for λ/4, 2 for λ/8, 3 for 3λ/8, etc.
+        // Returns stub length in mm
+        float lambda_mm = (300000.0 / freq_mhz) * vf;  // wavelength in mm
+        return lambda_mm / (4.0 * harmonic_n);
+    }
+
+  VF constants:
+    VF_RG405_PTFE  = 0.695
+    VF_RG405_AIR   = 0.980
+    VF_LMR240      = 0.840
+    VF_RG58_SOLID  = 0.660
+    VF_RG58_FOAM   = 0.780
+
+  VF calibration procedure:
+    1. Set stub to known length (e.g. 100mm physical)
+    2. Sweep frequency with NanoVNA connected to stub input
+    3. Find resonant frequency (minimum reflection or maximum absorption)
+    4. Calculate actual VF: VF = (4 × f_res_MHz × L_mm) / 300000
+    5. Store in NVS: SETPARAM VF_ACTUAL <value>
+
+================================================================================
+  END OF VHF/UHF MOTORIZED COAXIAL STUB TUNER ASCII SCHEMATIC
+================================================================================

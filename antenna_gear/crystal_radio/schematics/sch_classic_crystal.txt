@@ -1,0 +1,238 @@
+================================================================================
+SCHEMATIC: CLASSIC CRYSTAL RADIO
+TM-CR-001  Rev A
+Ferrite rod antenna, 1N34A detector, AM broadcast 530–1700 kHz + 160M
+Fully passive — no battery required
+================================================================================
+
+OVERVIEW
+--------
+The classic crystal radio converts AM broadcast RF energy directly into audio
+using only passive components: a resonant tank circuit selects the station,
+a germanium diode rectifies (detects) the AM envelope, and a high-impedance
+earphone converts the audio current to sound.
+
+No power source is required.  All operating energy comes from the received
+radio frequency signal.  Practical minimum detectable signal: ≈5 mV/m at
+antenna, corresponding to a medium-power broadcast station at 5–20 km range
+with a good outdoor antenna.
+
+DESIGN SPECIFICATIONS
+----------------------
+  Frequency range:    530–1700 kHz (AM broadcast); selectable for 160M (1.8–2.0 MHz)
+  Antenna:            Ferrite rod loopstick (7" = 178 mm, mix-61 or mix-77 ferrite)
+                      or long-wire (10–30 m) via coupling winding
+  Detector:           1N34A germanium diode (V_f ≈ 0.2V, C_j ≈ 1 pF)
+  Earphone:           Crystal (piezoelectric): 50 kΩ–2 MΩ
+                      OR high-Z magnetic: 2000–4000 Ω
+                      OR 8 Ω headphones via matching transformer (see
+                         sch_headphone_transformer.txt)
+  Tuning:             365 pF single-gang air variable capacitor
+  Selectivity:        −3 dB bandwidth ≈ 10–20 kHz at 1 MHz (Q ≈ 50–100)
+
+
+COMPLETE SCHEMATIC — AM BROADCAST CRYSTAL RADIO
+-------------------------------------------------
+
+                            ┌─────────────────────────────┐
+  ANT COUPLING              │   MAIN TUNED CIRCUIT         │
+  (ferrite rod or           │                              │
+   link winding)            │   L1 (ferrite rod, 220 µH)  │
+                            │      ┌────┐                  │
+  ANTENNA ── (optional) ──  ├──────┤    ├──────────────────┤
+                            │      └────┘                  │
+  Or: antenna directly      │   C1 (365 pF variable)       │  ┌── DETECTOR
+  to tap on L1              │      ┌───┤├───┐              │  │
+                            ├──────┤         ├─────────────┤  │
+  GROUND ─────────────────  ├──────┴─────────┴─────────────┤  │
+                            └─────────────────────────────  │  │
+                                                            │  │
+  Simplified one-line diagram:                             │  │
+                                                           │  │
+  ANT ──┬──────────────────────────────────────────────────┘  │
+        │                                               DETECTOR│
+      [L1] ══ ferrite rod coil, 220µH                         │
+        │                                                       │
+      [C1] 365pF variable                                      │
+        │                                                       │
+       GND ──────────────────────────────────────────────────  ┘
+
+
+DETAILED SCHEMATIC
+------------------
+
+  ANTENNA ─────────────────────────────────────── A
+                                                  │
+                    ┌─────── L1 ────────┐         │
+  (Ferrite rod)     │   220 µH loopstick│         │
+                    │   or long-wire     │         │
+                    │   link coupling    │         │
+                                         │         │
+  ┌──── ANT ────────┤                   ├────────  A ─────┐
+  │                 │                   │                  │
+  │         ┌───── WIPER ──────┐        │                  │
+  │         │   C1: 365 pF     │        │                  │
+  │         │   variable cap   │        │                  │
+  │         └──────────────────┘        │                  │
+  │                 │                              │        │
+  └── GND ──────────┴──────────────── GND ─────────┴──── GND
+
+  Point A (top of tank circuit) connects to detector:
+
+           Point A
+              │
+             [D1] 1N34A (anode toward A, cathode toward earphone)
+              │
+              ├──────── [R_load: 470 kΩ or earphone] ──── GND
+              │
+           AF output (to earphone or headphone transformer)
+
+  DETECTOR DETAIL:
+
+  Tank top ─── [D1: 1N34A] ─────────────────────── AF (+)
+                    (anode → cathode →)
+                                        │
+                                    [C2: 0.1 µF]    [EARPHONE or R_load]
+                                        │                    │
+  GND ────────────────────────────────  ┴────────────────────┴──── GND
+
+  C2 (0.1 µF) is the RF bypass/detector filter capacitor.
+  It short-circuits the RF component of the detected signal to GND,
+  leaving only the audio-frequency AM envelope at the output.
+
+  WITHOUT C2: RF and audio both appear at output (not desirable).
+  WITH C2:    Only AF envelope remains → audio to earphone.
+
+
+COMPONENT SELECTION AND VALUES
+--------------------------------
+
+L1 — FERRITE ROD LOOPSTICK COIL:
+  Core:    7-inch (178 mm) ferrite rod, 9.5 mm diameter
+  Mix:     Type 61 (permeability µ = 125, good to 3 MHz)
+           or Type 77 (µ = 2000; better sensitivity, slightly less Q)
+           or Type 73 for AM broadcast (µ = 2500)
+  Wire:    #28 AWG enameled (magnet wire), single-layer
+  Turns:   110 turns for 220 µH on 9.5 mm rod
+           Winding length: 50 mm; position on rod adjustable for Q optimization
+  Coil form: 3D printed (see openscad/coil_former.scad)
+  Tap:     At 20–25 turns from ground end: low-impedance antenna coupling tap
+           At 50 turns from ground end: medium-impedance tap
+
+  MEASURING INDUCTANCE:
+    Use LC meter or function generator + oscilloscope.
+    Target: 220 µH ± 10%.
+    At 1 MHz: X_L = 2π × 10⁶ × 220×10⁻⁶ = 1382 Ω
+
+C1 — VARIABLE CAPACITOR:
+  Type:  365 pF air variable (classic broadcast type)
+         or dual-gang 365+365 pF (for TRF version; use single gang here)
+  Min C: ≈15 pF (with stray); Max C: 365 pF
+  Tuning range at 220 µH:
+    f_max = 1/(2π√(220µH × 15pF)) = 2.77 MHz (covers 160M if desired)
+    f_min = 1/(2π√(220µH × 365pF)) = 563 kHz (covers 530 kHz AM low end)
+  Knob: Direct drive (no vernier) for simple sets;
+        10:1 vernier reduction for fine tuning (recommended)
+
+D1 — DETECTOR DIODE:
+  Part:  1N34A germanium point-contact diode
+         Alternatives: OA79, OA47, OA91, AAZ15 (all germanium Schottky)
+         For small signals: 1N270 also works
+  WHY GERMANIUM:  Forward voltage V_f ≈ 0.15–0.25V vs. silicon V_f ≈ 0.6V.
+                  Crystal radios have very limited RF voltage (often <0.5V peak).
+                  Silicon diodes require >0.6V to conduct; germanium starts
+                  conducting at much lower levels → critical for sensitivity.
+         DO NOT use 1N914, 1N4148 (silicon) — too high threshold voltage.
+         Schottky (BAT43, 1N5711) can work; V_f ≈ 0.25V at low currents.
+
+C2 — RF BYPASS / DETECTOR FILTER:
+  Value:  0.001 µF (1000 pF = 1 nF) for standard audio
+          0.01 µF for lower audio bandwidth (less hiss)
+          0.1 µF for very strong signals (cleaner audio)
+  Type:   Ceramic disc (any type — not in resonant circuit, so C0G not required)
+
+EARPHONE / LOAD:
+  Crystal earphone: Z = 50 kΩ – 2 MΩ (piezoelectric); highest sensitivity,
+                    no transformer needed; use in parallel with 470 kΩ – 1 MΩ.
+  High-Z magnetic: Z = 2000–4000 Ω; requires 500:1 impedance matching at
+                   detector to prevent loading the tank circuit.
+  Low-Z (8 Ω):     Requires transformer (see sch_headphone_transformer.txt).
+
+  DETECTOR LOAD IMPEDANCE RULE:
+    R_load should be >> Z_tank to avoid detuning and loading.
+    Z_tank = Q² × (L/C) at resonance; for Q=80, L=220µH, C=100pF:
+      Z_tank = 80² × (220µH/100pF) = 6400 × 2200 = 14 MΩ (theoretical)
+    In practice (with antenna and losses): Z_tank ≈ 200 kΩ – 2 MΩ.
+    Crystal earphone (> 500 kΩ) presents negligible loading. ✓
+    8 Ω headphone (without transformer) would load and kill Q.  ✗
+
+
+COIL WINDING PROCEDURE (FERRITE ROD)
+--------------------------------------
+  1. Print coil form from openscad/coil_former.scad.
+     Form slides on 9.5 mm ferrite rod; allows position adjustment.
+
+  2. Wind 110 turns of #28 AWG magnet wire, single layer, close-wound.
+     Wind from one end toward center.
+     Do NOT overlap turns; keep even spacing.
+
+  3. After 20 turns: bring out a tap wire (tie a loop and continue winding).
+     Label this "ANT TAP" (low-Z antenna coupling).
+
+  4. After 50 turns: bring out a tap wire.
+     Label this "MED TAP".
+
+  5. Continue to 110 turns total.
+
+  6. Secure winding ends with a drop of nail varnish at each end.
+
+  7. Measure inductance. Adjust by spreading or compressing turns.
+
+  INDUCTANCE vs TURNS (approximate, 9.5 mm rod, Mix 61, 50 mm winding):
+    50 turns:  ≈ 50 µH
+    80 turns:  ≈ 130 µH
+    110 turns: ≈ 220 µH
+    150 turns: ≈ 400 µH
+
+  For 160M (1.8–2.0 MHz) with 100 pF:
+    L needed: 78 µH → use 75 turns
+    Or: use separate 80-turn coil on a short air-core form (50 mm dia, 50 mm long)
+
+
+160M (1.8–2.0 MHz) CRYSTAL RADIO VARIANT
+------------------------------------------
+  Same circuit; replace ferrite rod with air-core coil:
+    Coil: 50 mm diameter × 50 mm long, 30 turns #24 AWG
+    L ≈ 78 µH
+    C: 100 pF fixed + 100 pF variable (or air-var trimmed)
+    Antenna: Long-wire (10–30 m + counterpoise) for best sensitivity
+    Diode: 1N34A (same)
+    Earphone: Crystal or high-Z type
+
+  At 160M: Signal levels are generally higher than AM broadcast
+  (amateur operators often run 100–1500 W).
+  Detection is more reliable; audio stronger.
+
+
+PERFORMANCE PREDICTIONS
+------------------------
+  Q factor (unloaded):    80–150 (ferrite rod, good wire, correct core)
+  Selectivity (−3 dB BW): 7–13 kHz at 1 MHz (adequate for AM stations)
+  Minimum detectable E:   ≈5–20 mV/m with 15m long-wire antenna
+  Audio output (strong):  ≈0.1–2 mW into crystal earphone
+  Range (typical AM xmtr): 10–100 km depending on station power and antenna
+
+PARTS LIST
+-----------
+  Ref   Qty  Value/Part           Description
+  ---   ---  ----------           -----------
+  L1     1   220 µH               Ferrite rod loopstick, 7" rod (see text)
+  C1     1   365 pF variable      Air variable, single gang
+  D1     1   1N34A                Germanium point-contact detector diode
+  C2     1   0.01 µF              Ceramic disc, RF bypass
+  R1     1   470 kΩ               Earphone shunt (optional; improves audio)
+  J1     1   Binding posts (2)    Antenna and ground terminals
+  J2     1   3.5 mm stereo jack   Earphone output
+  J3     1   3.5 mm jack          External antenna (optional bypass)
+
+================================================================================

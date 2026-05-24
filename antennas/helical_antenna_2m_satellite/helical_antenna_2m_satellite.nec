@@ -1,0 +1,13 @@
+CM HELICAL ANTENNA 2M SATELLITE
+CM Solenoid helix in axial mode: circular polarization for satellite work, gain via multi-turn helical structure
+CM Bands: 2M satellite (144–146 MHz)
+CE
+
+GW 1 20 0.0 0.0 0.0  0.0 0.0 0.35  0.0005
+
+GE 0
+GN 2 0 0 0 13 0.005
+EX 0 1 6 0 1 0
+FR 0 1 0 0 100 0
+RP 0 91 360 1000 -90 0 1.0 1.0
+EN

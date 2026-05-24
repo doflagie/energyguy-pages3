@@ -1,0 +1,233 @@
+================================================================================
+  INTEGRATED ANTENNA ANALYZER - AD8302 VECTOR GAIN/PHASE DETECTOR
+  Magnitude & Phase Measurement for True VNA (S11 Reflection)
+================================================================================
+
+OVERVIEW
+────────
+The AD8302 is a monolithic logarithmic detector with integrated phase comparator.
+It outputs both magnitude (gain) and phase difference between two RF input signals.
+This enables true vector measurement → full complex impedance (R + jX).
+
+Key specs:
+  Frequency range: DC to 2.7 GHz (covers all ham bands: 160M-20cm)
+  Magnitude output: VMAG, 30 mV/dB, -60 to 0 dBm dynamic range
+  Phase output: VPHS, 10 mV/degree, 0 to 180° (or -90 to +90°)
+  Input impedance: 50Ω each channel
+  Package: LFCSP-16 (3mm×3mm)
+
+
+PINOUT (16-pin LFCSP)
+──────────────────────
+```
+         ┌─────────┐
+    INPA→[1]     [16]←GND
+    INPB→[2]     [15]←VPS (+5V analog)
+  DIODE→[3]     [14]←RSET
+  VMAG←[4]      [13]←GND
+  VPHS←[5]      [12]←GND
+   VSS→[6]      [11]←GND
+   VSS→[7]      [10]←RSET_EXT
+   VSS→[8]      [9]←VEE (-5V)
+         └─────────┘
+```
+
+Typical connection:
+  - INPA: Forward coupler arm (reference, typically -20dB from main signal)
+  - INPB: DUT port coupled signal (signal to measure)
+  - VMAG output: Proportional to gain/magnitude of INPB relative to INPA
+  - VPHS output: Phase difference between INPB and INPA
+  - RSET: Gain setting resistor (1.5kΩ standard, sets gain = 14/RSET)
+
+
+POWER SUPPLY REQUIREMENTS
+───────────────────────
+VPS (+5V analog): 4.5-5.5V, bypass with 0.1µF + 10µF ceramic + 1µF film
+VEE (-5V):       -4.5 to -5.5V, bypass with 0.1µF + 10µF ceramic
+VSS (GND):       0V, multiple pins (6,7,8,12,13,16) must all be tied to GND plane
+
+Recommended supply topology:
+  +12V PSU → [LDO +5V, 100mA] → VPS
+  +12V PSU → [Charge pump -5V] → VEE
+  Both regulators bypass as above
+
+
+INPUT NETWORK (Balun & Impedance Matching)
+────────────────────────────────────────────
+Device is internally balanced (differential inputs INPA, INPB).
+But RF signals are typically single-ended (from couplers, 50Ω unbalanced).
+
+Solution: Use balun transformer (or differential amplifier buffer).
+
+Option A: Ferrite Balun (Passive, Simplest)
+```
+    50Ω Source ──[Balun FT50-43]─┬→ INPA
+    (50Ω unbal)    (1:1 impedance)├→ INPB
+                    (0.6-2.7 GHz)  │  (Gain = 14/RSET = 9.3 for RSET=1.5k)
+                                   └→ Series R (if AC coupling needed)
+
+    Winding: 5 turns, bifilar #26 AWG on T50-43 toroid
+             (Fair-Rite 2643625002)
+```
+
+Option B: Transformer (Better Linearity for UHF)
+```
+    50Ω Source ──[T1: FT50-43]──┬→ INPA
+                   5T primary   │
+                   5T secondary ├→ INPB
+                   (1:1 impedance matching)
+```
+
+Option C: Differential Amplifier Buffer (Most Flexible)
+```
+    50Ω Source ──[50Ω series R]──→ OPA2277 + → INPA
+                                        differential output
+                                        − → INPB
+    (Provides gain, impedance isolation, DC blocking)
+```
+
+Recommended: Option A (ferrite balun) for simplicity in ham band analyzer.
+
+
+DC BLOCKING & BYPASSING
+───────────────────────
+Input coupling capacitors: 1 nF (C0G, 50V+) on each channel
+  Purpose: Block DC offset from balun, allow RF to pass
+  Insertion loss: Negligible at RF frequencies
+  Input impedance to AD8302: 50Ω
+
+Output filtering (VMAG and VPHS):
+  Each output: [10kΩ series resistor] → [10nF capacitor to GND]
+  Purpose: Low-pass filter for noisy AD8302 outputs
+  Cutoff frequency: 1/(2π×10k×10n) ≈ 1.6 kHz (very slow update)
+  Trade-off: Slower response but cleaner readings
+
+
+GAIN SETTING (RSET Resistor)
+──────────────────────────
+The AD8302 gain is set by:
+  Voltage gain = 14 V/(10×RSET[kΩ])
+
+For RSET = 1.5 kΩ:  Gain = 14 / 15 = 0.933 V/V (−0.6 dB)
+For RSET = 1.0 kΩ:  Gain = 14 / 10 = 1.4 V/V (+2.9 dB)
+
+Typical setting: 1.5 kΩ metal-film resistor ±1%, bypassed with 100pF at high frequency.
+
+For external gain trim (calibration):
+  Add 10kΩ potentiometer in series with RSET
+  Allows ±20% gain adjustment for frequency response flatness
+
+
+OUTPUT STAGE & MEASUREMENT
+──────────────────────────
+VMAG output (Magnitude/Gain):
+  Range: 0.6V to 3.2V (typical)
+    0.6V @ -60 dBm input (minimum detectable)
+    3.2V @ 0 dBm input (maximum)
+  Linear transfer: 30 mV/dB
+
+  Conversion to dB (after conditioning):
+    P[dBm] = (V[mV] - 600) / 30 - 60
+
+    Example: VMAG = 1.5V = 1500mV
+    P = (1500-600)/30 - 60 = 30 - 60 = -30 dBm
+
+VPHS output (Phase):
+  Range: 0V to 1.8V (represents 0° to 180°)
+  Linear transfer: 10 mV/degree
+  Ambiguity: AD8302 only measures -180° to +180° (one quadrant)
+
+  Conversion to degrees (after conditioning):
+    θ[degrees] = (V[mV] - 900) / 10
+
+    0V = -90°, 0.9V = 0°, 1.8V = +90°
+
+  4-Quadrant technique (if needed):
+    Swap INPA ↔ INPB, remeasure
+    Double the phase information to resolve quadrant ambiguity
+
+Measurement via ADS1115 ADC:
+  AIN0 → VMAG output (measures 0.6-3.2V range)
+  AIN1 → VPHS output (measures 0-1.8V range)
+  16-bit resolution: 0.305 mV per count
+  Recommended: 16-point averaging, 1 Hz update rate
+
+
+TERMINATION OF UNUSED INPUTS
+──────────────────────────────
+If only measuring forward reflection (not reverse), ground the unused input:
+
+  INPA (reference) ──→ From RF coupler reference arm (typically -20 dB)
+  INPB (reflected) ──→ From RF coupler reflected arm (typically -20 dB)
+
+  Coupling factor must be matched (same -20 dB) for error cancellation.
+  If coupling factors differ: Add series resistor to balance.
+
+
+FREQUENCY RESPONSE & CALIBRATION
+──────────────────────────────────
+Magnitude flatness:
+  6M (50 MHz):   ±2 dB typical
+  2M (144 MHz):  ±1 dB typical
+  VHF (222 MHz): ±1 dB typical
+  70cm (432 MHz):±1.5 dB typical
+  33cm (902 MHz):±2.5 dB (group delay effects)
+  20cm (1296 MHz):±3 dB (external amplifier/filter effects dominate)
+
+Phase accuracy:
+  Typical: ±3° across entire frequency range
+  Temperature drift: 0.1°/°C
+
+Calibration procedure:
+  1. Measure open standard (Z = ∞, Γ = 1)
+     Expected: VMAG = max, VPHS = 0°
+  2. Measure short standard (Z = 0, Γ = -1)
+     Expected: VMAG = max, VPHS = 180° (or -180°)
+  3. Measure 50Ω load (Z = 50Ω, Γ = 0)
+     Expected: VMAG = min, VPHS = 90°
+
+
+LAYOUT RECOMMENDATIONS
+──────────────────────
+- Ground plane: Dedicated, 4-layer PCB preferred
+- Input traces: >50mil width, ≤1 inch length from balun
+- Output traces: ≥100mil width, separate from RF paths
+- RSET resistor: Place within 5mm of RSET pin, ground straps every 3mm
+- Bypass capacitors: As close as possible to VPS/VEE pins (0.2 inch)
+- RF shield: Aluminum Faraday cage around IC (not mandatory but recommended)
+
+
+LOCK-IN DETECTION (Optional Enhancement)
+──────────────────────────────────────────
+For improved noise immunity (long cable runs, high-noise environments):
+
+Connect reference clock (same frequency as RF source) to auxiliary input.
+Lock-in amplifier correlates phase/magnitude to reference clock.
+AD8308 provides reference frequency output (if available on DDS/PLL).
+
+This is an advanced technique; not required for portable analyzer.
+
+
+TROUBLESHOOTING
+────────────────
+Issue: VMAG always reads max (saturated)
+  - Check INPA/INPB coupling factor: Should be -20 ± 2 dB
+  - Reduce input level: Add series resistor to balance
+  - Verify RSET resistor value: Should be 1.5kΩ
+
+Issue: VPHS always reads 0.9V (90°), doesn't move
+  - Check phase shift in balun: Impedance mismatch causes phase rotation
+  - Verify 180° phase difference when DUT reflects (short vs open should flip)
+  - Check for DC offset in VPHS output: Might be out of calibration range
+
+Issue: Output noise > 50 mV RMS
+  - Increase filter time constant (change output cap to 100nF)
+  - Add Faraday cage around IC
+  - Check for RF coupling from adjacent traces
+
+
+RELATED DOCUMENTS
+──────────────────
+  - adf4351_vhf_uhf_synth.txt: RF source for INPA
+  - rf_coupler_multiband.txt: Front-end coupler providing INPA/INPB signals
+  - INTEGRATED_ANTENNA_ANALYZER_MANUAL.txt: System integration & calibration

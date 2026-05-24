@@ -1,0 +1,206 @@
+================================================================================
+SCHEMATIC: PRESCALER CHAIN — VHF / UHF / MICROWAVE
+TM-FC-001  Rev A
+60 MHz – 3000 MHz, ERA-3SM + MB506 ÷64 Prescaler
+Output: <50 MHz to ESP32 PCNT direct-count input
+================================================================================
+
+OVERVIEW
+--------
+The prescaler divides the input frequency by 8 or 64 (selectable) to bring
+VHF/UHF/Microwave signals into the range countable by the ESP32 PCNT unit.
+
+Architecture:
+  0.1–60 MHz:      Direct path (no prescaler; see sch_direct_count.txt)
+  60–600 MHz:      ERA-3SM buffer + MB506 ÷8  → output 7.5–75 MHz → ESP32
+  600–2400 MHz:    ERA-3SM buffer + MB506 ÷64 → output 9.4–37.5 MHz → ESP32
+  2.4–3 GHz:       ERA-3SM + attenuator pad → MB506 ÷64 → output 37.5–46.9 MHz
+
+The MB506 (Fujitsu) is a dual-modulus prescaler:
+  Maximum input frequency: 2.5 GHz (typ; operates to 2.8 GHz in practice)
+  Prescale ratios: ÷8 or ÷64 (selected by pin MC: LOW=÷8, HIGH=÷64)
+  Output: CMOS/TTL compatible, 3.3V tolerant
+  Supply: 3.0–5.5V
+  Package: DIP-8 or SOT-16
+
+For 2.4–3 GHz: Use cascaded ERA-3SM (for +20 dB gain) BEFORE MB506 to
+ensure adequate drive level at its maximum frequency. MB506 requires
+minimum −5 dBm input; ERA-3SM output ≈ −4 to +15 dBm depending on input.
+
+For the 3 GHz maximum: The input level must be high enough to switch the
+MB506 prescaler's differential input. An ERA-3SM with +20 dB gain and
+a −25 dBm or better antenna signal will provide adequate drive.
+
+
+COMPLETE SCHEMATIC
+------------------
+
+                    SMA J2 (50Ω prescaler input)
+                         │
+                   [INPUT PROTECTION]
+                   BAT54S clamp to 3.3V / GND
+                         │
+                   [SW_ATTEN]  0/−10/−20/−30 dB Pi attenuator
+                   (see sch_input_protection.txt)
+                         │
+                    CONDITIONED RF
+                         │
+                  ┌──────┴──────┐
+                  │             │
+           LOW BAND          HIGH BAND
+          (60–600 MHz)     (600–3000 MHz)
+           Use ÷8 mode      Use ÷64 mode
+                  │             │
+                  └──────┬──────┘
+                         │
+                  ┌──────┴──────────────────┐
+                  │   ERA-3SM (U3)          │
+                  │   MMIC Preamplifier     │
+                  │   Gain: +20 dB          │
+                  │   F: 0.1 – 3000 MHz     │
+                  │   P1dB: +12 dBm         │
+                  │   Bias: R3 75Ω (9V)     │
+              IN ─┤1                      4 ├─── RF OUT
+                  │2 (GND)       (GND/Vcc) 3│
+                  └─────────────────────────┘
+                         │
+                    C4 (100 pF DC block)
+                         │
+                  ┌──────┴──────────────────────────────────┐
+                  │   MB506  U4  (Dual Modulus Prescaler)    │
+                  │                                          │
+                  │  Pin 1 (MC):    Modulus Control          │
+                  │    LOW  → ÷8  (60–600 MHz band)         │
+                  │    HIGH → ÷64 (600–3000 MHz band)       │
+                  │  Pin 2 (FIN+): RF input (+)              │
+                  │  Pin 3 (FIN-): RF input (−)              │
+                  │    FIN− to GND (single-ended input)      │
+                  │  Pin 4 (GND):  Ground                    │
+                  │  Pin 5 (Vcc):  +3.3V–5V                  │
+                  │  Pin 6 (Fout): Divided output            │
+                  │  Pin 7 (OE):   Output enable (tie HIGH)  │
+                  │  Pin 8 (Vcc):  Supply (tie to Pin 5)     │
+                  └──────────────────────────────────────────┘
+                         │ Pin 6 (Fout)
+                    C5 (100 pF)   DC block
+                         │
+                    [74LVC14A] U2C    Schmitt trigger buffer
+                    (shared with direct-count section)
+                         │
+                   GPIO35   ESP32 PCNT input (prescaler channel)
+                            (PCNT_UNIT_1, CHANNEL_0)
+
+
+MB506 BIAS AND DECOUPLING
+---------------------------
+
+  Vcc supply: +3.3V from ESP32 on-board LDO (adequate for MB506)
+  Bypass: 100 nF X7R ceramic directly at pin 5 + 10 μF electrolytic nearby
+  RF bypass: 100 pF NPO at pin 5 for high-frequency decoupling
+
+  MC pin (modulus control):
+    Connect to ESP32 GPIO0 (or GPIO32 if CYD conflicts exist)
+    HIGH (3.3V) = ÷64 mode (600 MHz–3 GHz)
+    LOW  (0V)   = ÷8 mode  (60–600 MHz)
+    Add 10 kΩ pull-down resistor to ensure LOW on power-up (safe default)
+
+  FIN− grounding:
+    For single-ended input (standard SMA), FIN− goes to RF ground
+    through a 100 pF capacitor (AC path to GND to improve balance).
+    Do NOT DC-connect FIN− directly to GND — it affects the differential
+    amplifier bias inside the MB506.
+
+  FOUT impedance: ~50Ω CMOS; capacitive loading should be kept below 10 pF.
+  A 50Ω series resistor between FOUT and the 74LVC14A input prevents ringing.
+
+
+PRESCALER LAYOUT RULES
+------------------------
+
+  CRITICAL: The prescaler handles frequencies up to 3 GHz.
+  PCB layout must follow microwave best practices:
+
+  1.  Keep all high-frequency signal traces SHORT (< 5 mm between components).
+  2.  Use SMA edge-launch connectors, not panel mount with pigtails.
+  3.  All ground connections must be direct vias to a solid ground plane.
+  4.  The ERA-3SM and MB506 must be on the top copper layer over a
+      continuous ground plane on the bottom layer.
+  5.  Bypass capacitors must be within 1 mm of the power pin they bypass.
+  6.  Use 50Ω microstrip traces for all RF signal paths.
+      For FR-4 (εr ≈ 4.4), 0.508 mm PCB, 1 oz copper:
+        50Ω trace width ≈ 1.1 mm (calculate with Saturn PCB Toolkit)
+  7.  Shield the prescaler board with a sheet-metal or printed cover.
+
+  PRESCALER BOARD SIZE: 50 × 30 mm (fits inside main enclosure)
+
+
+FREQUENCY DISPLAY CALCULATION
+--------------------------------
+
+  Direct count GPIO34 (prescale_factor = 1):
+    f_displayed = PCNT_count / gate_time
+
+  Prescaler GPIO35 (prescale_factor = 8 or 64):
+    f_displayed = PCNT_count × prescale_factor / gate_time
+
+  Prescale factor selection (firmware, automatic or manual):
+    Prescale = 1:   Input to GPIO34 (direct path, <60 MHz)
+    Prescale = 8:   Input to GPIO35, MB506 in ÷8 mode (60–600 MHz)
+    Prescale = 64:  Input to GPIO35, MB506 in ÷64 mode (600–3000 MHz)
+
+  Maximum display frequency: 46.875 MHz × 64 = 3,000 MHz (at PCNT max 40 MHz: 40 × 64 = 2,560 MHz)
+  For 3 GHz: the MB506 output at 3 GHz ÷ 64 = 46.875 MHz, which is within PCNT range.
+
+
+ALTERNATIVE PRESCALER ICS
+---------------------------
+
+  If MB506 is unavailable:
+
+  SP8901 (Zarlink):  ÷64, to 1.5 GHz. DIP-8. Classic, widely used.
+                     Pin-compatible replacement for some MB506 applications.
+                     Set MC pin per datasheet (polarity may differ from MB506).
+
+  ADF4002 (ADI):    PLL synthesizer with configurable N divider. SPI control.
+                     R counter up to ÷1 to ÷32767 on reference input.
+                     More complex but offers flexible division ratios.
+                     Requires SPI interface from ESP32.
+
+  MC12080 (OnSemi): ÷64, to 1.1 GHz. SOIC-8. Available, still manufactured.
+                     Lower maximum frequency than MB506 but sufficient for most ham bands.
+
+  HMC361S8G (ADI):  Static ÷2, to 8 GHz. SOT-363. Modern, available.
+                     Use four in cascade for ÷16, covers 0.1–8 GHz ÷16.
+                     At 3 GHz: output = 187.5 MHz → still too high for direct PCNT.
+                     Chain with 74VHC74 (÷4) for 46.875 MHz at 3 GHz.
+                     Better for 3–8 GHz operation than MB506.
+
+  SAB6456 (NXP):    ÷256, to 3 GHz. DIP-8. Obsolete but in old stock.
+                     3 GHz ÷ 256 = 11.7 MHz → good PCNT input; factor ×256.
+
+
+PARTS LIST — PRESCALER MODULE
+--------------------------------
+
+  Ref    Value            Description
+  ---    -----            -----------
+  U3     ERA-3SM          MMIC preamp (Mini-Circuits, SOT-89)
+  U4     MB506            Dual-modulus prescaler (Fujitsu, DIP-8)
+  U2C    74LVC14A         Schmitt buffer (shared with direct count board)
+  R3     75 Ω 1/4W       ERA-3SM bias resistor (3.3V supply: use 0Ω; 9V: 75Ω)
+                          NOTE: If prescaler runs on 3.3V, ERA-3SM bias = (3.3−4V)/I
+                          ERA-3SM requires 5V bias: supply = +5V or use on-board boost
+                          PRACTICAL: Use a separate 5V supply for prescaler (from USB)
+                          or run ERA-3SM from 9V through 75Ω bias R per sch_active_fsm.txt
+  C4,C5  100 pF NPO       DC blocking capacitors
+  C6     100 nF X7R       MB506 supply bypass (HF)
+  C7     10 μF            MB506 supply bypass (LF)
+  C8     100 pF NPO       FIN− AC ground
+  R4     50 Ω (1%)        FIN− termination (from FIN− to GND, series 50Ω)
+                          Actually: use 100pF from FIN− to GND; no series R needed
+  R5     10 kΩ            MC pin pull-down (default ÷8 mode at power-up)
+  R6     50 Ω             FOUT series termination (reduce ringing to 74LVC14A)
+  PCB    50 × 30 mm       Double-sided FR-4, 0.508 mm, ENIG, 50Ω trace width 1.1 mm
+  J2     SMA edge         Prescaler RF input (50Ω, edge launch)
+
+================================================================================

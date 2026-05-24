@@ -1,0 +1,33 @@
+CM ============================================================
+CM TM-WJP-NEC-004  6m Webbing J-Pole, 2-inch tape, vertical
+CM Design frequency: 51.000 MHz
+CM VF = 0.95 (both elements)
+CM
+CM GEOMETRY:
+CM   Wire 1 (Strip A, front face): x=0, y=0, z=0 to z=4.191m (full length)
+CM   Wire 2 (Strip B, back face):  x=0.025, y=0, z=0 to z=1.397m (stub only)
+CM   Wire 3 (short circuit):       z=0, x=0 to x=0.025m
+CM
+CM CONDUCTOR: r_eq = 8.09mm (2-inch tape, r=w/2pi)
+CM STUB SEP: 25mm (modeling approx; actual = 3mm face-to-face)
+CM Note: at 6m, wire radius = 8.09mm = 0.138% of λ — thin-wire approx still valid.
+CM
+CM FEED: Wire 2, Segment 3 (≈22% of stub from bottom)
+CM
+CM DIMENSIONS:
+CM   L_rad = 2.794m (9.17 ft)
+CM   L_stub = 1.397m (4.58 ft)
+CM   L_total = 4.191m (13.75 ft)
+CM   d_feed (NEC model) = 0.317m (seg 3 center)
+CM   d_feed (actual) = 0.04–0.07m from short (Z0=13Ω construction)
+CM ============================================================
+CE
+GW  1  21  0.000  0.000  0.000  0.000  0.000  4.191  0.00809
+GW  2  11  0.025  0.000  0.000  0.025  0.000  1.397  0.00809
+GW  3   1  0.000  0.000  0.000  0.025  0.000  0.000  0.00809
+GE  0
+EX  0  2  3  0  1.0  0.0
+FR  0  1  0  0  51.000  0
+RP  0  181  1  1000  0.0  0.0  1.0  0.0
+RP  0    1  360  1000  90.0  0.0  0.0  1.0
+EN

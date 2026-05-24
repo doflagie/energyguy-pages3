@@ -1,0 +1,345 @@
+================================================================================
+  COIL WINDER CONTROLLER SCHEMATIC — TM-CWND-001 Rev A
+  ASCII SCHEMATIC — ESP32 + Dual Stepper + Sensors + SD Card
+================================================================================
+
+POWER SUPPLY:
+  AC 120V → 24V 5A PSU → PCB
+  24V rail: spindle motor (NEMA 23), traverse motor (NEMA 17), stepper drivers
+  5V rail: ESP32 (via LDO AMS1117-3.3 on 5V), OLED, encoders, sensors
+  3.3V rail: ESP32, ADC, SD card (all via AMS1117-3.3 from 5V)
+
+  12V option: NEMA 17 spindle + NEMA 17 traverse (lower torque, sufficient for AWG18+)
+
+────────────────────────────────────────────────────────────────────────────────
+POWER DISTRIBUTION
+────────────────────────────────────────────────────────────────────────────────
+
+  24V PSU (+)─────┬──────────────────────────┬──── SPINDLE VMOT
+                  │                          │
+              [C1 100µF]               [C2 100µF]
+                  │                          │
+  24V PSU (−)─────┴──────────────────────────┴──── GND rail
+                                             │
+                                     [7805 or LDO → 5V]
+                                             │
+                                     [AMS1117-3.3 → 3.3V]
+                                             │
+                                     ESP32 VCC, OLED, SD
+
+────────────────────────────────────────────────────────────────────────────────
+SPINDLE STEPPER DRIVER (A4988 or TMC2208 — NEMA 23, 2.5A)
+────────────────────────────────────────────────────────────────────────────────
+
+  TMC2208 U1:
+  ┌──────────────────────────────────────┐
+  │ VCC(5V) ─────────── 5V rail         │
+  │ GND     ─────────── GND             │
+  │ VMOT    ─────────── 24V rail        │
+  │ GND(VMOT)─────────── GND            │
+  │                                     │
+  │ STEP ──────────────── ESP32 GPIO18  │
+  │ DIR  ──────────────── ESP32 GPIO19  │
+  │ EN   ──────────────── ESP32 GPIO5   │
+  │ MS1  ──────────────── ESP32 GPIO23  │
+  │ MS2  ──────────────── ESP32 GPIO22  │
+  │ PDN_UART ──────────── ESP32 GPIO17 (optional, for UART config)
+  │                                     │
+  │ 1A, 1B ─────────── SPINDLE MOTOR A │
+  │ 2A, 2B ─────────── SPINDLE MOTOR B │
+  └──────────────────────────────────────┘
+
+  Microstepping (MS1/MS2 for TMC2208 standalone):
+    MS1=0 MS2=0 → 1/8 step
+    MS1=1 MS2=0 → 1/2 step
+    MS1=0 MS2=1 → 1/4 step
+    MS1=1 MS2=1 → 1/16 step (default)
+
+  Vref adjustment (A4988):
+    I_max = Vref / (8 × R_sense)
+    For NEMA 23 @ 2.0A: Vref = 2.0 × 8 × 0.1 = 1.6V
+
+  TMC2208 current setting (UART or Vref trimpot):
+    I_rms = (Vref / 2.5V) × 1.77A (IRUN=31, sense resistor 0.11Ω)
+
+  Heatsink REQUIRED for NEMA 23 currents > 1.5A.
+  Add 0.1µF ceramic + 100µF electrolytic at VMOT pins.
+
+────────────────────────────────────────────────────────────────────────────────
+TRAVERSE STEPPER DRIVER (A4988 or TMC2208 — NEMA 17, 1.7A)
+────────────────────────────────────────────────────────────────────────────────
+
+  TMC2208 U2:
+  ┌──────────────────────────────────────┐
+  │ VCC(5V) ─────────── 5V rail         │
+  │ GND     ─────────── GND             │
+  │ VMOT    ─────────── 24V rail        │
+  │                                     │
+  │ STEP ──────────────── ESP32 GPIO25  │
+  │ DIR  ──────────────── ESP32 GPIO26  │
+  │ EN   ──────────────── ESP32 GPIO27  │
+  │ MS1  ──────────────── ESP32 GPIO14  │
+  │ MS2  ──────────────── ESP32 GPIO12  │
+  │                                     │
+  │ 1A, 1B ─────────── TRAVERSE MOTOR A│
+  │ 2A, 2B ─────────── TRAVERSE MOTOR B│
+  └──────────────────────────────────────┘
+
+  Vref for NEMA 17 @ 1.2A: 0.96V (A4988)
+
+────────────────────────────────────────────────────────────────────────────────
+ESP32 CONTROLLER
+────────────────────────────────────────────────────────────────────────────────
+
+  ESP32-WROOM-32:
+  ┌────────────────────────────────────────────────────────────┐
+  │                                                            │
+  │  GPIO 0  — Boot mode (10kΩ pullup, prog button to GND)     │
+  │  GPIO 2  — Onboard LED / status                            │
+  │  GPIO 4  — SD_CS (SPI chip select for SD card)             │
+  │  GPIO 5  — SPINDLE_EN (stepper enable, active LOW)         │
+  │  GPIO 12 — TRAVERSE_MS2                                    │
+  │  GPIO 13 — WIRE_BREAK_SENSOR (active LOW, photosensor OUT)  │
+  │  GPIO 14 — TRAVERSE_MS1                                    │
+  │  GPIO 15 — FOOT_PEDAL (active LOW, debounced)              │
+  │  GPIO 16 — TX2 (to CYD or future use)                      │
+  │  GPIO 17 — RX2 / TMC2208 UART select                       │
+  │  GPIO 18 — SPINDLE_STEP                                    │
+  │  GPIO 19 — SPINDLE_DIR                                     │
+  │  GPIO 21 — I2C_SDA (OLED + optional I/O expander)          │
+  │  GPIO 22 — SPINDLE_MS2 / I2C_SCL (time-share if needed)    │
+  │  GPIO 23 — SPINDLE_MS1                                     │
+  │  GPIO 25 — TRAVERSE_STEP                                   │
+  │  GPIO 26 — TRAVERSE_DIR                                    │
+  │  GPIO 27 — TRAVERSE_EN                                     │
+  │  GPIO 32 — ROTARY_ENC_A (menu encoder CLK)                 │
+  │  GPIO 33 — ROTARY_ENC_B (menu encoder DT)                  │
+  │  GPIO 34 — ROTARY_ENC_BTN (encoder pushbutton, active LOW)  │
+  │  GPIO 35 — TURN_SENSOR (optical or Hall, interrupt-driven)  │
+  │  GPIO 36 — SPEED_POT (ADC, 0–3.3V from 10kΩ pot)           │
+  │  GPIO 39 — TRAVERSE_LIMIT_MIN (active LOW)                  │
+  │                                                            │
+  │  SPI:  SCLK=GPIO18*, MOSI=GPIO23*, MISO=GPIO19*           │
+  │  Note: SPI for SD card uses separate SPI instance (HSPI)   │
+  │  HSPI: CLK=GPIO14*, MOSI=GPIO13*, MISO=GPIO12*, CS=GPIO4  │
+  │  (* reassign if conflict with stepper pins — see config.h) │
+  │                                                            │
+  │  I2C: SDA=GPIO21, SCL=GPIO22 (OLED SSD1306 128×64)        │
+  │                                                            │
+  │  UART0: USB serial (programming + terminal)               │
+  │  UART2: GPIO16/17 for CYD BT or TMC2208 UART              │
+  │                                                            │
+  └────────────────────────────────────────────────────────────┘
+
+  EMERGENCY STOP: NO pushbutton between 3.3V and ESP32 EN pin.
+  Large red mushroom cap button. Pressing drops EN low → immediate reset.
+  Secondary: GPIO interrupt on GPIO15 from normally-closed contact.
+
+────────────────────────────────────────────────────────────────────────────────
+TURN SENSOR (Optical or Hall Effect)
+────────────────────────────────────────────────────────────────────────────────
+
+  OPTICAL METHOD (preferred for accuracy):
+  ┌─────────────────────────────────────────────────────────────┐
+  │                                                             │
+  │  LM393 comparator + IR LED + phototransistor               │
+  │                                                             │
+  │  3.3V ─── [330Ω] ─── IR LED(K→A)─── GND                   │
+  │                                                             │
+  │  3.3V ─── [10kΩ] ─── Phototransistor (collector)          │
+  │               │                                            │
+  │               ├─── LM393 IN+                               │
+  │               │                                            │
+  │           Phototransistor (emitter) ─── GND                │
+  │                                                             │
+  │  LM393 IN−: 1.65V reference (voltage divider)              │
+  │  LM393 OUT: [4.7kΩ pullup to 3.3V] ─── GPIO35             │
+  │                                                             │
+  │  Trigger: One or more flag(s) on spindle shaft pass between │
+  │  LED and phototransistor → 1 pulse per revolution (or N     │
+  │  pulses for N flags for higher resolution)                  │
+  │                                                             │
+  └─────────────────────────────────────────────────────────────┘
+
+  HALL EFFECT METHOD (alternative, simpler, no light sensitivity):
+  ┌─────────────────────────────────────────────────────────────┐
+  │  SS49E or AH1806 Hall sensor:                               │
+  │  3.3V ─── VCC, GND ─── GND                                 │
+  │  OUT ─── [4.7kΩ pullup to 3.3V] ─── GPIO35                │
+  │                                                             │
+  │  Small neodymium magnet (6mm × 3mm) epoxied to spindle     │
+  │  shaft or chuck. One pulse per revolution.                  │
+  │                                                             │
+  │  For 4 pulses/rev: 4 magnets at 90° intervals              │
+  └─────────────────────────────────────────────────────────────┘
+
+  Interrupt: GPIO35 falling edge → ISR increments turn counter
+
+────────────────────────────────────────────────────────────────────────────────
+WIRE BREAK DETECTION
+────────────────────────────────────────────────────────────────────────────────
+
+  Method: Optical gate in wire path
+  ─────────────────────────────────────────────────────────────
+  Wire path: spool → tensioner → [OPTICAL GATE] → guide eyelet → coil
+
+  Optical gate: ITR9606 or similar slotted optical switch
+  ┌─────────────────────────────────────────────────────────────┐
+  │  Anode(LED)─── [220Ω] ─── 5V                               │
+  │  Cathode(LED) ─── GND                                      │
+  │  Collector(PT) ─── [10kΩ to 3.3V] ─── GPIO13              │
+  │  Emitter(PT) ─── GND                                        │
+  │                                                             │
+  │  Wire-present: wire blocks optical path → output HIGH (no  │
+  │  interrupt). Wire break: optical path clear → output pulses │
+  │  with spindle rotation → ISR detects sustained LOW state    │
+  │  (> 200ms) → FAULT: WIRE_BREAK                             │
+  └─────────────────────────────────────────────────────────────┘
+
+  Alternative: Tension loss detection
+  Spring-loaded tensioner arm with limit switch at zero-tension position.
+  If arm swings to zero-tension (wire breaks/falls off): switch opens → FAULT.
+
+────────────────────────────────────────────────────────────────────────────────
+SPEED CONTROL POTENTIOMETER
+────────────────────────────────────────────────────────────────────────────────
+
+  3.3V ─── [10kΩ pot (wiper)] ─── GND
+                    │
+                GPIO36 (ADC1_CH0)
+  analogSetAttenuation(ADC_11db) → 0–3.3V → 0–4095 counts
+  RPM = MIN_RPM + (ADC / 4095) × (MAX_RPM − MIN_RPM)
+
+────────────────────────────────────────────────────────────────────────────────
+ROTARY ENCODER (Menu Navigation)
+────────────────────────────────────────────────────────────────────────────────
+
+  KY-040 or EC11 rotary encoder with pushbutton:
+  CLK (A) ─── [10kΩ pullup to 3.3V] ─── GPIO32
+  DT  (B) ─── [10kΩ pullup to 3.3V] ─── GPIO33
+  SW       ─── [10kΩ pullup to 3.3V] ─── GPIO34
+  + ────── 3.3V
+  GND ──── GND
+
+  Quadrature decode in software: rising/falling edges on CLK with DT state.
+  CW rotation = menu down / value increment
+  CCW rotation = menu up / value decrement
+  Press = select / enter
+
+────────────────────────────────────────────────────────────────────────────────
+FOOT PEDAL / HAND SWITCH
+────────────────────────────────────────────────────────────────────────────────
+
+  3.5mm stereo jack (ring = GND, tip = signal):
+  TIP ─── [10kΩ pullup to 3.3V] ─── GPIO15
+  GND ─── GND
+
+  Normally open foot switch: press → GPIO15 = LOW → START/STOP toggle
+  Alternatively: 2-conductor cable with latching switch
+
+────────────────────────────────────────────────────────────────────────────────
+TRAVERSE LIMIT SWITCH (HOME position)
+────────────────────────────────────────────────────────────────────────────────
+
+  Micro-switch (SPST NO) at traverse minimum (home) position:
+  COM ─── GND
+  NO  ─── [10kΩ pullup to 3.3V] ─── GPIO39
+
+  Triggered when carriage reaches home. Used for:
+  - Homing sequence at startup
+  - Layer reversal point detection
+
+────────────────────────────────────────────────────────────────────────────────
+OLED DISPLAY (SSD1306 128×64)
+────────────────────────────────────────────────────────────────────────────────
+
+  SSD1306 I2C:
+  VCC ─── 3.3V
+  GND ─── GND
+  SDA ─── GPIO21 (with 4.7kΩ pullup to 3.3V)
+  SCL ─── GPIO22 (with 4.7kΩ pullup to 3.3V)
+  Address: 0x3C
+
+────────────────────────────────────────────────────────────────────────────────
+SD CARD MODULE
+────────────────────────────────────────────────────────────────────────────────
+
+  SPI SD card module (3.3V compatible):
+  VCC  ─── 3.3V
+  GND  ─── GND
+  CLK  ─── GPIO14 (HSPI)
+  MOSI ─── GPIO13 (HSPI)
+  MISO ─── GPIO12 (HSPI)
+  CS   ─── GPIO4
+
+  Level shifting: most SD modules include 5V→3.3V level shifters.
+  Verify module is 3.3V compatible before wiring directly.
+
+────────────────────────────────────────────────────────────────────────────────
+GPIO QUICK REFERENCE
+────────────────────────────────────────────────────────────────────────────────
+
+  GPIO   Signal              Direction   Notes
+  ─────  ──────────────────  ─────────   ─────────────────────────────
+   2     STATUS_LED          OUT         Low=off, High=on
+   4     SD_CS               OUT         SPI chip select (HSPI)
+   5     SPINDLE_EN          OUT         Active LOW
+   12    TRAVERSE_MS2        OUT         Microstepping config
+   13    WIRE_BREAK / MOSI   IN/OUT      Dual use — check build
+   14    TRAVERSE_MS1 / CLK  OUT         HSPI clock
+   15    FOOT_PEDAL          IN          Pullup, active LOW
+   16    TX2                 OUT         Serial2 to CYD or aux
+   17    RX2 / TMC UART      IN/OUT      TMC2208 UART or RX
+   18    SPINDLE_STEP        OUT
+   19    SPINDLE_DIR         OUT
+   21    I2C_SDA             I/O
+   22    I2C_SCL / SPIN_MS2  OUT         Caution: shared
+   23    SPINDLE_MS1         OUT
+   25    TRAVERSE_STEP       OUT
+   26    TRAVERSE_DIR        OUT
+   27    TRAVERSE_EN         OUT         Active LOW
+   32    ENC_A               IN          Pullup, interrupt
+   33    ENC_B               IN          Pullup, interrupt
+   34    ENC_BTN             IN          Pullup, interrupt, input-only
+   35    TURN_SENSOR         IN          Interrupt-driven, input-only
+   36    SPEED_POT           AIN         ADC1_CH0, input-only
+   39    TRAV_LIMIT_MIN      IN          Pullup, input-only
+
+────────────────────────────────────────────────────────────────────────────────
+MOTOR WIRING IDENTIFICATION
+────────────────────────────────────────────────────────────────────────────────
+
+  NEMA 17 (4-wire bipolar, typical color code):
+    Coil A: Black (A+), Green (A−)
+    Coil B: Red (B+), Blue (B−)
+    → Connect to driver 1A/1B and 2A/2B respectively
+
+  NEMA 23 (4-wire bipolar, typical color code):
+    Coil A: Black (A+), White (A−)
+    Coil B: Green (B+), Red (B−)
+    → Verify with continuity meter — resistance should be ~0.5–2Ω per coil
+    → Coils A and B are independent; confirm continuity within each coil
+
+  If winding direction is reversed: swap A+ and A− (or B+ and B−), not DIR pin.
+
+────────────────────────────────────────────────────────────────────────────────
+POWER BUDGET
+────────────────────────────────────────────────────────────────────────────────
+
+  Component                Voltage   Current (typ)   Current (max)
+  ─────────────────────    ───────   ─────────────   ─────────────
+  NEMA 23 Spindle Motor     24V         1.5A            2.5A
+  NEMA 17 Traverse Motor    24V         0.8A            1.7A
+  ESP32                     3.3V        0.15A           0.5A
+  OLED SSD1306              3.3V        0.02A           0.03A
+  SD Card                   3.3V        0.05A           0.1A
+  Sensors, encoders         3.3V        0.02A           0.05A
+  ─────────────────────────────────────────────────────────────
+  Total (24V rail):                     2.3A            4.2A
+  Total (3.3V rail):                    0.24A           0.68A
+
+  Recommended PSU: 24V, 5A minimum (120W). Mean Well LRS-100-24 or equivalent.
+
+================================================================================
+END OF SCHEMATIC — TM-CWND-001 Rev A
+================================================================================

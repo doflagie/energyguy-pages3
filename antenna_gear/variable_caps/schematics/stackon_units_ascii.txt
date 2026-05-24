@@ -1,0 +1,170 @@
+================================================================================
+TM-VCAP-SCH-005 Rev A    STACK-ON MODULAR FLAT-PLATE CAPACITOR UNITS
+                          Copper Foil / Polymer Sheet Sandwich Construction
+================================================================================
+
+1. SINGLE UNIT CONSTRUCTION
+=============================
+
+    EXPLODED VIEW (one CSM unit):
+
+         ┌─────────────────────────────────────────────────────────────┐
+         │ ┌─── wire tab (solder here) ─┐                             │  ← TOP FOIL LAYER
+         │ │▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓│  ← COPPER FOIL (top)
+         │ │░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░│  ← POLYMER DIELECTRIC
+         │ │▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓│  ← COPPER FOIL (bot)
+         │ └─── wire tab (solder here, offset from top tab) ──────────┘
+         │ ═════════════════════════════════════════════════════════ │  ← PVC BACKING STRIP
+         └─────────────────────────────────────────────────────────────┘
+
+    SIDE VIEW:
+    ┌───────────────────────────────────────────────────────────────┐
+    │ ├── 5mm tab ──┤                                    ├── 5mm ──┤│
+    │ ┌─────┐────────────────────────────────────────────┐─────┐   │
+    │ │ TOP │▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ copper foil ▓▓▓▓▓▓▓▓▓▓▓▓│     │   │
+    │ │ TAB │░░░░░░░░░░░░░░░░░░░ polymer (d) ░░░░░░░░░░░░│     │   │
+    │ │ BOT │▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ copper foil ▓▓▓▓▓▓▓▓▓▓▓▓│     │   │
+    │ └─────┘════════════════════ PVC backing ═══════════└─────┘   │
+    │        ← W (plate width) →                                   │
+    │ ←──────────────── L (plate length + tab) ──────────────────→ │
+    └───────────────────────────────────────────────────────────────┘
+
+    DETAIL — WIRE TABS (at left end):
+    Top foil tab extends 5mm BEYOND the polymer sheet edge (no dielectric in tab area).
+    Bottom foil tab extends 5mm on OPPOSITE FACE, offset 3mm down from plate edge.
+    This ensures top and bottom tabs cannot accidentally short when stacking.
+
+    ┌─ TOP TAB ─┐←3mm→┌─ BOT TAB ─┐
+    ─▓▓▓▓▓▓▓▓▓▓▓▓      │           │   (top foil slightly wider for tab)
+      ───────────────────▓▓▓▓▓▓▓▓▓▓▓   (bottom foil offset)
+
+
+2. STACK-ON CONNECTION METHOD
+================================
+
+    PARALLEL STACKING (increases total capacitance):
+    All units share the same two terminals. Tabs align side-by-side.
+
+    MECHANICAL (velcro):
+    ┌────────────────────────────────────────────────┐
+    │  ← velcro strip ──────────────────── velcro → │ Unit 3 (bottom)
+    │  ▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░░░░░░░░░░░░░░▓▓▓▓▓▓▓▓▓│
+    ├────────────────────────────────────────────────┤ ← contact tabs aligned
+    │  ▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░░░░░░░░░░░░░░▓▓▓▓▓▓▓▓▓│ Unit 2 (middle)
+    ├────────────────────────────────────────────────┤
+    │  ▓▓▓▓▓▓▓▓▓░░░░░░░░░░░░░░░░░░░░░░░░░▓▓▓▓▓▓▓▓▓│ Unit 1 (top)
+    └────────────────────────────────────────────────┘
+         │                                     │
+        T₁ (top foils, connect all)          T₂ (bottom foils, connect all)
+
+    SPRING CONTACT STRIP at tab edge:
+    A 0.15mm phosphor-bronze strip crimped onto each tab edge ensures
+    reliable low-resistance contact regardless of stack height.
+
+    ┌──────┐
+    │ TAB  ├──╮
+    │      │  ╰ spring strip (0.15mm PB, 3mm wide, bent into arc contact)
+    └──────┘
+
+    RUBBER BAND METHOD (small units CSM-F, CSM-G, CSM-VHF):
+    Wrap two rubber bands around stack in perpendicular directions.
+    Use alligator clip or crocodile clip to grab tab stack.
+    Works for QRP/bench use.
+
+    VELCRO METHOD (medium/large units CSM-A through CSM-E):
+    Apply self-adhesive velcro to LONG face of PVC backing.
+    Matching velcro on adjacent units and on tuner chassis.
+    Add/remove units in seconds; position maintained when peeled apart.
+
+
+3. BAND SELECTION VISUAL GUIDE
+================================
+
+    EXAMPLE: Building up for 160m → 10m capability with CSM units
+
+    ┌─────────────────────────────────────────────────────────────────────┐
+    │  BAND   │  UNITS                      │  C (pF)  │  V_work (V)     │
+    ├─────────┼─────────────────────────────┼──────────┼─────────────────┤
+    │  160m   │  1×CSM-A2                   │  248     │  3000           │
+    │  80m    │  1×CSM-B2                   │  159     │  3000           │
+    │  40m    │  1×CSM-C2                   │  100     │  3000           │
+    │  30m    │  1×CSM-D + 1×CSM-E          │  154     │  1500           │
+    │  20m    │  1×CSM-E                    │   54     │  1500           │
+    │  17m    │  1×CSM-F + 1×CSM-G          │   49     │  1500           │
+    │  15m    │  2×CSM-F                    │   62     │  1500           │
+    │  12m    │  1×CSM-F + 1×CSM-G          │   49     │  1500           │
+    │  10m    │  1×CSM-G                    │   18     │  1500           │
+    │  VHF    │  1–3×CSM-VHF                │  10–30   │  1500           │
+    └─────────┴─────────────────────────────┴──────────┴─────────────────┘
+
+    NOTE: Target C values above are STARTING POINTS.
+    Fine-tune with inline sliding pipe cap (TM-VCAP-SCH-004) or rotary cap.
+
+
+4. COMPLETE SET PHYSICAL DIMENSIONS
+======================================
+
+    ALL UNITS at a glance (from TM-VCAP-CAL-006):
+
+    Unit   │  W×L (mm)  │  Thickness  │  C (pF)  │  Color code
+    ───────┼────────────┼─────────────┼──────────┼────────────────────
+    A2     │  50×35     │  1.5mm      │  248     │  ●● RED       (160m)
+    B2     │  40×28     │  1.5mm      │  159     │  ●● ORANGE    (80m)
+    C2     │  32×22     │  1.5mm      │  100     │  ●● YELLOW    (40m)
+    D      │  22×16     │  1.2mm      │  100     │  ●  GREEN     (30m)
+    E      │  16×12     │  1.2mm      │   54     │  ●  CYAN      (20m)
+    F      │  12×9      │  1.2mm      │   31     │  ●  BLUE      (15m)
+    G      │   9×7      │  1.2mm      │   18     │  ●  PURPLE    (10m)
+    VHF    │   7×5      │  1.2mm      │   10     │  ●  WHITE     (VHF)
+
+    Mark each unit with Dymo label or Sharpie: unit ID, C value, band(s).
+    Store in a 4×2 grid in a pill organizer or small Pelican case.
+
+
+5. HYBRID SYSTEM — STACK-ON + SLIDING PIPE
+============================================
+
+    The stack-on units provide COARSE band selection (step changes in C).
+    The sliding pipe cap provides FINE TUNING within the band.
+    Together they cover 10 HF bands + VHF with smooth continuous tuning.
+
+    CIRCUIT:
+
+         Stack-on units               Pipe cap        Antenna
+    T₁ ─────┤├──────────────┬─────── ||slide || ─────── to load
+              (selected C)  │         (trim C)
+                             └── RF ground (shunt path through tuner)
+
+    EXAMPLE — 20m (14 MHz):
+      1. Install 1×CSM-E (54 pF) ← coarse
+      2. Start pipe cap at 0mm (0 pF) ← fine at zero
+      3. Tune to antenna; if SWR indicates need for more C, slide pipe in
+      4. SWR optimum reached at pipe x ≈ 0.5mm → C_total ≈ 54 + 9 = 63 pF
+      5. LOCK: remove pipe cap and replace CSM-E with CSM-E + CSM-VHF (64 pF)
+
+    OR: just leave pipe cap inline and use it for fine control.
+
+
+6. VOLTAGE RATING BY UNIT SIZE (100W verification)
+====================================================
+
+    At 100W into 50Ω load (no mismatch):
+      V_rms = √(P×R) = √(100×50) = 70.7 V
+      V_peak = 70.7 × √2 = 100 V
+
+    At 100W into high-Q tuner (Q=5, worst case):
+      V_C_peak = Q × V_peak = 5 × 100 = 500 V
+
+    CSM-A2 through CSM-VHF (single OHP layer, V_work=1500V):
+      SAFE at 100W into Q≤5 tank circuit
+
+    For 500W operation: use 2-layer units (V_work=3000V, allows Q up to 15)
+    For QRP (<10W): any single-layer unit, V_peak < 50V
+
+    VISUAL CHECK for HV:
+    Inspect edge of polymer sheet at tabs: no carbonization, tracking, or discoloration.
+    Replace dielectric sheet annually or after any suspected voltage overload.
+
+================================================================================
+END TM-VCAP-SCH-005
+================================================================================

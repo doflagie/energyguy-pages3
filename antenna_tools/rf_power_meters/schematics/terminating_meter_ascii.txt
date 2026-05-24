@@ -1,0 +1,250 @@
+================================================================================
+  TERMINATING POWER METER WITH DUMMY LOAD  —  TM-PWR-TERM-001 Rev A
+  True absorbing load + directional sample: 1W–3kW, DC–1300 MHz
+  Used for transmitter testing, final amplifier tuning, TX characterization
+================================================================================
+
+PRINCIPLE OF OPERATION
+───────────────────────────────────────────────────────────────────────────────
+
+  Unlike the thruline/inline meter (where RF continues to an antenna), a
+  terminating power meter absorbs ALL transmitted power in a precision
+  load.  A small fraction is sampled by a coupling circuit, detected, and
+  measured.  No RF passes through to any output connector.
+
+  Advantages:
+  — Absolute power measurement with no reflections
+  — No antenna or load mismatch affects reading
+  — Safe for any output impedance transmitter
+  — Used for output power calibration and spectral purity tests
+
+  Disadvantages:
+  — All power dissipated as heat (requires thermal management)
+  — Cannot test antenna system match
+  — Power capability limited by load thermal dissipation
+
+
+TERMINATING POWER METER BLOCK DIAGRAM
+───────────────────────────────────────────────────────────────────────────────
+
+                    RF INPUT
+                    J1 SO-239
+                       │
+                       │
+           ┌───────────┴───────────┐
+           │                       │
+        RF COUPLER                 │
+        (–30 dB sample)            │
+           │                       │
+        DETECTOR                RF LOAD
+        D1/D2                   50Ω
+        Schottky                (see below)
+           │                       │
+        ADC/METER                  │
+        DISPLAY                    │
+                                   GND
+
+
+RF LOAD DESIGNS
+───────────────────────────────────────────────────────────────────────────────
+
+  LOAD TYPE 1:  Non-inductive resistor array (≤ 100W)
+  ───────────────────────────────────────────────────
+
+  RF IN ──┬──[R1 200Ω]─┐
+          ├──[R2 200Ω]─┤
+          ├──[R3 200Ω]─┤──── GND
+          ├──[R4 200Ω]─┤
+          └──[R5 200Ω]─┘
+
+  5 × 200Ω in parallel = 40Ω   → use 5 × 200Ω 25W wirewound non-inductive
+  Or 4 × 200Ω = 50Ω             → use 4 × 200Ω 25W
+  Better: 8 × 400Ω = 50Ω, each 25W → 200W total capacity
+  Mount on aluminum heatsink or bolt to chassis.
+
+  Non-inductive winding note:  Standard wirewound resistors are INDUCTIVE.
+  For RF use, specify non-inductive (bifilar wound) or use carbon composition.
+  Above 30 MHz, use thick-film or metal-oxide resistors (lower inductance).
+  Above 150 MHz, chip resistors (0805 or 1206) are preferred.
+
+  LOAD TYPE 2:  Oil-cooled resistor (100W–1kW)
+  ─────────────────────────────────────────────
+
+  Use 1 × 50Ω 100W non-inductive RFP resistor (e.g., RFP100-50)
+  Immerse in mineral oil (transformer oil, heat-transfer fluid)
+  or mount on aluminum chassis with thermal compound.
+
+  Dissipation: 100W → 1 kg aluminum heatsink or oil bath.
+  1 kW requires forced air cooling or oil tank with pump.
+
+  LOAD TYPE 3:  Coaxial termination (UHF, 50W)
+  ─────────────────────────────────────────────
+
+  Uses coaxial resistor: Bird 8830, Weinschel 40-50, or homebuilt.
+  Inner resistive element: thin-film 50Ω chip mounted inside N-type body.
+  Rated to 6 GHz, 50W CW.
+  For homebuilt: SMA or N-type bulkhead with 2 × 100Ω 0402 in parallel,
+  inner series stub trimmed for VSWR < 1.2 to 1300 MHz.
+
+
+SAMPLING COUPLER CIRCUIT (for terminating meter)
+───────────────────────────────────────────────────────────────────────────────
+
+  Since the load absorbs all power, only FWD power sampling is needed.
+  A directional coupler or capacitive divider is used.
+
+  METHOD A: Resistive voltage divider (DC–1 GHz, broadband)
+  ──────────────────────────────────────────────────────────
+
+  RF IN ──┬──────────────────────────────── [R_LOAD 50Ω]──GND
+          │
+       [R_hi]  (voltage divider, high side)
+          │
+          ├──────────────────────────────── V_sample
+          │
+       [R_lo]  (divider low side, to GND)
+          │
+         GND
+
+  For –30 dB sample: R_hi = 1580Ω, R_lo = 51Ω  (Thevenin equivalent)
+  V_sample = V_rf × R_lo / (R_hi + R_lo) = V_rf × 51/1631 = V_rf × 0.031 = –30dB
+
+  Advantage: flat from DC to 1+ GHz (resistive, no inductance issues)
+  Disadvantage: R_hi + R_lo dissipates power (reduce R_hi to 500Ω for ~22 dB)
+
+  METHOD B: Toroid coupler in-line to load (HF only, preferred)
+  ──────────────────────────────────────────────────────────────
+
+  RF IN ──[T1 1T/32T FT-114-43]──[R_LOAD 50Ω]──GND
+               │
+           Detector circuit (same as inline meter)
+
+  This gives true directional coupling but requires the toroid to handle
+  full RF power.  The toroid primary carries full transmitter current.
+  Verify core saturation for the power level (see manual Chapter 4).
+
+  METHOD C: Capacitive tap (VHF/UHF, broadband)
+  ──────────────────────────────────────────────
+
+  RF IN ──┬──[C_main 1–10 pF]──[R_LOAD 50Ω]──GND
+          │
+       [C_tap 1 pF]   (small capacitive divider)
+          │
+          ├─────────────────── V_sample ──► Detector
+          │
+       [R_term 50Ω]
+          │
+         GND
+
+  Divider ratio: C_tap / (C_main + C_tap) = 1/(10+1) = –20.8 dB
+  Works well from 100 MHz to 2+ GHz.
+  Adjust C_tap value for desired coupling level.
+
+
+TRUE RMS DETECTOR CIRCUIT
+───────────────────────────────────────────────────────────────────────────────
+
+  For accurate measurement of SSB, AM, or complex modulation, true RMS
+  detection is required.  Two approaches:
+
+  APPROACH 1: Log-domain RMS (AD8361 or LTC5596)
+  ─────────────────────────────────────────────────
+
+  RF INPUT ──[R_att]──► AD8361 VRMS PIN
+                                │
+                         V_rms output (DC)
+                                │
+                         ─────► ADS1115 A0
+
+  AD8361 (30 MHz – 2.5 GHz, –52 to 0 dBm range):
+    V_out = 7.0 mV/µW × P_in (in square-law region)
+    V_out = 250 mV at P = 0 dBm (1 mW into 50Ω)
+    Dynamic range: 50 dB
+
+  LTC5596 (100 MHz – 40 GHz):
+    V_out = 35 mV/dB (logarithmic)
+    Calibrate in dBm, convert to Watts
+
+  APPROACH 2: Squaring + integration (firmware)
+  ─────────────────────────────────────────────
+
+  For signals < 100 MHz (within ESP32 ADC sampling rate):
+    — Sample V_det at 50 kHz (fast ADC with external circuit)
+    — Square each sample: V²[n]
+    — Average: V²_rms = (1/N) Σ V²[n]
+    — P_rms = V²_rms / (2 × 50)
+
+  Practical: Use ADS1115 at 860 SPS for slowly-varying envelopes.
+  For true high-frequency RMS, use log detector IC (AD8361 preferred).
+
+
+COMPLETE TERMINATING METER SCHEMATIC
+───────────────────────────────────────────────────────────────────────────────
+
+  RF IN ──────┬───────────────────────────────── RF LOAD (50Ω, N×W)
+  (J1 SO-239) │                                       │
+              │  COUPLING SECTION                    GND
+              │  (Method A or B per band)
+              │       │
+              │    V_SAMPLE
+              │       │
+              │    ─►─[D1 1N5711]──┬───── V_DET_AVG
+              │       (Schottky)    │
+              │       R_term 50Ω  C_hold 10nF
+              │          │         │
+              │         GND       GND
+              │
+              │    ─►─[D2 BAT54]──┬───── V_DET_PEAK
+              │       (peak det.)  │
+              │                  C_pk 1µF
+              │                  R_leak 1MΩ
+              │                    │
+              │                   GND
+              │
+              │   NTC1 ──────────────── TEMP SENSE
+              │
+              └────── ADS1115 (A0=AVG, A1=PEAK, A2=TEMP)
+                      I2C → ESP32 or CYD
+
+
+THERMAL DESIGN (100W load)
+───────────────────────────────────────────────────────────────────────────────
+
+  Power handling:     100W continuous
+  Resistor choice:    2 × RFP100-50 (100W, 50Ω non-inductive, radial)
+                      or 4 × 200Ω 25W in parallel
+  Heatsink required:  θ_sa = (T_case_max – T_amb) / P
+                      at P=100W, T_case=85°C, T_amb=25°C:
+                      θ_sa = (85–25) / 100 = 0.6 °C/W
+  Heatsink size:      200mm × 150mm × 2mm aluminum plate ≈ 0.5–0.8 °C/W
+  Fan:                40mm 5V DC fan (add if θ_sa needed < 0.5 °C/W)
+
+  Thermal sensor:     DS18B20 1-Wire on heatsink, GPIO to ESP32
+  Firmware action:    Thermal cutoff warning at T > 70°C
+                      Auto-shutdown indication at T > 85°C
+                      (does not disconnect RF — user must remove drive)
+
+  WARNING: At 1kW, thermal mass is critical.  Use forced-air cooling
+           and add thermal runaway protection relay on RF input line.
+
+BILL OF MATERIALS (Terminating Meter, 100W version)
+───────────────────────────────────────────────────────────────────────────────
+
+  Ref        Value                Description
+  ─────────  ───────────────────  ─────────────────────────────────────────
+  J1         SO-239               RF input, silver-plated
+  R_LOAD     2× RFP100-50         100W non-inductive 50Ω RF resistor
+  T1         FT-114-43            Toroid coupler (HF version)
+  D1         1N5711               Average detector, DO-35
+  D2         BAT54S               Peak detector, SOT-23
+  C_hold     10nF NP0             Average hold capacitor
+  C_pk       1µF/16V              Peak hold capacitor
+  R_leak     1MΩ                  Peak hold decay resistor
+  NTC1       10kΩ/B3950           Thermistor, mounted on heatsink
+  U1         ADS1115              16-bit I2C ADC
+  U2         ESP32-WROOM          Microcontroller (or CYD for display)
+  ENCL       200×150×80mm Al      Diecast or bent aluminum
+
+================================================================================
+  END OF TERMINATING METER — TM-PWR-TERM-001 Rev A
+================================================================================

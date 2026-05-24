@@ -1,0 +1,214 @@
+================================================================================
+TM-VCAP-SCH-002 Rev A    MOTORIZED VARIABLE CAPACITOR CONTROLLER
+                         ESP32 + Stepper Motor + Position Sensing
+                         SWR Measurement via Bruene Coupler
+================================================================================
+
+1. SYSTEM BLOCK DIAGRAM
+=========================
+
+                   ┌─────────────────────────────────────────────┐
+   RADIO           │              ESP32 CAP TUNER                 │
+   TX/RX ─────────┤ Bruene    ADC35(FWD)  ADC33(REFL)           │
+      50Ω feed     │ Coupler → AD8307×2 ──────────────────────── │
+                   │                                              │
+   ANTENNA ────────┤           Variable Capacitor                 │
+      Z_load       │           ┌───────┐                         │
+                   │  Motor    │VC-xxx │  Position               │
+                   │  Control  │  C(θ) │  Sensing                │
+                   │ STEP/DIR  └───────┘  ENC_A/B or ADC_POT     │
+                   │    │           │                              │
+                   │    ↓           ↓                              │
+                   │  A4988      Encoder                          │
+                   │  Driver    or Potentiometer                  │
+                   │    │                                          │
+                   │    ↓                                          │
+                   │  NEMA14 Stepper Motor                         │
+                   │    │                                          │
+                   │    └── Gear coupling ── Capacitor shaft       │
+                   │                                               │
+                   │  WiFi AP + Web UI  │  BT Serial → CYD        │
+                   └─────────────────────────────────────────────┘
+
+
+2. COMPLETE ESP32 SCHEMATIC
+=============================
+
+                        3.3V 5V GND
+                         │   │   │
+                    ┌────┴───┴───┴────────────────────────────┐
+                    │         ESP32-WROOM-32                   │
+                    │                                          │
+    SWR COUPLER     │  GPIO35 ──────────────── AD8307 #1 FWD  │
+    (Bruene type,   │  GPIO33 ──────────────── AD8307 #2 REFL │
+    BN-43-2402,     │                                          │
+    3T secondary)   │  POSITION SENSING (choose ONE):          │
+                    │  GPIO34 ──────────────── ENC_A (KY-040)  │
+                    │  GPIO32 ──────────────── ENC_B (KY-040)  │
+                    │    OR                                     │
+                    │  GPIO36 ──────────────── POT_WIPER        │
+                    │                                           │
+                    │  STEPPER MOTOR (A4988/DRV8825):           │
+                    │  GPIO25 ──────────────── STEP             │
+                    │  GPIO26 ──────────────── DIR              │
+                    │  GPIO27 ──────────────── ENABLE(act.LOW)  │
+                    │  GPIO14 ──────────────── M0 (microstep)   │
+                    │  GPIO12 ──────────────── M1 (microstep)   │
+                    │  GPIO13 ──────────────── M2 (microstep)   │
+                    │                                           │
+                    │  LIMIT SWITCHES (homing):                 │
+                    │  GPIO04 ──────────────── SW_LIMIT_MIN     │
+                    │  GPIO05 ──────────────── SW_LIMIT_MAX     │
+                    │                                           │
+                    │  BUTTONS:                                 │
+                    │  GPIO00 ──────────────── BTN_TUNE (boot)  │
+                    │  GPIO18 ──────────────── BTN_CAP_UP       │
+                    │  GPIO19 ──────────────── BTN_CAP_DN       │
+                    │  GPIO21 ──────────────── BTN_BAND_UP      │
+                    │  GPIO22 ──────────────── BTN_BAND_DN      │
+                    │                                           │
+                    │  LEDs:                                    │
+                    │  GPIO02 ──────────────── LED_STATUS (blu) │
+                    │  GPIO16 ──────────────── LED_SWR_OK (grn) │
+                    │  GPIO17 ──────────────── LED_SWR_WARN(yel)│
+                    │  GPIO15 ──────────────── LED_SWR_HIGH(red)│
+                    └────────────────────────────────────────────┘
+
+
+3. AD8307 SWR MEASUREMENT CIRCUIT
+====================================
+
+    (Same as TM-PNL2-FW-001; repeated here for completeness)
+
+    RF INPUT ────────────────────────── RF OUTPUT (to antenna)
+         │                                      │
+    ┌────┴──────────┐              ┌────────────┘
+    │   BRUENE      │              │
+    │   COUPLER     │ FWD sample   │
+    │  BN-43-2402   ├─────────────►│ AD8307 #1 ──────── GPIO35
+    │  3 turn sec.  │              │ V_out = 25mV/dB ×
+    │  20dB coupling│ REFL sample  │     (P_dBm + 84)
+    │               ├────────────►│ AD8307 #2 ──────── GPIO33
+    └───────────────┘              │
+         │                         │
+        GND                        │
+                                   └── 50Ω termination (on coupler)
+
+    AD8307 Application Circuit (per device):
+    ┌──────────────────────────────────────────┐
+    │  RF_IN ─── 100pF ─── Pin 8 (INP)        │
+    │             │                             │
+    │           47pF                            │
+    │             │                             │
+    │  Pin 1 (INM)  ─── GND                   │
+    │  Pin 7 (ENB)  ─── 3.3V (enable)         │
+    │  Pin 6 (OUT)  ─── 0.1μF ─── GPIO35/33   │
+    │  Pin 3 (VPS)  ─── 0.1μF ─── 3.3V        │
+    │  Pin 4 (GND)  ─── GND                   │
+    └──────────────────────────────────────────┘
+    Power: 3.3V, 8mA per device; 200ns response time
+
+
+4. A4988 STEPPER DRIVER CIRCUIT
+===================================
+
+   ESP32 GPIO25 ─── STEP     A4988 / DRV8825 Driver
+   ESP32 GPIO26 ─── DIR      ┌──────────────────────┐
+   ESP32 GPIO27 ─── ENABLE   │      MotorBridge       │
+   ESP32 GPIO14 ─── MS1      │  VMOT ─── 12V (motor) │
+   ESP32 GPIO12 ─── MS2      │  GND  ─── GND          │
+   ESP32 GPIO13 ─── MS3      │  VDD  ─── 3.3V         │
+   100nF                     │                         │
+    ┤├── RESET ─── SLEEP      │  1A ──┐                │
+                              │  2A ──┘ coil A         │
+   VMOT ─── 100μF/35V ─── GND│  1B ──┐                │
+   (bulk cap on motor power)  │  2B ──┘ coil B         │
+                              └──────────────────────────┘
+                                   │           │
+                                  ═╧═         ═╧═
+                                 NEMA14 or NEMA17 Stepper
+
+   MICROSTEPPING TABLE (A4988):
+   MS1  MS2  MS3  |  Mode          Steps/rev
+   0    0    0    |  Full step     200
+   1    0    0    |  Half step     400
+   0    1    0    |  Quarter       800
+   1    1    0    |  Eighth        1600   ← USE THIS (default in firmware)
+   1    1    1    |  Sixteenth     3200
+
+   CURRENT LIMIT: Measure Vref pin, adjust pot: I_max = Vref / (8 × R_sense)
+   For NEMA14 (0.4A rated): Vref = 0.4 × 8 × 0.1 = 320mV
+   For NEMA17 (1.7A rated): Vref = 1.7 × 8 × 0.1 = 1360mV
+
+   GEAR RATIO:
+   Direct coupling (no gear): 800 microsteps = 180° cap travel
+   3:1 reduction gear:        800 microsteps = 60° → need 2400 microsteps for 180°
+   Firmware: set STEPS_180DEG = 800 (direct) or 2400 (3:1 gear) in config.h
+
+
+5. ENCODER WIRING (KY-040 or similar)
+========================================
+
+   KY-040:   CLK ─── GPIO34 (10kΩ pull-up to 3.3V; uses IRAM ISR)
+             DT  ─── GPIO32 (10kΩ pull-up to 3.3V)
+             SW  ─── (optional, not used)
+             VCC ─── 3.3V
+             GND ─── GND
+
+   Quadrature decode (ISR-based, in firmware):
+     On RISING edge of CLK:
+       if DT == HIGH: direction = CW  → position++
+       if DT == LOW:  direction = CCW → position--
+     Rollover handling: clamp to [0, ENC_MAX_COUNTS]
+
+   OR: POTENTIOMETER WIRING (simpler, no interrupt needed)
+
+   10kΩ single-turn pot:
+     CW end  ─── 3.3V
+     Wiper   ─── GPIO36 (ADC1_CH0)
+     CCW end ─── GND
+   Note: ADC36 is input-only; do NOT drive output on GPIO36
+   Reading: adc_val = analogRead(36); // 12-bit, 0–4095
+   C_pF = C_min + (C_max - C_min) × adc_val / 4095.0;
+
+
+6. LIMIT SWITCHES (HOMING)
+============================
+
+   MIN end-stop (C_min position, rotor fully unmeshed):
+     GPIO04 ─── N.C. switch ─── GND
+     GPIO04 internal pull-up to 3.3V (INPUT_PULLUP in firmware)
+     Active: GPIO04 reads LOW (switch closes to GND)
+
+   MAX end-stop (C_max position, rotor fully meshed):
+     GPIO05 ─── N.C. switch ─── GND
+     GPIO05 internal pull-up to 3.3V (INPUT_PULLUP in firmware)
+
+   HOMING SEQUENCE (autoHome() in firmware):
+     1. Slowly move motor toward MIN (direction=CCW)
+     2. When MIN switch trips, stop and set position=0
+     3. Slowly move motor toward MAX; count steps
+     4. When MAX switch trips, record total_steps_180
+     5. Compute steps_per_degree = total_steps_180 / 180.0
+     6. Move to C_min position (theta=0)
+
+
+7. POWER SUPPLY CONNECTIONS
+==============================
+
+   USB 5V ──── LDO regulator (AMS1117-3.3) ──── 3.3V rail (ESP32, encoders, sensors)
+   12V supply (wall adapter or battery) ──── VMOT on A4988 (motor only)
+   Isolate motor power with 100μF/35V bulk cap and 0.1μF/50V bypass near A4988
+
+   TOTAL CURRENT:
+   ESP32:         240mA max (WiFi active)
+   A4988 standby: 6mA (logic); 400mA max (motor full current, NEMA14)
+   AD8307 × 2:    16mA
+   LEDs × 4:      40mA total
+   CYD (BT only): negligible (CYD has its own 5V supply)
+   TOTAL 3.3V:    ≈300mA → AMS1117-3.3 or LM3940 adequate (800mA rated)
+   TOTAL 12V:     400mA motor (intermittent during tuning only)
+
+================================================================================
+END TM-VCAP-SCH-002
+================================================================================

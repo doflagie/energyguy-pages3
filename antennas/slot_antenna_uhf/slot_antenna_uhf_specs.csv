@@ -1,0 +1,11 @@
+ANTENNA SPECIFICATION — SLOT ANTENNA UHF,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,70cm band (430–440 MHz),,
+Design approach,"Slot antenna: slot cut in metal sheet or PCB ground plane, complementary to dipole, wideband variant",,
+Compaction factor,0%,,
+Special parameters,"36 mm slot on PCB ground plane, dipole slot pair configuration, 50Ω microstrip feed, wideband design for full 70cm band",,
+Feed impedance,50 Ω nominal,Ω,May vary by design
+SWR target,<2.0,:1,Without antenna tuner
+Efficiency,70–95%,%,Varies by band/implementation
+Gain,0–12,dBi,Depends on antenna type

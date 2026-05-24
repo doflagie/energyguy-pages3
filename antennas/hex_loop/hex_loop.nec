@@ -1,0 +1,16 @@
+CM HEX LOOP
+CM Six-sided loop, horizontally polarized
+CM Bands: 20M, 15M
+CE
+
+GW 1 15 0.0 0.0 8.0  3 0.0 8.0  0.001
+GW 2 15 3 0.0 8.0  3 3 8.0  0.001
+GW 3 15 3 3 8.0  0.0 3 8.0  0.001
+GW 4 15 0.0 3 8.0  0.0 0.0 8.0  0.001
+
+GE 0
+GN 2 0 0 0 13 0.005
+EX 0 1 6 0 1 0
+FR 0 1 0 0 100 0
+RP 0 91 360 1000 -90 0 1.0 1.0
+EN

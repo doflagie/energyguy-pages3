@@ -1,0 +1,20 @@
+CM END-FED HALF-WAVE (EFHW) MULTIBAND WITH 49:1 UNUN
+CM Purpose: Demonstrate EFHW multiband operation (80M, 40M, 20M)
+CM Antenna: 135-foot EFHW at 50-foot end height
+CM Balun: FT-240-43, 3:21 turns (49:1 impedance transformation)
+CM Counterpoise: 20-foot element, 10 feet high
+CM Expected: Impedance varies across band (tuner required/simulated)
+CE
+CM EFHW antenna (135 feet, primary for 40M resonance)
+GW 1 25 0.0 0.0 50.0 135.0 0.0 50.0 0.00641
+CM Counterpoise (20 feet, 10 feet high)
+GW 2 8 0.0 0.0 10.0 20.0 0.0 10.0 0.00641
+GE 0
+EK
+CM Frequency sweep: 80M (3.75 MHz) - verify impedance variation
+FR 0 1 0 0 3.75 1.0
+CM Voltage source at antenna feedpoint (end)
+EX 0 1 1 0 1.0 0.0
+CM Radiation pattern (80M)
+RP 1 91 91 1111 -90.0 0.0 1.0 1.0
+EN

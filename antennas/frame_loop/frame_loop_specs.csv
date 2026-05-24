@@ -1,0 +1,14 @@
+ANTENNA SPECIFICATION — FRAME LOOP,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,"40M, 20M, 15M",,Center/allocated bands
+Design approach,"Large square loop, low radiation angle (NVIS)",,Primary design method
+Compaction factor,0%,,Size reduction vs full-size
+Special parameters,"10–20 ft sides, high Q, tuned with series capacitor",,Design-specific details
+,,,
+Feed impedance,50–600,Ω,Antenna-type dependent
+SWR target,<2.0,:1,With tuner if required
+Radiation pattern,Varies,,See NEC model
+,,,
+Typical efficiency,75–95%,%,Design-dependent
+Typical gain,2–10,dBi,Antenna-type dependent

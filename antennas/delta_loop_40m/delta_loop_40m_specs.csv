@@ -1,0 +1,11 @@
+ANTENNA SPECIFICATION — DELTA LOOP 40M,,,
+,,,
+Parameter,Value,Unit,Notes
+Frequency bands,40M (7.0–7.3 MHz),,
+Design approach,"Full-wavelength triangular resonant loop, broadside radiation pattern, low takeoff angle",,
+Compaction factor,0%,,
+Special parameters,"130 ft perimeter triangle, equilateral sides ~43 ft, 50Ω feedpoint at base corner, low-angle DX pattern",,
+Feed impedance,50 Ω nominal,Ω,May vary by design
+SWR target,<2.0,:1,Without antenna tuner
+Efficiency,70–95%,%,Varies by band/implementation
+Gain,0–12,dBi,Depends on antenna type

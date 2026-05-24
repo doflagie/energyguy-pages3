@@ -1,0 +1,343 @@
+================================================================================
+UNUN 4:1 — RANDOM WIRE IMPEDANCE TRANSFORMER
+================================================================================
+
+Purpose: Impedance transformation 200Ω unbalanced → 50Ω unbalanced
+Type: Voltage transformer (simple 2:1 turns ratio unun)
+Common-Mode Suppression: None (impedance transformation only)
+Insertion Loss: 0.08–0.12 dB (single core, no CM choke)
+Primary Use: Unbalanced random wire antennas, feedpoint matching
+
+================================================================================
+CIRCUIT DIAGRAM — 4:1 UNUN (VOLTAGE)
+================================================================================
+
+Antenna (Random Wire)
+        │
+        ├─────────────┐
+        │             │
+     200Ω            (other end
+   feedpoint        to tuner GND)
+        │             │
+        ├─[UNUN 4:1]──┤
+        │   3:6       │
+        │  turns on   │
+        │  FT-240-43  │
+        │             │
+        ├─────────────┤
+        │
+      Coax 50Ω
+        │
+    ┌───┴────┐
+    │ Tuner  │
+    │ Input  │
+    │ 50Ω    │
+    └────────┘
+
+================================================================================
+CORE SPECIFICATIONS
+================================================================================
+
+HF Configuration (80M–10M):
+  Core: Single FT-240-43 (small form FT-140-43 suitable @ 20M+)
+  Material: Mix 43 (µ=850, AL=1100 µH/100T)
+  Wire: #16 enameled copper
+  Primary: 3 turns (antenna side, 200Ω)
+  Secondary: 6 turns (coax side, 50Ω)
+  Turns Ratio: 2:1 (gives 4:1 impedance transformation)
+  Max Power: 450 W
+  Insertion Loss: 0.08–0.12 dB
+
+Band-Specific Configuration:
+  160M (1.8 MHz):   3 primary, 6 secondary (FT-240-43)
+  80M (3.75 MHz):   3 primary, 6 secondary
+  40M (7.15 MHz):   3 primary, 6 secondary
+  20M–10M:         3 primary, 6 secondary (same configuration broadband)
+
+Wire Lengths:
+  Primary: ~40 inches (3 turns)
+  Secondary: ~70 inches (6 turns)
+  Total: ~110 inches
+
+================================================================================
+IMPEDANCE TRANSFORMATION
+================================================================================
+
+THEORY:
+  Simple voltage transformer (NOT transmission line, NOT bifilar CM choke)
+  Z_out = Z_in / N²
+
+CALCULATION:
+  N = N_secondary / N_primary = 6 / 3 = 2:1 ratio
+  Z_out = Z_in / N² = 200 / 4 = 50Ω ✓
+
+VOLTAGE STEP-DOWN:
+  V_out = V_in × (N_primary / N_secondary) = V_in × (1/2)
+  Power: P_in = P_out (minus losses)
+
+KEY ADVANTAGE:
+  - Simple winding (standard coil on single core)
+  - Low insertion loss (direct transformer, minimal core loss)
+  - Compact form factor
+
+KEY LIMITATION:
+  - No common-mode suppression (impedance transformation only)
+  - Works only for UNBALANCED antennas (random wire, not dipole)
+
+================================================================================
+WINDING TECHNIQUE — SIMPLE VOLTAGE UNUN
+================================================================================
+
+Materials:
+  - 1× FT-240-43 core
+  - Spool of #16 enameled copper wire
+  - Small vice or mandrel
+
+Step 1: Wind primary
+  - Wind 3 turns of #16 wire on core
+  - Keep turns evenly spaced
+  - Strip ~0.3" from both ends (for antenna connection)
+
+Step 2: Wind secondary
+  - Wind 6 turns directly on top of primary (no interleaving needed)
+  - Evenly distributed around remaining core space
+  - Strip ~0.3" from both ends (for coax connector)
+
+Step 3: Connect antenna
+  - Solder primary wire to antenna feedpoint (one end)
+  - Solder primary return to antenna counterpoise/ground
+
+Step 4: Connect coax
+  - Solder secondary center to coax center conductor
+  - Solder secondary return to coax braid/shield
+
+Step 5: Insulation
+  - Enamel insulation sufficient for outdoor installation
+  - Potting optional (not critical for voltage unun)
+
+================================================================================
+COMMON-MODE BEHAVIOR
+================================================================================
+
+IMPORTANT: This is a UNUN (unbalanced-to-unbalanced), NOT a balun.
+
+CM Impedance:
+  Z_CM = 2π × f × L_primary = 2π × f × (AL × N_primary²) / 10000
+
+Example @ 80M (3.75 MHz), FT-240-43, 3 turns:
+  L = 1100 × 9 / 10000 = 0.99 µH
+  Z_CM = 2π × 3.75×10⁶ × 0.99×10⁻⁶ ≈ 23 Ω
+
+This is POOR CM impedance (need >250Ω for suppression).
+
+IMPLICATION:
+  - If antenna has high CM current, this unun does NOT suppress it
+  - Random wire antennas typically have LOW CM current (inherently unbalanced)
+  - So poor CM impedance is ACCEPTABLE (no CM to suppress)
+
+CONTRAST with baluns:
+  Baluns are designed for balanced antennas (which generate CM currents)
+  Ununs are designed for unbalanced antennas (which do NOT generate CM currents)
+
+================================================================================
+FREQUENCY RESPONSE
+================================================================================
+
+FT-240-43, 3:6 turns:
+
+Frequency    Impedance Ratio    Insertion Loss
+160M         4.0:1 (200→50)     0.12 dB
+80M          3.9:1              0.10 dB
+40M          3.8:1              0.09 dB
+20M          3.7:1              0.08 dB
+10M          3.6:1              0.07 dB
+
+Notes:
+  - Impedance ratio stays flat ~4:1 across entire HF band ✓
+  - Insertion loss DECREASES with frequency (ferrite loss drops)
+  - Excellent broadband response for unbalanced impedance transformation
+
+================================================================================
+PRIMARY APPLICATIONS
+================================================================================
+
+1. RANDOM WIRE ANTENNAS:
+   - Unbalanced wire antenna (one end to feedpoint, other to ground)
+   - Impedance typically 200–600Ω (depending on length and height)
+   - 4:1 unun matches ~200Ω feedpoint to 50Ω coax
+
+2. LONG-WIRE ANTENNAS (with appropriate unun ratio):
+   - Non-resonant long wires (>λ/2 length)
+   - Feedpoint impedance ranges from 100Ω (favorable) to 1000Ω (extreme)
+   - 4:1 suitable for moderate impedances
+
+3. BEVERAGE ANTENNAS:
+   - Directional long-wire array
+   - Typical feedpoint impedance: 150–200Ω
+   - 4:1 unun provides good match
+
+4. MAGNETIC LOOP ANTENNAS:
+   - Some loop designs exhibit unbalanced feedpoints
+   - If impedance ~200Ω, 4:1 unun is ideal
+
+5. SIMPLE TUNED ANTENNAS:
+   - End-fed tuned wire (NOT half-wave resonant)
+   - Use unun + tuner for broadband matching
+
+================================================================================
+TESTING PROCEDURE — NANOVNA
+================================================================================
+
+Setup:
+  Port 1: Coax output (50Ω)
+  Port 2: Primary antenna connection (via 50Ω adapter or 200Ω load)
+  Test Load: 200Ω resistor across primary (simulates antenna)
+
+Measurement 1 — Impedance Ratio (with 200Ω load):
+  Sweep 1–30 MHz
+  Expected: Z_out ≈ 50Ω (with 200Ω load on antenna side)
+  S₁₁ <-20 dB (excellent match)
+
+Measurement 2 — Insertion Loss:
+  Sweep 1–30 MHz
+  Expected: S₂₁ ≈ -0.08 to -0.12 dB
+  Relatively flat across band
+
+Measurement 3 — Phase:
+  Phase delay should be minimal (<10° across band)
+  Indicates good coupling and low leakage inductance
+
+================================================================================
+DESIGN EQUATIONS
+================================================================================
+
+Turns ratio for 200→50Ω unun:
+  N_ratio = sqrt(Z_in / Z_out) = sqrt(200/50) = sqrt(4) = 2:1
+  Use 3 primary, 6 secondary (2:1 ratio) ✓
+
+Alternative turns combinations:
+  2:4 (2:1 ratio, compact)
+  4:8 (2:1 ratio, larger core distribution)
+
+Insertion Loss:
+  L_dB ≈ 0.05 + 0.0015 × f_MHz (FT-240-43, 3:6 configuration)
+  Example @ 14.2 MHz: L ≈ 0.05 + 0.021 = 0.071 dB ✓
+
+Common-Mode Impedance (not applicable for unun):
+  Z_CM = 2π × f × (AL × N_primary²) / 10000
+  For 3 turns: Z_CM ≈ 23Ω @ 80M (low, but acceptable — no CM signal present)
+
+================================================================================
+FAILURE MODES
+================================================================================
+
+SYMPTOM: High SWR, poor antenna match
+ROOT CAUSE 1: Antenna feedpoint impedance NOT 200Ω
+SOLUTION:
+  - Measure antenna impedance with tuner's built-in SWR meter
+  - If impedance is 300Ω or higher, use 6:1 or 9:1 unun instead
+  - If impedance is 100–150Ω, use 2:1 unun (1:2 turns ratio)
+
+ROOT CAUSE 2: Unun winding incorrect (turns count wrong)
+SOLUTION:
+  - Unwind and recount turns
+  - Verify connection (antenna to primary, coax to secondary)
+
+ROOT CAUSE 3: Counterpoise/ground connection poor
+SOLUTION:
+  - Random wire antennas REQUIRE good ground connection
+  - Add additional radial ground wires (extend ground plane)
+  - Verify ground connection is low-impedance (<1Ω to earth)
+
+SYMPTOM: Excessive heating
+ROOT CAUSE: Unun is transformer, not CM choke — heat indicates high current
+SOLUTION:
+  - Verify antenna is not shorted
+  - Check for intermittent connections
+  - Reduce TX power if antenna current excessive
+
+================================================================================
+POWER HANDLING
+================================================================================
+
+FT-240-43 single core, 3:6 unun:
+  Continuous (CW): 450 W @ 50°C ambient
+  Peak (SSB): 700 W (transient)
+  Thermal rise: ~15°C @ 400W (low loss = minimal heating)
+
+The 4:1 unun runs very cool (compared to baluns) because:
+  - Single ferrite path (low core loss)
+  - No long winding (lower wire resistance)
+  - Simple voltage transformation (high efficiency)
+
+================================================================================
+CONSTRUCTION NOTES
+================================================================================
+
+Mechanical Assembly:
+  - Compact form factor (can fit in 2"×2"×1" enclosure)
+  - Mount at antenna feedpoint or between tuner and antenna
+  - Stainless steel hardware (corrosion resistance)
+
+Weatherproofing:
+  - Enamel insulation adequate for outdoor use
+  - Potting optional (helps with moisture, not critical)
+  - PVC tape wrap sufficient field protection
+
+Field Installation:
+  - Mount as close to antenna feedpoint as practical
+  - Minimize coax run from unun to tuner
+  - Keep antenna wire and ground separate (avoid shielding)
+
+Spare Parts:
+  - Keep extra FT-240-43 cores
+  - Stock #16 enameled wire
+  - Pre-made connectors (SO-239, BNC)
+
+================================================================================
+COMPARISON: 4:1 UNUN vs OTHER UNUN RATIOS
+================================================================================
+
+Ratio    Input Z    Output Z    Turns    Core      Use Case
+──────────────────────────────────────────────────────────
+2:1      100Ω       50Ω         1:2      FT-140    Low-Z antennas
+4:1      200Ω       50Ω         3:6      FT-240    Most random wire
+9:1      450Ω       50Ω         4:12     FT-240    Ladder line
+16:1     800Ω       50Ω         5:20     FT-240    Long-wire
+49:1     2450Ω      50Ω         3:21     FT-240    EFHW
+64:1     3200Ω      50Ω         5:40     FT-240    Extreme impedance
+
+RECOMMENDATION:
+  For unknown antenna impedance: Use antenna tuner to measure first,
+  then choose appropriate unun ratio.
+
+  For typical random wire: 4:1 unun is safe starting point
+
+================================================================================
+RANDOM WIRE ANTENNA BASICS
+================================================================================
+
+What is a random wire?
+  - Any length of wire erected between two points (not resonant)
+  - Impedance varies with length, height, frequency
+  - Low feedpoint impedance if near resonance length
+
+Advantages:
+  - Simple construction (single wire, not balanced)
+  - Cheap (just wire and insulators)
+  - Works multiple bands (non-resonant design)
+  - Small footprint (can zigzag along fence or building)
+
+Disadvantages:
+  - Requires good ground/counterpoise
+  - Higher losses (not resonant, radiation resistance low)
+  - Impedance unpredictable (depends on frequency and wire path)
+  - Requires antenna tuner for all-band operation
+
+Counterpoise design:
+  - Single ground wire (return path for RF current)
+  - Or: Multiple radial wires (ground plane, 15–30 radials @ /4 length)
+  - Or: Connection to earth ground (ground rod at feedpoint)
+  - CRITICAL: Ground must be low impedance (<1Ω @ operating frequency)
+
+================================================================================

@@ -1,0 +1,23 @@
+COMPACT DIPOLE ANTENNA — 160m,,,
+Center Frequency,1.900,MHz,
+,,,
+LOADING COIL PARAMETERS,,,
+Inductance Target,295.97,μH,per arm
+Number of Turns,156,turns,close-wound
+Wire Gauge,AWG 22,,"0.0253"" diameter"
+Wire Length Total,18.67,m,61.26 feet
+Form Material,"1.5"" PVC",,rigid PVC or ceramic
+Form Inside Radius,0.750,inches,1.91 cm
+Coil Length,3.954,inches,10.04 cm
+Coil Pitch,0.0253,inches,0.064 cm (same as wire dia)
+,,,
+TRAP RESONATOR PARAMETERS,,,
+Inductance,233.890,μH,parallel element
+Capacitance,30.0,pF,variable trimmer (Bourns 3296)
+Resonant Frequency,1.900,MHz,design center
+,,,
+RADIATOR PARAMETERS,,,
+Wire Gauge,AWG 14,,"0.0641"" diameter"
+Arm Length (Compact),18.763,m,61.56 feet
+Arm Length (Full),37.526,m,123.12 feet
+Compaction Factor,50%,,size reduction vs full dipole

@@ -1,0 +1,208 @@
+================================================================================
+TM-VCAP-SCH-004 Rev A    SLIDING PVC PIPE VARIABLE CAPACITOR — CONSTRUCTION
+                          Coaxial Plunger-Type Air/Polymer Dielectric
+================================================================================
+
+1. OPERATING PRINCIPLE
+=======================
+
+    A coaxial capacitor is formed by two concentric cylindrical conductors separated
+    by a thin dielectric layer. Capacitance is proportional to the overlap length:
+
+    C(x) = ε₀ × εᵣ × 2πa / d  × x
+         = K × x     (K in pF/mm; x = insertion depth in mm)
+
+    This is the THIN-SHELL approximation, valid when d << a (gap << radius).
+    The formula is the circumferential parallel-plate equation "unwrapped."
+
+    Physical analogy:
+      Area A = 2πa × x  (cylindrical shell area for length x)
+      C = ε₀εᵣA/d  (same as flat plate, but area is curved shell)
+
+
+2. CROSS-SECTION VIEW (PIPE-HF DESIGN, 1/2" PVC)
+===================================================
+
+    OUTER SLEEVE (3D-printed PETG or flexible vinyl)
+    ┌─────────────────────────────────────────────────────┐
+    │ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │ ← PETG/vinyl wall
+    │ ◄══════════════ copper foil tape inside ══════════► │ ← OUTER CONDUCTOR
+    │ ┌─────────────────────────────────────────────────┐ │
+    │ │ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ │ │ ← polymer dielectric film
+    │ │ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │ │ ← copper foil tape
+    │ │ ═════════════════════════════════════════════ │ │ ← PVC pipe wall
+    │ │               AIR CORE                        │ │
+    │ │           (inner pipe hollow)                 │ │
+    │ │ ═════════════════════════════════════════════ │ │
+    │ │ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │ │ ← copper foil tape
+    │ │ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ │ │ ← polymer dielectric film
+    │ └─────────────────────────────────────────────────┘ │
+    │ ◄══════════════ copper foil tape inside ══════════► │
+    │ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │
+    └─────────────────────────────────────────────────────┘
+
+    LEGEND:  ▓▓ = copper foil tape (conductor)
+             ░░ = polymer dielectric film (Kapton, OHP, PTFE tape)
+             ══ = PVC pipe wall (insulator, structural)
+
+    KEY DIMENSIONS (PIPE-HF):
+    ┌─────────────────────────────────────────────────────┐
+    │ Inner PVC pipe OD:    21.34 mm (1/2" Schedule 40)   │
+    │ Copper foil on pipe:  +0.10 mm → 21.54 mm           │
+    │ Polymer dielectric:   +0.13 mm → 21.80 mm (Kapton)  │
+    │ Outer sleeve ID:      ~22.0 mm (0.2mm clearance)    │
+    │ Outer foil (inside sleeve): applied before sleeve    │
+    │ Conductor radius a:   10.77 mm                      │
+    │ Dielectric gap d:     0.13 mm                       │
+    │ C per mm:             ~17.7 pF/mm                   │
+    └─────────────────────────────────────────────────────┘
+
+
+3. SIDE VIEW — PLUNGER ASSEMBLY (MANUAL VERSION)
+=================================================
+
+                     INSERTION DEPTH x
+                     ←──────────────→
+    ┌────────────────────────────────────────────────────────────────┐
+    │  FIXED END CAP     OUTER SLEEVE (stationary)        OPEN END  │
+    │  (3D print)        ┌───────────────────────┐        (guide)   │
+    │  ┌──────┐          │▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓│          ┌─────┐ │
+    │  │ T₂   ├──────────┤ outer conductor foil  ├──────────┤guide│ │
+    │  │(outer│          │▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓│          │bushing│
+    │  │term.)│          └─────────────┬─────────┘          └──┬──┘ │
+    │  └──────┘                        │                        │    │
+    │              INNER PIPE (slides) │                        │    │
+    │              ════════════════════╪════════════════════════╪═══→│
+    │              ░░░░░░░░░░░░░░░░░░░│ poly dielectric film   │    │
+    │              ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓│ copper foil on inner   │    │
+    │              ══════════════════════════════════════════════════→│THUMB
+    │              ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓│ copper foil on inner   │    │KNOB
+    │              ░░░░░░░░░░░░░░░░░░│ poly dielectric film   │    │
+    │              ════════════════════════════════════════════════════
+    │                        ↑         ↑                           │
+    │                   T₁ (inner)    scale marks on inner pipe    │
+    │                   terminal      (mm and pF scale)            │
+    └────────────────────────────────────────────────────────────────┘
+    ← C_min                                            C_max →
+    (inserted 0mm)                              (inserted x_max mm)
+
+    POSITION SCALE:
+    Engrave or mark on INNER PIPE at: 0, 10, 20, 30, 50, 75, 100, 125, 150mm
+    Label with corresponding pF: 0, 177, 354, 531, 885, 1328, 1770, 2213, 2655 pF
+    (for PIPE-HF: K = 17.7 pF/mm; mark at x_min alignment point on sleeve edge)
+
+
+4. CONSTRUCTION SEQUENCE — INNER PIPE PREPARATION
+===================================================
+
+    Step 1 — Clean inner pipe surface:
+      Wipe 1/2" Schedule 40 PVC pipe with IPA.
+      Ensure no mold release agent, printing inks, or grease.
+
+    Step 2 — Apply copper foil tape:
+      Use 0.1mm copper foil tape (self-adhesive, conductive adhesive type).
+      Wrap helically with 50% overlap, length = max_depth + 30mm extra.
+      Burnish flat with fingernail tool; eliminate air bubbles.
+      Ensure NO copper extends past one end — leave 15mm bare for thumb knob.
+      At wire-end: leave 25mm copper tab extending beyond pipe end for terminal.
+
+    Step 3 — Apply polymer dielectric:
+      For KAPTON (preferred): wrap single layer helically; overlap 2mm.
+      For OHP transparency: cut strip, width = π × pipe_OD + 5mm (one wrap + overlap).
+                            Secure with one small piece of scotch tape at start and end.
+      For PTFE tape: wrap 8 tight turns for 0.61mm total thickness.
+      CRITICAL: No wrinkles or folds. Smooth completely — wrinkles = voltage hotspots.
+
+    Step 4 — Check dielectric:
+      Before inserting into sleeve: use ohmmeter — must read >10 MΩ between
+      copper foil on pipe and any metal tool pressed against outer dielectric surface.
+
+    Step 5 — Apply guide strips (for 3D-printed sleeve):
+      Optional: apply 3× strips of 3mm PTFE tape on pipe end as low-friction glide pads.
+      Position at 0°, 120°, 240° around circumference.
+
+
+5. CONSTRUCTION SEQUENCE — OUTER SLEEVE PREPARATION
+=====================================================
+
+    Option A — 3D-Printed PETG Sleeve (TM-VCAP-ENC-006):
+      Print sleeve per OpenSCAD file.
+      Sand ID smooth (220 grit).
+      Apply copper foil tape to INSIDE before assembly (cannot reach after):
+        Cut one strip = π × sleeve_ID width × sleeve_length.
+        Press into sleeve; burnish edge with rod.
+      Verify: ohmmeter continuity along full length of sleeve foil.
+
+    Option B — Flexible Vinyl Sleeve (for PIPE-QRP, no 3D printing):
+      Use 1" garden soaker hose or vinyl tubing, ID = 20mm (relaxed).
+      Clean inside surface.
+      Cut to max_depth + 40mm.
+      Turn inside-out.
+      Apply copper foil tape in section = max_depth mm.
+      Turn right-side-out.
+      Sleeve will stretch slightly when inner pipe is inserted.
+      ADVANTAGE: Self-centering, no clearance gap, consistent contact.
+
+    Option C — Rolled Sheet Capacitor (flat-plate variant):
+      Instead of round pipe: use flat PVC sheet 60×(max_depth+30)mm as inner plate.
+      Copper foil on both faces of a polymer sheet.
+      Slides into PVC channel (cut from flat PVC sheet).
+      Uses formula: C(x) = ε₀ × εᵣ × W × x / d (W = width, x = depth, same formula)
+
+
+6. ELECTRICAL CONNECTIONS
+===========================
+
+    TERMINAL T₁ (inner pipe / moving conductor):
+      Solder flexible wire (18 AWG) to the copper foil tab at the far end of inner pipe.
+      Wire must be LONG enough to allow full insertion without tension.
+      Use coiled flexible hookup wire to maintain flexibility.
+      IMPORTANT: As inner pipe moves, the wire curls/uncoils — plan for this.
+
+    TERMINAL T₂ (outer sleeve / fixed conductor):
+      Solder wire directly to copper foil on inner surface of sleeve,
+      accessible through slot in end cap or via foil tab that extends past sleeve end.
+
+    HV ISOLATION:
+      At voltages >500V: use ceramic standoffs for wire routing.
+      Keep T₁ and T₂ wires separated by ≥ V_work/2kV × 10mm spacing in air.
+      For PIPE-HF-HV (7.3kV working): separate by ≥ 37mm in air.
+      Insulate thumb knob from inner pipe with PTFE sleeve if >200V expected.
+
+
+7. MOTORIZED VERSION — LEAD SCREW DRIVE
+=========================================
+
+    M6 × 1.0mm threaded rod drives inner pipe via 3D-printed nut adapter.
+    Motor and rod are collinear with inner pipe:
+
+    [NEMA14 motor]──[shaft coupler]──[M6 threaded rod]──[nut in inner pipe end cap]
+                                        |                     |
+                                    fixed to                slides inner
+                                    outer sleeve end cap    pipe axially
+
+    Travel per motor revolution: 1.0mm (M6 × 1.0 pitch)
+    At 1/8 microstepping (1600 µsteps/rev): 0.000625 mm/µstep
+    ΔC per µstep (PIPE-HF): 0.000625 × 17.7 = 0.011 pF/µstep
+
+    Limit switches: micro-switch at x=0 (min insertion) and x=max_depth (fully inserted)
+
+    Position sensing: count motor steps from home (no separate encoder needed)
+    Verify with pot on lead screw shaft if missed steps are a concern.
+
+    See TM-VCAP-FW-001 config.h, CAP_DRIVE_MODE = LINEAR for firmware configuration.
+
+
+8. CALIBRATION
+================
+
+    1. Mark "ZERO" line on inner pipe where it exits sleeve at minimum insertion.
+    2. Slowly insert inner pipe to x=10mm; measure C with LCR meter at 1 kHz.
+    3. Verify: measured C ≈ C_min + K × 10mm (from TM-VCAP-CAL-005 table).
+    4. If C/mm is low: dielectric wraps may have air gaps — re-wrap more tightly.
+    5. If C/mm is high: check for tube deformation creating areas of reduced d.
+    6. Record calibrated K in NVS via `SETC PIPE_K <measured_pF_per_mm>` command.
+
+================================================================================
+END TM-VCAP-SCH-004
+================================================================================

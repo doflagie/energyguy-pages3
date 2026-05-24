@@ -1,0 +1,14 @@
+// TM-VCAP-CAL-001 Rev A  Variable Capacitor Design Parameters
+// Five designs covering QRP/HF/Transmitting/VHF/UHF amateur radio service
+// C(θ) = C_min + (C_max - C_min) × θ/180°  [semicircular plates, linear with angle]
+// V_breakdown = 30 kV/cm × d_mm × 0.1  [air dielectric, standard temp/pressure]
+// C_max_calc = (2n-1) × ε₀ × (π×r²/2) / d  [parallel plate, full mesh at 180°]
+// Q_14MHz: brass/silver ≈600-900, aluminum ≈200-400; degrades as 1/√f above 30 MHz
+// SRF = 1/(2π√(L_lead × C_max));  L_lead estimated from wiring geometry
+//
+design_id,name,application,n_rotor_plates,n_stator_plates,n_gaps,plate_radius_mm,plate_spacing_mm,A_semi_cm2,C_max_calc_pF,C_min_stray_pF,C_range_pF,V_breakdown_kV_peak,V_working_kV_peak,safety_factor,Q_at_14MHz,SRF_MHz,frame_W_mm,frame_H_mm,frame_D_mm,shaft_dia_mm,plate_material,frame_material,notes
+VC-QRP,QRP Variable Cap,QRP tuners 40m-10m; station receiver; impedance matching to 10W,16,17,31,20,0.5,6.28,345,8,337,1.5,0.200,7.5,350,156,50,50,45,4,Aluminum 0.4mm,PETG 3D-printed,"10W max; 200V peak safe; thin plates OK; compact 50mm cube"
+VC-HF100,HF Portable Cap,HF antenna tuners 160m-10m; L/T/pi network; 100W portable,14,15,27,30,1.5,14.14,225,10,215,4.5,1.500,3.0,600,150,80,80,70,6,Brass 0.5mm,PETG/Delrin,"1500V peak; 100W; 1.5mm spacing critical; solder stator contacts"
+VC-TX,Transmitting Cap,HF tank circuits; pi network; final amp; 500W,10,11,19,40,4.0,25.13,106,5,101,12.0,4.000,3.0,900,173,120,120,90,8,Silver-plate brass 1.0mm,Aluminum machined,"4000V peak; 500W; wide spacing; needs aluminum frame not 3D print for HV"
+VC-VHF,VHF Variable Cap,VHF tuner 6m-2m; stub matching; 50W,8,9,15,15,1.0,3.53,47,2,45,3.0,0.500,6.0,400,519,40,40,35,4,Brass 0.5mm,PETG 3D-printed,"500V peak; 50W; minimize stray L in wiring; short leads mandatory"
+VC-UHF,UHF Trimmer Cap,UHF matching 70cm-23cm; stub networks; 10W,4,5,7,8,0.5,1.005,12,0.5,11.5,1.5,0.200,7.5,200,1453,25,25,20,3,Brass 0.3mm,PETG 3D-printed,"200V peak; 10W; SRF 1.45 GHz leaves margin at 1296 MHz; ultra-short leads"

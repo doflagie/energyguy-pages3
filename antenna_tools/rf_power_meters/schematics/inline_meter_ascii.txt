@@ -1,0 +1,185 @@
+================================================================================
+  INLINE DIRECTIONAL POWER METER  —  TM-PWR-INLINE-001 Rev A
+  Forward + Reflected power, auto-ranging 1W–3kW, SO-239/N-type
+  HF / VHF / UHF coverage with band-select switch
+================================================================================
+
+COMPLETE CIRCUIT SCHEMATIC
+───────────────────────────────────────────────────────────────────────────────
+
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │                        DIRECTIONAL COUPLER                              │
+  │                                                                         │
+  │  RF IN ──────────────────────────────────────────────── RF OUT          │
+  │  J1 SO-239  ←──── CENTER CONDUCTOR Z0=50Ω ────→  J2 SO-239             │
+  │                                                                         │
+  │            ┌──────────────────────────────────────┐                    │
+  │            │  T1: TOROID COUPLER                  │                    │
+  │            │  Primary:   1 turn  (center line)    │                    │
+  │            │  Secondary: N turns (selectable)     │                    │
+  │            │  Core: FT-114-43 (HF) or BN-43-202   │                    │
+  │            └──────────┬──────────────┬────────────┘                    │
+  │                       │              │                                  │
+  │                   SEC(+)          SEC(-)                                │
+  │                 FWD coupling    REF coupling                            │
+  └───────────────────────┼──────────────┼──────────────────────────────────┘
+                          │              │
+  ┌───────────────────────┼──────────────┼──────────────────────────────────┐
+  │   FORWARD DETECTOR PATH             │  REFLECTED DETECTOR PATH          │
+  │                                     │                                   │
+  │  SEC(+)─►[D1 1N5711]─┬─ VFWD      SEC(-)─►[D2 1N5711]─┬─ VREF        │
+  │                       │                                  │              │
+  │           R1 51Ω     C1 10nF              R2 51Ω       C2 10nF         │
+  │           (term.)     │(RF byp)            (term.)       │(RF byp)      │
+  │              │        │                       │          │              │
+  │             GND      GND                     GND        GND            │
+  │                                                                         │
+  │  VFWD ─┬─[R3 10kΩ]─┬──────────────── ADS1115 A0                       │
+  │         │           │                                                   │
+  │        C3          C4                                                   │
+  │        100nF       10µF                                                 │
+  │        (HF)        (bulk)                                               │
+  │         │           │                                                   │
+  │        GND         GND                                                  │
+  │                                                                         │
+  │  VREF ─┬─[R4 10kΩ]─┬──────────────── ADS1115 A1                       │
+  │         │           │                                                   │
+  │        C5          C6                                                   │
+  │        100nF       10µF                                                 │
+  │         │           │                                                   │
+  │        GND         GND                                                  │
+  └─────────────────────────────────────────────────────────────────────────┘
+
+  ┌──────────────────── AUTO-RANGE ATTENUATOR ────────────────────────────┐
+  │                                                                        │
+  │  VFWD ──┬─────────────────────────────────── Range 1 (1–10W)  direct  │
+  │          │                                                             │
+  │          └──[20dB PAD]──┬───────────────── Range 2 (10–100W)          │
+  │          └──[30dB PAD]──┬───────────────── Range 3 (100–1000W)        │
+  │          └──[35dB PAD]──┴───────────────── Range 4 (1kW–3kW)          │
+  │                                                                        │
+  │  Range selected by:                                                    │
+  │    Analog:   4-position rotary switch SW1                              │
+  │    Digital:  Auto-detect by ESP32 (2 GPIO-controlled relays)           │
+  │                                                                        │
+  │  20dB Pi-pad (50Ω):                                                    │
+  │    ──[R_s1 39Ω]──┬──[R_s2 39Ω]──                                       │
+  │                 R_p 180Ω                                               │
+  │                  │                                                     │
+  │                 GND                                                    │
+  │                                                                        │
+  │  30dB Pi-pad (50Ω):                                                    │
+  │    ──[R_s1 12Ω]──┬──[R_s2 12Ω]──                                       │
+  │                 R_p 62Ω                                                │
+  │                  │                                                     │
+  │                 GND                                                    │
+  └────────────────────────────────────────────────────────────────────────┘
+
+  ┌──────────────── TEMPERATURE COMPENSATION ─────────────────────────────┐
+  │                                                                        │
+  │  VREF_3V3 ──[R_bias 10kΩ]──┬──── ADC_TEMP (ADS1115 A2)               │
+  │                              │                                         │
+  │                            NTC1                                        │
+  │                            10kΩ/B3950  (NTC thermistor)               │
+  │                            mounted adjacent to D1, D2                  │
+  │                              │                                         │
+  │                             GND                                        │
+  │                                                                        │
+  │  Compensation algorithm (in firmware):                                 │
+  │    T_now = f(V_ntc)   [from Steinhart-Hart: 1/T = A + B×ln(R) + C×ln³(R)]│
+  │    K_comp = exp(alpha × (T_now – T_cal))                               │
+  │    P_corrected = P_measured / K_comp                                   │
+  │    alpha ≈ 0.023/°C for 1N5711, 0.018/°C for HSMS-2822               │
+  └────────────────────────────────────────────────────────────────────────┘
+
+  ┌──────────────────── OVERLOAD PROTECTION ──────────────────────────────┐
+  │                                                                        │
+  │  Strategy 1: Schottky limiter on coupler secondary                    │
+  │                                                                        │
+  │  SEC(+) ──►─[D1]─┬──── VFWD_DET                                       │
+  │                   │                                                    │
+  │               ──►──[D3 BAT54]── VCLAMP = 0.3V (soft clamp)            │
+  │                   │                                                    │
+  │                  GND                                                   │
+  │                                                                        │
+  │  Strategy 2: Gas discharge tube + TVS on detector output               │
+  │                                                                        │
+  │  VFWD_DET ──[R_prot 100Ω]──┬── To ADC                                 │
+  │                              │                                         │
+  │                           Z1: TVS 5.1V (P6KE5.1A)                     │
+  │                              │                                         │
+  │                             GND                                        │
+  │                                                                        │
+  │  Strategy 3: High-power relay bypass (> threshold)                     │
+  │                                                                        │
+  │  SWR > LIMIT ──► Comparator ──► GPIO ──► Relay ──► RF bypass          │
+  │  or P_fwd > P_max                         (disconnects meter circuit) │
+  └────────────────────────────────────────────────────────────────────────┘
+
+  ┌────────────────────────── PEAK DETECTOR ──────────────────────────────┐
+  │                                                                        │
+  │  VFWD ──►─[D4 BAT54]─┬──── VPEAK                                      │
+  │          (fast forward) │                                              │
+  │                       C_pk 1µF   R_leak 1MΩ                           │
+  │                        │        /                                      │
+  │                        ├───────┤    (30s decay if 1MΩ×1µF = τ=1s)    │
+  │                        │       \                                       │
+  │                       GND                                              │
+  │                                                                        │
+  │  VPEAK ──── ADS1115 A3   (separate from average VFWD on A0)           │
+  │                                                                        │
+  │  Peak hold time: τ = R_leak × C_pk                                     │
+  │    Fast hold (1s):   R=1MΩ, C=1µF                                     │
+  │    Slow hold (5s):   R=4.7MΩ, C=1µF                                   │
+  │    Manual reset: GPIO pulls C_pk to GND via 2N7000 MOSFET             │
+  └────────────────────────────────────────────────────────────────────────┘
+
+  ┌───────────── BAND SWITCH RELAY (auto-coupler select) ─────────────────┐
+  │                                                                        │
+  │  SW_BAND (3-pos):  HF = T1 FT-114-43 32T secondary                   │
+  │                    VHF = T1 BN-43-202 20T secondary                   │
+  │                    UHF = on-PCB coupled microstrip                     │
+  │                                                                        │
+  │  Each secondary output routes through relay to detector.               │
+  │  Only one secondary is active at a time.                               │
+  │  HF/VHF coupler secondaries are wound on same core using               │
+  │  separate winding taps, OR separate PCB modules.                       │
+  └────────────────────────────────────────────────────────────────────────┘
+
+
+COMPONENT VALUES BY POWER/RANGE
+───────────────────────────────────────────────────────────────────────────────
+
+  Power Range    Coupler Sec N2   Coupling (dB)   Pi-pad In Path   R1,R2 term
+  ─────────────  ───────────────  ─────────────   ──────────────   ──────────
+  1–10W          32T              –30 dB          none             51Ω
+  10–100W        32T              –30 dB          20 dB pad        51Ω
+  100–1000W      32T              –30 dB          30 dB pad        51Ω
+  1kW–3kW        32T              –30 dB          35 dB pad        51Ω
+
+  Alternatively, change secondary turns for each range:
+    10W range:   N2=10T,  C= –20 dB
+    100W range:  N2=32T,  C= –30 dB
+    1kW range:   N2=100T, C= –40 dB
+    3kW range:   N2=178T, C= –45 dB
+
+  Note: More secondary turns = lower coupling = better for high power
+  Note: More secondary turns = higher inductance = better HF response
+  Trade-off: parasitic capacitance limits upper frequency as N2 increases
+
+PERFORMANCE SPECIFICATIONS
+───────────────────────────────────────────────────────────────────────────────
+
+  Frequency range  : 1.8 – 30 MHz (HF), 50–148 (VHF), 420–1300 (UHF)
+  Power range      : 1W – 3kW (4 ranges, switchable or auto)
+  Insertion loss   : < 0.1 dB (all bands and ranges)
+  Directivity      : > 28 dB (HF), > 22 dB (VHF), > 18 dB (UHF)
+  SWR accuracy     : ±5% FSD after calibration
+  Power accuracy   : ±10% FSD (±5% with calibration)
+  Peak detector    : < 1 µs rise time (BAT54 Schottky, Cj=10 pF)
+  Average display  : 200ms rolling average (firmware)
+  Overload         : TVS clamp at 5.1V on detector output
+
+================================================================================
+  END OF INLINE DIRECTIONAL METER  — TM-PWR-INLINE-001 Rev A
+================================================================================

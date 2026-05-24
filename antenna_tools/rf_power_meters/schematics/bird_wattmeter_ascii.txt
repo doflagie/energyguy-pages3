@@ -1,0 +1,175 @@
+================================================================================
+  BIRD-TYPE THRULINE DIRECTIONAL WATTMETER  —  TM-PWR-BIRD-001 Rev A
+  Thruline body + interchangeable plug-in frequency/power elements
+  Covers HF/VHF/UHF with separate slugs per band/range
+================================================================================
+
+OPERATING PRINCIPLE
+───────────────────────────────────────────────────────────────────────────────
+
+  The Bird-type wattmeter uses a "thruline" body: a section of 50Ω coaxial
+  line containing a transverse slot into which a plug-in "slug" element is
+  inserted.  The slug contains a small directional coupler (loop or capacitive)
+  that samples either the forward OR the reflected wave, depending on the slug
+  orientation.  Rotating the slug 180° switches between FWD and REF readings.
+
+  The thruline body maintains near-perfect 50Ω continuity whether or not a
+  slug is inserted.  Without a slug, it is a transparent in-line connector.
+
+
+BODY CROSS-SECTION (slug slot view)
+───────────────────────────────────────────────────────────────────────────────
+
+  RF IN (J1, SO-239)              RF OUT (J2, SO-239)
+    │                                   │
+    │←─────── CENTER CONDUCTOR ─────────│
+    │                                   │
+    │         ┌──────────────┐          │
+    │         │  SLUG SLOT   │          │
+    │─────────┤  (transverse │─────────-│
+    │  OUTER  │   to RF axis)│  OUTER   │
+    │  BODY   └──────┬───────┘  BODY    │
+    │  (GND)         │          (GND)   │
+    └────────────────┼──────────────────┘
+                     │
+               ┌─────┴──────┐
+               │  SLUG      │
+               │  ELEMENT   │
+               │  (plugs in)│
+               └─────┬──────┘
+                     │
+               METER JACK / BANANA
+
+
+THRULINE BODY — ELECTRICAL SCHEMATIC
+───────────────────────────────────────────────────────────────────────────────
+
+  RF IN ─────────────────────────────────────────────── RF OUT
+  (J1)   ←── Z0 = 50Ω mainline (center conductor) ──→  (J2)
+  SO-239                                                SO-239
+    │                   │SLOT│                            │
+    │              ┌────┴────┴────┐                       │
+    │              │   SLUG       │                       │
+    │              │ ELEMENT      │                       │
+    │              │              │                       │
+    │              └──────┬───────┘                       │
+    │                     │                               │
+    │              METER OUTPUT                           │
+    │              (J3, 2mm banana,                       │
+    │               0–200mV FS)                           │
+   GND                   GND                            GND
+
+
+SLUG ELEMENT CROSS-SECTION  (forward power slug)
+───────────────────────────────────────────────────────────────────────────────
+
+  The slug is a cylindrical aluminum body, 1" diameter, 1" long (Bird Model 43
+  compatible dimensions).  Inside the slug:
+
+  RF CENTER ──────────────────────────────── (continues to body)
+  CONDUCTOR     │                  │
+                │    COUPLING      │
+                │    LOOP (1T)     │
+                │    or CARD       │
+                │                  │
+                └──────┬───────────┘
+                       │
+                    ┌──┴──┐
+                    │ SLUG│
+                    │SCHM │
+                    │     │
+                    └──┬──┘
+                       │
+                  METER OUTPUT
+
+
+SLUG INTERNAL SCHEMATIC — FORWARD POWER DETECTION
+───────────────────────────────────────────────────────────────────────────────
+
+  The slug contains a directional coupler using a short coupling section.
+  At HF: small ferrite bead or air-core loop
+  At VHF: coupled microstrip card (PCB wafer inside slug)
+  At UHF: capacitive coupling tab + microstrip
+
+  COUPLING ELEMENT:
+
+  Center conductor ──[LOOP L1, ~1T]──┬────────────────────
+                                      │
+                                 COUPLING
+                                 WINDING (N2 turns)
+                                      │
+                              ┌───────┴────────┐
+                              │                │
+                           R_term             ►D1 SCHOTTKY
+                           50Ω               1N5711 / HSMS
+                              │                │
+                              │           C_filter 10nF
+                             GND               │
+                                          R_load 10kΩ
+                                               │
+                                     METER OUTPUT (+)
+                                               │
+                                        (GND at meter jack)
+
+
+  SLUG ORIENTATION:
+    Slug inserted normal:  FWD coupling  → reads forward power
+    Slug rotated 180°:     REF coupling  → reads reflected power
+    SWR computed from two readings.
+
+
+SLUG ELEMENT TYPES
+───────────────────────────────────────────────────────────────────────────────
+
+  Element  Freq Range    Power Range   Coupling   Core
+  ───────  ────────────  ────────────  ─────────  ──────────────────
+  HF-10W   1.8–30 MHz    1–10W         –26 dB     #43 bead, 3T/26T
+  HF-100W  1.8–30 MHz    10–100W       –36 dB     #43 bead, 1T/20T
+  HF-1KW   1.8–30 MHz    100–1000W     –46 dB     #43 bead, 1T/63T
+  HF-3KW   1.8–30 MHz    1000–3000W    –50 dB     #43 bead, 1T/100T
+  VHF-10W  50–148 MHz    1–10W         –26 dB     BN-43-202, 2T/20T
+  VHF-100W 50–148 MHz    10–100W       –36 dB     BN-43-202, 1T/10T
+  UHF-10W  420–1300 MHz  1–10W         –20 dB     Microstrip card
+  UHF-100W 420–1300 MHz  10–100W       –30 dB     Microstrip card
+
+
+METER CIRCUIT  (in body, driven by slug output)
+───────────────────────────────────────────────────────────────────────────────
+
+  SLUG     R_protect            METER
+  OUTPUT ──[100Ω]──┬────────────┤M1 200µA FSD├──── GND
+                   │
+                  Z1 TVS 6.2V   (overload clamp)
+                   │
+                  GND
+
+  Analog meter face provides two scales:
+    — Watts scale  (calibrated for slug range, nonlinear due to V² law)
+    — SWR scale    (% reflected overlay, labeled 1.0 – ∞)
+
+  OPTIONAL DIGITAL INTERFACE:
+    — ADS1115 samples slug output voltage (0–200 mV)
+    — ESP32 computes power using calibration table
+    — OLED or CYD display
+    — BT/USB log output
+
+
+METER BODY DIMENSIONS  (Bird Model 43 compatible)
+───────────────────────────────────────────────────────────────────────────────
+
+  Body:
+    OD: 50mm  ×  155mm length
+    Slug socket: 25.4mm (1") diameter cylinder, centered, transverse
+    Connector: SO-239 both ends (or N-type for VHF/UHF version)
+    Meter window: 70mm × 30mm on top face
+    Retention spring for slug (radial O-ring groove)
+
+  Slug:
+    OD: 25.0mm  ×  25.4mm length
+    Flat on one side (orientation key, asymmetric for FWD/REF)
+    Banana jack: 2mm, bottom center, contacts body spring contact
+    PCB inside: 22mm × 20mm wafer with coupler and detector
+
+================================================================================
+  END OF BIRD-TYPE WATTMETER SCHEMATIC  — TM-PWR-BIRD-001 Rev A
+================================================================================

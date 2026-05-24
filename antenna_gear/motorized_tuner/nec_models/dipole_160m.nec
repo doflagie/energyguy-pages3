@@ -1,0 +1,76 @@
+CM ============================================================
+CM NEC-2 Model: 160m Half-Wave Dipole
+CM Document:    TM-HFTN-NEC-001
+CM Author:      Merv Martin
+CM Date:        2026-05-02
+CM ============================================================
+CM Description:
+CM   Horizontal half-wave dipole for the 160m amateur band.
+CM   Center frequency: 1.9 MHz
+CM   Total length: 78.9m (lambda/2 = 300/1.9/2 = 78.947m)
+CM   Height above ground: 15m
+CM   Wire: AWG 12 copper, radius = 0.001m
+CM
+CM Ground model: Real (Sommerfeld-Norton, Type 1)
+CM   Conductivity (sigma): 0.005 S/m  (average ground)
+CM   Relative permittivity (epsilon_r): 13
+CM
+CM Coordinate system:
+CM   X-axis: along wire (half-wire extends from -39.45m to +39.45m)
+CM   Z-axis: vertical (wire at z = 15m above ground)
+CM   Y-axis: broadside to dipole
+CM
+CM Frequency sweep: 1.800 to 2.000 MHz, 5 steps (50 kHz spacing)
+CM Source: 1V voltage source at center segment (segment 21 of 41)
+CM
+CM Expected results:
+CM   Feed impedance near resonance (~1.9 MHz): ~70 + j0 ohms
+CM   Gain: ~5.5 dBi broadside, ~2.1 dBi end-fire
+CM   Elevation angle of maximum radiation: ~25 deg at 15m height
+CE
+CM --- GEOMETRY ---
+CM GW  tag  nseg  x1        y1    z1     x2       y2    z2     radius
+CM Left half of dipole: x = -39.45m to x = 0
+GW  1   20  -39.45  0.0   15.0   0.0    0.0   15.0   0.001
+CM Right half of dipole: x = 0 to x = +39.45m
+GW  2   20   0.0    0.0   15.0   39.45  0.0   15.0   0.001
+CM Ground plane (uses GE card for real ground — no GW radials needed)
+GE  1
+CM --- GROUND PARAMETERS ---
+CM GN  type  nrad  dummy  dummy  eps    sigma
+GN  2   0     0     0      13.0   0.005
+CM --- EXCITATION ---
+CM EX  type  tag  seg  dummy  voltage_real  voltage_imag
+CM Source at last segment of wire 1 (segment 20) = center of dipole
+EX  0   1   20   00   1.0   0.0
+CM --- FREQUENCY SWEEP ---
+CM FR  ifrq  nfrq  dummy  dummy  fmhz_start  fmhz_step
+CM 5 frequencies: 1.800, 1.850, 1.900, 1.950, 2.000 MHz
+FR  0   5   0   0   1.800   0.050
+CM --- CURRENT DISTRIBUTION PRINT ---
+PQ  0   0   0   0
+CM --- NEAR FIELD (not computed — skip NE card) ---
+CM --- RADIATION PATTERN ---
+CM RP  mode  ntheta  nphi  output  theta_start  phi_start  delta_theta  delta_phi
+CM Elevation pattern (phi=0, theta from 0 to 90 deg, step 2 deg)
+CM theta=0 is zenith; theta=90 is horizon
+RP  0   46   1   1001   0.0   0.0   2.0   0.0
+CM Azimuth pattern at low elevation (theta=75 deg = 15 deg above horizon)
+RP  0   1   73   1001   75.0   0.0   0.0   5.0
+EN
+CM ============================================================
+CM NOTES ON NEC-2 CARD FORMAT:
+CM   GW  tag nseg x1 y1 z1 x2 y2 z2 radius  (all metres)
+CM   GE  1 = real ground with Sommerfeld-Norton integrals
+CM   GN  2 = Sommerfeld-Norton; eps=13, sigma=0.005 S/m
+CM   EX  0 = voltage source; tag=wire tag, seg=segment number
+CM   FR  0 = linear frequency sweep; nfrq=5 points
+CM   RP  0 = far-field; ntheta*nphi pattern points
+CM        output=1001: major lobe gain, normalized pattern
+CM
+CM TYPICAL OUTPUT (1.9 MHz):
+CM   Impedance:  ~72 - j8 ohms (slightly short of resonance)
+CM   Gain (max): ~5.5 dBi (over real ground)
+CM   Max elev:   ~25 degrees above horizon at 15m
+CM   F/B ratio:  ~0 dB (omni broadside, figure-8 pattern)
+CM ============================================================

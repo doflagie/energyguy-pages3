@@ -1,0 +1,336 @@
+================================================================================
+BALUN 4:1 VOLTAGE (RUTHROFF) — SIMPLE IMPEDANCE TRANSFORMER
+================================================================================
+
+Purpose: Impedance transformation 200Ω balanced → 50Ω unbalanced (4:1)
+Type: Voltage balun (ideal transformer approximation)
+CM Suppression: Minimal (single core provides some choking action)
+Insertion Loss: 0.1–0.15 dB (single core, lower loss than Guanella)
+Advantages: Simpler than Guanella, sufficient when low CM current expected
+
+================================================================================
+CIRCUIT DIAGRAM — RUTHROFF VOLTAGE BALUN
+================================================================================
+
+         ┌────────────────────────────┐
+         │   BALANCED ANTENNA FEED    │
+         │     (200Ω impedance)       │
+         └──────────┬─────────────────┘
+                    │
+           ┌────────┴─────────┐
+           │                  │
+        Leg A              Leg B
+           │                  │
+        ┌──┴──────────┐   ┌───┴──────┐
+        │ #16 primary │   │#16 sec.  │
+        │ (3 turns)   │   │(6 turns) │
+        │ wound on    │   │ wound on  │
+        │ FT-240-43   │   │FT-240-43 │
+        │ single core │   │(same core)
+        └──┬──────────┘   └───┬──────┘
+           │                  │
+           │    (Center tap)  │
+           └────────┬─────────┘
+                    │
+                  Coax
+                    │
+              ┌─────┴──────┐
+              │  50Ω Out   │
+              │  (balanced │
+              │   to unbal)│
+              └────────────┘
+
+================================================================================
+CORE SPECIFICATIONS
+================================================================================
+
+HF Configuration (80M–10M):
+  Core: Single FT-240-43
+  Material: Mix 43 (µ=850, AL=1100 µH/100T)
+  Wire: #16 enameled copper
+  Primary: 3–4 turns
+  Secondary: 6–8 turns (2:1 turns ratio = 4:1 impedance)
+  Max Power: 450 W
+  Insertion Loss: 0.1–0.15 dB
+
+Band-Specific Turns:
+  80M (3.75 MHz):   3 primary, 6 secondary (3:6)
+  40M (7.15 MHz):   3 primary, 6 secondary
+  30M (10.1 MHz):   3 primary, 6 secondary (slight impedance variance)
+  20M (14.2 MHz):   3 primary, 6 secondary
+  15M (21.2 MHz):   3 primary, 6 secondary
+  10M (28.4 MHz):   3 primary, 6 secondary (upper limit)
+
+Wire Length:
+  Total: ~100–130 inches on FT-240-43
+  Primary: ~40 inches (3 turns, large core)
+  Secondary: ~70 inches (6 turns)
+
+================================================================================
+IMPEDANCE TRANSFORMATION THEORY — VOLTAGE BALUN
+================================================================================
+
+The Ruthroff voltage balun approximates an IDEAL TRANSFORMER:
+
+Z_out = Z_in / N²   where N = N_secondary / N_primary
+
+Example: 200Ω input, N = 6/3 = 2:1 ratio
+  Z_out = 200 / 2² = 200 / 4 = 50Ω ✓
+
+Voltage relationship:
+  V_out / V_in = N   (voltage step-down)
+  V_out = V_in × (3/6) = V_in / 2
+
+Current relationship:
+  I_out / I_in = 1/N   (current step-up)
+  I_out = I_in × 2
+
+Power conservation:
+  P_in ≈ P_out (ideally, minus resistive loss in wire and ferrite)
+  V_in × I_in ≈ V_out × I_out
+
+KEY ASSUMPTION: Ferrite core provides sufficient coupling and inductance
+that the transformer approximation holds (99%+ coupling).
+
+================================================================================
+WINDING TECHNIQUE — RUTHROFF VOLTAGE BALUN
+================================================================================
+
+Materials:
+  - 1× FT-240-43 core
+  - Spool of #16 enameled copper wire
+  - Small vice or mandrel for guiding wire
+
+Step 1: Primary winding (low impedance side)
+  - Use slightly thicker gauge (thinner = less space, saves core real estate)
+  - Wind 3 turns of primary wire on core
+  - Keep turns evenly spaced
+  - Ensure wire is not twisted (parallel to axis)
+  - Both ends of primary: strip ~0.3" for antenna connections
+
+Step 2: Secondary winding (high impedance side)
+  - Without removing primary, wind secondary on TOP of primary
+  - Wind 6 turns (2:1 turns ratio)
+  - Evenly distribute around remaining core space
+  - Both ends of secondary: strip ~0.3" for connector attachment
+
+Step 3: Field connections
+  - Primary leg A: Solder to antenna feedpoint leg A
+  - Primary leg B: Solder to antenna feedpoint leg B
+  - Center tap (between primary and secondary): This connection forms the output reference
+  - Secondary center: Solder to coax center conductor
+  - Coax braid: Connect to center-tap point (RF ground/balance reference)
+
+Alternative winding order (recommended for better interlacing):
+  - Wind primary and secondary INTERLEAVED (every 2nd turn alternate)
+  - This improves coupling and reduces leakage inductance
+
+Step 4: Weatherproofing
+  - Potting compound optional (voltage balun less temperature sensitive)
+  - Enamel insulation usually sufficient for field use
+
+================================================================================
+COMMON-MODE SUPPRESSION
+================================================================================
+
+Unlike Guanella, Ruthroff has MINIMAL built-in CM suppression:
+  Z_CM = 2π × f × L_primary   (only primary inductance counts)
+
+Example @ 80M (3.75 MHz), FT-240-43, 3 turns:
+  L_primary = 1100 × 9 / 10000 = 0.99 µH
+  Z_CM = 2π × 3.75×10⁶ × 0.99×10⁻⁶ ≈ 23 Ω
+
+This is POOR common-mode suppression (need >250Ω)!
+
+Solution: Add separate 1:1 choke on output coax
+  Series ferrite choke (FT-240-43, 12 turns) gives Z_CM ≈ 250 Ω
+  Combined system: Voltage transformer + CM choke = balanced approach
+
+================================================================================
+FREQUENCY RESPONSE
+================================================================================
+
+FT-240-43, 3:6 turns, typical HF response (WITH separate CM choke):
+
+Frequency    Impedance Ratio    With CM Choke Z_CM
+80M          3.9:1 (50Ω → 200Ω) ~250 Ω
+40M          3.8:1              ~350 Ω
+20M          3.7:1              ~620 Ω
+10M          3.6:1              ~980 Ω
+
+Insertion Loss (transformer only, no CM choke):
+  80M: 0.15 dB
+  40M: 0.12 dB
+  20M: 0.10 dB
+  10M: 0.08 dB
+
+With CM choke (FT-240-43, 12 turns):
+  Add ~0.15 dB insertion loss from choke
+  Total: ~0.25–0.30 dB across band
+
+================================================================================
+ADVANTAGES vs GUANELLA
+================================================================================
+
+1. SIMPLICITY:
+   - Fewer components (1 core vs 2 stacked cores)
+   - Simpler winding pattern
+   - Field construction easier
+
+2. LOWER LOSS:
+   - Single core ≈ 0.1 dB insertion loss
+   - Guanella ≈ 0.20 dB (comparable, but Ruthroff slightly better)
+
+3. COST:
+   - Single FT-240-43: ~$12
+   - Guanella (2× FT-140-43): ~$15–18
+   - Voltage balun cheaper by ~$3–5
+
+4. POWER HANDLING:
+   - Less ferrite mass in signal path
+   - Slightly better high-power capability (lower core loss)
+
+DISADVANTAGES:
+   - Minimal CM suppression (requires secondary choke for balanced use)
+   - Narrower bandwidth than Guanella (though still adequate HF)
+   - Less common in commercial designs (Guanella preferred for CM suppression)
+
+================================================================================
+PRIMARY APPLICATIONS
+================================================================================
+
+1. SIMPLE ANTENNA COUPLER INTERFACE:
+   - Antenna tuner has low-impedance output (50Ω)
+   - Need to match tuner to balanced antenna (200Ω load)
+   - Ruthroff provides impedance transformation
+
+2. HIGH-IMPEDANCE LOADS (200Ω–600Ω):
+   - When antenna feedpoint is 200Ω balanced
+   - Low CM current expected (well-balanced antenna)
+
+3. FIELD EXPEDIENT MATCHING:
+   - Portable operation with limited core inventory
+   - Single FT-240-43 easier to transport than stacked cores
+
+4. WIRE ANTENNA INTERFACE (with CM choke):
+   - Random wire antenna (low CM current if well-grounded)
+   - Pair with 1:1 CM choke for complete system
+
+================================================================================
+TESTING PROCEDURE — NANOVNA
+================================================================================
+
+Setup:
+  Port 1: Coax output (50Ω)
+  Port 2: Primary input (one leg, reference other leg to ground via 50Ω)
+  OR: Use test fixture (50Ω source, 200Ω load, impedance measurement)
+
+Measurement 1 — Insertion Loss (loaded with 200Ω):
+  Sweep 1–30 MHz
+  Expected: S₂₁ ≈ -0.1 to -0.15 dB
+  S₁₁ <-20 dB (excellent match @ design frequency)
+
+Measurement 2 — Impedance Ratio:
+  Measure Z_in with 50Ω load on output
+  Expected: Z_in ≈ 200Ω ± 10% across band
+  Example @ 14.2 MHz: Z_in = 195–205Ω ✓
+
+Measurement 3 — Common-Mode (Primary open):
+  Measure S₁₁ from primary to ground (no secondary connection)
+  Expected: Z_CM low (10–50Ω) — CONFIRMS that CM choke needed
+
+================================================================================
+FAILURE MODES
+================================================================================
+
+SYMPTOM: Very high SWR despite proper antenna
+ROOT CAUSE 1: Turns ratio wrong (miscounted windings)
+SOLUTION: Unwind, recount per winding table, rewind
+
+ROOT CAUSE 2: Primary and secondary windings shorted
+SOLUTION: Check ohms from primary terminal to secondary terminal
+         Should be ~1–2 Ω (wire resistance) if wound correctly
+         <0.1 Ω suggests enamel damaged (unwound/rewind)
+
+SYMPTOM: Excessive heating
+ROOT CAUSE 1: High CM current (antenna imbalanced)
+SOLUTION: Add 1:1 CM choke (FT-240-43, 12 turns) in series with output
+
+ROOT CAUSE 2: Core loss at high power
+SOLUTION: Reduce power, or switch to voltage balun with lower loss
+
+SYMPTOM: Narrower bandwidth than expected
+ROOT CAUSE: Design frequency off-target (winding count incorrect)
+SOLUTION: Re-count turns, verify against winding table for band
+
+================================================================================
+DESIGN EQUATIONS
+================================================================================
+
+Impedance Ratio (voltage balun):
+  Z_out / Z_in = 1 / N²   where N = N_sec / N_prim
+
+Example calculation:
+  Target: 200Ω → 50Ω (4:1 transformation)
+  Required ratio: sqrt(200/50) = sqrt(4) = 2:1 turns ratio
+  Use: 3 primary, 6 secondary
+
+Insertion Loss (ferrite):
+  L_dB ≈ 0.05 + 0.002 × f_MHz   (typical FT-240-43)
+  Example @ 14.2 MHz: L ≈ 0.05 + 0.028 = 0.078 dB ✓
+
+Common-Mode Impedance (primary coil alone):
+  Z_CM = 2π × f × (AL × N_prim²) / 10000
+  For FT-240-43, 3 turns @ 80M: Z_CM ≈ 23 Ω (inadequate)
+
+================================================================================
+CONSTRUCTION NOTES
+================================================================================
+
+Field Winding Tips:
+  - Keep primary turns compact (less capacitance, better coupling)
+  - Secondary can be slightly spread (reduces secondary-to-primary capacitance)
+  - Interleave every 2–3 turns for best coupling coefficient
+
+Weatherproofing:
+  - Enamel insulation on wire adequate for outdoor use
+  - Potting optional (epoxy or silicone acceptable)
+  - UV protection: Paint or tape if exposed to sun
+
+Assembly:
+  - Mount in small plastic or metal box
+  - Bring primary to antenna feedpoint via short wires
+  - Connect secondary to coax feedline
+  - Add ferrite choke on coax (required for CM suppression)
+
+Field Repair:
+  - If wire breaks: Solder joint with rosin flux, heat-shrink tubing
+  - If enamel damaged: Scrape enamel, re-tin both ends, re-solder
+  - If core cracked: Replace core (same material/size)
+
+Cost breakdown:
+  - FT-240-43 core: $12
+  - Wire (enameled): $2
+  - Connectors: $5
+  - Potting/enclosure: $3
+  - Total: ~$22 (vs commercial $30–50)
+
+================================================================================
+RECOMMENDED SYSTEM: VOLTAGE BALUN + 1:1 CHOKE
+================================================================================
+
+For most balanced antenna applications:
+  - Ruthroff 4:1 voltage balun (impedance transformation)
+  - 1:1 ferrite choke (FT-240-43, 12 turns) in series (CM suppression)
+  - Total insertion loss: ~0.25 dB
+  - Total cost: ~$24
+  - Total size: ~3" × 3" × 2" enclosure
+
+This hybrid approach provides:
+  ✓ Excellent impedance matching (tight across HF band)
+  ✓ Good CM suppression (500+ Ω @ 80M)
+  ✓ Low cost
+  ✓ Simple construction
+  ✓ Adequate power handling (350+ W)
+
+================================================================================

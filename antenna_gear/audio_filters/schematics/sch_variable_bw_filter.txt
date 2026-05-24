@@ -1,0 +1,222 @@
+================================================================================
+SCHEMATIC: Variable Bandwidth Audio Filter with Switchable Q
+TM-AF-001  Rev A
+SSB/CW Combined — Selectable: 200 Hz / 500 Hz / 1500 Hz / 2700 Hz BW
+Center Frequency Variable 300–3000 Hz; NE5532 op-amps
+================================================================================
+
+DESIGN APPROACH
+───────────────
+A 4th-order bandpass is built from two cascaded 2nd-order state-variable
+biquad sections. The bandwidth is controlled by varying Q of each section
+independently or together. Switched capacitor banks change center frequency.
+
+Bandwidth modes (both sections same Q):
+  Mode 1: BW = 200 Hz   → Q = f₀/BW (e.g., 700/200 = 3.5 per section)
+  Mode 2: BW = 500 Hz   → Q = 700/500 = 1.4
+  Mode 3: BW = 1500 Hz  → Q = 700/1500 = 0.47 (overdamped, loses peaking)
+  Mode 4: BW = 2700 Hz  → Q = 0.26 (broad SSB mode)
+
+For narrow modes, two cascaded biquads each with Q = √(desired_Q) gives
+tighter 4th-order rolloff: −80 dB/decade vs −40 for 2nd-order.
+
+Effective passband shape:
+  Mode 1 (CW 200 Hz):  −80 dB/decade outside passband
+  Mode 2 (CW 500 Hz):  −80 dB/decade
+  Mode 3 (SSB 1500 Hz):−40 dB effective (broadband, single biquad behavior)
+  Mode 4 (SSB 2700 Hz): flat response, filter acts as bandlimiting only
+
+================================================================================
+BIQUAD SECTION SCHEMATIC (ONE SECTION; REPLICATE FOR SECTION 2)
+================================================================================
+
+NE5532 dual op-amp (U1 for section 1, U2 for section 2)
+
+                    R_Q (Q control)
+          R_in      ┌──/\/\/────────────────────────┐
+ IN ──────/\/\/─────┤                               │
+          10kΩ      │  R_HP = 10kΩ                  │
+   LP FEED──/\/\/───┤  HP feedback                  │
+           10kΩ     │                               │
+                 ───┴───                            │
+  +9V ────────── │ −   │──── HP_out                 │
+                 │ U1A │                            │
+  GND(Vmid) ─── │ +   │                            │
+                  ───┬───                           │
+                     │                             │
+    ┌────────────────┘                             │
+    │    R_INT(10kΩ)       C_INT (freq switch)     │
+    └────/\/\/──────────────┤├───────────────────────┤
+                                                    │
+                         ───────                    │
+   +9V ──────────────── │ −    │                    │
+                        │ U1B  │────── BP_out ─────►│ (output of this section)
+   GND(Vmid) ────────── │ +    │           │
+                         ───────           │
+                             │             │
+    ┌────────────────────────┘             │ BP feeds into R_Q of next section
+    │    R_INT(10kΩ)       C_INT (sw gang) │
+    └────/\/\/──────────────┤├─────────────┤
+                                           │
+                         ───────           │
+   +9V ──────────────── │ −    │           │
+                        │ U2A  │────── LP_out ──► LP feedback to input
+   GND(Vmid) ────────── │ +    │
+                         ───────
+
+R_Q SWITCHING FOR BANDWIDTH CONTROL:
+
+For fixed f₀ = 700 Hz (C_INT = 22 nF, R_INT = 10 kΩ):
+  Q per section for 4th-order response:
+    Mode 1 (200 Hz):  Q = 700/200 = 3.5 → R_Q = Q × R_LP = 3.5 × 10k = 35kΩ
+    Mode 2 (500 Hz):  Q = 700/500 = 1.4 → R_Q = 14kΩ
+    Mode 3 (1500 Hz): Q = 700/1500 = 0.47 → R_Q = 4.7kΩ
+    Mode 4 (2700 Hz): Q = 700/2700 = 0.26 → R_Q = 2.6kΩ → use 2.7kΩ
+
+SW_BW 4-position rotary switch selects R_Q:
+  Pos 1: R_Q = 33kΩ  (≈ BW 200 Hz)
+  Pos 2: R_Q = 15kΩ  (≈ BW 500 Hz)
+  Pos 3: R_Q = 4.7kΩ (≈ BW 1500 Hz)
+  Pos 4: R_Q = 2.7kΩ (≈ BW 2700 Hz)
+
+================================================================================
+CENTER FREQUENCY SELECTION
+================================================================================
+
+Both biquad sections share the SAME frequency-switch ganging.
+4-pole 5-position rotary switch (SW_FREQ) controls all 4 C_INT capacitors
+(2 integrators × 2 sections = 4 gangs):
+
+  Freq   | C_INT  | Pole response (BW=500Hz mode)
+  -------|--------|-------------------------------
+  400 Hz | 39 nF  | 400 ± 250 Hz → 150–650 Hz
+  500 Hz | 33 nF  | 500 ± 250 Hz → 250–750 Hz
+  600 Hz | 27 nF  | 600 ± 250 Hz → 350–850 Hz
+  700 Hz | 22 nF  | 700 ± 250 Hz → 450–950 Hz
+  800 Hz | 18 nF  | 800 ± 250 Hz → 550–1050 Hz
+
+SW_FREQ: 4P5T (4-pole 5-throw) — controls C1-INT in U1A integrator,
+                                            C2-INT in U1B integrator,
+                                            C3-INT in U2A integrator,
+                                            C4-INT in U2B integrator
+
+================================================================================
+COMPLETE BLOCK DIAGRAM
+================================================================================
+
+              ┌─────────────────────────────────────────────────┐
+              │              Biquad Section 1 (U1)              │
+              │                                                  │
+ IN ──┬──────►│ Summing Amp ──► Integrator 1 ──► Integrator 2  │──┐
+      │       │     (HP)            (BP1)             (LP)       │  │
+      │       └─────────────────────────────────────────────────┘  │
+      │             │ BP1_out                                       │
+      │             ▼                                               ▼
+      │       ┌─────────────────────────────────────────────────┐  │
+      │       │              Biquad Section 2 (U2)              │  │
+      │       │                                                  │  │
+      └──────►│ Summing Amp ──► Integrator 3 ──► Integrator 4  │  │
+              │                     (BP2)                        │  │
+              └───────────────────────────┬─────────────────────┘  │
+                                          │                         │
+                                     BP2_out = FILTER OUTPUT        │
+                                          │                         │
+                            Feedback ─────┘ (LP output)            │
+                                                                    │
+                            Feedback ───────────────────────────────┘
+                                    (to section 1 summing amp)
+
+================================================================================
+FILTER RESPONSE PLOTS
+================================================================================
+
+CENTER FREQ 700 Hz, VARIOUS BW MODES:
+
+  dB ▲
+   0 ┤──────────────────────────────────────────────────────────────
+  -3 ┤                      ████████
+  -6 ┤              ────────        ────────
+ -10 ┤         ────                         ────          BW=2700Hz
+ -20 ┤    ────                                   ────
+     │
+   0 ┤──────────────────────────────────────────────────────────────
+  -3 ┤                   ████
+  -6 ┤             ────         ────
+ -20 ┤        ────                   ────               BW=500Hz
+ -40 ┤  ─────                             ─────
+     │
+   0 ┤──────────────────────────────────────────────────────────────
+  -3 ┤                  ██
+  -6 ┤             ──        ──
+ -20 ┤       ───                  ───                  BW=200Hz
+ -40 ┤  ────                          ────
+ -60 ┤──                                  ──
+     └─────────────────────────────────────────────────────► Hz
+          200  400  600  700  800  1000  1500  3000
+
+FREQUENCY RESPONSE MEASUREMENT TABLE (record actual):
+
+  f (Hz) | BW=2700Hz | BW=1500Hz | BW=500Hz | BW=200Hz
+  -------|-----------|-----------|----------|--------
+    200  |           |           |          |
+    300  |           |           |          |
+    400  |           |           |          |
+    500  |           |           |          |
+    600  |           |           |          |
+    700  |   0 (ref) |   0 (ref) | 0 (ref)  | 0 (ref)
+    800  |           |           |          |
+    900  |           |           |          |
+   1000  |           |           |          |
+   1500  |           |           |          |
+   3000  |           |           |          |
+
+Alignment procedure:
+  1. Set SW_FREQ to desired center frequency position
+  2. Inject −10 dBu sine at center freq; note output = reference level (0 dB relative)
+  3. Sweep through table above; record attenuation at each frequency
+  4. Confirm −3 dB points match BW specification ±15%
+  5. Record date, operator, serial number
+
+================================================================================
+INSERTION LOSS BUDGET
+================================================================================
+
+Each biquad adds ~0.5 dB passband insertion loss (op-amp noise, feedback loading)
+Two cascaded sections: ~1.0 dB typical
+Gain recovery: U3 output buffer with gain of 2 (6 dB) compensates loss
+
+OUTPUT BUFFER (U3A, unity or ×2 gain):
+         R_gain2 (10k or 20k for 0 or +6dB)
+BP2 ──────────────────────────────┐
+         R_gain1 (10k)             │
+      ───/\/\/────────────────►────┤
+      │                        ───┴───
+     GND                      │ −    │──── OUT
+                               │ U3A  │
+                    Vmid ───── │ +    │
+                                ───────
+
+For ×2 gain: R_gain2 = 20kΩ
+For ×1:      R_gain2 = 10kΩ
+
+================================================================================
+PARTS LIST — VARIABLE BANDWIDTH FILTER
+================================================================================
+
+Ref       | Qty | Value        | Description                  | Package
+----------|-----|--------------|------------------------------|--------
+U1,U2,U3  |  3  | NE5532       | Dual low-noise op-amp        | DIP-8
+R_in ×2   |  2  | 10 kΩ        | Input summing, 1% MF         | Axial
+R_HP ×2   |  2  | 10 kΩ        | HP feedback, 1% MF           | Axial
+R_INT ×4  |  4  | 10 kΩ        | Integrator resistors, 1% MF  | Axial
+R_LP ×2   |  2  | 10 kΩ        | LP feedback, 1% MF           | Axial
+R_gain    |  2  | 10kΩ/20kΩ   | Output buffer gain set       | Axial
+SW_BW     |  1  | 1P4T rotary  | Bandwidth select 200/500/1500/2700 Hz | Panel
+SW_FREQ   |  1  | 4P5T rotary  | Frequency select 400–800 Hz  | Panel
+C_INT set |  8  | 39/33/27/22/18 nF | NP0 1% (2 per section) | Axial
+R_BW set  |  4  | 33k/15k/4.7k/2.7kΩ | BW select, 1% MF     | Axial
+C_supply ×6| 6  | 100nF+10µF  | Op-amp supply bypass (each)  | Axial
+C_coupling |  2  | 10 µF NP    | In/out coupling caps         | Axial
+BAT1,2    |  2  | 9V PP3       | Power supply                 | Snap lead
+
+================================================================================

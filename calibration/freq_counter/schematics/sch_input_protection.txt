@@ -1,0 +1,208 @@
+================================================================================
+SCHEMATIC: INPUT PROTECTION AND SIGNAL CONDITIONING
+TM-FC-001  Rev A
+SMA Input, BAT54S Protection, Pi Attenuator, ERA-3SM Preamp,
+Level Comparator, Band-Select Low-Pass Filter
+================================================================================
+
+OVERVIEW
+--------
+The input chain protects the sensitive PCNT and prescaler inputs from
+overload while providing sufficient signal conditioning for reliable counting
+across the 0.1 MHz – 3 GHz range.
+
+Chain (top to bottom):
+  1.  SMA input connector (50Ω)
+  2.  BAT54S dual Schottky clamp (ESD and overload protection)
+  3.  Pi attenuator (0 / −10 / −20 / −30 dB, selectable)
+  4.  Low-pass filter (band selection; 6 cutoff frequencies)
+  5.  ERA-3SM preamplifier (optional; for weak signals)
+  6.  LMV7219 comparator / limiting amplifier (sine → square wave)
+  7.  74LVC14A Schmitt trigger (noise immunity, 3.3V output)
+  8.  ESP32 PCNT input or prescaler input
+
+
+COMPLETE INPUT CHAIN SCHEMATIC
+--------------------------------
+
+    SMA J1 (50Ω input)
+         │
+    ─────┼────────────────────────────────────────────────────────────
+         │                                     RF INPUT NODE (A)
+         │
+    ┌────┴────────────────────────────────────────────────────────┐
+    │  ESD/OVERLOAD PROTECTION STAGE                              │
+    │                                                              │
+    │  D1 (BAT54S): Dual series Schottky clamp                   │
+    │  SOT-23 package: cathode1-to-3.3V, anode2-to-GND          │
+    │  Clamp voltage: +3.3V to −0.7V (diode forward drop)       │
+    │  Peak power handling: ~500 mW before damage (brief)        │
+    │                                                              │
+    │   3.3V ──[D1a anode→cathode]──── RF INPUT NODE (A)         │
+    │   GND  ──[D1b anode→cathode]──── RF INPUT NODE (A)         │
+    │   (D1a cathode to 3.3V; D1b anode to GND)                  │
+    └─────────────────────────────────────────────────────────────┘
+         │ Node (A)
+    ┌────┴─────────────────────────────────────────────────────────┐
+    │  4-POSITION PI ATTENUATOR (SW_ATT rotary switch S1)         │
+    │                                                              │
+    │  Position 0: BYPASS (wire through)                          │
+    │  Position 1: −10 dB    Rshunt=95.3Ω, Rseries=71.5Ω, Rshunt=95.3Ω  │
+    │  Position 2: −20 dB    Rshunt=61.9Ω, Rseries=249Ω,  Rshunt=61.9Ω  │
+    │  Position 3: −30 dB    Rshunt=53.6Ω, Rseries=787Ω,  Rshunt=53.6Ω  │
+    │                                                              │
+    │  All values 50Ω nominal; use ±1% thin-film resistors       │
+    │  Power handling: 0402 → 63 mW; 0603 → 100 mW              │
+    │  For input >0 dBm (>100 mVrms into 50Ω): use −20 dB       │
+    │  For input >+10 dBm: use −30 dB                            │
+    └─────────────────────────────────────────────────────────────┘
+         │ Node (B) — attenuated signal
+    ┌────┴─────────────────────────────────────────────────────────┐
+    │  LOW-PASS FILTER BANK (SW_LP rotary switch S2)              │
+    │                                                              │
+    │  Provides band selection and rejects aliasing.              │
+    │  6-position rotary switch selects fc:                       │
+    │                                                              │
+    │  Pos 1: FLAT (no filter; bypass wire)                       │
+    │  Pos 2: fc = 60 MHz   (HF/VHF ham bands)                   │
+    │  Pos 3: fc = 200 MHz  (VHF, 2M and below)                  │
+    │  Pos 4: fc = 600 MHz  (VHF/UHF through 70cm)               │
+    │  Pos 5: fc = 1500 MHz (L-band/1.25M through 23cm)          │
+    │  Pos 6: fc = 3 GHz    (full range, minimal filtering)       │
+    │                                                              │
+    │  Filter type: 3-pole Chebyshev LC, 0.1 dB ripple           │
+    │  Designed at 50Ω source and load                            │
+    │                                                              │
+    │  60 MHz filter:                                              │
+    │    L1a = 265 nH, C1a = 36 pF, L1b = 265 nH               │
+    │    (T-37-6 toroid; or use wound SMD inductor)               │
+    │                                                              │
+    │  200 MHz filter:                                             │
+    │    L2a = 82 nH, C2a = 11 pF, L2b = 82 nH                 │
+    │    (T-25-6 core or RFID coil)                               │
+    │                                                              │
+    │  600 MHz filter:                                             │
+    │    L3a = 27 nH, C3a = 3.9 pF, L3b = 27 nH               │
+    │    (SMD 0402 inductor; measure Q before use)                │
+    │                                                              │
+    │  1500 MHz filter:                                            │
+    │    L4a = 11 nH, C4a = 1.5 pF, L4b = 11 nH               │
+    │    (0402 SMD; Coilcraft 0402HP series recommended)         │
+    │                                                              │
+    │  3 GHz filter: bypass (pass through only)                   │
+    │  For 3 GHz work: rely on ERA-3SM bandwidth limiting         │
+    └─────────────────────────────────────────────────────────────┘
+         │ Node (C) — filtered signal
+         │
+    ┌────┴─────────────────────────────────────────────────────────┐
+    │  GAIN STAGE: ERA-3SM (optional, SW_AMP switch S3)          │
+    │                                                              │
+    │  Use for signals below 10 mVpp (−34 dBm).                  │
+    │  Bypass ERA-3SM for signals above −10 dBm to prevent       │
+    │  saturation of the LMV7219 comparator input.               │
+    │                                                              │
+    │  S3 IN: Signal routes through ERA-3SM (+20 dB)             │
+    │  S3 OUT: Signal bypasses ERA-3SM (direct connection)        │
+    │                                                              │
+    │  ERA-3SM bias: R_bias = 75Ω from 5V (not 3.3V)           │
+    │  Requires 5V supply (use on-board 5V boost or USB supply)  │
+    └─────────────────────────────────────────────────────────────┘
+         │ Node (D) — amplified (or direct) signal
+         │
+    ┌────┴─────────────────────────────────────────────────────────┐
+    │  COMPARATOR / LIMITING STAGE (LMV7219)                      │
+    │                                                              │
+    │  LMV7219: high-speed comparator, 7 ns propagation delay    │
+    │  Open-drain output with pull-up to 3.3V                     │
+    │  Input range: −0.3V to Vcc+0.3V                            │
+    │  Hysteresis: none (add external positive feedback 1 MΩ)    │
+    │                                                              │
+    │  INPUT+ → Node (D) (signal)                                 │
+    │  INPUT− → R_TH divider → Vcc/2 = 1.65V (threshold)        │
+    │           R_TH1 = R_TH2 = 10 kΩ (voltage divider)         │
+    │           C_TH = 100 pF bypass on R_TH2 (stable threshold) │
+    │  OUTPUT  → 1 kΩ pull-up to 3.3V → 74LVC14A input          │
+    │                                                              │
+    │  MAX FREQUENCY: LMV7219 tp ≈ 7 ns → max toggle ~70 MHz    │
+    │  For >70 MHz: use the ERA-3SM + MB506 prescaler path        │
+    │  For <70 MHz: LMV7219 provides excellent edge definition    │
+    │  The 74LVC14A after LMV7219 adds additional hysteresis      │
+    └─────────────────────────────────────────────────────────────┘
+         │ Node (E) — clean square wave, 3.3V CMOS
+         │
+    ┌────┴─────────────────────────────────────────────────────────┐
+    │  SCHMITT TRIGGER OUTPUT BUFFER (74LVC14A)                   │
+    │  (see sch_direct_count.txt for detail)                      │
+    │  → GPIO34 (direct count path, <60 MHz)                      │
+    │  → GPIO35 (prescaler output, after MB506)                   │
+    └─────────────────────────────────────────────────────────────┘
+
+
+INPUT SIGNAL LEVEL GUIDE
+--------------------------
+
+  Input Level    Condition               Recommended Setting
+  -----------    ---------               -------------------
+  < −40 dBm      Very weak signal        ERA-3SM IN, attenuator 0 dB
+  −40 to −20 dBm Weak signal             ERA-3SM IN (optional), 0 dB
+  −20 to 0 dBm   Normal signal           ERA-3SM bypass, 0 dB
+  0 to +10 dBm   Strong signal           ERA-3SM bypass, −10 dB
+  +10 to +20 dBm Very strong             ERA-3SM bypass, −20 dB
+  > +20 dBm      Overload risk           ERA-3SM bypass, −30 dB
+
+  WARNING: Input power above +20 dBm (100 mW) will damage the BAT54S
+  protection diodes and possibly the 74LVC14A. The protection diodes
+  handle brief transients but not sustained power. ALWAYS start with
+  the maximum attenuator (−30 dB) for unknown signal levels.
+
+
+INPUT IMPEDANCE SWITCH (optional)
+------------------------------------
+
+  Some signal sources have 50Ω output; others have Hi-Z (e.g., oscillators
+  with CMOS outputs). A switch S4 can select input termination:
+
+  S4 position 1 (50Ω):  50Ω resistor from SMA center pin to GND (default)
+  S4 position 2 (HiZ):  Remove 50Ω; input is Hi-Z (R ~10 kΩ, C ~5 pF)
+                         Better for CMOS square wave sources (avoids loading)
+  S4 position 3 (75Ω):  75Ω for video/cable television source equipment
+
+
+SIGNAL SENSITIVITY TABLE
+--------------------------
+
+  Band         Freq       Min signal for counting (no ERA-3SM)
+  ----         ----       ------------------------------------
+  160M         1.85 MHz   ~5 mVpp  (Schmitt hysteresis 0.9V / load gain)
+  40M          7.15 MHz   ~5 mVpp
+  20M         14.175 MHz  ~5 mVpp
+  2M         144 MHz     ~5 mVpp (74LVC14A still adequate)
+  70cm       432 MHz     ~15 mVpp (input capacitance limits sensitivity)
+  23cm      1296 MHz     ~50 mVpp (prescaler path; ERA-3SM helps significantly)
+  13cm      2400 MHz     ~100 mVpp (ERA-3SM essential; MB506 ÷64 mode)
+
+  With ERA-3SM in circuit (+20 dB gain):
+  All bands: threshold ≈ 0.1–0.5 mVpp (−50 to −60 dBm minimum)
+
+
+PARTS LIST — INPUT PROTECTION
+--------------------------------
+
+  Ref    Value/Part          Description
+  ---    ----------          -----------
+  D1     BAT54S              Dual Schottky clamp, SOT-23
+  S1     1×4 rotary          Attenuator selection (0/10/20/30 dB)
+  S2     1×6 rotary          Low-pass filter selection
+  S3     SPDT               ERA-3SM bypass switch
+  S4     1×3 rotary          Input impedance (50/HiZ/75 Ω)
+  J1     SMA female (chassis) Main frequency input
+  R_Pi   see attenuator table Pi attenuator resistors (±1% thin-film)
+  L_LP   see filter table     Low-pass filter inductors
+  C_LP   see filter table     Low-pass filter capacitors
+  U2     LMV7219             High-speed comparator (SOT-23-5)
+  R_TH1,2  10 kΩ             Comparator threshold divider
+  C_TH   100 pF NPO          Threshold bypass
+  R_PU   1 kΩ               Comparator output pull-up (to 3.3V)
+  R_HYS  1 MΩ               Comparator hysteresis (optional)
+
+================================================================================

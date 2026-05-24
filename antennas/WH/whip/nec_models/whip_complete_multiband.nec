@@ -1,0 +1,107 @@
+CM TM-WHP-NEC-012
+CM Complete roll-up multiband whip system — 40m reference model
+CM ---------------------------------------------------------------
+CM SYSTEM DESCRIPTION:
+CM   This model represents the complete 5.6m telescopic/roll-up whip
+CM   antenna system operating on 40m (7.000-7.300 MHz) as the primary
+CM   demonstration band. 40m is chosen because it represents the best
+CM   practical compromise: moderate loading coil requirement, good
+CM   ground-wave propagation, and representative system efficiency.
+CM
+CM ANTENNA SYSTEM COMPONENTS:
+CM   1. Main radiator: 5.6m telescopic whip (7 sections)
+CM      - Sections: ~165mm (tip) to ~1200mm (base section)
+CM      - Average conductor radius: 0.006m
+CM      - Material: aluminum alloy, conductivity ~3.5e7 S/m
+CM      - At 40m: fully extended, base loading required
+CM
+CM   2. Base loading coil (40m):
+CM      - Inductance: L = 7.85 uH
+CM      - Design Q: 310 at 7.150 MHz
+CM      - Reactance: XL = 353 ohm at 7.150 MHz
+CM      - Series resistance: R_coil = 1.14 ohm
+CM      - Physical: approximately 40 turns, 25mm diameter, close-wound
+CM      - NEC model: LD 0 card at segment 1, series R+jX
+CM
+CM   3. Counterpoise / radial system (field deployable):
+CM      - 4 horizontal radials at z=0.005m (5mm above ground)
+CM      - Each radial 5.6m length, 0.006m radius (stranded wire approx)
+CM      - Orientation: 0°, 90°, 180°, 270° azimuth
+CM      - Connected to system ground at base feed point
+CM      - In practice: 4x radials laid on ground surface
+CM
+CM BAND-BY-BAND OPERATING SUMMARY:
+CM   160m (1.800-2.000): L=144.6uH, XL=1725Ω, R=6.90Ω — heavily loaded
+CM   80m  (3.500-4.000): L=35.5uH,  XL=835Ω,  R=2.98Ω — moderate loading
+CM   40m  (7.000-7.300): L=7.85uH,  XL=353Ω,  R=1.14Ω — THIS MODEL
+CM   30m  (10.10-10.15): L=2.477uH, XL=157.6Ω,R=0.49Ω — light loading
+CM   20m  (14.00-14.35): No coil, whip trimmed to 5.13m (near QW)
+CM   17m  (18.07-18.17): Retract to 4.01m (QW resonant)
+CM   15m  (21.00-21.45): Retract to 3.43m (QW resonant)
+CM   12m  (24.89-24.99): Retract to 2.92m (QW resonant)
+CM   10m  (28.00-29.70): Retract to 2.55m (QW resonant)
+CM    6m  (50.00-54.00): Retract to 1.40m, radius 0.003m
+CM    2m  (144.0-148.0): Retract to 0.488m, radius 0.0015m
+CM  1.25m (222.0-225.0): Retract to 0.321m, radius 0.0015m
+CM  70cm  (440-450 MHz): Retract to 0.160m [NEC-2 marginal accuracy]
+CM  33cm  (902-928 MHz): Retract to 0.079m [NEC-2 unreliable]
+CM
+CM GROUND MODEL:
+CM   Type: Sommerfeld-Norton real ground (GN 2)
+CM   Soil: average (typical field site)
+CM   Conductivity: sigma = 0.005 S/m
+CM   Relative permittivity: epsilon_r = 13
+CM   Radials raised 5mm (z=0.005) to avoid singularities at ground interface
+CM
+CM FIELD DEPLOYMENT NOTES:
+CM   Feed point height: ~0.005m (5mm) — whip base near ground level
+CM   Radials: lay on ground surface or peg slightly above
+CM   Tuner: ATU or impedance matching network recommended for all bands
+CM   Coax: RG-58 or RG-8X; ferrite choke balun at base recommended
+CM   Counterpoise connection: direct to coax braid at feed point
+CM   Mounting: stake or tripod; 5mm clearance for NEC GE 1 image model
+CM
+CM EXPECTED 40m PERFORMANCE:
+CM   Feedpoint Z (no coil): ~-j360 ohm (capacitive, short vertical)
+CM   With L=7.85uH coil: ~36 + j0 ohm at resonance (tuned)
+CM   Gain: ~-2 dBi (loading coil loss + limited ground system)
+CM   TO angle: ~25-30 degrees (ground wave + low-angle component)
+CM   Bandwidth (2:1 SWR): ~50-80 kHz with good coil and 4 radials
+CM
+CM NEC-2 MODEL NOTES:
+CM   - All wires in meters; frequencies in MHz
+CM   - GE 1 enables ground interaction for horizontal wires (radials)
+CM   - LD 0 type: series R+jX impedance load (ohms) at specified segment
+CM   - EX 0: voltage source excitation (1V, 0 phase)
+CM   - FR: linear frequency sweep; RP: radiation pattern (37 theta, 73 phi)
+CM   - RP option 1000: major lobe analysis + pattern output
+CM
+CM DOCUMENT CONTROL: TM-WHP-NEC-012
+CM SERIES: TM-WHP-NEC-001 through TM-WHP-NEC-012
+CM RELATED FILES:
+CM   TM-WHP-NEC-001: 160m loaded whip
+CM   TM-WHP-NEC-002: 80m loaded whip
+CM   TM-WHP-NEC-003: 40m loaded whip (same geometry, reference model)
+CM   TM-WHP-NEC-004: 30m loaded whip
+CM   TM-WHP-NEC-005: 20m resonant QW
+CM   TM-WHP-NEC-006: 17m retracted QW
+CM   TM-WHP-NEC-007: 15m/12m/10m retracted QW (multi-band file)
+CM   TM-WHP-NEC-008: 6m retracted
+CM   TM-WHP-NEC-009: 2m retracted
+CM   TM-WHP-NEC-010: VHF/UHF (1.25m/70cm/33cm)
+CM   TM-WHP-NEC-011: Roll-up wire with inline LC traps (10m active)
+CM   TM-WHP-NEC-012: THIS FILE — complete system reference, 40m active
+CE
+GW 1 40  0.0 0.0 0.005  0.0 0.0 5.605  0.006
+GW 2 20  0.0 0.0 0.005  5.6 0.0 0.005  0.006
+GW 3 20  0.0 0.0 0.005 -5.6 0.0 0.005  0.006
+GW 4 20  0.0 0.0 0.005  0.0 5.6 0.005  0.006
+GW 5 20  0.0 0.0 0.005  0.0 -5.6 0.005  0.006
+GE 1
+GN 2 0 0 0  13 0.005
+CM 40m base loading coil: L=7.85uH, Q=310, R=1.14 ohm, XL=353 ohm at 7.15 MHz
+LD 0 1 1 1  1.14 353.0
+EX 0 1 1 0  1 0
+FR 0 7 0 0  7.000 0.050
+RP 0 37 73 1000  0 0 5 5
+EN

@@ -1,0 +1,252 @@
+================================================================================
+SPECIFICATION: WIND LOAD CALCULATIONS AND GUY ROPE TENSION REQUIREMENTS
+TM-MAST-001  Rev A
+EIA/TIA-222 structural loading methods for portable antenna masts
+================================================================================
+
+REFERENCE STANDARDS:
+  EIA/TIA-222-H: Structural Standard for Antenna Supporting Structures
+  ASCE 7-22:     Minimum Design Loads for Buildings and Other Structures
+  Rohn Tower Catalog: Reference for comparative structural ratings
+
+================================================================================
+SECTION 1 — DESIGN WIND SPEED AND PRESSURE
+================================================================================
+
+BASIC WIND PRESSURE (SIMPLIFIED FORMULA):
+  q = 0.00256 × V²    [psf, V in mph]
+  q = 0.613 × V²      [Pa, V in m/s]   ← use this for SI calculations
+
+  Wind speed design values:
+    50 mph (22.4 m/s): q = 0.613 × 22.4² = 308 Pa (6.4 psf)
+    70 mph (31.3 m/s): q = 0.613 × 31.3² = 600 Pa (12.5 psf)   — operational max
+    90 mph (40.2 m/s): q = 0.613 × 40.2² = 990 Pa (20.7 psf)   — survival design
+    100 mph (44.7 m/s): q = 0.613 × 44.7² = 1225 Pa (25.6 psf) — coastal/severe
+
+  FIELD DEPLOYMENT DEFAULT:
+    Operational design: 70 mph (survival); 50 mph (operating with antenna)
+    Elevated antenna installation ≥25 ft: 90 mph survival minimum
+
+GUST FACTOR:
+  EIA/TIA-222-H applies a gust factor G = 0.85 for mast heights < 30 ft.
+  This specification uses G = 1.0 (conservative; no gust reduction).
+
+HEIGHT CORRECTION (EXPOSURE CATEGORY C — open terrain):
+  K_z = (z/15)^(2/9.5)  where z = height in feet
+  At 20 ft: K_z = (20/15)^0.211 = 1.06
+  At 30 ft: K_z = (30/15)^0.211 = 1.16
+  At 40 ft: K_z = (40/15)^0.211 = 1.24
+
+  SIMPLIFIED: Use K_z = 1.2 for all heights in this specification (conservative).
+
+DESIGN VELOCITY PRESSURE (adjusted):
+  q_design = q × K_z × G = q × 1.2 × 1.0 = 1.2q
+
+================================================================================
+SECTION 2 — FORCE ON CYLINDRICAL MAST SECTIONS
+================================================================================
+
+DRAG FORCE ON CYLINDRICAL SECTION:
+  F = q × Cd × A_projected
+
+  Drag coefficient for circular cylinder:
+    Slender cylinder (L/D > 20): Cd = 1.0
+    Short cylinder (L/D < 5):    Cd = 0.8
+    USE: Cd = 1.2 (includes 20% for surface roughness and interference)
+
+  Projected area:
+    A = D × L    [m², D = outer diameter, L = section length]
+
+EXAMPLE — 50mm OD, 1.5m section:
+  A = 0.050 × 1.5 = 0.075 m²
+  F_section = q × 1.2 × 0.075
+  At 70 mph (q = 600 Pa): F = 600 × 1.2 × 0.075 = 54 N per section
+
+FULL MAST WIND LOAD (sum of all sections, 30-foot aluminum mast):
+  Section 1 (38mm × 1.5m): F = 600×1.2×0.057 = 41 N  at h = 8.5m center
+  Section 2 (44mm × 1.5m): F = 600×1.2×0.066 = 47 N  at h = 7.0m
+  Section 3 (50mm × 1.5m): F = 600×1.2×0.075 = 54 N  at h = 5.5m
+  Section 4 (57mm × 1.5m): F = 600×1.2×0.086 = 62 N  at h = 4.0m
+  Section 5 (63mm × 1.5m): F = 600×1.2×0.095 = 68 N  at h = 2.5m
+
+  Total mast drag: 272 N
+  Point of action (resultant): ~5.5m above base
+
+================================================================================
+SECTION 3 — ANTENNA WIND LOAD
+================================================================================
+
+ANTENNA WIND AREA REFERENCE VALUES:
+
+  Antenna Type         | EPA (m²) | EPA (ft²) | Notes
+  ---------------------|----------|-----------|-------------------------
+  Wire dipole (Horiz.) |  0.10    |  1.08     | At 70 mph: 80 N
+  3-el VHF Yagi        |  0.15    |  1.61     | At 70 mph: 108 N
+  3-el HF tribander    |  0.80    |  8.61     | At 70 mph: 576 N
+  5-el 2m Yagi         |  0.25    |  2.69     | At 70 mph: 180 N
+  UHF cross-Yagi (sat) |  0.12    |  1.29     | At 70 mph: 86 N
+  2m/70cm collinear    |  0.06    |  0.65     | At 70 mph: 43 N
+  GP vertical (VHF)    |  0.03    |  0.32     | At 70 mph: 22 N
+
+  EPA = Effective Projected Area (EIA/TIA-222 definition)
+  F_antenna = q_design × EPA = 1.2 × 600 × EPA (at 70 mph, SI)
+
+  PORTABLE FIELD ANTENNA BUDGET:
+    EPA ≤ 0.20 m² for masts 20–30 ft without heavy guying
+    EPA ≤ 0.50 m² for fully guyed 30–40 ft mast in moderate wind
+
+================================================================================
+SECTION 4 — BASE MOMENT AND MAST BENDING STRESS
+================================================================================
+
+OVERTURNING MOMENT AT BASE (unguyed mast — cantilever model):
+  M_base = Σ(F_section × h_section) + F_antenna × H_total
+
+  30-FOOT UNGUYED EXAMPLE:
+    M_mast = 41×8.5 + 47×7.0 + 54×5.5 + 62×4.0 + 68×2.5
+           = 348 + 329 + 297 + 248 + 170
+           = 1,392 N·m (from mast sections alone)
+
+    Adding wire dipole at top (F = 80 N × 9m):
+    M_antenna = 80 × 9.0 = 720 N·m
+
+    M_total = 2,112 N·m (unguyed)
+
+BENDING STRESS AT BASE SECTION (Section 5, 63mm OD × 3mm wall):
+  Section modulus: S = π(OD⁴ - ID⁴) / (32 × OD/2)
+    OD = 63mm, ID = 57mm
+    I = π(63⁴ - 57⁴)/64 = π(15,752,961 - 10,556,001)/64 = 254,896 mm⁴
+    S = I / (OD/2) = 254,896 / 31.5 = 8,092 mm³ = 8.09 × 10⁻⁶ m³
+
+  σ_bending = M / S = 2,112 / (8.09 × 10⁻⁶) = 261 MPa
+
+  FAILURE: 261 MPa exceeds 6061-T6 yield (276 MPa) — marginal unguyed!
+
+  CONCLUSION: A 30-foot aluminum telescoping mast MUST be guyed.
+  Even a single level of guying at 60% height reduces base moment by ~70%.
+
+GUYED MAST MOMENT (first level at 5.4m, 60% of 9m):
+  M_guyed = Σ(F × h) only for sections BELOW the guy level
+  Section 3: F=54 N × 5.5m = 297 N·m
+  Section 4: F=62 N × 4.0m = 248 N·m
+  Section 5: F=68 N × 2.5m = 170 N·m
+  M_guyed = 715 N·m (reduction of 66%)
+
+  σ_guyed = 715 / 8.09×10⁻⁶ = 88 MPa — well below yield (32% of yield)
+  Safety factor: 276 / 88 = 3.1 — acceptable
+
+================================================================================
+SECTION 5 — GUY WIRE TENSION CALCULATION
+================================================================================
+
+FREE-BODY DIAGRAM — GUYED MAST AT LEVEL h_g:
+  Wind applies horizontal force F_w above guy level.
+  Guy provides horizontal reaction T_h = F_w (for single guy level on windward side).
+
+  Actual tension in guy wire:
+    T_guy = F_w / sin(θ)    where θ = angle of guy below horizontal
+
+  Guy angle:
+    θ = arctan(h_g / r_anchor)
+    At 70% radius anchor: θ = arctan(0.7) = 35°
+
+  For 3-guy configuration: each guy on windward side carries:
+    T_guy_each = F_w / (n × sin(θ))   where n = effective number resisting wind
+    (typically 1 windward guy at full tension, 2 leeward guys at pre-tension)
+    Use n = 1 for conservative calculation.
+
+GUY TENSION TABLE — 70 mph wind, 70% anchor radius (35° guy angle):
+
+  Configuration      | F_wind above  | T_guy (each) | Anchor required
+                     | guy level     | n=1 guy      |
+  -------------------|---------------|--------------|------------------
+  20 ft, 1 guy level | 160 N         | 279 N        | 280 N × 3.0 SF = 840 N
+  30 ft, 2nd level   | 290 N (upper) | 505 N        | 505 N × 3.0 SF = 1,515 N
+  30 ft, 1st level   | 180 N (lower) | 313 N        | 313 N × 3.0 SF = 940 N
+  40 ft, 3rd level   | 450 N (upper) | 783 N        | 783 N × 3.0 SF = 2,350 N
+  40 ft, 2nd level   | 310 N (mid)   | 540 N        | 540 N × 3.0 SF = 1,620 N
+  40 ft, 1st level   | 200 N (lower) | 348 N        | 348 N × 3.0 SF = 1,045 N
+
+WIRE SAFETY FACTORS:
+  3mm Dyneema SK75:     Breaking 1,800 kg (17,650 N) → safety factor on 783 N = 22.5×
+  3/16" 7×19 galv. SS: Breaking 1,860 kg (18,240 N) → safety factor = 23.3×
+  Both are far in excess of structural requirement; anchor is the limiting factor.
+
+PRE-TENSION REQUIREMENT:
+  Each guy wire must be pre-tensioned to prevent sag and lateral oscillation.
+  Minimum pre-tension: 50 N (5 kgf) per wire.
+  Recommended: 75–100 N (7.5–10 kgf) for masts 20–30 ft.
+  This is roughly 10% of wire breaking strength — appropriate for pre-tension.
+
+================================================================================
+SECTION 6 — VERTICAL COMPRESSION LOAD ON MAST
+================================================================================
+
+COMPRESSION FROM GUY WIRES:
+  Each tensioned guy adds a vertical component to mast compression:
+    F_vertical = T_guy × cos(θ) = T_guy × cos(35°) = 0.82 × T_guy
+  With 3 guys at pre-tension 100 N each:
+    F_comp_pretension = 3 × 100 × 0.82 = 246 N per guy level
+  At maximum wind tension 783 N (upper guy, 40 ft):
+    F_comp_wind = 783 × 0.82 = 642 N (windward guy only compresses mast)
+
+TOTAL MAST COMPRESSION (40 ft, worst case):
+  Mast weight:        110 N (11 kg)
+  Antenna weight:     50 N (5 kg typical)
+  Pre-tension (3 levels × 3 guys × 100 N × 0.82): 740 N
+  Wind compression:   3 levels × 642 N: 1,926 N
+  Total: 2,826 N (288 kgf)
+
+EULER BUCKLING — 40 ft base section (63mm OD × 3mm wall, 1.5m free length):
+  P_cr = π² × E × I / (K × L)²
+  E = 68.9 GPa, I = 254,896 mm⁴, K = 0.7 (guyed both ends), L = 1500 mm
+  P_cr = π² × 68,900 × 254,896 / (0.7 × 1500)² = 688,406,684 / 1,102,500
+       = 624,600 N = 624.6 kN
+
+  Safety factor against buckling: 624,600 / 2,826 = 221×
+  Conclusion: Buckling is not a concern for these section dimensions.
+
+================================================================================
+SECTION 7 — SUMMARY TABLE — DESIGN VALUES BY MAST HEIGHT
+================================================================================
+
+  Mast  | Design  | Total  | Max Guy  | Min Anchor  | Min Wire
+  Height| Wind    | F_wind | Tension  | Capacity    | (breaking)
+  ------+---------+--------+----------+-------------+----------
+  20 ft | 70 mph  | 890 N  | 279 N    | 840 N       | 3mm Dyn.
+  30 ft | 70 mph  | 2,000N | 505 N    | 1,515 N     | 3mm Dyn.
+  40 ft | 70 mph  | 3,560N | 783 N    | 2,350 N     | 3/16" SS
+  40 ft | 90 mph  | 5,900N | 1,294 N  | 3,880 N     | 1/4" SS
+
+  ALL VALUES assume 70% anchor radius, 3-guy configuration, n=1 windward.
+  Apply 3.0× safety factor to anchor; wire strength far exceeds requirement.
+
+================================================================================
+SECTION 8 — LIGHTNING RISK AND MITIGATION
+================================================================================
+
+ANTENNA HEIGHT RISK:
+  An elevated antenna mast is an elevated conductor in an open field.
+  Risk increases with height, proximity to storms, and isolation (no nearby trees).
+  A 40 ft mast in an open field during a thunderstorm is a SERIOUS hazard.
+
+LIGHTNING MITIGATION:
+  1. Lower mast to horizontal or disconnect before any storm approaches.
+     Distance rule: thunderstorm risk if you can hear thunder within 10 miles.
+     Do not rely on lightning rods — they reduce, not eliminate, strike risk.
+
+  2. If mast cannot be lowered:
+     Ground all mast sections via a separate bonding conductor to earth ground.
+     Earth ground: copper-clad rod driven ≥2.4m; resistance <25 Ω.
+     Bond with #6 AWG minimum solid copper; short direct path (no coils).
+
+  3. Disconnect all feedlines and control cables from radio equipment
+     when station is unattended.
+
+  4. Grounding does NOT fully protect antennas or connected equipment.
+     Grounding bleeds off static buildup and may offer a preferred path, but
+     a direct strike will destroy equipment regardless.
+
+FIRST PRIORITY: LOWER THE MAST. Ground as backup, not substitute.
+
+================================================================================

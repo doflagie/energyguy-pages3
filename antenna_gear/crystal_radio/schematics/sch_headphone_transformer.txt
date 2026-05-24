@@ -1,0 +1,311 @@
+================================================================================
+SCHEMATIC: HEADPHONE MATCHING TRANSFORMER
+TM-CR-001  Rev A
+Impedance matching: 1000:8 Ω (crystal radio detector to low-Z headphones)
+AM broadcast audio; passive; no battery
+================================================================================
+
+OVERVIEW
+--------
+Crystal radio detector circuits develop audio signal across a high-impedance
+load (detector Z ≈ 10 kΩ – 2 MΩ depending on design).  Modern headphones
+are 8–32 Ω.  Without a matching transformer, the impedance mismatch causes
+90–99% of available audio power to be lost.
+
+IMPEDANCE MATCHING REQUIREMENT:
+  Detector (source) impedance: Z_s ≈ 10 kΩ – 200 kΩ (typical crystal radio)
+  Headphone (load) impedance:  Z_L = 8 Ω (common low-Z headphone)
+  Required transformer turns ratio:  N = √(Z_s / Z_L)
+
+  For Z_s = 1000 Ω, Z_L = 8 Ω:    N = √(1000/8)  = √125   = 11.18:1
+  For Z_s = 2000 Ω, Z_L = 8 Ω:    N = √(2000/8)  = √250   = 15.81:1
+  For Z_s = 5000 Ω, Z_L = 8 Ω:    N = √(5000/8)  = √625   = 25.00:1
+  For Z_s = 10000 Ω, Z_L = 8 Ω:   N = √(10000/8) = √1250  = 35.36:1
+  For Z_s = 20000 Ω, Z_L = 8 Ω:   N = √(20000/8) = √2500  = 50.00:1
+  For Z_s = 32 Ω,    Z_L = 8 Ω:   N = √(32/8)    = √4     = 2:1
+    (high-Z magnetic earphone to 8Ω; rarely needed)
+
+  RULE: Use N = 50:1 for crystal radio with 8 Ω phones (safe conservative match).
+        This assumes Z_detector ≈ 20 kΩ (typical loaded detector output).
+
+EARPHONE TYPES AND MATCHING:
+  Type                 Impedance    Transformer needed?   Notes
+  ----                 ---------    ------------------    -----
+  Crystal earphone     50 kΩ–2 MΩ  NO                   Plug in directly
+  Piezoelectric disk   100 kΩ       NO                   Very sensitive
+  High-Z magnetic      2000–4000 Ω  NO (or 2:1 max)      Old radio headphones
+  Low-Z magnetic       200–600 Ω    5:1 to 8:1           TV/communication type
+  Modern headphones    8–32 Ω       35:1 to 50:1         Most common today
+  Speaker (6")         8 Ω          50:1                 Requires strong station
+
+  DO NOT connect 8 Ω headphones directly to crystal radio detector.
+  The 8 Ω load will completely kill tank circuit Q and selectivity.
+
+
+================================================================================
+TRANSFORMER DESIGN — TOROIDAL CORE
+================================================================================
+
+CORE SELECTION:
+  Audio transformer frequency range: 300 Hz – 6000 Hz (adequate for AM voice)
+  For hi-fi: 100 Hz – 10 kHz (use larger core or better material)
+
+  Core requirements:
+    High permeability (µ_i > 1000) for low-frequency audio
+    Low core loss at audio frequencies
+    NOT ferrite designed for RF (too lossy at audio; those are MHz types)
+
+  Recommended cores:
+    Manufacturer   Part#         Material    µ_i    OD×ID×H (mm)  Notes
+    -----------    -----         --------    ---    -----------   -----
+    Fair-Rite      5977002701    Mix 77      2000   13.8×7.3×6.4  Best choice
+    Amidon         T-94A-77      Mix 77      2000   24×14×10      Larger; easier
+    Mouser/Kemet   T35-77        Mix 77      2000   9×5×3.5       Small; tricky
+    Salvage        audio output  laminated   500+   varies        Old radios/TVs
+                    transformer  silicon steel                    any toroid > 10mm
+
+  Fair-Rite Mix 77 binocular core BN-73-302:
+    Material: Mix 73 (µ_i = 2500), for audio/LF; 0 – 1 MHz
+    OD = 13 mm; also good for this transformer.
+
+  AVOID: Mix 43, Mix 31 (RF ferrite; lossy at audio).
+         Mix 61 (antenna rod material; very lossy at audio).
+
+TURNS RATIO N = 50:1 (Z_s = 20 kΩ → Z_L = 8 Ω):
+  Primary turns:    N_p = 500 turns
+  Secondary turns:  N_s = N_p / 50 = 10 turns
+
+  Actual turns ratio: 500:10 = 50:1. Z ratio = 50² = 2500:1.
+  Z_in = 2500 × 8 = 20,000 Ω = 20 kΩ. ✓
+
+TURNS RATIO N = 35:1 (Z_s = 10 kΩ → Z_L = 8 Ω):
+  N_p = 350 turns, N_s = 10 turns.
+  Z_in = (35)² × 8 = 9800 Ω ≈ 10 kΩ. ✓
+
+WINDING WIRE SIZE:
+  Primary (#1): #36–#38 AWG enameled (very fine; handle with care)
+    For 500 turns on T-94A-77: use #36 AWG. Resistance ≈ 200–400 Ω (acceptable loss).
+  Secondary (#2): #28–#30 AWG enameled
+    For 10 turns: trivial.
+
+  BIFILAR NOT suitable for this high-ratio transformer; use separate windings.
+
+
+================================================================================
+SCHEMATIC
+================================================================================
+
+  CRYSTAL RADIO DETECTOR OUTPUT:
+
+  AF (+) ─────────────────────────────────────── XFMR T1 PRIMARY (+)
+                                                          │
+                                                    [N_p: 500 turns]
+                                                          │
+  GND ──────────────────────────────────────────── XFMR T1 PRIMARY (−)
+
+  T1 SECONDARY:
+  T1 SEC (+) ─── [headphone LEFT(+)]
+  T1 SEC (−) ─── [headphone LEFT(−)] ─── GND
+
+  For stereo (both channels): wire secondary in parallel or use two
+  separate secondaries (bifilar secondary, 5+5 turns for stereo phones).
+
+  FULL SCHEMATIC WITH RF FILTER:
+
+  Tank output ─── [D1: 1N34A] ─────────────────────────── AF(+)
+                                   │
+                               [C_rf: 0.01µF]  ← RF bypass BEFORE transformer
+                                   │
+                                  GND
+
+  AF(+) ──── [T1 primary: 500t] ──── GND (via primary DC path)
+                    │
+              [T1 secondary: 10t]
+                    │
+              [J2: 3.5mm jack, tip/ring to headphone]
+
+  NOTE: T1 must not carry DC.  Crystal radio detector output is pure AC audio
+  (no DC component after RF bypass).  Primary has no DC, so no DC saturation.
+
+  IF using transformer with regenerative design (battery-powered):
+  Add [C_dc: 10 µF electrolytic] in series with primary to block any residual DC.
+
+       AF(+) ─── [C_dc: 10µF] ─── [T1 primary] ─── GND
+
+
+================================================================================
+WINDING PROCEDURE — TOROIDAL TRANSFORMER
+================================================================================
+
+CORE: Amidon T-94A-77 (24 × 14 × 10 mm) or equivalent Mix 77 toroid.
+
+STEP 1 — PREPARE CORE:
+  Wrap core with 2 layers of electrical tape or heat-shrink tubing.
+  This insulates the ferrite and protects fine wire.
+  Mark start position with a small color dot (nail varnish or paint marker).
+
+STEP 2 — WIND SECONDARY (10 turns first, while core is empty):
+  Use 15 cm of #28 AWG enameled wire.
+  Pass wire through center, wrap around outside.
+  Count each pass through the hole as one turn.
+  10 turns total. Mark start "S-" and end "S+".
+  Twist ends lightly and fold out of the way against the core.
+  Secure with tape.
+
+STEP 3 — WIND PRIMARY (500 turns):
+  Use a 6 m length of #36 AWG enameled wire (= ~120 turns per meter).
+  Wind in the SAME direction as secondary.
+  Divide core into 4 quadrants; wind 125 turns per quadrant.
+  Use a winding shuttle (small cardboard bobbin) to manage fine wire.
+  After every 50 turns, count and record to avoid losing count.
+  Mark start "P-" and end "P+".
+  DO NOT break wire; count continuously.
+
+STEP 4 — STRIP AND TIN ENDS:
+  Strip enamel from all 4 wire ends with fine sandpaper (400 grit).
+  Tin with rosin-core solder.
+  Test primary and secondary resistance:
+    Primary (500t, #36 AWG): should read 150–400 Ω (depending on wire length)
+    Secondary (10t, #28 AWG): should read < 1 Ω
+
+STEP 5 — TEST:
+  Measure primary inductance with LC meter:
+    Target: L_p ≥ 1 H at 400 Hz (for good low-frequency response)
+    For T-94A-77: L = 900 nH × N² → for 500t: L = 900 nH × 250,000 = 225 H ✓
+    (Formula uses inductance factor A_L = 900 nH for T-94A-77)
+
+  ALTERNATIVE QUICK TEST:
+    Connect 9V battery through 1 kΩ to primary.  Remove battery.
+    Secondary should show brief voltage spike (transformer action).
+
+STEP 6 — EPOXY:
+  Apply small drop of epoxy to secure wire ends to core.
+  Do NOT pot entire transformer; difficult to diagnose if problems occur.
+
+
+================================================================================
+A_L INDUCTANCE FACTOR TABLE (for winding calculation)
+================================================================================
+
+  For turns calculation: N = √(L_desired / A_L)
+  Where L in µH and A_L in µH/N² (or equivalently nH/N²×1000).
+
+  Core type         A_L (µH/N²)    L for 500 turns    Notes
+  ---------         -----------    ---------------    -----
+  T-94A-77          0.000900       225 H              Best for audio; use this
+  T-130-77          0.000197       49 H               Smaller; marginal at LF
+  T-50-77           0.000360       90 H               Small; okay for 1kHz+
+  BN-73-302         0.000730       182 H              Binocular; good choice
+  Laminated (E-I)   varies         measure actual     Salvage cores
+  Permalloy tape    0.001500       375 H              Excellent; expensive
+
+  For minimum 1 H at 400 Hz: need A_L × N² ≥ 1 H = 1,000,000 µH.
+    T-94A-77, N=500t: 0.0009 × 250,000 = 225 ✓ (225 H >> 1 H)
+    T-50-77,  N=500t: 0.00036 × 250,000 = 90 ✓ (marginal low-end response)
+
+  A_L given in datasheet; check manufacturer for actual value.
+
+
+================================================================================
+INSERTION LOSS AND EFFICIENCY
+================================================================================
+
+TRANSFORMER LOSS SOURCES:
+  1. Primary winding resistance: R_p (copper loss)
+  2. Secondary winding resistance: R_s (copper loss)
+  3. Core hysteresis loss (audio frequencies; generally small with Mix 77)
+
+INSERTION LOSS CALCULATION:
+  R_p = 350 Ω (typical, 500t #36 AWG on T-94A-77)
+  R_s = 0.5 Ω (10t #28 AWG)
+  R_s_reflected = R_s × N² = 0.5 × 2500 = 1250 Ω
+
+  Total loss resistance: R_total = R_p + R_s_reflected = 350 + 1250 = 1600 Ω
+  Source impedance: Z_s = 20,000 Ω
+  Insertion loss: IL = 20 log(Z_s / (Z_s + R_total)) = 20 log(20000/21600) = −0.64 dB
+
+  Efficiency: η = Z_s / (Z_s + R_total) = 20000/21600 = 92.6%
+
+  Compared to 8 Ω directly across 20 kΩ source (without transformer):
+    Power ratio: Z_L / Z_s = 8/20000 = 0.04% of available power (−34 dB loss)
+  With transformer: 92.6% efficiency → +34 dB improvement in audio power.
+
+FREQUENCY RESPONSE:
+  Low-frequency −3 dB: f_low = R_source / (2π × L_primary)
+    R_source = detector Z ≈ 20 kΩ
+    L_primary = 225 H (T-94A-77, 500t)
+    f_low = 20,000 / (2π × 225) = 14 Hz  (well below audio band ✓)
+
+  High-frequency −3 dB: limited by leakage inductance and winding capacitance.
+    Typical toroidal audio transformer: −3 dB at 15–50 kHz (well above 6 kHz needed ✓)
+
+  Bandwidth for crystal radio audio: 300–3000 Hz (AM voice quality).
+  This transformer is flat across 300–10,000 Hz with <1 dB variation.
+
+
+================================================================================
+ALTERNATE DESIGNS
+================================================================================
+
+DESIGN A — 11:1 RATIO (Z_s = 1 kΩ → 8 Ω):
+  Use when source impedance is known to be 1 kΩ (e.g., high-Z magnetic earphone
+  driven by high-Q tank directly).
+  N_p = 110 turns, N_s = 10 turns.
+  Wire: N_p #32 AWG, N_s #26 AWG.
+  Core: T-94A-77 still works; or smaller T-68A-77.
+
+DESIGN B — 25:1 RATIO (Z_s = 5 kΩ → 8 Ω):
+  N_p = 250 turns, N_s = 10 turns.
+  General-purpose match for most crystal radios.
+  Compromise: adequate for most designs.
+
+DESIGN C — AUDIO OUTPUT TRANSFORMER (SALVAGE):
+  Old transistor radio audio output transformers (2-3W, primary ~2 kΩ, secondary 8 Ω)
+  can be used directly.  Primary will be ~200-300 turns, secondary 4-8 turns.
+  Z ratio ≈ 200-300:1; too low for crystal radio (would need ~1000 Ω source).
+  Usable with regenerative designs that have lower detector impedance.
+
+DESIGN D — E-I LAMINATED STEEL CORE (IF AVAILABLE):
+  Classic salvage approach: use matching transformer from old AM/SW radio.
+  These are designed exactly for crystal radio / detector impedances.
+  Typical Z: 10 kΩ primary, 8 Ω secondary (ratio 35:1).
+  No winding needed; just salvage and test.
+
+
+================================================================================
+COMPLETED TRANSFORMER SPECIFICATIONS
+================================================================================
+
+  Parameter               Value             Notes
+  ---------               -----             -----
+  Primary turns           500               #36 AWG, T-94A-77
+  Secondary turns         10                #28 AWG
+  Turns ratio             50:1              Actual: 500/10
+  Impedance ratio         2500:1            N²
+  Primary impedance       20 kΩ             at 8 Ω load
+  Secondary impedance     8 Ω               matched to headphone
+  Primary inductance      225 H             at 400 Hz, no load
+  Primary resistance      ~300 Ω            DC; use lowest-resistance wire
+  Secondary resistance    < 1 Ω             DC
+  Insertion loss          ~0.5 dB           at Z_s=20kΩ
+  Frequency response      ±1 dB, 100–15 kHz flat
+  Core                    T-94A-77 Mix 77   Amidon
+  Dimensions (wound)      ~35 × 20 mm       core + windings
+  Weight                  ~15 g             without housing
+
+
+================================================================================
+PARTS LIST — HEADPHONE TRANSFORMER
+================================================================================
+
+  Ref   Qty  Value/Part           Description
+  ---   ---  ----------           -----------
+  T1     1   see design above     500t/10t audio matching transformer
+  —      1   T-94A-77 core        Mix 77 ferrite toroid (Amidon)
+  —      6m  #36 AWG enameled     Primary winding wire
+  —      0.2m #28 AWG enameled    Secondary winding wire
+  —      1   electrical tape      Core insulation
+  C_dc   1   10 µF / 16V          DC blocking cap (only for regen design)
+  J2     1   3.5mm stereo jack    Headphone output
+
+================================================================================

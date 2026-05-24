@@ -1,0 +1,253 @@
+================================================================================
+  VHF/UHF REMOTE ELEMENT SWITCHING SYSTEM
+  RF ISOLATION FILTER: CONTROL LINE EMI/RFI SUPPRESSION
+================================================================================
+
+PROBLEM
+───────
+Control lines carrying bias voltages and logic signals from ESP32 to element
+PIN diodes / relay coils can radiate RF energy, causing:
+  - Antenna pattern distortion (especially 70cm+)
+  - RFI coupling back into control system logic
+  - Oscillation / lock-up of SPI/I2C lines
+
+Solution: Ferrite choke + bypass capacitor filtering on every control line.
+
+
+================================================================================
+FERRITE COMMON-MODE CHOKE FILTER
+================================================================================
+
+For each control line (GPIO, bias, ground):
+
+    From ESP32 GPIO Pin
+         │
+      [R_series]  ← Optional series resistor (1 kΩ, current limiting)
+         │
+      [RFC_ferrite]  ← Ferrite choke (common-mode, 100 nH - 1 µH)
+         │
+      [C_bypass]  ← Ceramic bypass to ground (100 nF)
+         │
+         ├─── To PIN Diode Bias Node
+         │     OR Relay Coil
+         │
+      [ferrite bead] ← Second stage ferrite (1 µH toroid for RF absorption)
+         │
+         o ────── To element/PCB
+
+
+================================================================================
+FERRITE SELECTION GUIDE
+================================================================================
+
+Type 1: FERRITE BEAD (Common-mode choke, compact)
+─────────────────────────────────────────────────
+Part: Fair-Rite 2743019151 (SMD 0402, 100 ohms @ 100 MHz, Z-impedance type)
+      OR TDK MLZ1005R100M (SMD 0402, 100 ohms @ 100 MHz)
+
+Impedance characteristics:
+  @ 50 MHz:    Z ≈ 5-10 Ω (passes DC and low-freq bias cleanly)
+  @ 100 MHz:   Z ≈ 100 Ω (high absorption of RF junk)
+  @ 432 MHz:   Z ≈ 800-1000 Ω (excellent RF suppression)
+  @ 1296 MHz:  Z ≈ 1500+ Ω (maximum RF filtering)
+
+Placement: Directly on control line, right before element PCB entry
+
+
+Type 2: FERRITE TOROID (Larger, higher impedance)
+──────────────────────────────────────────────────
+Part: Amidon T50-2 (Red, mix #2, 50 µH nominal)
+      Wire wrap control line 3-5 turns through toroid
+      (Effective impedance much higher than bead alone)
+
+Use case: If pattern distortion persists after beads, add toroid
+
+Impedance @ 432 MHz with 3 turns: Z ≈ 5-10 µH ≈ 10-20 kΩ (very high)
+This is overkill for most applications; use sparingly
+
+
+================================================================================
+COMPLETE RF ISOLATION CHAIN (Control Line)
+================================================================================
+
+Example: Single element bias line from 2N2222 to PIN diode network
+
+    2N2222 Collector (+12V)
+         │
+    ┌────o───────────┐
+    │                │
+    │         [C_coupling 10µF]  ← blocks DC initially
+    │                │
+    │        ┌───────┴──────┐
+    │        │              │
+    │    [R_series]     [RFC_bead]
+    │      1 kΩ         0402 ferrite
+    │        │              │
+    │        └───┬───────────┴──────→ To PIN Diode Anode
+    │            │
+    │        [C_bypass 100nF]
+    │            │
+    │            o ────────────────── GND (return to boom)
+
+
+Multiple control lines (e.g., for 5-element array: 4 relays + bias):
+
+    ESP32 GPIO(2)  ──[Ferrite]──[C_bypass]──→ Relay1 Coil
+    ESP32 GPIO(4)  ──[Ferrite]──[C_bypass]──→ Relay2 Coil
+    ESP32 GPIO(5)  ──[Ferrite]──[C_bypass]──→ Relay3 Coil
+    ESP32 GPIO(17) ──[Ferrite]──[C_bypass]──→ Relay4 Coil
+
+    GND ────[Ferrite toroid]──────────────→ Boom GND (shielded cable)
+
+
+================================================================================
+DETAILED FERRITE BEAD APPLICATION (Each Control Line)
+================================================================================
+
+    Component Values by Band:
+
+    BAND        | Ferrite Z @ f | Bead Part #      | C_bypass | Notes
+    ────────────────────────────────────────────────────────────────
+    1.25M(222M) | 10-30 Ω @ 222M| Fair-Rite 100Ω  | 100 nF   | Conservative
+    70cm(432M)  | 100 Ω @ 432M  | TDK MLZ 100 Ω   | 100 nF   | Standard
+    33cm(902M)  | 500+ Ω @ 900M | Fair-Rite 600Ω  | 100 nF   | More filtering
+    20cm(1296M) | 1000+ Ω @ 1.3G| Fair-Rite 1kΩ   | 100 nF   | Maximum filtering
+
+    BOM Cost per control line: ~$0.20 (ferrite + cap)
+
+
+================================================================================
+SHIELDING: TWISTED PAIR COAX FOR CONTROL CABLES
+================================================================================
+
+If control lines run > 1 meter from ESP32 to antenna mast:
+
+    1. Use twisted pair shielded cable (CAT5e works well)
+    2. Ferrite choke both twisted pairs at antenna entrance
+    3. Shield connected to boom ground (RF GND) only at antenna
+    4. Shield floated (open) at ESP32 end to prevent ground loops
+
+Example: 10 meter run from shack to mast-mounted relay box
+
+    ESP32 GPIO ─────[1m unshielded]─────┬─────[10m shielded TP]──┬─→ Relay Coil
+                                        │                        │
+                        [Ferrite bead]──┤  shield ↓              │
+                        at ESP32 board  │  connected to          │
+                                    [C_bypass 100nF]   mast GND  │
+                                        │                        │
+    ESP32 GND ──────────────────────────┴────────────────────────┴─→ Relay GND
+
+
+    At mast-mounted relay enclosure:
+
+                    ┌─ Shield (connected to boom GND only here)
+                    │
+    TP Entry ─[Ferrite Toroid]─┬───────→ Relay Coil
+                 (T50-2)        │
+                   3 turns  [C_bypass 100nF]
+                            │
+                        Boom GND
+                            │
+    TP Return ─[Ferrite]────┴────────→ Relay GND
+
+
+================================================================================
+TEST & VERIFICATION (Pattern Distortion Check)
+================================================================================
+
+1. BASELINE PATTERN (No Switching):
+   ──────────────────────────────
+   - Set all relays/PIN diodes OFF (elements isolated)
+   - Measure antenna pattern with NanoVNA or field strength meter
+   - Record F/B ratio, gain, 3dB beamwidth
+   - This is your "clean" reference
+
+
+2. WITH RELAYS ON (Baseline 5-element pattern):
+   ──────────────────────────────────────────
+   - Energize all relays (apply +5V to all ULN2803 inputs via GPIO)
+   - Measure pattern again
+   - If F/B degrades by > 2 dB, RF leakage from control line detected
+   - Add ferrite bead to most problematic line (usually reflector control)
+
+
+3. ITERATIVE IMPROVEMENT:
+   ───────────────────────
+   - Add one ferrite bead at a time to most-affected lines
+   - Re-measure pattern after each addition
+   - Continue until F/B recovers to < 1 dB degradation vs. baseline
+   - Typical final state: 2-4 ferrite beads + toroid on return line
+
+
+4. OSCILLOSCOPE VERIFICATION (Optional):
+   ────────────────────────────────────
+   - Probe control line with 10× scope probe (high impedance)
+   - With antenna transmitting at full power, look for RF signal riding on bias line
+   - Expected: < 100 mV ripple at operating frequency
+   - If > 500 mV, increase ferrite impedance (larger bead or toroid)
+
+
+================================================================================
+PROBLEMATIC SCENARIOS & SOLUTIONS
+================================================================================
+
+Scenario 1: Pattern null fill-in, F/B ratio degrades when relay energizes
+─────────────────────────────────────────────────────────────────────
+Cause: Relay coil lead acts as small antenna, coupling to reflector element
+Solution:
+  a) Add ferrite bead directly at relay coil lead (before connector)
+  b) Route relay control line away from reflector element (orthogonal)
+  c) Add 10 µF capacitor across relay coil (acts as parasitic absorber)
+
+
+Scenario 2: SPI/I2C to external ADC (RF sensor) gets corrupted during TX
+──────────────────────────────────────────────────────────────────────
+Cause: RF energy coupling onto SPI clock line, disrupting data
+Solution:
+  a) Ferrite bead on SPI CLK, MOSI, MISO, CS lines (all 4 needed)
+  b) Shielded SPI cable if cable run > 30 cm
+  c) 10 kΩ pull-up resistors on all SPI lines (faster rise time, less RF susceptibility)
+  d) If I2C: 4.7 kΩ pull-ups + ferrite on SCL, SDA
+
+
+Scenario 3: ESP32 watchdog resets during antenna TX (LockUp)
+────────────────────────────────────────────────────────────
+Cause: RF inducing voltage spikes on power supply rails
+Solution:
+  a) Ferrite bead on power supply input to ESP32 (between buck supply and VCC)
+  b) 100 µF bulk capacitor + 100 nF ceramic at each power pin of ESP32
+  c) Ferrite toroid on GND return path (to boom GND)
+  d) Keep antenna > 1 meter away from ESP32 during testing
+
+
+================================================================================
+BOM: RF ISOLATION FILTERS (For 5-Element Yagi Array)
+================================================================================
+
+Control line ferrite beads (@ each element relay or PIN diode):
+  - Fair-Rite 2743019151 (0402, 100Ω @ 100MHz):  4 units (one per element)
+  - OR TDK MLZ1005R100M:                          4 units
+
+Bypass capacitors:
+  - 100 nF 0402 ceramic, 50V+:                    4 units (one per line)
+
+Power supply ferrite:
+  - Ferrite bead @ ESP32 Vin:                     1 unit
+  - Ferrite toroid (Amidon T50-2):                1 unit (on return path)
+
+Control cable (if remote):
+  - Shielded twisted pair CAT5e:                  10 meters
+  - Ferrite toroid at both ends:                  2 units
+
+
+Total cost: ~$3-5 for filtering components
+
+
+================================================================================
+RELATED DOCUMENTS
+================================================================================
+
+  - relay_switching_ascii.txt: Relay circuit details
+  - pin_diode_switching_ascii.txt: PIN diode bias network
+  - bias_tee_ascii.txt: Bias injection details
+  - REMOTE_ELEMENT_SWITCHING_MANUAL.txt: Full system integration

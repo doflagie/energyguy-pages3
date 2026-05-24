@@ -1,0 +1,203 @@
+================================================================================
+ MOTORIZED ROTARY LOOP RDF ANTENNA — TM-ADF-005 Rev A
+ Shielded Magnetic Loop with Servo/Stepper Rotation
+ HF Bands 160M through 10M
+================================================================================
+
+LOOP ANTENNA PRINCIPLE
+========================
+A small loop antenna has a figure-8 (bidirectional) radiation/reception pattern
+with nulls broadside to the loop plane and peaks along the loop axis.
+
+  Pattern: G(θ) = cos²(θ)  (figure-8 in azimuth)
+  Null bandwidth: ~15°–25° (sharp, high bearing resolution)
+  Bearing accuracy: ±2°–5° with careful null-finding
+
+Ambiguity: Two nulls 180° apart (figure-8). Sense antenna resolves which
+null is toward the transmitter.
+
+  Sense + Loop (cardioid): G(θ) = 1 + cos(θ)
+  Null only in ONE direction when sense is added.
+
+================================================================================
+MECHANICAL DESIGN
+================================================================================
+
+  ┌──────────────────────────────────────────────────────────────────────────┐
+  │                    ROTARY LOOP ASSEMBLY (Top View)                      │
+  │                                                                          │
+  │                     ┌─────────┐                                         │
+  │                     │  Coax   │  ← Gap at top (Faraday shield break)   │
+  │                     │  to RX  │                                         │
+  │                     └────┬────┘                                         │
+  │                          │                                               │
+  │              ┌───────────┴───────────┐                                  │
+  │              │     Bearing / Shaft   │                                  │
+  │              │     (rotation axis)   │                                  │
+  │              └───────────┬───────────┘                                  │
+  │                          │                                               │
+  │         ┌────────────────┼────────────────┐                            │
+  │         │                │                │                            │
+  │         │   ┌────────────┴───────────┐    │                            │
+  │         │   │   LOOP (400mm square)  │    │                            │
+  │         │   │   Copper tube 4mm OD   │    │                            │
+  │         │   │   or heavy copper wire │    │                            │
+  │         │   │                        │    │                            │
+  │         │   │   FARADAY SHIELD:      │    │                            │
+  │         │   │   Outer copper foil    │    │                            │
+  │         │   │   Gap at ONE point     │    │                            │
+  │         │   │   (prevents short)     │    │                            │
+  │         │   └────────────────────────┘    │                            │
+  │         │                                  │                            │
+  │         └────────────────┬────────────────┘                            │
+  │                          │                                               │
+  │              ┌───────────┴───────────┐                                  │
+  │              │    NEMA 17 MOTOR      │                                  │
+  │              │    Belt drive 3:1     │                                  │
+  │              │    GT2 20T → 60T      │                                  │
+  │              └───────────────────────┘                                  │
+  └──────────────────────────────────────────────────────────────────────────┘
+
+  MOTOR DRIVE RATIOS:
+    Motor pulley: GT2 20-tooth
+    Loop shaft pulley: GT2 60-tooth
+    Reduction: 3:1
+    Motor steps/rev: 200 × 16 (microstepping) = 3200 steps
+    Loop degrees/step: 360° / (3200 × 3) = 0.0375°/step
+    Position resolution: 0.038° (excellent)
+    Maximum loop speed: 10 RPM (limited by tuning cap follow-time)
+
+================================================================================
+LOOP ELECTRICAL CIRCUIT
+================================================================================
+
+  LOOP ANTENNA (400mm square, copper tube or heavy wire):
+  ┌──────────────────────────────────────────────────────────────────────────┐
+  │                                                                          │
+  │   ┌──────────────────────────────────────────────────────────────┐     │
+  │   │               COPPER LOOP                                    │     │
+  │   │   L ≈ µ₀ × (4a/π) × [ln(2a/r) - 0.774]                     │     │
+  │   │   where a = half-side (0.2m), r = wire radius (0.002m)      │     │
+  │   │   L ≈ 2.2 µH at 400mm square, 4mm tube                     │     │
+  │   │                                                               │     │
+  │   └──────────────────────────────┬────────────────────────────── ┘     │
+  │                                   │                                      │
+  │   Resonating capacitor ── C_tune (varactor or variable cap)             │
+  │   C_resonate = 1/(ω²L) = 1/((2πf)² × 2.2µH)                           │
+  │   Example: 7 MHz → C = 1/((2π×7e6)² × 2.2e-6) = 236 pF                │
+  │                                                                          │
+  │   TUNING TABLE:                                                          │
+  │   ┌──────────┬────────────┬──────────────┐                             │
+  │   │ Band     │ Freq (MHz) │ C_tune (pF)  │                             │
+  │   ├──────────┼────────────┼──────────────┤                             │
+  │   │ 160m     │ 1.85       │ 3370         │                             │
+  │   │ 80m      │ 3.75       │  820         │                             │
+  │   │ 60m      │ 5.35       │  402         │                             │
+  │   │ 40m      │ 7.15       │  225         │                             │
+  │   │ 30m      │ 10.125     │  112         │                             │
+  │   │ 20m      │ 14.175     │   57         │                             │
+  │   │ 17m      │ 18.118     │   35         │                             │
+  │   │ 15m      │ 21.225     │   26         │                             │
+  │   │ 12m      │ 24.940     │   19         │                             │
+  │   │ 10m      │ 28.85      │   14         │                             │
+  │   └──────────┴────────────┴──────────────┘                             │
+  └──────────────────────────────────────────────────────────────────────────┘
+
+================================================================================
+BUFFER AMPLIFIER AT LOOP (JFET SOURCE FOLLOWER)
+================================================================================
+
+  High impedance input (loop terminal) → low impedance 50Ω output
+
+               Drain ──── +12V ──── RFC (100µH) ──── Bypass (100µF)
+                │
+               J310 JFET
+                │  Gate ──── to Loop (high Z)
+                │            [10MΩ gate bias to GND]
+               Source ──── 220Ω ──── GND
+                    │
+                    ├──── 0.1µF (DC block) ──── 50Ω output coax ──── to receiver
+                    │
+                   GND
+
+  JFET CHOICE: J310 (NPN JFET, Idss=24–60mA)
+    Gate impedance: >10^9 Ω (does not load loop resonance)
+    Gain: ≈0.9 (source follower, slight loss acceptable)
+    Noise figure: ~1.5 dB (adequate for RDF, high Q loop compensates)
+    Mount at loop terminals to minimize capacitive loading
+
+================================================================================
+SENSE ANTENNA COMBINER
+================================================================================
+
+  Sense antenna (short vertical, 1–2m) combines with loop for cardioid pattern:
+
+  LOOP output ───────────────────────────────────────────────┐
+                                                               ├──▶ Combined → RX
+  SENSE antenna ──[0°/90°/180° switch]──[level adjust (5kΩ)] ┘
+
+  SENSE PHASE SWITCH (3-position rotary or relay):
+    Position 1 (LOOP ONLY): sense disconnected → figure-8 pattern
+    Position 2 (+SENSE):    loop + sense in phase → cardioid peak toward NORTH end of loop
+    Position 3 (-SENSE):    loop + sense 180° → cardioid peak toward SOUTH end of loop
+
+  RELAY IMPLEMENTATION:
+  Sense ──[DPDT relay A]──[DPDT relay B]──── to summing resistors
+           (0/90° shift)   (0/180° shift)
+  Relay control: GPIO15 (relay A), GPIO4 (relay B)
+
+================================================================================
+POSITION SENSOR
+================================================================================
+
+  OPTION A: 10kΩ potentiometer (simple, lower accuracy)
+    Pot wiper ──── ADC GPIO36
+    VCC ──── 3.3V, GND ──── GND
+    ADC reading maps to 0–360° (calibrate at known positions)
+
+  OPTION B: AS5048A absolute encoder (recommended for accuracy)
+    Interface: SPI
+    SPI CLK ──── GPIO18
+    SPI MISO ─── GPIO19
+    SPI MOSI ─── GPIO23
+    SPI CS ───── GPIO5
+    Resolution: 14-bit → 0.022° per count
+    Magnet: 6mm neodymium magnet mounted on loop shaft
+
+================================================================================
+MOTOR DRIVER — DRV8825
+================================================================================
+
+  ESP32 GPIO26 ──── STEP ──── DRV8825
+  ESP32 GPIO27 ──── DIR  ──── DRV8825
+  ESP32 GPIO14 ──── EN   ──── DRV8825 (active LOW)
+  MODE0/1/2 ──── GND/3.3V/GND (sets 1/16 microstepping)
+
+  DRV8825 Vref (current limit):
+    NEMA 17 rated 1.5A → Vref = 1.5 × 0.5 = 0.75V
+    (Vref = I_rated × R_sense = 1.5A × 0.5Ω)
+    Adjust trimpot on DRV8825 module to 0.75V
+
+  Motor power: 12V from main supply
+  Logic power: 3.3V from ESP32 3.3V pin (logic level must match)
+  Use 10kΩ pullup on STEP and DIR inputs if needed
+
+================================================================================
+COMPLETE LOOP RDF SCHEMATIC (SUMMARY)
+================================================================================
+
+  12V DC ──┬──[DRV8825]──── NEMA17 motor ──── belt drive ──── Loop shaft
+           │       ↑
+           │   GPIO26(STEP), GPIO27(DIR), GPIO14(EN)
+           │
+           ├──[LM7805]──── +5V ──── LNA bias (J310 drain)
+           │
+           └──[AMS1117-3.3]── 3.3V ──── ESP32, relay logic
+
+  LOOP ──── J310 buffer ──── [relay: sense combiner] ──── 50Ω coax ──── RX input
+  SENSE ──── [DPDT relay] ──────────────────────────────────────┘
+
+  POSITION: AS5048A (SPI) or pot ──── ESP32 ADC36
+
+  I2C: GPIO21/22 ──── SSD1306 OLED + QMC5883L compass
+  UART2: GPIO18/19 ──── NEO-8M GPS

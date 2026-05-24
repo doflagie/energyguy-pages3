@@ -1,0 +1,286 @@
+================================================================================
+  VHF/UHF REMOTE ELEMENT SWITCHING SYSTEM
+  RELAY-BASED ELEMENT SWITCHING FOR HF/VHF (6M, 2M)
+  DPDT Relay Switching for Reflector/Director Mode Selection
+================================================================================
+
+OVERVIEW
+────────
+At 6M (50 MHz) and 2M (144 MHz), SPDT relay contacts can be used for element
+switching with acceptable RF loss (< 0.3 dB). The relay shorts the parasitic
+element to the boom (making it act as a reflector) via its NC (Normally Closed)
+contact, or leaves it free (acting as director) via NO (Normally Open) contact.
+
+CRITICAL: Above 432 MHz, relay contact inductance (~1-2 nH) causes significant
+losses and must be replaced with PIN diodes.
+
+
+================================================================================
+SINGLE ELEMENT RELAY SWITCHING CIRCUIT - 6M/2M (50-144 MHz)
+================================================================================
+
+Parasitic Element (Reflector or Director):
+
+    Element ────[C_iso]────●────┬──────── Driven Element / Feed Point
+                           │    │
+                        (R_1NC) │
+                      (Relay    │
+                      Contact)  │
+                           │    │
+                   Boom ───┴────┘
+                   Return
+                   (GND)
+
+
+    RELAY DPDT G5V-2 (Omron, 5V coil, 200 Ω coil resistance):
+
+
+    Logic Level        Relay Coil               Element
+    (from ESP32)       (via ULN2803)            State
+    ────────────────── ──────────────────────────────
+    3V3 (HIGH) → 5V → Coil energized (ON) → NO path: Element FREE (Director)
+    GND (LOW)  → OFF → Coil de-energized → NC path: Element SHORTED (Reflector)
+
+
+
+================================================================================
+RELAY DRIVER CIRCUIT (For Single Element Relay)
+================================================================================
+
+    From ESP32 GPIO (3V3 Output, max 40 mA)
+             │
+             o──────────[R_base]────┬──── Base of ULN2803 Array
+                       10 kΩ        │    (or single 2N2222)
+                                    │
+    GND ───────────────────────────┴──── Emitter
+
+
+    ULN2803 OUTPUT (Darlington Array - 8 channels):
+
+    ┌──────────────────────────────────────────────────┐
+    │ INPUT   VOUT      COM         OUTPUT (to relay)  │
+    ├──────────────────────────────────────────────────┤
+    │  1 ─────→ 1 (50mA) ────┬────────────┬─ RELAY1   │
+    │  2 ─────→ 2 (50mA) ────│  +12V Rail │           │
+    │  3 ─────→ 3 (50mA) ────│    GND Com ├─ RELAY2   │
+    │  4 ─────→ 4 (50mA) ────┤  (COM pins)│           │
+    │  5 ─────→ 5 (50mA) ────│            ├─ RELAY3   │
+    │  6 ─────→ 6 (50mA) ────│            │           │
+    │  7 ─────→ 7 (50mA) ────├────────────┴─ RELAY4   │
+    │  8 ─────→ 8 (50mA) ────┘                        │
+    │                                                  │
+    │ V- pin ────────────── GND                        │
+    │ COM pin ────────────── GND                       │
+    │ Vcc pin ────────────── +12V                      │
+    └──────────────────────────────────────────────────┘
+
+
+================================================================================
+FULL 5-ELEMENT ARRAY RELAY MATRIX (6M Example: 50.1 MHz)
+================================================================================
+
+    System requires control of:
+      - Reflector: ON (shorted to boom) / OFF (free) = 1 relay (G5V-2 DPDT)
+      - Director 1: ON (free) / OFF (shorted) = 1 relay
+      - Director 2: ON / OFF = 1 relay
+      - Director 3: ON / OFF = 1 relay
+
+    Total: 4 relays minimum for independent element control
+
+
+    ELEMENT STATE TABLE (5-Element Yagi, All Patterns):
+
+    Pattern         | Reflector | Dir1  | Dir2  | Dir3  | Relay State
+    ────────────────────────────────────────────────────────────────
+    BASELINE 5-EL   | ON        | ON    | ON    | ON    | 0101  (all free)
+    COMPACT 3-EL    | ON        | ON    | OFF   | OFF   | 0100  (D2,D3 shorted)
+    REVERSE BEAM    | OFF       | ON    | ON    | ON    | 1101  (Refl shorted)
+    CARDIOID +Z     | ON        | ON    | ON    | OFF   | 0100  (only D3 shorted)
+    (etc. for 12+ patterns)
+
+    Relay wiring convention:
+      - Relay NC (Normally Closed) → Element shorted to boom (acts as reflector)
+      - Relay NO (Normally Open) → Element free (acts as director or inactive)
+      - Relay COM → Boom RF ground
+
+
+================================================================================
+ELEMENT SHORTING STUB DETAIL (Critical for Reflector Action)
+================================================================================
+
+When relay NC contact connects element to boom:
+
+    Element
+      │ (0.494λ) = 2.956 m at 50 MHz
+      │
+      │
+      ├───────────────────┐
+      │                   │
+      ├──[Relay NC]──┬────┘ Boom conductor
+      │              │
+      │         Lambda/4 tuning stub (optional)
+      │         (short circuit stub for impedance xfm)
+      │
+      GND ────────────
+
+For reflector action, the element needs to be about 5% longer than resonance.
+Coupled to driven element, this creates the reflector impedance.
+
+If relay shorts element directly to boom with no stub:
+  - Effective frequency shift: ~2-3% depending on boom size
+  - Element becomes reflector naturally due to length mismatch
+  - For 50.1 MHz: 0.494λ × 1.05 = 2.956 m (already accounted for in NEC models)
+
+
+================================================================================
+RELAY SPECIFICATIONS & SELECTION
+================================================================================
+
+    Omron G5V-2-5 (Recommended for 6M/2M):
+    ──────────────────────────────────────
+    Coil Voltage:           5V DC
+    Coil Current:           40 mA @ 5V (Relay ON)
+    Coil Resistance:        ~125 Ω
+    Contact Configuration:  DPDT (Double Pole Double Throw)
+    Contact Rating:         Max 2A @ 30V DC
+    Contact Bounce:         ~1 ms typical
+    Operating Frequency:    Up to ~10 MHz (contact parasitic inductance)
+    RF Loss @ 50 MHz:       ~0.1 dB
+    RF Loss @ 144 MHz:      ~0.2 dB
+    RF Loss @ 432 MHz:      NOT ACCEPTABLE (> 5 dB loss + reactance)
+    Isolation (OFF):        > 40 dB
+    Contact Resistance:     ~100 mΩ when closed
+
+
+
+    Plug-in Relay Package:
+    ┌────────┐
+    │        │
+    │  K1    │  Coil connections: pins 2,8 (coil)
+    │        │  NO contact: pins 3,4
+    │ ◆◆◆◆◆◆ │  NC contact: pins 5,6
+    │ ◆     ◆│  Common: pins 1,7
+    │ ◆ K1  ◆│
+    │ ◆     ◆│
+    │ ◆◆◆◆◆◆ │
+    │        │
+    └────────┘
+     1 2 3 4 5 6 7 8
+     │ │ │ │ │ │ │ │
+     A B N N C C C C
+
+
+================================================================================
+MULTI-ELEMENT DRIVER: ULN2803 DARLINGTON ARRAY
+================================================================================
+
+    8 Relays (up to 8 elements) driven from single ULN2803 IC:
+
+    ESP32 GPIO Pins:  0   1   2   3   4   5   6   7
+         │            │   │   │   │   │   │   │   │
+         └──[1kΩ]──┬──┴───┴───┴───┴───┴───┴───┴───┴─→ ULN2803 IN(1-8)
+                    │
+    GND ────────────┴─────────────────────────────→ ULN2803 GND
+
+
+    ULN2803 Outputs (collectors, active HIGH):
+
+    OUT(1-8) ────────→ +12V (relay supply) via relay coils
+
+    Each output can sink 500 mA, sufficient for ~6 relays in parallel
+    (2 relays × 40 mA coil current = 80 mA per output channel, < 500 mA limit)
+
+
+    Example: 5-Element Array with 4 Relays (Reflector + 3 Directors)
+
+    ESP32 GPIO2 ──[1kΩ]──→ ULN2803 IN(1) ──→ OUT(1) ─┬──[Relay1 Coil]──┬── +12V
+                                                       │                  │
+                                                      COM ────────────────┴─ GND
+
+    ESP32 GPIO4 ──[1kΩ]──→ ULN2803 IN(2) ──→ OUT(2) ──[Relay2 Coil]── +12V/GND
+    ESP32 GPIO5 ──[1kΩ]──→ ULN2803 IN(3) ──→ OUT(3) ──[Relay3 Coil]──+12V/GND
+    ESP32 GPIO17──[1kΩ]──→ ULN2803 IN(4) ──→ OUT(4) ──[Relay4 Coil]──+12V/GND
+
+    Relay coils are 12V @ 40 mA each
+
+
+
+================================================================================
+TIMING & BOUNCE CONSIDERATIONS
+================================================================================
+
+    Contact Bounce Time (Mechanical):
+      G5V-2 relay: ~1 ms typical bounce
+
+    Solution:
+      - Add 50 ms settling delay in ESP32 firmware after relay energization
+      - Use debounce in software (read relay state 3× with 5 ms delays)
+      - OR add 100 nF ceramic capacitor across relay coil for RC filtering
+
+    Element Switching Procedure (Firmware):
+      1. De-energize ALL relays (set all GPIO to LOW) → all elements shorted
+      2. Wait 50 ms for settle
+      3. Energize target relay (set GPIO HIGH)
+      4. Wait 50 ms for settle
+      5. Read SWR via RF sensor (NanoVNA or AD8307 power detector)
+      6. Confirm lock before declaring pattern active
+
+
+================================================================================
+RELAY CONTACT FAILURE MODES (Field Service)
+================================================================================
+
+    Symptom: Relay clicks but element doesn't switch state
+    Cause: Contact oxidation or corrosion
+    Remedy: Use sealed relay with gold-plated contacts (e.g., G5V-2-5)
+            Periodic exercise (switch contacts 10× per month)
+
+    Symptom: SWR changes unpredictably when switching
+    Cause: Relay bounce creating transient impedance variations
+    Remedy: Increase settling delay to 100 ms, verify bounce with scope
+
+    Symptom: RF loss increases over time
+    Cause: Contact surface corrosion; contact resistance degradation
+    Remedy: Check contact resistance with ohmmeter (should be < 150 mΩ)
+            If > 200 mΩ, replace relay
+
+
+================================================================================
+SUPPLY VOLTAGE & DECOUPLING
+================================================================================
+
+    Relay Coil Supply: +12V DC @ ~200 mA maximum (4 relays × 40 mA + margin)
+
+    Decoupling Capacitors:
+      - 1000 µF electrolytic across +12V/GND bus (bulk storage)
+      - 100 nF ceramic at each relay coil (local high-frequency bypass)
+      - Place ceramic caps within 10 mm of relay coil pins
+
+    Flyback Diode (Protection):
+      1N4148 or 1N4007 across relay coil
+      Cathode → +12V rail (anode to coil terminal during OFF state)
+      Prevents voltage spike when coil is de-energized
+
+
+================================================================================
+EQUIVALENT CIRCUITS FOR NPEC
+================================================================================
+
+At UHF frequencies (432+ MHz), relay contacts exhibit:
+  - Series inductance: ~0.5-2 nH per contact pair
+  - Contact resistance: ~100 mΩ
+  - Effective impedance at 432 MHz: Z ≈ 100 mΩ + j(2π × 432e6 × 1e-9)
+                                     ≈ 100 mΩ + j2.7 Ω ≈ 2.7 Ω (inductive)
+
+This causes ~3-5 dB insertion loss and severely impacts patterns.
+PIN diodes MUST be used above 432 MHz.
+
+
+================================================================================
+RELATED DOCUMENTS
+================================================================================
+
+    - pin_diode_switching_ascii.txt: For UHF bands (432+ MHz)
+    - relay_switching_6m_ascii.txt: 6M specific component values
+    - relay_switching_2m_ascii.txt: 2M specific component values
+    - rf_isolation_filter_ascii.txt: Control line shielding & filtering

@@ -1,0 +1,169 @@
+================================================================================
+SCHEMATIC: DIGITAL READOUT — R, X, |Z|, SWR, SMITH CHART
+TM-NB-DIGITAL  Rev A
+Platform: ESP32 (CYD: ESP32-2432S028 with ILI9341 2.8" TFT)
+================================================================================
+
+SYSTEM OVERVIEW
+---------------
+
+  +--[Noise Gen]--+
+  |               |
+  |      BRIDGE   |
+  +--[T1/Arms]---[AD8307]---[ESP32 ADC GPIO34]
+  |               |
+  +--[R pot VR1]--[ESP32 ADC GPIO39]  (R calibration wiper)
+  |               |
+  +--[X pot VR3]--[ESP32 ADC GPIO36]  (X calibration wiper: bipolar)
+  |               |
+  +--[X_sign]-[ESP32 GPIO12]           (XL/XC direction switch: GPIO input)
+  |               |
+  +--[Freq select]-[ESP32 GPIO-bus]    (BCD frequency selector or encoder)
+  |               |
+  +----[CYD TFT]--[SPI2: GPIO13,14,15] (display output)
+
+
+COMPLETE ESP32 PIN ASSIGNMENT (CYD board)
+------------------------------------------
+
+  GPIO 39 (ADC1_CH3, VP):    R_cal pot wiper (0-3.3V = 0-200 ohm R)
+  GPIO 36 (ADC1_CH0, VN):    X_cal pot wiper (0-3.3V = 0-200 ohm |X|)
+  GPIO 34 (ADC1_CH6):        AD8307 VOUT (null depth indicator)
+  GPIO 35 (ADC1_CH7):        Battery voltage monitor (1/3 divider)
+  GPIO 12 (input):            X polarity switch (0=capacitive, 1=inductive)
+  GPIO 13 (VSPI_MOSI):       TFT data (built-in CYD)
+  GPIO 14 (VSPI_CLK):        TFT clock (built-in CYD)
+  GPIO 15 (VSPI_CS):         TFT chip select (built-in CYD)
+  GPIO 2  (TFT_DC):          TFT data/command (built-in CYD)
+  GPIO 12 (TFT_RST):         TFT reset (CYD; conflicts with X-pol switch on some)
+                              Use GPIO 25 for X_pol switch on CYD variant
+  GPIO 33 (TOUCH_CS):        Resistive touch (built-in CYD)
+  GPIO 36 (TOUCH_IRQ):       Touch interrupt (NOTE: shared with ADC VN!)
+                              Disable WiFi to use ADC2; use ADC1 only here.
+  GPIO 21 (PWM):             TFT backlight (ledcWrite)
+  GPIO 4  (LED_R):           Red LED (active LOW)
+  GPIO 26 (DAC2):            Noise source enable (optional, 0V=off, 3.3V=on)
+
+POTENTIOMETER INTERFACE:
+-------------------------
+
+  R_cal (VR1, 200 ohm 10-turn):
+    +3.3V --- [VR1, 200R] --- GND
+                    |
+               GPIO39 (wiper)
+    Mapping: R_ohm = ADC_voltage / 3.3 * 200
+
+  X_cal (VR3, 200 ohm 10-turn):
+    +3.3V --- [VR3, 200R] --- GND
+                    |
+               GPIO36 (wiper)
+    |X|_ohm = ADC_voltage / 3.3 * 200
+    Sign: GPIO25 input (HIGH = inductive = negative X in our convention)
+
+FREQUENCY SELECTOR:
+--------------------
+  Manual rotary switch or 4-position DIP for frequency entry.
+  4 bits BCD on GPIO 16, 17, 18, 19 (up to 16 bands selectable).
+  Or: Simple 4-button touch input on CYD screen to enter frequency.
+
+  Band       f_MHz
+  ------     -----
+  0 = 160M   1.85
+  1 = 80M    3.75
+  2 = 40M    7.15
+  3 = 30M   10.125
+  4 = 20M   14.175
+  5 = 17M   18.118
+  6 = 15M   21.225
+  7 = 12M   24.940
+  8 = 10M   28.500
+  9 = 6M    50.000
+  (Enter via touchscreen on CYD)
+
+DISPLAY CALCULATIONS (ESP32 firmware):
+---------------------------------------
+
+  From pot readings:
+    R = R_adc_voltage / 3.3 * 200.0        [ohms]
+    X_mag = X_adc_voltage / 3.3 * 200.0    [ohms magnitude]
+    X = X_pol == INDUCTIVE ? -X_mag : +X_mag  [signed reactance]
+
+  Derived quantities:
+    |Z| = sqrt(R*R + X*X)                   [ohms]
+    Theta = atan2(X, R) * 180 / pi          [degrees]
+    Z_normalized = (R + jX) / 50            [normalized to 50 ohm]
+    Gamma = (Z_normalized - 1) / (Z_normalized + 1)  [complex reflection coeff]
+    |Gamma| = abs(Gamma)
+    SWR = (1 + |Gamma|) / (1 - |Gamma|)    (clamp to 1.0 - 99.0)
+    ReturnLoss = -20 * log10(|Gamma|)       [dB]
+
+    Equivalent:
+    SWR can also be computed directly:
+    Let r = R/50, x = X/50 (normalized)
+    rho = sqrt((r-1)^2 + x^2) / sqrt((r+1)^2 + x^2)
+    SWR = (1+rho)/(1-rho)
+
+  X_cal → capacitance or inductance:
+    If X > 0 (capacitive): C = 1 / (2*pi*f*X)   [farads]
+    If X < 0 (inductive):  L = -X / (2*pi*f)    [henries]
+    (Use f in Hz from band selector)
+
+SMITH CHART MAPPING:
+---------------------
+
+  CYD screen: 320 x 240 pixels, landscape.
+  Smith chart area: 200 x 200 pixels centered at (160, 120) in lower half
+  or full-screen 230 x 230 centered at (155, 120).
+
+  Reflection coefficient to screen coordinates:
+    Re(Gamma) = (R^2 + X^2 - 2500) / ((R+50)^2 + X^2)
+    Im(Gamma) = 100*X / ((R+50)^2 + X^2)
+
+    Screen_X = chart_cx + Re(Gamma) * chart_r   (pixels)
+    Screen_Y = chart_cy - Im(Gamma) * chart_r   (pixels, Y inverted)
+
+  where:
+    chart_cx = 160 (center X of chart)
+    chart_cy = 120 (center Y of chart)
+    chart_r  = 100 (radius in pixels for unit Smith chart)
+
+DISPLAY LAYOUT (CYD 320x240):
+-------------------------------
+
+  +--------------------------------------------------+
+  | NOISE BRIDGE  [BAND: 20M  14.175 MHz]   [BATT]  | <- header (22px)
+  +--------------------------------------------------+
+  |  R = 73.2Ω   X = -15.4Ω (inductive)            | <- large numerics
+  | |Z|= 74.8Ω   Θ = -11.9°                         |
+  |  SWR = 1.52:1  RL = 13.4 dB                     |
+  |  C = ---       L = 174 nH                        |
+  |  NULL: -28 dBm  [==========|   ]  bar            |
+  +--+------+----------------------------------------------+--+
+  |  |      SMITH CHART (200x200 px)                    |  |
+  |  |      (normalized to 50 ohm)                      |  |
+  |  |          * (plotted point)                        |  |
+  |  |                                                   |  |
+  |  +---------------------------------------------------+  |
+  +--------------------------------------------------+
+  | [BAND-] [BAND+] [HOLD] [CAL] [ZERO] [PLOT]       | <- touch buttons
+  +--------------------------------------------------+
+
+================================================================================
+WIRING HARNESS SUMMARY
+================================================================================
+
+  Signal          Wire Color  Gauge   From             To
+  ----------      ----------  ------  ---------------  ----------------------
+  +9V battery     Red         24AWG   Battery +        All VCC rails
+  GND             Black       24AWG   Battery -        All GND connections
+  Noise Out       Coax RG-174 --      Noise gen J1     Bridge J3 (SMA)
+  Bridge Det.     Coax RG-174 --      Bridge J_DET     AD8307 input
+  AD8307 Vout     Yellow      26AWG   AD8307 pin 6     ESP32 GPIO34 (w/1k R)
+  R pot wiper     Green       26AWG   VR1 wiper        ESP32 GPIO39 (w/10k R)
+  X pot wiper     Blue        26AWG   VR3 wiper        ESP32 GPIO36 (w/10k R)
+  X polarity      Orange      26AWG   S_XL switch      ESP32 GPIO25
+  Headphone out   Shield+sig  --      LM386 out/C5     J5 (3.5mm jack)
+  TFT SPI         Ribbon      --      CYD built-in     Internal
+  Battery sense   White       26AWG   Divider mid      ESP32 GPIO35
+
+================================================================================

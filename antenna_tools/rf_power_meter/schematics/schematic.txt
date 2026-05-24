@@ -1,0 +1,257 @@
+================================================================================
+PORTABLE RF POWER METER - SCHEMATIC DIAGRAM
+Wideband: 1.8 MHz - 1296 MHz (160M - 20cm Ham Bands)
+================================================================================
+
+MAIN CIRCUIT SCHEMATIC (ASCII)
+================================================================================
+
+                    ANTENNA INPUT (SO-239)
+                           |
+                           |
+                    +------+------+
+                    |             |
+                   R1             C1
+                  100Ω          100pF
+                    |             |
+         +----------+-------------+----------+
+         |          |             |          |
+        R2         R3            R4         C2
+       50Ω        50Ω           50Ω       100pF
+         |          |             |          |
+         |     +----+----+        |          |
+         |     |         |        |          |
+         |    C3        FWD       |          |
+         |  100pF    DETECTOR     |          |
+         |     |         |        |          |
+         |     +----+----+        |          |
+         |          |             |          |
+         |         R5             |          |
+         |        1kΩ             |          |
+         |          |             |          |
+         |     +----+----+        |          |
+         |     |         |        |          |
+         |    C4        D1        |          |
+         |  100nF   BAT15-03W     |          |
+         |     |         |        |          |
+         |     +----+----+        |          |
+         |          |             |          |
+         |         R6             |          |
+         |       10kΩ             |          |
+         |          |             |          |
+         |     +----+----+        |          |
+         |     |         |        |          |
+         |    C5      FWD_OUT     |          |
+         |   10µF       |         |          |
+         |     |        |         |          |
+         |    GND    TO ADC0      |          |
+         |                        |          |
+         +----------+-------------+----------+
+                    |             |
+                   C6            REV
+                 100pF        DETECTOR
+                    |             |
+              +-----+-----+  +----+----+
+              |           |  |         |
+             R7          R8 R9        D2
+            50Ω         50Ω 1kΩ   BAT15-03W
+              |           |  |         |
+         TRANSMITTER      | C7        R10
+           OUTPUT         | 100nF    10kΩ
+         (SO-239)         |  |         |
+              |           | C8      REV_OUT
+              |           | 10µF       |
+             GND         GND|      TO ADC1
+                            GND
+
+
+POWER SUPPLY SECTION
+================================================================================
+
+    9V BATTERY (or USB 5V via LDO)
+         |
+         +--- S1 (Power Switch)
+         |
+         +---+--- C9 (100µF) --- GND
+         |   |
+         |   +--- U1 (LM7805 or LP2950-5.0)
+         |   |        |         |
+         |   |       VIN       GND
+         |   |        |
+         |   |       VOUT
+         |   |        |
+         |   +--------+--- C10 (10µF) --- GND
+         |            |
+         |            +--- +5V RAIL
+         |
+         +--- LED1 (Power Indicator) --- R11 (1kΩ) --- GND
+
+
+MICROCONTROLLER SECTION (Arduino Nano or ATmega328P)
+================================================================================
+
+    ATmega328P / Arduino Nano
+    +-------------------------+
+    |                         |
+    | ADC0 <--- FWD_OUT       |  Forward Power Reading
+    | ADC1 <--- REV_OUT       |  Reverse Power Reading
+    | ADC6 <--- Battery Mon   |  Battery Voltage Monitor
+    |                         |
+    | D2-D9  ---> LCD Data    |  16x2 LCD Display
+    | D10    ---> LCD RS      |
+    | D11    ---> LCD Enable  |
+    |                         |
+    | D12    <--- CAL Button  |  Calibration Button
+    | D13    <--- MODE Button |  Mode Select Button
+    |                         |
+    | VCC    <--- +5V         |
+    | GND    <--- GND         |
+    +-------------------------+
+
+
+LCD DISPLAY (16x2 Character LCD)
+================================================================================
+
+    16x2 LCD Module
+    +------------------+
+    | VSS  --- GND     |
+    | VDD  --- +5V     |
+    | V0   --- Contrast (10kΩ pot to GND)
+    | RS   --- D10     |
+    | RW   --- GND     |
+    | E    --- D11     |
+    | D0-3 --- NC      |  (4-bit mode)
+    | D4   --- D2      |
+    | D5   --- D3      |
+    | D6   --- D4      |
+    | D7   --- D5      |
+    | A    --- +5V (via 220Ω)  Backlight
+    | K    --- GND     |
+    +------------------+
+
+
+BATTERY MONITOR
+================================================================================
+
+    9V Battery
+         |
+         +--- R12 (10kΩ)
+         |        |
+         +--------+--- TO ADC6
+                  |
+                 R13 (10kΩ)
+                  |
+                 GND
+
+    Voltage divider for monitoring battery voltage
+
+
+USER INTERFACE
+================================================================================
+
+    CAL Button:  D12 --- Switch --- GND  (with 10kΩ pullup)
+    MODE Button: D13 --- Switch --- GND  (with 10kΩ pullup)
+
+
+================================================================================
+COMPONENT DETAILS
+================================================================================
+
+DIRECTIONAL COUPLER:
+- Resistive bridge coupler using 50Ω resistors
+- Provides ~20dB coupling
+- Frequency response: DC to >2 GHz
+- Forward and reverse power sampling
+
+RF DETECTORS:
+- D1, D2: BAT15-03W Schottky diodes (or SMS7630)
+- Low barrier voltage for sensitivity
+- Fast response time
+- Wide frequency range
+
+POWER SUPPLY:
+- Input: 9V battery or USB 5V
+- Regulator: LM7805 or LP2950-5.0 (low dropout)
+- Output: Regulated +5V for logic and display
+
+MICROCONTROLLER:
+- ATmega328P (Arduino Nano compatible)
+- 10-bit ADC for power measurement
+- Multiple display modes and calibration
+
+CONNECTORS:
+- RF Input: SO-239 (UHF) female connector
+- RF Output: SO-239 (UHF) female connector
+- 50Ω impedance throughout signal path
+
+
+================================================================================
+CIRCUIT THEORY OF OPERATION
+================================================================================
+
+The RF power meter uses a resistive bridge directional coupler to sample both
+forward and reflected power. The coupler provides approximately 20dB of
+coupling, meaning 1% of the signal power is sampled.
+
+DIRECTIONAL COUPLER:
+The resistive bridge uses four 50Ω resistors (R2, R3, R4, R7) arranged in a
+bridge configuration. When properly balanced, forward power appears at the
+FWD port and reverse power at the REV port. R1 and C1 provide input matching
+and DC blocking.
+
+RF DETECTION:
+Schottky diodes (D1, D2) rectify the RF signal. The low forward voltage drop
+of Schottky diodes provides better sensitivity at low power levels. R5 and R9
+provide DC return paths, while C4 and C7 filter the RF, leaving only the DC
+component proportional to RF power.
+
+OUTPUT FILTERING:
+R6/C5 and R10/C8 form low-pass filters with time constants of approximately
+100ms, providing smoothing of the detected voltage while maintaining
+reasonable response time for SSB and CW operation.
+
+POWER MEASUREMENT:
+The microcontroller reads the filtered DC voltages through its ADC inputs.
+Using logarithmic curve fitting or lookup tables, the ADC values are
+converted to power readings in watts. The firmware implements calibration
+factors to compensate for frequency response variations.
+
+SWR CALCULATION:
+SWR is calculated from forward and reverse power:
+  Reflection Coefficient (ρ) = sqrt(P_rev / P_fwd)
+  SWR = (1 + ρ) / (1 - ρ)
+
+
+================================================================================
+PERFORMANCE SPECIFICATIONS
+================================================================================
+
+Frequency Range:     1.8 - 1296 MHz (all specified ham bands)
+Power Range:         0.1W - 100W (with calibration)
+Accuracy:            ±10% (after calibration)
+Input Impedance:     50Ω
+Insertion Loss:      <0.2 dB
+Power Supply:        9V battery or USB 5V
+Current Draw:        ~50 mA (LCD backlight on)
+                     ~20 mA (LCD backlight off)
+Battery Life:        ~10 hours (9V alkaline, backlight on)
+Display:             16x2 character LCD
+Update Rate:         2-5 Hz
+Connector Type:      SO-239 (UHF) female
+
+
+================================================================================
+NOTES
+================================================================================
+
+1. All RF traces should be 50Ω microstrip or use coaxial construction
+2. Keep detector circuits compact to minimize stray capacitance
+3. Use RF-quality capacitors (C0G/NP0) for all RF coupling capacitors
+4. Ensure good grounding throughout the RF section
+5. Calibration should be performed at multiple frequencies and power levels
+6. Temperature compensation may be needed for high accuracy
+7. Consider adding protection diodes at ADC inputs for static protection
+
+================================================================================
+END OF SCHEMATIC
+================================================================================

@@ -1,0 +1,18 @@
+CM EFQW_30M.NEC — End-Fed Quarter-Wave Vertical, 30 Meters (WARC)
+CM TM-EF-NEC-010 Rev A
+CM Band: 30m (10.100–10.150 MHz), Center: 10.125 MHz
+CM QW:   7.19m (VF=0.97), Feed Z: 36+j2 Ω (avg ground, 4 radials)
+CM Match: L=0.370uH (6T T50-6), C=270+0-68pF variable
+
+CE
+GW 1 29  0 0 0.01  0 0 7.19  0.000816
+GW 2 4   0 0 0.01  7.19 0 0.01  0.000816
+GW 3 4   0 0 0.01  0 7.19 0.01  0.000816
+GW 4 4   0 0 0.01  -7.19 0 0.01  0.000816
+GW 5 4   0 0 0.01  0 -7.19 0.01  0.000816
+GE 1
+GN 2 0 0 0  13 0.005
+EX 0 1 1 0  1 0
+FR 0 3 0 0  10.100 0.025
+RP 0 37 73 1000  0 0 5 5
+EN

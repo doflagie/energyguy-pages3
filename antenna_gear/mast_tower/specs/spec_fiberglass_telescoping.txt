@@ -1,0 +1,198 @@
+================================================================================
+SPECIFICATION: TELESCOPING FIBERGLASS MAST SYSTEM
+TM-MAST-001  Rev A
+Portable antenna support — 20 to 40 foot telescoping pultruded fiberglass
+================================================================================
+
+REFERENCE DOCUMENTS:
+  TM-MAST-001 MANUAL_MAST_TOWER.md — Installation and Safety Procedures
+  spec_wind_load_calculations.txt    — Structural loading reference
+  spec_guy_anchor_systems.txt        — Anchoring hardware
+  mast_collars.scad                  — 3D-printable hardware
+
+================================================================================
+SECTION 1 — SYSTEM OVERVIEW
+================================================================================
+
+DESCRIPTION:
+  A telescoping fiberglass mast provides lightweight, non-conductive, corrosion-
+  resistant antenna support for portable field operations. Pultruded E-glass
+  fiberglass tubing is available in standard OD steps that nest with 3–5mm
+  annular clearance for smooth extension and locking.
+
+APPLICATIONS:
+  - Vertical antenna support (EFHW, ground-mounted verticals, J-poles)
+  - Wire antenna center support or end support
+  - Field portable HF/VHF/UHF antenna elevation
+  - Satellite antenna temporary masting (QRP, SOTA, POTA)
+  - Non-conductive mast for electrically active elements
+
+HEIGHT CONFIGURATIONS:
+  20-foot system:  4 sections × 6 ft nominal
+  30-foot system:  5 sections × 7 ft nominal
+  40-foot system:  6 sections × 8 ft nominal (requires 2-level guying)
+
+WEIGHT (COMPLETE SYSTEM):
+  20 ft: ~4 kg (9 lb) without anchors
+  30 ft: ~7 kg (15 lb) without anchors
+  40 ft: ~11 kg (24 lb) without anchors
+
+================================================================================
+SECTION 2 — MATERIAL SPECIFICATION
+================================================================================
+
+TUBE MATERIAL:
+  Type:     Pultruded E-glass fiberglass (Standard Grade)
+  Resin:    Polyester or vinyl ester (vinyl ester preferred for UV resistance)
+  Tensile:  ~50,000 psi longitudinal
+  Flexural: ~35,000 psi
+  Wall:     3.0mm (0.125 in) for all sections
+
+PREFERRED STOCK:
+  Supplier: Mcmaster-Carr, DragonPlate, Grainger, or local plastics distributor
+  Grade:    Pultruded round tube, natural or olive drab (avoid clear/white for UV)
+
+SECTION SIZING TABLE:
+  Section | OD (mm) | ID (mm) | Length  | Fits Inside | Overlap Required
+  --------|---------|---------|---------|-------------|------------------
+    1 (top)|  32    |  26    |  1.8m   | Section 2   | 300mm min
+    2      |  38    |  32    |  1.8m   | Section 3   | 300mm min
+    3      |  44    |  38    |  1.8m   | Section 4   | 300mm min
+    4      |  50    |  44    |  1.8m   | Section 5   | 300mm min
+    5      |  57    |  51    |  1.8m   | Section 6   | 350mm min
+    6 (base)|  63   |  57    |  1.8m   | Ground spike| 350mm min
+
+  Clearance between sections: 0.5–1.5mm annular (tight slip fit, not sloppy)
+
+LOCKING METHOD — HOSE CLAMP (primary):
+  Each section locked by a stainless steel hose clamp (Jubilee clip) over the
+  top of the lower section where the upper section exits.
+  Clamp size to suit OD: #24 (44–57mm) or #28 (57–76mm)
+
+LOCKING METHOD — PRINTED COLLAR (secondary):
+  See mast_collars.scad: split_collar() module.
+  Printed PETG split collar with M4 × 20mm bolts; clamps to lower section OD.
+  Acts as positive stop — upper section rests on collar lip; hose clamp secures.
+
+================================================================================
+SECTION 3 — 20-FOOT CONFIGURATION BILL OF MATERIALS
+================================================================================
+
+Item  | Qty | Description                              | Approx. Cost
+------|-----|------------------------------------------|-------------
+T1   |  1  | 32mm OD × 3mm wall × 1.8m fiberglass tube| $18
+T2   |  1  | 38mm OD × 3mm wall × 1.8m fiberglass tube| $22
+T3   |  1  | 44mm OD × 3mm wall × 1.8m fiberglass tube| $26
+T4   |  1  | 50mm OD × 3mm wall × 1.8m fiberglass tube| $30
+HC   |  8  | Stainless hose clamps (assorted #24–#28)  | $16
+GS   |  1  | Ground spike (see base_plates_mounts.scad)| (print)
+GW   | 30m | 3mm Dyneema SK75 guy line (3 guys × 10m) | $18
+GR   |  3  | Guy ring collar 50mm OD (print)           | (print)
+SA   |  3  | Screw anchor 300mm × 10mm rod             | $12
+TN   |  3  | Guy tensioner (print, see tensioners.scad)| (print)
+
+TOTAL (materials, no printing): approximately $100–$130
+
+================================================================================
+SECTION 4 — ASSEMBLY SEQUENCE
+================================================================================
+
+SECTION NESTING (NESTED/TRANSPORT):
+  All sections nested from largest (bottom/outside) to smallest (top/inside).
+  Nested stack height: ~2.0m × 63mm diameter — fits inside vehicle or long bag.
+
+EXTENSION SEQUENCE:
+  1. Stand nested assembly vertically; bottom section on ground/spike.
+  2. Extend Section 2 upward from Section 3, lock with hose clamp.
+     Leave 300mm overlap. Do not extend to bottom of travel.
+  3. Repeat for each successive section, working from bottom to top.
+  4. Final Section 1 (top) extended last; antenna hardware attached before
+     raising if top-heavy. Attach antenna at ground level.
+  5. Install guy ring collars at 1/3 and 2/3 height (or per guying schedule).
+  6. Raise mast; tension guys symmetrically.
+
+SECTION EXTENSION TIPS:
+  - Wipe mast OD surfaces clean before extension; grit causes binding and wear.
+  - Light application of dry PTFE lubricant (Teflon spray) eases extension.
+  - Do NOT use petroleum lubricants; degrade fiberglass resin over time.
+  - Check each locked section for axial play; retighten hose clamp if >3mm play.
+
+================================================================================
+SECTION 5 — LOAD RATINGS AND LIMITS
+================================================================================
+
+ANTENNA TIP LOAD (concentrated, no guy wires):
+  20 ft, Beaufort 4 (15 mph):     1.5 kg tip load maximum
+  20 ft, Beaufort 6 (25 mph):     0.5 kg tip load maximum
+
+  NOTE: These ratings are WITHOUT guy wires. See spec_wind_load_calculations.txt
+  for guyed mast ratings. Guying dramatically increases allowable loads.
+
+GUYING REQUIRED:
+  Height ≥ 20 ft:    1 set of guys at 60% height minimum
+  Height ≥ 30 ft:    2 sets of guys at 40% and 80% height
+  Height ≥ 40 ft:    3 sets of guys at 30%, 60%, and 90% height
+
+MINIMUM GUY WIRE:
+  3mm Dyneema SK75 (breaking strength ~1800 kg) — adequate for all heights.
+  3mm galvanized steel (breaking strength ~600 kg) — minimum for 20-30 ft.
+  Never use clothesline, paracord, or polypropylene rope as guy wire.
+
+================================================================================
+SECTION 6 — MAINTENANCE AND INSPECTION
+================================================================================
+
+BEFORE EACH USE:
+  □ Inspect each section for cracks, delamination, or crazing (white stress marks)
+  □ Check hose clamp screws — replace any with stripped drive slots
+  □ Inspect section overlap joints — no grit, chips, or binding
+  □ Check guy wire terminal ends (crimps or knots) for slippage or fraying
+
+STORAGE:
+  Store nested inside a canvas or nylon tube bag; end caps prevent contamination.
+  Avoid prolonged UV exposure when stored (UV degrades polyester resin).
+  Vinyl ester resin masts may be stored outdoors indefinitely.
+
+DAMAGE ASSESSMENT:
+  Minor surface scratches: acceptable; seal with epoxy if >1mm deep.
+  White stress crazing near locking clamps: excessive clamping force or impact;
+    reduce clamp torque; remove section from service if crazing extends >50mm.
+  Section bend (visible curvature): remove from service; mast is compromised.
+  Delamination (layers separating): remove from service immediately.
+
+================================================================================
+SECTION 7 — CYD MONITORING (OPTIONAL)
+================================================================================
+
+A CYD (Cheap Yellow Display, ESP32 2.8" TFT) can be mounted at the mast base
+to provide real-time structural monitoring using the following sensors:
+
+SENSORS:
+  Tilt/vibration: MPU-6050 IMU at base of mast
+    - Monitor mast lean angle (alert if >5° from vertical)
+    - Log wind-induced vibration amplitude
+  Strain: load cell under base plate (HX711 + 50kg bar cell)
+    - Monitor base vertical load (deadweight + wind drag)
+  Anemometer: hall-effect cup anemometer (reed switch pulses)
+    - Real-time wind speed → dynamic guy tension recommendation
+
+CYD DISPLAY LAYOUT (320×240):
+  ┌─────────────────────────────────────┐
+  │  MAST MONITOR    HT: 20 ft         │
+  │  Tilt: 1.2°      Wind: 12 mph      │
+  │  Base Load: 18 kg                  │
+  │  [█████████░░] Tension: NOMINAL    │
+  │  VC1: 3.71  VC2: 3.72  VC3: 3.71  │  ← battery if BMS present
+  │  [RAISE OK]  [LOWER]  [ALERT: --] │
+  └─────────────────────────────────────┘
+
+  Color coding:
+    Green:  Tilt < 3°, Wind < 25 mph, tension nominal
+    Yellow: Tilt 3–5°, Wind 25–40 mph, adjust required
+    Red:    Tilt > 5°, Wind > 40 mph — LOWER MAST IMMEDIATELY
+
+WIRING:
+  CYD GPIO: MPU-6050 via I2C (GPIO 22/21); HX711 via GPIO 26/25; anemometer GPIO 34
+  Power: 5V USB from field battery pack; or 3-cell LiFePO4 via BMS (TM-BMS-001)
+
+================================================================================
