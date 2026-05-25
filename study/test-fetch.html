@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz Fetch Test</title>
+</head>
+<body>
+    <h1>Quiz Data Fetch Test</h1>
+    <p>Testing if browser can fetch technician-pool.json...</p>
+    <pre id="output" style="background: #f0f0f0; padding: 20px; font-family: monospace;"></pre>
+
+    <script>
+        const output = document.getElementById('output');
+
+        async function testFetch() {
+            output.textContent = 'Starting test...\n';
+
+            try {
+                output.textContent += '1. Attempting fetch...\n';
+                const response = await fetch('data/technician-pool.json');
+
+                output.textContent += `2. Response received: ${response.status} ${response.statusText}\n`;
+                output.textContent += `   Content-Type: ${response.headers.get('content-type')}\n`;
+                output.textContent += `   OK: ${response.ok}\n\n`;
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                output.textContent += '3. Parsing JSON...\n';
+                const data = await response.json();
+
+                output.textContent += `4. Success! Loaded ${data.totalQuestions} questions\n`;
+                output.textContent += `   Question set: ${data.questionSet}\n`;
+                output.textContent += `   Version: ${data.version}\n\n`;
+
+                output.textContent += '5. First question:\n';
+                const q = data.questions[0];
+                output.textContent += `   ID: ${q.id}\n`;
+                output.textContent += `   Text: ${q.text}\n`;
+                output.textContent += `   Answers: ${q.answers.length}\n`;
+
+                output.textContent += '\n✅ TEST PASSED!\n';
+                output.textContent += '\nYou can now use the quiz at quiz.html\n';
+
+            } catch (error) {
+                output.textContent += `\n❌ TEST FAILED!\n`;
+                output.textContent += `Error: ${error.message}\n`;
+                output.textContent += `\nPlease make sure you're accessing via:\n`;
+                output.textContent += `http://127.0.0.1:8080/study/test-fetch.html\n`;
+                output.textContent += `\nNOT via file:// URLs\n`;
+            }
+        }
+
+        testFetch();
+    </script>
+</body>
+</html>

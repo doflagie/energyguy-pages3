@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz Module Test</title>
+</head>
+<body>
+    <h1>Quiz Module Test</h1>
+    <p>Testing all JavaScript modules...</p>
+    <pre id="output" style="background: #f0f0f0; padding: 20px; font-family: monospace;"></pre>
+
+    <!-- Load the same modules as quiz.html -->
+    <script src="js/audio-manager.js"></script>
+    <script src="js/progress-manager.js"></script>
+    <script src="js/quiz-engine.js"></script>
+
+    <script>
+        const output = document.getElementById('output');
+
+        async function testModules() {
+            output.textContent = 'Module Test Starting...\n\n';
+
+            try {
+                // Test 1: AudioManager
+                output.textContent += '1. Testing AudioManager...\n';
+                const audioManager = new AudioManager();
+                output.textContent += `   ✅ AudioManager created\n`;
+                output.textContent += `   - initialized: ${audioManager.initialized}\n`;
+                output.textContent += `   - enabled: ${audioManager.enabled}\n\n`;
+
+                // Test 2: ProgressManager
+                output.textContent += '2. Testing ProgressManager...\n';
+                const progressManager = new ProgressManager();
+                output.textContent += `   ✅ ProgressManager created\n`;
+                const settings = progressManager.getSettings();
+                output.textContent += `   - audioEnabled: ${settings.audioEnabled}\n`;
+                output.textContent += `   - questionSet: ${settings.questionSet}\n\n`;
+
+                // Test 3: Fetch JSON
+                output.textContent += '3. Fetching question pool...\n';
+                const response = await fetch('data/technician-pool.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                const questionPool = await response.json();
+                output.textContent += `   ✅ Loaded ${questionPool.totalQuestions} questions\n\n`;
+
+                // Test 4: QuizEngine
+                output.textContent += '4. Testing QuizEngine...\n';
+                const quizEngine = new QuizEngine(questionPool, {
+                    count: 10,
+                    shuffle: true,
+                    shuffleAnswers: true
+                });
+                output.textContent += `   ✅ QuizEngine created\n`;
+
+                quizEngine.init();
+                output.textContent += `   ✅ QuizEngine initialized\n`;
+
+                const question = quizEngine.getCurrentQuestion();
+                output.textContent += `   - Current question: ${question.number}/${question.total}\n`;
+                output.textContent += `   - Text: ${question.text.substring(0, 50)}...\n`;
+                output.textContent += `   - Answers: ${question.answers.length}\n\n`;
+
+                // Test 5: Answer selection
+                output.textContent += '5. Testing answer selection...\n';
+                const result = quizEngine.selectAnswer('A');
+                output.textContent += `   ✅ Answer selected\n`;
+                output.textContent += `   - Correct: ${result.correct}\n`;
+                output.textContent += `   - Explanation: ${result.explanation.substring(0, 50)}...\n\n`;
+
+                // Test 6: Progress tracking
+                output.textContent += '6. Testing progress tracking...\n';
+                const progress = quizEngine.getProgress();
+                output.textContent += `   ✅ Progress retrieved\n`;
+                output.textContent += `   - Answered: ${progress.answered}/${progress.total}\n`;
+                output.textContent += `   - Correct: ${progress.correct}\n`;
+                output.textContent += `   - Percentage: ${progress.percentage}%\n\n`;
+
+                output.textContent += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n';
+                output.textContent += '✅ ALL TESTS PASSED!\n';
+                output.textContent += '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n';
+                output.textContent += 'The quiz should work. Try quiz.html again.\n';
+                output.textContent += 'If it still fails, open Firefox Console (F12)\n';
+                output.textContent += 'and check for JavaScript errors.\n';
+
+            } catch (error) {
+                output.textContent += `\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+                output.textContent += `❌ TEST FAILED!\n`;
+                output.textContent += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+                output.textContent += `Error: ${error.message}\n`;
+                output.textContent += `Stack: ${error.stack}\n`;
+            }
+        }
+
+        testModules();
+    </script>
+</body>
+</html>

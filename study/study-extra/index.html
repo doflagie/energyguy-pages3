@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extra Class Quiz - Launch - EnergyGuy LLC</title>
+    <meta name="description" content="Extra Class license flash card quiz machine - Navy training style">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .launch-container {
+            max-width: 900px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 40px;
+        }
+
+        .launch-container h2 {
+            color: #2c5f8d;
+            font-size: 2em;
+            margin-top: 0;
+            border-bottom: 2px solid #4a7ba7;
+            padding-bottom: 15px;
+        }
+
+        .launch-container h3 {
+            color: #4a7ba7;
+            font-size: 1.4em;
+            margin-top: 30px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .feature-box {
+            background-color: #f5f5f0;
+            padding: 20px;
+            border-radius: 6px;
+            border-left: 4px solid #4a7ba7;
+        }
+
+        .feature-box h4 {
+            margin: 0 0 10px 0;
+            color: #2c5f8d;
+            font-size: 1.1em;
+        }
+
+        .feature-box p {
+            margin: 0;
+            font-size: 0.95em;
+            color: #666;
+        }
+
+        .config-section {
+            background-color: #e8e8e0;
+            padding: 25px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+
+        .radio-group {
+            margin: 15px 0;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 12px;
+            background-color: #ffffff;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .radio-option:hover {
+            background-color: #4a7ba7;
+            color: #ffffff;
+        }
+
+        .radio-option input[type="radio"] {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .radio-option label {
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .start-button {
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, #4a7ba7 0%, #2c5f8d 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            padding: 20px 40px;
+            font-size: 1.5em;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            margin-top: 30px;
+        }
+
+        .start-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        .start-button:active {
+            transform: translateY(0);
+        }
+
+        .info-box {
+            background-color: #fffacd;
+            border-left: 4px solid #ffa500;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .info-box p {
+            margin: 5px 0;
+            font-size: 0.95em;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #4a7ba7;
+            text-decoration: none;
+            font-size: 1.1em;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .launch-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>ENERGYGUY LLC</h1>
+                    <p class="tagline">Amateur Radio • Electronics • Engineering</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-wrapper">
+            <nav>
+                <h3>Main Navigation</h3>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../study/index.html">Study & Training</a></li>
+                </ul>
+
+                <h3>Flash Card Quizzes</h3>
+                <ul>
+                    <li><a href="../study-tech-arrl/index.html">Technician (ARRL)</a></li>
+                    <li><a href="../study-general/index.html">General Class</a></li>
+                    <li><a href="../study-extra/index.html">Extra Class</a></li>
+                </ul>
+
+                <h3>Morse Code</h3>
+                <ul>
+                    <li><a href="../ebook2cw/morse_code_index.html">Morse Code Practice</a></li>
+                </ul>
+            </nav>
+
+            <main>
+                <div class="launch-container">
+            <h2>🎯 Extra Class Flash Card Quiz</h2>
+                <p style="margin-top: 10px;"><a href="../study-tech-arrl/index.html">ARRL Technician Flash Card Quiz</a></p>
+                <p style="margin-top: 10px;"><a href="../study-general/index.html">General Class Flash Card Quiz</a></p>
+
+            <p style="font-size: 1.1em; line-height: 1.7;">
+                Welcome to the interactive flash card quiz machine! This training tool is modeled after the Navy school hallway machines with instant feedback, competitive pressure, and speed run modes.
+            </p>
+
+            <div class="info-box">
+                <p><strong>Navy Training Style:</strong> Answer correctly → green button + pleasant sound | Answer incorrectly → red flash + harsh buzzer</p>
+                <p><strong>FCC Technician Exam:</strong> 35 questions, need 26 correct (74%) to pass</p>
+            </div>
+
+            <!-- Features -->
+            <h3>Features</h3>
+            <div class="feature-grid">
+                <div class="feature-box">
+                    <h4>⚡ Instant Feedback</h4>
+                    <p>Visual (green/red) and audio feedback the moment you answer. No second-guessing!</p>
+                </div>
+                <div class="feature-box">
+                    <h4>📊 Real-Time Stats</h4>
+                    <p>Track your progress, score, and time as you go. See improvement instantly.</p>
+                </div>
+                <div class="feature-box">
+                    <h4>🎓 Explanations</h4>
+                    <p>Learn why each answer is correct with detailed explanations.</p>
+                </div>
+                <div class="feature-box">
+                    <h4>💾 Progress Tracking</h4>
+                    <p>Your sessions are saved locally. Review history and improve weak areas.</p>
+                </div>
+            </div>
+
+            <!-- Configuration -->
+            <h3>Quiz Configuration</h3>
+
+            <div class="config-section">
+                <h4 style="margin-top: 0; color: #2c5f8d;">Test Bank</h4>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="bankTech" name="questionSet" value="technician" checked>
+                        <label for="bankTech">
+                            <strong>Technician Only</strong> (35 questions)
+                        </label>
+                    </div>
+                    <div class="radio-option" style="opacity: 0.5; cursor: not-allowed;">
+                        <input type="radio" id="bankGeneral" name="questionSet" value="general" disabled>
+                        <label for="bankGeneral">
+                            <strong>General Only</strong> (Coming Soon)
+                        </label>
+                    </div>
+                    <div class="radio-option" style="opacity: 0.5; cursor: not-allowed;">
+                        <input type="radio" id="bankExtra" name="questionSet" value="extra" disabled>
+                        <label for="bankExtra">
+                            <strong>Extra Only</strong> (Coming Soon)
+                        </label>
+                    </div>
+                </div>
+
+                <h4 style="margin-top: 25px; color: #2c5f8d;">Quiz Mode</h4>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="modeStudy" name="mode" value="study" checked>
+                        <label for="modeStudy">
+                            <strong>Study Mode</strong> - Untimed practice with explanations
+                        </label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="modeExam" name="mode" value="exam">
+                        <label for="modeExam">
+                            <strong>Exam Simulation</strong> - 35 questions, track time (no limit)
+                        </label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="modeSpeed" name="mode" value="speed">
+                        <label for="modeSpeed">
+                            <strong>Speed Run</strong> - Answer as fast as possible!
+                        </label>
+                    </div>
+                </div>
+
+                <h4 style="margin-top: 25px; color: #2c5f8d;">Question Count</h4>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="count10" name="questionCount" value="10">
+                        <label for="count10">
+                            <strong>10 Questions</strong> - Quick practice
+                        </label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="count20" name="questionCount" value="20">
+                        <label for="count20">
+                            <strong>20 Questions</strong> - Medium session
+                        </label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="count35" name="questionCount" value="35" checked>
+                        <label for="count35">
+                            <strong>35 Questions</strong> - Full exam (recommended)
+                        </label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="countAll" name="questionCount" value="588">
+                        <label for="countAll">
+                            <strong>All Questions</strong> - Full Extra pool
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Start Button -->
+            <button class="start-button" id="startButton">
+                START QUIZ →
+            </button>
+
+            <a href="../index.html" class="back-link">← Back to Main Menu</a>
+
+            <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #e8e8e0;">
+                <h3>Keyboard Shortcuts</h3>
+                <ul style="line-height: 1.8;">
+                    <li><strong>1, 2, 3, 4</strong> - Select answers A, B, C, D</li>
+                    <li><strong>←/→ Arrow Keys</strong> - Navigate between questions</li>
+                    <li><strong>Enter</strong> - Next question (after answering)</li>
+                </ul>
+
+                <h3>About the Question Pool</h3>
+                <p>This quiz uses the NCVEC Extra Class question pool (2024-2028) from ncvec.org.</p>
+                <ul style="line-height: 1.8;">
+                    <li><strong>All subelements</strong> - E1 through E9</li>
+                    <li><strong>Coverage</strong> - rules, operating, electronics, safety, antennas</li>
+                    <li><strong>Count</strong> - 588 questions (deleted questions omitted)</li>
+                </ul>
+            </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Handle quiz launch
+        document.getElementById('startButton').addEventListener('click', startQuiz);
+
+        function startQuiz() {
+            // Get selected options
+            const questionSet = document.querySelector('input[name="questionSet"]:checked').value;
+            const mode = document.querySelector('input[name="mode"]:checked').value;
+            const count = document.querySelector('input[name="questionCount"]:checked').value;
+
+            // Build URL with parameters
+            const url = `quiz.html?set=${questionSet}&mode=${mode}&count=${count}`;
+
+            // Navigate to quiz
+            window.location.href = url;
+        }
+
+        // Enter key to start
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                startQuiz();
+            }
+        });
+    </script>
+</body>
+</html>

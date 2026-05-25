@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ham Radio Flash Card Quiz - Merv's Dump</title>
+    <meta name="description" content="Ham radio license flash card quiz machine - Navy training style">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .launch-container {
+            max-width: 900px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 40px;
+        }
+
+        .launch-container h2 {
+            color: #2c5f8d;
+            font-size: 2em;
+            margin-top: 0;
+            border-bottom: 2px solid #4a7ba7;
+            padding-bottom: 15px;
+        }
+
+        .launch-container h3 {
+            color: #4a7ba7;
+            font-size: 1.4em;
+            margin-top: 30px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .feature-box {
+            background-color: #f5f5f0;
+            padding: 20px;
+            border-radius: 6px;
+            border-left: 4px solid #4a7ba7;
+        }
+
+        .feature-box h4 {
+            margin: 0 0 10px 0;
+            color: #2c5f8d;
+            font-size: 1.1em;
+        }
+
+        .feature-box p {
+            margin: 0;
+            font-size: 0.95em;
+            color: #666;
+        }
+
+        .config-section {
+            background-color: #e8e8e0;
+            padding: 25px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+
+        .radio-group {
+            margin: 15px 0;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 12px;
+            background-color: #ffffff;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .radio-option:hover {
+            background-color: #4a7ba7;
+            color: #ffffff;
+        }
+
+        .radio-option input[type="radio"] {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .radio-option label {
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .start-button {
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, #4a7ba7 0%, #2c5f8d 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            padding: 20px 40px;
+            font-size: 1.5em;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            margin-top: 30px;
+        }
+
+        .start-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        .start-button:active {
+            transform: translateY(0);
+        }
+
+        .info-box {
+            background-color: #fffacd;
+            border-left: 4px solid #ffa500;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .info-box p {
+            margin: 5px 0;
+            font-size: 0.95em;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #4a7ba7;
+            text-decoration: none;
+            font-size: 1.1em;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .launch-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Dump</h1>
+                    <p class="tagline">When you build it, it teaches.</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-wrapper">
+            <nav>
+                <h3>Main Navigation</h3>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about/bio.html">About</a></li>
+                </ul>
+
+                <details class="nav-group">
+                    <summary>Antennas</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/antennas/2-element-array/">2 Element Array</a></li>
+                    <li><a href="/antennas/4-element-array/">4 Element Array</a></li>
+                    <li><a href="/antennas/beverage/">Beverage</a></li>
+                    <li><a href="/antennas/cubical-quad/">Cubical Quad</a></li>
+                    <li><a href="/antennas/delta-loop/">Delta Loop</a></li>
+                    <li><a href="/antennas/dipole/">Dipole</a></li>
+                    <li><a href="/antennas/discone/">Discone</a></li>
+                    <li><a href="/antennas/end-fed-half-wave-efhw/">End Fed Half Wave EFHW</a></li>
+                    <li><a href="/antennas/end-fed-quarter-wave-efqw/">End Fed Quarter Wave EFQW</a></li>
+                    <li><a href="/antennas/end-fed-random-wire-efrw/">End Fed Random Wire EFRW</a></li>
+                    <li><a href="/antennas/flowerpot/">Flowerpot</a></li>
+                    <li><a href="/antennas/folded-dipole/">Folded Dipole</a></li>
+                    <li><a href="/antennas/ground-plane/">Ground Plane</a></li>
+                    <li><a href="/antennas/helical/">Helical</a></li>
+                    <li><a href="/antennas/hentenna/">Hentenna</a></li>
+                    <li><a href="/antennas/inverted-v/">Inverted V</a></li>
+                    <li><a href="/antennas/j-pole/">J Pole</a></li>
+                    <li><a href="/antennas/long-wire/">Long Wire</a></li>
+                    <li><a href="/antennas/lpda/">LPDA</a></li>
+                    <li><a href="/antennas/motorized-coil-winder/">Motorized Coil Winder</a></li>
+                    <li><a href="/antennas/moxon-rectangle/">Moxon Rectangle</a></li>
+                    <li><a href="/antennas/multiband-fan-dipole/">Multiband Fan Dipole</a></li>
+                    <li><a href="/antennas/nvis/">NVIS</a></li>
+                    <li><a href="/antennas/ocfd/">OCFD</a></li>
+                    <li><a href="/antennas/parametric-equalizer/">Parametric Equalizer</a></li>
+                    <li><a href="/antennas/rf-power-meter/">RF Power Meter</a></li>
+                    <li><a href="/antennas/rhombic/">Rhombic</a></li>
+                    <li><a href="/antennas/roller-inductor/">Roller Inductor</a></li>
+                    <li><a href="/antennas/rybakov/">Rybakov</a></li>
+                    <li><a href="/antennas/screwdriver/">Screwdriver</a></li>
+                    <li><a href="/antennas/shunt-fed-vertical/">Shunt Fed Vertical</a></li>
+                    <li><a href="/antennas/slim-jim/">Slim Jim</a></li>
+                    <li><a href="/antennas/sloped-dipole/">Sloped Dipole</a></li>
+                    <li><a href="/antennas/swr-meter/">SWR Meter</a></li>
+                    <li><a href="/antennas/t2fd/">T2FD</a></li>
+                    <li><a href="/antennas/tape-measure-yagi/">Tape Measure Yagi</a></li>
+                    <li><a href="/antennas/telescopic-mast-vertical/">Telescopic Mast Vertical</a></li>
+                    <li><a href="/antennas/terminated-sloper/">Terminated Sloper</a></li>
+                    <li><a href="/antennas/transmatch/">Transmatch</a></li>
+                    <li><a href="/antennas/turnstile/">Turnstile</a></li>
+                    <li><a href="/antennas/variable-capacitor/">Variable Capacitor</a></li>
+                    <li><a href="/antennas/yagi/">Yagi</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group">
+                    <summary>Antenna Gear</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/antenna_gear/ant_switches/">Antenna Switches</a></li>
+                    <li><a href="/antenna_gear/audio_filters/">Audio Filters</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/">Baluns And Ununs</a></li>
+                    <li><a href="/antenna_gear/bms/">BMS</a></li>
+                    <li><a href="/antenna_gear/coax_traps/">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/coil_winder/">Coil Winder</a></li>
+                    <li><a href="/antenna_gear/common_mode_chokes/">Common Mode Chokes</a></li>
+                    <li><a href="/antenna_gear/crystal_radio/">Crystal Radio</a></li>
+                    <li><a href="/antenna_gear/hybrids/">Hybrids</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/">Lightning Protection</a></li>
+                    <li><a href="/antenna_gear/mast_tower/">Mast Tower</a></li>
+                    <li><a href="/antenna_gear/motorized_tuner/">Motorized Tuner</a></li>
+                    <li><a href="/antenna_gear/power_supplies/">Power Supplies</a></li>
+                    <li><a href="/antenna_gear/remote-element-switching/">Remote Element Switching</a></li>
+                    <li><a href="/antenna_gear/rf_couplers/">RF Couplers</a></li>
+                    <li><a href="/antenna_gear/rfi_mitigation/">RFI Mitigation</a></li>
+                    <li><a href="/antenna_gear/roller_inductors/">Roller Inductors</a></li>
+                    <li><a href="/antenna_gear/transmatch/">Transmatch</a></li>
+                    <li><a href="/antenna_gear/variable_caps/">Variable Capacitors</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group">
+                    <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/adf_systems/">ADF Systems</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/antenna_modeling/">Antenna Modeling</a></li>
+                    <li><a href="/antenna_tools/dummy_loads/">Dummy Loads</a></li>
+                    <li><a href="/antenna_tools/field_strength_meter/">Field Strength Meter</a></li>
+                    <li><a href="/antenna_tools/noise_bridge/">Noise Bridge</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/">RF Power Meter</a></li>
+                    <li><a href="/antenna_tools/rf_power_meters/">RF Power Meters</a></li>
+                    <li><a href="/antenna_tools/sdr_interfaces/">SDR Interfaces</a></li>
+                    <li><a href="/antenna_tools/swr_meter/">SWR Meter</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group">
+                    <summary>Calibration</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/calibration/1013d-plus-oscilloscope/">1013D Plus Oscilloscope</a></li>
+                    <li><a href="/calibration/antenna-analyzer/">Antenna Analyzer</a></li>
+                    <li><a href="/calibration/audio-oscillator/">Audio Oscillator</a></li>
+                    <li><a href="/calibration/bm4070-digital-lcr-tester/">BM4070 Digital LCR Tester</a></li>
+                    <li><a href="/calibration/capacitance-meter/">Capacitance Meter</a></li>
+                    <li><a href="/calibration/current-source/">Current Source</a></li>
+                    <li><a href="/calibration/decade-capacitance-box/">Decade Capacitance Box</a></li>
+                    <li><a href="/calibration/decade-inductance-box/">Decade Inductance Box</a></li>
+                    <li><a href="/calibration/decade-resistance-box/">Decade Resistance Box</a></li>
+                    <li><a href="/calibration/dip-meter-grid-dip-oscillator/">Dip Meter Grid Dip Oscillator</a></li>
+                    <li><a href="/calibration/dso138-digital-oscilloscope/">DSO138 Digital Oscilloscope</a></li>
+                    <li><a href="/calibration/dummy-load-50-ohm/">Dummy Load 50 Ohm</a></li>
+                    <li><a href="/calibration/field-strength-meter/">Field Strength Meter</a></li>
+                    <li><a href="/calibration/fluke-15b-multimeter/">Fluke 15B Multimeter</a></li>
+                    <li><a href="/calibration/fm-broadcast/">FM Broadcast</a></li>
+                    <li><a href="/calibration/frequency-counter/">Frequency Counter</a></li>
+                    <li><a href="/calibration/frequency-standard-gpsdo/">Frequency Standard GPSDO</a></li>
+                    <li><a href="/calibration/function-generator/">Function Generator</a></li>
+                    <li><a href="/calibration/gps-reference/">GPS Reference</a></li>
+                    <li><a href="/calibration/impedance-bridge/">Impedance Bridge</a></li>
+                    <li><a href="/calibration/inductance-meter/">Inductance Meter</a></li>
+                    <li><a href="/calibration/lcr-meter/">LCR Meter</a></li>
+                    <li><a href="/calibration/modulation-analyzer/">Modulation Analyzer</a></li>
+                    <li><a href="/calibration/multimeter-dmm/">Multimeter DMM</a></li>
+                    <li><a href="/calibration/nanovna/">NanoVNA</a></li>
+                    <li><a href="/calibration/nanovna-vector-network-analyzer/">NanoVNA Vector Network Analyzer</a></li>
+                    <li><a href="/calibration/noise-figure-meter/">Noise Figure Meter</a></li>
+                    <li><a href="/calibration/oscilloscope/">Oscilloscope</a></li>
+                    <li><a href="/calibration/q-meter/">Q Meter</a></li>
+                    <li><a href="/calibration/radio-standards/">Radio Standards</a></li>
+                    <li><a href="/calibration/rf-attenuator-set/">RF Attenuator Set</a></li>
+                    <li><a href="/calibration/rf-power-meter/">RF Power Meter</a></li>
+                    <li><a href="/calibration/rf-probe-detector/">RF Probe Detector</a></li>
+                    <li><a href="/calibration/rf-signal-tracer/">RF Signal Tracer</a></li>
+                    <li><a href="/calibration/signal-generator/">Signal Generator</a></li>
+                    <li><a href="/calibration/simpson-260-series-3-analog-multimeter/">Simpson 260 Series 3 Analog Multimeter</a></li>
+                    <li><a href="/calibration/swr-meter/">SWR Meter</a></li>
+                    <li><a href="/calibration/tinysa-spectrum-analyzer/">TinySA Spectrum Analyzer</a></li>
+                    <li><a href="/calibration/verification/">Verification</a></li>
+                    <li><a href="/calibration/voltage-reference/">Voltage Reference</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group">
+                    <summary>Calibration Ideas</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/Calibration_Ideas/ac_mains_reference/">AC Mains Reference</a></li>
+                    <li><a href="/Calibration_Ideas/attenuator_pad_standards/">Attenuator Pad Standards</a></li>
+                    <li><a href="/Calibration_Ideas/coax_capacitance_standard/">Coax Capacitance Standard</a></li>
+                    <li><a href="/Calibration_Ideas/dummy_load_power_standard/">Dummy Load Power Standard</a></li>
+                    <li><a href="/Calibration_Ideas/field_strength_reference/">Field Strength Reference</a></li>
+                    <li><a href="/Calibration_Ideas/fm_broadcast_reference/">FM Broadcast Reference</a></li>
+                    <li><a href="/Calibration_Ideas/gps_1pps_reference/">GPS 1PPS Reference</a></li>
+                    <li><a href="/Calibration_Ideas/gpsdo_reference/">GPSDO Reference</a></li>
+                    <li><a href="/Calibration_Ideas/kelvin_resistance_standard/">Kelvin Resistance Standard</a></li>
+                    <li><a href="/Calibration_Ideas/known_length_dipole_standard/">Known Length Dipole Standard</a></li>
+                    <li><a href="/Calibration_Ideas/lc_resonance_standard/">LC Resonance Standard</a></li>
+                    <li><a href="/Calibration_Ideas/precision_resistor_network/">Precision Resistor Network</a></li>
+                    <li><a href="/Calibration_Ideas/precision_voltage_reference/">Precision Voltage Reference</a></li>
+                    <li><a href="/Calibration_Ideas/rc_time_constant_standard/">RC Time Constant Standard</a></li>
+                    <li><a href="/Calibration_Ideas/wheatstone_bridge/">Wheatstone Bridge</a></li>
+                    <li><a href="/Calibration_Ideas/wwv_wwvh_reference/">WWV/WWVH Reference</a></li>
+                    <li><a href="/Calibration_Ideas/zener_divider_reference/">Zener Divider Reference</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group" open>
+                    <summary>Study &amp; Training</summary>
+                    <ul>
+                        <li><a href="/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                        <li><a href="/study/morse.html">Morse Code Practice</a></li>
+                    </ul>
+                </details>
+            </nav>
+
+            <main>
+                <div class="launch-container">
+                <h2>🎯 Ham Radio Flash Card Quiz</h2>
+                <p style="margin-top: 10px;"><a href="study-tech-arrl/index.html">ARRL Technician Flash Card Quiz</a></p>
+                <p style="margin-top: 10px;"><a href="study-general/index.html">General Class Flash Card Quiz</a></p>
+                <p style="margin-top: 10px;"><a href="study-extra/index.html">Extra Class Flash Card Quiz</a></p>
+
+            <p style="font-size: 1.1em; line-height: 1.7;">
+                Welcome to the interactive flash card quiz machine! This training tool is modeled after the Navy school hallway machines with instant feedback, competitive pressure, and speed run modes.
+            </p>
+
+            <div class="info-box">
+                <p><strong>Navy Training Style:</strong> Answer correctly → green button + pleasant sound | Answer incorrectly → red flash + harsh buzzer</p>
+                <p><strong>FCC Technician Exam:</strong> 35 questions, need 26 correct (74%) to pass</p>
+            </div>
+            <div class="info-box">
+                <p><strong>Morse Practice Library:</strong> Browse practice audio by WPM/Farnsworth with answer keys. <a href="morse.html">Open the library</a></p>
+            </div>
+
+            <!-- Features -->
+            <h3>Features</h3>
+            <div class="feature-grid">
+                <div class="feature-box">
+                    <h4>⚡ Instant Feedback</h4>
+                    <p>Visual (green/red) and audio feedback the moment you answer. No second-guessing!</p>
+                </div>
+                <div class="feature-box">
+                    <h4>📊 Real-Time Stats</h4>
+                    <p>Track your progress, score, and time as you go. See improvement instantly.</p>
+                </div>
+                <div class="feature-box">
+                    <h4>🎓 Explanations</h4>
+                    <p>Learn why each answer is correct with detailed explanations.</p>
+                </div>
+                <div class="feature-box">
+                    <h4>💾 Progress Tracking</h4>
+                    <p>Your sessions are saved locally. Review history and improve weak areas.</p>
+                </div>
+            </div>
+
+            <!-- Configuration -->
+            <h3>Quiz Configuration</h3>
+
+            <div class="config-section">
+                <h4 style="margin-top: 0; color: #2c5f8d;">Test Bank</h4>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="bankTech" name="questionSet" value="technician" checked>
+                        <label for="bankTech">
+                            <strong>Technician Only</strong> (35 questions)
+                        </label>
+                    </div>
+                    <div class="radio-option" style="opacity: 0.5; cursor: not-allowed;">
+                        <input type="radio" id="bankGeneral" name="questionSet" value="general" disabled>
+                        <label for="bankGeneral">
+                            <strong>General Only</strong> (Coming Soon)
+                        </label>
+                    </div>
+                    <div class="radio-option" style="opacity: 0.5; cursor: not-allowed;">
+                        <input type="radio" id="bankExtra" name="questionSet" value="extra" disabled>
+                        <label for="bankExtra">
+                            <strong>Extra Only</strong> (Coming Soon)
+                        </label>
+                    </div>
+                </div>
+
+                <h4 style="margin-top: 25px; color: #2c5f8d;">Quiz Mode</h4>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="modeStudy" name="mode" value="study" checked>
+                        <label for="modeStudy">
+                            <strong>Study Mode</strong> - Untimed practice with explanations
+                        </label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="modeExam" name="mode" value="exam">
+                        <label for="modeExam">
+                            <strong>Exam Simulation</strong> - 35 questions, track time (no limit)
+                        </label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="modeSpeed" name="mode" value="speed">
+                        <label for="modeSpeed">
+                            <strong>Speed Run</strong> - Answer as fast as possible!
+                        </label>
+                    </div>
+                </div>
+
+                <h4 style="margin-top: 25px; color: #2c5f8d;">Question Count</h4>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="count10" name="questionCount" value="10">
+                        <label for="count10">
+                            <strong>10 Questions</strong> - Quick practice
+                        </label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="count20" name="questionCount" value="20">
+                        <label for="count20">
+                            <strong>20 Questions</strong> - Medium session
+                        </label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="count35" name="questionCount" value="35" checked>
+                        <label for="count35">
+                            <strong>35 Questions</strong> - Full exam (recommended)
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Start Button -->
+            <button class="start-button" id="startButton">
+                START QUIZ →
+            </button>
+
+            <a href="/" class="back-link">← Back to Main Menu</a>
+
+            <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #e8e8e0;">
+                <h3>Keyboard Shortcuts</h3>
+                <ul style="line-height: 1.8;">
+                    <li><strong>1, 2, 3, 4</strong> - Select answers A, B, C, D</li>
+                    <li><strong>←/→ Arrow Keys</strong> - Navigate between questions</li>
+                    <li><strong>Enter</strong> - Next question (after answering)</li>
+                </ul>
+
+                <h3>Morse Code Practice</h3>
+                <p><a href="morse.html">Morse Code Practice</a></p>
+
+                <h3>About the Question Pool</h3>
+                <p>This quiz uses the practice questions from the Merv's Dump Ham Radio Study Guide. The questions cover all three sections of the Technician exam:</p>
+                <ul style="line-height: 1.8;">
+                    <li><strong>Frequency Privileges</strong> - Band limits, modes, power</li>
+                    <li><strong>Operating Practices</strong> - Procedures, Q-codes, repeaters</li>
+                    <li><strong>FCC Rules</strong> - Regulations, identification, prohibited activities</li>
+                </ul>
+            </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Handle quiz launch
+        document.getElementById('startButton').addEventListener('click', startQuiz);
+
+        function startQuiz() {
+            // Get selected options
+            const questionSet = document.querySelector('input[name="questionSet"]:checked').value;
+            const mode = document.querySelector('input[name="mode"]:checked').value;
+            const count = document.querySelector('input[name="questionCount"]:checked').value;
+
+            // Build URL with parameters
+            const url = `quiz.html?set=${questionSet}&mode=${mode}&count=${count}`;
+
+            // Navigate to quiz
+            window.location.href = url;
+        }
+
+        // Enter key to start
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                startQuiz();
+            }
+        });
+    </script>
+</body>
+</html>

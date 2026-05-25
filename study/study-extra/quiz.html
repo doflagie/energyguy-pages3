@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extra Class Flash Card Quiz - EnergyGuy LLC</title>
+    <meta name="description" content="Extra Class question pool flash card quiz machine">
+    <link rel="stylesheet" href="css/quiz-styles.css">
+</head>
+<body>
+    <div class="quiz-container">
+        <!-- Header -->
+        <div class="quiz-header">
+            <h1>Extra Class Flash Card Quiz</h1>
+            <p>Extra Class Pool Practice - Navy Training Style</p>
+        </div>
+
+        <!-- Main Quiz Layout -->
+        <div class="quiz-layout" id="quizLayout">
+            <!-- Flash Card Panel -->
+            <div class="flash-card-panel">
+                <div class="flash-card">
+                    <div class="question-header">
+                        <span class="question-number" id="questionNumber">Question 1 / 35</span>
+                        <span class="question-section" id="questionSection">Frequency Privileges</span>
+                    </div>
+
+                    <div class="question-text" id="questionText">
+                        Loading question...
+                    </div>
+                    <div class="diagram-container" id="diagramContainer">
+                        <img id="diagramImage" alt="Question diagram">
+                    </div>
+
+                    <div class="answer-grid" id="answerGrid">
+                        <button class="answer-button" id="answerA" data-letter="A">
+                            <span class="answer-letter">A)</span>
+                            <span class="answer-text">Answer A</span>
+                        </button>
+                        <button class="answer-button" id="answerB" data-letter="B">
+                            <span class="answer-letter">B)</span>
+                            <span class="answer-text">Answer B</span>
+                        </button>
+                        <button class="answer-button" id="answerC" data-letter="C">
+                            <span class="answer-letter">C)</span>
+                            <span class="answer-text">Answer C</span>
+                        </button>
+                        <button class="answer-button" id="answerD" data-letter="D">
+                            <span class="answer-letter">D)</span>
+                            <span class="answer-text">Answer D</span>
+                        </button>
+                    </div>
+
+                    <div class="explanation-box" id="explanationBox">
+                        <h4>Explanation</h4>
+                        <p id="explanationText">Explanation will appear here.</p>
+                    </div>
+
+                    <div class="nav-buttons">
+                        <button class="nav-button" id="prevButton">← Previous</button>
+                        <button class="nav-button" id="nextButton">Next →</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Status Panel -->
+            <div class="status-panel">
+                <h3>Progress</h3>
+
+                <div class="stat-row">
+                    <span class="stat-label">Questions:</span>
+                    <span class="stat-value" id="statAnswered">0 / 35</span>
+                </div>
+
+                <div class="stat-row">
+                    <span class="stat-label">Correct:</span>
+                    <span class="stat-value" id="statCorrect">0</span>
+                </div>
+
+                <div class="stat-row">
+                    <span class="stat-label">Incorrect:</span>
+                    <span class="stat-value" id="statIncorrect">0</span>
+                </div>
+
+                <div class="stat-row">
+                    <span class="stat-label">Score:</span>
+                    <span class="stat-value" id="statPercentage">0%</span>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+
+                <div class="timer" id="timer">00:00</div>
+            </div>
+
+            <!-- Config Panel -->
+            <div class="config-panel">
+                <h3>Settings</h3>
+
+                <div class="config-section">
+                    <div class="config-option">
+                        <input type="checkbox" id="audioToggle" checked>
+                        <label for="audioToggle">Sound Effects</label>
+                    </div>
+                    <div class="config-option">
+                        <input type="checkbox" id="explanationsToggle" checked>
+                        <label for="explanationsToggle">Show Explanations</label>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <button class="control-button" id="finishButton">Finish Quiz</button>
+                    <button class="control-button danger" id="restartButton">Restart Quiz</button>
+                </div>
+
+                <div class="config-section">
+                    <a href="index.html" class="control-button" style="display: block; text-align: center; text-decoration: none;">Exit to Menu</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Screen (hidden initially) -->
+        <div class="results-container hidden" id="resultsContainer">
+            <h2>Quiz Complete!</h2>
+
+            <div class="score-display" id="scoreDisplay">0%</div>
+
+            <div class="results-details">
+                <div class="result-stat">
+                    <div class="result-stat-value" id="resultTotal">35</div>
+                    <div class="result-stat-label">Total Questions</div>
+                </div>
+                <div class="result-stat">
+                    <div class="result-stat-value" id="resultCorrect">0</div>
+                    <div class="result-stat-label">Correct</div>
+                </div>
+                <div class="result-stat">
+                    <div class="result-stat-value" id="resultIncorrect">0</div>
+                    <div class="result-stat-label">Incorrect</div>
+                </div>
+            </div>
+
+            <div class="nav-buttons mt-20">
+                <button class="nav-button" id="reviewButton">Review Answers</button>
+                <button class="nav-button" id="retakeButton">Take New Quiz</button>
+                <a href="index.html" class="nav-button" style="text-decoration: none;">Back to Menu</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load JavaScript modules -->
+    <script src="js/audio-manager.js"></script>
+    <script src="js/progress-manager.js"></script>
+    <script src="js/quiz-engine.js"></script>
+
+    <!-- Main Quiz Application -->
+    <script>
+        // Global instances
+        let audioManager;
+        let progressManager;
+        let quizEngine;
+        let timerInterval;
+        let startTime;
+        let elapsedSeconds = 0;
+        let questionPool;
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', async () => {
+            await init();
+        });
+
+        async function init() {
+            try {
+                console.log('=== QUIZ INITIALIZATION START ===');
+
+                // Step 1: Initialize managers
+                console.log('Step 1: Creating AudioManager...');
+                audioManager = new AudioManager();
+                console.log('  ✓ AudioManager created');
+
+                console.log('Step 2: Creating ProgressManager...');
+                progressManager = new ProgressManager();
+                console.log('  ✓ ProgressManager created');
+
+                // Step 2: Load question pool
+                console.log('Step 3: Fetching question pool...');
+                const response = await fetch('data/extra-pool.json');
+                console.log(`  Response: ${response.status} ${response.statusText}`);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                console.log('Step 4: Parsing JSON...');
+                questionPool = await response.json();
+                console.log(`  ✓ Loaded ${questionPool.totalQuestions} questions`);
+
+                if (!questionPool.questions || questionPool.questions.length === 0) {
+                    throw new Error('No questions found in pool');
+                }
+
+                // Step 3: Get quiz settings
+                console.log('Step 5: Getting URL parameters...');
+                const urlParams = new URLSearchParams(window.location.search);
+                const questionCount = parseInt(urlParams.get('count')) || 35;
+                const mode = urlParams.get('mode') || 'study';
+                console.log(`  count=${questionCount}, mode=${mode}`);
+
+                // Step 4: Initialize quiz engine
+                console.log('Step 6: Creating QuizEngine...');
+                quizEngine = new QuizEngine(questionPool, {
+                    count: questionCount,
+                    shuffle: true,
+                    shuffleAnswers: false
+                });
+                console.log('  ✓ QuizEngine created');
+
+                console.log('Step 7: Initializing QuizEngine...');
+                quizEngine.init();
+                console.log('  ✓ QuizEngine initialized');
+
+                // Step 5: Start session tracking
+                console.log('Step 8: Starting session...');
+                progressManager.startSession('technician', mode, questionCount);
+                console.log('  ✓ Session started');
+
+                // Step 6: Initialize UI
+                console.log('Step 9: Setting up event listeners...');
+                setupEventListeners();
+                console.log('  ✓ Event listeners set up');
+
+                console.log('Step 10: Loading settings...');
+                loadSettings();
+                console.log('  ✓ Settings loaded');
+
+                console.log('Step 11: Starting timer...');
+                startTimer();
+                console.log('  ✓ Timer started');
+
+                console.log('Step 12: Displaying first question...');
+                displayQuestion();
+                console.log('  ✓ First question displayed');
+
+                console.log('=== QUIZ INITIALIZATION COMPLETE ===');
+
+            } catch (error) {
+                console.error('=== INITIALIZATION FAILED ===');
+                console.error('Error:', error);
+                console.error('Stack:', error.stack);
+                alert(`Failed to load quiz: ${error.message}\n\nCheck browser console (F12) for details.\n\nMake sure you're using: http://127.0.0.1:8080/study/quiz.html`);
+                return;
+            }
+        }
+
+        function setupEventListeners() {
+            // Answer buttons
+            document.querySelectorAll('.answer-button').forEach(button => {
+                button.addEventListener('click', () => handleAnswer(button.dataset.letter));
+            });
+
+            // Navigation
+            document.getElementById('prevButton').addEventListener('click', goToPrevious);
+            document.getElementById('nextButton').addEventListener('click', goToNext);
+
+            // Settings
+            document.getElementById('audioToggle').addEventListener('change', (e) => {
+                audioManager.setEnabled(e.target.checked);
+                progressManager.setSetting('audioEnabled', e.target.checked);
+            });
+
+            document.getElementById('explanationsToggle').addEventListener('change', (e) => {
+                progressManager.setSetting('showExplanations', e.target.checked);
+            });
+
+            // Control buttons
+            document.getElementById('finishButton').addEventListener('click', finishQuiz);
+            document.getElementById('restartButton').addEventListener('click', restartQuiz);
+            document.getElementById('reviewButton').addEventListener('click', reviewAnswers);
+            document.getElementById('retakeButton').addEventListener('click', () => {
+                window.location.href = 'index.html';
+            });
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                if (e.key >= '1' && e.key <= '4') {
+                    const letters = ['A', 'B', 'C', 'D'];
+                    const button = document.getElementById(`answer${letters[parseInt(e.key) - 1]}`);
+                    if (button) {
+                        handleAnswer(button.dataset.letter);
+                    }
+                } else if (e.key === 'ArrowLeft') {
+                    goToPrevious();
+                } else if (e.key === 'ArrowRight') {
+                    goToNext();
+                } else if (e.key === 'Enter') {
+                    const question = quizEngine.getCurrentQuestion();
+                    if (question && quizEngine.questions[quizEngine.currentIndex].userAnswer) {
+                        goToNext();
+                    }
+                }
+            });
+        }
+
+        function loadSettings() {
+            const settings = progressManager.getSettings();
+            document.getElementById('audioToggle').checked = settings.audioEnabled;
+            audioManager.setEnabled(settings.audioEnabled);
+        }
+
+        function displayQuestion() {
+            const question = quizEngine.getCurrentQuestion();
+            if (!question) {
+                finishQuiz();
+                return;
+            }
+
+            // Update question display
+            document.getElementById('questionNumber').textContent =
+                `Question ${question.number} / ${question.total}`;
+            document.getElementById('questionSection').textContent = question.section || '';
+            document.getElementById('questionText').textContent = question.text;
+
+            // Update answer buttons
+            const buttons = ['A', 'B', 'C', 'D'];
+            buttons.forEach((letter, index) => {
+                const answer = question.answers[index];
+                const button = document.getElementById(`answer${letter}`);
+                const textSpan = button.querySelector('.answer-text');
+                const labelSpan = button.querySelector('.answer-letter');
+
+                if (!answer) {
+                    return;
+                }
+
+                textSpan.textContent = answer.text;
+                labelSpan.textContent = `${answer.letter})`;
+                button.dataset.letter = answer.letter;
+                button.disabled = false;
+                button.classList.remove('correct', 'incorrect', 'dimmed');
+            });
+
+            // Hide explanation
+            document.getElementById('explanationBox').classList.remove('show');
+
+            // Update diagram
+            const diagramContainer = document.getElementById('diagramContainer');
+            const diagramImage = document.getElementById('diagramImage');
+            if (question.image) {
+                diagramImage.src = question.image;
+                diagramContainer.classList.add('show');
+            } else {
+                diagramImage.removeAttribute('src');
+                diagramContainer.classList.remove('show');
+            }
+
+            // Check if question was already answered
+            const currentQ = quizEngine.questions[quizEngine.currentIndex];
+            if (currentQ.userAnswer) {
+                highlightAnswer(currentQ.userAnswer, currentQ.isCorrect);
+                showExplanation(question.explanation);
+            }
+
+            // Update progress
+            updateProgress();
+
+            // Update navigation buttons
+            document.getElementById('prevButton').disabled = quizEngine.currentIndex === 0;
+            document.getElementById('nextButton').disabled =
+                quizEngine.currentIndex >= quizEngine.questions.length - 1;
+        }
+
+        function handleAnswer(letter) {
+            const currentQ = quizEngine.questions[quizEngine.currentIndex];
+
+            // Don't allow re-answering
+            if (currentQ.userAnswer) return;
+
+            // Initialize audio context on first interaction
+            if (!audioManager.initialized) {
+                audioManager.init();
+            }
+
+            // Submit answer
+            const result = quizEngine.selectAnswer(letter);
+            if (!result) return;
+
+            // Record in progress manager
+            const question = quizEngine.getCurrentQuestion();
+            progressManager.recordAnswer(
+                question.id,
+                letter,
+                result.correct,
+                result.correctLetter
+            );
+
+            // Visual feedback
+            highlightAnswer(letter, result.correct);
+
+            // Audio feedback
+            if (result.correct) {
+                audioManager.playCorrect();
+            } else {
+                audioManager.playIncorrect();
+            }
+
+            // Show explanation
+            if (progressManager.getSetting('showExplanations')) {
+                showExplanation(result.explanation);
+            }
+
+            // Update progress
+            updateProgress();
+
+            // Auto-advance after 2 seconds
+            setTimeout(() => {
+                if (quizEngine.currentIndex < quizEngine.questions.length - 1) {
+                    goToNext();
+                } else {
+                    // Quiz complete
+                    document.getElementById('finishButton').classList.add('pulse');
+                }
+            }, 2000);
+        }
+
+        function highlightAnswer(userLetter, isCorrect) {
+            const question = quizEngine.getCurrentQuestion();
+            const buttons = document.querySelectorAll('.answer-button');
+
+            buttons.forEach(button => {
+                const letter = button.dataset.letter;
+                const answer = question.answers.find(a => a.letter === letter);
+
+                if (letter === userLetter) {
+                    button.classList.add(isCorrect ? 'correct' : 'incorrect');
+                } else if (!isCorrect && answer.correct) {
+                    button.classList.add('correct');
+                } else {
+                    button.classList.add('dimmed');
+                }
+
+                button.disabled = true;
+            });
+        }
+
+        function showExplanation(text) {
+            const box = document.getElementById('explanationBox');
+            const textElem = document.getElementById('explanationText');
+            textElem.textContent = text;
+            box.classList.add('show');
+        }
+
+        function updateProgress() {
+            const progress = quizEngine.getProgress();
+
+            document.getElementById('statAnswered').textContent =
+                `${progress.answered} / ${progress.total}`;
+            document.getElementById('statCorrect').textContent = progress.correct;
+            document.getElementById('statIncorrect').textContent = progress.incorrect;
+            document.getElementById('statPercentage').textContent = `${progress.percentage}%`;
+
+            const progressPercent = (progress.answered / progress.total) * 100;
+            document.getElementById('progressFill').style.width = `${progressPercent}%`;
+        }
+
+        function goToNext() {
+            if (quizEngine.nextQuestion()) {
+                displayQuestion();
+            }
+        }
+
+        function goToPrevious() {
+            if (quizEngine.previousQuestion()) {
+                displayQuestion();
+            }
+        }
+
+        function startTimer() {
+            startTime = Date.now();
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function updateTimer() {
+            elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+            const minutes = Math.floor(elapsedSeconds / 60);
+            const seconds = elapsedSeconds % 60;
+            const display = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            document.getElementById('timer').textContent = display;
+        }
+
+        function stopTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+        }
+
+        function finishQuiz() {
+            if (!quizEngine.isComplete()) {
+                const unanswered = quizEngine.getProgress().unanswered;
+                if (!confirm(`You have ${unanswered} unanswered questions. Finish anyway?`)) {
+                    return;
+                }
+            }
+
+            stopTimer();
+
+            // Get results
+            const results = quizEngine.getResults();
+
+            // End session
+            progressManager.endSession(elapsedSeconds);
+
+            // Play completion sound
+            audioManager.playComplete();
+
+            // Show results
+            showResults(results);
+        }
+
+        function showResults(results) {
+            // Hide quiz layout
+            document.getElementById('quizLayout').classList.add('hidden');
+
+            // Show results container
+            const resultsContainer = document.getElementById('resultsContainer');
+            resultsContainer.classList.remove('hidden');
+
+            // Update results display
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            scoreDisplay.textContent = `${results.score}%`;
+            scoreDisplay.classList.add(results.passing ? 'passing' : 'failing');
+
+            document.getElementById('resultTotal').textContent = results.total;
+            document.getElementById('resultCorrect').textContent = results.correct;
+            document.getElementById('resultIncorrect').textContent = results.incorrect;
+
+            console.log('Quiz completed:', results);
+        }
+
+        function reviewAnswers() {
+            document.getElementById('resultsContainer').classList.add('hidden');
+            document.getElementById('quizLayout').classList.remove('hidden');
+            quizEngine.goToQuestion(0);
+            displayQuestion();
+        }
+
+        function restartQuiz() {
+            if (confirm('Restart the quiz? Your current progress will be lost.')) {
+                window.location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
