@@ -14,3 +14,10 @@ node_modules/
 
 # Large local audio assets (host separately)
 ebook2cw/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
