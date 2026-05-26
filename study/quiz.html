@@ -122,22 +122,56 @@
 
         <!-- Results Screen (hidden initially) -->
         <div class="results-container hidden" id="resultsContainer">
-            <h2>Quiz Complete!</h2>
+            <h2 id="resultsHeading">Quiz Complete!</h2>
 
             <div class="score-display" id="scoreDisplay">0%</div>
 
             <div class="results-details">
                 <div class="result-stat">
                     <div class="result-stat-value" id="resultTotal">0</div>
-                    <div class="result-stat-label">Total Questions</div>
+                    <div class="result-stat-label" id="labelTotal">Total Questions</div>
                 </div>
                 <div class="result-stat">
                     <div class="result-stat-value" id="resultCorrect">0</div>
-                    <div class="result-stat-label">Correct</div>
+                    <div class="result-stat-label" id="labelCorrect">Correct</div>
                 </div>
                 <div class="result-stat">
                     <div class="result-stat-value" id="resultIncorrect">0</div>
-                    <div class="result-stat-label">Incorrect</div>
+                    <div class="result-stat-label" id="labelIncorrect">Incorrect</div>
+                </div>
+            </div>
+
+            <!-- Gauntlet scoreboard submission (hidden for normal quiz) -->
+            <div id="scoreboardSection" class="hidden" style="margin-top:2em;">
+                <div id="submitSection">
+                    <p style="margin-bottom:0.5em; font-weight:bold;">Post your score to this month's leaderboard:</p>
+                    <div style="display:flex; gap:0.5em; align-items:center; flex-wrap:wrap;">
+                        <input id="playerName" type="text" maxlength="20" placeholder="Callsign or name"
+                               style="padding:0.5em 0.75em; font-size:1em; border:2px solid #4a7ba7;
+                                      border-radius:4px; font-family:inherit; width:180px;">
+                        <button id="submitScore" class="nav-button" style="margin:0;">Submit →</button>
+                    </div>
+                    <p id="submitMsg" style="margin-top:0.5em; font-size:0.9em; color:#666;"></p>
+                </div>
+
+                <div id="scoreboardContainer" style="margin-top:1.5em;">
+                    <h3 style="color:#2c5f8d; margin-bottom:0.5em;">
+                        🏆 <span id="scoreboardMonth"></span> Leaderboard
+                    </h3>
+                    <table id="scoreboardTable" style="width:100%; border-collapse:collapse; font-size:0.95em;">
+                        <thead>
+                            <tr style="background:#4a7ba7; color:#fff;">
+                                <th style="padding:6px 10px; text-align:left;">#</th>
+                                <th style="padding:6px 10px; text-align:left;">Name</th>
+                                <th style="padding:6px 10px; text-align:right;">Correct</th>
+                                <th style="padding:6px 10px; text-align:right;">Time</th>
+                                <th style="padding:6px 10px; text-align:right;">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scoreboardBody">
+                            <tr><td colspan="5" style="padding:8px 10px; color:#999;">Loading…</td></tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
@@ -551,6 +585,41 @@
 
                 if (labels[2]) labels[2].textContent = 'Fell on Q#';
                 document.getElementById('resultIncorrect').textContent = results.correct + 1;
+
+                // Show scoreboard
+                document.getElementById('scoreboardSection').classList.remove('hidden');
+                loadScoreboard(null);
+
+                document.getElementById('submitScore').addEventListener('click', async () => {
+                    const name = document.getElementById('playerName').value.trim();
+                    if (!name) {
+                        document.getElementById('submitMsg').textContent = 'Enter a name first.';
+                        return;
+                    }
+                    const btn = document.getElementById('submitScore');
+                    btn.disabled = true;
+                    document.getElementById('submitMsg').textContent = 'Submitting…';
+                    try {
+                        const resp = await fetch('/api/gauntlet-scores', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ name, correct: results.correct, seconds: elapsedSeconds })
+                        });
+                        const data = await resp.json();
+                        if (!resp.ok) {
+                            document.getElementById('submitMsg').textContent = data.error || 'Submit failed.';
+                            btn.disabled = false;
+                            return;
+                        }
+                        document.getElementById('submitSection').innerHTML = data.rank
+                            ? `<p style="font-size:1.1em; font-weight:bold; color:#2c5f8d;">You ranked <span style="font-size:1.5em; color:#c0392b;">#${data.rank}</span> this month!</p>`
+                            : `<p style="font-size:1em; color:#666;">Score recorded — not in top 10 this month.</p>`;
+                        renderScoreboard(data, name);
+                    } catch (e) {
+                        document.getElementById('submitMsg').textContent = 'Network error — try again.';
+                        btn.disabled = false;
+                    }
+                });
             } else {
                 scoreDisplay.textContent = `${results.score}%`;
                 scoreDisplay.classList.add(results.passing ? 'passing' : 'failing');
@@ -558,6 +627,43 @@
                 document.getElementById('resultCorrect').textContent = results.correct;
                 document.getElementById('resultIncorrect').textContent = results.incorrect;
             }
+        }
+
+        async function loadScoreboard(highlightName) {
+            try {
+                const resp = await fetch('/api/gauntlet-scores');
+                const data = await resp.json();
+                renderScoreboard(data, highlightName);
+            } catch (e) {
+                document.getElementById('scoreboardBody').innerHTML =
+                    '<tr><td colspan="5" style="padding:8px 10px; color:#999;">Unable to load scores.</td></tr>';
+            }
+        }
+
+        function renderScoreboard(data, highlightName) {
+            document.getElementById('scoreboardMonth').textContent = data.month || '';
+            const body = document.getElementById('scoreboardBody');
+            if (!data.scores || data.scores.length === 0) {
+                body.innerHTML = '<tr><td colspan="5" style="padding:8px 10px; color:#999;">No scores yet this month — be the first!</td></tr>';
+                return;
+            }
+            body.innerHTML = data.scores.map((s, i) => {
+                const m = String(Math.floor(s.seconds / 60)).padStart(2, '0');
+                const sec = String(s.seconds % 60).padStart(2, '0');
+                const isMe = highlightName && s.name === highlightName;
+                const bg = isMe ? 'background:#fffacd; font-weight:bold;' : (i % 2 ? 'background:#f5f5f0;' : '');
+                return `<tr style="${bg}">
+                    <td style="padding:6px 10px;">${i + 1}</td>
+                    <td style="padding:6px 10px;">${escHtml(s.name)}${isMe ? ' ◄' : ''}</td>
+                    <td style="padding:6px 10px; text-align:right;">${s.correct}</td>
+                    <td style="padding:6px 10px; text-align:right;">${m}:${sec}</td>
+                    <td style="padding:6px 10px; text-align:right;">${s.date}</td>
+                </tr>`;
+            }).join('');
+        }
+
+        function escHtml(s) {
+            return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
         }
 
         function reviewAnswers() {
