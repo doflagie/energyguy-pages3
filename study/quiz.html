@@ -185,7 +185,15 @@
 
                 // Step 2: Load question pool
                 console.log('Step 3: Fetching question pool...');
-                const response = await fetch('data/technician-pool.json');
+                const urlParams = new URLSearchParams(window.location.search);
+                const questionSet = urlParams.get('set') || 'technician';
+                const poolUrls = {
+                    technician: 'https://assets.doflagie.com/ham-radio/technician-pool.json',
+                    general:    'https://assets.doflagie.com/ham-radio/general-pool.json',
+                    extra:      'https://assets.doflagie.com/ham-radio/extra-pool.json'
+                };
+                const poolUrl = poolUrls[questionSet] || poolUrls.technician;
+                const response = await fetch(poolUrl);
                 console.log(`  Response: ${response.status} ${response.statusText}`);
 
                 if (!response.ok) {
@@ -202,7 +210,6 @@
 
                 // Step 3: Get quiz settings
                 console.log('Step 5: Getting URL parameters...');
-                const urlParams = new URLSearchParams(window.location.search);
                 const questionCount = parseInt(urlParams.get('count')) || 35;
                 const mode = urlParams.get('mode') || 'study';
                 console.log(`  count=${questionCount}, mode=${mode}`);
@@ -222,7 +229,7 @@
 
                 // Step 5: Start session tracking
                 console.log('Step 8: Starting session...');
-                progressManager.startSession('technician', mode, questionCount);
+                progressManager.startSession(questionSet, mode, questionCount);
                 console.log('  ✓ Session started');
 
                 // Step 6: Initialize UI

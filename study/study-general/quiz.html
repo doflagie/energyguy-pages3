@@ -185,7 +185,7 @@
 
                 // Step 2: Load question pool
                 console.log('Step 3: Fetching question pool...');
-                const response = await fetch('data/general-pool.json');
+                const response = await fetch('https://assets.doflagie.com/ham-radio/general-pool.json');
                 console.log(`  Response: ${response.status} ${response.statusText}`);
 
                 if (!response.ok) {
