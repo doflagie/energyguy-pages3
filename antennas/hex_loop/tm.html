@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-ANT-036 HEX LOOP ANTENNA - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+
+
+<style>
+/* Navy TM Styles */
+.tm-cover {
+    border: 3px solid #2c5f8d;
+    padding: 30px 40px;
+    text-align: center;
+    margin-bottom: 30px;
+    background: #f8f8f4;
+}
+.tm-classification {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #006600;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+.tm-number {
+    font-family: 'Courier New', monospace;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #2c5f8d;
+    margin-bottom: 10px;
+}
+.tm-title {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #1a3a5c;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 15px 0 10px;
+    line-height: 1.3;
+}
+.tm-subtitle {
+    font-size: 1.0em;
+    font-style: italic;
+    color: #555;
+    margin-bottom: 15px;
+}
+.tm-meta {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 20px;
+    border-top: 1px solid #aaa;
+    padding-top: 15px;
+}
+.tm-toc {
+    background: #f0f4f8;
+    border: 1px solid #c0ccd8;
+    padding: 20px 30px;
+    margin-bottom: 30px;
+}
+.tm-toc h2 {
+    font-size: 1.1em;
+    color: #2c5f8d;
+    border-bottom: 1px solid #4a7ba7;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.tm-toc ol {
+    margin: 0;
+    padding-left: 25px;
+}
+.tm-toc li {
+    margin: 4px 0;
+    font-size: 0.95em;
+}
+.tm-toc a {
+    color: #2c5f8d;
+    text-decoration: none;
+}
+.tm-toc a:hover {
+    text-decoration: underline;
+}
+.chapter-heading {
+    background: #2c5f8d;
+    color: #ffffff;
+    padding: 10px 20px;
+    margin-top: 35px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.section-heading {
+    color: #1a3a5c;
+    border-bottom: 2px solid #4a7ba7;
+    padding-bottom: 4px;
+    margin-top: 25px;
+    margin-bottom: 12px;
+    font-size: 1.05em;
+}
+.subsection-heading {
+    color: #2c5f8d;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    font-size: 1.0em;
+}
+.tm-warning {
+    background: #fff0f0;
+    border-left: 5px solid #cc0000;
+    border-top: 1px solid #cc0000;
+    border-bottom: 1px solid #cc0000;
+    border-right: 1px solid #cc0000;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-caution {
+    background: #fffbf0;
+    border-left: 5px solid #cc7700;
+    border-top: 1px solid #cc7700;
+    border-bottom: 1px solid #cc7700;
+    border-right: 1px solid #cc7700;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-note {
+    background: #f0f5ff;
+    border-left: 5px solid #4a7ba7;
+    border-top: 1px solid #4a7ba7;
+    border-bottom: 1px solid #4a7ba7;
+    border-right: 1px solid #4a7ba7;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.admonition-label {
+    font-weight: bold;
+    font-size: 0.9em;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 6px;
+}
+.tm-warning .admonition-label { color: #cc0000; }
+.tm-caution .admonition-label { color: #cc7700; }
+.tm-note .admonition-label { color: #2c5f8d; }
+.tm-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.95em;
+}
+.tm-table th {
+    background: #4a7ba7;
+    color: #ffffff;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.tm-table td {
+    border: 1px solid #c0ccd8;
+    padding: 7px 12px;
+    vertical-align: top;
+}
+.tm-table tr:nth-child(even) td {
+    background: #f4f7fb;
+}
+.tm-table caption {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 5px;
+    text-align: left;
+}
+.procedure ol {
+    margin: 10px 0 10px 20px;
+}
+.procedure li {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+.formula-block {
+    background: #f4f7fb;
+    border: 1px solid #c0ccd8;
+    padding: 12px 20px;
+    margin: 12px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+}
+.formula-block .formula-label {
+    font-family: Georgia, serif;
+    font-size: 0.85em;
+    color: #555;
+    font-style: italic;
+    display: block;
+    margin-bottom: 5px;
+}
+.back-link {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #c0ccd8;
+    font-size: 0.9em;
+}
+</style>
+
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="../../about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul><li><a href="../index.html">Antenna Library</a></li></ul>
+            </details>
+            <details class="nav-group">
+                <summary>Test Equipment</summary>
+                <ul><li><a href="../../test_gear/index.html">Test Equipment Library</a></li></ul>
+            </details>
+            <details class="nav-group">
+                <summary>Calibration Ideas</summary>
+                <ul><li><a href="../../Calibration_Ideas/index.html">Calibration Standards</a></li></ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Study &amp; Training</summary>
+                <ul>
+                    <li><a href="https://assets.doflagie.com/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                    <li><a href="https://assets.doflagie.com/study/morse.html">Morse Code Practice</a></li>
+                </ul>
+            </details>
+        </nav>
+
+
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-ANT-036</div>
+                    <div class="tm-title">HEX LOOP ANTENNA</div>
+                    <div class="tm-subtitle">Six-Sided Horizontally Polarized Loop, 20M–15M</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH<br>
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Antenna Engineering &mdash; Not for commercial use</em>
+                    </div>
+                </div>
+
+                <div class="tm-toc">
+                    <h2>Table of Contents</h2>
+                    <ol>
+            <li><a href="#ch1">Chapter 1 &mdash; General Information</a></li>
+            <li><a href="#ch2">Chapter 2 &mdash; Theory of Operation</a></li>
+            <li><a href="#ch3">Chapter 3 &mdash; Materials and Construction</a></li>
+            <li><a href="#ch4">Chapter 4 &mdash; Assembly Procedures</a></li>
+            <li><a href="#ch5">Chapter 5 &mdash; Calibration Procedure</a></li>
+            <li><a href="#ch6">Chapter 6 &mdash; Tuning and Adjustment</a></li>
+            <li><a href="#ch7">Chapter 7 &mdash; Verification</a></li>
+            <li><a href="#appa">Appendix A &mdash; Calculations and Formulas</a></li>
+            <li><a href="#appb">Appendix B &mdash; Example Results</a></li>
+                    </ol>
+                </div>
+
+
+<h2 class="chapter-heading" id="ch1">CHAPTER 1 &mdash; GENERAL INFORMATION</h2>
+<h3 class="section-heading">1-1. SCOPE</h3>
+<p>This manual covers the Hex Loop Antenna for operation on 20M (14.0–14.35 MHz), 15M (21.0–21.45 MHz). The loop topology provides an omnidirectional azimuth pattern (for vertical orientation) or a bidirectional pattern (for horizontal orientation), with inherent advantage over dipoles in low-band noise floor due to reduced sensitivity to vertically polarized man-made noise.</p>
+
+<h3 class="section-heading">1-2. APPLICABLE REFERENCES</h3>
+<ul>
+<li>ARRL Antenna Book — Chapter on Loop Antennas</li>
+<li>NEC2 model: hex_loop.nec (in antenna directory)</li>
+<li>ON4UN&rsquo;s Low Band DXing — Loop antenna chapters</li>
+<li>FCC OET Bulletin 65 — RF Exposure Evaluation</li>
+</ul>
+
+<h3 class="section-heading">1-3. SAFETY PRECAUTIONS</h3>
+<div class="tm-caution">
+<span class="admonition-label">CAUTION — RF EXPOSURE</span>
+Maintain minimum safe distance from all energized antenna elements during transmission.
+At QRP power levels (&le;5 W) the MPE boundary is typically &lt;1 m for HF antennas.
+At 100 W the controlled exposure limit for HF antennas requires maintaining &ge;3–10 m
+distance depending on frequency (per FCC OET Bulletin 65). Never touch feed-point hardware
+or support structures while transmitting. Verify PTT key is open before antenna work.
+</div>
+
+<h2 class="chapter-heading" id="ch2">CHAPTER 2 &mdash; THEORY OF OPERATION</h2>
+<h3 class="section-heading">2-1. RADIATION PHYSICS</h3>
+<p>Six-sided (hexagonal) full-wave loop fed at one side corner; horizontal polarization in broadside direction. A full-wave loop fed at any point resonates when the total conductor length equals one free-space wavelength: &lambda; = 300/f<sub>MHz</sub> meters. The feed-point impedance of a square loop at resonance is approximately 100&ndash;150 &Omega; (real), varying with shape and height above ground. A circular loop has slightly higher radiation resistance than a square loop of the same perimeter.</p>
+
+<h3 class="section-heading">2-2. RADIATION PATTERN</h3>
+<p>A horizontal full-wave loop at 0.5&lambda; height produces a low-angle radiation pattern in the plane of the loop (edge-fire). Gain over a dipole at the same height is approximately 1.5&ndash;2 dB because the current distribution around the loop produces additive broadside contributions. Vertical loops produce an omnidirectional azimuth pattern with vertically polarized radiation; horizontal loops are horizontally polarized. Estimated gain: 2–4 dBi broadside.</p>
+
+<h3 class="section-heading">2-3. IMPEDANCE AND MATCHING</h3>
+<p>Feed impedance: 100–150 Ω (2:1 balun to 50 Ω). The loop impedance at resonance is typically 100&ndash;150 &Omega;, requiring a 2:1 balun (or direct feed to 75 &Omega; coax) for a reasonable match to 50 &Omega; systems. Off-resonance the loop can be operated through an ATU. Harmonic resonances occur at odd and even multiples of the fundamental frequency, extending multiband coverage without retuning.</p>
+
+<h2 class="chapter-heading" id="ch3">CHAPTER 3 &mdash; MATERIALS AND CONSTRUCTION</h2>
+<h3 class="section-heading">3-1. BILL OF MATERIALS</h3>
+<table class="tm-table">
+<caption>Materials for Hex Loop Antenna</caption>
+<thead><tr><th>Qty</th><th>Item</th><th>Specification</th></tr></thead>
+<tbody>
+<tr><td>1 length</td><td>Loop conductor</td><td>#14&ndash;#12 AWG copper wire; length = 1008/f<sub>MHz</sub> feet (full wavelength)</td></tr>
+<tr><td>2&ndash;4</td><td>Corner insulators / spreaders</td><td>UV-stable plastic or PVC; one per loop corner</td></tr>
+<tr><td>1</td><td>Feed-point insulator with connector</td><td>SO-239 or N-type; weatherproof</td></tr>
+<tr><td>1</td><td>2:1 current balun</td><td>Mix-31 or Mix-61 ferrite; handles operating power</td></tr>
+<tr><td>1</td><td>Support structure</td><td>PVC mast, fiber-glass pole, or tree; non-conductive preferred</td></tr>
+</tbody>
+</table>
+
+<h3 class="section-heading">3-2. PERIMETER FORMULA</h3>
+<div class="formula-block"><span class="formula-label">Full-wave loop perimeter (feet)</span>P = 1005 / f<sub>MHz</sub> (accounts for velocity factor &asymp; 0.997)</div>
+<div class="formula-block"><span class="formula-label">Side length for equilateral triangle loop (feet)</span>S = P / 3</div>
+<div class="formula-block"><span class="formula-label">Side length for square loop (feet)</span>S = P / 4</div>
+<div class="formula-block"><span class="formula-label">Example: 40M at 7.150 MHz</span>P = 1005 / 7.150 = 140.6 ft; square side = 35.1 ft</div>
+
+<h2 class="chapter-heading" id="ch4">CHAPTER 4 &mdash; ASSEMBLY PROCEDURES</h2>
+<div class="tm-caution">
+<span class="admonition-label">CAUTION — RF EXPOSURE</span>
+Maintain minimum safe distance from all energized antenna elements during transmission.
+At QRP power levels (&le;5 W) the MPE boundary is typically &lt;1 m for HF antennas.
+At 100 W the controlled exposure limit for HF antennas requires maintaining &ge;3–10 m
+distance depending on frequency (per FCC OET Bulletin 65). Never touch feed-point hardware
+or support structures while transmitting. Verify PTT key is open before antenna work.
+</div>
+<div class="procedure"><ol>
+<li>Calculate loop perimeter per formula above. Cut conductor 5% long for trimming.</li>
+<li>Install corner supports at spacing equal to side length. Attach conductor to corner insulators with UV-stable lacing or binding wire.</li>
+<li>Close the loop — solder or crimp conductor ends to feedpoint connector terminals. Install 2:1 balun at feedpoint before connecting coax.</li>
+<li>Raise loop to operating height. Horizontal polarization: loop plane horizontal. Vertical polarization: loop plane vertical, feed at bottom.</li>
+<li>Route feed line downward from feedpoint, maintaining 90&deg; departure from loop plane for at least 0.5&lambda; to minimize coupling.</li>
+<li>Perform SWR sweep per Chapter 5.</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch5">CHAPTER 5 &mdash; CALIBRATION PROCEDURE</h2>
+<div class="procedure"><ol>
+<li>SOLT calibrate NanoVNA at antenna end of feed line (or at feedpoint balun output).</li>
+<li>Set sweep: fundamental resonance ±20%.</li>
+<li>Verify f<sub>res</sub> where X = 0. Record R and SWR.</li>
+<li>Expected: R = 100&ndash;150 &Omega; at resonance before matching. After 2:1 balun: R = 50&ndash;75 &Omega; at 50 &Omega; coax.</li>
+<li>Trim loop perimeter in 6-inch increments to shift resonance to design frequency. Do not cut — fold wire back on itself until correct length found, then cut cleanly.</li>
+<li>Check harmonic resonances at 2f<sub>0</sub>, 3f<sub>0</sub>; verify SWR acceptable for multiband use.</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch6">CHAPTER 6 &mdash; TUNING AND ADJUSTMENT</h2>
+<p>Trim loop perimeter to shift resonance. Each 1-ft change in total perimeter shifts resonance approximately 10&ndash;20 kHz at 40M. An ATU at the feed line allows operation across a 2:1 frequency range from a single cut length. For delta loops, adjusting the feed point position (base corner vs. apex) changes the feed impedance but not the resonant frequency.</p>
+
+<h2 class="chapter-heading" id="ch7">CHAPTER 7 &mdash; VERIFICATION</h2>
+<table class="tm-table">
+<caption>Acceptance Criteria</caption>
+<thead><tr><th>Parameter</th><th>Requirement</th><th>Pass/Fail</th></tr></thead>
+<tbody>
+<tr><td>SWR at resonance</td><td>< 2.0:1 after matching</td><td>____</td></tr>
+<tr><td>Resonant frequency</td><td>Within ±1% of design</td><td>____</td></tr>
+<tr><td>R at resonance</td><td>100&ndash;150 &Omega; (before matching)</td><td>____</td></tr>
+<tr><td>Gain (NEC2)</td><td>2–4 dBi broadside</td><td>____</td></tr>
+<tr><td>Efficiency</td><td>88–96%</td><td>____</td></tr>
+</tbody>
+</table>
+
+<h2 class="chapter-heading" id="appa">APPENDIX A &mdash; CALCULATIONS AND FORMULAS</h2>
+<div class="formula-block"><span class="formula-label">Full-wave loop perimeter (feet)</span>P = 1005 / f<sub>MHz</sub></div>
+<div class="formula-block"><span class="formula-label">Radiation resistance (full-wave loop, free space)</span>R<sub>r</sub> &asymp; 100&ndash;150 &Omega; (shape-dependent)</div>
+<div class="formula-block"><span class="formula-label">Gain over dipole at same height</span>&Delta;G &asymp; 1.5&ndash;2 dB</div>
+
+<h2 class="chapter-heading" id="appb">APPENDIX B &mdash; EXAMPLE RESULTS</h2>
+<table class="tm-table">
+<caption>Typical Results — Hex Loop Antenna</caption>
+<thead><tr><th>Band</th><th>f<sub>res</sub> (MHz)</th><th>SWR</th><th>R (&Omega;)</th><th>X (&Omega;)</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td>40M</td><td>7.150</td><td>1.4:1</td><td>120</td><td>+5</td><td>After 2:1 balun: SWR 1.6:1</td></tr>
+<tr><td>20M</td><td>14.175</td><td>1.5:1</td><td>110</td><td>&minus;8</td><td>Harmonic resonance</td></tr>
+</tbody>
+</table>
+
+
+                <div class="back-link">
+                    <a href="../index.html">&larr; Back to Antenna Library</a>
+                    &nbsp;&nbsp;&bull;&nbsp;&nbsp;
+                    <a href="index.html">&larr; Back to Hex Loop Antenna Overview</a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Radio: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+                <p>Amateur Radio | Electronics | Engineering | Knowledge Preservation</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

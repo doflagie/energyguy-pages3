@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-TGEAR-029 PRECISION VOLTAGE REFERENCE - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+
+<style>
+/* Navy TM Styles */
+.tm-cover {
+    border: 3px solid #2c5f8d;
+    padding: 30px 40px;
+    text-align: center;
+    margin-bottom: 30px;
+    background: #f8f8f4;
+}
+.tm-classification {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #006600;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+.tm-number {
+    font-family: 'Courier New', monospace;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #2c5f8d;
+    margin-bottom: 10px;
+}
+.tm-title {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #1a3a5c;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 15px 0 10px;
+    line-height: 1.3;
+}
+.tm-subtitle {
+    font-size: 1.0em;
+    font-style: italic;
+    color: #555;
+    margin-bottom: 15px;
+}
+.tm-meta {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 20px;
+    border-top: 1px solid #aaa;
+    padding-top: 15px;
+}
+.tm-toc {
+    background: #f0f4f8;
+    border: 1px solid #c0ccd8;
+    padding: 20px 30px;
+    margin-bottom: 30px;
+}
+.tm-toc h2 {
+    font-size: 1.1em;
+    color: #2c5f8d;
+    border-bottom: 1px solid #4a7ba7;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.tm-toc ol {
+    margin: 0;
+    padding-left: 25px;
+}
+.tm-toc li {
+    margin: 4px 0;
+    font-size: 0.95em;
+}
+.tm-toc a {
+    color: #2c5f8d;
+    text-decoration: none;
+}
+.tm-toc a:hover {
+    text-decoration: underline;
+}
+.chapter-heading {
+    background: #2c5f8d;
+    color: #ffffff;
+    padding: 10px 20px;
+    margin-top: 35px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.section-heading {
+    color: #1a3a5c;
+    border-bottom: 2px solid #4a7ba7;
+    padding-bottom: 4px;
+    margin-top: 25px;
+    margin-bottom: 12px;
+    font-size: 1.05em;
+}
+.subsection-heading {
+    color: #2c5f8d;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    font-size: 1.0em;
+}
+.tm-warning {
+    background: #fff0f0;
+    border-left: 5px solid #cc0000;
+    border-top: 1px solid #cc0000;
+    border-bottom: 1px solid #cc0000;
+    border-right: 1px solid #cc0000;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-caution {
+    background: #fffbf0;
+    border-left: 5px solid #cc7700;
+    border-top: 1px solid #cc7700;
+    border-bottom: 1px solid #cc7700;
+    border-right: 1px solid #cc7700;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-note {
+    background: #f0f5ff;
+    border-left: 5px solid #4a7ba7;
+    border-top: 1px solid #4a7ba7;
+    border-bottom: 1px solid #4a7ba7;
+    border-right: 1px solid #4a7ba7;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.admonition-label {
+    font-weight: bold;
+    font-size: 0.9em;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 6px;
+}
+.tm-warning .admonition-label { color: #cc0000; }
+.tm-caution .admonition-label { color: #cc7700; }
+.tm-note .admonition-label { color: #2c5f8d; }
+.tm-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.95em;
+}
+.tm-table th {
+    background: #4a7ba7;
+    color: #ffffff;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.tm-table td {
+    border: 1px solid #c0ccd8;
+    padding: 7px 12px;
+    vertical-align: top;
+}
+.tm-table tr:nth-child(even) td {
+    background: #f4f7fb;
+}
+.tm-table caption {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 5px;
+    text-align: left;
+}
+.procedure ol {
+    margin: 10px 0 10px 20px;
+}
+.procedure li {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+.formula-block {
+    background: #f4f7fb;
+    border: 1px solid #c0ccd8;
+    padding: 12px 20px;
+    margin: 12px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+}
+.formula-block .formula-label {
+    font-family: Georgia, serif;
+    font-size: 0.85em;
+    color: #555;
+    font-style: italic;
+    display: block;
+    margin-bottom: 5px;
+}
+.back-link {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #c0ccd8;
+    font-size: 0.9em;
+}
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="../../about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul><li><a href="../../antennas/index.html">Antenna Library</a></li></ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul><li><a href="../index.html">Test Equipment Library</a></li></ul>
+            </details>
+            <h3>Standards</h3>
+            <ul>
+                <li><a href="../../Calibration_Ideas/index.html">Calibration Standards</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Study &amp; Training</summary>
+                <ul>
+                    <li><a href="https://assets.doflagie.com/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                    <li><a href="https://assets.doflagie.com/study/morse.html">Morse Code Practice</a></li>
+                </ul>
+            </details>
+        </nav>
+
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-TGEAR-029</div>
+                    <div class="tm-title">PRECISION VOLTAGE REFERENCE</div>
+                    <div class="tm-subtitle">Traceable DC Voltage Standards, 1.225 V to 10.000 V</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH<br>
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial calibration use</em>
+                    </div>
+                </div>
+
+                <div class="tm-toc">
+                    <h2>Table of Contents</h2>
+                    <ol>
+            <li><a href="#ch1">Chapter 1 &mdash; General Information</a></li>
+            <li><a href="#ch2">Chapter 2 &mdash; Theory of Operation</a></li>
+            <li><a href="#ch3">Chapter 3 &mdash; Construction</a></li>
+            <li><a href="#ch4">Chapter 4 &mdash; Assembly Procedures</a></li>
+            <li><a href="#ch5">Chapter 5 &mdash; Calibration Procedure</a></li>
+            <li><a href="#ch6">Chapter 6 &mdash; Tuning and Adjustment</a></li>
+            <li><a href="#ch7">Chapter 7 &mdash; Verification</a></li>
+            <li><a href="#appa">Appendix A &mdash; Calculations and Formulas</a></li>
+            <li><a href="#appb">Appendix B &mdash; Example Results</a></li>
+                    </ol>
+                </div>
+
+
+<h2 class="chapter-heading" id="ch1">CHAPTER 1 &mdash; GENERAL INFORMATION</h2>
+<h3 class="section-heading">1-1. SCOPE</h3>
+<p>This manual covers design, construction, and calibration of precision DC voltage references from 1.225 V to 10.000 V for calibrating DMMs, oscilloscopes, and ADCs. References are based on band-gap or buried-zener IC standards traceable to NIST via publicly available calibration data from the IC manufacturers.</p>
+<h3 class="section-heading">1-2. APPLICABLE DOCUMENTS</h3>
+<p>TM-CAL-006 (Precision Voltage Reference), TM-TGEAR-017 (Fluke 15B+ DMM).</p>
+<div class="tm-note"><span class="admonition-label">NOTE</span>Band-gap references (LM4040, TL431, REF02) have initial tolerance of &plusmn;0.1% to &plusmn;2%. For calibration use, measure actual output voltage with a precision instrument and use measured value. Do NOT rely on nominal value as a calibration standard without individual measurement.</div>
+
+<h2 class="chapter-heading" id="ch2">CHAPTER 2 &mdash; THEORY OF OPERATION</h2>
+<h3 class="section-heading">2-1. BAND-GAP REFERENCE</h3>
+<p>The band-gap voltage of silicon (approximately 1.205 V at 0 K, extrapolated) is exploited by designing a circuit whose output voltage is proportional to V<sub>BE</sub> differences between two transistors operating at different current densities. The resulting band-gap voltage V<sub>BG</sub> &asymp; 1.225 V has a temperature coefficient close to zero near room temperature.</p>
+<div class="formula-block"><span class="formula-label">Band-gap reference voltage</span>V<sub>ref</sub> &asymp; V<sub>BG</sub> + (&Delta;V<sub>BE</sub> &times; scale factor) = 1.225 V (first-order)</div>
+<h3 class="section-heading">2-2. BURIED ZENER REFERENCE</h3>
+<p>Buried-zener references (LM399, LTZ1000) use a subsurface zener diode structure with 1/f noise 100&times; lower than surface-breakdown zeners. They achieve stability of &lt;1 ppm/month and TC &lt;0.05 ppm/&deg;C (LTZ1000 with oven). These are the highest-accuracy single-chip references available commercially.</p>
+<div class="formula-block"><span class="formula-label">Temperature coefficient</span>TC = (dV<sub>ref</sub>/dT) / V<sub>ref</sub>  [ppm/&deg;C]</div>
+
+<h2 class="chapter-heading" id="ch3">CHAPTER 3 &mdash; CONSTRUCTION</h2>
+<table class="tm-table"><caption>Voltage Reference Designs by Accuracy Class</caption>
+<thead><tr><th>Accuracy</th><th>Reference IC</th><th>V<sub>out</sub></th><th>TC (ppm/&deg;C)</th><th>Stability</th></tr></thead>
+<tbody>
+<tr><td>Class C (0.1%)</td><td>LM4040C-4.096</td><td>4.096 V</td><td>&plusmn;100</td><td>&plusmn;500 ppm/yr</td></tr>
+<tr><td>Class B (0.05%)</td><td>REF02E</td><td>5.000 V</td><td>&plusmn;25</td><td>&plusmn;100 ppm/yr</td></tr>
+<tr><td>Class A (0.02%)</td><td>LT1027BCN8</td><td>5.000 V</td><td>&plusmn;5</td><td>&plusmn;20 ppm/yr</td></tr>
+<tr><td>Ultra (0.001%)</td><td>LTZ1000 + oven</td><td>7.000 V</td><td>&plusmn;0.05</td><td>&plusmn;2 ppm/yr</td></tr>
+</tbody></table>
+<h3 class="section-heading">3-2. CIRCUIT FOR LM4040 CLASS C REFERENCE</h3>
+<table class="tm-table"><caption>LM4040 4.096 V Reference BOM</caption>
+<thead><tr><th>Qty</th><th>Item</th><th>Specification</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>LM4040C-4.1</td><td>4.096 V shunt reference, &plusmn;0.1%, SOT-23</td></tr>
+<tr><td>1</td><td>1 k&Omega; 0.1% resistor</td><td>Current-set from 9 V battery</td></tr>
+<tr><td>1</td><td>9 V alkaline battery</td><td>Low-noise supply; avoid switching regulators</td></tr>
+<tr><td>2</td><td>10 &mu;F tantalum caps</td><td>Supply filter and output noise filter</td></tr>
+<tr><td>2</td><td>Banana jacks</td><td>4 mm output terminals</td></tr>
+</tbody></table>
+
+<h2 class="chapter-heading" id="ch4">CHAPTER 4 &mdash; ASSEMBLY PROCEDURES</h2>
+<div class="procedure"><ol>
+<li>Solder LM4040 in SOT-23 on adapter PCB. Current-set resistor = (V<sub>bat</sub> &minus; V<sub>ref</sub>) / I<sub>set</sub>. For 9 V bat and 1 mA: R = (9 &minus; 4.1) / 0.001 = 4.9 k&Omega;. Use 4.7 k&Omega; + 470 &Omega; in series for easy adjustment.</li>
+<li>Allow 30-minute warmup with battery connected before measuring output. Thermal equilibrium reduces V<sub>ref</sub> variation.</li>
+<li>Measure output with precision DMM. Record: V<sub>ref_measured</sub> = _____. This is the working calibration value.</li>
+<li>Label reference module with measured V<sub>ref</sub>, date, and temperature during measurement.</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch5">CHAPTER 5 &mdash; CALIBRATION PROCEDURE</h2>
+<h3 class="section-heading">5-1. ABSOLUTE CALIBRATION</h3>
+<div class="procedure"><ol>
+<li>Measure V<sub>ref</sub> with the most accurate available DMM (Fluke 15B+ or better).</li>
+<li>Record measured value, ambient temperature, battery voltage, and date.</li>
+<li>Traceability note: LM4040 manufacturer-characterized to NIST standards via wafer-level test. Initial tolerance &plusmn;0.1%; actual measured value is the calibration standard for this reference module.</li>
+</ol></div>
+<h3 class="section-heading">5-2. TEMPERATURE COEFFICIENT MEASUREMENT</h3>
+<div class="procedure"><ol>
+<li>Measure V<sub>ref</sub> at 25 &deg;C (room temperature) and 45 &deg;C (oven or heat gun from 30 cm).</li>
+<li>TC = (V<sub>45</sub> &minus; V<sub>25</sub>) / (V<sub>25</sub> &times; 20 &deg;C) &times; 10<sup>6</sup> ppm/&deg;C. Accept &lt;&plusmn;200 ppm/&deg;C for Class C.</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch6">CHAPTER 6 &mdash; TUNING AND ADJUSTMENT</h2>
+<p>For shunt reference designs (LM4040), there is no adjustable output. Use an external amplifier (non-inverting op-amp) to scale V<sub>ref</sub> to other voltages. For instance, 4.096 V &times; (10 k&Omega; + 14.4 k&Omega;) / 10 k&Omega; = 10.000 V.</p>
+<div class="formula-block"><span class="formula-label">Scaling amplifier gain</span>G = 1 + R<sub>f</sub>/R<sub>g</sub>;  V<sub>out</sub> = G &times; V<sub>ref</sub></div>
+
+<h2 class="chapter-heading" id="ch7">CHAPTER 7 &mdash; VERIFICATION</h2>
+<table class="tm-table"><caption>Voltage Reference Acceptance Specifications</caption>
+<thead><tr><th>Class</th><th>Initial Accuracy</th><th>TC</th><th>1-Year Stability</th></tr></thead>
+<tbody>
+<tr><td>C (LM4040)</td><td>&plusmn;0.1%</td><td>&plusmn;100 ppm/&deg;C</td><td>&plusmn;500 ppm</td></tr>
+<tr><td>B (REF02)</td><td>&plusmn;0.05%</td><td>&plusmn;25 ppm/&deg;C</td><td>&plusmn;100 ppm</td></tr>
+<tr><td>A (LT1027)</td><td>&plusmn;0.02%</td><td>&plusmn;5 ppm/&deg;C</td><td>&plusmn;20 ppm</td></tr>
+</tbody></table>
+
+<h2 class="chapter-heading" id="appa">APPENDIX A &mdash; CALCULATIONS AND FORMULAS</h2>
+<div class="formula-block"><span class="formula-label">Current-set resistor</span>R = (V<sub>supply</sub> &minus; V<sub>ref</sub>) / I<sub>ref</sub>  [I<sub>ref</sub> typical 1&ndash;5 mA]</div>
+<div class="formula-block"><span class="formula-label">Temperature coefficient</span>TC = &Delta;V / (V<sub>ref</sub> &times; &Delta;T)  [ppm/&deg;C]</div>
+<div class="formula-block"><span class="formula-label">Scaling amplifier output</span>V<sub>out</sub> = V<sub>ref</sub> &times; (1 + R<sub>f</sub>/R<sub>g</sub>)</div>
+<div class="formula-block"><span class="formula-label">Long-term stability (ppm/yr)</span>S = |V(t+1yr) &minus; V(t)| / V(t) &times; 10<sup>6</sup></div>
+
+<h2 class="chapter-heading" id="appb">APPENDIX B &mdash; EXAMPLE RESULTS</h2>
+<table class="tm-table"><caption>Voltage Reference Calibration Log</caption>
+<thead><tr><th>Reference</th><th>Nominal</th><th>Measured</th><th>Error</th><th>TC Measured</th></tr></thead>
+<tbody>
+<tr><td>LM4040C-4.096 #1</td><td>4.096 V</td><td>4.0944 V</td><td>&minus;0.039%</td><td>+88 ppm/&deg;C</td></tr>
+<tr><td>LM4040C-4.096 #2</td><td>4.096 V</td><td>4.0981 V</td><td>+0.051%</td><td>+92 ppm/&deg;C</td></tr>
+<tr><td>REF02E</td><td>5.000 V</td><td>4.9988 V</td><td>&minus;0.024%</td><td>+18 ppm/&deg;C</td></tr>
+</tbody></table>
+
+
+                <div class="back-link">
+                    <a href="index.html">&larr; Back to Precision Voltage Reference Index</a> &nbsp;|&nbsp;
+                    <a href="../index.html">&larr; Test Equipment Library</a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Radio: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+                <p>Amateur Radio | Electronics | Engineering | Knowledge Preservation</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-TGEAR-018 NANOVNA VECTOR NETWORK ANALYZER - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+
+<style>
+/* Navy TM Styles */
+.tm-cover {
+    border: 3px solid #2c5f8d;
+    padding: 30px 40px;
+    text-align: center;
+    margin-bottom: 30px;
+    background: #f8f8f4;
+}
+.tm-classification {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #006600;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+.tm-number {
+    font-family: 'Courier New', monospace;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #2c5f8d;
+    margin-bottom: 10px;
+}
+.tm-title {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #1a3a5c;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 15px 0 10px;
+    line-height: 1.3;
+}
+.tm-subtitle {
+    font-size: 1.0em;
+    font-style: italic;
+    color: #555;
+    margin-bottom: 15px;
+}
+.tm-meta {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 20px;
+    border-top: 1px solid #aaa;
+    padding-top: 15px;
+}
+.tm-toc {
+    background: #f0f4f8;
+    border: 1px solid #c0ccd8;
+    padding: 20px 30px;
+    margin-bottom: 30px;
+}
+.tm-toc h2 {
+    font-size: 1.1em;
+    color: #2c5f8d;
+    border-bottom: 1px solid #4a7ba7;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.tm-toc ol {
+    margin: 0;
+    padding-left: 25px;
+}
+.tm-toc li {
+    margin: 4px 0;
+    font-size: 0.95em;
+}
+.tm-toc a {
+    color: #2c5f8d;
+    text-decoration: none;
+}
+.tm-toc a:hover {
+    text-decoration: underline;
+}
+.chapter-heading {
+    background: #2c5f8d;
+    color: #ffffff;
+    padding: 10px 20px;
+    margin-top: 35px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.section-heading {
+    color: #1a3a5c;
+    border-bottom: 2px solid #4a7ba7;
+    padding-bottom: 4px;
+    margin-top: 25px;
+    margin-bottom: 12px;
+    font-size: 1.05em;
+}
+.subsection-heading {
+    color: #2c5f8d;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    font-size: 1.0em;
+}
+.tm-warning {
+    background: #fff0f0;
+    border-left: 5px solid #cc0000;
+    border-top: 1px solid #cc0000;
+    border-bottom: 1px solid #cc0000;
+    border-right: 1px solid #cc0000;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-caution {
+    background: #fffbf0;
+    border-left: 5px solid #cc7700;
+    border-top: 1px solid #cc7700;
+    border-bottom: 1px solid #cc7700;
+    border-right: 1px solid #cc7700;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-note {
+    background: #f0f5ff;
+    border-left: 5px solid #4a7ba7;
+    border-top: 1px solid #4a7ba7;
+    border-bottom: 1px solid #4a7ba7;
+    border-right: 1px solid #4a7ba7;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.admonition-label {
+    font-weight: bold;
+    font-size: 0.9em;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 6px;
+}
+.tm-warning .admonition-label { color: #cc0000; }
+.tm-caution .admonition-label { color: #cc7700; }
+.tm-note .admonition-label { color: #2c5f8d; }
+.tm-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.95em;
+}
+.tm-table th {
+    background: #4a7ba7;
+    color: #ffffff;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.tm-table td {
+    border: 1px solid #c0ccd8;
+    padding: 7px 12px;
+    vertical-align: top;
+}
+.tm-table tr:nth-child(even) td {
+    background: #f4f7fb;
+}
+.tm-table caption {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 5px;
+    text-align: left;
+}
+.procedure ol {
+    margin: 10px 0 10px 20px;
+}
+.procedure li {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+.formula-block {
+    background: #f4f7fb;
+    border: 1px solid #c0ccd8;
+    padding: 12px 20px;
+    margin: 12px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+}
+.formula-block .formula-label {
+    font-family: Georgia, serif;
+    font-size: 0.85em;
+    color: #555;
+    font-style: italic;
+    display: block;
+    margin-bottom: 5px;
+}
+.back-link {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #c0ccd8;
+    font-size: 0.9em;
+}
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="../../about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul><li><a href="../../antennas/index.html">Antenna Library</a></li></ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul><li><a href="../index.html">Test Equipment Library</a></li></ul>
+            </details>
+            <h3>Standards</h3>
+            <ul>
+                <li><a href="../../Calibration_Ideas/index.html">Calibration Standards</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Study &amp; Training</summary>
+                <ul>
+                    <li><a href="https://assets.doflagie.com/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                    <li><a href="https://assets.doflagie.com/study/morse.html">Morse Code Practice</a></li>
+                </ul>
+            </details>
+        </nav>
+
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-TGEAR-018</div>
+                    <div class="tm-title">NANOVNA VECTOR NETWORK ANALYZER</div>
+                    <div class="tm-subtitle">Two-Port S-Parameter Measurement, 50 kHz to 900 MHz</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH<br>
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial calibration use</em>
+                    </div>
+                </div>
+
+                <div class="tm-toc">
+                    <h2>Table of Contents</h2>
+                    <ol>
+            <li><a href="#ch1">Chapter 1 &mdash; General Information</a></li>
+            <li><a href="#ch2">Chapter 2 &mdash; Theory of Operation</a></li>
+            <li><a href="#ch3">Chapter 3 &mdash; Construction</a></li>
+            <li><a href="#ch4">Chapter 4 &mdash; Assembly Procedures</a></li>
+            <li><a href="#ch5">Chapter 5 &mdash; Calibration Procedure</a></li>
+            <li><a href="#ch6">Chapter 6 &mdash; Tuning and Adjustment</a></li>
+            <li><a href="#ch7">Chapter 7 &mdash; Verification</a></li>
+            <li><a href="#appa">Appendix A &mdash; Calculations and Formulas</a></li>
+            <li><a href="#appb">Appendix B &mdash; Example Results</a></li>
+                    </ol>
+                </div>
+
+
+<h2 class="chapter-heading" id="ch1">CHAPTER 1 &mdash; GENERAL INFORMATION</h2>
+<h3 class="section-heading">1-1. SCOPE</h3>
+<p>This manual covers the calibration and use of the NanoVNA two-port vector network analyzer for measuring S-parameters (S11, S21), antenna impedance, filter response, and transmission line characteristics from 50 kHz to 900 MHz. The NanoVNA uses SOLT calibration to remove systematic measurement errors.</p>
+<h3 class="section-heading">1-2. APPLICABLE DOCUMENTS</h3>
+<p>TM-CAL-015 (Attenuator Pads), TM-CAL-014 (Dummy Load), TM-CAL-002 (GPS 1PPS), TM-TGEAR-022 (RF Attenuator Set).</p>
+<div class="tm-note"><span class="admonition-label">NOTE</span>The NanoVNA internal oscillator is a Si5351A. Its frequency accuracy is &plusmn;30 ppm without correction. GPS frequency correction to &lt;1 ppm is performed via the SOLT load calibration and a frequency counter cross-check.</div>
+
+<h2 class="chapter-heading" id="ch2">CHAPTER 2 &mdash; THEORY OF OPERATION</h2>
+<h3 class="section-heading">2-1. S-PARAMETER DEFINITIONS</h3>
+<p>S-parameters describe the linear behavior of a two-port network in terms of incident and reflected power waves:</p>
+<div class="formula-block"><span class="formula-label">S11 (input reflection)</span>S11 = b1/a1 (with a2=0)  &mdash; reflected wave at port 1</div>
+<div class="formula-block"><span class="formula-label">S21 (forward transmission)</span>S21 = b2/a1 (with a2=0)  &mdash; transmitted wave at port 2</div>
+<h3 class="section-heading">2-2. 12-TERM ERROR MODEL</h3>
+<p>The NanoVNA implements a simplified 3-term (1-port) and 6-term (2-port) error model. SOLT calibration solves for error terms: directivity (E<sub>D</sub>), source match (E<sub>S</sub>), and reflection tracking (E<sub>R</sub>).</p>
+<div class="formula-block"><span class="formula-label">Corrected S11</span>S11<sub>corrected</sub> = (S11<sub>measured</sub> &minus; E<sub>D</sub>) / (E<sub>R</sub> + E<sub>S</sub> &times; (S11<sub>measured</sub> &minus; E<sub>D</sub>))</div>
+<h3 class="section-heading">2-3. SMITH CHART INTERPRETATION</h3>
+<p>The Smith chart maps complex reflection coefficient &Gamma; onto a normalized impedance plane. Center = 50 &Omega; (Z<sub>0</sub>). Top arc = inductive reactance (+ jX). Bottom arc = capacitive reactance (&minus; jX). Right = open (Z = &infin;). Left = short (Z = 0).</p>
+
+<h2 class="chapter-heading" id="ch3">CHAPTER 3 &mdash; CONSTRUCTION</h2>
+<p>The NanoVNA is a commercial product. This chapter covers the construction of a SOLT calibration kit for NanoVNA port calibration.</p>
+<table class="tm-table"><caption>Homebrew SOLT Cal Kit Components</caption>
+<thead><tr><th>Standard</th><th>Construction</th><th>Specification</th></tr></thead>
+<tbody>
+<tr><td>Short (S)</td><td>SMA male, center pin shorted to shell</td><td>|&Gamma;| = 1.0, phase = &minus;180&deg; at DC</td></tr>
+<tr><td>Open (O)</td><td>SMA male, center pin open (no connection)</td><td>|&Gamma;| = 1.0, phase = 0&deg; at DC (with offset capacitance model)</td></tr>
+<tr><td>Load (L)</td><td>SMA male, 50 &Omega; &plusmn;1%, non-inductive resistor</td><td>|&Gamma;| &lt; 0.02 (RL &gt;34 dB) to 300 MHz</td></tr>
+<tr><td>Through (T)</td><td>SMA male-to-male adapter</td><td>Insertion loss &lt;0.1 dB to 300 MHz</td></tr>
+</tbody></table>
+
+<h2 class="chapter-heading" id="ch4">CHAPTER 4 &mdash; ASSEMBLY PROCEDURES</h2>
+<div class="procedure"><ol>
+<li>Construct SOLT kit (or use commercial NanoVNA cal kit). Mark each standard clearly: S/O/L/T.</li>
+<li>Power on NanoVNA. Allow 5-minute warmup. Verify firmware version (NanoVNA-D, NanoVNA-F, etc.).</li>
+<li>Connect to NanoVNA-QT or NanoVNA-App via USB for PC-based calibration management.</li>
+<li>Perform SOLT calibration at the measurement reference plane (cable end, not NanoVNA SMA ports).</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch5">CHAPTER 5 &mdash; CALIBRATION PROCEDURE</h2>
+<h3 class="section-heading">5-1. SOLT ONE-PORT CALIBRATION (PORT 1)</h3>
+<div class="procedure"><ol>
+<li>Set frequency range: 1 MHz to 300 MHz, 101 points.</li>
+<li>Connect SHORT to port 1. In NanoVNA-App: CAL &rarr; OPEN; wait for sweep to complete; press SHORT.</li>
+<li>Connect OPEN to port 1. Press OPEN.</li>
+<li>Connect LOAD (50 &Omega;) to port 1. Press LOAD.</li>
+<li>Press DONE / APPLY. Calibration is now active. Verify: short reads S11 = 1.0&ang;&minus;180&deg;; open reads S11 = 1.0&ang;0&deg;; load reads S11 &lt; &minus;30 dB.</li>
+</ol></div>
+<h3 class="section-heading">5-2. SOLT TWO-PORT CALIBRATION (PORTS 1 AND 2)</h3>
+<div class="procedure"><ol>
+<li>After one-port calibration, connect THROUGH between port 1 and port 2. Press THRU.</li>
+<li>Press DONE. S21 through standard should read 0 dB &plusmn;0.2 dB from 1 to 300 MHz.</li>
+</ol></div>
+<h3 class="section-heading">5-3. FREQUENCY AXIS CALIBRATION</h3>
+<div class="procedure"><ol>
+<li>Tune NanoVNA to marker at 10.000 MHz. Connect frequency counter (TM-TGEAR-010) to port 1 via 20 dB attenuator.</li>
+<li>Record counter reading. Compute frequency error in ppm.</li>
+<li>Enter correction in NanoVNA firmware: CALIBRATE &rarr; FREQ CORRECTION (ppm).</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch6">CHAPTER 6 &mdash; TUNING AND ADJUSTMENT</h2>
+<p>The Si5351A reference crystal can be trimmed in firmware. Access via USB serial port or NanoVNA-App: "Calibrate &rarr; Crystal Correction." Typical trim range: &plusmn;200 ppm. After GPS-disciplined counter cross-check, enter the measured correction value.</p>
+
+<h2 class="chapter-heading" id="ch7">CHAPTER 7 &mdash; VERIFICATION</h2>
+<table class="tm-table"><caption>NanoVNA Acceptance Specifications</caption>
+<thead><tr><th>Parameter</th><th>Specification</th></tr></thead>
+<tbody>
+<tr><td>Frequency range</td><td>50 kHz &ndash; 900 MHz</td></tr>
+<tr><td>S11 dynamic range</td><td>&gt;70 dB (after SOLT cal)</td></tr>
+<tr><td>S21 dynamic range</td><td>&gt;70 dB (after SOLT cal)</td></tr>
+<tr><td>Frequency accuracy (post-correction)</td><td>&lt;1 ppm</td></tr>
+<tr><td>Port impedance</td><td>50 &Omega;</td></tr>
+<tr><td>Directivity (after cal)</td><td>&gt;40 dB</td></tr>
+</tbody></table>
+
+<h2 class="chapter-heading" id="appa">APPENDIX A &mdash; CALCULATIONS AND FORMULAS</h2>
+<div class="formula-block"><span class="formula-label">Reflection coefficient to impedance</span>Z = Z<sub>0</sub> &times; (1 + &Gamma;) / (1 &minus; &Gamma;)</div>
+<div class="formula-block"><span class="formula-label">Return loss</span>RL = &minus;20 log<sub>10</sub>|S11| dB</div>
+<div class="formula-block"><span class="formula-label">Insertion loss</span>IL = &minus;20 log<sub>10</sub>|S21| dB</div>
+<div class="formula-block"><span class="formula-label">SWR from S11</span>SWR = (1 + |S11|) / (1 &minus; |S11|)</div>
+
+<h2 class="chapter-heading" id="appb">APPENDIX B &mdash; EXAMPLE RESULTS</h2>
+<table class="tm-table"><caption>NanoVNA Post-SOLT Calibration Verification</caption>
+<thead><tr><th>Standard</th><th>Freq</th><th>S11 (dB)</th><th>Phase</th><th>Pass/Fail</th></tr></thead>
+<tbody>
+<tr><td>50 &Omega; load</td><td>7 MHz</td><td>&minus;42.3</td><td>&mdash;</td><td>Pass</td></tr>
+<tr><td>50 &Omega; load</td><td>100 MHz</td><td>&minus;38.7</td><td>&mdash;</td><td>Pass</td></tr>
+<tr><td>Short circuit</td><td>7 MHz</td><td>&minus;0.05</td><td>&minus;178.8&deg;</td><td>Pass</td></tr>
+<tr><td>Open circuit</td><td>7 MHz</td><td>&minus;0.12</td><td>+1.2&deg;</td><td>Pass</td></tr>
+</tbody></table>
+
+
+                <div class="back-link">
+                    <a href="index.html">&larr; Back to Nanovna Vector Network Analyzer Index</a> &nbsp;|&nbsp;
+                    <a href="../index.html">&larr; Test Equipment Library</a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Radio: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+                <p>Amateur Radio | Electronics | Engineering | Knowledge Preservation</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

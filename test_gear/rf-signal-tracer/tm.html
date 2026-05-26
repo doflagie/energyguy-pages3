@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-TGEAR-025 RF SIGNAL TRACER - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+
+<style>
+/* Navy TM Styles */
+.tm-cover {
+    border: 3px solid #2c5f8d;
+    padding: 30px 40px;
+    text-align: center;
+    margin-bottom: 30px;
+    background: #f8f8f4;
+}
+.tm-classification {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #006600;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+.tm-number {
+    font-family: 'Courier New', monospace;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #2c5f8d;
+    margin-bottom: 10px;
+}
+.tm-title {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #1a3a5c;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 15px 0 10px;
+    line-height: 1.3;
+}
+.tm-subtitle {
+    font-size: 1.0em;
+    font-style: italic;
+    color: #555;
+    margin-bottom: 15px;
+}
+.tm-meta {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 20px;
+    border-top: 1px solid #aaa;
+    padding-top: 15px;
+}
+.tm-toc {
+    background: #f0f4f8;
+    border: 1px solid #c0ccd8;
+    padding: 20px 30px;
+    margin-bottom: 30px;
+}
+.tm-toc h2 {
+    font-size: 1.1em;
+    color: #2c5f8d;
+    border-bottom: 1px solid #4a7ba7;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.tm-toc ol {
+    margin: 0;
+    padding-left: 25px;
+}
+.tm-toc li {
+    margin: 4px 0;
+    font-size: 0.95em;
+}
+.tm-toc a {
+    color: #2c5f8d;
+    text-decoration: none;
+}
+.tm-toc a:hover {
+    text-decoration: underline;
+}
+.chapter-heading {
+    background: #2c5f8d;
+    color: #ffffff;
+    padding: 10px 20px;
+    margin-top: 35px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.section-heading {
+    color: #1a3a5c;
+    border-bottom: 2px solid #4a7ba7;
+    padding-bottom: 4px;
+    margin-top: 25px;
+    margin-bottom: 12px;
+    font-size: 1.05em;
+}
+.subsection-heading {
+    color: #2c5f8d;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    font-size: 1.0em;
+}
+.tm-warning {
+    background: #fff0f0;
+    border-left: 5px solid #cc0000;
+    border-top: 1px solid #cc0000;
+    border-bottom: 1px solid #cc0000;
+    border-right: 1px solid #cc0000;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-caution {
+    background: #fffbf0;
+    border-left: 5px solid #cc7700;
+    border-top: 1px solid #cc7700;
+    border-bottom: 1px solid #cc7700;
+    border-right: 1px solid #cc7700;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-note {
+    background: #f0f5ff;
+    border-left: 5px solid #4a7ba7;
+    border-top: 1px solid #4a7ba7;
+    border-bottom: 1px solid #4a7ba7;
+    border-right: 1px solid #4a7ba7;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.admonition-label {
+    font-weight: bold;
+    font-size: 0.9em;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 6px;
+}
+.tm-warning .admonition-label { color: #cc0000; }
+.tm-caution .admonition-label { color: #cc7700; }
+.tm-note .admonition-label { color: #2c5f8d; }
+.tm-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.95em;
+}
+.tm-table th {
+    background: #4a7ba7;
+    color: #ffffff;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.tm-table td {
+    border: 1px solid #c0ccd8;
+    padding: 7px 12px;
+    vertical-align: top;
+}
+.tm-table tr:nth-child(even) td {
+    background: #f4f7fb;
+}
+.tm-table caption {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 5px;
+    text-align: left;
+}
+.procedure ol {
+    margin: 10px 0 10px 20px;
+}
+.procedure li {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+.formula-block {
+    background: #f4f7fb;
+    border: 1px solid #c0ccd8;
+    padding: 12px 20px;
+    margin: 12px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+}
+.formula-block .formula-label {
+    font-family: Georgia, serif;
+    font-size: 0.85em;
+    color: #555;
+    font-style: italic;
+    display: block;
+    margin-bottom: 5px;
+}
+.back-link {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #c0ccd8;
+    font-size: 0.9em;
+}
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="../../about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul><li><a href="../../antennas/index.html">Antenna Library</a></li></ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul><li><a href="../index.html">Test Equipment Library</a></li></ul>
+            </details>
+            <h3>Standards</h3>
+            <ul>
+                <li><a href="../../Calibration_Ideas/index.html">Calibration Standards</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Study &amp; Training</summary>
+                <ul>
+                    <li><a href="https://assets.doflagie.com/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                    <li><a href="https://assets.doflagie.com/study/morse.html">Morse Code Practice</a></li>
+                </ul>
+            </details>
+        </nav>
+
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-TGEAR-025</div>
+                    <div class="tm-title">RF SIGNAL TRACER</div>
+                    <div class="tm-subtitle">Signal Injection and Tracing Tool for RF/IF Alignment</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH<br>
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial calibration use</em>
+                    </div>
+                </div>
+
+                <div class="tm-toc">
+                    <h2>Table of Contents</h2>
+                    <ol>
+            <li><a href="#ch1">Chapter 1 &mdash; General Information</a></li>
+            <li><a href="#ch2">Chapter 2 &mdash; Theory of Operation</a></li>
+            <li><a href="#ch3">Chapter 3 &mdash; Construction</a></li>
+            <li><a href="#ch4">Chapter 4 &mdash; Assembly Procedures</a></li>
+            <li><a href="#ch5">Chapter 5 &mdash; Calibration Procedure</a></li>
+            <li><a href="#ch6">Chapter 6 &mdash; Tuning and Adjustment</a></li>
+            <li><a href="#ch7">Chapter 7 &mdash; Verification</a></li>
+            <li><a href="#appa">Appendix A &mdash; Calculations and Formulas</a></li>
+            <li><a href="#appb">Appendix B &mdash; Example Results</a></li>
+                    </ol>
+                </div>
+
+
+<h2 class="chapter-heading" id="ch1">CHAPTER 1 &mdash; GENERAL INFORMATION</h2>
+<h3 class="section-heading">1-1. SCOPE</h3>
+<p>This manual covers construction and calibration of an RF signal tracer / signal injector combination tool. Used to troubleshoot receivers, amplifiers, and IF circuits by injecting a known signal at various stages and probing circuit nodes for the signal's presence. Applicable to AM/FM broadcast receiver repair, IF chain alignment, and audio amplifier fault isolation.</p>
+<h3 class="section-heading">1-2. APPLICABLE DOCUMENTS</h3>
+<p>TM-TGEAR-024 (RF Probe/Detector), TM-TGEAR-026 (Signal Generator), TM-TGEAR-020 (Oscilloscope).</p>
+
+<h2 class="chapter-heading" id="ch2">CHAPTER 2 &mdash; THEORY OF OPERATION</h2>
+<h3 class="section-heading">2-1. SIGNAL INJECTION</h3>
+<p>A modulated carrier (AM: 455 kHz or 10.7 MHz; audio: 1 kHz) is injected into successive stages of the circuit under test. If sound appears in the loudspeaker after a particular injection point but not before it, the fault is localized to that stage or earlier.</p>
+<h3 class="section-heading">2-2. SIGNAL TRACING</h3>
+<p>A high-gain audio amplifier with RF detector in the probe follows the signal from the antenna through each stage. Loss of signal at a stage pinpoints the fault. The probe audio output goes to a speaker or headphone for acoustic monitoring.</p>
+<h3 class="section-heading">2-3. ISOLATION CAPACITOR</h3>
+<p>A 0.01 &micro;F capacitor in series with the injection probe blocks DC voltage from the circuit under test from damaging the oscillator. Similarly, a 100 pF series cap at the probe tip of the tracing probe limits impedance loading and DC interaction.</p>
+
+<h2 class="chapter-heading" id="ch3">CHAPTER 3 &mdash; CONSTRUCTION</h2>
+<table class="tm-table"><caption>Signal Tracer/Injector Components</caption>
+<thead><tr><th>Qty</th><th>Item</th><th>Specification</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>455 kHz ceramic resonator</td><td>IF standard, &plusmn;0.5% tolerance</td></tr>
+<tr><td>1</td><td>NE555 oscillator</td><td>1 kHz audio modulation source</td></tr>
+<tr><td>1</td><td>AM modulator</td><td>Simple multiplier: 1N4148 diode ring</td></tr>
+<tr><td>1</td><td>LM386 audio amp</td><td>1 W, 8 &Omega; speaker output, tracer amp</td></tr>
+<tr><td>1</td><td>BAT85 detector diode</td><td>RF detector at probe tip</td></tr>
+<tr><td>1</td><td>8 &Omega; 0.5 W speaker</td><td>Monitoring output</td></tr>
+</tbody></table>
+
+<h2 class="chapter-heading" id="ch4">CHAPTER 4 &mdash; ASSEMBLY PROCEDURES</h2>
+<div class="procedure"><ol>
+<li>Build 455 kHz oscillator. Verify frequency with counter; should be 455 kHz &plusmn;5 kHz.</li>
+<li>Build 1 kHz modulator. Apply to 455 kHz carrier; verify 30% AM modulation depth on oscilloscope.</li>
+<li>Build LM386 tracer amplifier. Verify audio output with 1 kHz sine at input &minus;60 dBm.</li>
+<li>Install RF detector diode at probe tip. Connect to LM386 input via 100 pF coupling cap.</li>
+<li>Test: inject at a known-good AM receiver IF output; speaker should produce audible 1 kHz tone.</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch5">CHAPTER 5 &mdash; CALIBRATION PROCEDURE</h2>
+<div class="procedure"><ol>
+<li>Calibrate injection frequency: connect counter to injector output. Verify 455 kHz &plusmn;2 kHz (centered in IF passband).</li>
+<li>Set modulation depth: connect to oscilloscope. Adjust modulator trimmer for 30% AM (&plusmn;5%).</li>
+<li>Calibrate tracer sensitivity: apply &minus;40 dBm at 455 kHz to tracer probe. Verify audible output at speaker. Minimum detectable level should be &minus;50 dBm or better.</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch6">CHAPTER 6 &mdash; TUNING AND ADJUSTMENT</h2>
+<p>Injector frequency can be offset by &plusmn;10 kHz using a trimmer capacitor in the oscillator circuit, to locate the center of IF passbands. Tracer sensitivity is set by LM386 gain pot; high gain may cause audio feedback through the probe-to-circuit coupling.</p>
+
+<h2 class="chapter-heading" id="ch7">CHAPTER 7 &mdash; VERIFICATION</h2>
+<table class="tm-table"><caption>Signal Tracer/Injector Acceptance Specs</caption>
+<thead><tr><th>Parameter</th><th>Specification</th></tr></thead>
+<tbody>
+<tr><td>Injection frequency</td><td>455 kHz &plusmn;5 kHz (AM IF), 10.7 MHz &plusmn;50 kHz (FM IF)</td></tr>
+<tr><td>Modulation depth</td><td>30% AM &plusmn;5%</td></tr>
+<tr><td>Tracer sensitivity</td><td>&minus;50 dBm minimum</td></tr>
+<tr><td>Tracer frequency range</td><td>100 kHz &ndash; 100 MHz</td></tr>
+</tbody></table>
+
+<h2 class="chapter-heading" id="appa">APPENDIX A &mdash; CALCULATIONS AND FORMULAS</h2>
+<div class="formula-block"><span class="formula-label">AM modulation depth</span>m = (V<sub>max</sub> &minus; V<sub>min</sub>) / (V<sub>max</sub> + V<sub>min</sub>)</div>
+<div class="formula-block"><span class="formula-label">IF passband relationship</span>BW<sub>IF</sub> = f<sub>IF</sub> / Q<sub>ceramic_filter</sub></div>
+
+<h2 class="chapter-heading" id="appb">APPENDIX B &mdash; EXAMPLE RESULTS</h2>
+<table class="tm-table"><caption>Signal Tracer Test Log</caption>
+<thead><tr><th>Receiver Stage</th><th>Signal Present?</th><th>Level</th></tr></thead>
+<tbody>
+<tr><td>Antenna terminal</td><td>Yes</td><td>&minus;70 dBm (broadcast)</td></tr>
+<tr><td>After RF amp</td><td>Yes</td><td>&minus;50 dBm</td></tr>
+<tr><td>After mixer</td><td>Yes (IF freq)</td><td>&minus;55 dBm</td></tr>
+<tr><td>After IF filter</td><td>No (fault)</td><td>&lt;&minus;80 dBm</td></tr>
+</tbody></table>
+
+
+                <div class="back-link">
+                    <a href="index.html">&larr; Back to Rf Signal Tracer Index</a> &nbsp;|&nbsp;
+                    <a href="../index.html">&larr; Test Equipment Library</a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Radio: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+                <p>Amateur Radio | Electronics | Engineering | Knowledge Preservation</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

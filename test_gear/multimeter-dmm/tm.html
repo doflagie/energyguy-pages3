@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-TGEAR-017 DIGITAL MULTIMETER (DMM) - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+
+<style>
+/* Navy TM Styles */
+.tm-cover {
+    border: 3px solid #2c5f8d;
+    padding: 30px 40px;
+    text-align: center;
+    margin-bottom: 30px;
+    background: #f8f8f4;
+}
+.tm-classification {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #006600;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+.tm-number {
+    font-family: 'Courier New', monospace;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #2c5f8d;
+    margin-bottom: 10px;
+}
+.tm-title {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #1a3a5c;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 15px 0 10px;
+    line-height: 1.3;
+}
+.tm-subtitle {
+    font-size: 1.0em;
+    font-style: italic;
+    color: #555;
+    margin-bottom: 15px;
+}
+.tm-meta {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 20px;
+    border-top: 1px solid #aaa;
+    padding-top: 15px;
+}
+.tm-toc {
+    background: #f0f4f8;
+    border: 1px solid #c0ccd8;
+    padding: 20px 30px;
+    margin-bottom: 30px;
+}
+.tm-toc h2 {
+    font-size: 1.1em;
+    color: #2c5f8d;
+    border-bottom: 1px solid #4a7ba7;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.tm-toc ol {
+    margin: 0;
+    padding-left: 25px;
+}
+.tm-toc li {
+    margin: 4px 0;
+    font-size: 0.95em;
+}
+.tm-toc a {
+    color: #2c5f8d;
+    text-decoration: none;
+}
+.tm-toc a:hover {
+    text-decoration: underline;
+}
+.chapter-heading {
+    background: #2c5f8d;
+    color: #ffffff;
+    padding: 10px 20px;
+    margin-top: 35px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.section-heading {
+    color: #1a3a5c;
+    border-bottom: 2px solid #4a7ba7;
+    padding-bottom: 4px;
+    margin-top: 25px;
+    margin-bottom: 12px;
+    font-size: 1.05em;
+}
+.subsection-heading {
+    color: #2c5f8d;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    font-size: 1.0em;
+}
+.tm-warning {
+    background: #fff0f0;
+    border-left: 5px solid #cc0000;
+    border-top: 1px solid #cc0000;
+    border-bottom: 1px solid #cc0000;
+    border-right: 1px solid #cc0000;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-caution {
+    background: #fffbf0;
+    border-left: 5px solid #cc7700;
+    border-top: 1px solid #cc7700;
+    border-bottom: 1px solid #cc7700;
+    border-right: 1px solid #cc7700;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-note {
+    background: #f0f5ff;
+    border-left: 5px solid #4a7ba7;
+    border-top: 1px solid #4a7ba7;
+    border-bottom: 1px solid #4a7ba7;
+    border-right: 1px solid #4a7ba7;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.admonition-label {
+    font-weight: bold;
+    font-size: 0.9em;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 6px;
+}
+.tm-warning .admonition-label { color: #cc0000; }
+.tm-caution .admonition-label { color: #cc7700; }
+.tm-note .admonition-label { color: #2c5f8d; }
+.tm-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.95em;
+}
+.tm-table th {
+    background: #4a7ba7;
+    color: #ffffff;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.tm-table td {
+    border: 1px solid #c0ccd8;
+    padding: 7px 12px;
+    vertical-align: top;
+}
+.tm-table tr:nth-child(even) td {
+    background: #f4f7fb;
+}
+.tm-table caption {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 5px;
+    text-align: left;
+}
+.procedure ol {
+    margin: 10px 0 10px 20px;
+}
+.procedure li {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+.formula-block {
+    background: #f4f7fb;
+    border: 1px solid #c0ccd8;
+    padding: 12px 20px;
+    margin: 12px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+}
+.formula-block .formula-label {
+    font-family: Georgia, serif;
+    font-size: 0.85em;
+    color: #555;
+    font-style: italic;
+    display: block;
+    margin-bottom: 5px;
+}
+.back-link {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #c0ccd8;
+    font-size: 0.9em;
+}
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="../../about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul><li><a href="../../antennas/index.html">Antenna Library</a></li></ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul><li><a href="../index.html">Test Equipment Library</a></li></ul>
+            </details>
+            <h3>Standards</h3>
+            <ul>
+                <li><a href="../../Calibration_Ideas/index.html">Calibration Standards</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Study &amp; Training</summary>
+                <ul>
+                    <li><a href="https://assets.doflagie.com/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                    <li><a href="https://assets.doflagie.com/study/morse.html">Morse Code Practice</a></li>
+                </ul>
+            </details>
+        </nav>
+
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-TGEAR-017</div>
+                    <div class="tm-title">DIGITAL MULTIMETER (DMM)</div>
+                    <div class="tm-subtitle">Voltage, Current, Resistance, and Frequency Measurement &mdash; Fluke 15B+</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH<br>
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial calibration use</em>
+                    </div>
+                </div>
+
+                <div class="tm-toc">
+                    <h2>Table of Contents</h2>
+                    <ol>
+            <li><a href="#ch1">Chapter 1 &mdash; General Information</a></li>
+            <li><a href="#ch2">Chapter 2 &mdash; Theory of Operation</a></li>
+            <li><a href="#ch3">Chapter 3 &mdash; Construction</a></li>
+            <li><a href="#ch4">Chapter 4 &mdash; Assembly Procedures</a></li>
+            <li><a href="#ch5">Chapter 5 &mdash; Calibration Procedure</a></li>
+            <li><a href="#ch6">Chapter 6 &mdash; Tuning and Adjustment</a></li>
+            <li><a href="#ch7">Chapter 7 &mdash; Verification</a></li>
+            <li><a href="#appa">Appendix A &mdash; Calculations and Formulas</a></li>
+            <li><a href="#appb">Appendix B &mdash; Example Results</a></li>
+                    </ol>
+                </div>
+
+
+<h2 class="chapter-heading" id="ch1">CHAPTER 1 &mdash; GENERAL INFORMATION</h2>
+<h3 class="section-heading">1-1. SCOPE</h3>
+<p>This manual covers calibration procedures for the Fluke 15B+ digital multimeter and equivalent instruments. The Fluke 15B+ provides DC voltage (0.1 mV &ndash; 1000 V), AC voltage (1 mV &ndash; 750 V), resistance (0.1 &Omega; &ndash; 40 M&Omega;), continuity, and frequency measurement. All calibration references are publicly traceable.</p>
+<h3 class="section-heading">1-2. APPLICABLE DOCUMENTS</h3>
+<p>TM-CAL-006 (Precision Voltage Reference), TM-CAL-008 (Precision Resistors), TM-CAL-010 (Kelvin 4-Wire), TM-CAL-002 (GPS 1PPS).</p>
+<div class="tm-warning"><span class="admonition-label">WARNING</span>The Fluke 15B+ is rated for CAT III 600 V and CAT II 1000 V. Observe probe ratings. Never measure AC mains circuits with probes rated below CAT III. The common (COM) lead is not isolated from the measurement circuit; do not float the instrument ground above chassis potential on mains-connected equipment.</div>
+
+<h2 class="chapter-heading" id="ch2">CHAPTER 2 &mdash; THEORY OF OPERATION</h2>
+<h3 class="section-heading">2-1. SIGMA-DELTA ADC</h3>
+<p>Modern DMMs use a sigma-delta (&Sigma;&Delta;) ADC. An oversampled 1-bit stream is decimated to 4&ndash;5 significant digits. A precision band-gap voltage reference (e.g., LM4040, 1.225 V &plusmn;0.1%) establishes the measurement scale. All voltage ranges are scaled to this internal reference.</p>
+<h3 class="section-heading">2-2. RESISTANCE MEASUREMENT</h3>
+<p>The DMM forces a known current through R<sub>X</sub> and measures the resulting voltage. On 2-wire measurement, lead resistance is included. On 4-wire (Kelvin) measurement, a separate pair of sense leads carries no current, eliminating lead resistance error.</p>
+<div class="formula-block"><span class="formula-label">4-wire resistance</span>R<sub>X</sub> = V<sub>sense</sub> / I<sub>force</sub></div>
+<h3 class="section-heading">2-3. FREQUENCY MEASUREMENT</h3>
+<p>A comparator converts the input AC signal to a logic pulse train. A timer measures period T; frequency = 1/T. Accuracy depends on the oscillator reference, typically a 32.768 kHz crystal. Accuracy: &plusmn;0.5% for most DMMs; &plusmn;0.1% for Fluke 15B+.</p>
+
+<h2 class="chapter-heading" id="ch3">CHAPTER 3 &mdash; CONSTRUCTION</h2>
+<p>The Fluke 15B+ is a commercial instrument. This chapter describes the construction of a homebrew DC voltage standard for calibrating the voltage ranges (see TM-CAL-006).</p>
+<table class="tm-table"><caption>LM4040 4.096 V Precision Reference</caption>
+<thead><tr><th>Qty</th><th>Item</th><th>Specification</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>LM4040C-4.1</td><td>4.096 V shunt reference, &plusmn;0.1%, SOT-23</td></tr>
+<tr><td>1</td><td>1 k&Omega; resistor</td><td>1%, series current-set, for 5 V supply</td></tr>
+<tr><td>1</td><td>9 V battery</td><td>Low-noise supply for shunt reference</td></tr>
+<tr><td>2</td><td>Banana jack</td><td>Output terminals, 4 mm</td></tr>
+</tbody></table>
+
+<h2 class="chapter-heading" id="ch4">CHAPTER 4 &mdash; ASSEMBLY PROCEDURES</h2>
+<div class="procedure"><ol>
+<li>Assemble 4.096 V reference on small PCB. Measure output with already-calibrated precision DMM if available.</li>
+<li>Allow 10-minute warmup for LM4040 before calibration measurement.</li>
+<li>Connect calibration reference to DMM DC V input. Record DMM reading vs. reference value.</li>
+<li>Note temperature during calibration; LM4040 TC is &plusmn;100 ppm/&deg;C (class C) or &plusmn;50 ppm/&deg;C (class A).</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch5">CHAPTER 5 &mdash; CALIBRATION PROCEDURE</h2>
+<h3 class="section-heading">5-1. DC VOLTAGE CALIBRATION</h3>
+<div class="procedure"><ol>
+<li>Connect 4.096 V reference to DMM DC V input (4 V range or 40 V range).</li>
+<li>Record DMM reading. Compute correction factor: K = V<sub>ref</sub> / V<sub>DMM</sub>.</li>
+<li>Apply K to all subsequent voltage measurements, or adjust DMM trim pot if user-accessible.</li>
+<li>Fluke 15B+ spec: &plusmn;0.5% + 2 digits on DC ranges. Verify DMM is within spec.</li>
+</ol></div>
+<h3 class="section-heading">5-2. RESISTANCE CALIBRATION</h3>
+<div class="procedure"><ol>
+<li>Connect precision 100 &Omega; &plusmn;0.01% resistor (TM-CAL-008). Use 4-wire (Kelvin) clips if available.</li>
+<li>Record reading. Error must be &lt;&plusmn;1 &Omega; on 400 &Omega; range.</li>
+<li>Connect 10 k&Omega; &plusmn;0.01% resistor. Record. Error must be &lt;&plusmn;100 &Omega; on 40 k&Omega; range.</li>
+</ol></div>
+<h3 class="section-heading">5-3. FREQUENCY CALIBRATION</h3>
+<div class="procedure"><ol>
+<li>Apply GPS-disciplined 1 kHz signal (TM-CAL-002). Record DMM Hz reading.</li>
+<li>Error must be &lt;&plusmn;0.5% (5 Hz at 1 kHz).</li>
+<li>Repeat at 10 kHz and 100 kHz.</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch6">CHAPTER 6 &mdash; TUNING AND ADJUSTMENT</h2>
+<p>The Fluke 15B+ has user-inaccessible internal calibration adjustments. If the instrument is out of spec, it requires service by a qualified calibration lab. Log calibration correction factors in the instrument record for use in measurement uncertainty budgeting.</p>
+
+<h2 class="chapter-heading" id="ch7">CHAPTER 7 &mdash; VERIFICATION</h2>
+<table class="tm-table"><caption>Fluke 15B+ Calibration Acceptance</caption>
+<thead><tr><th>Function</th><th>Range</th><th>Spec</th><th>Result</th></tr></thead>
+<tbody>
+<tr><td>DC Voltage</td><td>4 V</td><td>&plusmn;0.5% + 2 digits</td><td>Check 4.096 V reference</td></tr>
+<tr><td>AC Voltage (rms)</td><td>4 V</td><td>&plusmn;1.0% + 3 digits</td><td>Check 1 kHz sine</td></tr>
+<tr><td>Resistance</td><td>400 &Omega;</td><td>&plusmn;0.5% + 2 digits</td><td>Check 100 &Omega; std</td></tr>
+<tr><td>Frequency</td><td>1 kHz</td><td>&plusmn;0.5%</td><td>GPS-locked source</td></tr>
+</tbody></table>
+
+<h2 class="chapter-heading" id="appa">APPENDIX A &mdash; CALCULATIONS AND FORMULAS</h2>
+<div class="formula-block"><span class="formula-label">Correction factor</span>K = V<sub>true</sub> / V<sub>indicated</sub></div>
+<div class="formula-block"><span class="formula-label">Measurement uncertainty (simplified)</span>U = &radic;(u<sub>ref</sub><sup>2</sup> + u<sub>DMM</sub><sup>2</sup>)  [combine reference and instrument uncertainties in quadrature]</div>
+<div class="formula-block"><span class="formula-label">Kelvin 4-wire resistance</span>R = V<sub>sense</sub> / I<sub>force</sub>  (lead resistance eliminated)</div>
+
+<h2 class="chapter-heading" id="appb">APPENDIX B &mdash; EXAMPLE RESULTS</h2>
+<table class="tm-table"><caption>Fluke 15B+ Calibration Log</caption>
+<thead><tr><th>Test</th><th>Reference</th><th>Reading</th><th>Error</th><th>Spec</th><th>Pass/Fail</th></tr></thead>
+<tbody>
+<tr><td>DC V 4 V range</td><td>4.0960 V</td><td>4.095 V</td><td>&minus;0.024%</td><td>&plusmn;0.5%</td><td>Pass</td></tr>
+<tr><td>Resistance 400 &Omega;</td><td>100.01 &Omega;</td><td>100.0 &Omega;</td><td>&minus;0.01%</td><td>&plusmn;0.5%</td><td>Pass</td></tr>
+<tr><td>Frequency 1 kHz</td><td>1000.00 Hz</td><td>1000 Hz</td><td>0.00%</td><td>&plusmn;0.5%</td><td>Pass</td></tr>
+</tbody></table>
+
+
+                <div class="back-link">
+                    <a href="index.html">&larr; Back to Digital Multimeter (Dmm) Index</a> &nbsp;|&nbsp;
+                    <a href="../index.html">&larr; Test Equipment Library</a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Radio: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+                <p>Amateur Radio | Electronics | Engineering | Knowledge Preservation</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

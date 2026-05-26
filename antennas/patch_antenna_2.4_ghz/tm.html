@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-ANT-051 PATCH ANTENNA — 2.4 GHz - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+
+
+<style>
+/* Navy TM Styles */
+.tm-cover {
+    border: 3px solid #2c5f8d;
+    padding: 30px 40px;
+    text-align: center;
+    margin-bottom: 30px;
+    background: #f8f8f4;
+}
+.tm-classification {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #006600;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+.tm-number {
+    font-family: 'Courier New', monospace;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #2c5f8d;
+    margin-bottom: 10px;
+}
+.tm-title {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #1a3a5c;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 15px 0 10px;
+    line-height: 1.3;
+}
+.tm-subtitle {
+    font-size: 1.0em;
+    font-style: italic;
+    color: #555;
+    margin-bottom: 15px;
+}
+.tm-meta {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 20px;
+    border-top: 1px solid #aaa;
+    padding-top: 15px;
+}
+.tm-toc {
+    background: #f0f4f8;
+    border: 1px solid #c0ccd8;
+    padding: 20px 30px;
+    margin-bottom: 30px;
+}
+.tm-toc h2 {
+    font-size: 1.1em;
+    color: #2c5f8d;
+    border-bottom: 1px solid #4a7ba7;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.tm-toc ol {
+    margin: 0;
+    padding-left: 25px;
+}
+.tm-toc li {
+    margin: 4px 0;
+    font-size: 0.95em;
+}
+.tm-toc a {
+    color: #2c5f8d;
+    text-decoration: none;
+}
+.tm-toc a:hover {
+    text-decoration: underline;
+}
+.chapter-heading {
+    background: #2c5f8d;
+    color: #ffffff;
+    padding: 10px 20px;
+    margin-top: 35px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.section-heading {
+    color: #1a3a5c;
+    border-bottom: 2px solid #4a7ba7;
+    padding-bottom: 4px;
+    margin-top: 25px;
+    margin-bottom: 12px;
+    font-size: 1.05em;
+}
+.subsection-heading {
+    color: #2c5f8d;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    font-size: 1.0em;
+}
+.tm-warning {
+    background: #fff0f0;
+    border-left: 5px solid #cc0000;
+    border-top: 1px solid #cc0000;
+    border-bottom: 1px solid #cc0000;
+    border-right: 1px solid #cc0000;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-caution {
+    background: #fffbf0;
+    border-left: 5px solid #cc7700;
+    border-top: 1px solid #cc7700;
+    border-bottom: 1px solid #cc7700;
+    border-right: 1px solid #cc7700;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-note {
+    background: #f0f5ff;
+    border-left: 5px solid #4a7ba7;
+    border-top: 1px solid #4a7ba7;
+    border-bottom: 1px solid #4a7ba7;
+    border-right: 1px solid #4a7ba7;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.admonition-label {
+    font-weight: bold;
+    font-size: 0.9em;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 6px;
+}
+.tm-warning .admonition-label { color: #cc0000; }
+.tm-caution .admonition-label { color: #cc7700; }
+.tm-note .admonition-label { color: #2c5f8d; }
+.tm-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.95em;
+}
+.tm-table th {
+    background: #4a7ba7;
+    color: #ffffff;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.tm-table td {
+    border: 1px solid #c0ccd8;
+    padding: 7px 12px;
+    vertical-align: top;
+}
+.tm-table tr:nth-child(even) td {
+    background: #f4f7fb;
+}
+.tm-table caption {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 5px;
+    text-align: left;
+}
+.procedure ol {
+    margin: 10px 0 10px 20px;
+}
+.procedure li {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+.formula-block {
+    background: #f4f7fb;
+    border: 1px solid #c0ccd8;
+    padding: 12px 20px;
+    margin: 12px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+}
+.formula-block .formula-label {
+    font-family: Georgia, serif;
+    font-size: 0.85em;
+    color: #555;
+    font-style: italic;
+    display: block;
+    margin-bottom: 5px;
+}
+.back-link {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #c0ccd8;
+    font-size: 0.9em;
+}
+</style>
+
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="../../about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul><li><a href="../index.html">Antenna Library</a></li></ul>
+            </details>
+            <details class="nav-group">
+                <summary>Test Equipment</summary>
+                <ul><li><a href="../../test_gear/index.html">Test Equipment Library</a></li></ul>
+            </details>
+            <details class="nav-group">
+                <summary>Calibration Ideas</summary>
+                <ul><li><a href="../../Calibration_Ideas/index.html">Calibration Standards</a></li></ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Study &amp; Training</summary>
+                <ul>
+                    <li><a href="https://assets.doflagie.com/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                    <li><a href="https://assets.doflagie.com/study/morse.html">Morse Code Practice</a></li>
+                </ul>
+            </details>
+        </nav>
+
+
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-ANT-051</div>
+                    <div class="tm-title">PATCH ANTENNA — 2.4 GHz</div>
+                    <div class="tm-subtitle">Microstrip Rectangular Patch on FR4, 2.4 GHz ISM Band</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH<br>
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Antenna Engineering &mdash; Not for commercial use</em>
+                    </div>
+                </div>
+
+                <div class="tm-toc">
+                    <h2>Table of Contents</h2>
+                    <ol>
+            <li><a href="#ch1">Chapter 1 &mdash; General Information</a></li>
+            <li><a href="#ch2">Chapter 2 &mdash; Theory of Operation</a></li>
+            <li><a href="#ch3">Chapter 3 &mdash; Materials and Construction</a></li>
+            <li><a href="#ch4">Chapter 4 &mdash; Assembly Procedures</a></li>
+            <li><a href="#ch5">Chapter 5 &mdash; Calibration Procedure</a></li>
+            <li><a href="#ch6">Chapter 6 &mdash; Tuning and Adjustment</a></li>
+            <li><a href="#ch7">Chapter 7 &mdash; Verification</a></li>
+            <li><a href="#appa">Appendix A &mdash; Calculations and Formulas</a></li>
+            <li><a href="#appb">Appendix B &mdash; Example Results</a></li>
+                    </ol>
+                </div>
+
+
+<h2 class="chapter-heading" id="ch1">CHAPTER 1 &mdash; GENERAL INFORMATION</h2>
+<h3 class="section-heading">1-1. SCOPE</h3>
+<p>This manual covers the Patch Antenna — 2.4 Ghz, a specialized antenna for operation on 2.4 GHz ISM (2.400–2.500 GHz). Design approach: Rectangular conducting patch on FR4 dielectric substrate, resonant at patch length ~λ/2 in substrate; microstrip feed.</p>
+
+<h3 class="section-heading">1-2. APPLICABLE REFERENCES</h3>
+<ul>
+<li>ARRL Antenna Book — Specialized and Experimental Antennas</li>
+<li>NEC2 model: patch_antenna_2.4_ghz.nec (in antenna directory)</li>
+<li>FCC OET Bulletin 65 — RF Exposure Evaluation</li>
+</ul>
+
+<h3 class="section-heading">1-3. SAFETY PRECAUTIONS</h3>
+<div class="tm-caution">
+<span class="admonition-label">CAUTION — RF EXPOSURE</span>
+Maintain minimum safe distance from all energized antenna elements during transmission.
+At QRP power levels (&le;5 W) the MPE boundary is typically &lt;1 m for HF antennas.
+At 100 W the controlled exposure limit for HF antennas requires maintaining &ge;3–10 m
+distance depending on frequency (per FCC OET Bulletin 65). Never touch feed-point hardware
+or support structures while transmitting. Verify PTT key is open before antenna work.
+</div>
+
+
+<h2 class="chapter-heading" id="ch2">CHAPTER 2 &mdash; THEORY OF OPERATION</h2>
+<h3 class="section-heading">2-1. DESIGN PRINCIPLES</h3>
+<p>Rectangular conducting patch on fr4 dielectric substrate, resonant at patch length ~λ/2 in substrate; microstrip feed. Key parameters: ~50 mm × 65 mm patch on FR4 (εr = 4.4) h = 1.6 mm; 50 Ω coaxial probe or edge feed; linear polarization.</p>
+
+<h3 class="section-heading">2-2. RADIATION CHARACTERISTICS</h3>
+<p>Gain: 5–7 dBi broadside. Efficiency: 70–85% (FR4 dielectric loss). Feed impedance: 50 Ω (probe feed at 50 Ω inset). The pattern and polarization depend on the specific antenna geometry; consult the NEC2 model for accurate polar plots and gain/elevation data.</p>
+
+<h3 class="section-heading">2-3. PROPAGATION APPLICATION</h3>
+<p>This antenna is optimized for its specific application (see subtitle). Operating it outside the designed frequency range or in a different orientation from the NEC2 model will result in degraded performance — consult the simulation before making substitutions.</p>
+
+<h2 class="chapter-heading" id="ch3">CHAPTER 3 &mdash; MATERIALS AND CONSTRUCTION</h2>
+<h3 class="section-heading">3-1. BILL OF MATERIALS</h3>
+<table class="tm-table">
+<caption>Materials — Patch Antenna — 2.4 Ghz</caption>
+<thead><tr><th>Qty</th><th>Item</th><th>Specification</th></tr></thead>
+<tbody>
+<tr><td>Per NEC model</td><td>Conductor elements</td><td>Dimensions from NEC2 wire list; use copper or aluminum per design frequency</td></tr>
+<tr><td>1</td><td>Feed connector</td><td>SO-239 or N-type; 50 Ω (probe feed at 50 Ω inset) system</td></tr>
+<tr><td>1</td><td>Support hardware</td><td>UV-stable; sized for operating environment (wind, ice load)</td></tr>
+<tr><td>As needed</td><td>Feed line</td><td>RG-213 or LMR-400; match to feed impedance 50 Ω (probe feed at 50 Ω inset)</td></tr>
+</tbody>
+</table>
+
+<h3 class="section-heading">3-2. CRITICAL DIMENSIONS</h3>
+<div class="formula-block"><span class="formula-label">Primary dimension formula (wavelengths)</span>&lambda; (m) = 300 / f<sub>MHz</sub></div>
+<div class="formula-block"><span class="formula-label">Design-specific parameters</span>~50 mm × 65 mm patch on FR4 (εr = 4.4) h = 1.6 mm; 50 Ω coaxial probe or edge feed; linear polarization</div>
+<p>All critical dimensions are embedded in the NEC2 model wire card (GW) definitions. Extract from patch_antenna_2.4_ghz.nec for precise construction reference.</p>
+
+<h2 class="chapter-heading" id="ch4">CHAPTER 4 &mdash; ASSEMBLY PROCEDURES</h2>
+<div class="tm-caution">
+<span class="admonition-label">CAUTION — RF EXPOSURE</span>
+Maintain minimum safe distance from all energized antenna elements during transmission.
+At QRP power levels (&le;5 W) the MPE boundary is typically &lt;1 m for HF antennas.
+At 100 W the controlled exposure limit for HF antennas requires maintaining &ge;3–10 m
+distance depending on frequency (per FCC OET Bulletin 65). Never touch feed-point hardware
+or support structures while transmitting. Verify PTT key is open before antenna work.
+</div>
+<div class="procedure"><ol>
+<li>Extract all element lengths and spacings from NEC2 model file patch_antenna_2.4_ghz.nec (GW card dimensions). Convert from meters to inches or feet for construction.</li>
+<li>Fabricate each element to ±1 mm tolerance (VHF/UHF) or ±0.5 in (HF). Label elements before assembly.</li>
+<li>Assemble support structure. Verify element positions match NEC model geometry. Use non-conductive fasteners where element isolation is required.</li>
+<li>Install feed connector at designed feedpoint location. Install any required matching network (gamma match, balun, transformer).</li>
+<li>Connect feed line. Install common-mode choke (Mix-31 toroid) at feedpoint. Route feed line to minimize coupling with antenna elements.</li>
+<li>Perform SWR measurement per Chapter 5 before installing at full height.</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch5">CHAPTER 5 &mdash; CALIBRATION PROCEDURE</h2>
+<div class="tm-note">
+<span class="admonition-label">NOTE</span>
+The NEC2 model file for this antenna is included in the antenna directory. Run it with
+xnec2c, 4nec2, or any NEC2-compatible engine to generate polar plots, impedance data,
+and gain figures. The NanoVNA measurements in Chapter 5 should be compared against
+NEC2 predictions — deviations &gt;3 dB or &gt;20% impedance indicate a construction error.
+</div>
+<div class="procedure"><ol>
+<li>SOLT calibrate NanoVNA at feedpoint (antenna connector).</li>
+<li>Set sweep range: ±10% of design center frequency.</li>
+<li>Connect NanoVNA to antenna. Record SWR minimum and frequency, R + jX at resonance.</li>
+<li>Compare measured impedance to NEC2 predicted values. Investigate discrepancies &gt;20%.</li>
+<li>Verify SWR &le;2.0:1 at operating frequency. If not, adjust matching per Chapter 6.</li>
+<li>For gain verification: compare received signal strength (using TinySA as receiver) from a known beacon vs. reference antenna.</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch6">CHAPTER 6 &mdash; TUNING AND ADJUSTMENT</h2>
+<p>Element lengths can be adjusted by ±2% of design length to shift resonance and optimize impedance. For matching network adjustment: follow gamma-match, delta-match, or transformer-tap procedure per the specific implementation. Refer to NEC2 model for sensitivity analysis — the model can be re-run at ±2% element length to determine which element most affects resonance and F/B ratio.</p>
+
+<h2 class="chapter-heading" id="ch7">CHAPTER 7 &mdash; VERIFICATION</h2>
+<table class="tm-table">
+<caption>Acceptance Criteria — Patch Antenna — 2.4 Ghz</caption>
+<thead><tr><th>Parameter</th><th>Requirement</th><th>Pass/Fail</th></tr></thead>
+<tbody>
+<tr><td>SWR at design frequency</td><td>< 2.0:1</td><td>____</td></tr>
+<tr><td>Resonant frequency</td><td>Within ±1% of design</td><td>____</td></tr>
+<tr><td>Gain (NEC2 or field test)</td><td>5–7 dBi broadside</td><td>____</td></tr>
+<tr><td>Efficiency</td><td>70–85% (FR4 dielectric loss)</td><td>____</td></tr>
+</tbody>
+</table>
+
+<h2 class="chapter-heading" id="appa">APPENDIX A &mdash; CALCULATIONS AND FORMULAS</h2>
+<div class="formula-block"><span class="formula-label">Wavelength in free space</span>&lambda; (m) = 300 / f<sub>MHz</sub></div>
+<div class="formula-block"><span class="formula-label">Effective gain formula (over isotropic)</span>G<sub>dBi</sub> = 10 log<sub>10</sub>(4&pi; &times; A<sub>eff</sub> / &lambda;&sup2;) where A<sub>eff</sub> = effective aperture (m&sup2;)</div>
+<div class="formula-block"><span class="formula-label">Special parameters</span>~50 mm × 65 mm patch on FR4 (εr = 4.4) h = 1.6 mm; 50 Ω coaxial probe or edge feed; linear polarization</div>
+
+<h2 class="chapter-heading" id="appb">APPENDIX B &mdash; EXAMPLE RESULTS</h2>
+<table class="tm-table">
+<caption>Expected Measurements — Patch Antenna — 2.4 Ghz</caption>
+<thead><tr><th>Freq</th><th>SWR</th><th>R (&Omega;)</th><th>X (&Omega;)</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td>Design center</td><td>< 2.0:1</td><td>~50</td><td>~0</td><td>After full match/tune</td></tr>
+<tr><td>Band edge low</td><td>&lt;2.5:1</td><td>~40</td><td>&le;&minus;20</td><td>Capacitive below resonance</td></tr>
+<tr><td>Band edge high</td><td>&lt;2.5:1</td><td>~40</td><td>&ge;+20</td><td>Inductive above resonance</td></tr>
+</tbody>
+</table>
+
+
+                <div class="back-link">
+                    <a href="../index.html">&larr; Back to Antenna Library</a>
+                    &nbsp;&nbsp;&bull;&nbsp;&nbsp;
+                    <a href="index.html">&larr; Back to Patch Antenna — 2.4 Ghz Overview</a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Radio: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+                <p>Amateur Radio | Electronics | Engineering | Knowledge Preservation</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

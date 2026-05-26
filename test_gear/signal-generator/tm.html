@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-TGEAR-026 SIGNAL GENERATOR - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+
+<style>
+/* Navy TM Styles */
+.tm-cover {
+    border: 3px solid #2c5f8d;
+    padding: 30px 40px;
+    text-align: center;
+    margin-bottom: 30px;
+    background: #f8f8f4;
+}
+.tm-classification {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #006600;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+.tm-number {
+    font-family: 'Courier New', monospace;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #2c5f8d;
+    margin-bottom: 10px;
+}
+.tm-title {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #1a3a5c;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 15px 0 10px;
+    line-height: 1.3;
+}
+.tm-subtitle {
+    font-size: 1.0em;
+    font-style: italic;
+    color: #555;
+    margin-bottom: 15px;
+}
+.tm-meta {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 20px;
+    border-top: 1px solid #aaa;
+    padding-top: 15px;
+}
+.tm-toc {
+    background: #f0f4f8;
+    border: 1px solid #c0ccd8;
+    padding: 20px 30px;
+    margin-bottom: 30px;
+}
+.tm-toc h2 {
+    font-size: 1.1em;
+    color: #2c5f8d;
+    border-bottom: 1px solid #4a7ba7;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.tm-toc ol {
+    margin: 0;
+    padding-left: 25px;
+}
+.tm-toc li {
+    margin: 4px 0;
+    font-size: 0.95em;
+}
+.tm-toc a {
+    color: #2c5f8d;
+    text-decoration: none;
+}
+.tm-toc a:hover {
+    text-decoration: underline;
+}
+.chapter-heading {
+    background: #2c5f8d;
+    color: #ffffff;
+    padding: 10px 20px;
+    margin-top: 35px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.section-heading {
+    color: #1a3a5c;
+    border-bottom: 2px solid #4a7ba7;
+    padding-bottom: 4px;
+    margin-top: 25px;
+    margin-bottom: 12px;
+    font-size: 1.05em;
+}
+.subsection-heading {
+    color: #2c5f8d;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    font-size: 1.0em;
+}
+.tm-warning {
+    background: #fff0f0;
+    border-left: 5px solid #cc0000;
+    border-top: 1px solid #cc0000;
+    border-bottom: 1px solid #cc0000;
+    border-right: 1px solid #cc0000;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-caution {
+    background: #fffbf0;
+    border-left: 5px solid #cc7700;
+    border-top: 1px solid #cc7700;
+    border-bottom: 1px solid #cc7700;
+    border-right: 1px solid #cc7700;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-note {
+    background: #f0f5ff;
+    border-left: 5px solid #4a7ba7;
+    border-top: 1px solid #4a7ba7;
+    border-bottom: 1px solid #4a7ba7;
+    border-right: 1px solid #4a7ba7;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.admonition-label {
+    font-weight: bold;
+    font-size: 0.9em;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 6px;
+}
+.tm-warning .admonition-label { color: #cc0000; }
+.tm-caution .admonition-label { color: #cc7700; }
+.tm-note .admonition-label { color: #2c5f8d; }
+.tm-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.95em;
+}
+.tm-table th {
+    background: #4a7ba7;
+    color: #ffffff;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.tm-table td {
+    border: 1px solid #c0ccd8;
+    padding: 7px 12px;
+    vertical-align: top;
+}
+.tm-table tr:nth-child(even) td {
+    background: #f4f7fb;
+}
+.tm-table caption {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 5px;
+    text-align: left;
+}
+.procedure ol {
+    margin: 10px 0 10px 20px;
+}
+.procedure li {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+.formula-block {
+    background: #f4f7fb;
+    border: 1px solid #c0ccd8;
+    padding: 12px 20px;
+    margin: 12px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+}
+.formula-block .formula-label {
+    font-family: Georgia, serif;
+    font-size: 0.85em;
+    color: #555;
+    font-style: italic;
+    display: block;
+    margin-bottom: 5px;
+}
+.back-link {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #c0ccd8;
+    font-size: 0.9em;
+}
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="../../about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul><li><a href="../../antennas/index.html">Antenna Library</a></li></ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul><li><a href="../index.html">Test Equipment Library</a></li></ul>
+            </details>
+            <h3>Standards</h3>
+            <ul>
+                <li><a href="../../Calibration_Ideas/index.html">Calibration Standards</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Study &amp; Training</summary>
+                <ul>
+                    <li><a href="https://assets.doflagie.com/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                    <li><a href="https://assets.doflagie.com/study/morse.html">Morse Code Practice</a></li>
+                </ul>
+            </details>
+        </nav>
+
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-TGEAR-026</div>
+                    <div class="tm-title">SIGNAL GENERATOR</div>
+                    <div class="tm-subtitle">RF Signal Source, 100 kHz to 150 MHz, Calibrated Output Level</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH<br>
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial calibration use</em>
+                    </div>
+                </div>
+
+                <div class="tm-toc">
+                    <h2>Table of Contents</h2>
+                    <ol>
+            <li><a href="#ch1">Chapter 1 &mdash; General Information</a></li>
+            <li><a href="#ch2">Chapter 2 &mdash; Theory of Operation</a></li>
+            <li><a href="#ch3">Chapter 3 &mdash; Construction</a></li>
+            <li><a href="#ch4">Chapter 4 &mdash; Assembly Procedures</a></li>
+            <li><a href="#ch5">Chapter 5 &mdash; Calibration Procedure</a></li>
+            <li><a href="#ch6">Chapter 6 &mdash; Tuning and Adjustment</a></li>
+            <li><a href="#ch7">Chapter 7 &mdash; Verification</a></li>
+            <li><a href="#appa">Appendix A &mdash; Calculations and Formulas</a></li>
+            <li><a href="#appb">Appendix B &mdash; Example Results</a></li>
+                    </ol>
+                </div>
+
+
+<h2 class="chapter-heading" id="ch1">CHAPTER 1 &mdash; GENERAL INFORMATION</h2>
+<h3 class="section-heading">1-1. SCOPE</h3>
+<p>This manual covers design, construction, and calibration of an RF signal generator from 100 kHz to 150 MHz with calibrated output levels from &minus;120 dBm to 0 dBm. Applications include receiver sensitivity testing, antenna analyzer input, and filter response measurement.</p>
+<h3 class="section-heading">1-2. APPLICABLE DOCUMENTS</h3>
+<p>TM-TGEAR-010 (Frequency Counter), TM-CAL-001 (WWV), TM-CAL-002 (GPS 1PPS), TM-CAL-015 (Attenuator Pads).</p>
+<div class="tm-warning"><span class="admonition-label">WARNING</span>If this signal generator is powered from AC mains, use an isolation transformer on the power supply. RF output ground connects to the instrument chassis. Connecting to a second AC-powered instrument without isolation can create ground loops affecting measurement accuracy or creating shock hazard.</div>
+
+<h2 class="chapter-heading" id="ch2">CHAPTER 2 &mdash; THEORY OF OPERATION</h2>
+<h3 class="section-heading">2-1. DDS SYNTHESIS</h3>
+<p>A DDS chip (AD9850 or AD9833) generates a stable, phase-continuous output from DC to 40 MHz (AD9850) or 12.5 MHz (AD9833). Above these limits, a PLL multiplier extends coverage to 150 MHz.</p>
+<div class="formula-block"><span class="formula-label">DDS output frequency</span>f<sub>out</sub> = (FTW &times; f<sub>clk</sub>) / 2<sup>32</sup>  [FTW = 32-bit frequency tuning word]</div>
+<h3 class="section-heading">2-2. OUTPUT LEVEL CONTROL</h3>
+<p>A step attenuator (0, 10, 20, 30, 40, 50, 60 dB) plus a variable attenuator provides &minus;120 to 0 dBm output range. The step attenuator is calibrated (TM-TGEAR-022). Total level accuracy: &plusmn;2 dB.</p>
+
+<h2 class="chapter-heading" id="ch3">CHAPTER 3 &mdash; CONSTRUCTION</h2>
+<table class="tm-table"><caption>Signal Generator Components</caption>
+<thead><tr><th>Block</th><th>Part</th><th>Specification</th></tr></thead>
+<tbody>
+<tr><td>DDS module</td><td>AD9850 module</td><td>0&ndash;40 MHz, 125 MHz clock, SPI, 10-bit DAC</td></tr>
+<tr><td>PLL multiplier (optional)</td><td>ADF4351</td><td>35 MHz &ndash; 4.4 GHz PLL synthesizer</td></tr>
+<tr><td>Step attenuator</td><td>6 &times; pi-pads</td><td>10 dB each, PIN diode or relay-switched</td></tr>
+<tr><td>Variable attenuator</td><td>PE4302 IC</td><td>0&ndash;31.5 dB, 0.5 dB steps, RF CMOS</td></tr>
+<tr><td>MCU</td><td>Arduino Nano</td><td>SPI control, encoder interface, display</td></tr>
+<tr><td>Output</td><td>BNC or SMA</td><td>50 &Omega;</td></tr>
+</tbody></table>
+
+<h2 class="chapter-heading" id="ch4">CHAPTER 4 &mdash; ASSEMBLY PROCEDURES</h2>
+<div class="procedure"><ol>
+<li>Assemble DDS module on shielded PCB. Verify DDS output with frequency counter at several frequencies.</li>
+<li>Build output amplifier (MAR-6 MMIC or MGA-82563): gain 20 dB, NF &lt;5 dB, P1dB &gt;+12 dBm.</li>
+<li>Install step attenuator chain. Calibrate each pad per TM-TGEAR-022 before assembly.</li>
+<li>Install PE4302 digital attenuator. Program via SPI; verify each 0.5 dB step with TinySA.</li>
+<li>Power on. Sweep 1&ndash;30 MHz. Output level should be flat &plusmn;2 dB.</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch5">CHAPTER 5 &mdash; CALIBRATION PROCEDURE</h2>
+<h3 class="section-heading">5-1. FREQUENCY CALIBRATION</h3>
+<div class="procedure"><ol>
+<li>Set generator to 10.000000 MHz. Connect to frequency counter (GPS-disciplined, TM-TGEAR-010).</li>
+<li>Measure actual frequency. Compute ppm error. Adjust DDS clock frequency constant in firmware.</li>
+<li>Cross-check against WWV 10 MHz reception with zero-beat method per TM-CAL-001.</li>
+</ol></div>
+<h3 class="section-heading">5-2. OUTPUT LEVEL CALIBRATION</h3>
+<div class="procedure"><ol>
+<li>Set attenuator to 0 dB (max output). Measure level with TinySA at 10 MHz. Record P<sub>max</sub> (dBm).</li>
+<li>Switch each step attenuator in. Verify each step reduces level by 10 &plusmn;0.5 dB.</li>
+<li>Calibrate PE4302 digital attenuator at 0, 10, 20, 30 dB settings. Record actual vs. nominal and create correction table.</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch6">CHAPTER 6 &mdash; TUNING AND ADJUSTMENT</h2>
+<p>Level flatness vs. frequency is improved by equalizing the amplifier chain. Place a low-pass filter at the DDS output (50 MHz cutoff 7th-order elliptic) to suppress DDS clock spurs. Add a 3 dB pad between DDS amp and attenuator chain to improve output match.</p>
+
+<h2 class="chapter-heading" id="ch7">CHAPTER 7 &mdash; VERIFICATION</h2>
+<table class="tm-table"><caption>Signal Generator Acceptance Specifications</caption>
+<thead><tr><th>Parameter</th><th>Specification</th></tr></thead>
+<tbody>
+<tr><td>Frequency range</td><td>100 kHz &ndash; 40 MHz (DDS), to 150 MHz (PLL)</td></tr>
+<tr><td>Frequency accuracy</td><td>&lt;1 ppm (GPS-corrected DDS clock)</td></tr>
+<tr><td>Level range</td><td>&minus;120 to 0 dBm</td></tr>
+<tr><td>Level accuracy</td><td>&plusmn;2 dB</td></tr>
+<tr><td>Harmonics</td><td>&lt;&minus;30 dBc at output (after LPF)</td></tr>
+<tr><td>Spurious</td><td>&lt;&minus;50 dBc (DDS clock and aliases)</td></tr>
+</tbody></table>
+
+<h2 class="chapter-heading" id="appa">APPENDIX A &mdash; CALCULATIONS AND FORMULAS</h2>
+<div class="formula-block"><span class="formula-label">AD9850 frequency tuning word</span>FTW = f<sub>out</sub> &times; 2<sup>32</sup> / f<sub>clk</sub></div>
+<div class="formula-block"><span class="formula-label">Voltage from dBm into 50 &Omega;</span>V<sub>RMS</sub> = &radic;(R &times; 10<sup>P<sub>dBm</sub>/10</sup> &times; 10<sup>&minus;3</sup>) = &radic;(50 &times; P<sub>mW</sub>&times;10<sup>&minus;3</sup>)</div>
+<div class="formula-block"><span class="formula-label">Total attenuation (cascaded pads)</span>A<sub>total</sub> = A<sub>1</sub> + A<sub>2</sub> + ... + A<sub>n</sub>  (dB)</div>
+
+<h2 class="chapter-heading" id="appb">APPENDIX B &mdash; EXAMPLE RESULTS</h2>
+<table class="tm-table"><caption>Signal Generator Calibration Log</caption>
+<thead><tr><th>Frequency</th><th>Attenuation Setting</th><th>Measured Level</th><th>Error</th></tr></thead>
+<tbody>
+<tr><td>7 MHz</td><td>0 dB (max out)</td><td>+1.2 dBm</td><td>&mdash;</td></tr>
+<tr><td>7 MHz</td><td>20 dB</td><td>&minus;18.9 dBm</td><td>+0.1 dB</td></tr>
+<tr><td>14 MHz</td><td>40 dB</td><td>&minus;38.7 dBm</td><td>&minus;0.3 dB (at +1.2 dBm base)</td></tr>
+</tbody></table>
+
+
+                <div class="back-link">
+                    <a href="index.html">&larr; Back to Signal Generator Index</a> &nbsp;|&nbsp;
+                    <a href="../index.html">&larr; Test Equipment Library</a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Radio: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+                <p>Amateur Radio | Electronics | Engineering | Knowledge Preservation</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

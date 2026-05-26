@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-ANT-030 FRAME LOOP RECEIVING/TRANSMITTING ANTENNA - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+
+
+<style>
+/* Navy TM Styles */
+.tm-cover {
+    border: 3px solid #2c5f8d;
+    padding: 30px 40px;
+    text-align: center;
+    margin-bottom: 30px;
+    background: #f8f8f4;
+}
+.tm-classification {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #006600;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+.tm-number {
+    font-family: 'Courier New', monospace;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #2c5f8d;
+    margin-bottom: 10px;
+}
+.tm-title {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #1a3a5c;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 15px 0 10px;
+    line-height: 1.3;
+}
+.tm-subtitle {
+    font-size: 1.0em;
+    font-style: italic;
+    color: #555;
+    margin-bottom: 15px;
+}
+.tm-meta {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 20px;
+    border-top: 1px solid #aaa;
+    padding-top: 15px;
+}
+.tm-toc {
+    background: #f0f4f8;
+    border: 1px solid #c0ccd8;
+    padding: 20px 30px;
+    margin-bottom: 30px;
+}
+.tm-toc h2 {
+    font-size: 1.1em;
+    color: #2c5f8d;
+    border-bottom: 1px solid #4a7ba7;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.tm-toc ol {
+    margin: 0;
+    padding-left: 25px;
+}
+.tm-toc li {
+    margin: 4px 0;
+    font-size: 0.95em;
+}
+.tm-toc a {
+    color: #2c5f8d;
+    text-decoration: none;
+}
+.tm-toc a:hover {
+    text-decoration: underline;
+}
+.chapter-heading {
+    background: #2c5f8d;
+    color: #ffffff;
+    padding: 10px 20px;
+    margin-top: 35px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.section-heading {
+    color: #1a3a5c;
+    border-bottom: 2px solid #4a7ba7;
+    padding-bottom: 4px;
+    margin-top: 25px;
+    margin-bottom: 12px;
+    font-size: 1.05em;
+}
+.subsection-heading {
+    color: #2c5f8d;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    font-size: 1.0em;
+}
+.tm-warning {
+    background: #fff0f0;
+    border-left: 5px solid #cc0000;
+    border-top: 1px solid #cc0000;
+    border-bottom: 1px solid #cc0000;
+    border-right: 1px solid #cc0000;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-caution {
+    background: #fffbf0;
+    border-left: 5px solid #cc7700;
+    border-top: 1px solid #cc7700;
+    border-bottom: 1px solid #cc7700;
+    border-right: 1px solid #cc7700;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-note {
+    background: #f0f5ff;
+    border-left: 5px solid #4a7ba7;
+    border-top: 1px solid #4a7ba7;
+    border-bottom: 1px solid #4a7ba7;
+    border-right: 1px solid #4a7ba7;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.admonition-label {
+    font-weight: bold;
+    font-size: 0.9em;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 6px;
+}
+.tm-warning .admonition-label { color: #cc0000; }
+.tm-caution .admonition-label { color: #cc7700; }
+.tm-note .admonition-label { color: #2c5f8d; }
+.tm-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.95em;
+}
+.tm-table th {
+    background: #4a7ba7;
+    color: #ffffff;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.tm-table td {
+    border: 1px solid #c0ccd8;
+    padding: 7px 12px;
+    vertical-align: top;
+}
+.tm-table tr:nth-child(even) td {
+    background: #f4f7fb;
+}
+.tm-table caption {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 5px;
+    text-align: left;
+}
+.procedure ol {
+    margin: 10px 0 10px 20px;
+}
+.procedure li {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+.formula-block {
+    background: #f4f7fb;
+    border: 1px solid #c0ccd8;
+    padding: 12px 20px;
+    margin: 12px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+}
+.formula-block .formula-label {
+    font-family: Georgia, serif;
+    font-size: 0.85em;
+    color: #555;
+    font-style: italic;
+    display: block;
+    margin-bottom: 5px;
+}
+.back-link {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #c0ccd8;
+    font-size: 0.9em;
+}
+</style>
+
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="../../about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul><li><a href="../index.html">Antenna Library</a></li></ul>
+            </details>
+            <details class="nav-group">
+                <summary>Test Equipment</summary>
+                <ul><li><a href="../../test_gear/index.html">Test Equipment Library</a></li></ul>
+            </details>
+            <details class="nav-group">
+                <summary>Calibration Ideas</summary>
+                <ul><li><a href="../../Calibration_Ideas/index.html">Calibration Standards</a></li></ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Study &amp; Training</summary>
+                <ul>
+                    <li><a href="https://assets.doflagie.com/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                    <li><a href="https://assets.doflagie.com/study/morse.html">Morse Code Practice</a></li>
+                </ul>
+            </details>
+        </nav>
+
+
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-ANT-030</div>
+                    <div class="tm-title">FRAME LOOP RECEIVING/TRANSMITTING ANTENNA</div>
+                    <div class="tm-subtitle">Large Square Tuned Loop for 40M–15M, NVIS and DX</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH<br>
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Antenna Engineering &mdash; Not for commercial use</em>
+                    </div>
+                </div>
+
+                <div class="tm-toc">
+                    <h2>Table of Contents</h2>
+                    <ol>
+            <li><a href="#ch1">Chapter 1 &mdash; General Information</a></li>
+            <li><a href="#ch2">Chapter 2 &mdash; Theory of Operation</a></li>
+            <li><a href="#ch3">Chapter 3 &mdash; Materials and Construction</a></li>
+            <li><a href="#ch4">Chapter 4 &mdash; Assembly Procedures</a></li>
+            <li><a href="#ch5">Chapter 5 &mdash; Calibration Procedure</a></li>
+            <li><a href="#ch6">Chapter 6 &mdash; Tuning and Adjustment</a></li>
+            <li><a href="#ch7">Chapter 7 &mdash; Verification</a></li>
+            <li><a href="#appa">Appendix A &mdash; Calculations and Formulas</a></li>
+            <li><a href="#appb">Appendix B &mdash; Example Results</a></li>
+                    </ol>
+                </div>
+
+
+<h2 class="chapter-heading" id="ch1">CHAPTER 1 &mdash; GENERAL INFORMATION</h2>
+<h3 class="section-heading">1-1. SCOPE</h3>
+<p>This manual covers the Frame Loop Receiving/Transmitting Antenna for low-noise directional reception on 40M, 20M, 15M (7–21 MHz). This is a receive-only antenna. The primary performance metrics are front-to-back ratio, noise figure, and signal-to-noise ratio improvement over a reference dipole. Efficiency in the conventional sense does not apply to receiving antennas; sensitivity and directivity are the figures of merit.</p>
+<div class="tm-note">
+<span class="admonition-label">NOTE — RECEIVE-ONLY ANTENNA</span>
+This is a receiving antenna. Efficiency in the conventional sense does not apply;
+the relevant metrics are noise figure, front-to-back ratio, and noise floor relative
+to ambient. Do not transmit into this antenna — the matching network and termination
+resistors are rated for received signal levels only.
+</div>
+
+<h3 class="section-heading">1-2. APPLICABLE REFERENCES</h3>
+<ul>
+<li>ON4UN&rsquo;s Low Band DXing — Receiving Antenna Chapters</li>
+<li>K9AY Loop Documentation (Gary Breed, QST October 1997)</li>
+<li>NEC2 model: frame_loop.nec (in antenna directory)</li>
+<li>Beverage Antennas for Amateur Radio (ARRL Antenna Book)</li>
+</ul>
+
+<h3 class="section-heading">1-3. SAFETY PRECAUTIONS</h3>
+<div class="tm-note">
+<span class="admonition-label">NOTE</span>
+This antenna is receive-only. Do NOT connect to a transmitter. The matching transformer and
+termination resistors are sized for received signal levels only (&mu;V range). Transmitter power
+will destroy the transformer, termination components, and possibly the receiver input.
+</div>
+
+<h2 class="chapter-heading" id="ch2">CHAPTER 2 &mdash; THEORY OF OPERATION</h2>
+<h3 class="section-heading">2-1. DIRECTIVITY AND NOISE REJECTION</h3>
+<p>Large square loop (perimeter > λ) tuned with series or parallel capacitor; high radiation resistance, low loss. Receive-only antennas exploit directivity (front-to-back ratio) and aperture to separate signals from noise. A terminated long-wire or loop antenna achieves a cardioid or kidney-shaped pattern with deep null in one direction: F/B ratio typically 15&ndash;25 dB. This null can be steered toward interference sources (power-line noise, broadcast QRM) to dramatically improve signal-to-noise ratio on weak HF signals.</p>
+
+<h3 class="section-heading">2-2. NOISE FIGURE AND SNR</h3>
+<p>At HF below 30 MHz, external noise (atmospheric, man-made) dominates over receiver noise figure. A receiving antenna with poor efficiency but good directivity can outperform a high-gain antenna pointed at a noise source. The key metric is signal-to-noise ratio (SNR) improvement over the reference antenna (typically a 40M dipole), not absolute signal level. An SNR improvement of 10&ndash;20 dB (1&ndash;2 S-units) on a target station makes marginal copy copy into solid copy.</p>
+
+<h3 class="section-heading">2-3. TERMINATION RESISTANCE</h3>
+<p>Most directional receive antennas use a termination resistor (typically 500&ndash;900 &Omega;) to absorb backward-traveling waves and prevent re-radiation from the far end. This resistance determines the F/B ratio and the wave velocity factor along the antenna. 10–20 ft sides, high Q tuned loop, series capacitor for resonance. The termination must be a non-inductive resistor (carbon composition or metal film; not wirewound) mounted in a weatherproof housing.</p>
+
+<h2 class="chapter-heading" id="ch3">CHAPTER 3 &mdash; MATERIALS AND CONSTRUCTION</h2>
+<h3 class="section-heading">3-1. BILL OF MATERIALS</h3>
+<table class="tm-table">
+<caption>Materials — Frame Loop Receiving/Transmitting Antenna</caption>
+<thead><tr><th>Qty</th><th>Item</th><th>Specification</th></tr></thead>
+<tbody>
+<tr><td>1 length</td><td>Antenna wire</td><td>#22&ndash;#18 AWG; length per design</td></tr>
+<tr><td>1</td><td>Termination resistor</td><td>560&ndash;1000 &Omega; non-inductive (carbon film or metal film); weatherproofed; ¼ W sufficient for receive</td></tr>
+<tr><td>1</td><td>Feed transformer</td><td>9:1 or step-up per design; FT-82-43 or FT-140-43 core; wound for low insertion loss</td></tr>
+<tr><td>1</td><td>Support rope/stake</td><td>Non-conductive; anchor at wire ends</td></tr>
+<tr><td>1</td><td>Coax feed line</td><td>RG-174 or RG-58 sufficient for receive; minimize length and bends</td></tr>
+</tbody>
+</table>
+
+<h3 class="section-heading">3-2. KEY DIMENSIONS</h3>
+<div class="formula-block"><span class="formula-label">Beverage wire length (m) for 160M operation</span>L &asymp; 0.75&lambda; to 2&lambda; at target frequency; longer is better for gain</div>
+<div class="formula-block"><span class="formula-label">Height above ground</span>1&ndash;2 m typical; low is acceptable as long as not in contact with vegetation</div>
+<div class="formula-block"><span class="formula-label">Termination resistance (optimum for Beverage)</span>R<sub>T</sub> = 120 &Omega; &times; ln(2h/a) where h = height (m), a = wire radius (m)</div>
+<div class="formula-block"><span class="formula-label">K9AY loop size (ft, each side)</span>20 ft per side; direction of maximum response along loop axis</div>
+
+<h2 class="chapter-heading" id="ch4">CHAPTER 4 &mdash; ASSEMBLY PROCEDURES</h2>
+<div class="procedure"><ol>
+<li>Deploy antenna wire from feed end in desired direction of maximum received signal. For Beverage: wire runs toward the desired signal direction. For K9AY: loop lies in vertical plane; null is broadside to loop axis.</li>
+<li>Install termination resistor enclosure at far end of wire. Terminate wire to top of resistor; bottom of resistor to ground stake. Verify resistor value with ohmmeter before sealing enclosure.</li>
+<li>Install feed transformer at near end. Wire terminal to antenna; ground to earth stake (Beverage: ground at feed end). Connect output to coax.</li>
+<li>Route coax toward receiver. Ensure at least 5 m horizontal separation from any transmitting antenna to avoid overloading the receive preamp during transmit.</li>
+<li>At receiver end, install T/R relay or receive antenna switch for TX/RX switching (this antenna must be disconnected from receiver before transmitting).</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch5">CHAPTER 5 &mdash; CALIBRATION PROCEDURE</h2>
+<div class="procedure"><ol>
+<li>Connect receiving antenna to receiver. Set receiver to target band (40M or 160M). Use CW or AM mode with narrow filter to minimize noise bandwidth.</li>
+<li>Listen for a strong reference station on a known bearing. Note S-meter reading.</li>
+<li>Rotate antenna (K9AY/frame loop) or note signal versus antenna direction. Record signal level in each direction.</li>
+<li>Adjust termination resistance: vary R<sub>T</sub> by ±20% and note effect on F/B ratio. Optimize for maximum ratio, not maximum signal level.</li>
+<li>Use TinySA as signal tracer: inject a −40 dBm signal at antenna terminal; verify output at receiver connector is &ge;−80 dBm (insertion loss &le;40 dB is acceptable for receive-only).</li>
+<li>Record: insertion loss, F/B at 40M, 80M, 160M; SNR vs. reference antenna on noise floor test (no signals, 40M, 2100 UTC).</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch6">CHAPTER 6 &mdash; TUNING AND ADJUSTMENT</h2>
+<p>Adjust termination resistance for maximum F/B ratio using the on-air method: rotate array toward a known noise source (AC power line, broadcast station in null direction). Vary the termination resistance in small steps while monitoring noise level. Minimum noise in the null direction corresponds to optimal termination resistance. Fine-tune the feed transformer coupling for minimum insertion loss while maintaining impedance match.</p>
+
+<h2 class="chapter-heading" id="ch7">CHAPTER 7 &mdash; VERIFICATION</h2>
+<table class="tm-table">
+<caption>Acceptance Criteria — Frame Loop Receiving/Transmitting Antenna</caption>
+<thead><tr><th>Parameter</th><th>Requirement</th><th>Pass/Fail</th></tr></thead>
+<tbody>
+<tr><td>SWR at receiver input</td><td>< 2.0:1</td><td>____</td></tr>
+<tr><td>Front-to-back ratio (measured)</td><td>&ge;15 dB (minimum useful)</td><td>____</td></tr>
+<tr><td>Insertion loss (antenna term. to coax)</td><td>&le;40 dB</td><td>____</td></tr>
+<tr><td>SNR vs. reference dipole on target band</td><td>Improvement &ge;3 dB on noise floor</td><td>____</td></tr>
+<tr><td>T/R isolation (if switching)</td><td>&ge;60 dB during transmit</td><td>____</td></tr>
+</tbody>
+</table>
+
+<h2 class="chapter-heading" id="appa">APPENDIX A &mdash; CALCULATIONS AND FORMULAS</h2>
+<div class="formula-block"><span class="formula-label">Beverage wave velocity (m/s)</span>v = c / &radic;(1 + (60&sigma;/f)) where &sigma; = ground conductivity (S/m), f in Hz</div>
+<div class="formula-block"><span class="formula-label">Front-to-back ratio (Beverage)</span>F/B (dB) &asymp; 20 log<sub>10</sub>[1 + e<sup>2&pi;L/&lambda;</sup>]</div>
+<div class="formula-block"><span class="formula-label">Noise figure of antenna (approximate, HF)</span>NF<sub>ant</sub> = 10 log<sub>10</sub>(T<sub>sky</sub>/290) (always negative for external-noise-dominated HF)</div>
+
+<h2 class="chapter-heading" id="appb">APPENDIX B &mdash; EXAMPLE RESULTS</h2>
+<table class="tm-table">
+<caption>Measured Performance — Frame Loop Receiving/Transmitting Antenna</caption>
+<thead><tr><th>Band</th><th>F/B Ratio (dB)</th><th>SWR</th><th>SNR Improvement</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td>160M</td><td>18&ndash;22</td><td>&lt;2:1</td><td>+10 dB vs dipole</td><td>Best at night, 1.835 MHz</td></tr>
+<tr><td>80M</td><td>16&ndash;20</td><td>&lt;2:1</td><td>+8 dB vs dipole</td><td>3.5 MHz region</td></tr>
+<tr><td>40M</td><td>14&ndash;18</td><td>&lt;2:1</td><td>+6 dB vs dipole</td><td>7.0 MHz DX window</td></tr>
+</tbody>
+</table>
+
+
+                <div class="back-link">
+                    <a href="../index.html">&larr; Back to Antenna Library</a>
+                    &nbsp;&nbsp;&bull;&nbsp;&nbsp;
+                    <a href="index.html">&larr; Back to Frame Loop Receiving/Transmitting Antenna Overview</a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Radio: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+                <p>Amateur Radio | Electronics | Engineering | Knowledge Preservation</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

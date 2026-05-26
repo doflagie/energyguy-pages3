@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-TGEAR-006 DECADE INDUCTANCE BOX - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+
+<style>
+/* Navy TM Styles */
+.tm-cover {
+    border: 3px solid #2c5f8d;
+    padding: 30px 40px;
+    text-align: center;
+    margin-bottom: 30px;
+    background: #f8f8f4;
+}
+.tm-classification {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #006600;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+.tm-number {
+    font-family: 'Courier New', monospace;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #2c5f8d;
+    margin-bottom: 10px;
+}
+.tm-title {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #1a3a5c;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 15px 0 10px;
+    line-height: 1.3;
+}
+.tm-subtitle {
+    font-size: 1.0em;
+    font-style: italic;
+    color: #555;
+    margin-bottom: 15px;
+}
+.tm-meta {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 20px;
+    border-top: 1px solid #aaa;
+    padding-top: 15px;
+}
+.tm-toc {
+    background: #f0f4f8;
+    border: 1px solid #c0ccd8;
+    padding: 20px 30px;
+    margin-bottom: 30px;
+}
+.tm-toc h2 {
+    font-size: 1.1em;
+    color: #2c5f8d;
+    border-bottom: 1px solid #4a7ba7;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.tm-toc ol {
+    margin: 0;
+    padding-left: 25px;
+}
+.tm-toc li {
+    margin: 4px 0;
+    font-size: 0.95em;
+}
+.tm-toc a {
+    color: #2c5f8d;
+    text-decoration: none;
+}
+.tm-toc a:hover {
+    text-decoration: underline;
+}
+.chapter-heading {
+    background: #2c5f8d;
+    color: #ffffff;
+    padding: 10px 20px;
+    margin-top: 35px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.section-heading {
+    color: #1a3a5c;
+    border-bottom: 2px solid #4a7ba7;
+    padding-bottom: 4px;
+    margin-top: 25px;
+    margin-bottom: 12px;
+    font-size: 1.05em;
+}
+.subsection-heading {
+    color: #2c5f8d;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    font-size: 1.0em;
+}
+.tm-warning {
+    background: #fff0f0;
+    border-left: 5px solid #cc0000;
+    border-top: 1px solid #cc0000;
+    border-bottom: 1px solid #cc0000;
+    border-right: 1px solid #cc0000;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-caution {
+    background: #fffbf0;
+    border-left: 5px solid #cc7700;
+    border-top: 1px solid #cc7700;
+    border-bottom: 1px solid #cc7700;
+    border-right: 1px solid #cc7700;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-note {
+    background: #f0f5ff;
+    border-left: 5px solid #4a7ba7;
+    border-top: 1px solid #4a7ba7;
+    border-bottom: 1px solid #4a7ba7;
+    border-right: 1px solid #4a7ba7;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.admonition-label {
+    font-weight: bold;
+    font-size: 0.9em;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 6px;
+}
+.tm-warning .admonition-label { color: #cc0000; }
+.tm-caution .admonition-label { color: #cc7700; }
+.tm-note .admonition-label { color: #2c5f8d; }
+.tm-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.95em;
+}
+.tm-table th {
+    background: #4a7ba7;
+    color: #ffffff;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.tm-table td {
+    border: 1px solid #c0ccd8;
+    padding: 7px 12px;
+    vertical-align: top;
+}
+.tm-table tr:nth-child(even) td {
+    background: #f4f7fb;
+}
+.tm-table caption {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 5px;
+    text-align: left;
+}
+.procedure ol {
+    margin: 10px 0 10px 20px;
+}
+.procedure li {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+.formula-block {
+    background: #f4f7fb;
+    border: 1px solid #c0ccd8;
+    padding: 12px 20px;
+    margin: 12px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+}
+.formula-block .formula-label {
+    font-family: Georgia, serif;
+    font-size: 0.85em;
+    color: #555;
+    font-style: italic;
+    display: block;
+    margin-bottom: 5px;
+}
+.back-link {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #c0ccd8;
+    font-size: 0.9em;
+}
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="../../about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul><li><a href="../../antennas/index.html">Antenna Library</a></li></ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul><li><a href="../index.html">Test Equipment Library</a></li></ul>
+            </details>
+            <h3>Standards</h3>
+            <ul>
+                <li><a href="../../Calibration_Ideas/index.html">Calibration Standards</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Study &amp; Training</summary>
+                <ul>
+                    <li><a href="https://assets.doflagie.com/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                    <li><a href="https://assets.doflagie.com/study/morse.html">Morse Code Practice</a></li>
+                </ul>
+            </details>
+        </nav>
+
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-TGEAR-006</div>
+                    <div class="tm-title">DECADE INDUCTANCE BOX</div>
+                    <div class="tm-subtitle">Switchable Precision Inductance Standards, 1 &micro;H to 111.1 mH</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH<br>
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial calibration use</em>
+                    </div>
+                </div>
+
+                <div class="tm-toc">
+                    <h2>Table of Contents</h2>
+                    <ol>
+            <li><a href="#ch1">Chapter 1 &mdash; General Information</a></li>
+            <li><a href="#ch2">Chapter 2 &mdash; Theory of Operation</a></li>
+            <li><a href="#ch3">Chapter 3 &mdash; Construction</a></li>
+            <li><a href="#ch4">Chapter 4 &mdash; Assembly Procedures</a></li>
+            <li><a href="#ch5">Chapter 5 &mdash; Calibration Procedure</a></li>
+            <li><a href="#ch6">Chapter 6 &mdash; Tuning and Adjustment</a></li>
+            <li><a href="#ch7">Chapter 7 &mdash; Verification</a></li>
+            <li><a href="#appa">Appendix A &mdash; Calculations and Formulas</a></li>
+            <li><a href="#appb">Appendix B &mdash; Example Results</a></li>
+                    </ol>
+                </div>
+
+
+<h2 class="chapter-heading" id="ch1">CHAPTER 1 &mdash; GENERAL INFORMATION</h2>
+<h3 class="section-heading">1-1. SCOPE</h3>
+<p>This manual covers the construction and calibration of a decade inductance box providing switchable inductance from 1 &micro;H to 111.1 mH in decade steps. Used as a known inductance standard for filter design, inductor Q measurement, and LCR meter verification.</p>
+<h3 class="section-heading">1-2. APPLICABLE DOCUMENTS</h3>
+<p>TM-TGEAR-014 (Inductance Meter), TM-TGEAR-015 (LCR Meter), TM-TGEAR-021 (Q Meter).</p>
+<div class="tm-note"><span class="admonition-label">NOTE</span>Inductors in a decade box have mutual inductance coupling between coils on adjacent switch positions. Keep coils physically separated and orient axes perpendicular to minimize coupling errors (&lt;0.1%).</div>
+
+<h2 class="chapter-heading" id="ch2">CHAPTER 2 &mdash; THEORY OF OPERATION</h2>
+<h3 class="section-heading">2-1. SERIES INDUCTANCE SWITCHING</h3>
+<p>Unlike capacitors (which add in parallel), the decade box connects inductors in series. Each switched-in inductor adds its value to the total.</p>
+<div class="formula-block"><span class="formula-label">Series inductance (no coupling)</span>L<sub>total</sub> = L<sub>1</sub> + L<sub>2</sub> + ... + L<sub>n</sub></div>
+<h3 class="section-heading">2-2. Q AND WINDING RESISTANCE</h3>
+<p>Each inductor has a winding resistance R<sub>DC</sub>. The Q factor at frequency f is:</p>
+<div class="formula-block"><span class="formula-label">Q factor</span>Q = 2&pi;fL / R<sub>DC</sub></div>
+<p>For air-core coils on phenolic forms, Q typically ranges from 50 to 200 at 100 kHz.</p>
+
+<h2 class="chapter-heading" id="ch3">CHAPTER 3 &mdash; CONSTRUCTION</h2>
+<table class="tm-table"><caption>Inductance Decade Specifications</caption>
+<thead><tr><th>Decade</th><th>Values</th><th>Core</th><th>Wire Gauge</th></tr></thead>
+<tbody>
+<tr><td>1 &micro;H steps (1&ndash;9 &micro;H)</td><td>9 &times; 1 &micro;H</td><td>Air core, 8 mm form</td><td>26 AWG</td></tr>
+<tr><td>10 &micro;H steps</td><td>9 &times; 10 &micro;H</td><td>Air core, 12 mm form</td><td>24 AWG</td></tr>
+<tr><td>100 &micro;H steps</td><td>9 &times; 100 &micro;H</td><td>Powdered iron T50-2</td><td>24 AWG</td></tr>
+<tr><td>1 mH steps</td><td>9 &times; 1 mH</td><td>Powdered iron T68-2</td><td>26 AWG</td></tr>
+<tr><td>10 mH steps</td><td>9 &times; 10 mH</td><td>Ferrite core, &micro;<sub>i</sub>=125</td><td>28 AWG</td></tr>
+</tbody></table>
+
+<h2 class="chapter-heading" id="ch4">CHAPTER 4 &mdash; ASSEMBLY PROCEDURES</h2>
+<div class="procedure"><ol>
+<li>Wind each inductor using Neumann formula (see Appendix A). Measure inductance with LCR meter and adjust turns for &plusmn;2% of target.</li>
+<li>Mount coils in metal enclosure with coil axes perpendicular to each other. Minimum spacing 20 mm.</li>
+<li>Use rotary switches rated for inductance service (silver contacts, low contact resistance &lt;5 m&Omega;).</li>
+<li>Connect ground lug to enclosure. Shield each decade section with thin copper sheet if mutual coupling is observed.</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch5">CHAPTER 5 &mdash; CALIBRATION PROCEDURE</h2>
+<div class="procedure"><ol>
+<li>Set decade box to position 0 (no inductors connected). Zero-subtract LCR meter.</li>
+<li>Set each position 1&ndash;9 of each decade. Measure L and R<sub>DC</sub> at 10 kHz with LCR meter.</li>
+<li>Record measured vs. design values. Accept &plusmn;2%.</li>
+<li>Measure self-resonant frequency of highest value (10 mH) with VNA: confirm f<sub>SRF</sub> &gt; 50 kHz.</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch6">CHAPTER 6 &mdash; TUNING AND ADJUSTMENT</h2>
+<p>Adjust inductance by adding or removing turns. One turn on a T68-2 core at 100 &micro;H adds approximately 0.4 &micro;H. Use compression slugs (ferrite trimmer cores) for fine adjustment of small values without rewinding.</p>
+
+<h2 class="chapter-heading" id="ch7">CHAPTER 7 &mdash; VERIFICATION</h2>
+<table class="tm-table"><caption>Decade Inductance Box Acceptance Specs</caption>
+<thead><tr><th>Range</th><th>Accuracy</th><th>Max R<sub>DC</sub></th></tr></thead>
+<tbody>
+<tr><td>1&ndash;9 &micro;H</td><td>&plusmn;5%</td><td>0.5 &Omega;</td></tr>
+<tr><td>10&ndash;90 &micro;H</td><td>&plusmn;2%</td><td>2 &Omega;</td></tr>
+<tr><td>100 &micro;H &ndash; 9.9 mH</td><td>&plusmn;2%</td><td>10 &Omega;</td></tr>
+<tr><td>10&ndash;100 mH</td><td>&plusmn;3%</td><td>50 &Omega;</td></tr>
+</tbody></table>
+
+<h2 class="chapter-heading" id="appa">APPENDIX A &mdash; CALCULATIONS AND FORMULAS</h2>
+<div class="formula-block"><span class="formula-label">Air-core solenoid inductance (Wheeler)</span>L (&micro;H) = (r<sup>2</sup> &times; N<sup>2</sup>) / (9r + 10l)  [r = radius cm, l = length cm, N = turns]</div>
+<div class="formula-block"><span class="formula-label">Toroidal inductance</span>L = &mu;<sub>0</sub> &times; &mu;<sub>r</sub> &times; N<sup>2</sup> &times; A / l  [A = cross-section area m&sup2;, l = mean path length m]</div>
+<div class="formula-block"><span class="formula-label">Q factor</span>Q = 2&pi;fL / R<sub>DC</sub></div>
+
+<h2 class="chapter-heading" id="appb">APPENDIX B &mdash; EXAMPLE RESULTS</h2>
+<table class="tm-table"><caption>Decade Inductance Box Calibration Log</caption>
+<thead><tr><th>Setting</th><th>Expected (&micro;H)</th><th>Measured (&micro;H)</th><th>R<sub>DC</sub> (&Omega;)</th><th>Pass/Fail</th></tr></thead>
+<tbody>
+<tr><td>100 &micro;H position 1</td><td>100</td><td>99.2</td><td>0.35</td><td>Pass</td></tr>
+<tr><td>1 mH position 1</td><td>1000</td><td>1005</td><td>2.4</td><td>Pass</td></tr>
+<tr><td>10 mH position 1</td><td>10000</td><td>9980</td><td>11.8</td><td>Pass</td></tr>
+</tbody></table>
+
+
+                <div class="back-link">
+                    <a href="index.html">&larr; Back to Decade Inductance Box Index</a> &nbsp;|&nbsp;
+                    <a href="../index.html">&larr; Test Equipment Library</a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Radio: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+                <p>Amateur Radio | Electronics | Engineering | Knowledge Preservation</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

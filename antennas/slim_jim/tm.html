@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-ANT-057 SLIM JIM ANTENNA - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+
+
+<style>
+/* Navy TM Styles */
+.tm-cover {
+    border: 3px solid #2c5f8d;
+    padding: 30px 40px;
+    text-align: center;
+    margin-bottom: 30px;
+    background: #f8f8f4;
+}
+.tm-classification {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #006600;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+.tm-number {
+    font-family: 'Courier New', monospace;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #2c5f8d;
+    margin-bottom: 10px;
+}
+.tm-title {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #1a3a5c;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 15px 0 10px;
+    line-height: 1.3;
+}
+.tm-subtitle {
+    font-size: 1.0em;
+    font-style: italic;
+    color: #555;
+    margin-bottom: 15px;
+}
+.tm-meta {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 20px;
+    border-top: 1px solid #aaa;
+    padding-top: 15px;
+}
+.tm-toc {
+    background: #f0f4f8;
+    border: 1px solid #c0ccd8;
+    padding: 20px 30px;
+    margin-bottom: 30px;
+}
+.tm-toc h2 {
+    font-size: 1.1em;
+    color: #2c5f8d;
+    border-bottom: 1px solid #4a7ba7;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.tm-toc ol {
+    margin: 0;
+    padding-left: 25px;
+}
+.tm-toc li {
+    margin: 4px 0;
+    font-size: 0.95em;
+}
+.tm-toc a {
+    color: #2c5f8d;
+    text-decoration: none;
+}
+.tm-toc a:hover {
+    text-decoration: underline;
+}
+.chapter-heading {
+    background: #2c5f8d;
+    color: #ffffff;
+    padding: 10px 20px;
+    margin-top: 35px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.section-heading {
+    color: #1a3a5c;
+    border-bottom: 2px solid #4a7ba7;
+    padding-bottom: 4px;
+    margin-top: 25px;
+    margin-bottom: 12px;
+    font-size: 1.05em;
+}
+.subsection-heading {
+    color: #2c5f8d;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    font-size: 1.0em;
+}
+.tm-warning {
+    background: #fff0f0;
+    border-left: 5px solid #cc0000;
+    border-top: 1px solid #cc0000;
+    border-bottom: 1px solid #cc0000;
+    border-right: 1px solid #cc0000;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-caution {
+    background: #fffbf0;
+    border-left: 5px solid #cc7700;
+    border-top: 1px solid #cc7700;
+    border-bottom: 1px solid #cc7700;
+    border-right: 1px solid #cc7700;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-note {
+    background: #f0f5ff;
+    border-left: 5px solid #4a7ba7;
+    border-top: 1px solid #4a7ba7;
+    border-bottom: 1px solid #4a7ba7;
+    border-right: 1px solid #4a7ba7;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.admonition-label {
+    font-weight: bold;
+    font-size: 0.9em;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 6px;
+}
+.tm-warning .admonition-label { color: #cc0000; }
+.tm-caution .admonition-label { color: #cc7700; }
+.tm-note .admonition-label { color: #2c5f8d; }
+.tm-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.95em;
+}
+.tm-table th {
+    background: #4a7ba7;
+    color: #ffffff;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.tm-table td {
+    border: 1px solid #c0ccd8;
+    padding: 7px 12px;
+    vertical-align: top;
+}
+.tm-table tr:nth-child(even) td {
+    background: #f4f7fb;
+}
+.tm-table caption {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 5px;
+    text-align: left;
+}
+.procedure ol {
+    margin: 10px 0 10px 20px;
+}
+.procedure li {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+.formula-block {
+    background: #f4f7fb;
+    border: 1px solid #c0ccd8;
+    padding: 12px 20px;
+    margin: 12px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+}
+.formula-block .formula-label {
+    font-family: Georgia, serif;
+    font-size: 0.85em;
+    color: #555;
+    font-style: italic;
+    display: block;
+    margin-bottom: 5px;
+}
+.back-link {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #c0ccd8;
+    font-size: 0.9em;
+}
+</style>
+
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="../../about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul><li><a href="../index.html">Antenna Library</a></li></ul>
+            </details>
+            <details class="nav-group">
+                <summary>Test Equipment</summary>
+                <ul><li><a href="../../test_gear/index.html">Test Equipment Library</a></li></ul>
+            </details>
+            <details class="nav-group">
+                <summary>Calibration Ideas</summary>
+                <ul><li><a href="../../Calibration_Ideas/index.html">Calibration Standards</a></li></ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Study &amp; Training</summary>
+                <ul>
+                    <li><a href="https://assets.doflagie.com/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                    <li><a href="https://assets.doflagie.com/study/morse.html">Morse Code Practice</a></li>
+                </ul>
+            </details>
+        </nav>
+
+
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-ANT-057</div>
+                    <div class="tm-title">SLIM JIM ANTENNA</div>
+                    <div class="tm-subtitle">End-Fed Folded Dipole with J-Match, Portable 2M/70cm</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH<br>
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Antenna Engineering &mdash; Not for commercial use</em>
+                    </div>
+                </div>
+
+                <div class="tm-toc">
+                    <h2>Table of Contents</h2>
+                    <ol>
+            <li><a href="#ch1">Chapter 1 &mdash; General Information</a></li>
+            <li><a href="#ch2">Chapter 2 &mdash; Theory of Operation</a></li>
+            <li><a href="#ch3">Chapter 3 &mdash; Materials and Construction</a></li>
+            <li><a href="#ch4">Chapter 4 &mdash; Assembly Procedures</a></li>
+            <li><a href="#ch5">Chapter 5 &mdash; Calibration Procedure</a></li>
+            <li><a href="#ch6">Chapter 6 &mdash; Tuning and Adjustment</a></li>
+            <li><a href="#ch7">Chapter 7 &mdash; Verification</a></li>
+            <li><a href="#appa">Appendix A &mdash; Calculations and Formulas</a></li>
+            <li><a href="#appb">Appendix B &mdash; Example Results</a></li>
+                    </ol>
+                </div>
+
+
+<h2 class="chapter-heading" id="ch1">CHAPTER 1 &mdash; GENERAL INFORMATION</h2>
+<h3 class="section-heading">1-1. SCOPE</h3>
+<p>This manual covers design, construction, calibration, and field operation of the Slim Jim Antenna for amateur radio and communications use. Applicable frequency bands: 2M (144–148 MHz), 70cm (430–440 MHz). All calibration procedures use the NanoVNA and TinySA test instruments.</p>
+
+<h3 class="section-heading">1-2. APPLICABLE REFERENCES</h3>
+<ul>
+<li>ARRL Antenna Book — Chapter on Vertical Antennas</li>
+<li>NEC2 model: slim_jim.nec (in antenna directory)</li>
+<li>FCC OET Bulletin 65 — RF Exposure Evaluation</li>
+<li>Radial Systems for Vertical Antennas, Brown, Lewis &amp; Epstein (1937)</li>
+</ul>
+
+<h3 class="section-heading">1-3. SAFETY PRECAUTIONS</h3>
+<div class="tm-caution">
+<span class="admonition-label">CAUTION — RF EXPOSURE</span>
+Maintain minimum safe distance from all energized antenna elements during transmission.
+At QRP power levels (&le;5 W) the MPE boundary is typically &lt;1 m for HF antennas.
+At 100 W the controlled exposure limit for HF antennas requires maintaining &ge;3–10 m
+distance depending on frequency (per FCC OET Bulletin 65). Never touch feed-point hardware
+or support structures while transmitting. Verify PTT key is open before antenna work.
+</div>
+
+<h2 class="chapter-heading" id="ch2">CHAPTER 2 &mdash; THEORY OF OPERATION</h2>
+<h3 class="section-heading">2-1. RADIATION PHYSICS</h3>
+<p>End-fed folded dipole (j-pole variant) using flat ribbon cable; j-match provides 50 ω at feed tap. A vertical radiator carries current that is vertically polarized; its electromagnetic wave radiates with E-field vertical. The ground (or radial counterpoise) serves as the electrical mirror-image of the above-ground element: a &lambda;/4 vertical above a perfect ground is equivalent to a &lambda;/2 dipole in free space, with radiation resistance R<sub>r</sub> = 36.6 &Omega;.</p>
+
+<h3 class="section-heading">2-2. RADIATION PATTERN</h3>
+<p>A quarter-wave vertical over an extensive ground plane radiates omnidirectionally in azimuth with a low-angle elevation lobe ideal for DX. The elevation angle of maximum radiation (&theta;<sub>max</sub>) depends on ground conductivity and number of radials: over a perfect ground &theta;<sub>max</sub> &asymp; 0&deg;; over average ground with 32+ radials, &theta;<sub>max</sub> &asymp; 5&ndash;15&deg;. The vertically polarized wave follows the earth&rsquo;s surface better than a horizontal wave at low angles.</p>
+
+<h3 class="section-heading">2-3. IMPEDANCE AND BANDWIDTH</h3>
+<p>Feed impedance: 50 Ω (tapped J-match stub). The SWR bandwidth of a simple &lambda;/4 vertical at HF is approximately 5&ndash;8% of center frequency for 2:1 SWR, typically covering one amateur band. Loading coils reduce bandwidth in proportion to their Q; top loading preserves more bandwidth than base loading because it maintains higher current along more of the radiator length.</p>
+
+<h3 class="section-heading">2-4. GROUND SYSTEM DESIGN</h3>
+<p>Ground loss resistance R<sub>g</sub> appears directly in series with the radiation resistance. For maximum efficiency: R<sub>g</sub> &lt; R<sub>r</sub>. With buried radials, R<sub>g</sub> decreases as N<sub>radials</sub> increases: 32 radials each 0.25&lambda; gives R<sub>g</sub> &asymp; 3 &Omega;. Elevated resonant radials achieve similar performance with only 4&ndash;8 radials. For ~5 ft per 2m band — follow this requirement closely for efficiency.</p>
+
+<h2 class="chapter-heading" id="ch3">CHAPTER 3 &mdash; MATERIALS AND CONSTRUCTION</h2>
+<h3 class="section-heading">3-1. BILL OF MATERIALS</h3>
+<table class="tm-table">
+<caption>Materials for Slim Jim Antenna</caption>
+<thead><tr><th>Qty</th><th>Item</th><th>Specification</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Vertical element</td><td>Aluminum tubing 1&ndash;1.5 in OD or #12 AWG copper wire; length per formula</td></tr>
+<tr><td>Per design</td><td>Radials</td><td>#16&ndash;#14 AWG copper; per ground system design above</td></tr>
+<tr><td>1</td><td>Mast/base insulator</td><td>UV-resistant PVC or polycarbonate; must support element tension/weight</td></tr>
+<tr><td>1</td><td>SO-239 or N-type connector</td><td>Weatherproof; mount at base</td></tr>
+<tr><td>1</td><td>Feed line</td><td>RG-213 or LMR-400 for permanent install; RG-8X for portable use</td></tr>
+<tr><td>As needed</td><td>Loading coil (if loaded vertical)</td><td>T-200 toroidal core or air-wound; Ql &gt; 200 for minimum loss</td></tr>
+</tbody>
+</table>
+
+<h3 class="section-heading">3-2. DIMENSION FORMULAS</h3>
+<div class="formula-block"><span class="formula-label">Quarter-wave vertical height (feet)</span>L = 234 / f<sub>MHz</sub></div>
+<div class="formula-block"><span class="formula-label">Example: 40M at 7.150 MHz</span>L = 234 / 7.150 = 32.7 ft</div>
+<div class="formula-block"><span class="formula-label">Resonant radial length (each radial, feet)</span>L<sub>rad</sub> = 246 / f<sub>MHz</sub> (resonant elevated radials)</div>
+<div class="formula-block"><span class="formula-label">Loading coil inductance for shortened element</span>L (&mu;H) = Z<sub>0</sub> &times; (1 &minus; cos(&theta;)) / (2&pi;f &times; sin(&theta;)) where &theta; = electrical length of element</div>
+
+<h2 class="chapter-heading" id="ch4">CHAPTER 4 &mdash; ASSEMBLY PROCEDURES</h2>
+<div class="tm-caution">
+<span class="admonition-label">CAUTION — RF EXPOSURE</span>
+Maintain minimum safe distance from all energized antenna elements during transmission.
+At QRP power levels (&le;5 W) the MPE boundary is typically &lt;1 m for HF antennas.
+At 100 W the controlled exposure limit for HF antennas requires maintaining &ge;3–10 m
+distance depending on frequency (per FCC OET Bulletin 65). Never touch feed-point hardware
+or support structures while transmitting. Verify PTT key is open before antenna work.
+</div>
+<div class="procedure"><ol>
+<li>Install base mounting hardware and base insulator. Verify insulator breakdown voltage rating exceeds 2&times; operating RF voltage.</li>
+<li>Erect vertical element. For a guyed installation, use non-conductive guy ropes (Dacron); attach guys at top and 2/3 height.</li>
+<li>Install radial system. For buried radials: trench radials 2&ndash;4 in deep in lawn. For elevated radials: support at 1.5&ndash;2 m above ground, run outward from base.</li>
+<li>Bond all radials at the base via a radial bus ring (copper strap or ring terminal). Bond bus ring to coax braid at feedpoint.</li>
+<li>Connect center conductor of feed line to element base. Connect braid to radial bus ring. Weather-seal with self-amalgamating tape and UV jacket tape.</li>
+<li>Perform initial SWR sweep per Chapter 5 before first RF application.</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch5">CHAPTER 5 &mdash; CALIBRATION PROCEDURE</h2>
+<h3 class="section-heading">5-1. NANOVNA IMPEDANCE SWEEP</h3>
+<div class="tm-note">
+<span class="admonition-label">NOTE</span>
+The NEC2 model file for this antenna is included in the antenna directory. Run it with
+xnec2c, 4nec2, or any NEC2-compatible engine to generate polar plots, impedance data,
+and gain figures. The NanoVNA measurements in Chapter 5 should be compared against
+NEC2 predictions — deviations &gt;3 dB or &gt;20% impedance indicate a construction error.
+</div>
+<div class="procedure"><ol>
+<li>SOLT calibrate NanoVNA at the end of the feed line (antenna side).</li>
+<li>Set sweep: center frequency = design band center; span = ±20% of center.</li>
+<li>Connect CH0 port to antenna feedpoint. Enable Smith Chart and SWR displays.</li>
+<li>Record: f<sub>res</sub> (X = 0), SWR at f<sub>res</sub>, R at f<sub>res</sub>, SWR bandwidth (2:1 SWR points).</li>
+<li>Resonance target: X = 0 &plusmn;5 &Omega;, R = 36&ndash;52 &Omega; (ground losses shift R above 36.6 &Omega;).</li>
+<li>If f<sub>res</sub> too high: element is short, extend by 1&ndash;2 in. If f<sub>res</sub> too low: element too long, trim 1 in. Repeat.</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch6">CHAPTER 6 &mdash; TUNING AND ADJUSTMENT</h2>
+<h3 class="section-heading">6-1. ELEMENT LENGTH ADJUSTMENT</h3>
+<p>Trim or extend the vertical element to set resonance. Each 1-inch change shifts f<sub>res</sub> by approximately 20&ndash;30 kHz at 40M. Adjust in 2-inch increments. If using a loading coil, adjust coil tap position to shift resonance; moving tap toward the feed end increases inductance and lowers resonance.</p>
+<h3 class="section-heading">6-2. RADIAL SYSTEM OPTIMIZATION</h3>
+<p>Measure R at resonance before and after adding radials. A decrease in R indicates reduced ground loss (desired). Continue adding radials until further additions change R by &lt;1 &Omega;. The point of diminishing returns is typically 16&ndash;32 radials for buried systems, 4&ndash;8 for elevated resonant systems.</p>
+
+<h2 class="chapter-heading" id="ch7">CHAPTER 7 &mdash; VERIFICATION</h2>
+<table class="tm-table">
+<caption>Acceptance Criteria</caption>
+<thead><tr><th>Parameter</th><th>Requirement</th><th>Pass/Fail</th></tr></thead>
+<tbody>
+<tr><td>SWR at resonance</td><td>< 1.5:1</td><td>____</td></tr>
+<tr><td>Resonant frequency</td><td>Within ±1% of design</td><td>____</td></tr>
+<tr><td>Feed impedance (R)</td><td>35&ndash;55 &Omega;</td><td>____</td></tr>
+<tr><td>Feed reactance (X)</td><td>&lt;±10 &Omega;</td><td>____</td></tr>
+<tr><td>Gain (NEC2)</td><td>3 dBi omnidirectional</td><td>____</td></tr>
+<tr><td>Efficiency</td><td>90–97%</td><td>____</td></tr>
+</tbody>
+</table>
+<div class="procedure"><ol>
+<li>Confirm SWR meets specification on all design bands.</li>
+<li>Verify resonance frequency within ±1% of design center.</li>
+<li>Confirm radial bond resistance &lt;0.1 &Omega; with ohmmeter from feedpoint braid to each radial tip.</li>
+<li>Log: date, ground condition, radial count, SWR, R+jX at each band, transmitter output power used for test.</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="appa">APPENDIX A &mdash; CALCULATIONS AND FORMULAS</h2>
+<div class="formula-block"><span class="formula-label">Quarter-wave element height (feet)</span>L = 234 / f<sub>MHz</sub></div>
+<div class="formula-block"><span class="formula-label">Radiation resistance (quarter-wave over perfect ground)</span>R<sub>r</sub> = 36.6 &Omega;</div>
+<div class="formula-block"><span class="formula-label">Efficiency (&eta;)</span>&eta; = R<sub>r</sub> / (R<sub>r</sub> + R<sub>g</sub> + R<sub>coil</sub>)</div>
+<div class="formula-block"><span class="formula-label">Loading coil Q (air-wound)</span>Q<sub>L</sub> = X<sub>L</sub> / R<sub>coil</sub> where X<sub>L</sub> = 2&pi;f&middot;L</div>
+
+<h2 class="chapter-heading" id="appb">APPENDIX B &mdash; EXAMPLE RESULTS</h2>
+<table class="tm-table">
+<caption>Typical NanoVNA Results — Slim Jim Antenna</caption>
+<thead><tr><th>Band</th><th>f<sub>res</sub> (MHz)</th><th>SWR</th><th>R (&Omega;)</th><th>X (&Omega;)</th><th>2:1 BW (kHz)</th></tr></thead>
+<tbody>
+<tr><td>40M</td><td>7.150</td><td>1.3:1</td><td>38</td><td>+2</td><td>180</td></tr>
+<tr><td>20M</td><td>14.175</td><td>1.4:1</td><td>41</td><td>&minus;3</td><td>350</td></tr>
+</tbody>
+</table>
+
+
+                <div class="back-link">
+                    <a href="../index.html">&larr; Back to Antenna Library</a>
+                    &nbsp;&nbsp;&bull;&nbsp;&nbsp;
+                    <a href="index.html">&larr; Back to Slim Jim Antenna Overview</a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Radio: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+                <p>Amateur Radio | Electronics | Engineering | Knowledge Preservation</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

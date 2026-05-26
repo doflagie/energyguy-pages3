@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-ANT-021 END-FED RANDOM WIRE (EFRW) ANTENNA - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+
+
+<style>
+/* Navy TM Styles */
+.tm-cover {
+    border: 3px solid #2c5f8d;
+    padding: 30px 40px;
+    text-align: center;
+    margin-bottom: 30px;
+    background: #f8f8f4;
+}
+.tm-classification {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #006600;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+.tm-number {
+    font-family: 'Courier New', monospace;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #2c5f8d;
+    margin-bottom: 10px;
+}
+.tm-title {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #1a3a5c;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 15px 0 10px;
+    line-height: 1.3;
+}
+.tm-subtitle {
+    font-size: 1.0em;
+    font-style: italic;
+    color: #555;
+    margin-bottom: 15px;
+}
+.tm-meta {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 20px;
+    border-top: 1px solid #aaa;
+    padding-top: 15px;
+}
+.tm-toc {
+    background: #f0f4f8;
+    border: 1px solid #c0ccd8;
+    padding: 20px 30px;
+    margin-bottom: 30px;
+}
+.tm-toc h2 {
+    font-size: 1.1em;
+    color: #2c5f8d;
+    border-bottom: 1px solid #4a7ba7;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.tm-toc ol {
+    margin: 0;
+    padding-left: 25px;
+}
+.tm-toc li {
+    margin: 4px 0;
+    font-size: 0.95em;
+}
+.tm-toc a {
+    color: #2c5f8d;
+    text-decoration: none;
+}
+.tm-toc a:hover {
+    text-decoration: underline;
+}
+.chapter-heading {
+    background: #2c5f8d;
+    color: #ffffff;
+    padding: 10px 20px;
+    margin-top: 35px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.section-heading {
+    color: #1a3a5c;
+    border-bottom: 2px solid #4a7ba7;
+    padding-bottom: 4px;
+    margin-top: 25px;
+    margin-bottom: 12px;
+    font-size: 1.05em;
+}
+.subsection-heading {
+    color: #2c5f8d;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    font-size: 1.0em;
+}
+.tm-warning {
+    background: #fff0f0;
+    border-left: 5px solid #cc0000;
+    border-top: 1px solid #cc0000;
+    border-bottom: 1px solid #cc0000;
+    border-right: 1px solid #cc0000;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-caution {
+    background: #fffbf0;
+    border-left: 5px solid #cc7700;
+    border-top: 1px solid #cc7700;
+    border-bottom: 1px solid #cc7700;
+    border-right: 1px solid #cc7700;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-note {
+    background: #f0f5ff;
+    border-left: 5px solid #4a7ba7;
+    border-top: 1px solid #4a7ba7;
+    border-bottom: 1px solid #4a7ba7;
+    border-right: 1px solid #4a7ba7;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.admonition-label {
+    font-weight: bold;
+    font-size: 0.9em;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 6px;
+}
+.tm-warning .admonition-label { color: #cc0000; }
+.tm-caution .admonition-label { color: #cc7700; }
+.tm-note .admonition-label { color: #2c5f8d; }
+.tm-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.95em;
+}
+.tm-table th {
+    background: #4a7ba7;
+    color: #ffffff;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.tm-table td {
+    border: 1px solid #c0ccd8;
+    padding: 7px 12px;
+    vertical-align: top;
+}
+.tm-table tr:nth-child(even) td {
+    background: #f4f7fb;
+}
+.tm-table caption {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 5px;
+    text-align: left;
+}
+.procedure ol {
+    margin: 10px 0 10px 20px;
+}
+.procedure li {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+.formula-block {
+    background: #f4f7fb;
+    border: 1px solid #c0ccd8;
+    padding: 12px 20px;
+    margin: 12px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+}
+.formula-block .formula-label {
+    font-family: Georgia, serif;
+    font-size: 0.85em;
+    color: #555;
+    font-style: italic;
+    display: block;
+    margin-bottom: 5px;
+}
+.back-link {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #c0ccd8;
+    font-size: 0.9em;
+}
+</style>
+
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="../../about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul><li><a href="../index.html">Antenna Library</a></li></ul>
+            </details>
+            <details class="nav-group">
+                <summary>Test Equipment</summary>
+                <ul><li><a href="../../test_gear/index.html">Test Equipment Library</a></li></ul>
+            </details>
+            <details class="nav-group">
+                <summary>Calibration Ideas</summary>
+                <ul><li><a href="../../Calibration_Ideas/index.html">Calibration Standards</a></li></ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Study &amp; Training</summary>
+                <ul>
+                    <li><a href="https://assets.doflagie.com/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                    <li><a href="https://assets.doflagie.com/study/morse.html">Morse Code Practice</a></li>
+                </ul>
+            </details>
+        </nav>
+
+
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-ANT-021</div>
+                    <div class="tm-title">END-FED RANDOM WIRE (EFRW) ANTENNA</div>
+                    <div class="tm-subtitle">Broadband Non-Resonant Random-Length Wire with ATU, 160M–6M</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH<br>
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Antenna Engineering &mdash; Not for commercial use</em>
+                    </div>
+                </div>
+
+                <div class="tm-toc">
+                    <h2>Table of Contents</h2>
+                    <ol>
+            <li><a href="#ch1">Chapter 1 &mdash; General Information</a></li>
+            <li><a href="#ch2">Chapter 2 &mdash; Theory of Operation</a></li>
+            <li><a href="#ch3">Chapter 3 &mdash; Materials and Construction</a></li>
+            <li><a href="#ch4">Chapter 4 &mdash; Assembly Procedures</a></li>
+            <li><a href="#ch5">Chapter 5 &mdash; Calibration Procedure</a></li>
+            <li><a href="#ch6">Chapter 6 &mdash; Tuning and Adjustment</a></li>
+            <li><a href="#ch7">Chapter 7 &mdash; Verification</a></li>
+            <li><a href="#appa">Appendix A &mdash; Calculations and Formulas</a></li>
+            <li><a href="#appb">Appendix B &mdash; Example Results</a></li>
+                    </ol>
+                </div>
+
+
+<h2 class="chapter-heading" id="ch1">CHAPTER 1 &mdash; GENERAL INFORMATION</h2>
+<h3 class="section-heading">1-1. SCOPE</h3>
+<p>This manual covers design, construction, and calibration of the End-Fed Random Wire (Efrw) Antenna for amateur radio operation on 160M–6M (with ATU). End-fed wire antennas are popular for portable and emergency use because they require only one support point and can be deployed rapidly.</p>
+
+<h3 class="section-heading">1-2. APPLICABLE REFERENCES</h3>
+<ul>
+<li>ARRL Antenna Book — End-Fed Antennas and Matching Networks</li>
+<li>NEC2 model: end_fed_random_wire.nec (in antenna directory)</li>
+<li>SOTA Antenna Notes — End-fed systems</li>
+<li>FCC OET Bulletin 65 — RF Exposure Evaluation</li>
+</ul>
+
+<h3 class="section-heading">1-3. SAFETY PRECAUTIONS</h3>
+<div class="tm-caution">
+<span class="admonition-label">CAUTION — RF EXPOSURE</span>
+Maintain minimum safe distance from all energized antenna elements during transmission.
+At QRP power levels (&le;5 W) the MPE boundary is typically &lt;1 m for HF antennas.
+At 100 W the controlled exposure limit for HF antennas requires maintaining &ge;3–10 m
+distance depending on frequency (per FCC OET Bulletin 65). Never touch feed-point hardware
+or support structures while transmitting. Verify PTT key is open before antenna work.
+</div>
+<div class="tm-caution">
+<span class="admonition-label">CAUTION — END-FED CURRENTS ON COAX BRAID</span>
+End-fed antennas without a proper counterpoise will drive common-mode current on the coax outer braid,
+causing RF in the shack, SWR variations, and potential interference. Always install a 1:1 current choke
+(sleeve choke or 8-turn coax on a Mix-31 toroid) at the feedpoint. Monitor for RF in the shack; if
+present, add more choke or increase counterpoise length.
+</div>
+
+<h2 class="chapter-heading" id="ch2">CHAPTER 2 &mdash; THEORY OF OPERATION</h2>
+<h3 class="section-heading">2-1. END-FED MATCHING</h3>
+<p>Random-length wire (avoid multiples of λ/2 per band) fed via 9:1 or capacitive coupler into atu. An end-fed wire presents a high impedance at its end: ~2500&ndash;5000 &Omega; for a half-wave wire; ~1000&ndash;2000 &Omega; for a quarter-wave wire. This high impedance is transformed down to 50 &Omega; by the matching transformer or unun. Design values: Varies widely; 9:1 unun + ATU to 50 Ω. The transformation ratio n&sup2; = Z<sub>wire</sub>/Z<sub>coax</sub>; for a 49:1 unun, n = 7, so the wire impedance appears as 49&times;50 = 2450 &Omega; from the wire side.</p>
+
+<h3 class="section-heading">2-2. RADIATION PATTERN</h3>
+<p>An end-fed wire radiates in a pattern that varies with length and frequency. A half-wave wire at 10 ft height produces a bidirectional broadside pattern similar to a dipole. At harmonic frequencies the pattern has multiple lobes and nulls. Gain per design: 2–4 dBi (length and frequency dependent). The pattern is affected by the run of the feed line if common-mode current is not controlled.</p>
+
+<h3 class="section-heading">2-3. COUNTERPOISE REQUIREMENTS</h3>
+<p>A counterpoise (short wire or coax braid) is required as a reference conductor for the feed voltage to work against. Without a counterpoise the coax braid serves as the counterpoise, causing RF current on the braid. Recommended counterpoise: 0.05&lambda; minimum length wire from the unun ground terminal, or a 1:1 choke isolating the antenna current from the coax outer.</p>
+
+<h2 class="chapter-heading" id="ch3">CHAPTER 3 &mdash; MATERIALS AND CONSTRUCTION</h2>
+<h3 class="section-heading">3-1. BILL OF MATERIALS</h3>
+<table class="tm-table">
+<caption>Materials — End-Fed Random Wire (Efrw) Antenna</caption>
+<thead><tr><th>Qty</th><th>Item</th><th>Specification</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Matching transformer (unun)</td><td>49:1 unun for EFHW (binocular core BN-43-2402 or FT-140-43); 9:1 unun for random wire (FT-140-43)</td></tr>
+<tr><td>1 length</td><td>Antenna wire</td><td>#22&ndash;#18 AWG stranded copper; length per design</td></tr>
+<tr><td>1</td><td>End insulator</td><td>UV-stable; rated for wire tension</td></tr>
+<tr><td>1</td><td>Counterpoise wire</td><td>#22 AWG; minimum 0.05&lambda; at lowest operating frequency</td></tr>
+<tr><td>1</td><td>Enclosure for transformer</td><td>UV-stable ABS; seal with silicone for waterproofing</td></tr>
+<tr><td>1</td><td>SO-239 connector</td><td>Mount on enclosure; connect to coax feed line</td></tr>
+</tbody>
+</table>
+
+<h3 class="section-heading">3-2. WIRE LENGTHS</h3>
+<div class="formula-block"><span class="formula-label">EFHW wire length (feet) at design frequency</span>L = 468 / f<sub>MHz</sub></div>
+<div class="formula-block"><span class="formula-label">EFQW wire length (feet)</span>L = 234 / f<sub>MHz</sub></div>
+<div class="formula-block"><span class="formula-label">Avoid resonant random wire lengths (avoid these values for 40M EFRW)</span>Avoid 11, 22, 33, 44, 66, 88, 110 ft — these are resonant multiples on common bands</div>
+<div class="formula-block"><span class="formula-label">Recommended EFRW lengths (ft)</span>29, 35.5, 41, 58, 71 — not resonant on any common HF band</div>
+
+<h2 class="chapter-heading" id="ch4">CHAPTER 4 &mdash; ASSEMBLY PROCEDURES</h2>
+<div class="tm-caution">
+<span class="admonition-label">CAUTION — RF EXPOSURE</span>
+Maintain minimum safe distance from all energized antenna elements during transmission.
+At QRP power levels (&le;5 W) the MPE boundary is typically &lt;1 m for HF antennas.
+At 100 W the controlled exposure limit for HF antennas requires maintaining &ge;3–10 m
+distance depending on frequency (per FCC OET Bulletin 65). Never touch feed-point hardware
+or support structures while transmitting. Verify PTT key is open before antenna work.
+</div>
+<div class="procedure"><ol>
+<li>Wind matching transformer per design (49:1 unun: 3 trifilar turns primary on BN-43-2402 binocular core, or 2 turns primary and 14 turns secondary on FT-140-43 single core).</li>
+<li>Seal transformer in weatherproof enclosure. Route wire terminal out one end, coax SO-239 on side.</li>
+<li>Attach antenna wire to transformer wire terminal. Cut wire 5% long for trimming.</li>
+<li>Attach counterpoise wire (0.05&lambda; minimum) to transformer ground/coax-braid terminal. Tape counterpoise away from antenna wire.</li>
+<li>Deploy antenna wire: raise far end as high as possible, at least 20 ft for HF operation. Attach end insulator and support halyard.</li>
+<li>Run coax from SO-239 to station. Install common-mode choke (Mix-31 toroid, 8 turns) at shack entry.</li>
+<li>Perform SWR sweep per Chapter 5.</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch5">CHAPTER 5 &mdash; CALIBRATION PROCEDURE</h2>
+<div class="procedure"><ol>
+<li>SOLT calibrate NanoVNA at end of feed line (shack end) with the antenna deployed at operating height.</li>
+<li>Set sweep: target band ±15%.</li>
+<li>Connect NanoVNA. Record SWR across band. Resonance appears as dip in SWR (may be very sharp for EFHW).</li>
+<li>If SWR dip is at wrong frequency: trim wire end for higher frequency (too long), or add wire for lower frequency (too short). Change ~6 in for ~50 kHz shift at 40M.</li>
+<li>Verify SWR on harmonics for multiband use (EFHW is harmonically resonant at 2f, 3f, ...).</li>
+<li>Check common-mode current: touch coax braid — if RF is felt, add choke at feedpoint.</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch6">CHAPTER 6 &mdash; TUNING AND ADJUSTMENT</h2>
+<p>Trim wire for resonance. For multiband EFHW, the 49:1 unun presents high impedance at the design frequency; SWR on harmonics is naturally low if the wire is properly trimmed at the fundamental. If SWR is acceptable at fundamental but poor at harmonics, adjust ATU or add a series capacitor (50&ndash;100 pF) in the counterpoise for harmonic correction.</p>
+
+<h2 class="chapter-heading" id="ch7">CHAPTER 7 &mdash; VERIFICATION</h2>
+<table class="tm-table">
+<caption>Acceptance Criteria</caption>
+<thead><tr><th>Parameter</th><th>Requirement</th><th>Pass/Fail</th></tr></thead>
+<tbody>
+<tr><td>SWR at design frequency</td><td>< 2.0:1 after ATU</td><td>____</td></tr>
+<tr><td>Common-mode current on coax</td><td>Not perceptible at feed end</td><td>____</td></tr>
+<tr><td>Gain (NEC2)</td><td>2–4 dBi (length and frequency dependent)</td><td>____</td></tr>
+<tr><td>Efficiency</td><td>75–90% (ATU loss + wire resistance)</td><td>____</td></tr>
+</tbody>
+</table>
+
+<h2 class="chapter-heading" id="appa">APPENDIX A &mdash; CALCULATIONS AND FORMULAS</h2>
+<div class="formula-block"><span class="formula-label">Wire length for EFHW (feet)</span>L = 468 / f<sub>MHz</sub></div>
+<div class="formula-block"><span class="formula-label">49:1 unun impedance transformation</span>Z<sub>wire</sub> = 49 &times; Z<sub>coax</sub> = 49 &times; 50 = 2450 &Omega;</div>
+<div class="formula-block"><span class="formula-label">9:1 unun impedance transformation</span>Z<sub>wire</sub> = 9 &times; 50 = 450 &Omega;</div>
+
+<h2 class="chapter-heading" id="appb">APPENDIX B &mdash; EXAMPLE RESULTS</h2>
+<table class="tm-table">
+<caption>Typical Measurements — End-Fed Random Wire (Efrw) Antenna</caption>
+<thead><tr><th>Band</th><th>SWR</th><th>R (&Omega;)</th><th>X (&Omega;)</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td>40M (design)</td><td>&lt;2.0:1</td><td>40&ndash;65</td><td>&plusmn;20</td><td>After wire trimming</td></tr>
+<tr><td>20M (2nd harmonic)</td><td>&lt;2.5:1</td><td>30&ndash;80</td><td>&plusmn;30</td><td>Harmonically resonant</td></tr>
+<tr><td>15M (3rd harmonic)</td><td>&lt;3:1</td><td>25&ndash;90</td><td>&plusmn;40</td><td>May need ATU</td></tr>
+</tbody>
+</table>
+
+
+                <div class="back-link">
+                    <a href="../index.html">&larr; Back to Antenna Library</a>
+                    &nbsp;&nbsp;&bull;&nbsp;&nbsp;
+                    <a href="index.html">&larr; Back to End-Fed Random Wire (Efrw) Antenna Overview</a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Radio: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+                <p>Amateur Radio | Electronics | Engineering | Knowledge Preservation</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

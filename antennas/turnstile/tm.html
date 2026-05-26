@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-ANT-008 TURNSTILE CALIBRATION (HOMEBREW) - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+.tm-cover{border:3px solid #2c5f8d;padding:28px 36px;text-align:center;margin-bottom:28px;background:#f8f8f4}
+.tm-classification{font-size:1.05em;font-weight:bold;color:#006600;letter-spacing:3px;margin-bottom:16px}
+.tm-number{font-family:'Courier New',monospace;font-size:1.15em;font-weight:bold;color:#2c5f8d;margin-bottom:8px}
+.tm-title{font-size:1.7em;font-weight:bold;color:#1a3a5c;text-transform:uppercase;letter-spacing:1px;margin:12px 0 8px;line-height:1.3}
+.tm-subtitle{font-size:.98em;font-style:italic;color:#555;margin-bottom:12px}
+.tm-meta{font-size:.88em;color:#555;margin-top:16px;border-top:1px solid #aaa;padding-top:12px}
+.tm-toc{background:#f0f4f8;border:1px solid #c0ccd8;padding:18px 28px;margin-bottom:28px}
+.tm-toc h2{font-size:1.05em;color:#2c5f8d;border-bottom:1px solid #4a7ba7;padding-bottom:6px;margin-bottom:10px;text-transform:uppercase;letter-spacing:1px}
+.tm-toc ol{margin:0;padding-left:22px}
+.tm-toc li{margin:4px 0;font-size:.93em}
+.tm-toc a{color:#2c5f8d;text-decoration:none}
+.tm-toc a:hover{text-decoration:underline}
+.chapter-heading{background:#2c5f8d;color:#fff;padding:9px 18px;margin-top:32px;margin-bottom:16px;font-size:1.15em;font-weight:bold;text-transform:uppercase;letter-spacing:1px}
+.chapter-body h1,.chapter-body h2{color:#1a3a5c;border-bottom:2px solid #4a7ba7;padding-bottom:4px;margin-top:22px;margin-bottom:10px}
+.chapter-body h3{color:#2c5f8d;margin-top:16px;margin-bottom:8px}
+.chapter-body table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93em}
+.chapter-body th{background:#4a7ba7;color:#fff;padding:7px 11px;text-align:left;font-size:.88em;text-transform:uppercase}
+.chapter-body td{border:1px solid #c0ccd8;padding:6px 11px;vertical-align:top}
+.chapter-body tr:nth-child(even) td{background:#f4f7fb}
+.chapter-body ol,.chapter-body ul{margin:8px 0 8px 20px}
+.chapter-body li{margin:5px 0;line-height:1.5}
+.chapter-body p{margin:8px 0 10px}
+.chapter-body pre,.chapter-body code{background:#f4f4ee;border:1px solid #ddd;padding:2px 5px;font-size:.9em}
+.chapter-body blockquote{border-left:4px solid #4a7ba7;margin:12px 0;padding:8px 16px;background:#f0f5ff;color:#333}
+.back-link{margin-top:28px;padding-top:12px;border-top:1px solid #c0ccd8;font-size:.9em}
+</style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+            
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="../../about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul><li><a href="../index.html">Antenna Library</a></li></ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Test Equipment</summary>
+                <ul><li><a href="../../test_gear/index.html">Test Equipment Library</a></li></ul>
+            </details>
+        </nav>
+
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-ANT-008</div>
+                    <div class="tm-title">TURNSTILE CALIBRATION (HOMEBREW)</div>
+                    <div class="tm-subtitle">Construction, Theory, Calibration and Verification Procedures</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH &nbsp;&bull;&nbsp;
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial calibration use</em>
+                    </div>
+                </div>
+
+                <div class="tm-toc">
+                    <h2>Table of Contents</h2>
+                    <ol>
+            <li><a href="#ch1">CHAPTER 1 &mdash; GENERAL INFORMATION</a></li>
+            <li><a href="#ch2">CHAPTER 2 &mdash; THEORY OF OPERATION</a></li>
+            <li><a href="#ch3">CHAPTER 3 &mdash; MATERIALS AND CONSTRUCTION</a></li>
+            <li><a href="#ch4">CHAPTER 4 &mdash; ASSEMBLY PROCEDURES</a></li>
+            <li><a href="#ch5">CHAPTER 5 &mdash; CALIBRATION PROCEDURE</a></li>
+            <li><a href="#ch6">CHAPTER 6 &mdash; TUNING AND ADJUSTMENT</a></li>
+            <li><a href="#ch7">CHAPTER 7 &mdash; VERIFICATION</a></li>
+            <li><a href="#chA">APPENDIX A &mdash; CALCULATIONS AND FORMULAS</a></li>
+            <li><a href="#chB">APPENDIX B &mdash; EXAMPLE RESULTS</a></li>
+                    </ol>
+                </div>
+
+                <h2 class="chapter-heading" id="ch1">CHAPTER 1 &mdash; GENERAL INFORMATION</h2>
+<div class="chapter-body">
+<p>This guide outlines a cheap, homebrew method to calibrate or verify a Turnstile without any pre-calibrated equipment. It relies on known physics (wavelength, impedance, resonance) and public references (WWV, GPS, broadcast carriers).</p>
+                <h2 id="what-you-will-build">What you will build</h2>
+                <ul>
+                <li>A simple reference or fixture based on known dimensions or components.</li>
+                <li>A repeatable setup for measurements and comparisons.</li>
+                </ul>
+</div>
+<h2 class="chapter-heading" id="ch2">CHAPTER 2 &mdash; THEORY OF OPERATION</h2>
+<div class="chapter-body">
+<p>Calibration compares the Turnstile response to a known reference. For antennas, the reference comes from physical dimensions (wavelength), known impedance standards, and repeatable measurement setups. For supporting gear, the reference comes from basic circuit physics and stable sources.</p>
+</div>
+<h2 class="chapter-heading" id="ch3">CHAPTER 3 &mdash; MATERIALS AND CONSTRUCTION</h2>
+<div class="chapter-body">
+<ol>
+                <li>Use measured cuts based on wavelength formulas.</li>
+                <li>Use common copper wire or tubing.</li>
+                <li>Include a feedpoint structure that allows adjustment.</li>
+                <li>Use a simple support structure to keep geometry consistent.</li>
+                </ol>
+</div>
+<h2 class="chapter-heading" id="ch4">CHAPTER 4 &mdash; ASSEMBLY PROCEDURES</h2>
+<div class="chapter-body">
+<ol>
+                <li>Cut elements to calculated length.</li>
+                <li>Assemble the feedpoint with a connector and strain relief.</li>
+                <li>Mount the structure in its intended orientation.</li>
+                <li>Verify continuity and no shorts before measurements.</li>
+                </ol>
+</div>
+<h2 class="chapter-heading" id="ch5">CHAPTER 5 &mdash; CALIBRATION PROCEDURE</h2>
+<div class="chapter-body">
+<ol>
+                <li>Use a stable reference signal (WWV, beacon, or known local carrier).</li>
+                <li>Measure resonance, SWR, or gain pattern.</li>
+                <li>Compare against expected values from calculations.</li>
+                <li>Apply corrections or document offsets.</li>
+                </ol>
+</div>
+<h2 class="chapter-heading" id="ch6">CHAPTER 6 &mdash; TUNING AND ADJUSTMENT</h2>
+<div class="chapter-body">
+<ol>
+                <li>Sweep across the target band.</li>
+                <li>Shorten or lengthen elements in small steps.</li>
+                <li>Record resonance shift per adjustment.</li>
+                <li>Lock the final configuration.</li>
+                </ol>
+</div>
+<h2 class="chapter-heading" id="ch7">CHAPTER 7 &mdash; VERIFICATION</h2>
+<div class="chapter-body">
+<p>Confirm performance at several frequencies or positions. Keep a log of environment, height, and orientation so future checks are comparable.</p>
+</div>
+<h2 class="chapter-heading" id="chA">APPENDIX A &mdash; CALCULATIONS AND FORMULAS</h2>
+<div class="chapter-body">
+<h2 id="wavelength-relationships">Wavelength relationships</h2>
+                <ul>
+                <li>Wavelength (meters) = 300 / Frequency (MHz)</li>
+                <li>Quarter-wave length = Wavelength / 4</li>
+                <li>Half-wave length = Wavelength / 2</li>
+                </ul>
+                <h2 id="impedance">Impedance</h2>
+                <ul>
+                <li>V = I * R</li>
+                <li>Power (W) = V^2 / R</li>
+                </ul>
+                <h2 id="example">Example</h2>
+                <p>If target frequency is 7.1 MHz:
+                - Wavelength = 300 / 7.1 = 42.25 m
+                - Half-wave = 21.1 m</p>
+</div>
+<h2 class="chapter-heading" id="chB">APPENDIX B &mdash; EXAMPLE RESULTS</h2>
+<div class="chapter-body">
+<table>
+                <thead>
+                <tr>
+                <th style="text-align: right;">Target</th>
+                <th style="text-align: right;">Measured</th>
+                <th style="text-align: right;">Offset</th>
+                <th>Notes</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td style="text-align: right;">7.100 MHz</td>
+                <td style="text-align: right;">7.080 MHz</td>
+                <td style="text-align: right;">-20 kHz</td>
+                <td>Length reduced by 3 cm</td>
+                </tr>
+                <tr>
+                <td style="text-align: right;">14.200 MHz</td>
+                <td style="text-align: right;">14.210 MHz</td>
+                <td style="text-align: right;">+10 kHz</td>
+                <td>Good match</td>
+                </tr>
+                </tbody>
+                </table>
+</div>
+
+
+                <div class="back-link">
+                    <a href="../index.html">&larr; Back to index</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Radio: KO6NNH &nbsp;&bull;&nbsp; Merced, California 95340</p>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

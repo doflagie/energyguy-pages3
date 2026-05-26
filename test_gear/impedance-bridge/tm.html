@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-TGEAR-013 IMPEDANCE BRIDGE - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+
+<style>
+/* Navy TM Styles */
+.tm-cover {
+    border: 3px solid #2c5f8d;
+    padding: 30px 40px;
+    text-align: center;
+    margin-bottom: 30px;
+    background: #f8f8f4;
+}
+.tm-classification {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #006600;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+.tm-number {
+    font-family: 'Courier New', monospace;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #2c5f8d;
+    margin-bottom: 10px;
+}
+.tm-title {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #1a3a5c;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 15px 0 10px;
+    line-height: 1.3;
+}
+.tm-subtitle {
+    font-size: 1.0em;
+    font-style: italic;
+    color: #555;
+    margin-bottom: 15px;
+}
+.tm-meta {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 20px;
+    border-top: 1px solid #aaa;
+    padding-top: 15px;
+}
+.tm-toc {
+    background: #f0f4f8;
+    border: 1px solid #c0ccd8;
+    padding: 20px 30px;
+    margin-bottom: 30px;
+}
+.tm-toc h2 {
+    font-size: 1.1em;
+    color: #2c5f8d;
+    border-bottom: 1px solid #4a7ba7;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.tm-toc ol {
+    margin: 0;
+    padding-left: 25px;
+}
+.tm-toc li {
+    margin: 4px 0;
+    font-size: 0.95em;
+}
+.tm-toc a {
+    color: #2c5f8d;
+    text-decoration: none;
+}
+.tm-toc a:hover {
+    text-decoration: underline;
+}
+.chapter-heading {
+    background: #2c5f8d;
+    color: #ffffff;
+    padding: 10px 20px;
+    margin-top: 35px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.section-heading {
+    color: #1a3a5c;
+    border-bottom: 2px solid #4a7ba7;
+    padding-bottom: 4px;
+    margin-top: 25px;
+    margin-bottom: 12px;
+    font-size: 1.05em;
+}
+.subsection-heading {
+    color: #2c5f8d;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    font-size: 1.0em;
+}
+.tm-warning {
+    background: #fff0f0;
+    border-left: 5px solid #cc0000;
+    border-top: 1px solid #cc0000;
+    border-bottom: 1px solid #cc0000;
+    border-right: 1px solid #cc0000;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-caution {
+    background: #fffbf0;
+    border-left: 5px solid #cc7700;
+    border-top: 1px solid #cc7700;
+    border-bottom: 1px solid #cc7700;
+    border-right: 1px solid #cc7700;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-note {
+    background: #f0f5ff;
+    border-left: 5px solid #4a7ba7;
+    border-top: 1px solid #4a7ba7;
+    border-bottom: 1px solid #4a7ba7;
+    border-right: 1px solid #4a7ba7;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.admonition-label {
+    font-weight: bold;
+    font-size: 0.9em;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 6px;
+}
+.tm-warning .admonition-label { color: #cc0000; }
+.tm-caution .admonition-label { color: #cc7700; }
+.tm-note .admonition-label { color: #2c5f8d; }
+.tm-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.95em;
+}
+.tm-table th {
+    background: #4a7ba7;
+    color: #ffffff;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.tm-table td {
+    border: 1px solid #c0ccd8;
+    padding: 7px 12px;
+    vertical-align: top;
+}
+.tm-table tr:nth-child(even) td {
+    background: #f4f7fb;
+}
+.tm-table caption {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 5px;
+    text-align: left;
+}
+.procedure ol {
+    margin: 10px 0 10px 20px;
+}
+.procedure li {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+.formula-block {
+    background: #f4f7fb;
+    border: 1px solid #c0ccd8;
+    padding: 12px 20px;
+    margin: 12px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+}
+.formula-block .formula-label {
+    font-family: Georgia, serif;
+    font-size: 0.85em;
+    color: #555;
+    font-style: italic;
+    display: block;
+    margin-bottom: 5px;
+}
+.back-link {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #c0ccd8;
+    font-size: 0.9em;
+}
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="../../about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul><li><a href="../../antennas/index.html">Antenna Library</a></li></ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul><li><a href="../index.html">Test Equipment Library</a></li></ul>
+            </details>
+            <h3>Standards</h3>
+            <ul>
+                <li><a href="../../Calibration_Ideas/index.html">Calibration Standards</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Study &amp; Training</summary>
+                <ul>
+                    <li><a href="https://assets.doflagie.com/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                    <li><a href="https://assets.doflagie.com/study/morse.html">Morse Code Practice</a></li>
+                </ul>
+            </details>
+        </nav>
+
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-TGEAR-013</div>
+                    <div class="tm-title">IMPEDANCE BRIDGE</div>
+                    <div class="tm-subtitle">AC Null-Balance Impedance Measurement Bridge</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH<br>
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial calibration use</em>
+                    </div>
+                </div>
+
+                <div class="tm-toc">
+                    <h2>Table of Contents</h2>
+                    <ol>
+            <li><a href="#ch1">Chapter 1 &mdash; General Information</a></li>
+            <li><a href="#ch2">Chapter 2 &mdash; Theory of Operation</a></li>
+            <li><a href="#ch3">Chapter 3 &mdash; Construction</a></li>
+            <li><a href="#ch4">Chapter 4 &mdash; Assembly Procedures</a></li>
+            <li><a href="#ch5">Chapter 5 &mdash; Calibration Procedure</a></li>
+            <li><a href="#ch6">Chapter 6 &mdash; Tuning and Adjustment</a></li>
+            <li><a href="#ch7">Chapter 7 &mdash; Verification</a></li>
+            <li><a href="#appa">Appendix A &mdash; Calculations and Formulas</a></li>
+            <li><a href="#appb">Appendix B &mdash; Example Results</a></li>
+                    </ol>
+                </div>
+
+
+<h2 class="chapter-heading" id="ch1">CHAPTER 1 &mdash; GENERAL INFORMATION</h2>
+<h3 class="section-heading">1-1. SCOPE</h3>
+<p>This manual covers design, construction, and calibration of a manual AC impedance bridge (modified Maxwell or Hay bridge) for measuring inductance, capacitance, and resistance at audio frequencies (100 Hz to 100 kHz). The null-balance method provides accuracies of 0.1% with calibrated standards.</p>
+<h3 class="section-heading">1-2. APPLICABLE DOCUMENTS</h3>
+<p>TM-TGEAR-015 (LCR Meter), TM-TGEAR-002 (Audio Oscillator), TM-CAL-008 (Precision Resistor), TM-CAL-010 (Kelvin 4-Wire).</p>
+
+<h2 class="chapter-heading" id="ch2">CHAPTER 2 &mdash; THEORY OF OPERATION</h2>
+<h3 class="section-heading">2-1. WHEATSTONE/MAXWELL BRIDGE BALANCE</h3>
+<p>Four impedance arms (Z<sub>1</sub>, Z<sub>2</sub>, Z<sub>3</sub>, Z<sub>X</sub>) form a bridge. AC null is detected when the ratio Z<sub>1</sub>/Z<sub>2</sub> = Z<sub>3</sub>/Z<sub>X</sub>. At null, no current flows through the detector, and Z<sub>X</sub> is computed from the known arms.</p>
+<div class="formula-block"><span class="formula-label">Maxwell bridge (inductance)</span>L<sub>X</sub> = R<sub>2</sub> &times; R<sub>3</sub> &times; C<sub>1</sub>  and  R<sub>X</sub> = R<sub>2</sub> &times; R<sub>3</sub> / R<sub>1</sub></div>
+<h3 class="section-heading">2-2. HAY BRIDGE</h3>
+<p>The Hay bridge is preferred for high-Q inductors:</p>
+<div class="formula-block"><span class="formula-label">Hay bridge (high-Q inductor)</span>L<sub>X</sub> = R<sub>2</sub> &times; R<sub>3</sub> &times; C<sub>1</sub> / (1 + (1/Q)<sup>2</sup>)</div>
+<h3 class="section-heading">2-3. NULL DETECTOR</h3>
+<p>An audio frequency amplifier + earphone or a galvanometer-type null detector senses bridge balance. The detector amplifier must be narrow-band to reject harmonics and improve null sensitivity.</p>
+
+<h2 class="chapter-heading" id="ch3">CHAPTER 3 &mdash; CONSTRUCTION</h2>
+<table class="tm-table"><caption>Maxwell Bridge Component List</caption>
+<thead><tr><th>Arm</th><th>Component</th><th>Specification</th></tr></thead>
+<tbody>
+<tr><td>Z<sub>1</sub> (standard)</td><td>Decade capacitance box</td><td>1 pF &ndash; 10 &micro;F, &plusmn;1% (TM-TGEAR-005)</td></tr>
+<tr><td>R<sub>1</sub></td><td>Decade resistance box</td><td>0&ndash;100 k&Omega;, &plusmn;0.1%</td></tr>
+<tr><td>R<sub>2</sub>, R<sub>3</sub></td><td>Precision resistors</td><td>1 k&Omega; &plusmn;0.01%, wirewound</td></tr>
+<tr><td>Detector</td><td>LM386 audio amp + earphone</td><td>1 kHz sensitivity &lt;10 mV</td></tr>
+<tr><td>Source</td><td>1 kHz audio oscillator</td><td>&lt;0.1% THD (TM-TGEAR-002)</td></tr>
+</tbody></table>
+
+<h2 class="chapter-heading" id="ch4">CHAPTER 4 &mdash; ASSEMBLY PROCEDURES</h2>
+<div class="procedure"><ol>
+<li>Wire bridge arms on phenolic strip board. Use shielded leads for Z<sub>X</sub> arm to minimize stray capacitance pickup.</li>
+<li>Install 1 kHz source and null detector connections on front panel.</li>
+<li>Verify bridge balance with Z<sub>X</sub> = Z<sub>3</sub> (known standard): null should be &lt;1% of drive voltage.</li>
+<li>Test with 100 &micro;H inductor on Maxwell bridge: balance for minimum headphone null.</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch5">CHAPTER 5 &mdash; CALIBRATION PROCEDURE</h2>
+<div class="procedure"><ol>
+<li>Verify R<sub>2</sub> and R<sub>3</sub> ratio arms with 4-wire DMM. Record actual values R<sub>2</sub>/R<sub>3</sub> ratio.</li>
+<li>Calibrate standard capacitor C<sub>1</sub> (decade box) against LCR meter values.</li>
+<li>Connect known 100 &micro;H &plusmn;0.1% inductor as Z<sub>X</sub>. Balance bridge. Compute L<sub>X</sub> = R<sub>2</sub>R<sub>3</sub>C<sub>1</sub>. Compare to known value.</li>
+<li>Error should be &lt;0.5%. If not, re-measure R<sub>2</sub>, R<sub>3</sub>, C<sub>1</sub> individually.</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch6">CHAPTER 6 &mdash; TUNING AND ADJUSTMENT</h2>
+<p>Source frequency affects bridge balance in the Hay configuration. Use 1 kHz for general work; for high-Q iron-core inductors, use lower frequency (100&ndash;400 Hz) to avoid skin effect errors. For capacitor measurement, switch to Schering bridge topology.</p>
+
+<h2 class="chapter-heading" id="ch7">CHAPTER 7 &mdash; VERIFICATION</h2>
+<table class="tm-table"><caption>Impedance Bridge Acceptance Specifications</caption>
+<thead><tr><th>Parameter</th><th>Specification</th></tr></thead>
+<tbody>
+<tr><td>Frequency range</td><td>100 Hz &ndash; 100 kHz</td></tr>
+<tr><td>Accuracy (L, C, R)</td><td>&plusmn;0.1% with calibrated standards</td></tr>
+<tr><td>Null sensitivity</td><td>&lt;0.1% of full-scale</td></tr>
+<tr><td>L range</td><td>1 &micro;H &ndash; 100 H</td></tr>
+<tr><td>C range</td><td>1 pF &ndash; 1000 &micro;F</td></tr>
+</tbody></table>
+
+<h2 class="chapter-heading" id="appa">APPENDIX A &mdash; CALCULATIONS AND FORMULAS</h2>
+<div class="formula-block"><span class="formula-label">Maxwell bridge (L and R)</span>L<sub>X</sub> = R<sub>2</sub>R<sub>3</sub>C<sub>1</sub>, R<sub>X</sub> = R<sub>2</sub>R<sub>3</sub>/R<sub>1</sub></div>
+<div class="formula-block"><span class="formula-label">Schering bridge (C and D)</span>C<sub>X</sub> = C<sub>1</sub>R<sub>3</sub>/R<sub>2</sub>, D = &omega;C<sub>1</sub>R<sub>1</sub></div>
+<div class="formula-block"><span class="formula-label">Q factor</span>Q = &omega;L<sub>X</sub>/R<sub>X</sub></div>
+
+<h2 class="chapter-heading" id="appb">APPENDIX B &mdash; EXAMPLE RESULTS</h2>
+<table class="tm-table"><caption>Impedance Bridge Measurement Log</caption>
+<thead><tr><th>Unknown</th><th>Reference Value</th><th>Measured</th><th>Error</th></tr></thead>
+<tbody>
+<tr><td>100 &mu;H coil</td><td>100.0 &mu;H</td><td>100.2 &mu;H</td><td>+0.2%</td></tr>
+<tr><td>1 nF capacitor</td><td>1.000 nF</td><td>1.003 nF</td><td>+0.3%</td></tr>
+<tr><td>100 &Omega; resistor</td><td>100.00 &Omega;</td><td>100.04 &Omega;</td><td>+0.04%</td></tr>
+</tbody></table>
+
+
+                <div class="back-link">
+                    <a href="index.html">&larr; Back to Impedance Bridge Index</a> &nbsp;|&nbsp;
+                    <a href="../index.html">&larr; Test Equipment Library</a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Radio: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+                <p>Amateur Radio | Electronics | Engineering | Knowledge Preservation</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

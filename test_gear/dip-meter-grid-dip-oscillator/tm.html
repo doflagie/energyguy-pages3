@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-TGEAR-007 DIP METER / GRID DIP OSCILLATOR - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+
+<style>
+/* Navy TM Styles */
+.tm-cover {
+    border: 3px solid #2c5f8d;
+    padding: 30px 40px;
+    text-align: center;
+    margin-bottom: 30px;
+    background: #f8f8f4;
+}
+.tm-classification {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #006600;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+.tm-number {
+    font-family: 'Courier New', monospace;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #2c5f8d;
+    margin-bottom: 10px;
+}
+.tm-title {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #1a3a5c;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 15px 0 10px;
+    line-height: 1.3;
+}
+.tm-subtitle {
+    font-size: 1.0em;
+    font-style: italic;
+    color: #555;
+    margin-bottom: 15px;
+}
+.tm-meta {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 20px;
+    border-top: 1px solid #aaa;
+    padding-top: 15px;
+}
+.tm-toc {
+    background: #f0f4f8;
+    border: 1px solid #c0ccd8;
+    padding: 20px 30px;
+    margin-bottom: 30px;
+}
+.tm-toc h2 {
+    font-size: 1.1em;
+    color: #2c5f8d;
+    border-bottom: 1px solid #4a7ba7;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.tm-toc ol {
+    margin: 0;
+    padding-left: 25px;
+}
+.tm-toc li {
+    margin: 4px 0;
+    font-size: 0.95em;
+}
+.tm-toc a {
+    color: #2c5f8d;
+    text-decoration: none;
+}
+.tm-toc a:hover {
+    text-decoration: underline;
+}
+.chapter-heading {
+    background: #2c5f8d;
+    color: #ffffff;
+    padding: 10px 20px;
+    margin-top: 35px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.section-heading {
+    color: #1a3a5c;
+    border-bottom: 2px solid #4a7ba7;
+    padding-bottom: 4px;
+    margin-top: 25px;
+    margin-bottom: 12px;
+    font-size: 1.05em;
+}
+.subsection-heading {
+    color: #2c5f8d;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    font-size: 1.0em;
+}
+.tm-warning {
+    background: #fff0f0;
+    border-left: 5px solid #cc0000;
+    border-top: 1px solid #cc0000;
+    border-bottom: 1px solid #cc0000;
+    border-right: 1px solid #cc0000;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-caution {
+    background: #fffbf0;
+    border-left: 5px solid #cc7700;
+    border-top: 1px solid #cc7700;
+    border-bottom: 1px solid #cc7700;
+    border-right: 1px solid #cc7700;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-note {
+    background: #f0f5ff;
+    border-left: 5px solid #4a7ba7;
+    border-top: 1px solid #4a7ba7;
+    border-bottom: 1px solid #4a7ba7;
+    border-right: 1px solid #4a7ba7;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.admonition-label {
+    font-weight: bold;
+    font-size: 0.9em;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 6px;
+}
+.tm-warning .admonition-label { color: #cc0000; }
+.tm-caution .admonition-label { color: #cc7700; }
+.tm-note .admonition-label { color: #2c5f8d; }
+.tm-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.95em;
+}
+.tm-table th {
+    background: #4a7ba7;
+    color: #ffffff;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.tm-table td {
+    border: 1px solid #c0ccd8;
+    padding: 7px 12px;
+    vertical-align: top;
+}
+.tm-table tr:nth-child(even) td {
+    background: #f4f7fb;
+}
+.tm-table caption {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 5px;
+    text-align: left;
+}
+.procedure ol {
+    margin: 10px 0 10px 20px;
+}
+.procedure li {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+.formula-block {
+    background: #f4f7fb;
+    border: 1px solid #c0ccd8;
+    padding: 12px 20px;
+    margin: 12px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+}
+.formula-block .formula-label {
+    font-family: Georgia, serif;
+    font-size: 0.85em;
+    color: #555;
+    font-style: italic;
+    display: block;
+    margin-bottom: 5px;
+}
+.back-link {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #c0ccd8;
+    font-size: 0.9em;
+}
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="../../about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul><li><a href="../../antennas/index.html">Antenna Library</a></li></ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul><li><a href="../index.html">Test Equipment Library</a></li></ul>
+            </details>
+            <h3>Standards</h3>
+            <ul>
+                <li><a href="../../Calibration_Ideas/index.html">Calibration Standards</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Study &amp; Training</summary>
+                <ul>
+                    <li><a href="https://assets.doflagie.com/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                    <li><a href="https://assets.doflagie.com/study/morse.html">Morse Code Practice</a></li>
+                </ul>
+            </details>
+        </nav>
+
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-TGEAR-007</div>
+                    <div class="tm-title">DIP METER / GRID DIP OSCILLATOR</div>
+                    <div class="tm-subtitle">Resonance-Finding and Absorption Wavemeter</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH<br>
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial calibration use</em>
+                    </div>
+                </div>
+
+                <div class="tm-toc">
+                    <h2>Table of Contents</h2>
+                    <ol>
+            <li><a href="#ch1">Chapter 1 &mdash; General Information</a></li>
+            <li><a href="#ch2">Chapter 2 &mdash; Theory of Operation</a></li>
+            <li><a href="#ch3">Chapter 3 &mdash; Construction</a></li>
+            <li><a href="#ch4">Chapter 4 &mdash; Assembly Procedures</a></li>
+            <li><a href="#ch5">Chapter 5 &mdash; Calibration Procedure</a></li>
+            <li><a href="#ch6">Chapter 6 &mdash; Tuning and Adjustment</a></li>
+            <li><a href="#ch7">Chapter 7 &mdash; Verification</a></li>
+            <li><a href="#appa">Appendix A &mdash; Calculations and Formulas</a></li>
+            <li><a href="#appb">Appendix B &mdash; Example Results</a></li>
+                    </ol>
+                </div>
+
+
+<h2 class="chapter-heading" id="ch1">CHAPTER 1 &mdash; GENERAL INFORMATION</h2>
+<h3 class="section-heading">1-1. SCOPE</h3>
+<p>This manual covers design, construction, and calibration of a grid dip oscillator (GDO), also called a dip meter. The GDO finds the resonant frequency of tuned circuits, inductors, and antennas without connection, by coupling energy inductively and detecting absorption resonance as a "dip" in meter reading.</p>
+<h3 class="section-heading">1-2. APPLICABLE DOCUMENTS</h3>
+<p>TM-TGEAR-010 (Frequency Counter), TM-TGEAR-021 (Q Meter), TM-CAL-001 (WWV).</p>
+
+<h2 class="chapter-heading" id="ch2">CHAPTER 2 &mdash; THEORY OF OPERATION</h2>
+<h3 class="section-heading">2-1. SELF-OSCILLATING VARIABLE TUNED CIRCUIT</h3>
+<p>The GDO contains a variable-frequency oscillator (VFO) with a plug-in coil at the probe end. When the probe coil is brought near an external resonant circuit, energy transfer peaks sharply at the resonant frequency, causing the oscillator amplitude to dip. The dip is detected as a drop on a front-panel meter.</p>
+<h3 class="section-heading">2-2. OSCILLATOR TOPOLOGY</h3>
+<p>Classic circuits use a Colpitts or Hartley oscillator with a JFET (MPF102, 2N5457) or FET (J310). The variable capacitor CV tunes frequency; interchangeable plug-in coils cover different frequency bands.</p>
+<div class="formula-block"><span class="formula-label">Colpitts oscillation frequency</span>f = 1 / (2&pi; &times; &radic;(L &times; C<sub>eq</sub>))  where C<sub>eq</sub> = C1C2/(C1+C2)</div>
+<h3 class="section-heading">2-3. ABSORPTION MODE</h3>
+<p>In absorption mode, the oscillator is turned off and the plug-in coil becomes a passive absorber. The meter then reads RF signal level absorbed from an external source. This mode locates unknown frequencies in a transmitter or circuit under test.</p>
+
+<h2 class="chapter-heading" id="ch3">CHAPTER 3 &mdash; CONSTRUCTION</h2>
+<h3 class="section-heading">3-1. COIL SETS</h3>
+<table class="tm-table"><caption>Plug-In Coil Set for 1&ndash;100 MHz Coverage</caption>
+<thead><tr><th>Coil</th><th>Turns</th><th>Form/Core</th><th>Freq Range</th></tr></thead>
+<tbody>
+<tr><td>L1</td><td>32</td><td>Air, 25 mm dia.</td><td>1.5&ndash;4 MHz</td></tr>
+<tr><td>L2</td><td>16</td><td>Air, 20 mm dia.</td><td>3.5&ndash;9 MHz</td></tr>
+<tr><td>L3</td><td>8</td><td>Air, 15 mm dia.</td><td>7&ndash;18 MHz</td></tr>
+<tr><td>L4</td><td>4</td><td>Air, 12 mm dia.</td><td>15&ndash;40 MHz</td></tr>
+<tr><td>L5</td><td>2</td><td>Air, 10 mm dia.</td><td>35&ndash;100 MHz</td></tr>
+</tbody></table>
+
+<h2 class="chapter-heading" id="ch4">CHAPTER 4 &mdash; ASSEMBLY PROCEDURES</h2>
+<div class="procedure"><ol>
+<li>Wind coils on polystyrene or PTFE forms. Space turns uniformly. Measure L with LCR meter.</li>
+<li>Install variable capacitor (15&ndash;150 pF) on front panel with calibrated dial.</li>
+<li>Solder Colpitts oscillator components. Use short leads; JFET gate lead &lt;10 mm.</li>
+<li>Connect 50 &micro;A meter via detector diode (1N60 germanium or BAT85 Schottky) for maximum sensitivity at low oscillator levels.</li>
+<li>Calibrate dial: couple to a frequency counter and mark known frequencies on the dial at 5 points per band.</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch5">CHAPTER 5 &mdash; CALIBRATION PROCEDURE</h2>
+<div class="procedure"><ol>
+<li>Install each coil. Connect frequency counter to oscillator output via 1 pF coupling capacitor.</li>
+<li>Set CV to each end-stop and midpoint. Record f vs. dial position.</li>
+<li>Mark scale at WWV 5, 10, 15 MHz by tuning for zero-beat with receiver tuned to WWV per TM-CAL-001.</li>
+<li>Verify frequency readout &plusmn;0.5% across each coil range.</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch6">CHAPTER 6 &mdash; TUNING AND ADJUSTMENT</h2>
+<p>Frequency range of each coil can be adjusted by spreading or compressing turns (air core) or using a ferrite slug trimmer. Overlap between coil sets should be at least 10% of band width. Oscillator level is set by JFET drain resistor; adjust for full-scale meter deflection with coil in free space.</p>
+
+<h2 class="chapter-heading" id="ch7">CHAPTER 7 &mdash; VERIFICATION</h2>
+<table class="tm-table"><caption>GDO Acceptance Specifications</caption>
+<thead><tr><th>Parameter</th><th>Specification</th></tr></thead>
+<tbody>
+<tr><td>Frequency range</td><td>1.5&ndash;100 MHz (5 coil sets)</td></tr>
+<tr><td>Frequency accuracy</td><td>&plusmn;0.5% after calibration</td></tr>
+<tr><td>Dip depth</td><td>&gt;20% full-scale deflection at Q = 20 circuit</td></tr>
+<tr><td>Coupling distance</td><td>1&ndash;50 mm for typical antenna coils</td></tr>
+</tbody></table>
+
+<h2 class="chapter-heading" id="appa">APPENDIX A &mdash; CALCULATIONS AND FORMULAS</h2>
+<div class="formula-block"><span class="formula-label">Resonant frequency from dip</span>f<sub>res</sub> = 1 / (2&pi;&radic;LC)</div>
+<div class="formula-block"><span class="formula-label">Unknown capacitance from known L and measured f</span>C = 1 / ((2&pi;f)<sup>2</sup> &times; L)</div>
+<div class="formula-block"><span class="formula-label">Unknown inductance from known C and measured f</span>L = 1 / ((2&pi;f)<sup>2</sup> &times; C)</div>
+
+<h2 class="chapter-heading" id="appb">APPENDIX B &mdash; EXAMPLE RESULTS</h2>
+<table class="tm-table"><caption>GDO Calibration Log vs. WWV</caption>
+<thead><tr><th>WWV Freq (MHz)</th><th>GDO Dial Reading</th><th>Error</th></tr></thead>
+<tbody>
+<tr><td>5.000</td><td>4.98</td><td>&minus;0.4%</td></tr>
+<tr><td>10.000</td><td>10.01</td><td>+0.1%</td></tr>
+<tr><td>15.000</td><td>14.97</td><td>&minus;0.2%</td></tr>
+</tbody></table>
+
+
+                <div class="back-link">
+                    <a href="index.html">&larr; Back to Dip Meter / Grid Dip Oscillator Index</a> &nbsp;|&nbsp;
+                    <a href="../index.html">&larr; Test Equipment Library</a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Radio: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+                <p>Amateur Radio | Electronics | Engineering | Knowledge Preservation</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

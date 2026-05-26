@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-ANT-044 LOG PERIODIC DIPOLE ARRAY (LPDA) — WIDEBAND - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+
+
+<style>
+/* Navy TM Styles */
+.tm-cover {
+    border: 3px solid #2c5f8d;
+    padding: 30px 40px;
+    text-align: center;
+    margin-bottom: 30px;
+    background: #f8f8f4;
+}
+.tm-classification {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #006600;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+.tm-number {
+    font-family: 'Courier New', monospace;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #2c5f8d;
+    margin-bottom: 10px;
+}
+.tm-title {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #1a3a5c;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 15px 0 10px;
+    line-height: 1.3;
+}
+.tm-subtitle {
+    font-size: 1.0em;
+    font-style: italic;
+    color: #555;
+    margin-bottom: 15px;
+}
+.tm-meta {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 20px;
+    border-top: 1px solid #aaa;
+    padding-top: 15px;
+}
+.tm-toc {
+    background: #f0f4f8;
+    border: 1px solid #c0ccd8;
+    padding: 20px 30px;
+    margin-bottom: 30px;
+}
+.tm-toc h2 {
+    font-size: 1.1em;
+    color: #2c5f8d;
+    border-bottom: 1px solid #4a7ba7;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.tm-toc ol {
+    margin: 0;
+    padding-left: 25px;
+}
+.tm-toc li {
+    margin: 4px 0;
+    font-size: 0.95em;
+}
+.tm-toc a {
+    color: #2c5f8d;
+    text-decoration: none;
+}
+.tm-toc a:hover {
+    text-decoration: underline;
+}
+.chapter-heading {
+    background: #2c5f8d;
+    color: #ffffff;
+    padding: 10px 20px;
+    margin-top: 35px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.section-heading {
+    color: #1a3a5c;
+    border-bottom: 2px solid #4a7ba7;
+    padding-bottom: 4px;
+    margin-top: 25px;
+    margin-bottom: 12px;
+    font-size: 1.05em;
+}
+.subsection-heading {
+    color: #2c5f8d;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    font-size: 1.0em;
+}
+.tm-warning {
+    background: #fff0f0;
+    border-left: 5px solid #cc0000;
+    border-top: 1px solid #cc0000;
+    border-bottom: 1px solid #cc0000;
+    border-right: 1px solid #cc0000;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-caution {
+    background: #fffbf0;
+    border-left: 5px solid #cc7700;
+    border-top: 1px solid #cc7700;
+    border-bottom: 1px solid #cc7700;
+    border-right: 1px solid #cc7700;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-note {
+    background: #f0f5ff;
+    border-left: 5px solid #4a7ba7;
+    border-top: 1px solid #4a7ba7;
+    border-bottom: 1px solid #4a7ba7;
+    border-right: 1px solid #4a7ba7;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.admonition-label {
+    font-weight: bold;
+    font-size: 0.9em;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 6px;
+}
+.tm-warning .admonition-label { color: #cc0000; }
+.tm-caution .admonition-label { color: #cc7700; }
+.tm-note .admonition-label { color: #2c5f8d; }
+.tm-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.95em;
+}
+.tm-table th {
+    background: #4a7ba7;
+    color: #ffffff;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.tm-table td {
+    border: 1px solid #c0ccd8;
+    padding: 7px 12px;
+    vertical-align: top;
+}
+.tm-table tr:nth-child(even) td {
+    background: #f4f7fb;
+}
+.tm-table caption {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 5px;
+    text-align: left;
+}
+.procedure ol {
+    margin: 10px 0 10px 20px;
+}
+.procedure li {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+.formula-block {
+    background: #f4f7fb;
+    border: 1px solid #c0ccd8;
+    padding: 12px 20px;
+    margin: 12px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+}
+.formula-block .formula-label {
+    font-family: Georgia, serif;
+    font-size: 0.85em;
+    color: #555;
+    font-style: italic;
+    display: block;
+    margin-bottom: 5px;
+}
+.back-link {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #c0ccd8;
+    font-size: 0.9em;
+}
+</style>
+
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="../../about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul><li><a href="../index.html">Antenna Library</a></li></ul>
+            </details>
+            <details class="nav-group">
+                <summary>Test Equipment</summary>
+                <ul><li><a href="../../test_gear/index.html">Test Equipment Library</a></li></ul>
+            </details>
+            <details class="nav-group">
+                <summary>Calibration Ideas</summary>
+                <ul><li><a href="../../Calibration_Ideas/index.html">Calibration Standards</a></li></ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Study &amp; Training</summary>
+                <ul>
+                    <li><a href="https://assets.doflagie.com/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                    <li><a href="https://assets.doflagie.com/study/morse.html">Morse Code Practice</a></li>
+                </ul>
+            </details>
+        </nav>
+
+
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-ANT-044</div>
+                    <div class="tm-title">LOG PERIODIC DIPOLE ARRAY (LPDA) — WIDEBAND</div>
+                    <div class="tm-subtitle">Frequency-Independent LPDA, 2M–33cm Continuous Coverage</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH<br>
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Antenna Engineering &mdash; Not for commercial use</em>
+                    </div>
+                </div>
+
+                <div class="tm-toc">
+                    <h2>Table of Contents</h2>
+                    <ol>
+            <li><a href="#ch1">Chapter 1 &mdash; General Information</a></li>
+            <li><a href="#ch2">Chapter 2 &mdash; Theory of Operation</a></li>
+            <li><a href="#ch3">Chapter 3 &mdash; Materials and Construction</a></li>
+            <li><a href="#ch4">Chapter 4 &mdash; Assembly Procedures</a></li>
+            <li><a href="#ch5">Chapter 5 &mdash; Calibration Procedure</a></li>
+            <li><a href="#ch6">Chapter 6 &mdash; Tuning and Adjustment</a></li>
+            <li><a href="#ch7">Chapter 7 &mdash; Verification</a></li>
+            <li><a href="#appa">Appendix A &mdash; Calculations and Formulas</a></li>
+            <li><a href="#appb">Appendix B &mdash; Example Results</a></li>
+                    </ol>
+                </div>
+
+
+<h2 class="chapter-heading" id="ch1">CHAPTER 1 &mdash; GENERAL INFORMATION</h2>
+<h3 class="section-heading">1-1. SCOPE</h3>
+<p>This manual covers design, construction, and calibration of the Log Periodic Dipole Array (Lpda) — Wideband directional antenna for operation on 2M through 33cm (144 MHz–902 MHz) continuous. The antenna provides significant forward gain and front-to-back rejection for weak-signal, DX, and satellite work.</p>
+
+<h3 class="section-heading">1-2. APPLICABLE REFERENCES</h3>
+<ul>
+<li>ARRL Antenna Book — Yagi and LPDA Chapters</li>
+<li>Leeson, Physical Design of Yagi Antennas (ARRL, 1992)</li>
+<li>NEC2 model: log_periodic_dipole_arrays_for_wideband_operation.nec (in antenna directory)</li>
+<li>FCC Part 97 — Antenna installation requirements</li>
+</ul>
+
+<h3 class="section-heading">1-3. SAFETY PRECAUTIONS</h3>
+<div class="tm-caution">
+<span class="admonition-label">CAUTION — RF EXPOSURE</span>
+Maintain minimum safe distance from all energized antenna elements during transmission.
+At QRP power levels (&le;5 W) the MPE boundary is typically &lt;1 m for HF antennas.
+At 100 W the controlled exposure limit for HF antennas requires maintaining &ge;3–10 m
+distance depending on frequency (per FCC OET Bulletin 65). Never touch feed-point hardware
+or support structures while transmitting. Verify PTT key is open before antenna work.
+</div>
+<div class="tm-caution">
+<span class="admonition-label">CAUTION — INSTALLATION</span>
+Ensure mast/tower ground is bonded to earth ground with #6 AWG copper minimum. Disconnect rotator and feed line during electrical storms. Maintain safe distance from power lines &mdash; minimum 2&times; antenna wingspan plus 10 ft.
+</div>
+
+<h2 class="chapter-heading" id="ch2">CHAPTER 2 &mdash; THEORY OF OPERATION</h2>
+<h3 class="section-heading">2-1. PARASITIC COUPLING PHYSICS</h3>
+<p>Multi-element lpda designed with log-periodic taper ratio τ ≈ 0.9 and spacing factor σ ≈ 0.05 for maximum gain/bandwidth. Gain is achieved through parasitic coupling: the driver excites the reflector and director elements by near-field induction. The reflector (5% longer than the driven element) carries current that lags by approximately 160&deg; and re-radiates energy forward. Directors (5% shorter) carry current leading by approximately 140&deg; and focus energy forward. Each additional director adds approximately 1 dB of gain at optimal spacing (0.2&ndash;0.25&lambda;).</p>
+
+<h3 class="section-heading">2-2. ELEMENT DESIGN RULES</h3>
+<p>For a 3-element Yagi on VHF: driver = 0.473&lambda;, reflector = 0.505&lambda;, director = 0.440&lambda;. Spacing: reflector to driver = 0.2&lambda;, driver to director = 0.25&lambda;. These values produce forward gain of 7&ndash;8 dBd with front-to-back ratio of 20&ndash;25 dB. Gain estimate: 8–12 dBi. At UHF, dimensional tolerance is critical — elements must be within ±1 mm of design length for proper pattern formation.</p>
+
+<h3 class="section-heading">2-3. FEED IMPEDANCE AND MATCHING</h3>
+<p>Feed impedance: 50 Ω. The driven element impedance drops below 50 &Omega; when directors are added (typically 20&ndash;40 &Omega;). A gamma match, T-match, or delta match raises this to 50 &Omega;. The gamma match uses a parallel conductor tapped on the driven element to form an L-network; the shorting bar position and gamma rod length are adjusted for 50 &Omega; + j0 &Omega; at the design frequency.</p>
+
+<h2 class="chapter-heading" id="ch3">CHAPTER 3 &mdash; MATERIALS AND CONSTRUCTION</h2>
+<h3 class="section-heading">3-1. BILL OF MATERIALS</h3>
+<table class="tm-table">
+<caption>Materials — Log Periodic Dipole Array (Lpda) — Wideband</caption>
+<thead><tr><th>Qty</th><th>Item</th><th>Specification</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Boom</td><td>6061-T6 aluminum tubing, OD 1&ndash;1.5 in; length per design; non-conductive for VHF if elements through-bolted</td></tr>
+<tr><td>Per design</td><td>Element stock</td><td>3/16&ndash;1/4 in aluminum rod for VHF; tape measure steel for portable UHF</td></tr>
+<tr><td>1</td><td>Driven element</td><td>Folded or single dipole; see matching section below</td></tr>
+<tr><td>1</td><td>Gamma match assembly</td><td>3/16 in rod, 6&ndash;10 in from center; 10&ndash;50 pF trimmer; beta match alternative</td></tr>
+<tr><td>1</td><td>SO-239 or N-type connector</td><td>Weatherproof; mount at boom junction</td></tr>
+</tbody>
+</table>
+
+<h3 class="section-heading">3-2. ELEMENT DIMENSION FORMULAS</h3>
+<div class="formula-block"><span class="formula-label">Driven element half-length (in) for VHF</span>L<sub>de</sub> = 5616 / f<sub>MHz</sub> (inches, total)</div>
+<div class="formula-block"><span class="formula-label">Reflector length (in)</span>L<sub>ref</sub> = L<sub>de</sub> &times; 1.05</div>
+<div class="formula-block"><span class="formula-label">Director length (in)</span>L<sub>dir</sub> = L<sub>de</sub> &times; 0.95 (first director; adjust per NEC model)</div>
+<div class="formula-block"><span class="formula-label">Refl-to-driven spacing</span>0.2&lambda; = 0.2 &times; (11811/f<sub>MHz</sub>) mm</div>
+<div class="formula-block"><span class="formula-label">Driven-to-director spacing</span>0.25&lambda; = 0.25 &times; (11811/f<sub>MHz</sub>) mm</div>
+
+<h2 class="chapter-heading" id="ch4">CHAPTER 4 &mdash; ASSEMBLY PROCEDURES</h2>
+<div class="tm-caution">
+<span class="admonition-label">CAUTION — RF EXPOSURE</span>
+Maintain minimum safe distance from all energized antenna elements during transmission.
+At QRP power levels (&le;5 W) the MPE boundary is typically &lt;1 m for HF antennas.
+At 100 W the controlled exposure limit for HF antennas requires maintaining &ge;3–10 m
+distance depending on frequency (per FCC OET Bulletin 65). Never touch feed-point hardware
+or support structures while transmitting. Verify PTT key is open before antenna work.
+</div>
+<div class="procedure"><ol>
+<li>Cut all elements to calculated lengths. Deburr cut ends. Label each element (reflector, driven, director-1, director-2 ...).</li>
+<li>Mark element mounting positions on boom. Verify spacings with tape measure before drilling. Drilling error &gt;5 mm will degrade F/B ratio.</li>
+<li>Mount parasitic elements through boom (metal boom) using nylon or PVC element mounts, or through metallic boom with direct element-to-boom contact (boom correction required for metallic boom).</li>
+<li>Install driven element with insulated center block. Mount gamma match rod parallel to driver at 6&ndash;10 in from center; connect shorting bar and trimmer capacitor.</li>
+<li>Attach coax feed: center pin to gamma rod, braid to boom ground. Route cable along boom toward rear to minimize feed-line distortion of pattern.</li>
+<li>Perform initial SWR check per Chapter 5 before installing at height.</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch5">CHAPTER 5 &mdash; CALIBRATION PROCEDURE</h2>
+<div class="procedure"><ol>
+<li>SOLT calibrate NanoVNA at feed point of antenna (on bench, 3 ft above ground for initial check).</li>
+<li>Set sweep: center frequency ±10%.</li>
+<li>Adjust gamma match: slide shorting bar toward center to increase impedance; away from center to decrease. Adjust trimmer capacitor to null reactance.</li>
+<li>Target: SWR &lt;1.5:1, R = 45&ndash;55 &Omega;, X = &minus;5 to +5 &Omega; at design frequency.</li>
+<li>Once matched, verify SWR across full target band. Record: SWR at center, SWR at band edges, F/B ratio (compare field-strength meter readings front vs. back).</li>
+<li>At final installed height (away from nearby objects), re-verify SWR — ground proximity affects impedance.</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch6">CHAPTER 6 &mdash; TUNING AND ADJUSTMENT</h2>
+<p>Gamma match adjustment: Moving the shorting bar changes the equivalent inductance in the match network; moving the trimmer changes reactance compensation. Typical procedure: set trimmer to midrange; slide shorting bar for minimum SWR; fine-adjust trimmer for minimum SWR; iterate. Director lengths can be adjusted ±2% to trade off gain vs. F/B ratio per NEC2 simulation.</p>
+
+<h2 class="chapter-heading" id="ch7">CHAPTER 7 &mdash; VERIFICATION</h2>
+<table class="tm-table">
+<caption>Acceptance Criteria — Log Periodic Dipole Array (Lpda) — Wideband</caption>
+<thead><tr><th>Parameter</th><th>Requirement</th><th>Pass/Fail</th></tr></thead>
+<tbody>
+<tr><td>SWR at design frequency</td><td>< 2.0:1 across band</td><td>____</td></tr>
+<tr><td>Forward gain (NEC2)</td><td>8–12 dBi</td><td>____</td></tr>
+<tr><td>Front-to-back ratio</td><td>&ge;15 dB (3-element minimum)</td><td>____</td></tr>
+<tr><td>Impedance at resonance</td><td>45&ndash;55 &Omega;, X &lt;±10 &Omega;</td><td>____</td></tr>
+<tr><td>Efficiency</td><td>88–95%</td><td>____</td></tr>
+</tbody>
+</table>
+
+<h2 class="chapter-heading" id="appa">APPENDIX A &mdash; CALCULATIONS AND FORMULAS</h2>
+<div class="formula-block"><span class="formula-label">Wavelength in free space (m)</span>&lambda; = 300 / f<sub>MHz</sub></div>
+<div class="formula-block"><span class="formula-label">Gain vs. boom length (estimate)</span>G(dBd) &asymp; 10 log<sub>10</sub>(2.5 &times; L<sub>boom</sub>/&lambda;) for L&gt;0.3&lambda;</div>
+<div class="formula-block"><span class="formula-label">Boom correction factor for element length (metallic boom)</span>&Delta;L = &minus;0.0085 &times; d<sub>boom</sub> &times; d<sub>elem</sub> / &lambda;&sup2; (approximate)</div>
+
+<h2 class="chapter-heading" id="appb">APPENDIX B &mdash; EXAMPLE RESULTS</h2>
+<table class="tm-table">
+<caption>Measured Results — Log Periodic Dipole Array (Lpda) — Wideband</caption>
+<thead><tr><th>Freq</th><th>SWR</th><th>R (&Omega;)</th><th>X (&Omega;)</th><th>F/B (dB)</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td>Band center</td><td>&lt;1.3:1</td><td>50</td><td>+2</td><td>20&ndash;25</td><td>After gamma match optimization</td></tr>
+<tr><td>Band edge low</td><td>&lt;1.8:1</td><td>42</td><td>&minus;15</td><td>12&ndash;18</td><td>Pattern narrows at edges</td></tr>
+<tr><td>Band edge high</td><td>&lt;1.8:1</td><td>58</td><td>+18</td><td>12&ndash;18</td><td>Director coupling increases</td></tr>
+</tbody>
+</table>
+
+
+                <div class="back-link">
+                    <a href="../index.html">&larr; Back to Antenna Library</a>
+                    &nbsp;&nbsp;&bull;&nbsp;&nbsp;
+                    <a href="index.html">&larr; Back to Log Periodic Dipole Array (Lpda) — Wideband Overview</a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Radio: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+                <p>Amateur Radio | Electronics | Engineering | Knowledge Preservation</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
