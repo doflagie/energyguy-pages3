@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-GEAR-005 COAXIAL CABLE TRAPS — MULTIBAND ANTENNA ISOLATION - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+.tm-cover{border:3px solid #2c5f8d;padding:28px 36px;text-align:center;margin-bottom:28px;background:#f8f8f4}
+.tm-classification{font-size:1.05em;font-weight:bold;color:#006600;letter-spacing:3px;margin-bottom:16px}
+.tm-number{font-family:'Courier New',monospace;font-size:1.15em;font-weight:bold;color:#2c5f8d;margin-bottom:8px}
+.tm-title{font-size:1.7em;font-weight:bold;color:#1a3a5c;text-transform:uppercase;letter-spacing:1px;margin:12px 0 8px;line-height:1.3}
+.tm-subtitle{font-size:.98em;font-style:italic;color:#555;margin-bottom:12px}
+.tm-meta{font-size:.88em;color:#555;margin-top:16px;border-top:1px solid #aaa;padding-top:12px}
+.chapter-body h1,.chapter-body h2{color:#1a3a5c;border-bottom:2px solid #4a7ba7;padding-bottom:4px;margin-top:22px;margin-bottom:10px}
+.chapter-body h3{color:#2c5f8d;margin-top:16px;margin-bottom:8px}
+.chapter-body table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93em}
+.chapter-body th{background:#4a7ba7;color:#fff;padding:7px 11px;text-align:left;font-size:.88em;text-transform:uppercase}
+.chapter-body td{border:1px solid #c0ccd8;padding:6px 11px;vertical-align:top}
+.chapter-body tr:nth-child(even) td{background:#f4f7fb}
+.chapter-body ol,.chapter-body ul{margin:8px 0 8px 20px}
+.chapter-body li{margin:5px 0;line-height:1.5}
+.chapter-body p{margin:8px 0 10px}
+.chapter-body pre,.chapter-body code{background:#f4f4ee;border:1px solid #ddd;padding:2px 5px;font-size:.9em}
+.chapter-body pre{padding:10px 14px;overflow-x:auto;line-height:1.4}
+.back-link{margin-top:28px;padding-top:12px;border-top:1px solid #c0ccd8;font-size:.9em}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Gear</summary>
+                <ul>
+                    <li><a href="/antenna_gear/index.html">Antenna Gear Overview</a></li>
+                    <li><a href="/antenna_gear/ant_switches/tm.html">Antenna Switches</a></li>
+                    <li><a href="/antenna_gear/audio_filters/tm.html">Audio Filters</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/tm.html">Baluns &amp; Un-Uns</a></li>
+                    <li><a href="/antenna_gear/bms/tm.html">Battery Management (BMS)</a></li>
+                    <li><a href="/antenna_gear/coax_traps/tm.html">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/coil_winder/tm.html">Coil Winder</a></li>
+                    <li><a href="/antenna_gear/common_mode_chokes/tm.html">Common-Mode Chokes</a></li>
+                    <li><a href="/antenna_gear/crystal_radio/tm.html">Crystal Radio</a></li>
+                    <li><a href="/antenna_gear/hybrids/tm.html">RF Hybrids</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/tm.html">Lightning Protection</a></li>
+                    <li><a href="/antenna_gear/mast_tower/tm.html">Mast &amp; Tower</a></li>
+                    <li><a href="/antenna_gear/motorized_tuner/tm.html">Motorized Tuner</a></li>
+                    <li><a href="/antenna_gear/power_supplies/tm.html">Power Supplies</a></li>
+                    <li><a href="/antenna_gear/remote-element-switching/tm.html">Remote Element Switching</a></li>
+                    <li><a href="/antenna_gear/rf_couplers/tm.html">RF Couplers</a></li>
+                    <li><a href="/antenna_gear/rfi_mitigation/tm.html">RFI Mitigation</a></li>
+                    <li><a href="/antenna_gear/roller_inductors/tm.html">Roller Inductors</a></li>
+                    <li><a href="/antenna_gear/transmatch/tm.html">Transmatch</a></li>
+                    <li><a href="/antenna_gear/variable_caps/tm.html">Variable Capacitors</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/index.html">Antenna Tools Overview</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/tm.html">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/swr_meter/tm.html">SWR Meter</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/tm.html">RF Power Meter</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Calibration</summary>
+                <ul>
+                    <li><a href="/calibration/index.html">Calibration Library</a></li>
+                    <li><a href="/Calibration_Ideas/index.html">Calibration Standards</a></li>
+                </ul>
+            </details>
+        </nav>
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-GEAR-005</div>
+                    <div class="tm-title">COAXIAL CABLE TRAPS — MULTIBAND ANTENNA ISOLATION</div>
+                    <div class="tm-subtitle">Parallel Resonant Traps, Wheeler Formula, All 15 Ham Bands, RG-58/8X/213</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH &nbsp;&bull;&nbsp;
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial use</em>
+                    </div>
+                </div>
+                <div class="chapter-body">
+
+<h2 class="chapter-heading" id="ch1">Chapter 1 — Introduction and Scope</h2>
+<p>This manual covers the design and construction of coaxial cable traps for
+multiband dipoles and verticals.  A coaxial trap is a parallel resonant LC
+circuit wound using coaxial cable: the inductance is formed by the coax coil;
+the capacitance is the distributed capacitance of the coax itself.  At resonance,
+the trap presents high impedance, electrically isolating the antenna element
+beyond the trap from the portion below it, enabling multiband operation.</p>
+<p>Coax types covered: RG-58/U, RG-8X, RG-213.  Bands: 160M through 23cm
+(1.8&ndash;1296&nbsp;MHz) with band-specific former diameters and turn counts.</p>
+
+<h2 class="chapter-heading" id="ch2">Chapter 2 — Theory of Operation</h2>
+<h3>2-1 Resonant Circuit</h3>
+<p>The coil inductance follows Wheeler's formula for a short single-layer solenoid:</p>
+<pre>L (&micro;H) = r&sup2; &times; N&sup2; / (9r + 10l)
+  r = coil radius (inches), N = turns, l = coil length (inches)</pre>
+<p>The distributed capacitance of coaxial cable is approximately:</p>
+<table>
+<tr><th>Coax type</th><th>Capacitance (pF/m)</th><th>OD (mm)</th></tr>
+<tr><td>RG-58/U</td><td>93.5</td><td>4.95</td></tr>
+<tr><td>RG-8X</td><td>78.7</td><td>6.15</td></tr>
+<tr><td>RG-213/U</td><td>96.8</td><td>10.29</td></tr>
+</table>
+<p>Resonant frequency:</p>
+<pre>f0 = 1 / (2&pi; &times; sqrt(L &times; C))</pre>
+<p>Q factor: typically 100&ndash;200 for coax traps.  Higher Q means sharper
+isolation (narrower stop band) and lower insertion loss in the pass band.</p>
+<h3>2-2 Effect on Antenna</h3>
+<p>Below the trap resonant frequency, the trap appears as a short inductor
+(low impedance) — the full antenna length is active.  At the trap resonant
+frequency, high trap impedance isolates the antenna element beyond the trap.
+Above the resonant frequency, the trap appears capacitive and can shorten
+the resonant length of the inner portion of the antenna.</p>
+
+<h2 class="chapter-heading" id="ch3">Chapter 3 — Equipment and Materials</h2>
+<table>
+<tr><th>Band pair</th><th>Coax</th><th>Former OD</th><th>Approximate turns</th></tr>
+<tr><td>40M trap (7.1 MHz)</td><td>RG-8X</td><td>76mm</td><td>7</td></tr>
+<tr><td>20M trap (14.175 MHz)</td><td>RG-8X</td><td>50mm</td><td>5</td></tr>
+<tr><td>15M trap (21.225 MHz)</td><td>RG-58</td><td>35mm</td><td>4</td></tr>
+<tr><td>10M trap (28.5 MHz)</td><td>RG-58</td><td>30mm</td><td>3</td></tr>
+<tr><td>2M trap (146 MHz)</td><td>RG-58</td><td>16mm</td><td>2</td></tr>
+</table>
+<p>Former material: PVC pipe, HDPE pipe, or 3D-printed ABS/PETG.
+Secure coax turns with UV-resistant cable ties or tape.</p>
+
+<h2 class="chapter-heading" id="ch4">Chapter 4 — Construction</h2>
+<ol>
+<li>Cut the coax to the calculated length: L_coax = N &times; &pi; &times; OD_former
+    (one turn circumference times number of turns).</li>
+<li>Wind N turns of coax tightly on the former.  Leave 75&nbsp;mm pigtails
+    at each end for connection to the antenna element.</li>
+<li>Strip 25&nbsp;mm of jacket and braid from each pigtail end to expose
+    only the center conductor and dielectric.</li>
+<li>At each end, connect the center conductor to the antenna element wire
+    and the braid to the antenna element wire (both center and braid connect
+    to the same antenna conductor — this is correct for a trap; the trap
+    is in parallel with a short section of element).</li>
+<li>Use the trap_calculator.py script to verify the calculated resonant
+    frequency before cutting.  Input: coax type, former OD, number of turns.</li>
+<li>Seal pigtail ends with self-amalgamating tape to prevent water ingress.
+    Coat all exposed braid with liquid electrical tape.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch5">Chapter 5 — Tuning and Adjustment</h2>
+<ol>
+<li>Measure the trap resonant frequency using the dip method: couple an
+    RF signal source (TinySA or signal generator) to the trap through a
+    1-turn coupling loop; sweep the frequency while monitoring the S11 dip
+    on the NanoVNA.  The resonant frequency is the dip minimum.</li>
+<li>If the measured frequency is too low: remove one turn (the trap is too
+    long).  If too high: add a turn or increase the coil pitch (spread turns
+    slightly to reduce capacitance).</li>
+<li>Target: f_trap within &plusmn;100&nbsp;kHz of the desired band center frequency.</li>
+<li>After tuning, secure turns with a bead of weatherproof silicone or
+    UV-resistant cable tie at each turn.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch6">Chapter 6 — Calibration</h2>
+<ol>
+<li>Measure trap Q: at resonance, measure the &minus;3&nbsp;dB bandwidth (BW)
+    of the impedance peak.  Q = f0 / BW.  Target: Q &ge;100.</li>
+<li>Verify isolation: connect the trap in series with a test transmission line.
+    Measure S21 at f_trap.  Isolation must be &ge;20&nbsp;dB at f_trap
+    for effective band isolation.</li>
+<li>Measure insertion loss at off-resonant frequencies (other ham bands).
+    Must be &lt;0.5&nbsp;dB at the bands the antenna is intended to operate on.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch7">Chapter 7 — Verification and Acceptance</h2>
+<ol>
+<li>Resonant frequency within &plusmn;100&nbsp;kHz of target band center.</li>
+<li>Q &ge;100 (BW &le;1% of center frequency).</li>
+<li>Isolation &ge;20&nbsp;dB at resonant frequency.</li>
+<li>Insertion loss &lt;0.5&nbsp;dB at all intended operating frequencies.</li>
+<li>Weather seal: immerse trap in water for 10 minutes; verify no water
+    ingress to coax ends.</li>
+<li>Log: date, coax type, former OD, turns, measured f_trap, Q, isolation, operator.</li>
+</ol>
+
+<h2 class="chapter-heading" id="appa">Appendix A — Wheeler's Formula Worked Example</h2>
+<p>40M trap, RG-8X on 76&nbsp;mm former, 7 turns:</p>
+<pre>Coil radius r = 76mm / 2 = 38mm = 1.496 inches
+Coil length l ≈ 7 × 6.15mm (wire OD) = 43mm = 1.693 inches
+L = r² × N² / (9r + 10l) = 1.496² × 49 / (9 × 1.496 + 10 × 1.693)
+  = 2.238 × 49 / (13.464 + 16.93) = 109.7 / 30.39 = 3.61 μH
+
+Length of 7 turns on 76mm former: 7 × π × 76mm / 1000 = 1.672 m RG-8X
+C = 1.672 m × 78.7 pF/m = 131.6 pF
+
+f0 = 1 / (2π × sqrt(3.61e-6 × 131.6e-12))
+   = 1 / (2π × sqrt(4.75e-16))
+   = 1 / (2π × 2.179e-8)
+   = 7.30 MHz   (close to 40M; adjust turns to fine-tune)</pre>
+
+<h2 class="chapter-heading" id="appb">Appendix B — Winding Table (RG-8X, Selected Bands)</h2>
+<table>
+<tr><th>Band</th><th>Former OD (mm)</th><th>Turns</th><th>Coax length (m)</th><th>f_calc (MHz)</th></tr>
+<tr><td>40M</td><td>76</td><td>7</td><td>1.67</td><td>7.30</td></tr>
+<tr><td>20M</td><td>50</td><td>5</td><td>0.79</td><td>14.25</td></tr>
+<tr><td>15M</td><td>40</td><td>4</td><td>0.50</td><td>21.3</td></tr>
+<tr><td>10M</td><td>35</td><td>3</td><td>0.33</td><td>28.6</td></tr>
+</table>
+
+                </div>
+                <div class="back-link">
+                    <a href="../index.html">&larr; Antenna Gear</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item"><strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a></div>
+                <div class="contact-item"><strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a></div>
+                <div class="contact-item"><strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a></div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Designs shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

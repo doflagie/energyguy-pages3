@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-TOOL-008 RF POWER METERS — TYPES AND OPERATION - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+.tm-cover{border:3px solid #2c5f8d;padding:28px 36px;text-align:center;margin-bottom:28px;background:#f8f8f4}
+.tm-classification{font-size:1.05em;font-weight:bold;color:#006600;letter-spacing:3px;margin-bottom:16px}
+.tm-number{font-family:'Courier New',monospace;font-size:1.15em;font-weight:bold;color:#2c5f8d;margin-bottom:8px}
+.tm-title{font-size:1.7em;font-weight:bold;color:#1a3a5c;text-transform:uppercase;letter-spacing:1px;margin:12px 0 8px;line-height:1.3}
+.tm-subtitle{font-size:.98em;font-style:italic;color:#555;margin-bottom:12px}
+.tm-meta{font-size:.88em;color:#555;margin-top:16px;border-top:1px solid #aaa;padding-top:12px}
+.chapter-body h1,.chapter-body h2{color:#1a3a5c;border-bottom:2px solid #4a7ba7;padding-bottom:4px;margin-top:22px;margin-bottom:10px}
+.chapter-body h3{color:#2c5f8d;margin-top:16px;margin-bottom:8px}
+.chapter-body table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93em}
+.chapter-body th{background:#4a7ba7;color:#fff;padding:7px 11px;text-align:left;font-size:.88em;text-transform:uppercase}
+.chapter-body td{border:1px solid #c0ccd8;padding:6px 11px;vertical-align:top}
+.chapter-body tr:nth-child(even) td{background:#f4f7fb}
+.chapter-body ol,.chapter-body ul{margin:8px 0 8px 20px}
+.chapter-body li{margin:5px 0;line-height:1.5}
+.chapter-body p{margin:8px 0 10px}
+.chapter-body pre,.chapter-body code{background:#f4f4ee;border:1px solid #ddd;padding:2px 5px;font-size:.9em}
+.chapter-body pre{padding:10px 14px;overflow-x:auto;line-height:1.4}
+.back-link{margin-top:28px;padding-top:12px;border-top:1px solid #c0ccd8;font-size:.9em}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group">
+                <summary>Antennas</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/antennas/phased_array_of_2/tm.html">2-Element Phased Array</a></li>
+                    <li><a href="/antennas/phased_array_of_4/tm.html">4-Element Phased Array</a></li>
+                    <li><a href="/antennas/dipole/tm.html">Dipole</a></li>
+                    <li><a href="/antennas/yagi_uda/tm.html">Yagi-Uda</a></li>
+                    <li><a href="/antennas/end_fed_half_wave/tm.html">EFHW</a></li>
+                    <li><a href="/antennas/vertical/tm.html">Vertical</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Antenna Gear</summary>
+                <ul>
+                    <li><a href="/antenna_gear/index.html">Antenna Gear Overview</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/">Baluns &amp; Un-Uns</a></li>
+                    <li><a href="/antenna_gear/coax_traps/">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/">Lightning Protection</a></li>
+                </ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/index.html">Antenna Tools Overview</a></li>
+                    <li><a href="/antenna_tools/adf_systems/tm.html">ADF Systems</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/tm.html">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/antenna_modeling/tm.html">Antenna Modeling</a></li>
+                    <li><a href="/antenna_tools/dummy_loads/tm.html">Dummy Loads</a></li>
+                    <li><a href="/antenna_tools/field_strength_meter/tm.html">Field Strength Meter</a></li>
+                    <li><a href="/antenna_tools/noise_bridge/tm.html">Noise Bridge</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/tm.html">RF Power Meter (QRP)</a></li>
+                    <li><a href="/antenna_tools/rf_power_meters/tm.html">RF Power Meters (General)</a></li>
+                    <li><a href="/antenna_tools/sdr_interfaces/tm.html">SDR Interfaces</a></li>
+                    <li><a href="/antenna_tools/swr_meter/tm.html">SWR Meter</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Calibration</summary>
+                <ul>
+                    <li><a href="/calibration/index.html">Calibration Library</a></li>
+                    <li><a href="/Calibration_Ideas/index.html">Calibration Standards</a></li>
+                </ul>
+            </details>
+        </nav>
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-TOOL-008</div>
+                    <div class="tm-title">RF POWER METERS — TYPES AND OPERATION</div>
+                    <div class="tm-subtitle">Bird Model 43 Style, Inline Directional, and Terminating Wattmeters</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH &nbsp;&bull;&nbsp;
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial use</em>
+                    </div>
+                </div>
+                <div class="chapter-body">
+
+<h2 class="chapter-heading" id="ch1">Chapter 1 — Introduction and Scope</h2>
+<p>This manual covers three categories of RF power meter in common amateur
+use: the Bird Model 43 slug-type (directional, interchangeable elements),
+the inline directional wattmeter (fixed range, inline measurement), and the
+terminating wattmeter (power absorbed by a built-in load).  Operating
+frequency range: 1.8&nbsp;MHz to 1.3&nbsp;GHz depending on element / design.
+Power ranges: 1W through 3&nbsp;kW.</p>
+
+<h2 class="chapter-heading" id="ch2">Chapter 2 — Theory of Operation</h2>
+<h3>2-1 Bird Model 43 Slug Type</h3>
+<p>The Bird 43 is an inline directional wattmeter using interchangeable
+plug-in elements (slugs).  Each slug contains a toroid directional coupler
+wound for a specific frequency range and power range.  The slug's flat face
+orientation determines forward vs. reflected reading: flat toward the meter
+face = forward power; flat away = reflected.  Output is a DC voltage
+proportional to forward (or reflected) power, driving an analog panel meter.</p>
+<p>Slug PCB dimensions: 25.0&nbsp;mm OD &times; 25.4&nbsp;mm length.  Retention:
+O-ring at body midpoint.  Contact: 2&nbsp;mm banana pin.  The flatted-D
+cross-section prevents 90&deg; orientation errors.</p>
+<h3>2-2 Inline Directional Meter</h3>
+<p>Uses a toroid coupler (1-turn primary = center conductor; N-turn secondary)
+plus Schottky diode detectors (1N5711) for forward and reflected channels.
+An ADS1115 16-bit I2C ADC digitizes both channels; ESP32 computes forward
+power, reflected power, and SWR in firmware.  CYD display shows real-time
+readings.  Typical frequency range 1.8&ndash;600&nbsp;MHz with appropriate
+coupler design.</p>
+<h3>2-3 Terminating Wattmeter</h3>
+<p>A terminating wattmeter absorbs all transmitted power in an internal
+50&Omega; load (dry or oil-cooled) and measures the absorbed power via
+a coupler before the load.  Because there is no transmitted power beyond
+the instrument, no antenna is needed during testing.  Used for final
+amplifier output power verification and transmitter tuning.</p>
+
+<h2 class="chapter-heading" id="ch3">Chapter 3 — Equipment and Materials</h2>
+<h3>3-1 HF Plug-In Element (Bird 43 Compatible)</h3>
+<p>Slug body: 6061-T6 aluminum, black anodized, D-shaped cross section.
+PCB: 22&times;18&nbsp;mm FR4.  Key components per power/band range:</p>
+<table>
+<tr><th>Range</th><th>N2 turns</th><th>Core</th><th>Frequency</th></tr>
+<tr><td>100W / HF</td><td>6</td><td>Fair-Rite 5943000401 (#43, 9mm)</td><td>1.8&ndash;30 MHz</td></tr>
+<tr><td>250W / HF</td><td>10</td><td>Same</td><td>1.8&ndash;30 MHz</td></tr>
+<tr><td>1000W / HF</td><td>32</td><td>BN-43-202</td><td>1.8&ndash;30 MHz</td></tr>
+<tr><td>100W / VHF</td><td>6</td><td>Fair-Rite #67, 9mm</td><td>50&ndash;175 MHz</td></tr>
+<tr><td>100W / UHF</td><td>Microstrip coupled</td><td>PCB</td><td>420&ndash;1000 MHz</td></tr>
+</table>
+<h3>3-2 Bird 43 Body</h3>
+<p>The Bird 43 body (if homebrew): SO-239 or N-type input/output connectors
+on a milled aluminum body with a 25.0&nbsp;mm diameter slug cavity.  Spring-pin
+contact engages the slug banana jack.  Retention sleeve threads onto body.</p>
+
+<h2 class="chapter-heading" id="ch4">Chapter 4 — Slug Construction</h2>
+<ol>
+<li>Mill slug body to dimensions (OD 25.0&nbsp;mm, length 25.4&nbsp;mm).
+    Machine the D-flat on one side.  Drill and tap center hole for contact
+    pin (2&nbsp;mm banana jack, gold-plated).</li>
+<li>Fabricate PCB (22&times;18&nbsp;mm).  Drill 3&nbsp;mm center hole for
+    slug body contact.  Route coupler, diode, and filter on PCB.</li>
+<li>Wind secondary winding on core per Table 3-1.  Solder to PCB pads.</li>
+<li>Install O-ring in groove.  Press PCB into slug body; solder banana pin.</li>
+<li>Mark power range and frequency on flat face (laser engraving or paint
+    pen).</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch5">Chapter 5 — Operating Procedures</h2>
+<h3>5-1 Bird 43 Use</h3>
+<ol>
+<li>Insert correct slug for operating frequency and expected power level.
+    Orient flat face for forward or reflected measurement.</li>
+<li>Connect IN to transmitter, OUT to antenna (or dummy load).  Key
+    transmitter at target power.  Read panel meter.  For reflected power:
+    rotate slug 180&deg; (flat face away from meter).</li>
+<li>Compute SWR from P_fwd and P_ref readings.</li>
+</ol>
+<h3>5-2 Inline Digital Meter</h3>
+<ol>
+<li>Insert meter inline between transmitter and antenna (any orientation;
+    no slug rotation needed).</li>
+<li>CYD displays P_fwd (W), P_ref (W), SWR simultaneously.  Log readings
+    to SD card if installed.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch6">Chapter 6 — Calibration</h2>
+<ol>
+<li>Connect calibrated power source to IN; calibrated 50&Omega; load to OUT.</li>
+<li>Apply 10W at 14.175&nbsp;MHz.  Panel meter (Bird 43) or CYD should read
+    10 &plusmn; 1W.  Adjust calibration pot R_cal (Bird 43 body) if needed.
+    For digital inline meter: update calibration coefficient in NVS.</li>
+<li>Verify at 50W and 100W.  Response must be linear within &plusmn;5%.</li>
+<li>Repeat for each slug / frequency range in use.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch7">Chapter 7 — Verification and Acceptance</h2>
+<ol>
+<li>Power measurement within &plusmn;5% of reference (calibrated signal source)
+    at all test frequencies.</li>
+<li>SWR reading within &plusmn;0.1 of calculated SWR for a known mismatch
+    (e.g., 100&Omega; load gives SWR 2.0:1 into 50&Omega; system).</li>
+<li>Insertion loss with slug installed: &lt;0.1&nbsp;dB measured by comparing
+    received signal with and without meter inline.</li>
+<li>Log: date, slug serial number (or homebrew tag), frequency, measured
+    power vs. reference, SWR accuracy, operator.</li>
+</ol>
+
+<h2 class="chapter-heading" id="appa">Appendix A — Common Bird 43 Slug Equivalents</h2>
+<table>
+<tr><th>Bird part</th><th>Power</th><th>Frequency</th><th>Homebrew N2</th></tr>
+<tr><td>5H</td><td>5W</td><td>25&ndash;60 MHz</td><td>6 turns, #67 core</td></tr>
+<tr><td>50H</td><td>50W</td><td>25&ndash;60 MHz</td><td>10 turns, #67 core</td></tr>
+<tr><td>100D</td><td>100W</td><td>400&ndash;1000 MHz</td><td>Microstrip PCB element</td></tr>
+<tr><td>250B</td><td>250W</td><td>2&ndash;30 MHz</td><td>10 turns, #43 core</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="appb">Appendix B — SWR from P_fwd / P_ref</h2>
+<pre>|&Gamma;| = sqrt(P_ref / P_fwd)
+SWR = (1 + |&Gamma;|) / (1 &minus; |&Gamma;|)
+
+Example: P_fwd = 100W, P_ref = 5W
+|&Gamma;| = sqrt(5/100) = sqrt(0.05) = 0.224
+SWR = (1.224) / (0.776) = 1.58:1</pre>
+
+                </div>
+                <div class="back-link">
+                    <a href="../index.html">&larr; Antenna Tools</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item"><strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a></div>
+                <div class="contact-item"><strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a></div>
+                <div class="contact-item"><strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a></div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Designs shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

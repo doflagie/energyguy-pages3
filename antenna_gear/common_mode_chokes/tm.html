@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-GEAR-007 COMMON-MODE CHOKES — RFI SUPPRESSION ON FEEDLINES - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+.tm-cover{border:3px solid #2c5f8d;padding:28px 36px;text-align:center;margin-bottom:28px;background:#f8f8f4}
+.tm-classification{font-size:1.05em;font-weight:bold;color:#006600;letter-spacing:3px;margin-bottom:16px}
+.tm-number{font-family:'Courier New',monospace;font-size:1.15em;font-weight:bold;color:#2c5f8d;margin-bottom:8px}
+.tm-title{font-size:1.7em;font-weight:bold;color:#1a3a5c;text-transform:uppercase;letter-spacing:1px;margin:12px 0 8px;line-height:1.3}
+.tm-subtitle{font-size:.98em;font-style:italic;color:#555;margin-bottom:12px}
+.tm-meta{font-size:.88em;color:#555;margin-top:16px;border-top:1px solid #aaa;padding-top:12px}
+.chapter-body h1,.chapter-body h2{color:#1a3a5c;border-bottom:2px solid #4a7ba7;padding-bottom:4px;margin-top:22px;margin-bottom:10px}
+.chapter-body h3{color:#2c5f8d;margin-top:16px;margin-bottom:8px}
+.chapter-body table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93em}
+.chapter-body th{background:#4a7ba7;color:#fff;padding:7px 11px;text-align:left;font-size:.88em;text-transform:uppercase}
+.chapter-body td{border:1px solid #c0ccd8;padding:6px 11px;vertical-align:top}
+.chapter-body tr:nth-child(even) td{background:#f4f7fb}
+.chapter-body ol,.chapter-body ul{margin:8px 0 8px 20px}
+.chapter-body li{margin:5px 0;line-height:1.5}
+.chapter-body p{margin:8px 0 10px}
+.chapter-body pre,.chapter-body code{background:#f4f4ee;border:1px solid #ddd;padding:2px 5px;font-size:.9em}
+.chapter-body pre{padding:10px 14px;overflow-x:auto;line-height:1.4}
+.back-link{margin-top:28px;padding-top:12px;border-top:1px solid #c0ccd8;font-size:.9em}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Gear</summary>
+                <ul>
+                    <li><a href="/antenna_gear/index.html">Antenna Gear Overview</a></li>
+                    <li><a href="/antenna_gear/ant_switches/tm.html">Antenna Switches</a></li>
+                    <li><a href="/antenna_gear/audio_filters/tm.html">Audio Filters</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/tm.html">Baluns &amp; Un-Uns</a></li>
+                    <li><a href="/antenna_gear/bms/tm.html">Battery Management (BMS)</a></li>
+                    <li><a href="/antenna_gear/coax_traps/tm.html">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/coil_winder/tm.html">Coil Winder</a></li>
+                    <li><a href="/antenna_gear/common_mode_chokes/tm.html">Common-Mode Chokes</a></li>
+                    <li><a href="/antenna_gear/crystal_radio/tm.html">Crystal Radio</a></li>
+                    <li><a href="/antenna_gear/hybrids/tm.html">RF Hybrids</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/tm.html">Lightning Protection</a></li>
+                    <li><a href="/antenna_gear/mast_tower/tm.html">Mast &amp; Tower</a></li>
+                    <li><a href="/antenna_gear/motorized_tuner/tm.html">Motorized Tuner</a></li>
+                    <li><a href="/antenna_gear/power_supplies/tm.html">Power Supplies</a></li>
+                    <li><a href="/antenna_gear/remote-element-switching/tm.html">Remote Element Switching</a></li>
+                    <li><a href="/antenna_gear/rf_couplers/tm.html">RF Couplers</a></li>
+                    <li><a href="/antenna_gear/rfi_mitigation/tm.html">RFI Mitigation</a></li>
+                    <li><a href="/antenna_gear/roller_inductors/tm.html">Roller Inductors</a></li>
+                    <li><a href="/antenna_gear/transmatch/tm.html">Transmatch</a></li>
+                    <li><a href="/antenna_gear/variable_caps/tm.html">Variable Capacitors</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/index.html">Antenna Tools Overview</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/tm.html">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/swr_meter/tm.html">SWR Meter</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/tm.html">RF Power Meter</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Calibration</summary>
+                <ul>
+                    <li><a href="/calibration/index.html">Calibration Library</a></li>
+                    <li><a href="/Calibration_Ideas/index.html">Calibration Standards</a></li>
+                </ul>
+            </details>
+        </nav>
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-GEAR-007</div>
+                    <div class="tm-title">COMMON-MODE CHOKES — RFI SUPPRESSION ON FEEDLINES</div>
+                    <div class="tm-subtitle">Toroidal Coaxial Chokes, Snap-On Ferrite Beads, Sleeve Baluns, Ugly Balun</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH &nbsp;&bull;&nbsp;
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial use</em>
+                    </div>
+                </div>
+                <div class="chapter-body">
+
+<h2 class="chapter-heading" id="ch1">Chapter 1 — Introduction and Scope</h2>
+<p>This manual covers common-mode choke (CMC) construction for suppressing
+RF on coaxial feedline shields.  Common-mode current — current flowing on
+the outside of the coax shield — causes RFI, pattern distortion, and
+RF in the shack.  Four CMC types are covered: toroidal coaxial choke
+(FT-240 ferrite), snap-on ferrite bead choke, sleeve balun (1&ndash;4 passes
+through a bead string), and the &ldquo;ugly balun&rdquo; (coax coil).</p>
+
+<h2 class="chapter-heading" id="ch2">Chapter 2 — Theory of Operation</h2>
+<h3>2-1 Differential vs. Common Mode</h3>
+<p>In a coaxial feedline, the desired signal travels as a differential mode:
+equal and opposite currents on center conductor and inner surface of shield.
+The core sees equal and opposite H-fields; they cancel.  The core presents
+zero impedance to this mode.</p>
+<p>Common-mode current flows on the outside of the shield.  The core sees
+an unbalanced H-field and presents the full choking impedance Z_choke
+(series impedance) in the common-mode path.  Result:</p>
+<pre>CMR (dB) = 20 &times; log10(1 + Z_choke / Z_path)
+Z_path = impedance to which common-mode current flows (typically 50&ndash;300&Omega;)
+
+For Z_choke = 5000&Omega;, Z_path = 100&Omega;: CMR = 34 dB
+For Z_choke = 1000&Omega;, Z_path = 100&Omega;: CMR = 21 dB</pre>
+<h3>2-2 Core Material vs. Frequency</h3>
+<p>Core material determines the frequency range of effective choking:</p>
+<table>
+<tr><th>Material</th><th>Best range</th><th>Peak &mu;"</th><th>Application</th></tr>
+<tr><td>#31</td><td>1&ndash;300 MHz</td><td>3000</td><td>HF antenna feedpoints, coax chokes</td></tr>
+<tr><td>#43</td><td>1&ndash;100 MHz</td><td>750</td><td>HF balun windings, TLTs</td></tr>
+<tr><td>#61</td><td>10&ndash;300 MHz</td><td>125</td><td>VHF chokes, 6M and 2M feedpoints</td></tr>
+<tr><td>#73</td><td>1&ndash;40 MHz</td><td>2500</td><td>HF snap-on beads, power line chokes</td></tr>
+<tr><td>#75</td><td>0.5&ndash;10 MHz</td><td>5000</td><td>Audio and low-HF chokes</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="ch3">Chapter 3 — Equipment and Materials</h2>
+<table>
+<tr><th>Design</th><th>Core</th><th>Passes</th><th>Z_choke at 14 MHz</th></tr>
+<tr><td>Toroidal coax choke</td><td>FT-240-31, ×2 stacked</td><td>12 passes RG-303</td><td>&ge;5000&Omega;</td></tr>
+<tr><td>Snap-on bead string</td><td>Mix #31, 31 mm OD (×6)</td><td>1 pass RG-58 through all 6</td><td>&ge;2000&Omega;</td></tr>
+<tr><td>Sleeve balun</td><td>FT-50-61 (×6 stacked)</td><td>4 passes RG-58</td><td>&ge;2000&Omega; at 50&ndash;150 MHz</td></tr>
+<tr><td>Ugly balun (coax coil)</td><td>Air core</td><td>8 turns RG-58, 100 mm dia</td><td>&ge;1000&Omega; at 14 MHz</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="ch4">Chapter 4 — Construction</h2>
+<h3>4-1 Toroidal Coaxial Choke</h3>
+<ol>
+<li>Stack two FT-240-31 toroids (same orientation).  Secure with a
+    cable tie around the outside.</li>
+<li>Thread RG-303 (or RG-58) coax through the stacked cores 12 times.
+    Keep passes parallel and tight; each pass reduces the impedance uniformity
+    slightly, so 12 is the practical maximum.</li>
+<li>Mount in a weatherproof enclosure at the antenna feedpoint.
+    Connect input coax to radio-side SO-239; output coax to antenna.</li>
+</ol>
+<h3>4-2 Snap-On Bead Choke</h3>
+<ol>
+<li>Open 6 type #31 snap-on ferrite beads (Laird 28A0300-0A2 or equivalent).</li>
+<li>Snap all 6 beads onto the coax at the feedpoint, positioned within
+    100&nbsp;mm of the antenna connection.  Close each bead securely.</li>
+<li>Secure the bead cluster with a cable tie or wrap of self-amalgamating tape.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch5">Chapter 5 — Operating Procedures</h2>
+<p>A CMC is a passive device; there is no operational procedure other than
+installation.  Install CMCs at:</p>
+<ul>
+<li>Antenna feedpoint (highest priority)</li>
+<li>Entry panel where coax enters the shack</li>
+<li>Any point where the feedline changes direction sharply</li>
+<li>Audio and control cables if RF on those cables is suspected</li>
+</ul>
+<p>Signs of inadequate common-mode chocking: RF in the shack (microphone
+pickup, TVI), pattern distortion on receive, SWR that changes when
+hands are placed near the feedline.</p>
+
+<h2 class="chapter-heading" id="ch6">Chapter 6 — Calibration</h2>
+<ol>
+<li>Measure choking impedance |Z_choke| with a NanoVNA: connect port 1
+    to the coax shield at one end; port 2 to the coax shield at the other
+    end (center conductor floating).  Measure |Z| across the band.</li>
+<li>Target: |Z_choke| &ge;2000&Omega; at all frequencies in the operating range.
+    For type #31 stacked pair: Z should exceed 5000&Omega; from 7&ndash;30&nbsp;MHz.</li>
+<li>Verify that differential-mode insertion loss is &lt;0.1&nbsp;dB: connect
+    NanoVNA port 1 to input center/shield, port 2 to output center/shield.
+    S21 must be &gt;&minus;0.1&nbsp;dB at all HF frequencies.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch7">Chapter 7 — Verification and Acceptance</h2>
+<ol>
+<li>Z_choke &ge;2000&Omega; at all operating frequencies.</li>
+<li>Differential-mode insertion loss &lt;0.1&nbsp;dB.</li>
+<li>After installation: receive noise floor on the antenna must not increase
+    (some CMC failure modes add noise; verify with SDR noise scan before/after).</li>
+<li>Log: date, core type, design (toroid/bead/sleeve/ugly), measured Z_choke
+    at 7 and 14&nbsp;MHz, differential insertion loss, operator.</li>
+</ol>
+
+<h2 class="chapter-heading" id="appa">Appendix A — Z_choke vs. Passes on FT-240-31</h2>
+<table>
+<tr><th>Passes</th><th>Z_choke at 14 MHz (&Omega;)</th><th>Note</th></tr>
+<tr><td>6</td><td>&sim;1500</td><td>Adequate; marginal for dipoles</td></tr>
+<tr><td>9</td><td>&sim;3000</td><td>Good for most HF antennas</td></tr>
+<tr><td>12</td><td>&sim;5000</td><td>Excellent; use for multiband or high-power</td></tr>
+<tr><td>15</td><td>&sim;7000</td><td>Maximum practical (coax fills toroid bore)</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="appb">Appendix B — Worked CMR Example</h2>
+<p>Toroidal choke at dipole feedpoint: Z_choke = 5000&Omega;.
+Path impedance to shack ground: Z_path = 100&Omega;.</p>
+<pre>CMR = 20 &times; log10(1 + 5000/100) = 20 &times; log10(51) = 20 &times; 1.708 = 34.2 dB</pre>
+<p>A 34&nbsp;dB reduction in common-mode current on the feedline.  This should
+eliminate most feedline radiation and shack RF problems on HF.</p>
+
+                </div>
+                <div class="back-link">
+                    <a href="../index.html">&larr; Antenna Gear</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item"><strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a></div>
+                <div class="contact-item"><strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a></div>
+                <div class="contact-item"><strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a></div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Designs shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

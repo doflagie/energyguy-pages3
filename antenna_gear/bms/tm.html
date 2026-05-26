@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-GEAR-004 BATTERY MANAGEMENT SYSTEM (BMS) — LiFePO4 AND LI-ION - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+.tm-cover{border:3px solid #2c5f8d;padding:28px 36px;text-align:center;margin-bottom:28px;background:#f8f8f4}
+.tm-classification{font-size:1.05em;font-weight:bold;color:#006600;letter-spacing:3px;margin-bottom:16px}
+.tm-number{font-family:'Courier New',monospace;font-size:1.15em;font-weight:bold;color:#2c5f8d;margin-bottom:8px}
+.tm-title{font-size:1.7em;font-weight:bold;color:#1a3a5c;text-transform:uppercase;letter-spacing:1px;margin:12px 0 8px;line-height:1.3}
+.tm-subtitle{font-size:.98em;font-style:italic;color:#555;margin-bottom:12px}
+.tm-meta{font-size:.88em;color:#555;margin-top:16px;border-top:1px solid #aaa;padding-top:12px}
+.chapter-body h1,.chapter-body h2{color:#1a3a5c;border-bottom:2px solid #4a7ba7;padding-bottom:4px;margin-top:22px;margin-bottom:10px}
+.chapter-body h3{color:#2c5f8d;margin-top:16px;margin-bottom:8px}
+.chapter-body table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93em}
+.chapter-body th{background:#4a7ba7;color:#fff;padding:7px 11px;text-align:left;font-size:.88em;text-transform:uppercase}
+.chapter-body td{border:1px solid #c0ccd8;padding:6px 11px;vertical-align:top}
+.chapter-body tr:nth-child(even) td{background:#f4f7fb}
+.chapter-body ol,.chapter-body ul{margin:8px 0 8px 20px}
+.chapter-body li{margin:5px 0;line-height:1.5}
+.chapter-body p{margin:8px 0 10px}
+.chapter-body pre,.chapter-body code{background:#f4f4ee;border:1px solid #ddd;padding:2px 5px;font-size:.9em}
+.chapter-body pre{padding:10px 14px;overflow-x:auto;line-height:1.4}
+.back-link{margin-top:28px;padding-top:12px;border-top:1px solid #c0ccd8;font-size:.9em}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Gear</summary>
+                <ul>
+                    <li><a href="/antenna_gear/index.html">Antenna Gear Overview</a></li>
+                    <li><a href="/antenna_gear/ant_switches/tm.html">Antenna Switches</a></li>
+                    <li><a href="/antenna_gear/audio_filters/tm.html">Audio Filters</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/tm.html">Baluns &amp; Un-Uns</a></li>
+                    <li><a href="/antenna_gear/bms/tm.html">Battery Management (BMS)</a></li>
+                    <li><a href="/antenna_gear/coax_traps/tm.html">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/coil_winder/tm.html">Coil Winder</a></li>
+                    <li><a href="/antenna_gear/common_mode_chokes/tm.html">Common-Mode Chokes</a></li>
+                    <li><a href="/antenna_gear/crystal_radio/tm.html">Crystal Radio</a></li>
+                    <li><a href="/antenna_gear/hybrids/tm.html">RF Hybrids</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/tm.html">Lightning Protection</a></li>
+                    <li><a href="/antenna_gear/mast_tower/tm.html">Mast &amp; Tower</a></li>
+                    <li><a href="/antenna_gear/motorized_tuner/tm.html">Motorized Tuner</a></li>
+                    <li><a href="/antenna_gear/power_supplies/tm.html">Power Supplies</a></li>
+                    <li><a href="/antenna_gear/remote-element-switching/tm.html">Remote Element Switching</a></li>
+                    <li><a href="/antenna_gear/rf_couplers/tm.html">RF Couplers</a></li>
+                    <li><a href="/antenna_gear/rfi_mitigation/tm.html">RFI Mitigation</a></li>
+                    <li><a href="/antenna_gear/roller_inductors/tm.html">Roller Inductors</a></li>
+                    <li><a href="/antenna_gear/transmatch/tm.html">Transmatch</a></li>
+                    <li><a href="/antenna_gear/variable_caps/tm.html">Variable Capacitors</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/index.html">Antenna Tools Overview</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/tm.html">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/swr_meter/tm.html">SWR Meter</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/tm.html">RF Power Meter</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Calibration</summary>
+                <ul>
+                    <li><a href="/calibration/index.html">Calibration Library</a></li>
+                    <li><a href="/Calibration_Ideas/index.html">Calibration Standards</a></li>
+                </ul>
+            </details>
+        </nav>
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-GEAR-004</div>
+                    <div class="tm-title">BATTERY MANAGEMENT SYSTEM (BMS) — LiFePO4 AND LI-ION</div>
+                    <div class="tm-subtitle">BQ76920 4S LiFePO4, MPPT Integration, Cell Balancing, Field Power Pack</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH &nbsp;&bull;&nbsp;
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial use</em>
+                    </div>
+                </div>
+                <div class="chapter-body">
+
+<h2 class="chapter-heading" id="ch1">Chapter 1 — Introduction and Scope</h2>
+<p>This manual covers the design, construction, and maintenance of a 12.8V
+nominal (4S LiFePO4) battery management system for field operation of
+amateur radio stations.  The BMS uses a Texas Instruments BQ76920 IC for
+cell voltage monitoring, overcharge/overdischarge/overcurrent protection,
+and passive cell balancing.  A secondary discrete comparator circuit provides
+backup protection.  Optional MPPT integration enables solar charging.</p>
+<p><strong>Pack specifications:</strong> 12.8V nominal (10.0&ndash;14.4V operating
+range), 50&nbsp;A maximum continuous discharge, 25&nbsp;A maximum charge.</p>
+<p><strong>SAFETY — LITHIUM BATTERY HAZARD:</strong> LiFePO4 cells are safer
+than other lithium chemistries but still present fire and explosion risk if
+shorted, overcharged, or mechanically damaged.  Never short the pack terminals.
+Never charge below 0&deg;C.  Never disassemble a swollen cell.</p>
+
+<h2 class="chapter-heading" id="ch2">Chapter 2 — Theory of Operation</h2>
+<h3>2-1 LiFePO4 Cell Parameters</h3>
+<p>LiFePO4 (lithium iron phosphate) cells have a flat discharge curve from
+approximately 3.05V to 3.30V, covering 20%&ndash;80% SOC.  Key voltage limits:</p>
+<table>
+<tr><th>Condition</th><th>Single cell</th><th>4S pack</th></tr>
+<tr><td>Full charge cutoff</td><td>3.60V</td><td>14.40V</td></tr>
+<tr><td>Nominal voltage</td><td>3.20V</td><td>12.80V</td></tr>
+<tr><td>Discharge cutoff</td><td>2.50V</td><td>10.00V</td></tr>
+<tr><td>OV protection trip</td><td>3.65V</td><td>14.60V</td></tr>
+<tr><td>UV protection trip</td><td>2.50V</td><td>10.00V</td></tr>
+</table>
+<h3>2-2 BQ76920 Protection IC</h3>
+<p>The BQ76920 monitors each cell individually via its internal 14-bit ADC
+(1.22&nbsp;mV resolution, 1% accuracy).  It drives separate CHG (charge)
+and DSG (discharge) MOSFET outputs for independent control of charging and
+discharging.  Communication via I2C allows the ESP32 host to read cell
+voltages, set protection thresholds, and enable/disable balancing FETs.</p>
+<h3>2-3 Cell Balancing</h3>
+<p>Passive balancing dissipates excess energy from the highest-voltage cells
+via internal 10&nbsp;A balancing FETs (10&Omega; resistors, ~130&nbsp;mW
+per cell at 3.6V).  Active balancing transfers charge from high cells to low
+cells using a flyback or capacitor-based converter; more efficient but more
+complex.  Passive balancing is adequate for matched cells with &lt;50&nbsp;mV
+initial spread.</p>
+
+<h2 class="chapter-heading" id="ch3">Chapter 3 — Equipment and Materials</h2>
+<table>
+<tr><th>Component</th><th>Value / Part</th><th>Purpose</th></tr>
+<tr><td>BMS IC</td><td>TI BQ76920</td><td>Cell monitoring and protection</td></tr>
+<tr><td>Charge FET</td><td>IRF3205 or STP80NF55</td><td>Charge path switch (CHG)</td></tr>
+<tr><td>Discharge FET</td><td>IRF3205 or STP80NF55</td><td>Discharge path switch (DSG)</td></tr>
+<tr><td>Current sense resistor</td><td>5&nbsp;m&Omega; 1% (3W)</td><td>Overcurrent detection</td></tr>
+<tr><td>I2C host</td><td>ESP32 WROOM-32</td><td>BQ76920 configuration and logging</td></tr>
+<tr><td>Display</td><td>CYD 2.8&rdquo; ILI9341</td><td>SOC, cell voltages, current, temp</td></tr>
+<tr><td>Temperature sensor</td><td>NTC 10k&Omega; B=3950</td><td>Cell and FET temperature monitoring</td></tr>
+<tr><td>Fuse</td><td>ANL 60A or MIDI 40A</td><td>Ultimate short-circuit protection</td></tr>
+<tr><td>Cells</td><td>EVE 280Ah or CATL 100Ah LiFePO4</td><td>Energy storage</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="ch4">Chapter 4 — Construction</h2>
+<ol>
+<li>Connect cells in series (4S): Cell 1 (-) to pack negative; Cell 4 (+) to pack positive
+    through the BMS FETs.  Use copper bus bars (&ge;8&nbsp;AWG equivalent) for all
+    cell interconnects.</li>
+<li>Solder the BQ76920 sense wires to each cell junction: VC0 to pack (&minus;),
+    VC1 to Cell 1/2 junction, ..., VC4 to pack (+).  Keep sense leads &lt;100&nbsp;mm;
+    twist in pairs; add 1k&Omega; series resistors to protect the BQ76920 inputs.</li>
+<li>Install CHG and DSG MOSFETs on a common heatsink (thermal resistance
+    &le;2&deg;C/W for 50&nbsp;A continuous).  Connect gate drives from BQ76920
+    CHG and DSG outputs via 100&Omega; gate resistors.</li>
+<li>Install the current sense resistor (5&nbsp;m&Omega;) in series with the
+    discharge path negative bus.  Connect BQ76920 SRP and SRN to each side.</li>
+<li>Connect ESP32 I2C (SCL, SDA, 4.7&nbsp;k&Omega; pull-ups to 3.3V) to
+    BQ76920 SCL/SDA pins.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch5">Chapter 5 — Operating Procedures</h2>
+<ol>
+<li>First charge: connect a 14.6V constant-voltage charger (LiFePO4 profile,
+    CC/CV).  Monitor all four cell voltages on the CYD display during the
+    first charge cycle.  If any cell exceeds 3.65V before the others reach
+    3.45V, the pack is unbalanced — stop and balance manually.</li>
+<li>Normal operation: the CYD displays pack voltage, current, SOC (from
+    Coulomb counting), and individual cell voltages.  SOC warning at 20%;
+    shutdown at 10% (10.0V).</li>
+<li>Temperature limits: if any cell or FET temperature exceeds 55&deg;C during
+    discharge, reduce load.  Charging is inhibited below 0&deg;C by firmware.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch6">Chapter 6 — Calibration</h2>
+<ol>
+<li>Calibrate cell voltage offsets: measure each cell with a precision DMM
+    (Fluke 15B+).  Compare to BQ76920 I2C readings.  Enter offset corrections
+    in firmware NVS (ESP32 Preferences library).</li>
+<li>Calibrate current sense: apply a known load (resistive, measured with
+    the calibrated DMM).  Adjust firmware current-sense gain constant until
+    displayed current matches measured.</li>
+<li>Calibrate SOC: fully charge pack to 14.4V.  Reset Coulomb counter to
+    100%.  Discharge completely to 10.0V.  Record Ah removed.  Compare to
+    cell rated capacity.  Adjust C_nominal in firmware.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch7">Chapter 7 — Verification and Acceptance</h2>
+<ol>
+<li>All cell voltages within 20&nbsp;mV of each other at rest (balanced).</li>
+<li>OV protection: charge one cell to 3.70V (using external bench supply on
+    sense pins).  Verify BQ76920 opens CHG FET within 2 seconds.</li>
+<li>UV protection: discharge to 9.8V.  Verify DSG FET opens within 1 second.</li>
+<li>Overcurrent: apply a momentary 60&nbsp;A load for 100&nbsp;ms.  Verify
+    DSG FET opens (BQ76920 OCD detection).</li>
+<li>Log: date, cell batch numbers, initial balance spread (mV), OV trip voltage,
+    UV trip voltage, OCD trip current, measured capacity (Ah), operator.</li>
+</ol>
+
+<h2 class="chapter-heading" id="appa">Appendix A — LiFePO4 State of Charge vs. Voltage</h2>
+<table>
+<tr><th>SOC (%)</th><th>Cell voltage (V)</th><th>4S pack voltage (V)</th></tr>
+<tr><td>100%</td><td>3.60</td><td>14.40</td></tr>
+<tr><td>80%</td><td>3.35</td><td>13.40</td></tr>
+<tr><td>50%</td><td>3.25</td><td>13.00</td></tr>
+<tr><td>20%</td><td>3.10</td><td>12.40</td></tr>
+<tr><td>0%</td><td>2.50</td><td>10.00</td></tr>
+</table>
+<p>Note: LiFePO4 voltage vs. SOC is very flat from 20%&ndash;80%.  Coulomb
+counting is more accurate than voltage for SOC estimation in this range.</p>
+
+<h2 class="chapter-heading" id="appb">Appendix B — BQ76920 Key I2C Registers</h2>
+<table>
+<tr><th>Register</th><th>Address</th><th>Key bits</th></tr>
+<tr><td>SYS_STAT</td><td>0x00</td><td>OV, UV, SCD, OCD, OVRD_ALERT flags</td></tr>
+<tr><td>CELLBAL1</td><td>0x01</td><td>CB1&ndash;CB5: balance FET enable (1=on)</td></tr>
+<tr><td>SYS_CTRL1</td><td>0x04</td><td>ADC_EN, TEMP_SEL, SHUT_A, SHUT_B</td></tr>
+<tr><td>SYS_CTRL2</td><td>0x05</td><td>CHG_ON, DSG_ON, CC_EN (Coulomb counter)</td></tr>
+<tr><td>VC1_HI/LO</td><td>0x0C/0x0D</td><td>Cell 1 voltage (14-bit ADC)</td></tr>
+</table>
+
+                </div>
+                <div class="back-link">
+                    <a href="../index.html">&larr; Antenna Gear</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item"><strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a></div>
+                <div class="contact-item"><strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a></div>
+                <div class="contact-item"><strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a></div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Designs shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-GEAR-012 MOTORIZED ANTENNA TUNER — HF AND VHF/UHF - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+.tm-cover{border:3px solid #2c5f8d;padding:28px 36px;text-align:center;margin-bottom:28px;background:#f8f8f4}
+.tm-classification{font-size:1.05em;font-weight:bold;color:#006600;letter-spacing:3px;margin-bottom:16px}
+.tm-number{font-family:'Courier New',monospace;font-size:1.15em;font-weight:bold;color:#2c5f8d;margin-bottom:8px}
+.tm-title{font-size:1.7em;font-weight:bold;color:#1a3a5c;text-transform:uppercase;letter-spacing:1px;margin:12px 0 8px;line-height:1.3}
+.tm-subtitle{font-size:.98em;font-style:italic;color:#555;margin-bottom:12px}
+.tm-meta{font-size:.88em;color:#555;margin-top:16px;border-top:1px solid #aaa;padding-top:12px}
+.chapter-body h1,.chapter-body h2{color:#1a3a5c;border-bottom:2px solid #4a7ba7;padding-bottom:4px;margin-top:22px;margin-bottom:10px}
+.chapter-body h3{color:#2c5f8d;margin-top:16px;margin-bottom:8px}
+.chapter-body table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93em}
+.chapter-body th{background:#4a7ba7;color:#fff;padding:7px 11px;text-align:left;font-size:.88em;text-transform:uppercase}
+.chapter-body td{border:1px solid #c0ccd8;padding:6px 11px;vertical-align:top}
+.chapter-body tr:nth-child(even) td{background:#f4f7fb}
+.chapter-body ol,.chapter-body ul{margin:8px 0 8px 20px}
+.chapter-body li{margin:5px 0;line-height:1.5}
+.chapter-body p{margin:8px 0 10px}
+.chapter-body pre,.chapter-body code{background:#f4f4ee;border:1px solid #ddd;padding:2px 5px;font-size:.9em}
+.chapter-body pre{padding:10px 14px;overflow-x:auto;line-height:1.4}
+.back-link{margin-top:28px;padding-top:12px;border-top:1px solid #c0ccd8;font-size:.9em}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Gear</summary>
+                <ul>
+                    <li><a href="/antenna_gear/index.html">Antenna Gear Overview</a></li>
+                    <li><a href="/antenna_gear/ant_switches/tm.html">Antenna Switches</a></li>
+                    <li><a href="/antenna_gear/audio_filters/tm.html">Audio Filters</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/tm.html">Baluns &amp; Un-Uns</a></li>
+                    <li><a href="/antenna_gear/bms/tm.html">Battery Management (BMS)</a></li>
+                    <li><a href="/antenna_gear/coax_traps/tm.html">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/coil_winder/tm.html">Coil Winder</a></li>
+                    <li><a href="/antenna_gear/common_mode_chokes/tm.html">Common-Mode Chokes</a></li>
+                    <li><a href="/antenna_gear/crystal_radio/tm.html">Crystal Radio</a></li>
+                    <li><a href="/antenna_gear/hybrids/tm.html">RF Hybrids</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/tm.html">Lightning Protection</a></li>
+                    <li><a href="/antenna_gear/mast_tower/tm.html">Mast &amp; Tower</a></li>
+                    <li><a href="/antenna_gear/motorized_tuner/tm.html">Motorized Tuner</a></li>
+                    <li><a href="/antenna_gear/power_supplies/tm.html">Power Supplies</a></li>
+                    <li><a href="/antenna_gear/remote-element-switching/tm.html">Remote Element Switching</a></li>
+                    <li><a href="/antenna_gear/rf_couplers/tm.html">RF Couplers</a></li>
+                    <li><a href="/antenna_gear/rfi_mitigation/tm.html">RFI Mitigation</a></li>
+                    <li><a href="/antenna_gear/roller_inductors/tm.html">Roller Inductors</a></li>
+                    <li><a href="/antenna_gear/transmatch/tm.html">Transmatch</a></li>
+                    <li><a href="/antenna_gear/variable_caps/tm.html">Variable Capacitors</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/index.html">Antenna Tools Overview</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/tm.html">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/swr_meter/tm.html">SWR Meter</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/tm.html">RF Power Meter</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Calibration</summary>
+                <ul>
+                    <li><a href="/calibration/index.html">Calibration Library</a></li>
+                    <li><a href="/Calibration_Ideas/index.html">Calibration Standards</a></li>
+                </ul>
+            </details>
+        </nav>
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-GEAR-012</div>
+                    <div class="tm-title">MOTORIZED ANTENNA TUNER — HF AND VHF/UHF</div>
+                    <div class="tm-subtitle">T-Network, L-Network, Stub Tuner, ESP32 Controller, SWR-Guided Auto-Tune</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH &nbsp;&bull;&nbsp;
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial use</em>
+                    </div>
+                </div>
+                <div class="chapter-body">
+
+<h2 class="chapter-heading" id="ch1">Chapter 1 — Introduction and Scope</h2>
+<p>This manual covers a motorized antenna tuner (transmatch) covering all
+15 amateur radio bands (1.8&ndash;1300&nbsp;MHz) in two sections: an HF
+T-network tuner (1.8&ndash;30&nbsp;MHz, 100W) and a VHF/UHF stub or L-network
+tuner (50&ndash;1300&nbsp;MHz, 50W).  Variable capacitors and a roller
+inductor are driven by DC gear motors under ESP32 control.  A built-in
+SWR bridge provides feedback for automatic SWR minimization.</p>
+
+<h2 class="chapter-heading" id="ch2">Chapter 2 — Theory of Operation</h2>
+<h3>2-1 T-Network HF Tuner</h3>
+<p>The balanced T-network (input cap C1, series inductor L, output cap C2)
+can match a wide range of impedances to 50&Omega;.  Typical range:
+5&ndash;2000&Omega;, with moderate losses at high transformation ratios.
+L is a roller inductor (variable inductance by tapping along the coil);
+C1 and C2 are motorized air variables.</p>
+<h3>2-2 VHF Stub Tuner</h3>
+<p>A short-circuit stub (adjustable-length transmission line) in shunt with
+the antenna feedline cancels the reactive component of the antenna impedance.
+The stub length is adjusted by a motorized sliding short-circuit piston.
+A quarter-wave transformer section then converts the resistive remainder
+to 50&Omega;.  Effective for narrowband VHF/UHF matching.</p>
+<h3>2-3 SWR-Guided Auto-Tune Algorithm</h3>
+<p>The ESP32 reads the SWR bridge ADC outputs (V_fwd, V_ref) and minimizes
+the SWR by a coordinate descent algorithm: adjust L in one direction;
+if SWR decreases, continue; if it increases, reverse.  Then adjust C1,
+then C2.  Iterate until SWR &lt;1.5:1 or no further improvement.</p>
+
+<h2 class="chapter-heading" id="ch3">Chapter 3 — Equipment and Materials</h2>
+<table>
+<tr><th>Component</th><th>Value / Part</th><th>Purpose</th></tr>
+<tr><td>HF capacitors C1, C2</td><td>365&nbsp;pF air variable, 2500V rating</td><td>HF T-network tuning</td></tr>
+<tr><td>Roller inductor</td><td>0&ndash;28&nbsp;&micro;H, silver-plated</td><td>Series inductance</td></tr>
+<tr><td>C1, C2 motors</td><td>12V DC gear motor, 6 RPM</td><td>Motorize air variables</td></tr>
+<tr><td>L motor</td><td>12V DC gear motor, 3 RPM</td><td>Drive roller inductor</td></tr>
+<tr><td>Position sensors</td><td>10-turn wirewound pot (×3)</td><td>Report capacitor/inductor position</td></tr>
+<tr><td>SWR bridge</td><td>Toroid coupler + 1N5711 (from TM-GEAR-015)</td><td>Forward/reflected sampling</td></tr>
+<tr><td>Motor driver</td><td>L298N dual H-bridge (×2)</td><td>Bidirectional motor control</td></tr>
+<tr><td>Controller</td><td>ESP32 WROOM-32</td><td>Auto-tune algorithm, display</td></tr>
+<tr><td>Display</td><td>CYD 2.8&rdquo; ILI9341</td><td>SWR, tuner settings, band</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="ch4">Chapter 4 — Construction</h2>
+<ol>
+<li>Mount air variable capacitors in the enclosure with motor shafts coupled
+    via flexible shaft couplers.  Use Hall-effect limit switches at both
+    ends of travel to prevent over-rotation.</li>
+<li>Mount the roller inductor vertically.  Couple the DC motor to the roller
+    shaft via a gear train (10:1 reduction for precise positioning).</li>
+<li>Connect the 10-turn pots to the capacitor and inductor shafts via
+    1:1 direct couplers.  Wire pot center tap to ESP32 ADC via a 10&nbsp;k&Omega;
+    voltage divider.</li>
+<li>Mount the SWR bridge inline between the radio connector and the T-network
+    input.  Connect VFWD and VREF to ESP32 ADC.</li>
+<li>Wire L298N H-bridges: IN1/IN2 and IN3/IN4 to ESP32 GPIOs (PWM for
+    speed control); OUT1/OUT2 and OUT3/OUT4 to motors.  Enable pins to 3.3V
+    for always-on.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch5">Chapter 5 — Operating Procedures</h2>
+<h3>5-1 Manual Tuning</h3>
+<ol>
+<li>Select band on the CYD touchscreen.  The tuner recalls the last
+    successful setting for that band and moves the components to that position.</li>
+<li>Key the transmitter at reduced power (5&ndash;10W for initial tune).
+    Observe the SWR on the CYD display.  Adjust C1, C2, and L buttons
+    until SWR &lt;1.5:1.</li>
+<li>Increase power to operating level and verify SWR does not change
+    significantly (if it does, the tuner is not stable at operating power).</li>
+</ol>
+<h3>5-2 Auto-Tune</h3>
+<ol>
+<li>Key the transmitter at 10W.  Press AUTO on the CYD.  The ESP32 runs
+    the coordinate descent algorithm.  Typical tuning time: 10&ndash;30 seconds.</li>
+<li>The display shows SWR progress.  When SWR &lt;1.5:1, the algorithm stops
+    and saves the band setting to NVS.</li>
+<li>If auto-tune reaches minimum movement without achieving SWR &lt;1.5:1,
+    the antenna may be outside the tuner&rsquo;s matching range for this band.
+    Check antenna connections and feedline continuity.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch6">Chapter 6 — Calibration</h2>
+<ol>
+<li>SWR bridge calibration: connect a calibrated 50&Omega; load.  Adjust
+    the SWR bridge null trimmer until reflected reading = 0.  Adjust forward
+    calibration trimmer until forward reading = applied power.</li>
+<li>Position sensor calibration: with each component at minimum position,
+    record the ADC reading.  With each at maximum, record the ADC reading.
+    Enter these bounds in firmware for linear interpolation to real units
+    (pF or &micro;H).</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch7">Chapter 7 — Verification and Acceptance</h2>
+<ol>
+<li>Tune into a 50&Omega; reference load: SWR must read &lt;1.05:1 (verifies
+    SWR bridge calibration).</li>
+<li>Tune into a 200&Omega; non-reactive load: auto-tune must achieve
+    SWR &lt;1.5:1 within 60 seconds on any HF band.</li>
+<li>Band memory: select 40M, tune to best SWR, change to 20M and tune, then
+    return to 40M — the tuner must return to the 40M setting within 3 turns.</li>
+<li>Motor limit switch test: command full travel in each direction.  All three
+    motors must stop at limit switches without stalling.</li>
+<li>Log: date, SWR bridge calibration check, position sensor ranges, auto-tune
+    test result (band, load, SWR achieved, time), operator.</li>
+</ol>
+
+<h2 class="chapter-heading" id="appa">Appendix A — T-Network Matching Range</h2>
+<pre>T-network with C1_max = C2_max = 365 pF, L_max = 28 μH:
+  At 14 MHz:  matchable impedance range = ~5Ω to ~2000Ω
+  At 7 MHz:   matchable impedance range = ~10Ω to ~1000Ω
+  At 3.5 MHz: matchable impedance range = ~20Ω to ~500Ω
+  (Rough estimates; actual range depends on losses and Q)</pre>
+
+<h2 class="chapter-heading" id="appb">Appendix B — Coordinate Descent Auto-Tune Pseudocode</h2>
+<pre>function auto_tune():
+  repeat:
+    for component in [L, C1, C2]:
+      step component in positive direction
+      if SWR improved: continue stepping
+      else: step in negative direction until SWR stops improving
+    if SWR < 1.5 or no_improvement: break
+  save_band_settings(band, L_pos, C1_pos, C2_pos)</pre>
+
+                </div>
+                <div class="back-link">
+                    <a href="../index.html">&larr; Antenna Gear</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item"><strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a></div>
+                <div class="contact-item"><strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a></div>
+                <div class="contact-item"><strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a></div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Designs shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

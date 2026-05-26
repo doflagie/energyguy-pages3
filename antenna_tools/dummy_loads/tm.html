@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-TOOL-004 RF DUMMY LOADS — CONSTRUCTION AND USE - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+.tm-cover{border:3px solid #2c5f8d;padding:28px 36px;text-align:center;margin-bottom:28px;background:#f8f8f4}
+.tm-classification{font-size:1.05em;font-weight:bold;color:#006600;letter-spacing:3px;margin-bottom:16px}
+.tm-number{font-family:'Courier New',monospace;font-size:1.15em;font-weight:bold;color:#2c5f8d;margin-bottom:8px}
+.tm-title{font-size:1.7em;font-weight:bold;color:#1a3a5c;text-transform:uppercase;letter-spacing:1px;margin:12px 0 8px;line-height:1.3}
+.tm-subtitle{font-size:.98em;font-style:italic;color:#555;margin-bottom:12px}
+.tm-meta{font-size:.88em;color:#555;margin-top:16px;border-top:1px solid #aaa;padding-top:12px}
+.chapter-body h1,.chapter-body h2{color:#1a3a5c;border-bottom:2px solid #4a7ba7;padding-bottom:4px;margin-top:22px;margin-bottom:10px}
+.chapter-body h3{color:#2c5f8d;margin-top:16px;margin-bottom:8px}
+.chapter-body table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93em}
+.chapter-body th{background:#4a7ba7;color:#fff;padding:7px 11px;text-align:left;font-size:.88em;text-transform:uppercase}
+.chapter-body td{border:1px solid #c0ccd8;padding:6px 11px;vertical-align:top}
+.chapter-body tr:nth-child(even) td{background:#f4f7fb}
+.chapter-body ol,.chapter-body ul{margin:8px 0 8px 20px}
+.chapter-body li{margin:5px 0;line-height:1.5}
+.chapter-body p{margin:8px 0 10px}
+.chapter-body pre,.chapter-body code{background:#f4f4ee;border:1px solid #ddd;padding:2px 5px;font-size:.9em}
+.chapter-body pre{padding:10px 14px;overflow-x:auto;line-height:1.4}
+.back-link{margin-top:28px;padding-top:12px;border-top:1px solid #c0ccd8;font-size:.9em}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group">
+                <summary>Antennas</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/antennas/phased_array_of_2/tm.html">2-Element Phased Array</a></li>
+                    <li><a href="/antennas/phased_array_of_4/tm.html">4-Element Phased Array</a></li>
+                    <li><a href="/antennas/dipole/tm.html">Dipole</a></li>
+                    <li><a href="/antennas/yagi_uda/tm.html">Yagi-Uda</a></li>
+                    <li><a href="/antennas/end_fed_half_wave/tm.html">EFHW</a></li>
+                    <li><a href="/antennas/vertical/tm.html">Vertical</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Antenna Gear</summary>
+                <ul>
+                    <li><a href="/antenna_gear/index.html">Antenna Gear Overview</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/">Baluns &amp; Un-Uns</a></li>
+                    <li><a href="/antenna_gear/coax_traps/">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/">Lightning Protection</a></li>
+                </ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/index.html">Antenna Tools Overview</a></li>
+                    <li><a href="/antenna_tools/adf_systems/tm.html">ADF Systems</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/tm.html">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/antenna_modeling/tm.html">Antenna Modeling</a></li>
+                    <li><a href="/antenna_tools/dummy_loads/tm.html">Dummy Loads</a></li>
+                    <li><a href="/antenna_tools/field_strength_meter/tm.html">Field Strength Meter</a></li>
+                    <li><a href="/antenna_tools/noise_bridge/tm.html">Noise Bridge</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/tm.html">RF Power Meter (QRP)</a></li>
+                    <li><a href="/antenna_tools/rf_power_meters/tm.html">RF Power Meters (General)</a></li>
+                    <li><a href="/antenna_tools/sdr_interfaces/tm.html">SDR Interfaces</a></li>
+                    <li><a href="/antenna_tools/swr_meter/tm.html">SWR Meter</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Calibration</summary>
+                <ul>
+                    <li><a href="/calibration/index.html">Calibration Library</a></li>
+                    <li><a href="/Calibration_Ideas/index.html">Calibration Standards</a></li>
+                </ul>
+            </details>
+        </nav>
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-TOOL-004</div>
+                    <div class="tm-title">RF DUMMY LOADS — CONSTRUCTION AND USE</div>
+                    <div class="tm-subtitle">100W Dry, 500W Oil-Cooled, 1 kW Oil-Cooled, and VNA Calibration Loads</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH &nbsp;&bull;&nbsp;
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial use</em>
+                    </div>
+                </div>
+                <div class="chapter-body">
+
+<h2 class="chapter-heading" id="ch1">Chapter 1 — Introduction and Scope</h2>
+<p>This manual covers three power-rated dummy load designs (100W dry,
+500W oil-cooled, 1&nbsp;kW oil-cooled) and a precision 50&Omega; VNA calibration
+terminator.  All designs target &lt;1.1:1 SWR from 1.8&nbsp;MHz through 450&nbsp;MHz
+and &lt;1.5:1 SWR through 1.3&nbsp;GHz (VNA terminator only).</p>
+
+<h2 class="chapter-heading" id="ch2">Chapter 2 — Theory of Operation</h2>
+<h3>2-1 Resistor Network Fundamentals</h3>
+<p>Non-inductive resistors in parallel sets combine power ratings and
+maintain the 50&Omega; impedance.  For N identical resistors each of value
+R in parallel: Z = R / N.  Use:</p>
+<ul>
+<li>100W load: 4 &times; 200&Omega; 25W resistors in parallel = 50&Omega;, 100W</li>
+<li>500W load: 4 &times; 200&Omega; 125W in parallel = 50&Omega;, 500W</li>
+<li>1&nbsp;kW load: 8 &times; 400&Omega; 125W in parallel = 50&Omega;, 1000W</li>
+</ul>
+<h3>2-2 Parasitic Inductance and Frequency Limit</h3>
+<p>Each resistor lead has approximately 5&ndash;10 nH of lead inductance.
+At 150 MHz: X_L = 2&pi; &times; 150e6 &times; 8e-9 = 7.5&Omega;, causing SWR to rise
+above 1.5:1.  Minimizing lead length to &le;10&nbsp;mm each side and using
+star wiring (all high ends bonded to a single center stud) reduces effective
+inductance to &lt;2&nbsp;nH, extending usable range to 450&nbsp;MHz.</p>
+<h3>2-3 Oil Cooling</h3>
+<p>Transformer oil (mineral oil) provides thermal conductivity of
+0.135&nbsp;W/m&middot;K, approximately 10&times; better than still air.  Resistors
+submerged in oil can dissipate their full rated power continuously at
+25&deg;C ambient.  Seal the container; oil expands approximately 7% from
+20&deg;C to 100&deg;C.</p>
+
+<h2 class="chapter-heading" id="ch3">Chapter 3 — Equipment and Materials</h2>
+<table>
+<tr><th>Item</th><th>100W Dry</th><th>500W Oil</th><th>1 kW Oil</th></tr>
+<tr><td>Resistors</td><td>4&times;200&Omega; 25W (Ohmite)</td><td>4&times;200&Omega; 125W</td><td>8&times;400&Omega; 125W</td></tr>
+<tr><td>Connector</td><td>SO-239 or N-type</td><td>N-type</td><td>N-type</td></tr>
+<tr><td>Heatsink</td><td>150&times;100&times;40mm extruded Al</td><td>—</td><td>—</td></tr>
+<tr><td>Container</td><td>—</td><td>2L metal paint can</td><td>5L metal can</td></tr>
+<tr><td>Oil</td><td>—</td><td>1.5L mineral oil</td><td>4L mineral oil</td></tr>
+<tr><td>Center stud</td><td>M4 brass bolt</td><td>M5 brass bolt</td><td>M6 brass bolt</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="ch4">Chapter 4 — Construction</h2>
+<h3>4-1 100W Dry Load</h3>
+<ol>
+<li>Mount SO-239 / N connector on heatsink.  Center conductor passes through
+    to an M4 brass stud on the heatsink surface.</li>
+<li>Cut resistor leads to &le;10&nbsp;mm each side.  Solder all high-side leads
+    to center stud.  Solder all low-side leads to ground bus on heatsink.</li>
+<li>Orient resistors flat against heatsink surface for maximum thermal contact.
+    Apply thermal compound between each resistor body and heatsink.</li>
+<li>Verify DC resistance: 49&ndash;51&Omega; between connector center and shell.</li>
+</ol>
+<h3>4-2 500W / 1 kW Oil Load</h3>
+<ol>
+<li>Drill and mount N connector through lid of can.  Extend center pin via
+    threaded brass rod to center of can interior.</li>
+<li>Wire resistors star-fashion around the center rod.  Ground bus: bare
+    copper wire ring soldered to can walls.</li>
+<li>Test resistor assembly in air before sealing.  Verify SWR &lt;1.1:1 at
+    1.8&nbsp;MHz through 50&nbsp;MHz with NanoVNA.</li>
+<li>Fill with mineral oil to within 25&nbsp;mm of lid (room for thermal expansion).
+    Seal lid with silicone RTV.  Allow 24 hours to cure before transmitting.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch5">Chapter 5 — Operating Procedures</h2>
+<ol>
+<li>Always confirm dummy load is connected before transmitting.  A
+    momentary key-down into open coax can damage the final transistor.</li>
+<li>For CW/SSB testing: key down for &le;10 seconds, off for &ge;30 seconds
+    until thermal equilibrium is reached (approximately 15 minutes at full power).</li>
+<li>For the oil loads: after extended use, check for oil seepage at the
+    lid seal.  If oil temperature exceeds 70&deg;C (hot to the touch), reduce
+    duty cycle or allow cooling.</li>
+<li>Never use the 100W dry load above 100W continuous; use the oil loads
+    for higher power or high duty cycle modes (FT8, WSPR, digital).</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch6">Chapter 6 — Calibration</h2>
+<ol>
+<li>Calibrate NanoVNA with SOLT at the measurement connector (not at the
+    NanoVNA port).</li>
+<li>Sweep 1.8&nbsp;MHz to 450&nbsp;MHz.  Record SWR at 1.8, 3.5, 7, 14, 21,
+    28, 50, 144, 222, 432&nbsp;MHz.</li>
+<li>Acceptance criterion: SWR &lt;1.1:1 at 1.8&ndash;50&nbsp;MHz;
+    SWR &lt;1.3:1 at 50&ndash;150&nbsp;MHz; SWR &lt;1.5:1 at 150&ndash;450&nbsp;MHz.</li>
+<li>Record DC resistance: must be 49.0&ndash;51.0&Omega;.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch7">Chapter 7 — Verification and Acceptance</h2>
+<ol>
+<li>Thermal test (100W load): apply 100W (from dummy transmitter or keyed
+    transceiver) for 60 seconds.  Heatsink must not exceed 80&deg;C (use
+    contact thermometer or thermal camera).</li>
+<li>Thermal test (oil loads): apply rated power for 10 minutes.  Oil must
+    not bubble or emit smoke.  If oil reaches 80&deg;C, reduce power or
+    duty cycle in future use.</li>
+<li>Post-thermal SWR check: repeat SWR sweep immediately after thermal test.
+    SWR must not have increased by more than 0.1 compared to cold measurement.</li>
+<li>Log: date, resistors used, DC resistance, SWR at key bands, thermal
+    test result, operator.</li>
+</ol>
+
+<h2 class="chapter-heading" id="appa">Appendix A — Power Derating Table</h2>
+<table>
+<tr><th>Ambient temp</th><th>100W load max</th><th>500W load max</th><th>1 kW load max</th></tr>
+<tr><td>25&deg;C</td><td>100W continuous</td><td>500W continuous</td><td>1000W continuous</td></tr>
+<tr><td>40&deg;C</td><td>70W continuous</td><td>350W continuous</td><td>700W continuous</td></tr>
+<tr><td>50&deg;C</td><td>50W continuous</td><td>250W continuous</td><td>500W continuous</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="appb">Appendix B — Resistor Selection</h2>
+<p>Non-inductive (wirewound non-inductive or thick-film) resistors only.
+Preferred types: Ohmite 270 series (wirewound NI), Vishay Dale RH series,
+Caddock MP series.  Standard carbon film and metal film resistors are
+acceptable for the VNA calibration terminator (&le;100&nbsp;mW) but NOT for
+power loads (they are slightly inductive and not rated for RF).</p>
+
+                </div>
+                <div class="back-link">
+                    <a href="../index.html">&larr; Antenna Tools</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item"><strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a></div>
+                <div class="contact-item"><strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a></div>
+                <div class="contact-item"><strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a></div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Designs shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

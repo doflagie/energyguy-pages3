@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-TOOL-007 COMPACT PORTABLE RF POWER METER - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+.tm-cover{border:3px solid #2c5f8d;padding:28px 36px;text-align:center;margin-bottom:28px;background:#f8f8f4}
+.tm-classification{font-size:1.05em;font-weight:bold;color:#006600;letter-spacing:3px;margin-bottom:16px}
+.tm-number{font-family:'Courier New',monospace;font-size:1.15em;font-weight:bold;color:#2c5f8d;margin-bottom:8px}
+.tm-title{font-size:1.7em;font-weight:bold;color:#1a3a5c;text-transform:uppercase;letter-spacing:1px;margin:12px 0 8px;line-height:1.3}
+.tm-subtitle{font-size:.98em;font-style:italic;color:#555;margin-bottom:12px}
+.tm-meta{font-size:.88em;color:#555;margin-top:16px;border-top:1px solid #aaa;padding-top:12px}
+.chapter-body h1,.chapter-body h2{color:#1a3a5c;border-bottom:2px solid #4a7ba7;padding-bottom:4px;margin-top:22px;margin-bottom:10px}
+.chapter-body h3{color:#2c5f8d;margin-top:16px;margin-bottom:8px}
+.chapter-body table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93em}
+.chapter-body th{background:#4a7ba7;color:#fff;padding:7px 11px;text-align:left;font-size:.88em;text-transform:uppercase}
+.chapter-body td{border:1px solid #c0ccd8;padding:6px 11px;vertical-align:top}
+.chapter-body tr:nth-child(even) td{background:#f4f7fb}
+.chapter-body ol,.chapter-body ul{margin:8px 0 8px 20px}
+.chapter-body li{margin:5px 0;line-height:1.5}
+.chapter-body p{margin:8px 0 10px}
+.chapter-body pre,.chapter-body code{background:#f4f4ee;border:1px solid #ddd;padding:2px 5px;font-size:.9em}
+.chapter-body pre{padding:10px 14px;overflow-x:auto;line-height:1.4}
+.back-link{margin-top:28px;padding-top:12px;border-top:1px solid #c0ccd8;font-size:.9em}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group">
+                <summary>Antennas</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/antennas/phased_array_of_2/tm.html">2-Element Phased Array</a></li>
+                    <li><a href="/antennas/phased_array_of_4/tm.html">4-Element Phased Array</a></li>
+                    <li><a href="/antennas/dipole/tm.html">Dipole</a></li>
+                    <li><a href="/antennas/yagi_uda/tm.html">Yagi-Uda</a></li>
+                    <li><a href="/antennas/end_fed_half_wave/tm.html">EFHW</a></li>
+                    <li><a href="/antennas/vertical/tm.html">Vertical</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Antenna Gear</summary>
+                <ul>
+                    <li><a href="/antenna_gear/index.html">Antenna Gear Overview</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/">Baluns &amp; Un-Uns</a></li>
+                    <li><a href="/antenna_gear/coax_traps/">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/">Lightning Protection</a></li>
+                </ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/index.html">Antenna Tools Overview</a></li>
+                    <li><a href="/antenna_tools/adf_systems/tm.html">ADF Systems</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/tm.html">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/antenna_modeling/tm.html">Antenna Modeling</a></li>
+                    <li><a href="/antenna_tools/dummy_loads/tm.html">Dummy Loads</a></li>
+                    <li><a href="/antenna_tools/field_strength_meter/tm.html">Field Strength Meter</a></li>
+                    <li><a href="/antenna_tools/noise_bridge/tm.html">Noise Bridge</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/tm.html">RF Power Meter (QRP)</a></li>
+                    <li><a href="/antenna_tools/rf_power_meters/tm.html">RF Power Meters (General)</a></li>
+                    <li><a href="/antenna_tools/sdr_interfaces/tm.html">SDR Interfaces</a></li>
+                    <li><a href="/antenna_tools/swr_meter/tm.html">SWR Meter</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Calibration</summary>
+                <ul>
+                    <li><a href="/calibration/index.html">Calibration Library</a></li>
+                    <li><a href="/Calibration_Ideas/index.html">Calibration Standards</a></li>
+                </ul>
+            </details>
+        </nav>
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-TOOL-007</div>
+                    <div class="tm-title">COMPACT PORTABLE RF POWER METER</div>
+                    <div class="tm-subtitle">All 15 Ham Bands, 1.8 MHz–1.3 GHz, 1W–1 kW, Dual HF/VHF/UHF Section</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH &nbsp;&bull;&nbsp;
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial use</em>
+                    </div>
+                </div>
+                <div class="chapter-body">
+
+<h2 class="chapter-heading" id="ch1">Chapter 1 — Introduction and Scope</h2>
+<p>This manual covers a compact portable RF power meter covering all fifteen
+amateur radio bands from 160 meters (1.8&nbsp;MHz) through 20&nbsp;cm
+(1.3&nbsp;GHz).  The meter uses two directional coupler sections optimized
+separately for HF (1.8&ndash;30&nbsp;MHz, toroid directional coupler) and
+VHF/UHF (50&ndash;1300&nbsp;MHz, PCB microstrip coupler).  Power ranges are
+switchable: 1W, 10W, 100W, 1000W.  Accuracy: &plusmn;5% typical, &plusmn;10%
+worst case.  Insertion loss: &lt;0.1&nbsp;dB.  Size: 160&times;100&times;50&nbsp;mm.</p>
+
+<h2 class="chapter-heading" id="ch2">Chapter 2 — Theory of Operation</h2>
+<h3>2-1 Directional Coupler Principle</h3>
+<p>A toroid transformer (T1) with 1 primary turn (the center conductor of
+the transmission line) and N secondary turns couples a fraction of the
+forward and reflected waves.  The coupling factor C (dB) = &minus;20 log10(N)
+for a toroid coupler.  Typical values:</p>
+<table>
+<tr><th>Power range</th><th>N2 turns</th><th>Coupling</th><th>Detector input (at full scale)</th></tr>
+<tr><td>1000W</td><td>32</td><td>&minus;30 dB</td><td>1.0W = 0 dBm</td></tr>
+<tr><td>100W</td><td>10</td><td>&minus;20 dB</td><td>100W &rarr; 1 mW = 0 dBm</td></tr>
+<tr><td>10W</td><td>10</td><td>&minus;20 dB</td><td>10W &rarr; 0.1 mW</td></tr>
+<tr><td>1W</td><td>3</td><td>&minus;10 dB</td><td>1W &rarr; 0.1W</td></tr>
+</table>
+<h3>2-2 Schottky Diode Detector</h3>
+<p>1N5711 Schottky diodes detect the coupled RF.  Forward voltage ~0.25V
+at low signal levels (square-law region: V_out &prop; P_in) and ~0.4V at
+high levels (linear region: V_out &prop; V_in).  The ADS1115 16-bit ADC
+samples V_fwd and V_ref; firmware converts to power using a
+calibration table stored in NVS.</p>
+<h3>2-3 SWR Computation</h3>
+<pre>|&Gamma;| = sqrt(P_ref / P_fwd)
+SWR = (1 + |&Gamma;|) / (1 &minus; |&Gamma;|)</pre>
+
+<h2 class="chapter-heading" id="ch3">Chapter 3 — Equipment and Materials</h2>
+<table>
+<tr><th>Component</th><th>Value / Part</th><th>Purpose</th></tr>
+<tr><td>HF coupler core</td><td>FT-114-43 or BN-43-202</td><td>1.8&ndash;30 MHz coupling</td></tr>
+<tr><td>VHF/UHF coupler</td><td>PCB microstrip, FR4</td><td>50&ndash;1300 MHz coupling</td></tr>
+<tr><td>Detector diodes</td><td>1N5711 Schottky (4&times;)</td><td>RF to DC conversion</td></tr>
+<tr><td>ADC</td><td>ADS1115 16-bit I2C</td><td>DC voltage measurement</td></tr>
+<tr><td>Controller</td><td>ESP32 WROOM-32</td><td>ADC readout, display driver</td></tr>
+<tr><td>Display</td><td>CYD 2.8&rdquo; ILI9341</td><td>Power, SWR, band display</td></tr>
+<tr><td>RF connectors</td><td>N-type female (×2)</td><td>Input/output (IN, OUT)</td></tr>
+<tr><td>Band switch</td><td>Front-panel toggle</td><td>HF / VHF-UHF section select</td></tr>
+<tr><td>Range switch</td><td>4-position rotary</td><td>1W / 10W / 100W / 1000W</td></tr>
+<tr><td>Power</td><td>9V battery or USB-C</td><td>ESP32, ADC, display</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="ch4">Chapter 4 — Construction</h2>
+<h3>4-1 HF Toroid Winding</h3>
+<ol>
+<li>Thread the main transmission line center conductor through the toroid
+    core once (1 primary turn).</li>
+<li>Wind the secondary winding on the same core: N2 turns (select per Table
+    2-1 for desired power range).  Use #26 AWG Teflon-insulated wire.</li>
+<li>Wind FWD and REF termination resistors (R1, R2 = 51&Omega; 1%) directly
+    at the secondary winding ends.  Lead length &le;10&nbsp;mm each.</li>
+</ol>
+<h3>4-2 PCB Microstrip VHF/UHF Coupler</h3>
+<p>The microstrip directional coupler for 50&ndash;1300&nbsp;MHz is a PCB
+structure: two parallel 50&Omega; microstrip traces (2.9&nbsp;mm wide on 1.6&nbsp;mm
+FR4) separated by a 0.1&nbsp;mm gap and coupled over a &lambda;/4 length at the
+band center.  Design frequency: 700&nbsp;MHz (&lambda;/4 at 700&nbsp;MHz in FR4
+= 28&nbsp;mm).  See PCB layout guide for Gerber file dimensions.</p>
+
+<h2 class="chapter-heading" id="ch5">Chapter 5 — Operating Procedures</h2>
+<ol>
+<li>Connect transmitter to IN (N-type), antenna (or dummy load) to OUT.
+    Select HF or VHF/UHF section.  Select power range (start at highest
+    range and reduce until needle is &gt;30% FSD).</li>
+<li>Key transmitter.  CYD displays forward power (W), reflected power (W),
+    and SWR in real time.  Update rate: 10&nbsp;Hz.</li>
+<li>For digital modes (FT8, WSPR): set display to AVERAGE mode (5-second
+    rolling average) to see mean power through the duty cycle.</li>
+<li>At end of session: record peak power, SWR, and band in operating log.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch6">Chapter 6 — Calibration</h2>
+<ol>
+<li>Connect a calibrated RF power source (TinySA in generator mode, or
+    signal generator with known output) to the IN port.  Load OUT with
+    a calibrated 50&Omega; dummy load.</li>
+<li>Apply &minus;10&nbsp;dBm, 0&nbsp;dBm, +10&nbsp;dBm, +20&nbsp;dBm
+    at 14&nbsp;MHz (HF calibration).  Record ADC voltage vs. known power.</li>
+<li>Fit a calibration curve (linear or polynomial) to the V_det vs. P_in
+    data.  Store coefficients in ESP32 NVS.  Accuracy after calibration:
+    &plusmn;5% over the calibrated range.</li>
+<li>Repeat calibration procedure at 144&nbsp;MHz for the VHF/UHF section.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch7">Chapter 7 — Verification and Acceptance</h2>
+<ol>
+<li>Apply known 5W at 14.175&nbsp;MHz.  Display must show 5.0 &plusmn; 0.3W.</li>
+<li>Apply known 5W at 145.0&nbsp;MHz.  Display must show 5.0 &plusmn; 0.3W.</li>
+<li>Short OUT connector (SWR = &infin;).  Verify CYD shows SWR &ge;99:1
+    and forward/reflected power are approximately equal.</li>
+<li>Insertion loss verification: compare power reading with coupler in-line
+    vs. direct connection.  Difference must be &lt;0.2&nbsp;dB.</li>
+<li>Log: date, calibration source, power levels checked, measured vs. expected
+    values, operator.</li>
+</ol>
+
+<h2 class="chapter-heading" id="appa">Appendix A — Power / SWR Quick-Reference</h2>
+<table>
+<tr><th>SWR</th><th>|&Gamma;|</th><th>Return Loss (dB)</th><th>% Power Reflected</th></tr>
+<tr><td>1.0:1</td><td>0.000</td><td>&infin;</td><td>0%</td></tr>
+<tr><td>1.5:1</td><td>0.200</td><td>14 dB</td><td>4%</td></tr>
+<tr><td>2.0:1</td><td>0.333</td><td>9.5 dB</td><td>11%</td></tr>
+<tr><td>3.0:1</td><td>0.500</td><td>6 dB</td><td>25%</td></tr>
+<tr><td>5.0:1</td><td>0.667</td><td>3.5 dB</td><td>44%</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="appb">Appendix B — Toroid Core Selection Guide</h2>
+<table>
+<tr><th>Core</th><th>Material</th><th>HF range</th><th>Note</th></tr>
+<tr><td>FT-114-43</td><td>#43 ferrite</td><td>1&ndash;100 MHz</td><td>Best for 1.8&ndash;30 MHz coupling</td></tr>
+<tr><td>BN-43-202</td><td>#43 ferrite</td><td>1&ndash;100 MHz</td><td>Binocular; good alt for T1</td></tr>
+<tr><td>FT-50-61</td><td>#61 ferrite</td><td>10&ndash;200 MHz</td><td>Better for 50&ndash;150 MHz</td></tr>
+<tr><td>FT-50-67</td><td>#67 ferrite</td><td>50&ndash;500 MHz</td><td>VHF/UHF auxiliary coupler</td></tr>
+</table>
+
+                </div>
+                <div class="back-link">
+                    <a href="../index.html">&larr; Antenna Tools</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item"><strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a></div>
+                <div class="contact-item"><strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a></div>
+                <div class="contact-item"><strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a></div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Designs shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

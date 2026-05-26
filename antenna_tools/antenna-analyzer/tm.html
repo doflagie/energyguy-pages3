@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-TOOL-002 ANTENNA ANALYZER — VECTOR IMPEDANCE MEASUREMENT - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+.tm-cover{border:3px solid #2c5f8d;padding:28px 36px;text-align:center;margin-bottom:28px;background:#f8f8f4}
+.tm-classification{font-size:1.05em;font-weight:bold;color:#006600;letter-spacing:3px;margin-bottom:16px}
+.tm-number{font-family:'Courier New',monospace;font-size:1.15em;font-weight:bold;color:#2c5f8d;margin-bottom:8px}
+.tm-title{font-size:1.7em;font-weight:bold;color:#1a3a5c;text-transform:uppercase;letter-spacing:1px;margin:12px 0 8px;line-height:1.3}
+.tm-subtitle{font-size:.98em;font-style:italic;color:#555;margin-bottom:12px}
+.tm-meta{font-size:.88em;color:#555;margin-top:16px;border-top:1px solid #aaa;padding-top:12px}
+.chapter-body h1,.chapter-body h2{color:#1a3a5c;border-bottom:2px solid #4a7ba7;padding-bottom:4px;margin-top:22px;margin-bottom:10px}
+.chapter-body h3{color:#2c5f8d;margin-top:16px;margin-bottom:8px}
+.chapter-body table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93em}
+.chapter-body th{background:#4a7ba7;color:#fff;padding:7px 11px;text-align:left;font-size:.88em;text-transform:uppercase}
+.chapter-body td{border:1px solid #c0ccd8;padding:6px 11px;vertical-align:top}
+.chapter-body tr:nth-child(even) td{background:#f4f7fb}
+.chapter-body ol,.chapter-body ul{margin:8px 0 8px 20px}
+.chapter-body li{margin:5px 0;line-height:1.5}
+.chapter-body p{margin:8px 0 10px}
+.chapter-body pre,.chapter-body code{background:#f4f4ee;border:1px solid #ddd;padding:2px 5px;font-size:.9em}
+.chapter-body pre{padding:10px 14px;overflow-x:auto;line-height:1.4}
+.back-link{margin-top:28px;padding-top:12px;border-top:1px solid #c0ccd8;font-size:.9em}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group">
+                <summary>Antennas</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/antennas/phased_array_of_2/tm.html">2-Element Phased Array</a></li>
+                    <li><a href="/antennas/phased_array_of_4/tm.html">4-Element Phased Array</a></li>
+                    <li><a href="/antennas/dipole/tm.html">Dipole</a></li>
+                    <li><a href="/antennas/yagi_uda/tm.html">Yagi-Uda</a></li>
+                    <li><a href="/antennas/end_fed_half_wave/tm.html">EFHW</a></li>
+                    <li><a href="/antennas/vertical/tm.html">Vertical</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Antenna Gear</summary>
+                <ul>
+                    <li><a href="/antenna_gear/index.html">Antenna Gear Overview</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/">Baluns &amp; Un-Uns</a></li>
+                    <li><a href="/antenna_gear/coax_traps/">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/">Lightning Protection</a></li>
+                </ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/index.html">Antenna Tools Overview</a></li>
+                    <li><a href="/antenna_tools/adf_systems/tm.html">ADF Systems</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/tm.html">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/antenna_modeling/tm.html">Antenna Modeling</a></li>
+                    <li><a href="/antenna_tools/dummy_loads/tm.html">Dummy Loads</a></li>
+                    <li><a href="/antenna_tools/field_strength_meter/tm.html">Field Strength Meter</a></li>
+                    <li><a href="/antenna_tools/noise_bridge/tm.html">Noise Bridge</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/tm.html">RF Power Meter (QRP)</a></li>
+                    <li><a href="/antenna_tools/rf_power_meters/tm.html">RF Power Meters (General)</a></li>
+                    <li><a href="/antenna_tools/sdr_interfaces/tm.html">SDR Interfaces</a></li>
+                    <li><a href="/antenna_tools/swr_meter/tm.html">SWR Meter</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Calibration</summary>
+                <ul>
+                    <li><a href="/calibration/index.html">Calibration Library</a></li>
+                    <li><a href="/Calibration_Ideas/index.html">Calibration Standards</a></li>
+                </ul>
+            </details>
+        </nav>
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-TOOL-002</div>
+                    <div class="tm-title">ANTENNA ANALYZER — VECTOR IMPEDANCE MEASUREMENT</div>
+                    <div class="tm-subtitle">AD8302 Phase/Magnitude Detector, AD9851 DDS, ADF4351 Synthesizer</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH &nbsp;&bull;&nbsp;
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial use</em>
+                    </div>
+                </div>
+                <div class="chapter-body">
+
+<h2 class="chapter-heading" id="ch1">Chapter 1 — Introduction and Scope</h2>
+<p>This manual covers the construction and operation of a homebrew antenna
+analyzer covering 0.1&nbsp;MHz to 1.3&nbsp;GHz using a two-stage RF source
+architecture: an AD9851 DDS for HF (0.1&ndash;30&nbsp;MHz) and an ADF4351
+fractional-N PLL synthesizer for VHF/UHF (30&nbsp;MHz&ndash;1.3&nbsp;GHz).
+The measurement front-end is an AD8302 gain/phase detector providing
+simultaneous magnitude and phase readout.  Output is displayed on a CYD
+(ESP32 + 2.8&rdquo; touchscreen) with Smith chart, SWR plot, and R+jX numerical
+display.</p>
+
+<h2 class="chapter-heading" id="ch2">Chapter 2 — Theory of Operation</h2>
+<h3>2-1 AD8302 Gain/Phase Detector</h3>
+<p>The AD8302 accepts two RF signals on INPA and INPB (50&Omega; each) and
+produces two DC outputs:</p>
+<ul>
+<li><strong>VMAG:</strong> Proportional to |V_A / V_B| in dB (30&nbsp;mV/dB,
+    range &minus;30 to 0&nbsp;dBm per input).</li>
+<li><strong>VPHS:</strong> Proportional to phase difference (10&nbsp;mV/&deg;,
+    0&deg; to 180&deg; range).</li>
+</ul>
+<p>INPA receives the reference (forward-coupled) signal; INPB receives the
+reflected signal.  The ratio VREFL/VFWD and the phase shift &Delta;&phi;
+together yield the complex reflection coefficient &Gamma;:</p>
+<pre>&Gamma; = |V_refl / V_fwd| &angle; &Delta;&phi;
+Z_ant = Z0 &times; (1 + &Gamma;) / (1 &minus; &Gamma;)   (Z0 = 50 &Omega;)</pre>
+
+<h3>2-2 Directional Coupler</h3>
+<p>A multiband RF coupler (TM-TOOL-002-SCH-004) separates the forward and
+reflected waves on the transmission line to the DUT (antenna).  Coupling
+factor is &minus;20&nbsp;dB on the HF section and &minus;20&nbsp;dB on the
+VHF/UHF section.  Directivity must be &ge;20&nbsp;dB across the band to keep
+reflected signal isolation adequate for accurate &Gamma; measurement.</p>
+
+<h3>2-3 Frequency Sources</h3>
+<p><strong>AD9851 DDS</strong> (HF, 0.1&ndash;30&nbsp;MHz): 125&nbsp;MHz reference
+clock, 32-bit frequency word, phase noise &minus;100&nbsp;dBc/Hz at 1&nbsp;kHz offset.
+Controlled via 3-wire SPI from ESP32.  Sweep rate: ~1000 points/second.</p>
+<p><strong>ADF4351 PLL</strong> (VHF/UHF, 30&nbsp;MHz&ndash;1.3&nbsp;GHz): Fractional-N
+synthesizer, 32.768&nbsp;MHz TCXO reference, phase noise &minus;90&nbsp;dBc/Hz
+at 10&nbsp;kHz.  Integer-boundary spurs require spur-avoidance in sweep
+software when crossing integer multiples of the PFD reference frequency.</p>
+
+<h2 class="chapter-heading" id="ch3">Chapter 3 — Equipment and Materials</h2>
+<table>
+<tr><th>Component</th><th>Part / Value</th><th>Purpose</th></tr>
+<tr><td>Gain/phase detector</td><td>AD8302 LFCSP-16</td><td>|&Gamma;| and &angle;&Gamma; measurement</td></tr>
+<tr><td>HF source</td><td>AD9851 DDS module</td><td>0.1&ndash;30 MHz sweep</td></tr>
+<tr><td>VHF/UHF source</td><td>ADF4351 module</td><td>30&ndash;1300 MHz sweep</td></tr>
+<tr><td>Directional coupler</td><td>Custom PCB</td><td>FWD/REF separation</td></tr>
+<tr><td>Protection diodes</td><td>BAV99 + 100&Omega;</td><td>AD8302 input protection</td></tr>
+<tr><td>Controller</td><td>ESP32 WROOM-32</td><td>SPI, ADC, display driver</td></tr>
+<tr><td>Display</td><td>ILI9341 2.8&rdquo; CYD</td><td>Smith chart, SWR plot</td></tr>
+<tr><td>Band switch</td><td>PE4259 SP4T</td><td>HF/VHF/UHF path selection</td></tr>
+<tr><td>RF connectors</td><td>SMA female (×4)</td><td>DUT, source, ref ports</td></tr>
+<tr><td>Power</td><td>5V USB-C, 500 mA</td><td>All rails via LDO regulators</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="ch4">Chapter 4 — Construction and Assembly</h2>
+<h3>4-1 PCB Layout Notes</h3>
+<p>Route the RF signal paths (DDS/PLL output &rarr; coupler &rarr; DUT port) as
+50&Omega; microstrip (width 2.9&nbsp;mm on 1.6&nbsp;mm FR4 with &epsilon;r=4.6).
+Keep reference and reflected coupler outputs equal length to the AD8302 inputs.
+Length mismatch &gt;5&nbsp;mm introduces a phase error of approximately
+&Delta;&phi; = 360&deg; &times; &Delta;L / &lambda;.</p>
+<h3>4-2 AD8302 Bias</h3>
+<p>The AD8302 requires &plusmn;5V dual supply.  Derive from 5V USB with a
+MAX1044 charge pump for the &minus;5V rail.  Bypass each supply pin with
+10&nbsp;nF NP0 + 100&nbsp;nF X5R within 3&nbsp;mm of the device.</p>
+<h3>4-3 DDS Output Filtering</h3>
+<p>The AD9851 output contains harmonics and alias products.  A 7-pole
+elliptic low-pass filter (cutoff 35&nbsp;MHz) reduces spurious outputs to
+&lt;&minus;60&nbsp;dBc before the coupler.  Without this filter, harmonic
+reflections from the DUT appear as bearing errors at sub-harmonic frequencies.</p>
+
+<h2 class="chapter-heading" id="ch5">Chapter 5 — Operating Procedures</h2>
+<h3>5-1 SWR Sweep</h3>
+<ol>
+<li>Connect antenna to DUT port (SMA).  Select band (HF or VHF/UHF).</li>
+<li>Enter start/stop frequency and number of sweep points (101 or 201).</li>
+<li>Press SWEEP.  The display plots SWR vs. frequency in real time.</li>
+<li>Identify the resonance (SWR minimum).  Press MARKER; the instrument
+    displays f_res, SWR, R, X at the marker frequency.</li>
+</ol>
+<h3>5-2 Smith Chart Display</h3>
+<ol>
+<li>Select SMITH mode.  The sweep traces the impedance locus on the Smith chart.</li>
+<li>Clockwise rotation with increasing frequency = capacitive reactance dominant
+    (antenna too short).  Counter-clockwise = inductive (antenna too long).</li>
+<li>At resonance, the locus crosses the real axis; R at crossing = feedpoint
+    resistance.  Ideal dipole: 72&Omega; (free space), lower over ground.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch6">Chapter 6 — Calibration</h2>
+<h3>6-1 SOLT Calibration</h3>
+<p>Before measuring an antenna, perform a one-port SOLT calibration at the
+DUT SMA connector (not at the instrument chassis):</p>
+<ol>
+<li>Connect SHORT (shorted SMA cap).  Press CAL &rarr; SHORT.</li>
+<li>Connect OPEN (SMA cap with no connection).  Press CAL &rarr; OPEN.</li>
+<li>Connect 50&Omega; LOAD (SMA terminator).  Press CAL &rarr; LOAD.</li>
+<li>Press CAL &rarr; DONE.  Calibration plane is now at DUT connector.</li>
+</ol>
+<p>After SOLT cal, short should read SWR &gt;50:1, open should read SWR &gt;50:1,
+and 50&Omega; load should read SWR &lt;1.05:1 across the calibrated band.</p>
+
+<h2 class="chapter-heading" id="ch7">Chapter 7 — Verification and Acceptance</h2>
+<ol>
+<li>Connect a precision 50&Omega; load (Pasternack PE6010 or calibrated terminator).
+    Verify SWR &lt;1.05:1 at all calibrated frequencies.</li>
+<li>Connect a known 100&Omega; resistor (1%, non-inductive).  Verify R reads
+    100 &plusmn; 5&Omega;, X reads 0 &plusmn; 5&Omega; at 1&nbsp;MHz.</li>
+<li>Connect a 50&Omega; + 50&nbsp;nH load (resistor in series with known inductor).
+    Verify jX reads within &plusmn;10% of calculated inductive reactance at 10&nbsp;MHz.</li>
+<li>If any check fails, repeat SOLT calibration.  Persistent errors indicate
+    coupler asymmetry or AD8302 bias fault.</li>
+<li>Log: date, calibration kit used, frequency range, short SWR, open SWR,
+    load SWR, 100&Omega; R/X readings.</li>
+</ol>
+
+<h2 class="chapter-heading" id="appa">Appendix A — Formulas</h2>
+<pre>SWR = (1 + |&Gamma;|) / (1 &minus; |&Gamma;|)
+|&Gamma;| = (SWR &minus; 1) / (SWR + 1)
+Return loss (dB) = &minus;20 log10(|&Gamma;|)
+Z_ant = 50 &times; (1 + &Gamma;) / (1 &minus; &Gamma;)    [complex arithmetic]</pre>
+
+<h2 class="chapter-heading" id="appb">Appendix B — Worked Example</h2>
+<p>AD8302 reads VMAG = 2.10 V, VPHS = 0.75 V at 14.250 MHz.</p>
+<pre>Magnitude ratio (dB) = (2.10 &minus; 1.80) / 0.030 = +10 dB  [AD8302 midpoint = 1.80V]
+|&Gamma;| = 10^(10/20) = 0.316  (not a valid interpretation here &mdash; see note)
+
+Correct: VMAG represents |V_INPA / V_INPB|.
+If VMAG midpoint (ratio = 1) = 900 mV, then:
+  ratio_dB = (2100 &minus; 900) / 30 = +40 dB  (INPA is 40 dB stronger than INPB)
+  |&Gamma;| = 10^(&minus;40/20) = 0.01  &rarr; SWR = 1.02:1 (near-perfect match)</pre>
+
+                </div>
+                <div class="back-link">
+                    <a href="../index.html">&larr; Antenna Tools</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item"><strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a></div>
+                <div class="contact-item"><strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a></div>
+                <div class="contact-item"><strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a></div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Designs shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-GEAR-018 TRANSMATCH — PORTABLE ANTENNA TUNER - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+.tm-cover{border:3px solid #2c5f8d;padding:28px 36px;text-align:center;margin-bottom:28px;background:#f8f8f4}
+.tm-classification{font-size:1.05em;font-weight:bold;color:#006600;letter-spacing:3px;margin-bottom:16px}
+.tm-number{font-family:'Courier New',monospace;font-size:1.15em;font-weight:bold;color:#2c5f8d;margin-bottom:8px}
+.tm-title{font-size:1.7em;font-weight:bold;color:#1a3a5c;text-transform:uppercase;letter-spacing:1px;margin:12px 0 8px;line-height:1.3}
+.tm-subtitle{font-size:.98em;font-style:italic;color:#555;margin-bottom:12px}
+.tm-meta{font-size:.88em;color:#555;margin-top:16px;border-top:1px solid #aaa;padding-top:12px}
+.chapter-body h1,.chapter-body h2{color:#1a3a5c;border-bottom:2px solid #4a7ba7;padding-bottom:4px;margin-top:22px;margin-bottom:10px}
+.chapter-body h3{color:#2c5f8d;margin-top:16px;margin-bottom:8px}
+.chapter-body table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93em}
+.chapter-body th{background:#4a7ba7;color:#fff;padding:7px 11px;text-align:left;font-size:.88em;text-transform:uppercase}
+.chapter-body td{border:1px solid #c0ccd8;padding:6px 11px;vertical-align:top}
+.chapter-body tr:nth-child(even) td{background:#f4f7fb}
+.chapter-body ol,.chapter-body ul{margin:8px 0 8px 20px}
+.chapter-body li{margin:5px 0;line-height:1.5}
+.chapter-body p{margin:8px 0 10px}
+.chapter-body pre,.chapter-body code{background:#f4f4ee;border:1px solid #ddd;padding:2px 5px;font-size:.9em}
+.chapter-body pre{padding:10px 14px;overflow-x:auto;line-height:1.4}
+.back-link{margin-top:28px;padding-top:12px;border-top:1px solid #c0ccd8;font-size:.9em}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Gear</summary>
+                <ul>
+                    <li><a href="/antenna_gear/index.html">Antenna Gear Overview</a></li>
+                    <li><a href="/antenna_gear/ant_switches/tm.html">Antenna Switches</a></li>
+                    <li><a href="/antenna_gear/audio_filters/tm.html">Audio Filters</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/tm.html">Baluns &amp; Un-Uns</a></li>
+                    <li><a href="/antenna_gear/bms/tm.html">Battery Management (BMS)</a></li>
+                    <li><a href="/antenna_gear/coax_traps/tm.html">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/coil_winder/tm.html">Coil Winder</a></li>
+                    <li><a href="/antenna_gear/common_mode_chokes/tm.html">Common-Mode Chokes</a></li>
+                    <li><a href="/antenna_gear/crystal_radio/tm.html">Crystal Radio</a></li>
+                    <li><a href="/antenna_gear/hybrids/tm.html">RF Hybrids</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/tm.html">Lightning Protection</a></li>
+                    <li><a href="/antenna_gear/mast_tower/tm.html">Mast &amp; Tower</a></li>
+                    <li><a href="/antenna_gear/motorized_tuner/tm.html">Motorized Tuner</a></li>
+                    <li><a href="/antenna_gear/power_supplies/tm.html">Power Supplies</a></li>
+                    <li><a href="/antenna_gear/remote-element-switching/tm.html">Remote Element Switching</a></li>
+                    <li><a href="/antenna_gear/rf_couplers/tm.html">RF Couplers</a></li>
+                    <li><a href="/antenna_gear/rfi_mitigation/tm.html">RFI Mitigation</a></li>
+                    <li><a href="/antenna_gear/roller_inductors/tm.html">Roller Inductors</a></li>
+                    <li><a href="/antenna_gear/transmatch/tm.html">Transmatch</a></li>
+                    <li><a href="/antenna_gear/variable_caps/tm.html">Variable Capacitors</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/index.html">Antenna Tools Overview</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/tm.html">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/swr_meter/tm.html">SWR Meter</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/tm.html">RF Power Meter</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Calibration</summary>
+                <ul>
+                    <li><a href="/calibration/index.html">Calibration Library</a></li>
+                    <li><a href="/Calibration_Ideas/index.html">Calibration Standards</a></li>
+                </ul>
+            </details>
+        </nav>
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-GEAR-018</div>
+                    <div class="tm-title">TRANSMATCH — PORTABLE ANTENNA TUNER</div>
+                    <div class="tm-subtitle">HF T-Network (160M–10M), VHF/UHF L-Network (6M–20CM), 100W/50W</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH &nbsp;&bull;&nbsp;
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial use</em>
+                    </div>
+                </div>
+                <div class="chapter-body">
+
+<h2 class="chapter-heading" id="ch1">Chapter 1 — Introduction and Scope</h2>
+<p>This manual covers a compact portable transmatch (antenna tuner) for all
+fifteen amateur radio bands from 160 meters through 20 centimeters.  Two
+sections are provided: a balanced T-network for HF (1.8&ndash;30&nbsp;MHz,
+100W continuous) and an L-network or stub tuner for VHF/UHF (50&ndash;1300&nbsp;MHz,
+50W).  The transmatch transforms antenna impedances of approximately 5&ndash;2000&Omega;
+to the 50&Omega; transceiver impedance, enabling operation with non-resonant
+or slightly mistuned antennas.</p>
+
+<h2 class="chapter-heading" id="ch2">Chapter 2 — Theory of Operation</h2>
+<h3>2-1 T-Network (HF)</h3>
+<p>The T-network (input capacitor C1, series inductor L, output capacitor C2)
+is the most common antenna tuner topology.  Both capacitors in shunt (to ground)
+with an inductor in series create a low-pass filter whose cutoff and impedance
+transformation ratio are controlled by the component values.  The T-network
+can match any impedance in its range, though it introduces some loss at high
+transformation ratios.  Loss increases at extremes: matching 2000&Omega; to 50&Omega;
+introduces 1&ndash;2&nbsp;dB loss; matching near 50&Omega; introduces &lt;0.1&nbsp;dB.</p>
+<h3>2-2 L-Network (VHF/UHF)</h3>
+<p>An L-network (one shunt reactive element + one series reactive element)
+provides a two-element matching solution.  It can match either upward or
+downward impedances depending on component arrangement.  For VHF/UHF,
+lumped LC components are replaced by transmission-line stub sections
+(open or short-circuit stubs) for lower loss and higher power handling.</p>
+<h3>2-3 SWR Indicator</h3>
+<p>The built-in SWR indicator uses a directional coupler (see TM-GEAR-015)
+with LED or analog meter to indicate SWR.  Tuning goal: minimum SWR
+(minimum reflected indicator deflection).</p>
+
+<h2 class="chapter-heading" id="ch3">Chapter 3 — Equipment and Materials</h2>
+<table>
+<tr><th>Component</th><th>HF Section</th><th>VHF/UHF Section</th></tr>
+<tr><td>C1 (input)</td><td>365 pF air variable, 2500V</td><td>L-network cap, NP0 (switchable)</td></tr>
+<tr><td>C2 (output)</td><td>365 pF air variable, 2500V</td><td>Same</td></tr>
+<tr><td>Inductor L</td><td>Roller inductor, 0&ndash;28 &micro;H</td><td>Fixed coax stubs (switchable)</td></tr>
+<tr><td>Band switch</td><td>DPDT rotary, 6-position</td><td>2-position HF/VHF toggle</td></tr>
+<tr><td>SWR indicator</td><td>Toroid coupler + dual LEDs</td><td>Shared with HF</td></tr>
+<tr><td>Connectors</td><td>SO-239 (in), SO-239 or balanced (out)</td><td>N-type or SO-239</td></tr>
+<tr><td>Enclosure</td><td>200&times;150&times;80 mm aluminum</td><td>Same enclosure, rear panel</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="ch4">Chapter 4 — Construction</h2>
+<ol>
+<li>Mount variable capacitors C1 and C2 on the front panel with lockwashers.
+    Keep capacitor leads to the inductor and SWR bridge as short as possible
+    (&lt;50&nbsp;mm) to minimize stray inductance and radiation.</li>
+<li>Mount the roller inductor vertically on the center of the main board.
+    The inductor lead to C1 and C2 should be heavy-gauge solid wire (#12 AWG
+    or larger) capable of 100W continuous RF current.</li>
+<li>Wire the balun output option: a 4:1 Guanella balun (see TM-GEAR-003)
+    mounted on the rear panel provides a balanced output for dipoles and
+    open-wire feedlines.</li>
+<li>Install the SWR bridge (from TM-GEAR-015) inline between the radio
+    input SO-239 and the T-network C1.  Connect VFWD to forward LED driver;
+    VREF to reflected LED driver.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch5">Chapter 5 — Operating Procedures</h2>
+<h3>5-1 Initial Tuning on a New Band</h3>
+<ol>
+<li>Set C1 and C2 to midscale.  Set L to minimum (roller at bottom).</li>
+<li>Key the transmitter at 5&nbsp;W (reduced power protects transistors during
+    tuning on a badly mismatched antenna).</li>
+<li>Watch the SWR indicator.  Adjust L for minimum reflected LED; then
+    adjust C1 and C2 alternately for minimum reflected, returning to L
+    adjustment if a new minimum appears.</li>
+<li>Iterate until reflected indicator is at minimum and forward indicator
+    shows full power.  Typical tuning time: 30&ndash;60 seconds.</li>
+<li>Increase to full operating power.  Verify SWR indicator does not change.</li>
+</ol>
+<h3>5-2 Band-to-Band Switching</h3>
+<ol>
+<li>Record successful L, C1, C2 positions for each band on the band card
+    (laminated chart in the lid of the tuner).</li>
+<li>On band change: set L, C1, C2 to the recorded positions; tune briefly
+    at 5W to confirm the antenna has not changed.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch6">Chapter 6 — Calibration</h2>
+<ol>
+<li>Verify SWR indicator zero: connect 50&Omega; load to the antenna port.
+    Transmit 10W.  Reflected LED must not illuminate.  Adjust SWR bridge
+    null trimmer if reflected shows any indication.</li>
+<li>Verify SWR indicator response: connect a 100&Omega; load (SWR 2:1).
+    Reflected LED must illuminate at approximately 30% of the forward LED
+    intensity (indicating &sim;2:1 SWR).</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch7">Chapter 7 — Verification and Acceptance</h2>
+<ol>
+<li>Matches a 200&Omega; non-reactive load to SWR &lt;1.5:1 on all HF bands.</li>
+<li>Matches a 450&Omega; random wire (via 9:1 un-un) to SWR &lt;2:1 on
+    all HF bands.</li>
+<li>Insertion loss with 50&Omega; load on both ports: &lt;0.2&nbsp;dB at 14&nbsp;MHz.</li>
+<li>VHF section tunes 2M vertical to SWR &lt;1.5:1 from a 75&Omega; feedpoint.</li>
+<li>All controls rotate smoothly over full range with no mechanical binding.</li>
+<li>Log: date, match test (200&Omega; at 7 and 14&nbsp;MHz, SWR achieved),
+    insertion loss check, VHF section test, operator.</li>
+</ol>
+
+<h2 class="chapter-heading" id="appa">Appendix A — T-Network Component Value Guidelines</h2>
+<table>
+<tr><th>Band</th><th>Typical C1, C2 range (pF)</th><th>Typical L range (&micro;H)</th></tr>
+<tr><td>160M (1.8 MHz)</td><td>200&ndash;365 pF</td><td>15&ndash;28 &micro;H</td></tr>
+<tr><td>80M (3.75 MHz)</td><td>100&ndash;300 pF</td><td>8&ndash;20 &micro;H</td></tr>
+<tr><td>40M (7.15 MHz)</td><td>50&ndash;200 pF</td><td>4&ndash;12 &micro;H</td></tr>
+<tr><td>20M (14.175 MHz)</td><td>20&ndash;100 pF</td><td>2&ndash;6 &micro;H</td></tr>
+<tr><td>10M (28.5 MHz)</td><td>10&ndash;50 pF</td><td>0.5&ndash;3 &micro;H</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="appb">Appendix B — Matching Range and Loss Chart</h2>
+<table>
+<tr><th>Antenna impedance</th><th>T-network loss (typical)</th><th>Notes</th></tr>
+<tr><td>25&ndash;100 &Omega;</td><td>&lt;0.3 dB</td><td>Excellent match; low loss</td></tr>
+<tr><td>100&ndash;300 &Omega;</td><td>0.3&ndash;0.7 dB</td><td>Good match</td></tr>
+<tr><td>300&ndash;1000 &Omega;</td><td>0.7&ndash;1.5 dB</td><td>Acceptable; use 4:1 balun if possible</td></tr>
+<tr><td>&gt;1000 &Omega;</td><td>1.5&ndash;3 dB</td><td>Marginal; consider 9:1 un-un</td></tr>
+</table>
+
+                </div>
+                <div class="back-link">
+                    <a href="../index.html">&larr; Antenna Gear</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item"><strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a></div>
+                <div class="contact-item"><strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a></div>
+                <div class="contact-item"><strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a></div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Designs shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

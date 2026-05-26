@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-GEAR-014 REMOTE ELEMENT SWITCHING — PIN DIODE AND RELAY SYSTEMS - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+.tm-cover{border:3px solid #2c5f8d;padding:28px 36px;text-align:center;margin-bottom:28px;background:#f8f8f4}
+.tm-classification{font-size:1.05em;font-weight:bold;color:#006600;letter-spacing:3px;margin-bottom:16px}
+.tm-number{font-family:'Courier New',monospace;font-size:1.15em;font-weight:bold;color:#2c5f8d;margin-bottom:8px}
+.tm-title{font-size:1.7em;font-weight:bold;color:#1a3a5c;text-transform:uppercase;letter-spacing:1px;margin:12px 0 8px;line-height:1.3}
+.tm-subtitle{font-size:.98em;font-style:italic;color:#555;margin-bottom:12px}
+.tm-meta{font-size:.88em;color:#555;margin-top:16px;border-top:1px solid #aaa;padding-top:12px}
+.chapter-body h1,.chapter-body h2{color:#1a3a5c;border-bottom:2px solid #4a7ba7;padding-bottom:4px;margin-top:22px;margin-bottom:10px}
+.chapter-body h3{color:#2c5f8d;margin-top:16px;margin-bottom:8px}
+.chapter-body table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93em}
+.chapter-body th{background:#4a7ba7;color:#fff;padding:7px 11px;text-align:left;font-size:.88em;text-transform:uppercase}
+.chapter-body td{border:1px solid #c0ccd8;padding:6px 11px;vertical-align:top}
+.chapter-body tr:nth-child(even) td{background:#f4f7fb}
+.chapter-body ol,.chapter-body ul{margin:8px 0 8px 20px}
+.chapter-body li{margin:5px 0;line-height:1.5}
+.chapter-body p{margin:8px 0 10px}
+.chapter-body pre,.chapter-body code{background:#f4f4ee;border:1px solid #ddd;padding:2px 5px;font-size:.9em}
+.chapter-body pre{padding:10px 14px;overflow-x:auto;line-height:1.4}
+.back-link{margin-top:28px;padding-top:12px;border-top:1px solid #c0ccd8;font-size:.9em}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Gear</summary>
+                <ul>
+                    <li><a href="/antenna_gear/index.html">Antenna Gear Overview</a></li>
+                    <li><a href="/antenna_gear/ant_switches/tm.html">Antenna Switches</a></li>
+                    <li><a href="/antenna_gear/audio_filters/tm.html">Audio Filters</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/tm.html">Baluns &amp; Un-Uns</a></li>
+                    <li><a href="/antenna_gear/bms/tm.html">Battery Management (BMS)</a></li>
+                    <li><a href="/antenna_gear/coax_traps/tm.html">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/coil_winder/tm.html">Coil Winder</a></li>
+                    <li><a href="/antenna_gear/common_mode_chokes/tm.html">Common-Mode Chokes</a></li>
+                    <li><a href="/antenna_gear/crystal_radio/tm.html">Crystal Radio</a></li>
+                    <li><a href="/antenna_gear/hybrids/tm.html">RF Hybrids</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/tm.html">Lightning Protection</a></li>
+                    <li><a href="/antenna_gear/mast_tower/tm.html">Mast &amp; Tower</a></li>
+                    <li><a href="/antenna_gear/motorized_tuner/tm.html">Motorized Tuner</a></li>
+                    <li><a href="/antenna_gear/power_supplies/tm.html">Power Supplies</a></li>
+                    <li><a href="/antenna_gear/remote-element-switching/tm.html">Remote Element Switching</a></li>
+                    <li><a href="/antenna_gear/rf_couplers/tm.html">RF Couplers</a></li>
+                    <li><a href="/antenna_gear/rfi_mitigation/tm.html">RFI Mitigation</a></li>
+                    <li><a href="/antenna_gear/roller_inductors/tm.html">Roller Inductors</a></li>
+                    <li><a href="/antenna_gear/transmatch/tm.html">Transmatch</a></li>
+                    <li><a href="/antenna_gear/variable_caps/tm.html">Variable Capacitors</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/index.html">Antenna Tools Overview</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/tm.html">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/swr_meter/tm.html">SWR Meter</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/tm.html">RF Power Meter</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Calibration</summary>
+                <ul>
+                    <li><a href="/calibration/index.html">Calibration Library</a></li>
+                    <li><a href="/Calibration_Ideas/index.html">Calibration Standards</a></li>
+                </ul>
+            </details>
+        </nav>
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-GEAR-014</div>
+                    <div class="tm-title">REMOTE ELEMENT SWITCHING — PIN DIODE AND RELAY SYSTEMS</div>
+                    <div class="tm-subtitle">VHF/UHF PIN Diode Switching, Bias-T, Relay Sequencer, ESP32 Controller</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH &nbsp;&bull;&nbsp;
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial use</em>
+                    </div>
+                </div>
+                <div class="chapter-body">
+
+<h2 class="chapter-heading" id="ch1">Chapter 1 — Introduction and Scope</h2>
+<p>This manual covers remote switching of antenna parasitic elements (directors
+and reflectors) to change the radiation pattern of Yagi-Uda and phased arrays.
+Four switching technologies are covered: PIN diode RF switching (70&nbsp;cm
+through 23&nbsp;cm), bias-T DC injection (for remote power), RF isolation
+filters, and relay sequencer (HF and VHF use).  The ESP32 controller manages
+switching sequences, CYD display, and BLE remote control.</p>
+
+<h2 class="chapter-heading" id="ch2">Chapter 2 — Theory of Operation</h2>
+<h3>2-1 PIN Diode RF Switch</h3>
+<p>A PIN (p-intrinsic-n) diode has a wide intrinsic region that stores
+minority carriers under forward bias.  Under forward bias (15&ndash;50&nbsp;mA):
+the diode becomes a small resistance (&lt;0.5&Omega;), passing RF.  Under
+reverse bias (&minus;5&ndash;&minus;20V): the carriers sweep out and the
+diode becomes a small capacitor (&lt;0.2&nbsp;pF), blocking RF.</p>
+<p>For parasitic element switching: the element is connected to the boom
+through the PIN diode.  Forward bias connects the element (director mode);
+reverse bias opens the circuit (the element is now a passive wire,
+which shortens effective reflector length).</p>
+<h3>2-2 Bias-T for Remote Control</h3>
+<p>The PIN diode bias current is injected onto the coaxial feedline through
+a bias-T at the feed point.  A high-impedance choke (RFC, &gt;1&nbsp;k&Omega;
+at operating frequency) in series with the bias supply passes DC but blocks RF.
+At the element, the reverse bias circuit is isolated by capacitors in the RF path.</p>
+<h3>2-3 Relay Sequencer for TX/RX Switching</h3>
+<p>During transmit, the sequencer ensures: (1) preamp is bypassed BEFORE
+(2) transmit relay closes BEFORE (3) PA is keyed.  Reverse on receive.
+This prevents preamp burnout from TX power leakage.</p>
+
+<h2 class="chapter-heading" id="ch3">Chapter 3 — Equipment and Materials</h2>
+<table>
+<tr><th>Component</th><th>VHF/UHF PIN switch</th><th>Relay sequencer</th></tr>
+<tr><td>Switch diode</td><td>MA4P504 or HSMP-3814 (SOT-23)</td><td>—</td></tr>
+<tr><td>RF choke</td><td>47&ndash;100 nH SMD (0402)</td><td>1&ndash;10 &micro;H toroid</td></tr>
+<tr><td>Bias voltage</td><td>+12V (fwd) / &minus;5V (rev)</td><td>12V relay coil</td></tr>
+<tr><td>Isolation capacitor</td><td>100 pF NP0 (0402)</td><td>—</td></tr>
+<tr><td>Control transistor</td><td>2N2222 or BC817</td><td>2N2222 + relay</td></tr>
+<tr><td>Controller</td><td>ESP32 WROOM-32</td><td>ESP32 WROOM-32</td></tr>
+<tr><td>Relay (sequencer)</td><td>—</td><td>Omron G2RL-1, 12V</td></tr>
+<tr><td>Sequencer delay</td><td>—</td><td>10&ndash;50 ms between steps</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="ch4">Chapter 4 — Construction</h2>
+<h3>4-1 PIN Diode Element Switch (70&nbsp;cm)</h3>
+<ol>
+<li>Mount MA4P504 diode on a small PCB (10&times;10&nbsp;mm) at the
+    element attachment point on the boom.  Orient cathode toward the
+    bias supply, anode toward the element.</li>
+<li>Wire the RF choke (47&nbsp;nH SMD) in series between the bias supply
+    conductor and the cathode.  This prevents RF from entering the bias circuit.</li>
+<li>Connect 100&nbsp;pF NP0 capacitor in series with the RF path (between
+    boom and element) to block DC while passing RF.</li>
+<li>Run a twisted pair (bias supply and return) along the boom to the
+    controller box.  Use shielded twisted pair for runs &gt;300&nbsp;mm.</li>
+</ol>
+<h3>4-2 Relay Sequencer</h3>
+<ol>
+<li>Connect Relay 1 (preamp bypass) to ESP32 GPIO with a 2N2222 driver.
+    Relay 2 (TX/RX antenna relay) to a second GPIO + driver.</li>
+<li>On PTT input (low = key): fire Relay 1 (bypass preamp) after 10&nbsp;ms
+    delay; fire Relay 2 (TX relay) after another 20&nbsp;ms delay.
+    Then assert PA key output.</li>
+<li>On PTT release: de-assert PA key; wait 20&nbsp;ms; release Relay 2;
+    wait 10&nbsp;ms; release Relay 1 (reconnect preamp).</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch5">Chapter 5 — Operating Procedures</h2>
+<ol>
+<li>Select antenna pattern via CYD touchscreen or BLE remote.  The ESP32
+    sets the correct PIN diode bias states for the chosen pattern (cardioid,
+    broadside, endfire, or omnidirectional).</li>
+<li>Pattern switching may occur on receive only; switching during transmit
+    is not recommended (momentary impedance mismatch during transition).</li>
+<li>Inspect all bias-T connections at antenna installation and after any
+    storm.  Water ingress at a bias-T can short the bias supply, permanently
+    forward-biasing one PIN diode and locking the pattern.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch6">Chapter 6 — Calibration</h2>
+<ol>
+<li>Verify PIN diode states: with a NanoVNA and TinySA, measure S21 through
+    each switched element.  Forward-biased: S21 must be &lt;&minus;0.5&nbsp;dB
+    (low loss connected state).  Reverse-biased: S21 must be &lt;&minus;35&nbsp;dB
+    (high isolation open state).</li>
+<li>Sequencer timing: measure delay between PTT closure and TX relay closure
+    with an oscilloscope.  Must be &ge;20&nbsp;ms to protect the preamp.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch7">Chapter 7 — Verification and Acceptance</h2>
+<ol>
+<li>PIN diode insertion loss (forward bias) &lt;0.5&nbsp;dB at operating frequency.</li>
+<li>PIN diode isolation (reverse bias) &ge;35&nbsp;dB at operating frequency.</li>
+<li>Pattern repeatability: switching to the same pattern twice should give
+    the same S21 phase through each element within &plusmn;5&deg;.</li>
+<li>Sequencer: TX relay must not close before preamp bypass relay; verified
+    with dual-trace oscilloscope measuring each relay coil drive.</li>
+<li>Log: date, diode types, forward loss, reverse isolation, sequencer
+    timing, pattern repeat error, operator.</li>
+</ol>
+
+<h2 class="chapter-heading" id="appa">Appendix A — PIN Diode Bias Current vs. Loss</h2>
+<table>
+<tr><th>Forward bias current</th><th>Diode resistance (MA4P504)</th><th>Insertion loss (70cm)</th></tr>
+<tr><td>5 mA</td><td>2.0 &Omega;</td><td>0.7 dB</td></tr>
+<tr><td>15 mA</td><td>0.7 &Omega;</td><td>0.5 dB</td></tr>
+<tr><td>30 mA</td><td>0.3 &Omega;</td><td>0.4 dB</td></tr>
+<tr><td>50 mA</td><td>0.15 &Omega;</td><td>0.35 dB</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="appb">Appendix B — TX/RX Sequencer State Table</h2>
+<table>
+<tr><th>Time</th><th>PTT</th><th>Preamp bypass relay</th><th>TX relay</th><th>PA key</th></tr>
+<tr><td>t=0</td><td>ASSERTED</td><td>OFF (preamp active)</td><td>OFF (RX path)</td><td>OFF</td></tr>
+<tr><td>t=10ms</td><td>ASSERTED</td><td>ON (preamp bypassed)</td><td>OFF</td><td>OFF</td></tr>
+<tr><td>t=30ms</td><td>ASSERTED</td><td>ON</td><td>ON (TX path)</td><td>OFF</td></tr>
+<tr><td>t=40ms</td><td>ASSERTED</td><td>ON</td><td>ON</td><td>ON (transmitting)</td></tr>
+<tr><td>t=release</td><td>RELEASED</td><td>ON</td><td>ON</td><td>OFF</td></tr>
+<tr><td>t+20ms</td><td>RELEASED</td><td>ON</td><td>OFF (RX path)</td><td>OFF</td></tr>
+<tr><td>t+30ms</td><td>RELEASED</td><td>OFF (preamp active)</td><td>OFF</td><td>OFF</td></tr>
+</table>
+
+                </div>
+                <div class="back-link">
+                    <a href="../index.html">&larr; Antenna Gear</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item"><strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a></div>
+                <div class="contact-item"><strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a></div>
+                <div class="contact-item"><strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a></div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Designs shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

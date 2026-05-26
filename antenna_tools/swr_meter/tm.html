@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-TOOL-010 SWR METER — CONSTRUCTION AND USE - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+.tm-cover{border:3px solid #2c5f8d;padding:28px 36px;text-align:center;margin-bottom:28px;background:#f8f8f4}
+.tm-classification{font-size:1.05em;font-weight:bold;color:#006600;letter-spacing:3px;margin-bottom:16px}
+.tm-number{font-family:'Courier New',monospace;font-size:1.15em;font-weight:bold;color:#2c5f8d;margin-bottom:8px}
+.tm-title{font-size:1.7em;font-weight:bold;color:#1a3a5c;text-transform:uppercase;letter-spacing:1px;margin:12px 0 8px;line-height:1.3}
+.tm-subtitle{font-size:.98em;font-style:italic;color:#555;margin-bottom:12px}
+.tm-meta{font-size:.88em;color:#555;margin-top:16px;border-top:1px solid #aaa;padding-top:12px}
+.chapter-body h1,.chapter-body h2{color:#1a3a5c;border-bottom:2px solid #4a7ba7;padding-bottom:4px;margin-top:22px;margin-bottom:10px}
+.chapter-body h3{color:#2c5f8d;margin-top:16px;margin-bottom:8px}
+.chapter-body table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93em}
+.chapter-body th{background:#4a7ba7;color:#fff;padding:7px 11px;text-align:left;font-size:.88em;text-transform:uppercase}
+.chapter-body td{border:1px solid #c0ccd8;padding:6px 11px;vertical-align:top}
+.chapter-body tr:nth-child(even) td{background:#f4f7fb}
+.chapter-body ol,.chapter-body ul{margin:8px 0 8px 20px}
+.chapter-body li{margin:5px 0;line-height:1.5}
+.chapter-body p{margin:8px 0 10px}
+.chapter-body pre,.chapter-body code{background:#f4f4ee;border:1px solid #ddd;padding:2px 5px;font-size:.9em}
+.chapter-body pre{padding:10px 14px;overflow-x:auto;line-height:1.4}
+.back-link{margin-top:28px;padding-top:12px;border-top:1px solid #c0ccd8;font-size:.9em}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group">
+                <summary>Antennas</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/antennas/phased_array_of_2/tm.html">2-Element Phased Array</a></li>
+                    <li><a href="/antennas/phased_array_of_4/tm.html">4-Element Phased Array</a></li>
+                    <li><a href="/antennas/dipole/tm.html">Dipole</a></li>
+                    <li><a href="/antennas/yagi_uda/tm.html">Yagi-Uda</a></li>
+                    <li><a href="/antennas/end_fed_half_wave/tm.html">EFHW</a></li>
+                    <li><a href="/antennas/vertical/tm.html">Vertical</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Antenna Gear</summary>
+                <ul>
+                    <li><a href="/antenna_gear/index.html">Antenna Gear Overview</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/">Baluns &amp; Un-Uns</a></li>
+                    <li><a href="/antenna_gear/coax_traps/">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/">Lightning Protection</a></li>
+                </ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/index.html">Antenna Tools Overview</a></li>
+                    <li><a href="/antenna_tools/adf_systems/tm.html">ADF Systems</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/tm.html">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/antenna_modeling/tm.html">Antenna Modeling</a></li>
+                    <li><a href="/antenna_tools/dummy_loads/tm.html">Dummy Loads</a></li>
+                    <li><a href="/antenna_tools/field_strength_meter/tm.html">Field Strength Meter</a></li>
+                    <li><a href="/antenna_tools/noise_bridge/tm.html">Noise Bridge</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/tm.html">RF Power Meter (QRP)</a></li>
+                    <li><a href="/antenna_tools/rf_power_meters/tm.html">RF Power Meters (General)</a></li>
+                    <li><a href="/antenna_tools/sdr_interfaces/tm.html">SDR Interfaces</a></li>
+                    <li><a href="/antenna_tools/swr_meter/tm.html">SWR Meter</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Calibration</summary>
+                <ul>
+                    <li><a href="/calibration/index.html">Calibration Library</a></li>
+                    <li><a href="/Calibration_Ideas/index.html">Calibration Standards</a></li>
+                </ul>
+            </details>
+        </nav>
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-TOOL-010</div>
+                    <div class="tm-title">SWR METER — CONSTRUCTION AND USE</div>
+                    <div class="tm-subtitle">Dual Directional Coupler, HF/VHF Coverage, Analog and Digital Display</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH &nbsp;&bull;&nbsp;
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial use</em>
+                    </div>
+                </div>
+                <div class="chapter-body">
+
+<h2 class="chapter-heading" id="ch1">Chapter 1 — Introduction and Scope</h2>
+<p>This manual covers construction and operation of a compact portable SWR
+meter covering all fifteen amateur radio bands from 160m (1.8&nbsp;MHz) through
+20cm (1.3&nbsp;GHz).  Two directional coupler sections — a tandem-match
+toroid coupler for HF (1.8&ndash;30&nbsp;MHz) and a PCB microstrip coupler
+for VHF/UHF (50&ndash;1300&nbsp;MHz) — sample forward and reflected power.
+Schottky diode detectors convert RF to DC; a meter driver circuit drives
+an analog panel meter (or digital display showing SWR numerically).</p>
+
+<h2 class="chapter-heading" id="ch2">Chapter 2 — Theory of Operation</h2>
+<h3>2-1 Tandem-Match Directional Coupler (HF)</h3>
+<p>Two toroids wound on BN-43-202 or FT-50-43 cores provide &minus;30&nbsp;dB
+coupling.  The forward arm measures V_fwd (proportional to forward wave
+voltage); the reflected arm measures V_ref (proportional to reflected wave).
+Termination resistors (51&Omega; 1%) on each secondary provide the
+directionality; directivity is typically &gt;35&nbsp;dB across 1.8&ndash;30&nbsp;MHz.</p>
+<h3>2-2 Diode Detector Circuits</h3>
+<p>1N5711 Schottky diodes detect the coupled RF.  In the square-law region
+(V_in &lt; 50&nbsp;mV peak): V_dc &prop; P_rf.  In the linear region
+(V_in &gt; 100&nbsp;mV): V_dc &prop; V_rf.  The meter driver compensates
+for detector law by adjusting the meter scale or applying a lookup table
+in firmware.</p>
+<h3>2-3 SWR Calculation</h3>
+<pre>SWR = (V_fwd + V_ref) / (V_fwd &minus; V_ref)   [analog cross-needle meter]
+SWR = (1 + sqrt(P_ref/P_fwd)) / (1 &minus; sqrt(P_ref/P_fwd))   [digital meter]</pre>
+<h3>2-4 Range Switching</h3>
+<p>Resistive dividers on the detector outputs set the effective full-scale
+power range.  Switching from 100W to 10W range adds 10&times; attenuation
+before the panel meter, maintaining accuracy across the power range.  Six
+ranges: 5W, 20W, 50W, 200W, 500W, 1500W (switchable by front-panel rotary).</p>
+
+<h2 class="chapter-heading" id="ch3">Chapter 3 — Equipment and Materials</h2>
+<table>
+<tr><th>Component</th><th>HF Section</th><th>VHF/UHF Section</th></tr>
+<tr><td>Coupler cores</td><td>2&times; BN-43-202</td><td>PCB microstrip (FR4)</td></tr>
+<tr><td>Secondary winding</td><td>20 turns #28 AWG each</td><td>Coupled line, 0.1mm gap</td></tr>
+<tr><td>Termination resistors</td><td>51&Omega; 1% metal film</td><td>51&Omega; 0402 SMD</td></tr>
+<tr><td>Detector diodes</td><td>1N5711 (×4)</td><td>BAT42 SMD (×4)</td></tr>
+<tr><td>Filter caps</td><td>10 nF, 10&micro;F</td><td>100 pF NP0, 10 nF</td></tr>
+<tr><td>Meter driver</td><td>LM324 op-amp</td><td>Same</td></tr>
+<tr><td>Panel meter</td><td>100&micro;A FSD (×2)</td><td>CYD digital (optional)</td></tr>
+<tr><td>Range switch</td><td>6-position rotary</td><td>Shared with HF section</td></tr>
+<tr><td>Section switch</td><td>DPDT toggle HF/VHF</td><td>Same</td></tr>
+<tr><td>Connectors</td><td>SO-239 female (×2) or N</td><td>N-type (×2)</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="ch4">Chapter 4 — Construction</h2>
+<h3>4-1 HF Toroid Coupler Winding</h3>
+<ol>
+<li>Wind each BN-43-202 core with 20 turns #28 AWG Teflon wire.  Mark
+    start of winding (dot convention: current into dot = positive).</li>
+<li>For the forward coupler: connect winding start (dot end) to
+    termination R1 (51&Omega;); winding finish to forward detector D1 (1N5711
+    cathode).  The free R1 end connects to the center conductor bus.</li>
+<li>For the reflected coupler: reverse winding connections &mdash; winding
+    start connects to reflected detector D2; winding finish to R2 (51&Omega;)
+    to center conductor bus.  This reversal makes the circuit directional.</li>
+<li>Thread the coax center conductor through both toroid cores (1 primary
+    turn each) before mounting in the chassis.</li>
+</ol>
+<h3>4-2 Meter Driver</h3>
+<p>An LM324 quad op-amp provides two independent channels (FWD and REF)
+with adjustable zero and gain.  Configuration: non-inverting amplifier with
+gain set by R_gain (start at gain = 10); output drives panel meter through
+a 4.7&nbsp;k&Omega; series resistor.  Adjust R_zero (10-turn pot) for
+zero reading at no RF input.</p>
+<h3>4-3 Calibration Circuits</h3>
+<p>A precision 100&Omega; trimmer pot in the FWD channel allows full-scale
+calibration with a known power level.  A separate trimmer in the REF channel
+permits null balancing with a matched load (zero reflected power should give
+zero meter deflection on the REF meter).</p>
+
+<h2 class="chapter-heading" id="ch5">Chapter 5 — Operating Procedures</h2>
+<ol>
+<li>Select HF or VHF section switch.  Select power range (start high;
+    reduce until FWD needle is at 50&ndash;80% FSD for best accuracy).</li>
+<li>Connect transmitter to IN (SO-239 or N-type); antenna to OUT.</li>
+<li>Key transmitter briefly (1&ndash;2 seconds).  Read FWD and REF needles.</li>
+<li>Compute SWR: set the FWD meter scale to its reference mark; read SWR
+    directly from the ratio scale, or compute from the formula in §2-3.</li>
+<li>For antenna tuning: adjust tuner while watching REF needle.  Minimum
+    REF deflection = maximum power transfer = lowest SWR.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch6">Chapter 6 — Calibration</h2>
+<ol>
+<li>Connect a calibrated 50&Omega; dummy load to OUT.  Apply known RF power
+    (e.g., 10W at 14.175&nbsp;MHz from a calibrated transmitter).</li>
+<li>Adjust FWD calibration trimmer until FWD meter reads exactly full scale
+    for the selected range (e.g., at the 10W mark on the 10W range).</li>
+<li>Verify REF meter reads zero (or minimum).  Adjust REF null trimmer if
+    deflection &gt;2% of FSD.</li>
+<li>Apply a known 100&Omega; load (SWR 2.0:1).  Verify SWR reads
+    2.0 &plusmn; 0.2.</li>
+<li>Repeat calibration procedure for VHF section at 145&nbsp;MHz.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch7">Chapter 7 — Verification and Acceptance</h2>
+<ol>
+<li>SWR accuracy: measured SWR must be within &plusmn;0.1 SWR units
+    for SWR &lt;3:1; within &plusmn;10% for SWR 3:1&ndash;10:1.</li>
+<li>Power accuracy: forward power reading within &plusmn;5% of actual power
+    (verified with calibrated power reference).</li>
+<li>Directivity check: with 50&Omega; load on OUT, REF deflection must be
+    &lt;2% of FWD deflection at full power (indicates &ge;34&nbsp;dB directivity).</li>
+<li>Insertion loss: &lt;0.1&nbsp;dB at 1.8&ndash;30&nbsp;MHz; &lt;0.2&nbsp;dB
+    at 50&ndash;150&nbsp;MHz; &lt;0.5&nbsp;dB at 150&ndash;450&nbsp;MHz.</li>
+<li>Log: date, calibration load used, forward calibration power, SWR accuracy
+    check results, insertion loss, operator.</li>
+</ol>
+
+<h2 class="chapter-heading" id="appa">Appendix A — Toroid Core Selection</h2>
+<table>
+<tr><th>Core</th><th>Material</th><th>Al (nH/turn²)</th><th>Best range</th></tr>
+<tr><td>BN-43-202</td><td>#43 ferrite</td><td>189</td><td>1.8&ndash;50 MHz</td></tr>
+<tr><td>FT-50-43</td><td>#43 ferrite</td><td>523</td><td>1.8&ndash;50 MHz (higher impedance)</td></tr>
+<tr><td>FT-50-61</td><td>#61 ferrite</td><td>69</td><td>10&ndash;200 MHz</td></tr>
+<tr><td>FT-50-67</td><td>#67 ferrite</td><td>40</td><td>50&ndash;500 MHz</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="appb">Appendix B — Worked SWR Example</h2>
+<p>FWD meter reads 8.5 divisions on 10W scale = 8.5W.  REF meter reads
+0.85 divisions on 10W scale = 0.85W.</p>
+<pre>|&Gamma;| = sqrt(0.85 / 8.5) = sqrt(0.1) = 0.316
+SWR = (1 + 0.316) / (1 &minus; 0.316) = 1.316 / 0.684 = 1.92:1</pre>
+<p>Acceptable for most antenna systems; fine-tune if SWR &gt;2.0:1 desired.</p>
+
+                </div>
+                <div class="back-link">
+                    <a href="../index.html">&larr; Antenna Tools</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item"><strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a></div>
+                <div class="contact-item"><strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a></div>
+                <div class="contact-item"><strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a></div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Designs shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

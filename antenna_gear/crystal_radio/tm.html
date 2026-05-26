@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-GEAR-008 CRYSTAL RADIO — AM BROADCAST AND SHORTWAVE - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+.tm-cover{border:3px solid #2c5f8d;padding:28px 36px;text-align:center;margin-bottom:28px;background:#f8f8f4}
+.tm-classification{font-size:1.05em;font-weight:bold;color:#006600;letter-spacing:3px;margin-bottom:16px}
+.tm-number{font-family:'Courier New',monospace;font-size:1.15em;font-weight:bold;color:#2c5f8d;margin-bottom:8px}
+.tm-title{font-size:1.7em;font-weight:bold;color:#1a3a5c;text-transform:uppercase;letter-spacing:1px;margin:12px 0 8px;line-height:1.3}
+.tm-subtitle{font-size:.98em;font-style:italic;color:#555;margin-bottom:12px}
+.tm-meta{font-size:.88em;color:#555;margin-top:16px;border-top:1px solid #aaa;padding-top:12px}
+.chapter-body h1,.chapter-body h2{color:#1a3a5c;border-bottom:2px solid #4a7ba7;padding-bottom:4px;margin-top:22px;margin-bottom:10px}
+.chapter-body h3{color:#2c5f8d;margin-top:16px;margin-bottom:8px}
+.chapter-body table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93em}
+.chapter-body th{background:#4a7ba7;color:#fff;padding:7px 11px;text-align:left;font-size:.88em;text-transform:uppercase}
+.chapter-body td{border:1px solid #c0ccd8;padding:6px 11px;vertical-align:top}
+.chapter-body tr:nth-child(even) td{background:#f4f7fb}
+.chapter-body ol,.chapter-body ul{margin:8px 0 8px 20px}
+.chapter-body li{margin:5px 0;line-height:1.5}
+.chapter-body p{margin:8px 0 10px}
+.chapter-body pre,.chapter-body code{background:#f4f4ee;border:1px solid #ddd;padding:2px 5px;font-size:.9em}
+.chapter-body pre{padding:10px 14px;overflow-x:auto;line-height:1.4}
+.back-link{margin-top:28px;padding-top:12px;border-top:1px solid #c0ccd8;font-size:.9em}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Gear</summary>
+                <ul>
+                    <li><a href="/antenna_gear/index.html">Antenna Gear Overview</a></li>
+                    <li><a href="/antenna_gear/ant_switches/tm.html">Antenna Switches</a></li>
+                    <li><a href="/antenna_gear/audio_filters/tm.html">Audio Filters</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/tm.html">Baluns &amp; Un-Uns</a></li>
+                    <li><a href="/antenna_gear/bms/tm.html">Battery Management (BMS)</a></li>
+                    <li><a href="/antenna_gear/coax_traps/tm.html">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/coil_winder/tm.html">Coil Winder</a></li>
+                    <li><a href="/antenna_gear/common_mode_chokes/tm.html">Common-Mode Chokes</a></li>
+                    <li><a href="/antenna_gear/crystal_radio/tm.html">Crystal Radio</a></li>
+                    <li><a href="/antenna_gear/hybrids/tm.html">RF Hybrids</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/tm.html">Lightning Protection</a></li>
+                    <li><a href="/antenna_gear/mast_tower/tm.html">Mast &amp; Tower</a></li>
+                    <li><a href="/antenna_gear/motorized_tuner/tm.html">Motorized Tuner</a></li>
+                    <li><a href="/antenna_gear/power_supplies/tm.html">Power Supplies</a></li>
+                    <li><a href="/antenna_gear/remote-element-switching/tm.html">Remote Element Switching</a></li>
+                    <li><a href="/antenna_gear/rf_couplers/tm.html">RF Couplers</a></li>
+                    <li><a href="/antenna_gear/rfi_mitigation/tm.html">RFI Mitigation</a></li>
+                    <li><a href="/antenna_gear/roller_inductors/tm.html">Roller Inductors</a></li>
+                    <li><a href="/antenna_gear/transmatch/tm.html">Transmatch</a></li>
+                    <li><a href="/antenna_gear/variable_caps/tm.html">Variable Capacitors</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/index.html">Antenna Tools Overview</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/tm.html">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/swr_meter/tm.html">SWR Meter</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/tm.html">RF Power Meter</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Calibration</summary>
+                <ul>
+                    <li><a href="/calibration/index.html">Calibration Library</a></li>
+                    <li><a href="/Calibration_Ideas/index.html">Calibration Standards</a></li>
+                </ul>
+            </details>
+        </nav>
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-GEAR-008</div>
+                    <div class="tm-title">CRYSTAL RADIO — AM BROADCAST AND SHORTWAVE</div>
+                    <div class="tm-subtitle">Classic Galena Detector, TRF Circuit, Antenna Coupling, Headphone Transformer</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH &nbsp;&bull;&nbsp;
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial use</em>
+                    </div>
+                </div>
+                <div class="chapter-body">
+
+<h2 class="chapter-heading" id="ch1">Chapter 1 — Introduction and Scope</h2>
+<p>This manual covers four crystal radio designs in ascending complexity:
+the classic galena (lead sulfide) detector set, a modern germanium diode
+version, a tuned radio frequency (TRF) crystal set with antenna impedance
+matching, and a headphone transformer for improved audio output.  Crystal
+radios require no power supply — they operate entirely on the energy
+intercepted by the antenna.</p>
+<p><strong>Frequency range:</strong> AM broadcast band (530&ndash;1700&nbsp;kHz)
+with the classic design; extended to shortwave (3&ndash;30&nbsp;MHz) with
+the TRF design using smaller coils.</p>
+
+<h2 class="chapter-heading" id="ch2">Chapter 2 — Theory of Operation</h2>
+<h3>2-1 Tuned Circuit</h3>
+<p>A parallel LC tank circuit resonates at the desired station frequency.
+At resonance, the circuit impedance is maximum (Z = L/(R&times;C), where R
+is coil resistance); off-resonant signals see low impedance and are bypassed.
+Selectivity is determined by Q = &omega;L/R; higher Q means sharper tuning
+but also higher loss.  For AM broadcast: L &asymp; 250&nbsp;&micro;H,
+C = 15&ndash;365&nbsp;pF (variable).</p>
+<h3>2-2 Detector Diode</h3>
+<p>The detector diode (galena crystal, 1N34A germanium, or BAT42 Schottky)
+rectifies the AM carrier, demodulating the audio.  A bypass capacitor
+(100&nbsp;pF to 1&nbsp;&micro;F depending on audio frequency range)
+filters the RF carrier, leaving the audio envelope.  Germanium diodes
+have lower forward voltage (&sim;0.2V) than silicon; they work with weaker
+signals.  Galena (natural PbS crystal) historically achieved the highest
+sensitivity when point-contacting the sweet spot on the crystal.</p>
+<h3>2-3 Antenna Coupling</h3>
+<p>The antenna couples RF energy into the tuned circuit.  Over-coupling
+loads the tank circuit, reducing Q and selectivity.  Under-coupling
+reduces signal level.  Optimal coupling: the antenna resonant impedance
+is tapped partway down the coil (inductive coupling) to match the low
+antenna impedance (&sim;100&ndash;300&Omega;) to the high tank circuit
+impedance (&sim;50&ndash;200&nbsp;k&Omega;).</p>
+
+<h2 class="chapter-heading" id="ch3">Chapter 3 — Equipment and Materials</h2>
+<table>
+<tr><th>Component</th><th>Classic</th><th>Modern TRF</th></tr>
+<tr><td>Coil</td><td>Oatmeal box, 90 turns #28 AWG</td><td>Litz wire, 75 turns on ferrite rod</td></tr>
+<tr><td>Variable capacitor</td><td>Air-variable, 10&ndash;365 pF</td><td>Same; 2-gang for preselector</td></tr>
+<tr><td>Detector</td><td>Galena + cat's whisker</td><td>1N34A or OA91 germanium</td></tr>
+<tr><td>Headphones</td><td>High-impedance crystal earphone (2200&Omega;)</td><td>Same or 32&Omega; + transformer</td></tr>
+<tr><td>Antenna coupling</td><td>1-turn coupling loop</td><td>Tapped coil or coupling coil</td></tr>
+<tr><td>Ground</td><td>Cold water pipe</td><td>Counterpoise or cold water pipe</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="ch4">Chapter 4 — Construction</h2>
+<h3>4-1 Classic Coil on Oatmeal Box</h3>
+<ol>
+<li>Wind 90 turns of #28 AWG enameled copper wire on a 90&nbsp;mm OD
+    cardboard tube (oatmeal box).  Wind in a single layer, close-wound.
+    Mark the center tap at turn 45 for antenna connection point.</li>
+<li>Scrape enamel from the wire at 10-turn intervals (turns 10, 20, ..., 80)
+    and solder short leads.  These form taps for the antenna coupling
+    adjustment.</li>
+<li>Connect a variable air capacitor (10&ndash;365&nbsp;pF) in parallel
+    with the full winding.  The capacitor shaft is the tuning control.</li>
+<li>Connect the galena crystal or 1N34A diode in series with the headphones
+    across the tank circuit.  Cathode toward the high-impedance (ungrounded)
+    end of the tank.</li>
+</ol>
+<h3>4-2 Headphone Impedance Transformer</h3>
+<ol>
+<li>Wind an audio transformer on a laminated iron core: primary 2000
+    turns #38 AWG (matches high crystal set impedance); secondary 60 turns
+    #26 AWG (matches 32&Omega; headphone).</li>
+<li>Turns ratio: n = sqrt(Z_primary / Z_secondary) = sqrt(2000/32) = 7.9:1.</li>
+<li>Actual winding: 2000:250 turns is a practical compromise for ease
+    of winding (ratio = 8:1 = 9&nbsp;dB power gain vs. direct connection).</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch5">Chapter 5 — Operating Procedures</h2>
+<ol>
+<li>Connect a long outdoor wire antenna (30&nbsp;m or more) and a good ground
+    (cold water pipe, driven rod, or extensive counterpoise).</li>
+<li>Put on high-impedance crystal earphones (or low-impedance via transformer).
+    Rotate the tuning capacitor slowly from maximum capacitance to minimum.
+    Stations appear as increases in audio level at their resonant settings.</li>
+<li>Adjust antenna coupling tap for best audio level without degrading
+    selectivity.  Experiment: more coupling gives more volume but reduces
+    the ability to separate adjacent stations.</li>
+<li>For galena detector: use the cat&rsquo;s whisker to probe different spots
+    on the crystal surface.  The sensitive spot is small — a light touch
+    is more effective than pressure.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch6">Chapter 6 — Calibration</h2>
+<ol>
+<li>Calibrate the tuning dial: note the capacitor setting when each known
+    station is tuned.  Mark a scale with station frequencies.  This converts
+    the dial to a frequency scale using the known stations as references.</li>
+<li>Estimate Q: measure the &minus;3&nbsp;dB bandwidth of the tank circuit
+    at 1&nbsp;MHz with a signal generator and detector.  Q = f / BW.
+    Target: Q &ge;100 for good selectivity (BW &le;10&nbsp;kHz).</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch7">Chapter 7 — Verification and Acceptance</h2>
+<ol>
+<li>Receive at least three local AM broadcast stations, each distinctly
+    tunable by the variable capacitor.</li>
+<li>Adjacent station rejection: tune to one station and verify that the
+    next station 10&nbsp;kHz away is at least 20&nbsp;dB weaker.
+    (Measure with CYD ADC or compare audio levels subjectively.)</li>
+<li>Log: date, antenna length and ground type, stations received, Q
+    measurement result, detector type used.</li>
+</ol>
+
+<h2 class="chapter-heading" id="appa">Appendix A — Resonant Frequency Formula</h2>
+<pre>f0 = 1 / (2&pi; &times; sqrt(L &times; C))
+
+AM broadcast coverage:
+  At C_max = 365 pF, f0 = 1/(2&pi;×sqrt(250e-6 × 365e-12)) = 527 kHz
+  At C_min = 10 pF,  f0 = 1/(2&pi;×sqrt(250e-6 × 10e-12))  = 3.18 MHz
+  (Reduce L to 50 μH for higher frequency coverage)</pre>
+
+<h2 class="chapter-heading" id="appb">Appendix B — Crystal Detector Sensitivity Comparison</h2>
+<table>
+<tr><th>Detector type</th><th>Min detectable signal</th><th>Forward voltage</th><th>Notes</th></tr>
+<tr><td>Galena (natural)</td><td>&sim;0.05 mV</td><td>0.05&ndash;0.15V</td><td>Variable; needs cat's whisker adjustment</td></tr>
+<tr><td>1N34A germanium</td><td>&sim;0.1 mV</td><td>0.15&ndash;0.25V</td><td>Reliable; second best for sensitivity</td></tr>
+<tr><td>BAT42 Schottky</td><td>&sim;0.2 mV</td><td>0.25&ndash;0.35V</td><td>Fast; better for shortwave; needs more signal</td></tr>
+<tr><td>1N4148 silicon</td><td>&sim;2 mV</td><td>0.55&ndash;0.70V</td><td>Poor sensitivity; not recommended</td></tr>
+</table>
+
+                </div>
+                <div class="back-link">
+                    <a href="../index.html">&larr; Antenna Gear</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item"><strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a></div>
+                <div class="contact-item"><strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a></div>
+                <div class="contact-item"><strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a></div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Designs shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-GEAR-013 POWER SUPPLIES — LINEAR, SWITCHING, AND FIELD PORTABLE - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+.tm-cover{border:3px solid #2c5f8d;padding:28px 36px;text-align:center;margin-bottom:28px;background:#f8f8f4}
+.tm-classification{font-size:1.05em;font-weight:bold;color:#006600;letter-spacing:3px;margin-bottom:16px}
+.tm-number{font-family:'Courier New',monospace;font-size:1.15em;font-weight:bold;color:#2c5f8d;margin-bottom:8px}
+.tm-title{font-size:1.7em;font-weight:bold;color:#1a3a5c;text-transform:uppercase;letter-spacing:1px;margin:12px 0 8px;line-height:1.3}
+.tm-subtitle{font-size:.98em;font-style:italic;color:#555;margin-bottom:12px}
+.tm-meta{font-size:.88em;color:#555;margin-top:16px;border-top:1px solid #aaa;padding-top:12px}
+.chapter-body h1,.chapter-body h2{color:#1a3a5c;border-bottom:2px solid #4a7ba7;padding-bottom:4px;margin-top:22px;margin-bottom:10px}
+.chapter-body h3{color:#2c5f8d;margin-top:16px;margin-bottom:8px}
+.chapter-body table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93em}
+.chapter-body th{background:#4a7ba7;color:#fff;padding:7px 11px;text-align:left;font-size:.88em;text-transform:uppercase}
+.chapter-body td{border:1px solid #c0ccd8;padding:6px 11px;vertical-align:top}
+.chapter-body tr:nth-child(even) td{background:#f4f7fb}
+.chapter-body ol,.chapter-body ul{margin:8px 0 8px 20px}
+.chapter-body li{margin:5px 0;line-height:1.5}
+.chapter-body p{margin:8px 0 10px}
+.chapter-body pre,.chapter-body code{background:#f4f4ee;border:1px solid #ddd;padding:2px 5px;font-size:.9em}
+.chapter-body pre{padding:10px 14px;overflow-x:auto;line-height:1.4}
+.back-link{margin-top:28px;padding-top:12px;border-top:1px solid #c0ccd8;font-size:.9em}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Gear</summary>
+                <ul>
+                    <li><a href="/antenna_gear/index.html">Antenna Gear Overview</a></li>
+                    <li><a href="/antenna_gear/ant_switches/tm.html">Antenna Switches</a></li>
+                    <li><a href="/antenna_gear/audio_filters/tm.html">Audio Filters</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/tm.html">Baluns &amp; Un-Uns</a></li>
+                    <li><a href="/antenna_gear/bms/tm.html">Battery Management (BMS)</a></li>
+                    <li><a href="/antenna_gear/coax_traps/tm.html">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/coil_winder/tm.html">Coil Winder</a></li>
+                    <li><a href="/antenna_gear/common_mode_chokes/tm.html">Common-Mode Chokes</a></li>
+                    <li><a href="/antenna_gear/crystal_radio/tm.html">Crystal Radio</a></li>
+                    <li><a href="/antenna_gear/hybrids/tm.html">RF Hybrids</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/tm.html">Lightning Protection</a></li>
+                    <li><a href="/antenna_gear/mast_tower/tm.html">Mast &amp; Tower</a></li>
+                    <li><a href="/antenna_gear/motorized_tuner/tm.html">Motorized Tuner</a></li>
+                    <li><a href="/antenna_gear/power_supplies/tm.html">Power Supplies</a></li>
+                    <li><a href="/antenna_gear/remote-element-switching/tm.html">Remote Element Switching</a></li>
+                    <li><a href="/antenna_gear/rf_couplers/tm.html">RF Couplers</a></li>
+                    <li><a href="/antenna_gear/rfi_mitigation/tm.html">RFI Mitigation</a></li>
+                    <li><a href="/antenna_gear/roller_inductors/tm.html">Roller Inductors</a></li>
+                    <li><a href="/antenna_gear/transmatch/tm.html">Transmatch</a></li>
+                    <li><a href="/antenna_gear/variable_caps/tm.html">Variable Capacitors</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/index.html">Antenna Tools Overview</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/tm.html">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/swr_meter/tm.html">SWR Meter</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/tm.html">RF Power Meter</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Calibration</summary>
+                <ul>
+                    <li><a href="/calibration/index.html">Calibration Library</a></li>
+                    <li><a href="/Calibration_Ideas/index.html">Calibration Standards</a></li>
+                </ul>
+            </details>
+        </nav>
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-GEAR-013</div>
+                    <div class="tm-title">POWER SUPPLIES — LINEAR, SWITCHING, AND FIELD PORTABLE</div>
+                    <div class="tm-subtitle">Linear Regulated, Switching SMPS, LiFePO4 Pack, Metering and Protection</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH &nbsp;&bull;&nbsp;
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial use</em>
+                    </div>
+                </div>
+                <div class="chapter-body">
+
+<h2 class="chapter-heading" id="ch1">Chapter 1 — Introduction and Scope</h2>
+<p>This manual covers four power supply designs for amateur radio stations:
+a 13.8V linear regulated supply (0&ndash;30A), a switching SMPS supply
+(13.8V, 20A, compact), a LiFePO4 field portable pack (12.8V, see also
+TM-GEAR-004 for BMS details), and a metering and protection module
+(voltage, current, RF, over-current protection).</p>
+
+<h2 class="chapter-heading" id="ch2">Chapter 2 — Theory of Operation</h2>
+<h3>2-1 Linear Regulated Supply</h3>
+<p>A transformer (120V/18V, 40VA) followed by a full-wave bridge rectifier
+and large filter capacitor (10,000&ndash;20,000&nbsp;&micro;F) provides
+unregulated DC.  A series-pass transistor (multiple 2N3055 or IRF540 in
+parallel) regulated by an op-amp error amplifier maintains constant output
+voltage.  Linear supplies have extremely low ripple and noise (&lt;1&nbsp;mV
+RMS) at the cost of lower efficiency (&sim;50%) and heat dissipation.</p>
+<h3>2-2 Switching SMPS</h3>
+<p>An SMPS converts AC to DC at high frequency (50&ndash;500&nbsp;kHz),
+allowing much smaller transformers.  Efficiency: 85&ndash;92%.  The PWM
+controller (UC3842 or SG3525) regulates output voltage by adjusting duty
+cycle.  EMI filtering is critical for SMPS; they generate conducted and
+radiated interference that can degrade receiver performance.</p>
+<h3>2-3 Metering and Protection</h3>
+<p>A metering module uses a series current shunt (100&nbsp;A / 75&nbsp;mV
+shunt) and a voltage divider to display voltage and current on a CYD display.
+Over-current protection uses a comparator circuit to trip a power relay if
+current exceeds the set limit (adjustable 0&ndash;30&nbsp;A via a trimpot).</p>
+
+<h2 class="chapter-heading" id="ch3">Chapter 3 — Equipment and Materials</h2>
+<table>
+<tr><th>Component</th><th>Linear</th><th>SMPS</th><th>LiFePO4 Portable</th></tr>
+<tr><td>Transformer</td><td>120VAC/18V, 40VA</td><td>None (HF stage)</td><td>—</td></tr>
+<tr><td>Filter cap</td><td>20,000&nbsp;&micro;F 35V</td><td>220&nbsp;&micro;F 35V (HF)</td><td>—</td></tr>
+<tr><td>Series pass</td><td>4&times; 2N3055 on heatsink</td><td>IRF540 full-bridge</td><td>—</td></tr>
+<tr><td>Controller</td><td>LM723 + op-amp error amp</td><td>SG3525 or UC3842</td><td>BQ76920 (see TM-GEAR-004)</td></tr>
+<tr><td>Output voltage</td><td>Adjustable 12&ndash;15V</td><td>Fixed 13.8V</td><td>12.8V nominal</td></tr>
+<tr><td>Output current</td><td>0&ndash;30A</td><td>20A continuous</td><td>50A max (BMS limited)</td></tr>
+<tr><td>Ripple</td><td>&lt;1&nbsp;mV RMS</td><td>&lt;50&nbsp;mV RMS</td><td>Battery (no ripple)</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="ch4">Chapter 4 — Construction</h2>
+<h3>4-1 Linear Supply Heatsink Sizing</h3>
+<p>The series-pass transistors dissipate: P = (V_in &minus; V_out) &times; I_out.
+At worst case (13.8V output from 18V rectified): P = (18 &minus; 13.8) &times; 30 = 126W.
+With four 2N3055s, each dissipates 31.5W.  2N3055 thermal resistance junction-to-case:
+R&Theta;jc = 1.5&deg;C/W.  Required heatsink resistance: R&Theta;sa &le; (T_j_max &minus; T_a) / P &minus; R&Theta;jc
+= (150 &minus; 50) / 31.5 &minus; 1.5 = 1.7&deg;C/W per transistor.</p>
+<h3>4-2 SMPS EMI Filtering</h3>
+<ol>
+<li>Install an IEC inlet filter (common-mode choke + X/Y capacitors) on the
+    AC input before the SMPS.  This keeps SMPS switching noise off the mains.</li>
+<li>Add a ferrite bead choke (2 turns of DC output cable through #31 toroids)
+    on the DC output to suppress conducted emissions from reaching the transceiver.</li>
+<li>For receivers: use the linear supply; the SMPS may interfere with
+    sensitive RX even with filtering.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch5">Chapter 5 — Operating Procedures</h2>
+<ol>
+<li>Linear supply: allow 5 minutes warm-up before setting critical output
+    voltage.  Adjust the voltage trimmer to 13.8V (verified with DMM).
+    Set current limit to 5A above the transceiver&rsquo;s peak draw.</li>
+<li>SMPS: verify output voltage before connecting transceiver.
+    Do not exceed rated current; SMPS enter fold-back current limiting and
+    may drop voltage abruptly under severe overload.</li>
+<li>LiFePO4 portable: check pack voltage before operation.  Below 12.4V
+    (SOC &sim;20%), plan for recharging soon.  Do not discharge below 10.0V.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch6">Chapter 6 — Calibration</h2>
+<ol>
+<li>Calibrate voltage: set output with a precision voltmeter (4.5 digits
+    or better).  Target: 13.800 &plusmn; 0.050V.</li>
+<li>Calibrate current meter: apply a known resistive load and measure load
+    current with an external shunt and DMM.  Adjust current meter shunt
+    gain in firmware until displayed value matches.</li>
+<li>Calibrate over-current trip: increase load until the trip circuit
+    activates.  Trip current must be within 0.5A of the set value.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch7">Chapter 7 — Verification and Acceptance</h2>
+<ol>
+<li>Output voltage: 13.8 &plusmn; 0.1V at no load and full rated load.</li>
+<li>Ripple: &lt;10&nbsp;mV peak-to-peak (linear); &lt;100&nbsp;mV pk-pk (SMPS)
+    measured with oscilloscope at full load.</li>
+<li>Current limit: trips within 0.5A of set value on all supplies.</li>
+<li>SMPS EMI: with transceiver in receive mode, key the supply at full load.
+    Noise floor must not increase by more than 1 S-unit at any HF frequency.</li>
+<li>Log: date, supply type, measured voltage at no load and full load,
+    ripple measurement, current limit trip point, operator.</li>
+</ol>
+
+<h2 class="chapter-heading" id="appa">Appendix A — Voltage Drop at Load</h2>
+<pre>For a linear supply, the voltage drop across series wiring:
+  V_drop = I &times; R_wire
+  For #14 AWG, R = 8.4 mΩ/ft (2.76 mΩ/m)
+  At 30A over 3m of #14 AWG (6m round trip):
+  V_drop = 30 × 0.00276 × 6 = 0.50V
+  This means the bench at the end of 3m of #14 AWG gets 13.8 − 0.5 = 13.3V.
+  Use #10 AWG for long runs or supply &gt;20A.</pre>
+
+<h2 class="chapter-heading" id="appb">Appendix B — Fuse Sizing</h2>
+<table>
+<tr><th>Application</th><th>Fuse rating</th><th>Type</th></tr>
+<tr><td>Primary AC (30A supply)</td><td>15A slow-blow</td><td>IEC connector fuse</td></tr>
+<tr><td>DC output (30A supply)</td><td>40A ATC automotive</td><td>Panel-mount fuse holder</td></tr>
+<tr><td>Transceiver branch</td><td>25A ATC</td><td>Within 450mm of supply</td></tr>
+<tr><td>LiFePO4 pack main fuse</td><td>60A ANL</td><td>Inline within 450mm of battery</td></tr>
+</table>
+
+                </div>
+                <div class="back-link">
+                    <a href="../index.html">&larr; Antenna Gear</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item"><strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a></div>
+                <div class="contact-item"><strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a></div>
+                <div class="contact-item"><strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a></div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Designs shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

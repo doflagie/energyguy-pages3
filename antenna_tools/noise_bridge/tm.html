@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-TOOL-006 RF NOISE BRIDGE — IMPEDANCE MEASUREMENT - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+.tm-cover{border:3px solid #2c5f8d;padding:28px 36px;text-align:center;margin-bottom:28px;background:#f8f8f4}
+.tm-classification{font-size:1.05em;font-weight:bold;color:#006600;letter-spacing:3px;margin-bottom:16px}
+.tm-number{font-family:'Courier New',monospace;font-size:1.15em;font-weight:bold;color:#2c5f8d;margin-bottom:8px}
+.tm-title{font-size:1.7em;font-weight:bold;color:#1a3a5c;text-transform:uppercase;letter-spacing:1px;margin:12px 0 8px;line-height:1.3}
+.tm-subtitle{font-size:.98em;font-style:italic;color:#555;margin-bottom:12px}
+.tm-meta{font-size:.88em;color:#555;margin-top:16px;border-top:1px solid #aaa;padding-top:12px}
+.chapter-body h1,.chapter-body h2{color:#1a3a5c;border-bottom:2px solid #4a7ba7;padding-bottom:4px;margin-top:22px;margin-bottom:10px}
+.chapter-body h3{color:#2c5f8d;margin-top:16px;margin-bottom:8px}
+.chapter-body table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93em}
+.chapter-body th{background:#4a7ba7;color:#fff;padding:7px 11px;text-align:left;font-size:.88em;text-transform:uppercase}
+.chapter-body td{border:1px solid #c0ccd8;padding:6px 11px;vertical-align:top}
+.chapter-body tr:nth-child(even) td{background:#f4f7fb}
+.chapter-body ol,.chapter-body ul{margin:8px 0 8px 20px}
+.chapter-body li{margin:5px 0;line-height:1.5}
+.chapter-body p{margin:8px 0 10px}
+.chapter-body pre,.chapter-body code{background:#f4f4ee;border:1px solid #ddd;padding:2px 5px;font-size:.9em}
+.chapter-body pre{padding:10px 14px;overflow-x:auto;line-height:1.4}
+.back-link{margin-top:28px;padding-top:12px;border-top:1px solid #c0ccd8;font-size:.9em}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group">
+                <summary>Antennas</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/antennas/phased_array_of_2/tm.html">2-Element Phased Array</a></li>
+                    <li><a href="/antennas/phased_array_of_4/tm.html">4-Element Phased Array</a></li>
+                    <li><a href="/antennas/dipole/tm.html">Dipole</a></li>
+                    <li><a href="/antennas/yagi_uda/tm.html">Yagi-Uda</a></li>
+                    <li><a href="/antennas/end_fed_half_wave/tm.html">EFHW</a></li>
+                    <li><a href="/antennas/vertical/tm.html">Vertical</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Antenna Gear</summary>
+                <ul>
+                    <li><a href="/antenna_gear/index.html">Antenna Gear Overview</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/">Baluns &amp; Un-Uns</a></li>
+                    <li><a href="/antenna_gear/coax_traps/">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/">Lightning Protection</a></li>
+                </ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/index.html">Antenna Tools Overview</a></li>
+                    <li><a href="/antenna_tools/adf_systems/tm.html">ADF Systems</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/tm.html">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/antenna_modeling/tm.html">Antenna Modeling</a></li>
+                    <li><a href="/antenna_tools/dummy_loads/tm.html">Dummy Loads</a></li>
+                    <li><a href="/antenna_tools/field_strength_meter/tm.html">Field Strength Meter</a></li>
+                    <li><a href="/antenna_tools/noise_bridge/tm.html">Noise Bridge</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/tm.html">RF Power Meter (QRP)</a></li>
+                    <li><a href="/antenna_tools/rf_power_meters/tm.html">RF Power Meters (General)</a></li>
+                    <li><a href="/antenna_tools/sdr_interfaces/tm.html">SDR Interfaces</a></li>
+                    <li><a href="/antenna_tools/swr_meter/tm.html">SWR Meter</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Calibration</summary>
+                <ul>
+                    <li><a href="/calibration/index.html">Calibration Library</a></li>
+                    <li><a href="/Calibration_Ideas/index.html">Calibration Standards</a></li>
+                </ul>
+            </details>
+        </nav>
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-TOOL-006</div>
+                    <div class="tm-title">RF NOISE BRIDGE — IMPEDANCE MEASUREMENT</div>
+                    <div class="tm-subtitle">Wheatstone Bridge, 0.5–60 MHz, R + jX Measurement, Null Detector</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH &nbsp;&bull;&nbsp;
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial use</em>
+                    </div>
+                </div>
+                <div class="chapter-body">
+
+<h2 class="chapter-heading" id="ch1">Chapter 1 — Introduction and Scope</h2>
+<p>This manual covers the construction and operation of an RF noise bridge
+for antenna impedance measurement from 0.5 to 60&nbsp;MHz.  The bridge measures
+complex impedance Z = R + jX by balancing a calibrated reference arm against
+the unknown antenna.  Null detection uses either an external communications
+receiver, a built-in audio amplifier, or an AD8307 logarithmic detector
+with digital readout.  Accuracy: R &plusmn;5&Omega; (0&ndash;200&Omega; range),
+X &plusmn;10&Omega; (&minus;200 to +200&Omega; range).</p>
+
+<h2 class="chapter-heading" id="ch2">Chapter 2 — Theory of Operation</h2>
+<h3>2-1 Bridge Circuit</h3>
+<p>A standard 4-arm Wheatstone bridge topology adapted for RF.  Two fixed
+51&Omega; arms establish the bridge reference.  One variable arm (R_cal + jX_cal)
+is the calibrated reference.  The unknown arm (Z_ant) is the antenna under test.
+The null detector sees zero voltage when the bridge is balanced:</p>
+<pre>Z_ant = R_cal + jX_cal   (at null)</pre>
+<p>A 1:1:1 trifilar-wound transformer (T1) on a BN-43-202 core drives the two
+bridge legs from the noise source.  Trifilar winding ensures &lt;1&deg; phase
+imbalance between the two drive ports across 0.5&ndash;60&nbsp;MHz.</p>
+
+<h3>2-2 Noise Source</h3>
+<p>Two designs are provided:</p>
+<ul>
+<li><strong>NGZ (Zener):</strong> 5.1V zener diode biased into avalanche
+    breakdown produces wideband white noise.  Output amplified by a MAR-6
+    MMIC (+20&nbsp;dB, DC&ndash;2&nbsp;GHz) to approximately &minus;25&nbsp;dBm
+    into 50&Omega;.</li>
+<li><strong>NGT (Transistor):</strong> Reverse-biased NPN transistor base-emitter
+    junction noise; higher output level and more uniform spectral density
+    than zener.  Amplified by ERA-3SM MMIC.</li>
+</ul>
+
+<h3>2-3 Null Detection Modes</h3>
+<table>
+<tr><th>Mode</th><th>Hardware</th><th>Sensitivity</th><th>Notes</th></tr>
+<tr><td>A — External RX</td><td>Communications receiver/SDR</td><td>&lt;&minus;60&nbsp;dBm</td><td>Best; frequency-selective</td></tr>
+<tr><td>B — Audio amplifier</td><td>ERA-3SM MMIC + headphones</td><td>&minus;50&nbsp;dBm</td><td>Standalone; no RX needed</td></tr>
+<tr><td>C — AD8307</td><td>Log detector + CYD display</td><td>&minus;70&nbsp;dBm</td><td>Digital null indication</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="ch3">Chapter 3 — Equipment and Materials</h2>
+<table>
+<tr><th>Component</th><th>Value / Part</th><th>Quantity</th></tr>
+<tr><td>Bridge transformer T1</td><td>Trifilar, BN-43-202, 6 turns #26 AWG</td><td>1</td></tr>
+<tr><td>Fixed bridge resistors R1, R2</td><td>51&Omega; 1% metal film, 1/4W</td><td>2</td></tr>
+<tr><td>Variable resistance R_cal</td><td>0&ndash;200&Omega; wirewound pot (non-inductive)</td><td>1</td></tr>
+<tr><td>Variable reactance X_cal</td><td>0&ndash;100 pF variable cap + 0&ndash;50&micro;H roller inductor</td><td>1 each</td></tr>
+<tr><td>Noise source MMIC</td><td>MAR-6SM or ERA-3SM</td><td>1</td></tr>
+<tr><td>Zener D1</td><td>BZX55C5V1, 5.1V 500mW</td><td>1</td></tr>
+<tr><td>RF bypass capacitors</td><td>100 pF NP0</td><td>4</td></tr>
+<tr><td>RF choke RFC1</td><td>10&micro;H SRF &gt;50&nbsp;MHz</td><td>1</td></tr>
+<tr><td>Connectors</td><td>BNC female: noise out, DET, ANT</td><td>3</td></tr>
+<tr><td>Power</td><td>9V battery (80 mA typical)</td><td>1</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="ch4">Chapter 4 — Construction</h2>
+<h3>4-1 Transformer Winding</h3>
+<ol>
+<li>Wind three identical windings of 6 turns #26 AWG simultaneously on a
+    BN-43-202 binocular core.  Keep the three windings in the same rotational
+    direction (color-code the wire starts).</li>
+<li>Check winding: with an ohmmeter, verify all three windings are equal
+    resistance (&plusmn;0.1&Omega;) and have no shorts between windings.</li>
+<li>Test leakage inductance: connect one winding to NanoVNA port 1 with
+    port 2 shorted to the other two windings.  Leakage inductance should be
+    &lt;0.1&micro;H at 10&nbsp;MHz.</li>
+</ol>
+<h3>4-2 Calibration Dials</h3>
+<p>Mark the R_cal potentiometer dial in 10&Omega; steps from 0 to 200&Omega; using
+a resistance meter.  Mark the X_cal capacitor dial in terms of &minus;jX at
+10&nbsp;MHz using the formula X_C = 1/(2&pi;fC).  Mark the inductor in terms
+of +jX at 10&nbsp;MHz using X_L = 2&pi;fL.  Actual X depends on operating
+frequency; provide a reactance chart (see Appendix A) for other frequencies.</p>
+
+<h2 class="chapter-heading" id="ch5">Chapter 5 — Operating Procedures</h2>
+<h3>5-1 Measuring Antenna Impedance</h3>
+<ol>
+<li>Connect antenna to ANT BNC.  Connect communications receiver (tuned to
+    a clear frequency in the antenna's operating range) to DET BNC.</li>
+<li>Enable noise source (power switch ON).  Receiver S-meter should show
+    S3&ndash;S7 noise level.  If no noise: check battery, MMIC bias.</li>
+<li>Set R_cal to 50&Omega; (center scale) and X_cal to zero (cap at minimum,
+    inductor at minimum).</li>
+<li>Adjust R_cal for minimum S-meter reading.  Note: the null may be sharp;
+    sweep slowly.</li>
+<li>If null is imperfect at all R_cal values, the antenna has significant
+    reactance.  Adjust X_cal (capacitive for a high-SWR dipole that is
+    too long; inductive for one that is too short) until the null is
+    satisfactorily deep (&ge;10&nbsp;dB below noise floor).</li>
+<li>Read R and X from the calibration dials.  Reported impedance:
+    Z_ant = R_cal + jX_cal at the measurement frequency.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch6">Chapter 6 — Calibration</h2>
+<ol>
+<li>Connect a precision 50&Omega; non-inductive resistor to ANT port.  Set
+    R_cal = 50&Omega;, X_cal = 0.  Verify null at &ge;20&nbsp;dB below noise floor.
+    If null is &lt;20&nbsp;dB: re-check bridge transformer balance.</li>
+<li>Connect a known 100&Omega; resistor.  Set R_cal = 100&Omega;, X_cal = 0.
+    Verify null is achieved at that setting.</li>
+<li>Connect a 47&nbsp;pF NP0 capacitor.  At 10&nbsp;MHz:
+    X_C = 1/(2&pi;&times;10e6&times;47e-12) = &minus;338&Omega;.
+    Set R_cal = 0&Omega; (resistor is pure reactance), X_cal to
+    &minus;338&Omega; (capacitive).  Verify null.</li>
+<li>Record calibration date and reference components used in log.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch7">Chapter 7 — Verification and Acceptance</h2>
+<ol>
+<li>Measure a known 50&Omega; dummy load: R must read 50 &plusmn; 3&Omega;,
+    X must read 0 &plusmn; 10&Omega;.</li>
+<li>Measure a known antenna of known resonant frequency (verified by NanoVNA).
+    At resonance, X should read 0 &plusmn; 15&Omega;; R should agree with NanoVNA
+    feedpoint resistance within 10%.</li>
+<li>Log: date, reference impedances measured, null depth achieved, measured
+    vs. expected values, operator.</li>
+</ol>
+
+<h2 class="chapter-heading" id="appa">Appendix A — Reactance vs. Frequency Chart</h2>
+<table>
+<tr><th>Component</th><th>1 MHz</th><th>7 MHz</th><th>14 MHz</th><th>28 MHz</th></tr>
+<tr><td>47 pF cap</td><td>&minus;3386&Omega;</td><td>&minus;484&Omega;</td><td>&minus;242&Omega;</td><td>&minus;121&Omega;</td></tr>
+<tr><td>100 pF cap</td><td>&minus;1592&Omega;</td><td>&minus;227&Omega;</td><td>&minus;114&Omega;</td><td>&minus;57&Omega;</td></tr>
+<tr><td>1 &micro;H inductor</td><td>+6.3&Omega;</td><td>+44&Omega;</td><td>+88&Omega;</td><td>+176&Omega;</td></tr>
+<tr><td>10 &micro;H inductor</td><td>+63&Omega;</td><td>+440&Omega;</td><td>+879&Omega;</td><td>+1759&Omega;</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="appb">Appendix B — Worked Example</h2>
+<p>Measuring a 40m dipole at 7.100&nbsp;MHz.  Null achieved at R_cal = 72&Omega;,
+X_cal = +18&Omega; (inductive).  This means the dipole is slightly too long
+(excess inductive reactance).  To resonate it: shorten each element by:</p>
+<pre>&Delta;L = &lambda; &times; (X / (2 &times; R)) &times; k   (approximate)
+&Delta;L = 42.3m &times; (18 / 144) &times; 0.97 = 2.5 cm per side</pre>
+
+                </div>
+                <div class="back-link">
+                    <a href="../index.html">&larr; Antenna Tools</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item"><strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a></div>
+                <div class="contact-item"><strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a></div>
+                <div class="contact-item"><strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a></div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Designs shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

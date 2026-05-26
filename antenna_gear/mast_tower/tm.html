@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-GEAR-011 MAST AND TOWER — PORTABLE AND FIXED INSTALLATIONS - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+.tm-cover{border:3px solid #2c5f8d;padding:28px 36px;text-align:center;margin-bottom:28px;background:#f8f8f4}
+.tm-classification{font-size:1.05em;font-weight:bold;color:#006600;letter-spacing:3px;margin-bottom:16px}
+.tm-number{font-family:'Courier New',monospace;font-size:1.15em;font-weight:bold;color:#2c5f8d;margin-bottom:8px}
+.tm-title{font-size:1.7em;font-weight:bold;color:#1a3a5c;text-transform:uppercase;letter-spacing:1px;margin:12px 0 8px;line-height:1.3}
+.tm-subtitle{font-size:.98em;font-style:italic;color:#555;margin-bottom:12px}
+.tm-meta{font-size:.88em;color:#555;margin-top:16px;border-top:1px solid #aaa;padding-top:12px}
+.chapter-body h1,.chapter-body h2{color:#1a3a5c;border-bottom:2px solid #4a7ba7;padding-bottom:4px;margin-top:22px;margin-bottom:10px}
+.chapter-body h3{color:#2c5f8d;margin-top:16px;margin-bottom:8px}
+.chapter-body table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93em}
+.chapter-body th{background:#4a7ba7;color:#fff;padding:7px 11px;text-align:left;font-size:.88em;text-transform:uppercase}
+.chapter-body td{border:1px solid #c0ccd8;padding:6px 11px;vertical-align:top}
+.chapter-body tr:nth-child(even) td{background:#f4f7fb}
+.chapter-body ol,.chapter-body ul{margin:8px 0 8px 20px}
+.chapter-body li{margin:5px 0;line-height:1.5}
+.chapter-body p{margin:8px 0 10px}
+.chapter-body pre,.chapter-body code{background:#f4f4ee;border:1px solid #ddd;padding:2px 5px;font-size:.9em}
+.chapter-body pre{padding:10px 14px;overflow-x:auto;line-height:1.4}
+.back-link{margin-top:28px;padding-top:12px;border-top:1px solid #c0ccd8;font-size:.9em}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Gear</summary>
+                <ul>
+                    <li><a href="/antenna_gear/index.html">Antenna Gear Overview</a></li>
+                    <li><a href="/antenna_gear/ant_switches/tm.html">Antenna Switches</a></li>
+                    <li><a href="/antenna_gear/audio_filters/tm.html">Audio Filters</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/tm.html">Baluns &amp; Un-Uns</a></li>
+                    <li><a href="/antenna_gear/bms/tm.html">Battery Management (BMS)</a></li>
+                    <li><a href="/antenna_gear/coax_traps/tm.html">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/coil_winder/tm.html">Coil Winder</a></li>
+                    <li><a href="/antenna_gear/common_mode_chokes/tm.html">Common-Mode Chokes</a></li>
+                    <li><a href="/antenna_gear/crystal_radio/tm.html">Crystal Radio</a></li>
+                    <li><a href="/antenna_gear/hybrids/tm.html">RF Hybrids</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/tm.html">Lightning Protection</a></li>
+                    <li><a href="/antenna_gear/mast_tower/tm.html">Mast &amp; Tower</a></li>
+                    <li><a href="/antenna_gear/motorized_tuner/tm.html">Motorized Tuner</a></li>
+                    <li><a href="/antenna_gear/power_supplies/tm.html">Power Supplies</a></li>
+                    <li><a href="/antenna_gear/remote-element-switching/tm.html">Remote Element Switching</a></li>
+                    <li><a href="/antenna_gear/rf_couplers/tm.html">RF Couplers</a></li>
+                    <li><a href="/antenna_gear/rfi_mitigation/tm.html">RFI Mitigation</a></li>
+                    <li><a href="/antenna_gear/roller_inductors/tm.html">Roller Inductors</a></li>
+                    <li><a href="/antenna_gear/transmatch/tm.html">Transmatch</a></li>
+                    <li><a href="/antenna_gear/variable_caps/tm.html">Variable Capacitors</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/index.html">Antenna Tools Overview</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/tm.html">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/swr_meter/tm.html">SWR Meter</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/tm.html">RF Power Meter</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Calibration</summary>
+                <ul>
+                    <li><a href="/calibration/index.html">Calibration Library</a></li>
+                    <li><a href="/Calibration_Ideas/index.html">Calibration Standards</a></li>
+                </ul>
+            </details>
+        </nav>
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-GEAR-011</div>
+                    <div class="tm-title">MAST AND TOWER — PORTABLE AND FIXED INSTALLATIONS</div>
+                    <div class="tm-subtitle">Wind Load Calculations, Pneumatic Mast, Crank-Up Tower, Aluminum Telescoping</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH &nbsp;&bull;&nbsp;
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial use</em>
+                    </div>
+                </div>
+                <div class="chapter-body">
+
+<h2 class="chapter-heading" id="ch1">Chapter 1 — Introduction and Scope</h2>
+<p>This manual covers structural requirements and installation procedures for
+four antenna support types: aluminum telescoping push-up mast (10&ndash;12&nbsp;m),
+pneumatic air mast (7&ndash;9&nbsp;m, rapid deployment), crank-up tower
+(10&ndash;30&nbsp;m, non-crank-up portable variant), and guyed vertical mast.
+Wind load calculations follow EIA/TIA-222-H and ASCE 7-22.</p>
+
+<h2 class="chapter-heading" id="ch2">Chapter 2 — Theory of Operation</h2>
+<h3>2-1 Wind Load Calculation</h3>
+<p>The design wind pressure is:</p>
+<pre>q (Pa) = 0.613 &times; V&sup2;   (V in m/s)
+q (psf) = 0.00256 &times; V&sup2;  (V in mph)
+
+Design defaults:
+  Operational: 50 mph (22.4 m/s) &rarr; q = 308 Pa
+  Operational max: 70 mph (31.3 m/s) &rarr; q = 600 Pa
+  Survival: 90 mph (40.2 m/s) &rarr; q = 990 Pa</pre>
+<p>The force on a cylindrical mast section (vertical member):</p>
+<pre>F (N) = q &times; C_d &times; A
+  C_d = 1.0 (cylinder drag coefficient)
+  A = projected area = diameter (m) &times; height (m)</pre>
+<h3>2-2 Guy Wire Tension</h3>
+<p>For a guyed mast, the overturning moment M = F &times; h/2.  Guy wire
+tension T = M / (r &times; cos&theta;), where r = guy radius and &theta; = angle
+from horizontal.  For 45&deg; guys: T = M / (r &times; 0.707).
+Use 3:1 safety factor on all guy wire ratings.</p>
+
+<h2 class="chapter-heading" id="ch3">Chapter 3 — Equipment and Materials</h2>
+<table>
+<tr><th>Component</th><th>Telescoping</th><th>Pneumatic</th><th>Crank-Up</th></tr>
+<tr><td>Sections</td><td>6&ndash;8 &times; 1.5m Al tube</td><td>Fiberglass, 4 sections</td><td>Steel lattice, 3&ndash;6</td></tr>
+<tr><td>Material</td><td>6061-T6 aluminum</td><td;>Fiberglass tube</td><td>Galvanized steel</td></tr>
+<tr><td>Guys</td><td>3&times; at each level</td><td>None (self-supporting to 9m)</td><td>3&times; per section</td></tr>
+<tr><td>Guy wire</td><td>1/4&Prime; Phillystran or Dacron</td><td>—</td><td>3/16&Prime; EHS steel</td></tr>
+<tr><td>Anchors</td><td>Screw anchors, 500&nbsp;kg</td><td>—</td><td>Concrete deadman</td></tr>
+<tr><td>Base</td><td>Tripod or plate, 0.6m</td><td>Plate, 0.3m</td><td>Concrete base, 1m</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="ch4">Chapter 4 — Construction and Erection</h2>
+<h3>4-1 Telescoping Mast Erection</h3>
+<ol>
+<li>Install the base plate on level ground.  Anchor with 4&times;screw anchors
+    or 4&times;250&nbsp;kg sandbags in field operation.</li>
+<li>Extend sections one at a time, starting from the bottom.  Tighten each
+    section clamp before extending the next.</li>
+<li>Install guys at three levels: 1/3, 2/3, and top of full height.
+    Guy radius must be &ge;40% of height (rule of thumb); recommended 60%.</li>
+<li>Tension all guys evenly.  Mast vertical alignment: check with a plumb
+    bob from the top.  Adjust guys until mast is plumb to within 1&deg;.</li>
+</ol>
+<h3>4-2 Pneumatic Mast</h3>
+<ol>
+<li>Extend collapsed mast horizontally.  Connect air supply (bicycle pump,
+    foot pump, or compressor) to the base Schrader valve.</li>
+<li>Pump to 2.5&ndash;3.5&nbsp;bar (36&ndash;51&nbsp;psi).  The sections
+    extend sequentially from top to bottom.  Full extension: approximately
+    60 pump strokes with a standard floor pump.</li>
+<li>Once extended, set upright.  Install base plate or drive the ground
+    spike.  Pneumatic masts are self-supporting to 9&nbsp;m with no antenna
+    wind load; add guys for wind exposure or antenna weight &gt;2&nbsp;kg.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch5">Chapter 5 — Operating Procedures</h2>
+<ol>
+<li>Never erect a mast within fall distance of power lines.
+    Required clearance: mast height + 3&nbsp;m.</li>
+<li>For portable operation, lower the antenna before moving the mast.
+    Telescoping sections must be collapsed before transport; partially
+    extended masts have the lowest collapse load capacity.</li>
+<li>Inspect all guy wire attachment points before each use.  Replace any
+    guy wire showing kinks, broken strands, or corrosion at terminations.</li>
+<li>In winds exceeding 50&nbsp;mph: lower the antenna or lower the mast
+    entirely if the design survival wind speed is less than the forecast wind.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch6">Chapter 6 — Calibration</h2>
+<ol>
+<li>Measure actual mast height with a measuring tape or laser rangefinder.
+    Record height at each clamp position for future reference.</li>
+<li>Verify guy wire tension: each guy in a set of three should be tensioned
+    equally.  Use a wire tension gauge; target 10&ndash;15% of rated breaking
+    strength for operational tension.</li>
+<li>Plumb verification: with all guys tensioned, measure horizontal offset
+    at the top with a plumb line.  Must be &lt;1% of mast height.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch7">Chapter 7 — Verification and Acceptance</h2>
+<ol>
+<li>Mast plumb within 1% of height (e.g., &lt;0.1&nbsp;m offset for a 10&nbsp;m mast).</li>
+<li>All guy wires tensioned and attachment hardware secure (no loose
+    turnbuckles, no shackle pins without cotter pins).</li>
+<li>Wind load calculation completed and documented for the installed configuration
+    (mast height, antenna size, design wind speed).</li>
+<li>Log: date, mast type, height, antenna mounted, guy radius, design
+    wind speed, tension measurements, operator.</li>
+</ol>
+
+<h2 class="chapter-heading" id="appa">Appendix A — Worked Wind Load Example</h2>
+<p>10&nbsp;m aluminum mast, 50&nbsp;mm OD, at 70&nbsp;mph (31.3&nbsp;m/s):</p>
+<pre>q = 0.613 &times; 31.3&sup2; = 0.613 &times; 979 = 600 Pa
+A = 0.050 m &times; 10 m = 0.50 m&sup2;
+F = 600 &times; 1.0 &times; 0.50 = 300 N (67 lbf) on the mast alone
+
+Add 2-element Yagi (projected area ~0.5 m&sup2;) at top:
+F_antenna = 600 &times; 1.2 &times; 0.50 = 360 N
+Total F = 300 + 360 = 660 N (148 lbf)
+Overturning moment M = 660 &times; 5 m = 3300 N·m (mast + antenna CG)
+
+Guy wire tension (3 guys, 45° angle, 6 m radius):
+T = 3300 / (6 &times; 0.707 &times; 2/3) = 3300 / 2.83 = 1166 N per guy
+Use 1/4" Phillystran (rated 2200 N) with 3:1 safety factor.</pre>
+
+<h2 class="chapter-heading" id="appb">Appendix B — Mast Tube Wall Thickness Reference</h2>
+<table>
+<tr><th>OD (mm)</th><th>Wall (mm)</th><th>Max height (unguyed)</th><th>Max height (1 set guys)</th></tr>
+<tr><td>32</td><td>2.0</td><td>4 m</td><td>6 m</td></tr>
+<tr><td>38</td><td>2.5</td><td>5 m</td><td>8 m</td></tr>
+<tr><td>50</td><td>3.0</td><td>6 m</td><td>10 m</td></tr>
+<tr><td>63</td><td>3.5</td><td>8 m</td><td>12 m</td></tr>
+</table>
+
+                </div>
+                <div class="back-link">
+                    <a href="../index.html">&larr; Antenna Gear</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item"><strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a></div>
+                <div class="contact-item"><strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a></div>
+                <div class="contact-item"><strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a></div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Designs shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

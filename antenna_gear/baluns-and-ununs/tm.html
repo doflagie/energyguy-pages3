@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-GEAR-003 BALUNS AND UN-UNS — CURRENT AND VOLTAGE TYPES - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+.tm-cover{border:3px solid #2c5f8d;padding:28px 36px;text-align:center;margin-bottom:28px;background:#f8f8f4}
+.tm-classification{font-size:1.05em;font-weight:bold;color:#006600;letter-spacing:3px;margin-bottom:16px}
+.tm-number{font-family:'Courier New',monospace;font-size:1.15em;font-weight:bold;color:#2c5f8d;margin-bottom:8px}
+.tm-title{font-size:1.7em;font-weight:bold;color:#1a3a5c;text-transform:uppercase;letter-spacing:1px;margin:12px 0 8px;line-height:1.3}
+.tm-subtitle{font-size:.98em;font-style:italic;color:#555;margin-bottom:12px}
+.tm-meta{font-size:.88em;color:#555;margin-top:16px;border-top:1px solid #aaa;padding-top:12px}
+.chapter-body h1,.chapter-body h2{color:#1a3a5c;border-bottom:2px solid #4a7ba7;padding-bottom:4px;margin-top:22px;margin-bottom:10px}
+.chapter-body h3{color:#2c5f8d;margin-top:16px;margin-bottom:8px}
+.chapter-body table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93em}
+.chapter-body th{background:#4a7ba7;color:#fff;padding:7px 11px;text-align:left;font-size:.88em;text-transform:uppercase}
+.chapter-body td{border:1px solid #c0ccd8;padding:6px 11px;vertical-align:top}
+.chapter-body tr:nth-child(even) td{background:#f4f7fb}
+.chapter-body ol,.chapter-body ul{margin:8px 0 8px 20px}
+.chapter-body li{margin:5px 0;line-height:1.5}
+.chapter-body p{margin:8px 0 10px}
+.chapter-body pre,.chapter-body code{background:#f4f4ee;border:1px solid #ddd;padding:2px 5px;font-size:.9em}
+.chapter-body pre{padding:10px 14px;overflow-x:auto;line-height:1.4}
+.back-link{margin-top:28px;padding-top:12px;border-top:1px solid #c0ccd8;font-size:.9em}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Gear</summary>
+                <ul>
+                    <li><a href="/antenna_gear/index.html">Antenna Gear Overview</a></li>
+                    <li><a href="/antenna_gear/ant_switches/tm.html">Antenna Switches</a></li>
+                    <li><a href="/antenna_gear/audio_filters/tm.html">Audio Filters</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/tm.html">Baluns &amp; Un-Uns</a></li>
+                    <li><a href="/antenna_gear/bms/tm.html">Battery Management (BMS)</a></li>
+                    <li><a href="/antenna_gear/coax_traps/tm.html">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/coil_winder/tm.html">Coil Winder</a></li>
+                    <li><a href="/antenna_gear/common_mode_chokes/tm.html">Common-Mode Chokes</a></li>
+                    <li><a href="/antenna_gear/crystal_radio/tm.html">Crystal Radio</a></li>
+                    <li><a href="/antenna_gear/hybrids/tm.html">RF Hybrids</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/tm.html">Lightning Protection</a></li>
+                    <li><a href="/antenna_gear/mast_tower/tm.html">Mast &amp; Tower</a></li>
+                    <li><a href="/antenna_gear/motorized_tuner/tm.html">Motorized Tuner</a></li>
+                    <li><a href="/antenna_gear/power_supplies/tm.html">Power Supplies</a></li>
+                    <li><a href="/antenna_gear/remote-element-switching/tm.html">Remote Element Switching</a></li>
+                    <li><a href="/antenna_gear/rf_couplers/tm.html">RF Couplers</a></li>
+                    <li><a href="/antenna_gear/rfi_mitigation/tm.html">RFI Mitigation</a></li>
+                    <li><a href="/antenna_gear/roller_inductors/tm.html">Roller Inductors</a></li>
+                    <li><a href="/antenna_gear/transmatch/tm.html">Transmatch</a></li>
+                    <li><a href="/antenna_gear/variable_caps/tm.html">Variable Capacitors</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/index.html">Antenna Tools Overview</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/tm.html">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/swr_meter/tm.html">SWR Meter</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/tm.html">RF Power Meter</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Calibration</summary>
+                <ul>
+                    <li><a href="/calibration/index.html">Calibration Library</a></li>
+                    <li><a href="/Calibration_Ideas/index.html">Calibration Standards</a></li>
+                </ul>
+            </details>
+        </nav>
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-GEAR-003</div>
+                    <div class="tm-title">BALUNS AND UN-UNS — CURRENT AND VOLTAGE TYPES</div>
+                    <div class="tm-subtitle">1:1 Current Balun, 4:1 Guanella, 6:1 and 9:1 Trifilar, VHF/UHF Air-Core</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH &nbsp;&bull;&nbsp;
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial use</em>
+                    </div>
+                </div>
+                <div class="chapter-body">
+
+<h2 class="chapter-heading" id="ch1">Chapter 1 — Introduction and Scope</h2>
+<p>This manual covers five balun and un-un designs for antenna feedpoint
+impedance transformation and common-mode current suppression:
+1:1 current balun (choke balun), 4:1 Guanella current balun,
+6:1 trifilar transmission-line transformer, 9:1 trifilar (for 450&Omega;
+end-fed wires), and 1:1 air-core VHF/UHF choke balun.</p>
+<p>A <strong>balun</strong> (balanced-to-unbalanced) interfaces a coaxial line
+(unbalanced) to a balanced antenna (dipole, loop).  An <strong>un-un</strong>
+interfaces two unbalanced impedances (e.g., 50&Omega; coax to 450&Omega;
+random wire).  Both suppress common-mode currents on the feedline.</p>
+
+<h2 class="chapter-heading" id="ch2">Chapter 2 — Theory of Operation</h2>
+<h3>2-1 Current vs. Voltage Balun</h3>
+<p>A <strong>current balun</strong> (choke balun) enforces equal and opposite
+currents in the two antenna elements by presenting high impedance (Z_choke
+&ge;2000&Omega;) to common-mode current on the coax shield.  The
+differential mode (transmit signal) sees only the low impedance of the coax.
+A current balun does NOT transform impedance; it only suppresses common-mode.</p>
+<p>A <strong>voltage balun</strong> enforces equal and opposite voltages.
+It is simpler to build but allows common-mode current if the antenna is
+not symmetrical.  Current baluns are preferred for dipoles and loops;
+voltage baluns may be used when impedance transformation is also needed.</p>
+<h3>2-2 Transmission-Line Transformer (TLT)</h3>
+<p>TLTs (Guanella, trifilar) use transmission-line principles rather than
+magnetic coupling alone.  The characteristic impedance of the transmission line
+on the core determines the transformation ratio.  For a 4:1 Guanella: two
+equal-impedance lines are connected in series at the input and parallel at
+the output, giving a 4:1 impedance ratio.</p>
+<p>Impedance ratio relationships:</p>
+<pre>1:1 choke:   Z_in = Z_out = 50&Omega; (no transformation; common-mode choke only)
+4:1 Guanella: Z_in = 200&Omega; balanced &rarr; 50&Omega; unbalanced
+9:1 trifilar: Z_in = 450&Omega; unbalanced &rarr; 50&Omega; unbalanced</pre>
+
+<h2 class="chapter-heading" id="ch3">Chapter 3 — Equipment and Materials</h2>
+<table>
+<tr><th>Design</th><th>Core</th><th>Wire</th><th>Turns</th><th>Freq range</th></tr>
+<tr><td>1:1 current (choke)</td><td>FT-240-31</td><td>RG-303 coax, 12 passes</td><td>12</td><td>1.8&ndash;30 MHz</td></tr>
+<tr><td>4:1 Guanella</td><td>2&times; FT-140-43</td><td>#16 bifilar, 8 turns</td><td>8</td><td>1.8&ndash;30 MHz</td></tr>
+<tr><td>6:1 trifilar</td><td>FT-140-43</td><td>#18 trifilar, 10 turns</td><td>10</td><td>3.5&ndash;30 MHz</td></tr>
+<tr><td>9:1 trifilar</td><td>FT-240-43</td><td>#16 trifilar, 9 turns</td><td>9</td><td>1.8&ndash;30 MHz</td></tr>
+<tr><td>1:1 VHF/UHF air-core</td><td>None (air core)</td><td>RG-58 coax, 6 turns</td><td>6</td><td>50&ndash;450 MHz</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="ch4">Chapter 4 — Construction</h2>
+<h3>4-1 1:1 Choke Balun (FT-240-31)</h3>
+<ol>
+<li>Thread RG-303 (or RG-58) coaxial cable through the toroid 12 times.  Keep
+    turns close-wound; secure with cable ties after every 3 turns.</li>
+<li>Connect the input end to an SO-239 or N-type connector (coax center to
+    center pin, shield to shell).  Same for the output end.</li>
+<li>Measure choking impedance with NanoVNA: connect one port to the coax
+    center, other port to the coax shield, and sweep 1.8&ndash;30&nbsp;MHz.
+    The |Z| should exceed 2000&nbsp;&Omega; across most of the HF band.
+    Core type #31 is optimized for 1.8&ndash;30&nbsp;MHz.</li>
+</ol>
+<h3>4-2 4:1 Guanella Balun</h3>
+<ol>
+<li>Wind two identical 8-turn bifilar windings on two separate FT-140-43 cores.
+    Use color-coded wire to track polarity (dot convention).</li>
+<li>Connect the two windings in series for the balanced (200&Omega;) port and
+    in parallel for the unbalanced (50&Omega;) port.  Polarity is critical:
+    the start of winding 1 connects to the finish of winding 2 at the balanced
+    port center tap.</li>
+<li>Test: connect a 200&Omega; resistor to the balanced port; measure 50&Omega;
+    at the unbalanced port (SWR &lt;1.1:1).</li>
+</ol>
+<h3>4-3 9:1 Un-Un (End-Fed Wire)</h3>
+<ol>
+<li>Wind 9 turns of trifilar #16 AWG on an FT-240-43 core.  Three wires wound
+    simultaneously, in the same direction.</li>
+<li>Connect winding A in series with winding B; the junction is the 50&Omega;
+    (unbalanced input) center tap.  Winding C is the 450&Omega; output
+    winding.</li>
+<li>Test: connect 450&Omega; resistor to high-impedance port; measure
+    50&Omega; SWR at the coax port (&lt;1.2:1 across 1.8&ndash;30&nbsp;MHz).</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch5">Chapter 5 — Operating Procedures</h2>
+<ol>
+<li>Mount the balun at the antenna feedpoint — not at the radio end.
+    Feedpoint mounting minimizes the length of balanced feedline and
+    the associated common-mode current problem.</li>
+<li>Weatherproof outdoor installations: coat all solder joints and exposed
+    windings with two coats of polyurethane or Plasti-Dip.  Wrap the
+    core with self-amalgamating tape before mounting outdoors.</li>
+<li>Check SWR after installation.  If SWR is higher than expected, the most
+    common causes are: wrong impedance ratio for the antenna type, poor solder
+    joint on the balun output terminals, or water ingress.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch6">Chapter 6 — Calibration</h2>
+<ol>
+<li>Measure impedance transformation ratio: connect a known resistive load
+    (e.g., 200&Omega; for a 4:1 balun) to the balanced port; measure
+    impedance at the unbalanced port with a NanoVNA.  Target: 50&Omega; &plusmn;10%.</li>
+<li>Measure common-mode impedance (choke action): connect NanoVNA port 1
+    to coax shield at input; port 2 to coax shield at output.
+    Z_CM should exceed 2000&Omega; across 1.8&ndash;30&nbsp;MHz for type #31 core.</li>
+<li>Measure insertion loss: S21 through the balun into a matched load.
+    Target: &lt;0.3&nbsp;dB at all HF frequencies.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch7">Chapter 7 — Verification and Acceptance</h2>
+<ol>
+<li>Impedance ratio correct to within &plusmn;10% at center frequency.</li>
+<li>Common-mode impedance &ge;1000&Omega; at all specified frequencies.</li>
+<li>Insertion loss &lt;0.3&nbsp;dB at 1.8&ndash;30&nbsp;MHz.</li>
+<li>SWR &lt;1.2:1 at all test frequencies with correct load.</li>
+<li>Power test: key a 100W transmitter into a dummy load through the balun
+    for 30 seconds.  No smoke, no temperature rise exceeding 40&deg;C above ambient.</li>
+<li>Log: date, design type, core material, turns, ratio test result, CM impedance, operator.</li>
+</ol>
+
+<h2 class="chapter-heading" id="appa">Appendix A — Core Material Selection</h2>
+<table>
+<tr><th>Material</th><th>Best frequency range</th><th>Application</th></tr>
+<tr><td>#31 ferrite</td><td>1&ndash;300 MHz</td><td>Choke baluns (1:1); excellent CMC for all HF</td></tr>
+<tr><td>#43 ferrite</td><td>1&ndash;100 MHz</td><td>TLT baluns (4:1, 9:1); HF transformation</td></tr>
+<tr><td>#61 ferrite</td><td>10&ndash;200 MHz</td><td>6M and VHF TLTs</td></tr>
+<tr><td>#67 ferrite</td><td>50&ndash;500 MHz</td><td>VHF/UHF choke baluns and TLTs</td></tr>
+<tr><td>Air core</td><td>50&ndash;1300 MHz</td><td>VHF/UHF choke (coax coil, no saturation risk)</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="appb">Appendix B — Winding Polarity Verification</h2>
+<p>Use a 1.5V battery and a voltmeter.  Connect battery across winding 1.
+Measure voltage across winding 2.  If polarity is correct (dot-to-dot),
+voltmeter reads positive.  If reversed, the windings are connected out of phase
+and the balun will not function correctly.  Reverse one winding's connections
+to correct.</p>
+
+                </div>
+                <div class="back-link">
+                    <a href="../index.html">&larr; Antenna Gear</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item"><strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a></div>
+                <div class="contact-item"><strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a></div>
+                <div class="contact-item"><strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a></div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Designs shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

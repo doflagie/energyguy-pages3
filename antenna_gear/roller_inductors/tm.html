@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-GEAR-017 ROLLER INDUCTORS — MOTORIZED VARIABLE INDUCTANCE - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+.tm-cover{border:3px solid #2c5f8d;padding:28px 36px;text-align:center;margin-bottom:28px;background:#f8f8f4}
+.tm-classification{font-size:1.05em;font-weight:bold;color:#006600;letter-spacing:3px;margin-bottom:16px}
+.tm-number{font-family:'Courier New',monospace;font-size:1.15em;font-weight:bold;color:#2c5f8d;margin-bottom:8px}
+.tm-title{font-size:1.7em;font-weight:bold;color:#1a3a5c;text-transform:uppercase;letter-spacing:1px;margin:12px 0 8px;line-height:1.3}
+.tm-subtitle{font-size:.98em;font-style:italic;color:#555;margin-bottom:12px}
+.tm-meta{font-size:.88em;color:#555;margin-top:16px;border-top:1px solid #aaa;padding-top:12px}
+.chapter-body h1,.chapter-body h2{color:#1a3a5c;border-bottom:2px solid #4a7ba7;padding-bottom:4px;margin-top:22px;margin-bottom:10px}
+.chapter-body h3{color:#2c5f8d;margin-top:16px;margin-bottom:8px}
+.chapter-body table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93em}
+.chapter-body th{background:#4a7ba7;color:#fff;padding:7px 11px;text-align:left;font-size:.88em;text-transform:uppercase}
+.chapter-body td{border:1px solid #c0ccd8;padding:6px 11px;vertical-align:top}
+.chapter-body tr:nth-child(even) td{background:#f4f7fb}
+.chapter-body ol,.chapter-body ul{margin:8px 0 8px 20px}
+.chapter-body li{margin:5px 0;line-height:1.5}
+.chapter-body p{margin:8px 0 10px}
+.chapter-body pre,.chapter-body code{background:#f4f4ee;border:1px solid #ddd;padding:2px 5px;font-size:.9em}
+.chapter-body pre{padding:10px 14px;overflow-x:auto;line-height:1.4}
+.back-link{margin-top:28px;padding-top:12px;border-top:1px solid #c0ccd8;font-size:.9em}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Gear</summary>
+                <ul>
+                    <li><a href="/antenna_gear/index.html">Antenna Gear Overview</a></li>
+                    <li><a href="/antenna_gear/ant_switches/tm.html">Antenna Switches</a></li>
+                    <li><a href="/antenna_gear/audio_filters/tm.html">Audio Filters</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/tm.html">Baluns &amp; Un-Uns</a></li>
+                    <li><a href="/antenna_gear/bms/tm.html">Battery Management (BMS)</a></li>
+                    <li><a href="/antenna_gear/coax_traps/tm.html">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/coil_winder/tm.html">Coil Winder</a></li>
+                    <li><a href="/antenna_gear/common_mode_chokes/tm.html">Common-Mode Chokes</a></li>
+                    <li><a href="/antenna_gear/crystal_radio/tm.html">Crystal Radio</a></li>
+                    <li><a href="/antenna_gear/hybrids/tm.html">RF Hybrids</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/tm.html">Lightning Protection</a></li>
+                    <li><a href="/antenna_gear/mast_tower/tm.html">Mast &amp; Tower</a></li>
+                    <li><a href="/antenna_gear/motorized_tuner/tm.html">Motorized Tuner</a></li>
+                    <li><a href="/antenna_gear/power_supplies/tm.html">Power Supplies</a></li>
+                    <li><a href="/antenna_gear/remote-element-switching/tm.html">Remote Element Switching</a></li>
+                    <li><a href="/antenna_gear/rf_couplers/tm.html">RF Couplers</a></li>
+                    <li><a href="/antenna_gear/rfi_mitigation/tm.html">RFI Mitigation</a></li>
+                    <li><a href="/antenna_gear/roller_inductors/tm.html">Roller Inductors</a></li>
+                    <li><a href="/antenna_gear/transmatch/tm.html">Transmatch</a></li>
+                    <li><a href="/antenna_gear/variable_caps/tm.html">Variable Capacitors</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/index.html">Antenna Tools Overview</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/tm.html">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/swr_meter/tm.html">SWR Meter</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/tm.html">RF Power Meter</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Calibration</summary>
+                <ul>
+                    <li><a href="/calibration/index.html">Calibration Library</a></li>
+                    <li><a href="/Calibration_Ideas/index.html">Calibration Standards</a></li>
+                </ul>
+            </details>
+        </nav>
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-GEAR-017</div>
+                    <div class="tm-title">ROLLER INDUCTORS — MOTORIZED VARIABLE INDUCTANCE</div>
+                    <div class="tm-subtitle">ESP32 + DRV8825 Controller, Limit Switches, Encoder Position, OLED Display</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH &nbsp;&bull;&nbsp;
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial use</em>
+                    </div>
+                </div>
+                <div class="chapter-body">
+
+<h2 class="chapter-heading" id="ch1">Chapter 1 — Introduction and Scope</h2>
+<p>This manual covers the motorized roller inductor controller for use in
+antenna tuners (transmatches), transmatch remote positioning, and inductor
+matching networks.  The controller drives a DRV8825 or A4988 stepper motor
+driver to position a sliding contact along a large air-core inductor coil,
+providing continuously variable inductance from 0 to the maximum value
+(typically 20&ndash;30&nbsp;&micro;H for HF antenna tuner use).  Position
+is tracked by encoder and limit switches; a front panel encoder + OLED
+provides manual control.</p>
+
+<h2 class="chapter-heading" id="ch2">Chapter 2 — Theory of Operation</h2>
+<h3>2-1 Variable Inductance</h3>
+<p>A roller inductor consists of a large single-layer air-core coil wound
+on a threaded ceramic or PTFE former.  A sliding contact (the &ldquo;roller&rdquo;)
+driven along the former by a threaded rod taps a variable number of turns.
+Inductance is approximately proportional to turns squared (Wheeler&rsquo;s formula)
+for a fixed coil geometry:</p>
+<pre>L = r&sup2; &times; N&sup2; / (9r + 10l)   (L in &micro;H, r and l in inches)
+For a fixed coil with N_total turns:
+  L(n) &asymp; L_max &times; (n / N_total)&sup2;</pre>
+<p>A 25&nbsp;&micro;H roller inductor with 40 turns has L = 0 at n=0, rising
+to 25&nbsp;&micro;H at n=40.  The relationship is not exactly quadratic
+due to coil end effects, so a calibration table maps encoder position to
+actual inductance (measured with an LCR meter).</p>
+<h3>2-2 Stepper Motor Positioning</h3>
+<p>A NEMA&nbsp;17 stepper with 200 steps/rev, 1/16 microstepping = 3200 steps/rev.
+The lead screw pitch (typically 1.25&nbsp;mm/rev for M8) gives a linear
+resolution of 1.25 / 3200 = 0.391&nbsp;&micro;m per step — far more than
+needed.  Position is tracked by step count from the home position (home limit
+switch).  On power-up, the controller homes before accepting position commands.</p>
+
+<h2 class="chapter-heading" id="ch3">Chapter 3 — Equipment and Materials</h2>
+<table>
+<tr><th>Component</th><th>Value / Part</th><th>Purpose</th></tr>
+<tr><td>Roller inductor body</td><td>Commercial 20&ndash;30 &micro;H (Cardwell, Barker&amp;Williamson)</td><td>Variable inductance element</td></tr>
+<tr><td>Drive motor</td><td>NEMA 17, 1.5A, 200 steps/rev</td><td>Rotate roller screw</td></tr>
+<tr><td>Motor driver</td><td>DRV8825 or TMC2208 module</td><td>Microstepping drive</td></tr>
+<tr><td>Controller</td><td>ESP32 WROOM-32</td><td>Step generation, position tracking</td></tr>
+<tr><td>Limit switches</td><td>2&times; microswitches (home and end)</td><td>Hard stops + home reference</td></tr>
+<tr><td>Position encoder</td><td>Optical encoder OR step counting</td><td>Position feedback</td></tr>
+<tr><td>Display</td><td>SSD1306 0.96&rdquo; OLED</td><td>Inductance, position, status</td></tr>
+<tr><td>Manual encoder</td><td>KY-040 rotary encoder</td><td>Manual position control</td></tr>
+<tr><td>Power</td><td>12V 2A</td><td>Motor VMO T + 3.3V for ESP32</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="ch4">Chapter 4 — Construction and Setup</h2>
+<ol>
+<li>Mount the roller inductor securely; the roller screw must rotate freely
+    without binding.  Any binding causes lost steps, which corrupts the
+    position tracking.</li>
+<li>Couple the NEMA&nbsp;17 shaft to the roller inductor shaft via a flexible
+    coupler or 3D-printed coupling gear.  Ensure axial alignment within 1&nbsp;mm.</li>
+<li>Mount microswitches at the home (minimum inductance) and end (maximum
+    inductance) positions.  Wire both normally-closed (NC) for fail-safe
+    operation — a broken wire trips the limit rather than ignoring it.</li>
+<li>Wire the DRV8825: VMOT to 12V; EN, STEP, DIR to ESP32 GPIO; M0/M1/M2
+    for 1/16 step mode (all high); SLEEP high (always enabled).</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch5">Chapter 5 — Operating Procedures</h2>
+<h3>5-1 Homing Sequence</h3>
+<ol>
+<li>On power-up, the controller automatically homes: moves toward the home
+    limit switch at 100 steps/sec until the switch opens; then backs off
+    at 50 steps/sec until the switch closes again.  This position is zero.</li>
+<li>After homing, move to the last-used position (stored in NVS).</li>
+</ol>
+<h3>5-2 Setting Inductance</h3>
+<ol>
+<li>Enter the desired inductance in &micro;H on the CYD or OLED display.
+    The ESP32 looks up the corresponding step count in the calibration table
+    and commands the motor.</li>
+<li>For SWR-guided auto-tuning: the tuner controller (TM-GEAR-012) sends
+    the target inductance via I2C or UART to the roller inductor controller.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch6">Chapter 6 — Calibration</h2>
+<ol>
+<li>Set the roller to each of 10 equally-spaced positions (0, 10, 20, ..., 100%
+    of full travel).  Measure inductance at each position with an LCR meter
+    at 100&nbsp;kHz.  Record the (step_count, L_uH) pairs as the calibration table.</li>
+<li>Store the calibration table in ESP32 NVS.  The firmware uses linear
+    interpolation between table points for positions between calibration points.</li>
+<li>Calibration must be repeated if the motor coupler or limit switch position
+    is changed.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch7">Chapter 7 — Verification and Acceptance</h2>
+<ol>
+<li>Position repeatability: command 10&nbsp;&micro;H 10 times from random positions.
+    Measured inductance must be within &plusmn;0.5&nbsp;&micro;H of target each time.</li>
+<li>Limit switch test: command travel beyond the end-of-travel limit.  Motor
+    must stop at the limit switch; verify no lost steps after the stop.</li>
+<li>Home repeatability: home 5 times.  After each home, command 10&nbsp;&micro;H;
+    measure inductance.  Must be within &plusmn;0.2&nbsp;&micro;H each run.</li>
+<li>Log: date, inductor model, calibration table (10-point), home repeatability,
+    position repeatability at 10 &micro;H and 20 &micro;H, operator.</li>
+</ol>
+
+<h2 class="chapter-heading" id="appa">Appendix A — Common Roller Inductor Specifications</h2>
+<table>
+<tr><th>Model</th><th>Max L (&micro;H)</th><th>Turns</th><th>Current rating (A)</th></tr>
+<tr><td>Cardwell 154-33</td><td>33</td><td>45</td><td>15</td></tr>
+<tr><td>B&amp;W 850</td><td>25</td><td>40</td><td>20</td></tr>
+<tr><td>Barker Williamson 851</td><td>50</td><td>56</td><td>20</td></tr>
+<tr><td>Homebrew (see TM-GEAR-006)</td><td>Variable</td><td>Variable</td><td>Depends on wire gauge</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="appb">Appendix B — Inductance Calibration Worksheet</h2>
+<table>
+<tr><th>Step count</th><th>% travel</th><th>L measured (&micro;H)</th></tr>
+<tr><td>0</td><td>0%</td><td>___</td></tr>
+<tr><td>320</td><td>10%</td><td>___</td></tr>
+<tr><td>640</td><td>20%</td><td>___</td></tr>
+<tr><td>960</td><td>30%</td><td>___</td></tr>
+<tr><td>1280</td><td>40%</td><td>___</td></tr>
+<tr><td>1600</td><td>50%</td><td>___</td></tr>
+<tr><td>1920</td><td>60%</td><td>___</td></tr>
+<tr><td>2240</td><td>70%</td><td>___</td></tr>
+<tr><td>2560</td><td>80%</td><td>___</td></tr>
+<tr><td>2880</td><td>90%</td><td>___</td></tr>
+<tr><td>3200</td><td>100%</td><td>___</td></tr>
+</table>
+
+                </div>
+                <div class="back-link">
+                    <a href="../index.html">&larr; Antenna Gear</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item"><strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a></div>
+                <div class="contact-item"><strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a></div>
+                <div class="contact-item"><strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a></div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Designs shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

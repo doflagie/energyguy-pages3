@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-GEAR-006 MOTORIZED COIL WINDER — ESP32 CONTROLLER - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+.tm-cover{border:3px solid #2c5f8d;padding:28px 36px;text-align:center;margin-bottom:28px;background:#f8f8f4}
+.tm-classification{font-size:1.05em;font-weight:bold;color:#006600;letter-spacing:3px;margin-bottom:16px}
+.tm-number{font-family:'Courier New',monospace;font-size:1.15em;font-weight:bold;color:#2c5f8d;margin-bottom:8px}
+.tm-title{font-size:1.7em;font-weight:bold;color:#1a3a5c;text-transform:uppercase;letter-spacing:1px;margin:12px 0 8px;line-height:1.3}
+.tm-subtitle{font-size:.98em;font-style:italic;color:#555;margin-bottom:12px}
+.tm-meta{font-size:.88em;color:#555;margin-top:16px;border-top:1px solid #aaa;padding-top:12px}
+.chapter-body h1,.chapter-body h2{color:#1a3a5c;border-bottom:2px solid #4a7ba7;padding-bottom:4px;margin-top:22px;margin-bottom:10px}
+.chapter-body h3{color:#2c5f8d;margin-top:16px;margin-bottom:8px}
+.chapter-body table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93em}
+.chapter-body th{background:#4a7ba7;color:#fff;padding:7px 11px;text-align:left;font-size:.88em;text-transform:uppercase}
+.chapter-body td{border:1px solid #c0ccd8;padding:6px 11px;vertical-align:top}
+.chapter-body tr:nth-child(even) td{background:#f4f7fb}
+.chapter-body ol,.chapter-body ul{margin:8px 0 8px 20px}
+.chapter-body li{margin:5px 0;line-height:1.5}
+.chapter-body p{margin:8px 0 10px}
+.chapter-body pre,.chapter-body code{background:#f4f4ee;border:1px solid #ddd;padding:2px 5px;font-size:.9em}
+.chapter-body pre{padding:10px 14px;overflow-x:auto;line-height:1.4}
+.back-link{margin-top:28px;padding-top:12px;border-top:1px solid #c0ccd8;font-size:.9em}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Gear</summary>
+                <ul>
+                    <li><a href="/antenna_gear/index.html">Antenna Gear Overview</a></li>
+                    <li><a href="/antenna_gear/ant_switches/tm.html">Antenna Switches</a></li>
+                    <li><a href="/antenna_gear/audio_filters/tm.html">Audio Filters</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/tm.html">Baluns &amp; Un-Uns</a></li>
+                    <li><a href="/antenna_gear/bms/tm.html">Battery Management (BMS)</a></li>
+                    <li><a href="/antenna_gear/coax_traps/tm.html">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/coil_winder/tm.html">Coil Winder</a></li>
+                    <li><a href="/antenna_gear/common_mode_chokes/tm.html">Common-Mode Chokes</a></li>
+                    <li><a href="/antenna_gear/crystal_radio/tm.html">Crystal Radio</a></li>
+                    <li><a href="/antenna_gear/hybrids/tm.html">RF Hybrids</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/tm.html">Lightning Protection</a></li>
+                    <li><a href="/antenna_gear/mast_tower/tm.html">Mast &amp; Tower</a></li>
+                    <li><a href="/antenna_gear/motorized_tuner/tm.html">Motorized Tuner</a></li>
+                    <li><a href="/antenna_gear/power_supplies/tm.html">Power Supplies</a></li>
+                    <li><a href="/antenna_gear/remote-element-switching/tm.html">Remote Element Switching</a></li>
+                    <li><a href="/antenna_gear/rf_couplers/tm.html">RF Couplers</a></li>
+                    <li><a href="/antenna_gear/rfi_mitigation/tm.html">RFI Mitigation</a></li>
+                    <li><a href="/antenna_gear/roller_inductors/tm.html">Roller Inductors</a></li>
+                    <li><a href="/antenna_gear/transmatch/tm.html">Transmatch</a></li>
+                    <li><a href="/antenna_gear/variable_caps/tm.html">Variable Capacitors</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/index.html">Antenna Tools Overview</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/tm.html">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/swr_meter/tm.html">SWR Meter</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/tm.html">RF Power Meter</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Calibration</summary>
+                <ul>
+                    <li><a href="/calibration/index.html">Calibration Library</a></li>
+                    <li><a href="/Calibration_Ideas/index.html">Calibration Standards</a></li>
+                </ul>
+            </details>
+        </nav>
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-GEAR-006</div>
+                    <div class="tm-title">MOTORIZED COIL WINDER — ESP32 CONTROLLER</div>
+                    <div class="tm-subtitle">NEMA 17/23 Dual-Axis, DRV8825/TMC2208, SD Card, OLED Display</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH &nbsp;&bull;&nbsp;
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial use</em>
+                    </div>
+                </div>
+                <div class="chapter-body">
+
+<h2 class="chapter-heading" id="ch1">Chapter 1 — Introduction and Scope</h2>
+<p>This manual covers the motorized coil winder controller: a dual-axis
+CNC system that winds RF coils with programmable turn count, pitch, and
+wire gauge.  The spindle axis (NEMA&nbsp;23, 2.5&nbsp;A) rotates the winding
+former; the traverse axis (NEMA&nbsp;17, 1.5&nbsp;A) advances the wire guide
+one wire-diameter per revolution.  The ESP32 controls both axes via DRV8825
+or TMC2208 stepper drivers.  Parameters are entered via a front-panel rotary
+encoder + OLED display or via USB serial.  A winding program (number of turns,
+pitch, wire gauge) is stored on an SD card.</p>
+
+<h2 class="chapter-heading" id="ch2">Chapter 2 — Theory of Operation</h2>
+<h3>2-1 Step Coordination</h3>
+<p>For single-layer close-wound coils:
+  traverse steps per spindle revolution = wire_OD / traverse_step_size
+where traverse_step_size = lead_screw_pitch / steps_per_rev_microstepped.
+The ESP32 uses a step-rate ratio to keep the axes coordinated.  Step pulses
+are generated via hardware timers (ESP32 MCPWM or timer ISR) to maintain
+precise step rates at speeds up to 1000&nbsp;RPM.</p>
+<h3>2-2 TMC2208 Advantages</h3>
+<p>The TMC2208 provides stealthChop (silent operation) and 256-step
+micro-stepping, reducing vibration at low speeds.  Current sensing is
+internal (no external sense resistors required).  The UART interface
+allows current, chopper mode, and speed ramping to be configured from
+the ESP32 at runtime, without hardware changes.</p>
+
+<h2 class="chapter-heading" id="ch3">Chapter 3 — Equipment and Materials</h2>
+<table>
+<tr><th>Component</th><th>Spec / Part</th><th>Purpose</th></tr>
+<tr><td>Spindle motor</td><td>NEMA 23, 2.5A, 200 steps/rev</td><td>Rotate winding former</td></tr>
+<tr><td>Traverse motor</td><td>NEMA 17, 1.5A, 200 steps/rev</td><td>Advance wire guide</td></tr>
+<tr><td>Spindle driver</td><td>TMC2208 or A4988</td><td>Microstepping drive</td></tr>
+<tr><td>Traverse driver</td><td>TMC2208 or A4988</td><td>Microstepping drive</td></tr>
+<tr><td>Controller</td><td>ESP32 WROOM-32</td><td>Step generation, UI, SD logging</td></tr>
+<tr><td>Display</td><td>SSD1306 0.96&rdquo; OLED I2C</td><td>Turn counter, speed, status</td></tr>
+<tr><td>Encoder</td><td>KY-040 rotary encoder + button</td><td>Parameter entry</td></tr>
+<tr><td>SD card module</td><td>SPI, 3.3V</td><td>Winding program storage</td></tr>
+<tr><td>Power supply</td><td>24V 5A (or 12V for NEMA 17)</td><td>Stepper VMOTs</td></tr>
+<tr><td>Limit switches</td><td>2× microswitches on traverse</td><td>Home and end-of-travel</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="ch4">Chapter 4 — Construction and Setup</h2>
+<ol>
+<li>Mount spindle motor to the main frame with its axis aligned with the
+    former mandrel.  Use a flexible coupler to compensate for minor
+    shaft misalignment.</li>
+<li>Mount traverse motor on a lead-screw linear stage.  Lead screw pitch:
+    2&nbsp;mm per revolution (M8 or TR8×2).  Mount wire guide on the
+    linear stage carriage.</li>
+<li>Wire stepper drivers: VMOT to 24V rail, GND, MS1/MS2/MS3 for
+    microstepping (TMC2208 SPI-configured; A4988 uses jumpers for
+    1/16-step mode).  STEP/DIR to ESP32 GPIO.</li>
+<li>Wire limit switches to ESP32 GPIO with 10&nbsp;k&Omega; pull-ups.
+    Connect HOME switch to traverse axis minus limit; END switch to plus limit.</li>
+<li>SD card: SPI bus (SCK, MOSI, MISO, CS).  SD CS = GPIO5; SD SPI shares
+    bus with display if display is SPI type.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch5">Chapter 5 — Operating Procedures</h2>
+<ol>
+<li>Home the traverse axis: press HOME button.  Traverse moves to minus
+    limit switch and sets position to zero.</li>
+<li>Enter winding parameters via encoder: wire gauge (AWG), turns, coil
+    length (or pitch), wind direction (CW or CCW looking at spindle).</li>
+<li>Press START.  The controller winds the specified turns, counting on
+    the OLED display.  Press PAUSE to stop at any point; press RESUME
+    to continue.</li>
+<li>After completion: the controller stops and displays DONE + final turn count.
+    The completed program is logged to the SD card with date, wire gauge,
+    turns, and any errors.</li>
+<li>For multi-layer coils: increment the layer counter in the program.
+    The traverse will reverse direction automatically for each layer.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch6">Chapter 6 — Calibration</h2>
+<ol>
+<li>Spindle step calibration: command 10 revolutions; count actual revolutions
+    with a mark on the former.  Adjust steps_per_rev in firmware if actual
+    turns differ from commanded.</li>
+<li>Traverse calibration: command 10&nbsp;mm of traverse travel.  Measure
+    with a micrometer.  Adjust mm_per_step in firmware.</li>
+<li>Wire gauge calibration: measure actual wire OD with a micrometer for
+    each gauge in use.  Update the wire_od_mm lookup table in firmware.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch7">Chapter 7 — Verification and Acceptance</h2>
+<ol>
+<li>Wind a test coil: 10 turns, 28&nbsp;AWG, close-wound, 20&nbsp;mm former.
+    Expected coil length: 10 &times; 0.321&nbsp;mm (28&nbsp;AWG OD) = 3.21&nbsp;mm.
+    Measure: must be within 0.5&nbsp;mm of expected.</li>
+<li>Measure inductance with LCR meter.  Compare to Wheeler's formula.
+    Agreement within 10% confirms turn count and pitch are correct.</li>
+<li>Step alignment: at end of winding, traverse return to home position
+    must be within 1 step of the home limit switch.</li>
+<li>Log: date, test coil gauge and turns, measured length, measured
+    inductance, step calibration values, operator.</li>
+</ol>
+
+<h2 class="chapter-heading" id="appa">Appendix A — Wire Gauge Reference</h2>
+<table>
+<tr><th>AWG</th><th>OD bare (mm)</th><th>OD insulated (mm)</th><th>Max current (A)</th></tr>
+<tr><td>14</td><td>1.628</td><td>1.95</td><td>15</td></tr>
+<tr><td>18</td><td>1.024</td><td>1.30</td><td>7</td></tr>
+<tr><td>22</td><td>0.644</td><td>0.85</td><td>3</td></tr>
+<tr><td>26</td><td>0.405</td><td>0.55</td><td>1</td></tr>
+<tr><td>28</td><td>0.321</td><td>0.45</td><td>0.5</td></tr>
+<tr><td>30</td><td>0.255</td><td>0.35</td><td>0.3</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="appb">Appendix B — Step Rate vs. RPM</h2>
+<pre>Spindle: NEMA 23, 200 steps/rev, 1/16 microstepping = 3200 steps/rev
+At 600 RPM: step rate = 600/60 × 3200 = 32,000 steps/sec
+At 1200 RPM: 64,000 steps/sec  (near ESP32 timer limit; reduce to 1000 RPM max)
+
+Traverse: M8 lead screw, 1.25 mm pitch
+NEMA 17, 200 steps/rev, 1/16 step = 3200 steps/rev
+mm per step = 1.25 / 3200 = 0.000391 mm/step  (0.391 μm resolution)</pre>
+
+                </div>
+                <div class="back-link">
+                    <a href="../index.html">&larr; Antenna Gear</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item"><strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a></div>
+                <div class="contact-item"><strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a></div>
+                <div class="contact-item"><strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a></div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Designs shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

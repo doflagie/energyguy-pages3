@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-GEAR-009 RF HYBRID COUPLERS — QUADRATURE, WILKINSON, AND RAT-RACE - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+.tm-cover{border:3px solid #2c5f8d;padding:28px 36px;text-align:center;margin-bottom:28px;background:#f8f8f4}
+.tm-classification{font-size:1.05em;font-weight:bold;color:#006600;letter-spacing:3px;margin-bottom:16px}
+.tm-number{font-family:'Courier New',monospace;font-size:1.15em;font-weight:bold;color:#2c5f8d;margin-bottom:8px}
+.tm-title{font-size:1.7em;font-weight:bold;color:#1a3a5c;text-transform:uppercase;letter-spacing:1px;margin:12px 0 8px;line-height:1.3}
+.tm-subtitle{font-size:.98em;font-style:italic;color:#555;margin-bottom:12px}
+.tm-meta{font-size:.88em;color:#555;margin-top:16px;border-top:1px solid #aaa;padding-top:12px}
+.chapter-body h1,.chapter-body h2{color:#1a3a5c;border-bottom:2px solid #4a7ba7;padding-bottom:4px;margin-top:22px;margin-bottom:10px}
+.chapter-body h3{color:#2c5f8d;margin-top:16px;margin-bottom:8px}
+.chapter-body table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93em}
+.chapter-body th{background:#4a7ba7;color:#fff;padding:7px 11px;text-align:left;font-size:.88em;text-transform:uppercase}
+.chapter-body td{border:1px solid #c0ccd8;padding:6px 11px;vertical-align:top}
+.chapter-body tr:nth-child(even) td{background:#f4f7fb}
+.chapter-body ol,.chapter-body ul{margin:8px 0 8px 20px}
+.chapter-body li{margin:5px 0;line-height:1.5}
+.chapter-body p{margin:8px 0 10px}
+.chapter-body pre,.chapter-body code{background:#f4f4ee;border:1px solid #ddd;padding:2px 5px;font-size:.9em}
+.chapter-body pre{padding:10px 14px;overflow-x:auto;line-height:1.4}
+.back-link{margin-top:28px;padding-top:12px;border-top:1px solid #c0ccd8;font-size:.9em}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Gear</summary>
+                <ul>
+                    <li><a href="/antenna_gear/index.html">Antenna Gear Overview</a></li>
+                    <li><a href="/antenna_gear/ant_switches/tm.html">Antenna Switches</a></li>
+                    <li><a href="/antenna_gear/audio_filters/tm.html">Audio Filters</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/tm.html">Baluns &amp; Un-Uns</a></li>
+                    <li><a href="/antenna_gear/bms/tm.html">Battery Management (BMS)</a></li>
+                    <li><a href="/antenna_gear/coax_traps/tm.html">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/coil_winder/tm.html">Coil Winder</a></li>
+                    <li><a href="/antenna_gear/common_mode_chokes/tm.html">Common-Mode Chokes</a></li>
+                    <li><a href="/antenna_gear/crystal_radio/tm.html">Crystal Radio</a></li>
+                    <li><a href="/antenna_gear/hybrids/tm.html">RF Hybrids</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/tm.html">Lightning Protection</a></li>
+                    <li><a href="/antenna_gear/mast_tower/tm.html">Mast &amp; Tower</a></li>
+                    <li><a href="/antenna_gear/motorized_tuner/tm.html">Motorized Tuner</a></li>
+                    <li><a href="/antenna_gear/power_supplies/tm.html">Power Supplies</a></li>
+                    <li><a href="/antenna_gear/remote-element-switching/tm.html">Remote Element Switching</a></li>
+                    <li><a href="/antenna_gear/rf_couplers/tm.html">RF Couplers</a></li>
+                    <li><a href="/antenna_gear/rfi_mitigation/tm.html">RFI Mitigation</a></li>
+                    <li><a href="/antenna_gear/roller_inductors/tm.html">Roller Inductors</a></li>
+                    <li><a href="/antenna_gear/transmatch/tm.html">Transmatch</a></li>
+                    <li><a href="/antenna_gear/variable_caps/tm.html">Variable Capacitors</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/index.html">Antenna Tools Overview</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/tm.html">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/swr_meter/tm.html">SWR Meter</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/tm.html">RF Power Meter</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Calibration</summary>
+                <ul>
+                    <li><a href="/calibration/index.html">Calibration Library</a></li>
+                    <li><a href="/Calibration_Ideas/index.html">Calibration Standards</a></li>
+                </ul>
+            </details>
+        </nav>
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-GEAR-009</div>
+                    <div class="tm-title">RF HYBRID COUPLERS — QUADRATURE, WILKINSON, AND RAT-RACE</div>
+                    <div class="tm-subtitle">Branch-Line 90° Hybrid, Wilkinson 2-Way and 4-Way, Rat-Race 180° Coupler</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH &nbsp;&bull;&nbsp;
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial use</em>
+                    </div>
+                </div>
+                <div class="chapter-body">
+
+<h2 class="chapter-heading" id="ch1">Chapter 1 — Introduction and Scope</h2>
+<p>This manual covers four RF hybrid coupler designs for splitting and combining
+RF power with controlled phase relationships: the branch-line quadrature hybrid
+(90&deg; phase split, equal amplitude), the Wilkinson 2-way in-phase power
+divider, the 4-way Wilkinson, and the rat-race (180&deg; hybrid ring).
+Applications include circular polarization feeds, phased array antenna networks,
+balanced amplifier stages, and antenna switching networks.</p>
+
+<h2 class="chapter-heading" id="ch2">Chapter 2 — Theory of Operation</h2>
+<h3>2-1 Branch-Line Quadrature Hybrid</h3>
+<p>A 4-port network constructed from four &lambda;/4 transmission line sections.
+Two shunt arms have characteristic impedance Z<sub>0</sub> = 50&Omega;;
+two series (coupling) arms have Z<sub>0</sub>/&radic;2 = 35.35&Omega;.
+S-parameter matrix at center frequency:</p>
+<table>
+<tr><th>Port pair</th><th>Magnitude</th><th>Phase</th></tr>
+<tr><td>Input &rarr; Through (P1&rarr;P2)</td><td>&minus;3.01 dB</td><td>0&deg;</td></tr>
+<tr><td>Input &rarr; Coupled (P1&rarr;P3)</td><td>&minus;3.01 dB</td><td>&minus;90&deg;</td></tr>
+<tr><td>Input &rarr; Isolated (P1&rarr;P4)</td><td>&lt;&minus;40 dB</td><td>N/A</td></tr>
+</table>
+<h3>2-2 Wilkinson Power Divider</h3>
+<p>A 3-port network that splits input power equally between two output ports
+with 0&deg; phase (in-phase).  Ports 2 and 3 are isolated from each other
+when both are terminated in Z<sub>0</sub>.  The &lambda;/4 arms have
+characteristic impedance Z<sub>0</sub>&radic;2 = 70.7&Omega; for a 50&Omega; system.
+An isolation resistor R = 2Z<sub>0</sub> = 100&Omega; connects ports 2 and 3.</p>
+<h3>2-3 Rat-Race (180&deg; Hybrid Ring)</h3>
+<p>A ring of transmission line (total circumference 1.5&lambda;) with four
+ports: sum (&Sigma;) port provides in-phase combination; difference (&Delta;)
+port provides 180&deg; phase difference between ports.  Ring impedance:
+Z<sub>ring</sub> = Z<sub>0</sub>&radic;2 = 70.7&Omega;.  Used for balanced
+mixers and antenna pattern summation/difference.</p>
+
+<h2 class="chapter-heading" id="ch3">Chapter 3 — Equipment and Materials</h2>
+<table>
+<tr><th>Design</th><th>Implementation</th><th>PCB trace width (50&Omega; FR4)</th><th>Note</th></tr>
+<tr><td>Branch-line hybrid</td><td>PCB microstrip or lumped LC at HF</td><td>2.9mm (50&Omega;); 5.0mm (35.35&Omega;)</td><td>Best for VHF/UHF</td></tr>
+<tr><td>Wilkinson 2-way</td><td>PCB microstrip, 2&times; &lambda;/4 arms</td><td>1.7mm (70.7&Omega;)</td><td>100&Omega; isolation R between ports</td></tr>
+<tr><td>Wilkinson 4-way</td><td>Two cascaded Wilkinson stages</td><td>Same</td><td>3&nbsp;dB + 3&nbsp;dB = 6&nbsp;dB split</td></tr>
+<tr><td>Rat-race</td><td>PCB ring, 70.7&Omega; trace</td><td>1.7mm</td><td>3&lambda;/2 ring circumference</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="ch4">Chapter 4 — Construction</h2>
+<h3>4-1 Branch-Line Hybrid (144 MHz)</h3>
+<ol>
+<li>Calculate &lambda;/4 at 144&nbsp;MHz on FR4 (1.6&nbsp;mm, &epsilon;r=4.6):
+    &lambda;/4 = c/(4 &times; f &times; &radic;&epsilon;eff) &asymp; 350&nbsp;mm / 4 = 87.5&nbsp;mm.
+    Account for effective permittivity (&epsilon;eff &asymp; 3.4): 87.5 / &radic;3.4 = 47.5&nbsp;mm.</li>
+<li>Draw the four-arm square layout: each arm 47.5&nbsp;mm long.  Shunt arms:
+    2.9&nbsp;mm wide (50&Omega;).  Series arms: 5.0&nbsp;mm wide (35.35&Omega;).</li>
+<li>Mount SMA connectors at each of the four corners.  The square layout
+    minimizes parasitic coupling between arms.</li>
+</ol>
+<h3>4-2 Lumped-Element HF Hybrid (7&ndash;30&nbsp;MHz)</h3>
+<ol>
+<li>Replace each &lambda;/4 line section with an equivalent LC &pi;-network:
+    L = Z<sub>0</sub>/&omega; = 50/(2&pi;&times;14e6) = 568&nbsp;nH (shunt arms);
+    C = 1/(&omega;&times;Z<sub>0</sub>) = 1/(2&pi;&times;14e6&times;50) = 227&nbsp;pF.</li>
+<li>Use 1% tolerance components to maintain amplitude and phase balance.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch5">Chapter 5 — Operating Procedures</h2>
+<h3>5-1 Circular Polarization Feed</h3>
+<ol>
+<li>Connect the transceiver to Port 1 (input) of the branch-line hybrid.
+    Connect a horizontally polarized element to Port 2 (0&deg;) and a
+    vertically polarized element to Port 3 (&minus;90&deg;).</li>
+<li>Port 4 (isolated) is terminated in a 50&Omega; load — do not leave it
+    open; it must be terminated for correct operation.</li>
+<li>Result: the two antenna elements receive equal power with 90&deg; phase
+    offset, producing circular polarization.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch6">Chapter 6 — Calibration</h2>
+<ol>
+<li>Branch-line hybrid: with NanoVNA, measure S11 at Port 1 (must be
+    &lt;&minus;20&nbsp;dB return loss at f<sub>0</sub>) and S21 to ports 2
+    and 3 (&minus;3 &plusmn; 0.5&nbsp;dB each).  Measure S31 vs. S21 phase
+    (must be &minus;90 &plusmn; 5&deg;).  S41 must be &lt;&minus;30&nbsp;dB
+    (isolation).</li>
+<li>Wilkinson: S11 &lt;&minus;20&nbsp;dB; S21 = S31 = &minus;3 &plusmn; 0.5&nbsp;dB;
+    S23 (isolation) &lt;&minus;20&nbsp;dB at center frequency.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch7">Chapter 7 — Verification and Acceptance</h2>
+<ol>
+<li>Amplitude balance: |S21| &minus; |S31| &lt;0.5&nbsp;dB.</li>
+<li>Phase accuracy: &Delta;&phi; within &plusmn;5&deg; of design value (90&deg;
+    or 0&deg;) at center frequency.</li>
+<li>Return loss (input match): &lt;&minus;20&nbsp;dB at center frequency.</li>
+<li>Isolation: &lt;&minus;20&nbsp;dB between output ports.</li>
+<li>Power handling (Wilkinson): verify 100&Omega; isolation resistor rating.
+    At 100W input, the resistor dissipates up to 50W if ports 2 and 3
+    are mismatched — use 5W resistor minimum.</li>
+<li>Log: date, design type, center frequency, S21/S31 balance, phase error,
+    return loss, isolation, operator.</li>
+</ol>
+
+<h2 class="chapter-heading" id="appa">Appendix A — Microstrip Impedance vs. Trace Width (FR4 1.6mm)</h2>
+<table>
+<tr><th>Z0 (&Omega;)</th><th>Trace width (mm)</th><th>Application</th></tr>
+<tr><td>50</td><td>2.9</td><td>Main port connections</td></tr>
+<tr><td>35.35</td><td>5.0</td><td>Branch-line series arms (Z0/&radic;2)</td></tr>
+<tr><td>70.7</td><td>1.7</td><td>Wilkinson arms, rat-race ring (Z0&times;&radic;2)</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="appb">Appendix B — Wavelength Scaling Table</h2>
+<table>
+<tr><th>Band</th><th>&lambda;/4 in air (mm)</th><th>&lambda;/4 on FR4 (mm)</th></tr>
+<tr><td>6M (50 MHz)</td><td>1500</td><td>813</td></tr>
+<tr><td>2M (144 MHz)</td><td>521</td><td>282</td></tr>
+<tr><td>1.25M (222 MHz)</td><td>338</td><td>183</td></tr>
+<tr><td>70cm (432 MHz)</td><td>174</td><td>94</td></tr>
+<tr><td>23cm (1296 MHz)</td><td>58</td><td>31</td></tr>
+</table>
+
+                </div>
+                <div class="back-link">
+                    <a href="../index.html">&larr; Antenna Gear</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item"><strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a></div>
+                <div class="contact-item"><strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a></div>
+                <div class="contact-item"><strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a></div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Designs shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

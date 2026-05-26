@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-TOOL-003 NEC ANTENNA MODELING SYSTEM - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+.tm-cover{border:3px solid #2c5f8d;padding:28px 36px;text-align:center;margin-bottom:28px;background:#f8f8f4}
+.tm-classification{font-size:1.05em;font-weight:bold;color:#006600;letter-spacing:3px;margin-bottom:16px}
+.tm-number{font-family:'Courier New',monospace;font-size:1.15em;font-weight:bold;color:#2c5f8d;margin-bottom:8px}
+.tm-title{font-size:1.7em;font-weight:bold;color:#1a3a5c;text-transform:uppercase;letter-spacing:1px;margin:12px 0 8px;line-height:1.3}
+.tm-subtitle{font-size:.98em;font-style:italic;color:#555;margin-bottom:12px}
+.tm-meta{font-size:.88em;color:#555;margin-top:16px;border-top:1px solid #aaa;padding-top:12px}
+.chapter-body h1,.chapter-body h2{color:#1a3a5c;border-bottom:2px solid #4a7ba7;padding-bottom:4px;margin-top:22px;margin-bottom:10px}
+.chapter-body h3{color:#2c5f8d;margin-top:16px;margin-bottom:8px}
+.chapter-body table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93em}
+.chapter-body th{background:#4a7ba7;color:#fff;padding:7px 11px;text-align:left;font-size:.88em;text-transform:uppercase}
+.chapter-body td{border:1px solid #c0ccd8;padding:6px 11px;vertical-align:top}
+.chapter-body tr:nth-child(even) td{background:#f4f7fb}
+.chapter-body ol,.chapter-body ul{margin:8px 0 8px 20px}
+.chapter-body li{margin:5px 0;line-height:1.5}
+.chapter-body p{margin:8px 0 10px}
+.chapter-body pre,.chapter-body code{background:#f4f4ee;border:1px solid #ddd;padding:2px 5px;font-size:.9em}
+.chapter-body pre{padding:10px 14px;overflow-x:auto;line-height:1.4}
+.back-link{margin-top:28px;padding-top:12px;border-top:1px solid #c0ccd8;font-size:.9em}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group">
+                <summary>Antennas</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/antennas/phased_array_of_2/tm.html">2-Element Phased Array</a></li>
+                    <li><a href="/antennas/phased_array_of_4/tm.html">4-Element Phased Array</a></li>
+                    <li><a href="/antennas/dipole/tm.html">Dipole</a></li>
+                    <li><a href="/antennas/yagi_uda/tm.html">Yagi-Uda</a></li>
+                    <li><a href="/antennas/end_fed_half_wave/tm.html">EFHW</a></li>
+                    <li><a href="/antennas/vertical/tm.html">Vertical</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Antenna Gear</summary>
+                <ul>
+                    <li><a href="/antenna_gear/index.html">Antenna Gear Overview</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/">Baluns &amp; Un-Uns</a></li>
+                    <li><a href="/antenna_gear/coax_traps/">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/">Lightning Protection</a></li>
+                </ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/index.html">Antenna Tools Overview</a></li>
+                    <li><a href="/antenna_tools/adf_systems/tm.html">ADF Systems</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/tm.html">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/antenna_modeling/tm.html">Antenna Modeling</a></li>
+                    <li><a href="/antenna_tools/dummy_loads/tm.html">Dummy Loads</a></li>
+                    <li><a href="/antenna_tools/field_strength_meter/tm.html">Field Strength Meter</a></li>
+                    <li><a href="/antenna_tools/noise_bridge/tm.html">Noise Bridge</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/tm.html">RF Power Meter (QRP)</a></li>
+                    <li><a href="/antenna_tools/rf_power_meters/tm.html">RF Power Meters (General)</a></li>
+                    <li><a href="/antenna_tools/sdr_interfaces/tm.html">SDR Interfaces</a></li>
+                    <li><a href="/antenna_tools/swr_meter/tm.html">SWR Meter</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Calibration</summary>
+                <ul>
+                    <li><a href="/calibration/index.html">Calibration Library</a></li>
+                    <li><a href="/Calibration_Ideas/index.html">Calibration Standards</a></li>
+                </ul>
+            </details>
+        </nav>
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-TOOL-003</div>
+                    <div class="tm-title">NEC ANTENNA MODELING SYSTEM</div>
+                    <div class="tm-subtitle">NEC2/NEC4 File Generation, Running, Parsing, and Optimization</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH &nbsp;&bull;&nbsp;
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial use</em>
+                    </div>
+                </div>
+                <div class="chapter-body">
+
+<h2 class="chapter-heading" id="ch1">Chapter 1 — Introduction and Scope</h2>
+<p>This manual covers the NEC antenna modeling system: a Python toolkit that
+generates NEC2/NEC4 input decks, runs the engine, parses output, and displays
+radiation patterns, impedance, and gain.  The system supports dipoles,
+verticals, Yagis, log-periodics, quad loops, phased arrays, and ground-mounted
+verticals with buried radials.  An optional REST API exposes the toolkit to
+web front-ends or remote callers.</p>
+<p><strong>Engines supported:</strong> nec2c (Linux, free), NEC4 (licensed),
+4nec2 (Windows GUI via Wine), necpp (open-source alternative).</p>
+
+<h2 class="chapter-heading" id="ch2">Chapter 2 — Theory of Operation</h2>
+<h3>2-1 NEC Card Format Summary</h3>
+<p>NEC input is a plain-text deck of two-character card mnemonics, one per line:</p>
+<table>
+<tr><th>Card</th><th>Purpose</th><th>Key fields</th></tr>
+<tr><td>CM</td><td>Comment</td><td>Free text</td></tr>
+<tr><td>CE</td><td>End comments</td><td>(no fields)</td></tr>
+<tr><td>GW</td><td>Wire segment</td><td>tag, segs, x1 y1 z1, x2 y2 z2, radius</td></tr>
+<tr><td>GS</td><td>Scale geometry</td><td>scale factor (e.g., 0.3048 = feet to meters)</td></tr>
+<tr><td>GE</td><td>End geometry</td><td>0=free space, 1=ground present</td></tr>
+<tr><td>GN</td><td>Ground parameters</td><td>type, &epsilon;r, &sigma; (good earth: 13, 0.005)</td></tr>
+<tr><td>EX</td><td>Excitation (source)</td><td>tag, segment, V_real, V_imag</td></tr>
+<tr><td>FR</td><td>Frequency</td><td>start MHz, step MHz, N steps</td></tr>
+<tr><td>RP</td><td>Radiation pattern</td><td>theta/phi start, step, N points, mode</td></tr>
+<tr><td>EN</td><td>End of input</td><td>(last card)</td></tr>
+</table>
+<h3>2-2 Segment Count Guidelines</h3>
+<p>NEC accuracy depends on adequate segmentation.  Rule: 10&ndash;20 segments
+per wavelength, odd count preferred for symmetric elements with a center source.
+Minimum 3 segments per wire.  The system function:</p>
+<pre>def recommended_segments(length_m, freq_mhz, min_segs=3):
+    wavelength = 299.792458e6 / (freq_mhz * 1e6)
+    segs = max(min_segs, int(length_m / wavelength * 10))
+    return segs if segs % 2 == 1 else segs + 1</pre>
+
+<h2 class="chapter-heading" id="ch3">Chapter 3 — Installation and Dependencies</h2>
+<h3>3-1 Python Environment</h3>
+<p>Python 3.10 or later is required.  Install dependencies:</p>
+<pre>pip install -r requirements.txt</pre>
+<p>Core packages: numpy, scipy, pandas, matplotlib, fastapi, uvicorn, pydantic,
+httpx, tqdm, requests.  Optional: scikit-rf (Smith chart), plotly (interactive
+3D patterns).</p>
+<h3>3-2 NEC2 Engine Installation (Debian/Ubuntu)</h3>
+<pre>sudo apt install nec2c</pre>
+<p>Verify: <code>nec2c --version</code> should return without error.  The runner
+(nec_runner.py) auto-detects available engines in the order: nec2c, nec4,
+necpp, 4nec2.</p>
+
+<h2 class="chapter-heading" id="ch4">Chapter 4 — Generating NEC Input Files</h2>
+<h3>4-1 Dipole Example</h3>
+<pre>from nec_generator import Dipole, NECModel
+ant = Dipole(freq_mhz=14.25, height_m=10.0)
+model = ant.to_nec_model()
+model.write("dipole_20m.nec")</pre>
+<p>This generates a half-wave dipole resonant at 14.25 MHz, 10 m above real
+ground (&epsilon;r=13, &sigma;=0.005 S/m).  The GW card for each half-element
+uses <code>recommended_segments()</code> to set segment count automatically.</p>
+<h3>4-2 Vertical with Radials</h3>
+<pre>from nec_generator import VerticalWithRadials
+ant = VerticalWithRadials(freq_mhz=7.1, n_radials=32, radial_length_m=10.0,
+                          height_m=0.1)
+model = ant.to_nec_model()
+model.write("vertical_40m.nec")</pre>
+<h3>4-3 Frequency Sweep</h3>
+<pre>from freq_sweep import FrequencySweep
+sweep = FrequencySweep(model, start_mhz=1.8, stop_mhz=30.0, n_steps=200)
+results = sweep.run()
+sweep.plot_impedance(results)
+sweep.plot_swr(results, z0=50.0)</pre>
+
+<h2 class="chapter-heading" id="ch5">Chapter 5 — Running and Parsing</h2>
+<h3>5-1 Running the Engine</h3>
+<pre>from nec_runner import NECRunner, NECEngine
+runner = NECRunner(engine=NECEngine.NEC2)
+result = runner.run(model)
+if not result.success:
+    print(result.stderr)</pre>
+<p>The runner writes a temporary .nec file, invokes nec2c as a subprocess,
+captures stdout/stderr, and returns a NECResult object.  Timeout default:
+60 seconds (adjustable for large sweeps).</p>
+<h3>5-2 Parsing Output</h3>
+<pre>from nec_parser import NECOutputParser
+parser = NECOutputParser()
+points = parser.parse(result.output_file)
+# points: list of {freq_mhz, gain_dbi, z_real, z_imag, swr, theta, phi}</pre>
+
+<h2 class="chapter-heading" id="ch6">Chapter 6 — Optimization</h2>
+<p>Three optimizers are available:</p>
+<ul>
+<li><strong>genetic_optimizer.py:</strong> Genetic algorithm; best for
+    multi-parameter problems with discontinuous cost functions.  Suitable
+    for Yagi element lengths + spacings.</li>
+<li><strong>pso_optimizer.py:</strong> Particle swarm; faster convergence
+    for smooth continuous cost surfaces.  Suitable for matching network
+    component values.</li>
+<li><strong>batch_optimizer.py / batch_multiband.py:</strong> Evaluates a
+    parameter grid; useful for initial design-space exploration before running
+    a stochastic optimizer.</li>
+</ul>
+<p>Cost function examples: maximize F/B ratio, minimize SWR at target frequency,
+maximize gain over ground at 20&deg; elevation.</p>
+
+<h2 class="chapter-heading" id="ch7">Chapter 7 — Verification and Acceptance</h2>
+<ol>
+<li>Run the included test case (half-wave dipole in free space at 14.25 MHz).
+    Expected: feedpoint impedance 73+j42.5&Omega;, gain 2.15 dBi.</li>
+<li>Verify against ARRL Antenna Book reference tables for dipole impedance vs.
+    height above ground.  Deviations &gt;5% indicate a segmentation or ground
+    parameter error.</li>
+<li>For a calibration-quality check: compare modeled resonant frequency against
+    NanoVNA measurement of a physical antenna.  Agreement within 2% is typical
+    for wire antennas over flat ground.</li>
+<li>Log: NEC version, Python version, test antenna type, modeled vs. reference
+    gain, modeled vs. measured resonant frequency.</li>
+</ol>
+
+<h2 class="chapter-heading" id="appa">Appendix A — Common NEC Errors</h2>
+<table>
+<tr><th>Error</th><th>Cause</th><th>Fix</th></tr>
+<tr><td>SEGMENT FAILURE</td><td>Wire too short for segment count</td><td>Reduce min_segs or increase length</td></tr>
+<tr><td>Impedance = 0+j0</td><td>Source on wrong tag/segment</td><td>Verify EX card tag matches GW tag</td></tr>
+<tr><td>Gain &gt;30 dBi</td><td>Wire below ground (Z &lt; 0)</td><td>Ensure all Z coordinates &ge; 0 or use buried-radial GN type</td></tr>
+<tr><td>NaN impedance</td><td>Singular matrix (parallel wires touching)</td><td>Increase wire separation &gt;2 &times; radius</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="appb">Appendix B — Dipole Resonant Length Formula</h2>
+<pre>L_half (meters) = (142.5 / f_MHz) &times; k
+  k = velocity factor:
+    Bare wire in free space: k = 0.975
+    Wire near ground (h &lt; &lambda;/4): k = 0.94&ndash;0.97
+    Insulated wire: k = 0.93&ndash;0.97 depending on insulation</pre>
+
+                </div>
+                <div class="back-link">
+                    <a href="../index.html">&larr; Antenna Tools</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item"><strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a></div>
+                <div class="contact-item"><strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a></div>
+                <div class="contact-item"><strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a></div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Designs shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

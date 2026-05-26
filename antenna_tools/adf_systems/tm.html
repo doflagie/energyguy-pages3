@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-TOOL-001 ADF SYSTEMS — ANTENNA DIRECTION FINDING - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+.tm-cover{border:3px solid #2c5f8d;padding:28px 36px;text-align:center;margin-bottom:28px;background:#f8f8f4}
+.tm-classification{font-size:1.05em;font-weight:bold;color:#006600;letter-spacing:3px;margin-bottom:16px}
+.tm-number{font-family:'Courier New',monospace;font-size:1.15em;font-weight:bold;color:#2c5f8d;margin-bottom:8px}
+.tm-title{font-size:1.7em;font-weight:bold;color:#1a3a5c;text-transform:uppercase;letter-spacing:1px;margin:12px 0 8px;line-height:1.3}
+.tm-subtitle{font-size:.98em;font-style:italic;color:#555;margin-bottom:12px}
+.tm-meta{font-size:.88em;color:#555;margin-top:16px;border-top:1px solid #aaa;padding-top:12px}
+.chapter-body h1,.chapter-body h2{color:#1a3a5c;border-bottom:2px solid #4a7ba7;padding-bottom:4px;margin-top:22px;margin-bottom:10px}
+.chapter-body h3{color:#2c5f8d;margin-top:16px;margin-bottom:8px}
+.chapter-body table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93em}
+.chapter-body th{background:#4a7ba7;color:#fff;padding:7px 11px;text-align:left;font-size:.88em;text-transform:uppercase}
+.chapter-body td{border:1px solid #c0ccd8;padding:6px 11px;vertical-align:top}
+.chapter-body tr:nth-child(even) td{background:#f4f7fb}
+.chapter-body ol,.chapter-body ul{margin:8px 0 8px 20px}
+.chapter-body li{margin:5px 0;line-height:1.5}
+.chapter-body p{margin:8px 0 10px}
+.chapter-body pre,.chapter-body code{background:#f4f4ee;border:1px solid #ddd;padding:2px 5px;font-size:.9em}
+.chapter-body pre{padding:10px 14px;overflow-x:auto;line-height:1.4}
+.back-link{margin-top:28px;padding-top:12px;border-top:1px solid #c0ccd8;font-size:.9em}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group">
+                <summary>Antennas</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/antennas/phased_array_of_2/tm.html">2-Element Phased Array</a></li>
+                    <li><a href="/antennas/phased_array_of_4/tm.html">4-Element Phased Array</a></li>
+                    <li><a href="/antennas/dipole/tm.html">Dipole</a></li>
+                    <li><a href="/antennas/yagi_uda/tm.html">Yagi-Uda</a></li>
+                    <li><a href="/antennas/end_fed_half_wave/tm.html">EFHW</a></li>
+                    <li><a href="/antennas/vertical/tm.html">Vertical</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Antenna Gear</summary>
+                <ul>
+                    <li><a href="/antenna_gear/index.html">Antenna Gear Overview</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/">Baluns &amp; Un-Uns</a></li>
+                    <li><a href="/antenna_gear/coax_traps/">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/">Lightning Protection</a></li>
+                </ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/index.html">Antenna Tools Overview</a></li>
+                    <li><a href="/antenna_tools/adf_systems/tm.html">ADF Systems</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/tm.html">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/antenna_modeling/tm.html">Antenna Modeling</a></li>
+                    <li><a href="/antenna_tools/dummy_loads/tm.html">Dummy Loads</a></li>
+                    <li><a href="/antenna_tools/field_strength_meter/tm.html">Field Strength Meter</a></li>
+                    <li><a href="/antenna_tools/noise_bridge/tm.html">Noise Bridge</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/tm.html">RF Power Meter (QRP)</a></li>
+                    <li><a href="/antenna_tools/rf_power_meters/tm.html">RF Power Meters (General)</a></li>
+                    <li><a href="/antenna_tools/sdr_interfaces/tm.html">SDR Interfaces</a></li>
+                    <li><a href="/antenna_tools/swr_meter/tm.html">SWR Meter</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Calibration</summary>
+                <ul>
+                    <li><a href="/calibration/index.html">Calibration Library</a></li>
+                    <li><a href="/Calibration_Ideas/index.html">Calibration Standards</a></li>
+                </ul>
+            </details>
+        </nav>
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-TOOL-001</div>
+                    <div class="tm-title">ADF SYSTEMS — ANTENNA DIRECTION FINDING</div>
+                    <div class="tm-subtitle">Watson-Watt, Doppler, Phased Array, and Rotary Loop Methods</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH &nbsp;&bull;&nbsp;
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial use</em>
+                    </div>
+                </div>
+                <div class="chapter-body">
+
+<h2 class="chapter-heading" id="ch1">Chapter 1 — Introduction and Scope</h2>
+<p>This manual covers four antenna direction finding (ADF) system architectures
+used in amateur radio and field operations: Watson-Watt two-channel amplitude
+comparison, Doppler frequency-shift bearing, switched phased-array (Butler
+Matrix), and rotary loop servo.  All four systems produce a bearing to an RF
+source; choice depends on frequency range, required accuracy, and available
+hardware.</p>
+<p><strong>Covered frequency range:</strong> 1.8&ndash;450 MHz depending on antenna
+array geometry.  The Butler Matrix design covers HF through VHF with a single
+mechanical layout scaled to frequency.</p>
+<p><strong>Bearing accuracy targets:</strong></p>
+<ul>
+<li>Watson-Watt: &plusmn;5&deg; RMS in clear-field conditions</li>
+<li>Doppler: &plusmn;2&deg; RMS, dependent on rotation rate and SNR</li>
+<li>4-element Butler Matrix: &plusmn;3&deg; RMS interpolated</li>
+<li>Rotary servo loop: &plusmn;1&deg; mechanical, &plusmn;2&deg; bearing</li>
+</ul>
+
+<h2 class="chapter-heading" id="ch2">Chapter 2 — Theory of Operation</h2>
+<h3>2-1 Watson-Watt Method</h3>
+<p>Two orthogonal loop antennas (North-South and East-West) produce sine and
+cosine voltage components of received signal amplitude as a function of bearing.
+A third omnidirectional element (sense antenna) resolves the 180&deg; ambiguity.</p>
+<p>Bearing calculation:</p>
+<pre>bearing = atan2(V_NS, V_EW)   (degrees, corrected for magnetic declination)</pre>
+<p>Each channel must be gain-matched to within &plusmn;0.5 dB; phase-matched to
+within &plusmn;2&deg; across the operating band.  Gain/phase imbalance directly
+adds to bearing error.</p>
+
+<h3>2-2 Doppler Method</h3>
+<p>An element sequentially commutated around a circle of diameter d causes a
+frequency modulation on the received carrier equal to:</p>
+<pre>f_d = (v / &lambda;) &times; cos(&theta; &minus; &phi;)</pre>
+<p>where v = element tangential velocity = &pi;df_rot, &lambda; = wavelength,
+&theta; = bearing to source, &phi; = current element angle.  A PLL or IQ
+discriminator extracts &theta; from the FM sidebands.  Rotation rate
+f_rot is typically 100&ndash;600 Hz; higher rates extend the capture range
+but increase bandwidth requirements.</p>
+
+<h3>2-3 Butler Matrix (4-Element Switched Array)</h3>
+<p>Four elements in a square array with &lambda;/4 spacing feed a passive Butler
+Matrix beamforming network.  The matrix produces four orthogonal beams at
+&plusmn;45&deg; and &plusmn;135&deg; simultaneously.  RSSI comparison across the
+four beam ports yields a bearing estimate; interpolation between adjacent
+beam peaks resolves bearing to approximately 3&deg; RMS.</p>
+<p>The Butler Matrix is constructed from four 3&nbsp;dB 90&deg; hybrid couplers
+and two fixed 45&deg; phase shifters interconnected as a 4&times;4 passive network.
+No active components in the RF path; loss is approximately 0.5&ndash;1.5&nbsp;dB
+depending on hybrid quality.</p>
+
+<h3>2-4 GPS Compass Integration</h3>
+<p>Magnetic bearing from an ADF system must be converted to true bearing for
+navigation use.  GPS compass integration provides:</p>
+<ul>
+<li>Vehicle/platform heading reference (eliminates mount alignment error)</li>
+<li>Magnetic declination correction (from GPS position + WMM model)</li>
+<li>True bearing output = ADF magnetic bearing &minus; declination + heading offset</li>
+</ul>
+
+<h2 class="chapter-heading" id="ch3">Chapter 3 — Equipment and Materials</h2>
+<table>
+<tr><th>Item</th><th>Watson-Watt</th><th>Doppler</th><th>Butler Matrix</th></tr>
+<tr><td>Antenna elements</td><td>2 loops + sense whip</td><td>4&ndash;8 vertical elements</td><td>4 vertical elements</td></tr>
+<tr><td>Element spacing</td><td>Loop aperture sets sensitivity</td><td>&lambda;/4 radius circle</td><td>&lambda;/4 square</td></tr>
+<tr><td>RF channels</td><td>2 (plus sense)</td><td>1 commutated</td><td>4 simultaneous</td></tr>
+<tr><td>SDR / receiver</td><td>Dual-channel coherent</td><td>Single channel</td><td>4-channel or switched</td></tr>
+<tr><td>Controller</td><td>ESP32 or PC</td><td>ESP32 (PWM commutation)</td><td>ESP32 (RSSI ADC)</td></tr>
+<tr><td>Coax</td><td>Matched-length pairs</td><td>Switched relay tree</td><td>Fixed equal-length runs</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="ch4">Chapter 4 — Construction and Assembly</h2>
+<h3>4-1 Watson-Watt Loop Construction</h3>
+<ol>
+<li>Wind two identical shielded loops: 30&nbsp;cm diameter, 3 turns #18 AWG,
+    Faraday shield (gap at top, not a closed loop).</li>
+<li>Mount loops orthogonally on a common center mast; orient one loop N-S,
+    other E-W.</li>
+<li>Run equal-length coax (within 5&nbsp;mm) from each loop to the receiver
+    switching point.</li>
+<li>Connect sense antenna (vertical whip, &lambda;/4 at center frequency) at
+    same switching point.</li>
+</ol>
+
+<h3>4-2 Butler Matrix PCB</h3>
+<ol>
+<li>Fabricate 4-port 3&nbsp;dB 90&deg; hybrid couplers on FR4 (Z<sub>0</sub>=35.4&Omega;
+    microstrip, &lambda;/4 length at design frequency).</li>
+<li>Connect hybrids per the Butler Matrix topology:
+    E1,E2 &rarr; Hybrid #1,#2; outputs of Hybrid #1,#2 &rarr; Hybrid #3,#4
+    with a 45&deg; fixed phase shifter between Hybrid #2 output and Hybrid #4 input.</li>
+<li>Verify phase relationships with NanoVNA S21 phase measurements before
+    installing array elements.</li>
+<li>Mount array elements at corners of a square, &lambda;/4 side length, connected
+    to matrix element ports E1&ndash;E4.</li>
+</ol>
+
+<h3>4-3 Doppler Commutator</h3>
+<ol>
+<li>Mount 4 or 8 vertical elements equally spaced on a circle of radius
+    &lambda;/4 at operating frequency.</li>
+<li>Wire each element through an RF relay (PIN diode or mechanical) to a
+    common output coax.</li>
+<li>Drive relay sequence from ESP32 GPIO at rotation rate f_rot (start at
+    200&nbsp;Hz for HF).</li>
+<li>Connect common output to receiver; extract FM component in software
+    (GNU Radio or custom DSP).</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch5">Chapter 5 — Operating Procedures</h2>
+<h3>5-1 Watson-Watt Bearing Measurement</h3>
+<ol>
+<li>Tune receiver to target signal.  Confirm adequate SNR (&gt;20&nbsp;dB for
+    &plusmn;5&deg; accuracy).</li>
+<li>Enable 2-channel sampling.  Record V_NS and V_EW amplitude values.</li>
+<li>Compute bearing: <code>brg = atan2(V_NS, V_EW)</code>.  Apply declination
+    correction.</li>
+<li>Confirm sense: enable sense antenna and verify the 180&deg; correct quadrant.</li>
+<li>Average 10 readings; discard outliers more than 15&deg; from median.</li>
+</ol>
+
+<h3>5-2 Butler Matrix Bearing Estimate</h3>
+<ol>
+<li>Read RSSI on all four beam ports simultaneously (or in rapid sequence
+    &lt;10&nbsp;ms total).</li>
+<li>Identify the two highest-RSSI ports (adjacent beams straddle the signal).</li>
+<li>Interpolate: bearing = beam_angle_1 + 45&deg; &times; (RSSI_1 / (RSSI_1 + RSSI_2)).</li>
+<li>Apply platform heading offset if mounted on a moving vehicle.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch6">Chapter 6 — Calibration</h2>
+<h3>6-1 Watson-Watt Channel Balance</h3>
+<ol>
+<li>Inject equal-amplitude, in-phase signal into both channels simultaneously
+    from a common splitter.  Verify RSSI within 0.3&nbsp;dB.</li>
+<li>If unbalanced: add fixed attenuator pad (1&ndash;3&nbsp;dB) to the stronger
+    channel at the receiver input.</li>
+<li>Inject signal into NS channel only.  Verify 90&deg; + known bearing reads
+    correctly.  Repeat for EW channel.</li>
+</ol>
+
+<h3>6-2 Butler Matrix Beam Verification</h3>
+<ol>
+<li>Place a known CW signal at each of the four expected beam-peak azimuths
+    in turn (0&deg;, 90&deg;, 180&deg;, 270&deg;).</li>
+<li>Verify that the corresponding beam port shows maximum RSSI and adjacent
+    ports show &ge;3&nbsp;dB lower level.</li>
+<li>Record beam-center azimuths.  Apply offset table in software if beam
+    centers deviate more than 5&deg; from design.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch7">Chapter 7 — Verification and Acceptance</h2>
+<p>After calibration, conduct a bearing verification test using a known-location
+transmitter:</p>
+<ol>
+<li>Position a low-power test transmitter at a measured azimuth from the
+    array (use GPS or compass, to within &plusmn;1&deg;).</li>
+<li>Take 20 bearing readings; compute mean and standard deviation.</li>
+<li>Acceptance criterion: mean error &lt;5&deg;, standard deviation &lt;3&deg;.</li>
+<li>If failed: re-check element spacing, coax phase lengths, and channel balance.</li>
+<li>Record results in calibration log: date, frequency, test azimuth, mean
+    bearing, standard deviation, operator.</li>
+</ol>
+
+<h2 class="chapter-heading" id="appa">Appendix A — Design Parameters Quick Reference</h2>
+<table>
+<tr><th>Parameter</th><th>Watson-Watt</th><th>Doppler</th><th>Butler 4-el</th></tr>
+<tr><td>Accuracy (typical)</td><td>&plusmn;5&deg;</td><td>&plusmn;2&deg;</td><td>&plusmn;3&deg;</td></tr>
+<tr><td>Min SNR required</td><td>20 dB</td><td>15 dB</td><td>10 dB</td></tr>
+<tr><td>Multipath sensitivity</td><td>High</td><td>Medium</td><td>Low</td></tr>
+<tr><td>Moving platform</td><td>Poor</td><td>Good</td><td>Good</td></tr>
+<tr><td>Hardware complexity</td><td>Low</td><td>Medium</td><td>High</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="appb">Appendix B — Worked Bearing Example</h2>
+<p>Watson-Watt on 14.225 MHz.  Measured: V_NS = 0.82 V, V_EW = 0.57 V.</p>
+<pre>bearing = atan2(0.82, 0.57) = atan2(0.82, 0.57) = 55.2 deg
+Declination (Merced, CA) = +12.3 deg East
+True bearing = 55.2 + 12.3 = 67.5 deg True</pre>
+<p>Sense antenna confirms NE quadrant (not SW ambiguity).  Final reported
+bearing: <strong>068&deg; True</strong>.</p>
+
+                </div>
+                <div class="back-link">
+                    <a href="../index.html">&larr; Antenna Tools</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item"><strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a></div>
+                <div class="contact-item"><strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a></div>
+                <div class="contact-item"><strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a></div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Designs shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

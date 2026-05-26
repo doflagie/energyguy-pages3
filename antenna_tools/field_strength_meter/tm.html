@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-TOOL-005 FIELD STRENGTH METER — CONSTRUCTION AND USE - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+.tm-cover{border:3px solid #2c5f8d;padding:28px 36px;text-align:center;margin-bottom:28px;background:#f8f8f4}
+.tm-classification{font-size:1.05em;font-weight:bold;color:#006600;letter-spacing:3px;margin-bottom:16px}
+.tm-number{font-family:'Courier New',monospace;font-size:1.15em;font-weight:bold;color:#2c5f8d;margin-bottom:8px}
+.tm-title{font-size:1.7em;font-weight:bold;color:#1a3a5c;text-transform:uppercase;letter-spacing:1px;margin:12px 0 8px;line-height:1.3}
+.tm-subtitle{font-size:.98em;font-style:italic;color:#555;margin-bottom:12px}
+.tm-meta{font-size:.88em;color:#555;margin-top:16px;border-top:1px solid #aaa;padding-top:12px}
+.chapter-body h1,.chapter-body h2{color:#1a3a5c;border-bottom:2px solid #4a7ba7;padding-bottom:4px;margin-top:22px;margin-bottom:10px}
+.chapter-body h3{color:#2c5f8d;margin-top:16px;margin-bottom:8px}
+.chapter-body table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93em}
+.chapter-body th{background:#4a7ba7;color:#fff;padding:7px 11px;text-align:left;font-size:.88em;text-transform:uppercase}
+.chapter-body td{border:1px solid #c0ccd8;padding:6px 11px;vertical-align:top}
+.chapter-body tr:nth-child(even) td{background:#f4f7fb}
+.chapter-body ol,.chapter-body ul{margin:8px 0 8px 20px}
+.chapter-body li{margin:5px 0;line-height:1.5}
+.chapter-body p{margin:8px 0 10px}
+.chapter-body pre,.chapter-body code{background:#f4f4ee;border:1px solid #ddd;padding:2px 5px;font-size:.9em}
+.chapter-body pre{padding:10px 14px;overflow-x:auto;line-height:1.4}
+.back-link{margin-top:28px;padding-top:12px;border-top:1px solid #c0ccd8;font-size:.9em}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group">
+                <summary>Antennas</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/antennas/phased_array_of_2/tm.html">2-Element Phased Array</a></li>
+                    <li><a href="/antennas/phased_array_of_4/tm.html">4-Element Phased Array</a></li>
+                    <li><a href="/antennas/dipole/tm.html">Dipole</a></li>
+                    <li><a href="/antennas/yagi_uda/tm.html">Yagi-Uda</a></li>
+                    <li><a href="/antennas/end_fed_half_wave/tm.html">EFHW</a></li>
+                    <li><a href="/antennas/vertical/tm.html">Vertical</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Antenna Gear</summary>
+                <ul>
+                    <li><a href="/antenna_gear/index.html">Antenna Gear Overview</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/">Baluns &amp; Un-Uns</a></li>
+                    <li><a href="/antenna_gear/coax_traps/">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/">Lightning Protection</a></li>
+                </ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/index.html">Antenna Tools Overview</a></li>
+                    <li><a href="/antenna_tools/adf_systems/tm.html">ADF Systems</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/tm.html">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/antenna_modeling/tm.html">Antenna Modeling</a></li>
+                    <li><a href="/antenna_tools/dummy_loads/tm.html">Dummy Loads</a></li>
+                    <li><a href="/antenna_tools/field_strength_meter/tm.html">Field Strength Meter</a></li>
+                    <li><a href="/antenna_tools/noise_bridge/tm.html">Noise Bridge</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/tm.html">RF Power Meter (QRP)</a></li>
+                    <li><a href="/antenna_tools/rf_power_meters/tm.html">RF Power Meters (General)</a></li>
+                    <li><a href="/antenna_tools/sdr_interfaces/tm.html">SDR Interfaces</a></li>
+                    <li><a href="/antenna_tools/swr_meter/tm.html">SWR Meter</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Calibration</summary>
+                <ul>
+                    <li><a href="/calibration/index.html">Calibration Library</a></li>
+                    <li><a href="/Calibration_Ideas/index.html">Calibration Standards</a></li>
+                </ul>
+            </details>
+        </nav>
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-TOOL-005</div>
+                    <div class="tm-title">FIELD STRENGTH METER — CONSTRUCTION AND USE</div>
+                    <div class="tm-subtitle">Passive Germanium, Active Op-Amp, and Digital CYD Versions</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH &nbsp;&bull;&nbsp;
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial use</em>
+                    </div>
+                </div>
+                <div class="chapter-body">
+
+<h2 class="chapter-heading" id="ch1">Chapter 1 — Introduction and Scope</h2>
+<p>This manual covers three field strength meter (FSM) designs in ascending
+order of complexity: a passive germanium detector (no batteries), an active
+op-amp version with calibrated dB scale, and a digital CYD-based FSM with
+logging.  All measure relative field strength; absolute calibration in
+V/m is possible with the active version using a known reference transmitter.</p>
+
+<h2 class="chapter-heading" id="ch2">Chapter 2 — Theory of Operation</h2>
+<h3>2-1 Passive Detector</h3>
+<p>An RF signal intercepted by the probe antenna develops a voltage across
+a germanium point-contact diode (1N34A).  The diode rectifies the RF to
+DC; a 10&micro;F capacitor integrates (smooths) the rectified DC; a
+100&micro;A FSD panel meter displays the result.  Sensitivity is limited by
+the diode forward voltage (~0.2V for germanium vs. ~0.6V for silicon);
+minimum detectable field from a 50&nbsp;cm whip at 7&nbsp;MHz is approximately
+0.5&nbsp;mV/m.</p>
+<h3>2-2 Active Version</h3>
+<p>A common-base RF amplifier (BF199 or 2N3904) precedes the detector
+diode, providing 20&ndash;30&nbsp;dB of gain before detection.  An op-amp
+(LM386 or similar) drives a meter with logarithmic compression for a
+dB-proportional scale.  Sensitivity improves to approximately 5&nbsp;&micro;V/m.</p>
+<h3>2-3 Digital CYD FSM</h3>
+<p>An AD8307 logarithmic amplifier (0.1&ndash;500&nbsp;MHz, &minus;74 to +17&nbsp;dBm,
+25&nbsp;mV/dB) replaces the detector and meter.  Its output drives an ESP32
+ADC; the CYD display shows field strength in dBm (relative to 50&Omega;)
+and logs readings with GPS timestamp.  Absolute calibration ties the ADC
+reading to a known field (calibrated reference transmitter at known distance).</p>
+
+<h2 class="chapter-heading" id="ch3">Chapter 3 — Equipment and Materials</h2>
+<table>
+<tr><th>Component</th><th>Passive</th><th>Active</th><th>Digital CYD</th></tr>
+<tr><td>Detector</td><td>1N34A germanium diode</td><td>1N34A or BAT42</td><td>AD8307 log amp</td></tr>
+<tr><td>Amplifier</td><td>None</td><td>BF199 CE + LM386</td><td>Internal to AD8307</td></tr>
+<tr><td>Display</td><td>100&micro;A panel meter</td><td>50&micro;A + dB scale</td><td>CYD ILI9341 2.8&rdquo;</td></tr>
+<tr><td>Probe</td><td>50 cm whip, BNC</td><td>50 cm whip, BNC</td><td>SMA + 50&Omega; input</td></tr>
+<tr><td>Power</td><td>None (passive)</td><td>9V battery</td><td>5V USB-C</td></tr>
+<tr><td>Controller</td><td>—</td><td>—</td><td>ESP32 WROOM-32</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="ch4">Chapter 4 — Construction</h2>
+<h3>4-1 Passive FSM</h3>
+<ol>
+<li>Mount 1N34A diode cathode toward meter positive terminal.  R_load = 100&nbsp;k&Omega;;
+    C_filter = 10&micro;F 16V electrolytic.  Meter series resistance sets FSD.</li>
+<li>Connect probe antenna (50&nbsp;cm rigid copper rod) via BNC to diode anode.</li>
+<li>Mount in a small plastic enclosure.  Keep RF lead from BNC to diode
+    &lt;20&nbsp;mm to minimize stray capacitance.</li>
+<li>Optional: add a rotary attenuator (100&nbsp;k&Omega; potentiometer in the
+    antenna lead) for sensitivity control near strong transmitters.</li>
+</ol>
+<h3>4-2 AD8307 Digital FSM</h3>
+<ol>
+<li>Mount AD8307 with 100&nbsp;nF NP0 decoupling on each supply pin.  INHI
+    connects via 1&nbsp;nF DC-blocking cap to SMA input; INLO to ground.</li>
+<li>VOUT pin (25&nbsp;mV/dB slope, intercept &minus;84&nbsp;dBm) connects to
+    ESP32 ADC GPIO (12-bit, 3.3V range).  Scale: 3300&nbsp;mV / 25&nbsp;mV/dB =
+    132&nbsp;dB dynamic range from ADC alone, but ADC noise floor limits
+    practical range to &sim;80&nbsp;dB.</li>
+<li>Add 10&nbsp;k&Omega; + 100&nbsp;nF low-pass filter between VOUT and ESP32
+    ADC to reject RF on the DC output line.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch5">Chapter 5 — Operating Procedures</h2>
+<h3>5-1 Antenna Pattern Measurement</h3>
+<ol>
+<li>Set up a reference transmitter at fixed power and distance from the
+    antenna under test.  Distance must be &ge;2 &times; far-field criterion:
+    d_ff = 2D&sup2;/&lambda; (D = antenna aperture).</li>
+<li>Zero the FSM: rotate the test antenna to maximum signal; note the meter
+    reading as the reference (0&nbsp;dB or 100%).</li>
+<li>Rotate antenna in 15&deg; steps through 360&deg;.  Record reading at each
+    step.  Compute relative pattern in dB: &Delta;dB = 20 log10(V/V_ref).</li>
+<li>Plot the resulting pattern.  Front-to-back ratio, 3&nbsp;dB beamwidth, and
+    sidelobe levels are directly readable from the plot.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch6">Chapter 6 — Calibration</h2>
+<h3>6-1 Absolute Calibration (Active and Digital FSMs)</h3>
+<ol>
+<li>Place a calibrated signal generator (or TinySA in generator mode) at
+    a measured distance r from the FSM probe.</li>
+<li>Set generator output to a known level P (dBm) into a calibrated antenna
+    with known gain G (dBi).  Compute E-field at distance r:</li>
+</ol>
+<pre>E (V/m) = sqrt(30 &times; P_watts &times; G_linear) / r</pre>
+<ol start="3">
+<li>Record FSM reading at this field level.  This is the calibration reference
+    point.  Adjust offset constant in firmware so that the CYD display
+    shows the calculated E-field value.</li>
+<li>Repeat at &minus;10, &minus;20, &minus;30&nbsp;dB relative levels using known
+    attenuators.  Verify linearity within &plusmn;1&nbsp;dB across the range.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch7">Chapter 7 — Verification and Acceptance</h2>
+<ol>
+<li>Passive FSM: connect a 0&nbsp;dBm signal (from TinySA or signal generator)
+    at 7&nbsp;MHz via 50&Omega; coax.  Meter should deflect to a repeatable scale
+    reading.  Deflection should decrease by approximately half (6&nbsp;dB) when
+    a 6&nbsp;dB attenuator is inserted.</li>
+<li>Digital FSM: apply &minus;40&nbsp;dBm, &minus;50&nbsp;dBm, &minus;60&nbsp;dBm.
+    Verify CYD readings within &plusmn;2&nbsp;dBm of expected values.
+    (AD8307 typical accuracy: &plusmn;1&nbsp;dB from &minus;74 to +10&nbsp;dBm.)</li>
+<li>Log: date, version (passive/active/digital), calibration signal source,
+    calibration power level, measured offset, operator.</li>
+</ol>
+
+<h2 class="chapter-heading" id="appa">Appendix A — E-Field / Power Density Conversions</h2>
+<pre>E (V/m) = sqrt(P_density_W/m2 &times; 120&pi;)
+P_density (W/m2) = P_tx (W) &times; G_linear / (4&pi; &times; r2)
+E (V/m) from dipole: E = sqrt(30 &times; P_tx &times; G) / r   (far field)</pre>
+
+<h2 class="chapter-heading" id="appb">Appendix B — Worked Example</h2>
+<p>100&nbsp;mW into a dipole (G = 2.15&nbsp;dBi = 1.64 linear) at 10&nbsp;m distance at 14&nbsp;MHz:</p>
+<pre>E = sqrt(30 &times; 0.1 &times; 1.64) / 10 = sqrt(4.92) / 10 = 0.222 V/m = 222 mV/m</pre>
+<p>The AD8307 input sees approximately &minus;37&nbsp;dBm into 50&Omega; from a
+matched probe tuned to 14&nbsp;MHz.  The CYD should display approximately
+0.22&nbsp;V/m after calibration.</p>
+
+                </div>
+                <div class="back-link">
+                    <a href="../index.html">&larr; Antenna Tools</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item"><strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a></div>
+                <div class="contact-item"><strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a></div>
+                <div class="contact-item"><strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a></div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Designs shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

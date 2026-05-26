@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-GEAR-010 LIGHTNING PROTECTION AND STATION GROUNDING - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+.tm-cover{border:3px solid #2c5f8d;padding:28px 36px;text-align:center;margin-bottom:28px;background:#f8f8f4}
+.tm-classification{font-size:1.05em;font-weight:bold;color:#006600;letter-spacing:3px;margin-bottom:16px}
+.tm-number{font-family:'Courier New',monospace;font-size:1.15em;font-weight:bold;color:#2c5f8d;margin-bottom:8px}
+.tm-title{font-size:1.7em;font-weight:bold;color:#1a3a5c;text-transform:uppercase;letter-spacing:1px;margin:12px 0 8px;line-height:1.3}
+.tm-subtitle{font-size:.98em;font-style:italic;color:#555;margin-bottom:12px}
+.tm-meta{font-size:.88em;color:#555;margin-top:16px;border-top:1px solid #aaa;padding-top:12px}
+.chapter-body h1,.chapter-body h2{color:#1a3a5c;border-bottom:2px solid #4a7ba7;padding-bottom:4px;margin-top:22px;margin-bottom:10px}
+.chapter-body h3{color:#2c5f8d;margin-top:16px;margin-bottom:8px}
+.chapter-body table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93em}
+.chapter-body th{background:#4a7ba7;color:#fff;padding:7px 11px;text-align:left;font-size:.88em;text-transform:uppercase}
+.chapter-body td{border:1px solid #c0ccd8;padding:6px 11px;vertical-align:top}
+.chapter-body tr:nth-child(even) td{background:#f4f7fb}
+.chapter-body ol,.chapter-body ul{margin:8px 0 8px 20px}
+.chapter-body li{margin:5px 0;line-height:1.5}
+.chapter-body p{margin:8px 0 10px}
+.chapter-body pre,.chapter-body code{background:#f4f4ee;border:1px solid #ddd;padding:2px 5px;font-size:.9em}
+.chapter-body pre{padding:10px 14px;overflow-x:auto;line-height:1.4}
+.back-link{margin-top:28px;padding-top:12px;border-top:1px solid #c0ccd8;font-size:.9em}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Gear</summary>
+                <ul>
+                    <li><a href="/antenna_gear/index.html">Antenna Gear Overview</a></li>
+                    <li><a href="/antenna_gear/ant_switches/tm.html">Antenna Switches</a></li>
+                    <li><a href="/antenna_gear/audio_filters/tm.html">Audio Filters</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/tm.html">Baluns &amp; Un-Uns</a></li>
+                    <li><a href="/antenna_gear/bms/tm.html">Battery Management (BMS)</a></li>
+                    <li><a href="/antenna_gear/coax_traps/tm.html">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/coil_winder/tm.html">Coil Winder</a></li>
+                    <li><a href="/antenna_gear/common_mode_chokes/tm.html">Common-Mode Chokes</a></li>
+                    <li><a href="/antenna_gear/crystal_radio/tm.html">Crystal Radio</a></li>
+                    <li><a href="/antenna_gear/hybrids/tm.html">RF Hybrids</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/tm.html">Lightning Protection</a></li>
+                    <li><a href="/antenna_gear/mast_tower/tm.html">Mast &amp; Tower</a></li>
+                    <li><a href="/antenna_gear/motorized_tuner/tm.html">Motorized Tuner</a></li>
+                    <li><a href="/antenna_gear/power_supplies/tm.html">Power Supplies</a></li>
+                    <li><a href="/antenna_gear/remote-element-switching/tm.html">Remote Element Switching</a></li>
+                    <li><a href="/antenna_gear/rf_couplers/tm.html">RF Couplers</a></li>
+                    <li><a href="/antenna_gear/rfi_mitigation/tm.html">RFI Mitigation</a></li>
+                    <li><a href="/antenna_gear/roller_inductors/tm.html">Roller Inductors</a></li>
+                    <li><a href="/antenna_gear/transmatch/tm.html">Transmatch</a></li>
+                    <li><a href="/antenna_gear/variable_caps/tm.html">Variable Capacitors</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/index.html">Antenna Tools Overview</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/tm.html">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/swr_meter/tm.html">SWR Meter</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/tm.html">RF Power Meter</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Calibration</summary>
+                <ul>
+                    <li><a href="/calibration/index.html">Calibration Library</a></li>
+                    <li><a href="/Calibration_Ideas/index.html">Calibration Standards</a></li>
+                </ul>
+            </details>
+        </nav>
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-GEAR-010</div>
+                    <div class="tm-title">LIGHTNING PROTECTION AND STATION GROUNDING</div>
+                    <div class="tm-subtitle">Single-Point Entry Panel, GDT Arrestors, Multi-Stage Protection, NEC Article 810</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH &nbsp;&bull;&nbsp;
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial use</em>
+                    </div>
+                </div>
+                <div class="chapter-body">
+
+<h2 class="chapter-heading" id="ch1">Chapter 1 — Introduction and Scope</h2>
+<p>This manual covers station grounding and lightning protection per NEC
+Article 810, NFPA 780, and ARRL station grounding practices.  The scope
+includes: single-point entry panel construction, coaxial gas discharge tube
+(GDT) arrestors, multi-stage protection (GDT + MOV + TVS), ground rod
+installation, and bonding strap sizing.</p>
+<p><strong>WARNING — LIGHTNING IS LETHAL.</strong>  This manual describes
+protection against induced surges and near-miss events.  A direct strike
+cannot be &ldquo;protected against&rdquo; — only diverted.  All station
+equipment must be disconnected from antennas and utility power during
+active thunderstorm activity.</p>
+
+<h2 class="chapter-heading" id="ch2">Chapter 2 — Theory of Operation</h2>
+<h3>2-1 Grounding Philosophy</h3>
+<p>Station grounding serves four purposes in order of importance:</p>
+<ol>
+<li><strong>Safety:</strong> Prevent fatal shock from faulted equipment chassis.</li>
+<li><strong>RF common-mode elimination:</strong> Single-point RF ground prevents loops.</li>
+<li><strong>Static discharge:</strong> Continuous low-impedance path for accumulated charge.</li>
+<li><strong>Lightning diversion:</strong> Guide induced surge energy away from equipment.</li>
+</ol>
+<p>A ground system must be: low-impedance at DC and RF (bonding), physically
+continuous, connected in a star (single-point) topology, and compliant with
+NEC 250 and Article 810.</p>
+<h3>2-2 GDT Arrestors</h3>
+<p>A gas discharge tube (GDT) is a two-electrode spark gap in a sealed tube
+filled with inert gas (typically argon/neon at low pressure).  At normal
+voltages, the GDT is an open circuit.  When the voltage exceeds the DC
+sparkover voltage (typically 90&ndash;230&nbsp;V), the gas ionizes and
+the GDT conducts, clamping the voltage.  The follow-through current must
+be broken by a series fuse or the ionization quenches when the surge passes.</p>
+<h3>2-3 Multi-Stage Protection</h3>
+<p>A single GDT clamps most surges but may allow brief overvoltages during
+the turn-on delay (&sim;1&nbsp;&micro;s).  A two-stage design adds a MOV
+(metal oxide varistor) or TVS (transient voltage suppressor) in series/parallel
+after the GDT to clamp faster (&lt;1&nbsp;ns) at lower voltages.  The series
+impedance between stages slows the surge, giving the TVS time to respond.</p>
+
+<h2 class="chapter-heading" id="ch3">Chapter 3 — Equipment and Materials</h2>
+<table>
+<tr><th>Component</th><th>Spec / Part</th><th>Purpose</th></tr>
+<tr><td>Coax GDT arrestors</td><td>Polyphaser IS-B50LN-C2 or similar</td><td>Coax feedline protection</td></tr>
+<tr><td>Entry panel</td><td>6mm copper plate, 300&times;150mm</td><td>Single-point bonding bus</td></tr>
+<tr><td>Ground rods</td><td>8&prime; copper-clad steel (×2), connected by #6 AWG</td><td>Earth connection</td></tr>
+<tr><td>Bonding straps</td><td>1&Prime; copper braid or 1/2&Prime; copper strap</td><td>Panel to ground rod, equipment to panel</td></tr>
+<tr><td>AC protector</td><td>Whole-house SPD (200A rated)</td><td>AC mains surge at service entrance</td></tr>
+<tr><td>TVS diodes</td><td>P6KE68A (60V standby, 600W peak)</td><td>Secondary protection on control lines</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="ch4">Chapter 4 — Construction</h2>
+<h3>4-1 Ground Rod Installation</h3>
+<ol>
+<li>Drive two 8&prime; ground rods at least 16&prime; apart (one rod length spacing
+    minimum per NEC 250).  Rods must be buried full depth (8&prime;/2.4&nbsp;m).</li>
+<li>Bond rods together with #6 AWG bare copper, buried 300&nbsp;mm below grade.
+    Use irreversible compression connectors (Burndy or equivalent) — never
+    rely on wire wrapped around the rod.</li>
+<li>Run the ground conductor from the rod cluster to the entry panel via the
+    shortest possible path (&lt;3&nbsp;m is ideal; avoid right-angle bends).</li>
+</ol>
+<h3>4-2 Entry Panel</h3>
+<ol>
+<li>Mount the copper panel on the exterior wall at the point where all antenna
+    cables enter the shack.  Mount as close to the ground rod as possible.</li>
+<li>All coaxial feedlines must pass through the panel via GDT-equipped
+    bulkhead connectors.  All cable shields must bond directly to the panel
+    at this point.</li>
+<li>Bond the panel to the ground rod cluster with a minimum 1/2&Prime; copper
+    strap (no wire — strap has lower RF impedance).</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch5">Chapter 5 — Operating Procedures</h2>
+<ol>
+<li><strong>During thunderstorm operation:</strong> Do not operate within 10 miles
+    of an active thunderstorm.  The standard amateur radio recommendation is:
+    if you can hear thunder, disconnect and shelter indoors.</li>
+<li><strong>When leaving the station unattended:</strong> Disconnect all antenna
+    feedlines at the transceiver and connect the coax shields to ground
+    with shorting caps or a dedicated disconnect switch.</li>
+<li><strong>Annual inspection:</strong> Check all bonding connections for corrosion
+    (green copper oxide is normal and protective; white powder indicates
+    aluminum corrosion and loss of continuity).  Check GDT arrestors for
+    carbon tracking (indicate previous discharge) — replace if discharged.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch6">Chapter 6 — Calibration</h2>
+<ol>
+<li>Measure ground resistance: use a fall-of-potential test (three-point
+    method) or a clamp-on ground resistance tester.  Target: &lt;10&Omega;
+    per NEC; &lt;5&Omega; recommended for RF stations.</li>
+<li>Verify continuity of all bonding straps with a low-resistance ohmmeter:
+    any station ground conductor must read &lt;0.1&Omega; end-to-end.</li>
+<li>GDT sparkover voltage: verify with a high-voltage tester if available.
+    The sparkover voltage should match the manufacturer rating (typically
+    90&ndash;230&nbsp;V depending on type).</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch7">Chapter 7 — Verification and Acceptance</h2>
+<ol>
+<li>Ground resistance &lt;5&Omega; (measure with fall-of-potential method).</li>
+<li>All bonding straps continuous (&lt;0.1&Omega;).</li>
+<li>All coax feedlines pass through the entry panel with no direct path
+    that bypasses the GDT.</li>
+<li>No RF current on coax shields within the shack (measure with clip-on RF
+    current probe; target &lt;10&nbsp;mA during transmit on any feedline
+    entering the shack).</li>
+<li>Log: date, ground rod resistance, number of GDT units installed and
+    tested, bonding strap resistance, RF current check, operator.</li>
+</ol>
+
+<h2 class="chapter-heading" id="appa">Appendix A — NEC Article 810 Summary</h2>
+<ul>
+<li>810-21(f)(1): antenna discharge unit must be connected to ground electrode</li>
+<li>810-21(f)(2): ground conductor must be #10 AWG copper minimum</li>
+<li>810-21(h): ground conductor must be run in shortest path, without sharp bends</li>
+<li>810-20(a): antenna must be kept &ge;3 feet from power conductors</li>
+<li>250-50: all grounding electrodes must be bonded together</li>
+</ul>
+
+<h2 class="chapter-heading" id="appb">Appendix B — Bonding Strap Sizing</h2>
+<table>
+<tr><th>Strap type</th><th>DC resistance / foot</th><th>RF impedance at 14 MHz</th><th>Use</th></tr>
+<tr><td>1/4&Prime; copper strap</td><td>0.3 m&Omega;</td><td>Medium</td><td>Minimum for station bonding</td></tr>
+<tr><td>1/2&Prime; copper strap</td><td>0.15 m&Omega;</td><td>Low</td><td>Panel to ground rod</td></tr>
+<tr><td>1&Prime; copper braid</td><td>0.08 m&Omega;</td><td>Very low (skin effect)</td><td>Equipment chassis bonds</td></tr>
+<tr><td>#6 AWG solid copper</td><td>0.4 m&Omega;</td><td>High (inductance)</td><td>Underground bonding only; not RF</td></tr>
+</table>
+
+                </div>
+                <div class="back-link">
+                    <a href="../index.html">&larr; Antenna Gear</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item"><strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a></div>
+                <div class="contact-item"><strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a></div>
+                <div class="contact-item"><strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a></div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Designs shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

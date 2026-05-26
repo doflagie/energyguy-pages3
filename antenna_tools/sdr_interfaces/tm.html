@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-TOOL-009 SDR INTERFACES AND PRESELECTOR - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+.tm-cover{border:3px solid #2c5f8d;padding:28px 36px;text-align:center;margin-bottom:28px;background:#f8f8f4}
+.tm-classification{font-size:1.05em;font-weight:bold;color:#006600;letter-spacing:3px;margin-bottom:16px}
+.tm-number{font-family:'Courier New',monospace;font-size:1.15em;font-weight:bold;color:#2c5f8d;margin-bottom:8px}
+.tm-title{font-size:1.7em;font-weight:bold;color:#1a3a5c;text-transform:uppercase;letter-spacing:1px;margin:12px 0 8px;line-height:1.3}
+.tm-subtitle{font-size:.98em;font-style:italic;color:#555;margin-bottom:12px}
+.tm-meta{font-size:.88em;color:#555;margin-top:16px;border-top:1px solid #aaa;padding-top:12px}
+.chapter-body h1,.chapter-body h2{color:#1a3a5c;border-bottom:2px solid #4a7ba7;padding-bottom:4px;margin-top:22px;margin-bottom:10px}
+.chapter-body h3{color:#2c5f8d;margin-top:16px;margin-bottom:8px}
+.chapter-body table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93em}
+.chapter-body th{background:#4a7ba7;color:#fff;padding:7px 11px;text-align:left;font-size:.88em;text-transform:uppercase}
+.chapter-body td{border:1px solid #c0ccd8;padding:6px 11px;vertical-align:top}
+.chapter-body tr:nth-child(even) td{background:#f4f7fb}
+.chapter-body ol,.chapter-body ul{margin:8px 0 8px 20px}
+.chapter-body li{margin:5px 0;line-height:1.5}
+.chapter-body p{margin:8px 0 10px}
+.chapter-body pre,.chapter-body code{background:#f4f4ee;border:1px solid #ddd;padding:2px 5px;font-size:.9em}
+.chapter-body pre{padding:10px 14px;overflow-x:auto;line-height:1.4}
+.back-link{margin-top:28px;padding-top:12px;border-top:1px solid #c0ccd8;font-size:.9em}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group">
+                <summary>Antennas</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/antennas/phased_array_of_2/tm.html">2-Element Phased Array</a></li>
+                    <li><a href="/antennas/phased_array_of_4/tm.html">4-Element Phased Array</a></li>
+                    <li><a href="/antennas/dipole/tm.html">Dipole</a></li>
+                    <li><a href="/antennas/yagi_uda/tm.html">Yagi-Uda</a></li>
+                    <li><a href="/antennas/end_fed_half_wave/tm.html">EFHW</a></li>
+                    <li><a href="/antennas/vertical/tm.html">Vertical</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Antenna Gear</summary>
+                <ul>
+                    <li><a href="/antenna_gear/index.html">Antenna Gear Overview</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/">Baluns &amp; Un-Uns</a></li>
+                    <li><a href="/antenna_gear/coax_traps/">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/">Lightning Protection</a></li>
+                </ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/index.html">Antenna Tools Overview</a></li>
+                    <li><a href="/antenna_tools/adf_systems/tm.html">ADF Systems</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/tm.html">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/antenna_modeling/tm.html">Antenna Modeling</a></li>
+                    <li><a href="/antenna_tools/dummy_loads/tm.html">Dummy Loads</a></li>
+                    <li><a href="/antenna_tools/field_strength_meter/tm.html">Field Strength Meter</a></li>
+                    <li><a href="/antenna_tools/noise_bridge/tm.html">Noise Bridge</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/tm.html">RF Power Meter (QRP)</a></li>
+                    <li><a href="/antenna_tools/rf_power_meters/tm.html">RF Power Meters (General)</a></li>
+                    <li><a href="/antenna_tools/sdr_interfaces/tm.html">SDR Interfaces</a></li>
+                    <li><a href="/antenna_tools/swr_meter/tm.html">SWR Meter</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Calibration</summary>
+                <ul>
+                    <li><a href="/calibration/index.html">Calibration Library</a></li>
+                    <li><a href="/Calibration_Ideas/index.html">Calibration Standards</a></li>
+                </ul>
+            </details>
+        </nav>
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-TOOL-009</div>
+                    <div class="tm-title">SDR INTERFACES AND PRESELECTOR</div>
+                    <div class="tm-subtitle">HF Upconverter, 16-Band Preselector, Bias-T, Attenuator/LNA, Direct Sampling</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH &nbsp;&bull;&nbsp;
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial use</em>
+                    </div>
+                </div>
+                <div class="chapter-body">
+
+<h2 class="chapter-heading" id="ch1">Chapter 1 — Introduction and Scope</h2>
+<p>This manual covers five SDR interface circuits that extend or improve
+the performance of RTL-SDR and similar low-cost SDR receivers:
+(1)&nbsp;HF upconverter (0&ndash;30&nbsp;MHz to 125&ndash;155&nbsp;MHz),
+(2)&nbsp;16-band switchable bandpass preselector,
+(3)&nbsp;dual-band bias-T for remote LNA power,
+(4)&nbsp;PE4302 digital step attenuator with SPF5189Z LNA option, and
+(5)&nbsp;direct-sampling HF modification.  All circuits interface via
+SMA connectors; the preselector and attenuator are ESP32-controlled.</p>
+
+<h2 class="chapter-heading" id="ch2">Chapter 2 — Theory of Operation</h2>
+<h3>2-1 HF Upconverter</h3>
+<p>An SA612A double-balanced mixer converts HF input (0.1&ndash;30&nbsp;MHz)
+to IF (125.1&ndash;155&nbsp;MHz) by mixing with a 125.000&nbsp;MHz TCXO local
+oscillator.  The RTL-SDR is then tuned to 125&ndash;155&nbsp;MHz to receive
+HF signals without needing direct-sampling mode.  An SPDT relay bypasses
+the upconverter for 6m and above (where RTL-SDR tunes directly).
+Optional SPF5189Z LNA (+19&nbsp;dB, NF = 0.6&nbsp;dB) precedes the mixer.</p>
+<table>
+<tr><th>Parameter</th><th>Value</th></tr>
+<tr><td>Input frequency</td><td>0.1&ndash;30 MHz</td></tr>
+<tr><td>LO frequency</td><td>125.000 MHz (&plusmn;2.5 ppm TCXO)</td></tr>
+<tr><td>IF output</td><td>125.1&ndash;155 MHz</td></tr>
+<tr><td>Conversion gain (passive)</td><td>&minus;2 dB</td></tr>
+<tr><td>Conversion gain (with LNA)</td><td>+17 dB</td></tr>
+<tr><td>Image frequency</td><td>&gt;155 MHz (suppressed &gt;45 dB by IF BPF)</td></tr>
+<tr><td>LO leakage to RF port</td><td>&lt;&minus;40 dBm</td></tr>
+</table>
+
+<h3>2-2 16-Band Switchable Preselector</h3>
+<p>Sixteen bandpass filters (one per amateur band, 160m through 23cm plus
+one bypass) select with an SP4T&times;4 relay tree driven by a 4-to-16 decoder
+(74HC154) from ESP32 GPIO[3:0].  Filter topology: 3-pole Chebyshev BPF
+for 160m&ndash;10m; interdigital for 2m/1.25m; stripline/SAW for 70cm and
+above.  Rejection of out-of-band signals: &ge;50&nbsp;dB adjacent band,
+&ge;60&nbsp;dB for FM broadcast (88&ndash;108&nbsp;MHz) when tuned to HF.</p>
+
+<h3>2-3 Bias-T</h3>
+<p>A bias-T injects DC power onto coax to supply a remote LNA or active
+antenna.  An RF choke (L, &gt;10&micro;H SRF) passes DC while blocking RF;
+a DC-blocking capacitor (C) passes RF while blocking DC.  The HF version
+(Version A) covers 0.1&ndash;50&nbsp;MHz; the VHF/UHF version (Version B)
+covers 10&nbsp;MHz&ndash;3&nbsp;GHz.</p>
+
+<h3>2-4 PE4302 Digital Step Attenuator</h3>
+<p>The PE4302 provides 0&ndash;31.5&nbsp;dB attenuation in 0.5&nbsp;dB steps
+via 6-bit SPI control.  Frequency range DC&ndash;3&nbsp;GHz, IP3 = +40&nbsp;dBm,
+NF = attenuation setting + 0.5&nbsp;dB.  Combined with an SPF5189Z LNA
+(+19&nbsp;dB gain, NF = 0.6&nbsp;dB), the combination provides adjustable
+gain from &minus;31.5&nbsp;dB (full atten) to +18.5&nbsp;dB (no atten, LNA on).</p>
+
+<h2 class="chapter-heading" id="ch3">Chapter 3 — Equipment and Materials</h2>
+<table>
+<tr><th>Module</th><th>Key ICs</th><th>Connectors</th><th>Supply</th></tr>
+<tr><td>HF Upconverter</td><td>SA612A, 125 MHz TCXO, K1 relay</td><td>SMA in/out</td><td>5V USB, 80 mA</td></tr>
+<tr><td>Preselector</td><td>74HC154, 4&times; SP4T relays, 16 BPF modules</td><td>SMA in/out</td><td>5V, 200 mA</td></tr>
+<tr><td>Bias-T (HF)</td><td>L = 10&micro;H RFC, C = 100 nF</td><td>SMA in/out/DC</td><td>5V or 12V from SDR</td></tr>
+<tr><td>Bias-T (VHF)</td><td>L = 100 nH, C = 10 nF NP0</td><td>SMA</td><td>3.3V/5V/12V</td></tr>
+<tr><td>Attenuator/LNA</td><td>PE4302, SPF5189Z</td><td>SMA in/out</td><td>3.3V</td></tr>
+<tr><td>Controller</td><td>ESP32 WROOM-32</td><td>USB-C</td><td>5V</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="ch4">Chapter 4 — Installation and Setup</h2>
+<h3>4-1 Stacking Order</h3>
+<p>Connect SDR interface modules in this order from antenna to SDR:</p>
+<pre>Antenna &rarr; Bias-T (if using remote LNA) &rarr; Preselector &rarr;
+Attenuator/LNA (optional) &rarr; HF Upconverter (HF only) &rarr; RTL-SDR</pre>
+<h3>4-2 Preselector Band Selection</h3>
+<p>The ESP32 selects the correct filter automatically if configured with
+the current receive frequency.  Manual override: set GPIO[3:0] to the
+filter index (0&ndash;15) using the CYD touchscreen or serial command
+<code>BAND &lt;n&gt;</code>.</p>
+<h3>4-3 Upconverter LO Alignment</h3>
+<p>The RTL-SDR must be told to offset the displayed frequency by the LO
+value.  In SDR# or GQRX: set &ldquo;LO offset&rdquo; or &ldquo;frequency correction&rdquo;
+to +125.000&nbsp;MHz.  In GNU Radio: subtract 125e6 from the reported
+frequency to get the true HF frequency.</p>
+
+<h2 class="chapter-heading" id="ch5">Chapter 5 — Operating Procedures</h2>
+<h3>5-1 HF Reception with Upconverter</h3>
+<ol>
+<li>Enable bypass relay for frequencies &ge;60&nbsp;MHz (GPIO or front-panel
+    switch).  For 0.1&ndash;30&nbsp;MHz: use upconverter path.</li>
+<li>In SDR software: tune to 125 + f_HF (MHz).  E.g., 40m = 7.15&nbsp;MHz
+    &rarr; tune SDR to 132.15&nbsp;MHz.</li>
+<li>Enable preselector for the band in use to reduce out-of-band
+    interference.  FM broadcast (88&ndash;108&nbsp;MHz) causes severe IMD
+    in RTL-SDR at HF; preselector eliminates this.</li>
+</ol>
+<h3>5-2 Adjusting Gain</h3>
+<ol>
+<li>Start with maximum attenuation (31.5&nbsp;dB) on PE4302.  Reduce in
+    6&nbsp;dB steps until the noise floor drops and desired signals become
+    visible.</li>
+<li>Enable SPF5189Z LNA only for weak-signal work (&lt;&minus;100&nbsp;dBm);
+    for strong-signal environments (near broadcast transmitters), keep
+    LNA off to avoid IMD.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch6">Chapter 6 — Calibration</h2>
+<ol>
+<li>Inject a known signal (&minus;50&nbsp;dBm at 14.175&nbsp;MHz) into the
+    upconverter input.  Verify the SDR displays the signal at the correct
+    displayed frequency (offset by LO).</li>
+<li>Preselector: verify each filter passes its intended band within 1&nbsp;dB
+    of bypass, and rejects adjacent bands by &ge;40&nbsp;dB.</li>
+<li>Attenuator: apply 0&nbsp;dBm CW; step through 0, 10, 20, 30&nbsp;dB
+    settings.  Verify SDR S-meter drops by 10&nbsp;dB per step
+    (&plusmn;1.5&nbsp;dB).</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch7">Chapter 7 — Verification and Acceptance</h2>
+<ol>
+<li>WWV reception check: with upconverter active and 40m preselector
+    selected, verify WWV at 5.000&nbsp;MHz or 10.000&nbsp;MHz is audible
+    at noise floor SNR &ge;15&nbsp;dB.</li>
+<li>FM rejection: verify FM broadcast stations at 88&ndash;108&nbsp;MHz are
+    not visible while preselector is set to any HF band (&ge;60&nbsp;dB
+    suppression relative to bypass mode).</li>
+<li>Log: date, upconverter LO error (measured vs. GPS reference), preselector
+    insertion loss at band centers, attenuator step accuracy, operator.</li>
+</ol>
+
+<h2 class="chapter-heading" id="appa">Appendix A — SDR Software LO Offset Settings</h2>
+<table>
+<tr><th>Software</th><th>Setting</th><th>Value for 125 MHz LO</th></tr>
+<tr><td>SDR#</td><td>Shift frequency</td><td>+125000000 Hz</td></tr>
+<tr><td>GQRX</td><td>LNB LO (Tools &rarr; Offset)</td><td>125.000 MHz</td></tr>
+<tr><td>GNU Radio</td><td>Frequency subtract block</td><td>125e6 Hz offset in flowgraph</td></tr>
+<tr><td>CubicSDR</td><td>Not supported natively; use IF math</td><td>—</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="appb">Appendix B — Image Frequency Calculator</h2>
+<pre>For any LO:
+  Image freq = LO + f_if_desired = LO + (LO + f_hf) = 2&times;LO + f_hf
+  With LO = 125 MHz, f_hf = 7.15 MHz:
+  f_image = 2&times;125 + 7.15 = 257.15 MHz
+  This is above the RTL-SDR's tuning range &rarr; image is rejected
+  by the IF BPF at 125&ndash;155 MHz (&gt;45 dB suppression).</pre>
+
+                </div>
+                <div class="back-link">
+                    <a href="../index.html">&larr; Antenna Tools</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item"><strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a></div>
+                <div class="contact-item"><strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a></div>
+                <div class="contact-item"><strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a></div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Designs shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

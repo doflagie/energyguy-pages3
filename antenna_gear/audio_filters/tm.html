@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-GEAR-002 AUDIO FILTERS — CW, SSB, AND DSP - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+.tm-cover{border:3px solid #2c5f8d;padding:28px 36px;text-align:center;margin-bottom:28px;background:#f8f8f4}
+.tm-classification{font-size:1.05em;font-weight:bold;color:#006600;letter-spacing:3px;margin-bottom:16px}
+.tm-number{font-family:'Courier New',monospace;font-size:1.15em;font-weight:bold;color:#2c5f8d;margin-bottom:8px}
+.tm-title{font-size:1.7em;font-weight:bold;color:#1a3a5c;text-transform:uppercase;letter-spacing:1px;margin:12px 0 8px;line-height:1.3}
+.tm-subtitle{font-size:.98em;font-style:italic;color:#555;margin-bottom:12px}
+.tm-meta{font-size:.88em;color:#555;margin-top:16px;border-top:1px solid #aaa;padding-top:12px}
+.chapter-body h1,.chapter-body h2{color:#1a3a5c;border-bottom:2px solid #4a7ba7;padding-bottom:4px;margin-top:22px;margin-bottom:10px}
+.chapter-body h3{color:#2c5f8d;margin-top:16px;margin-bottom:8px}
+.chapter-body table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93em}
+.chapter-body th{background:#4a7ba7;color:#fff;padding:7px 11px;text-align:left;font-size:.88em;text-transform:uppercase}
+.chapter-body td{border:1px solid #c0ccd8;padding:6px 11px;vertical-align:top}
+.chapter-body tr:nth-child(even) td{background:#f4f7fb}
+.chapter-body ol,.chapter-body ul{margin:8px 0 8px 20px}
+.chapter-body li{margin:5px 0;line-height:1.5}
+.chapter-body p{margin:8px 0 10px}
+.chapter-body pre,.chapter-body code{background:#f4f4ee;border:1px solid #ddd;padding:2px 5px;font-size:.9em}
+.chapter-body pre{padding:10px 14px;overflow-x:auto;line-height:1.4}
+.back-link{margin-top:28px;padding-top:12px;border-top:1px solid #c0ccd8;font-size:.9em}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Gear</summary>
+                <ul>
+                    <li><a href="/antenna_gear/index.html">Antenna Gear Overview</a></li>
+                    <li><a href="/antenna_gear/ant_switches/tm.html">Antenna Switches</a></li>
+                    <li><a href="/antenna_gear/audio_filters/tm.html">Audio Filters</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/tm.html">Baluns &amp; Un-Uns</a></li>
+                    <li><a href="/antenna_gear/bms/tm.html">Battery Management (BMS)</a></li>
+                    <li><a href="/antenna_gear/coax_traps/tm.html">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/coil_winder/tm.html">Coil Winder</a></li>
+                    <li><a href="/antenna_gear/common_mode_chokes/tm.html">Common-Mode Chokes</a></li>
+                    <li><a href="/antenna_gear/crystal_radio/tm.html">Crystal Radio</a></li>
+                    <li><a href="/antenna_gear/hybrids/tm.html">RF Hybrids</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/tm.html">Lightning Protection</a></li>
+                    <li><a href="/antenna_gear/mast_tower/tm.html">Mast &amp; Tower</a></li>
+                    <li><a href="/antenna_gear/motorized_tuner/tm.html">Motorized Tuner</a></li>
+                    <li><a href="/antenna_gear/power_supplies/tm.html">Power Supplies</a></li>
+                    <li><a href="/antenna_gear/remote-element-switching/tm.html">Remote Element Switching</a></li>
+                    <li><a href="/antenna_gear/rf_couplers/tm.html">RF Couplers</a></li>
+                    <li><a href="/antenna_gear/rfi_mitigation/tm.html">RFI Mitigation</a></li>
+                    <li><a href="/antenna_gear/roller_inductors/tm.html">Roller Inductors</a></li>
+                    <li><a href="/antenna_gear/transmatch/tm.html">Transmatch</a></li>
+                    <li><a href="/antenna_gear/variable_caps/tm.html">Variable Capacitors</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/index.html">Antenna Tools Overview</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/tm.html">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/swr_meter/tm.html">SWR Meter</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/tm.html">RF Power Meter</a></li>
+                </ul>
+            </details>
+            <details class="nav-group">
+                <summary>Calibration</summary>
+                <ul>
+                    <li><a href="/calibration/index.html">Calibration Library</a></li>
+                    <li><a href="/Calibration_Ideas/index.html">Calibration Standards</a></li>
+                </ul>
+            </details>
+        </nav>
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-GEAR-002</div>
+                    <div class="tm-title">AUDIO FILTERS — CW, SSB, AND DSP</div>
+                    <div class="tm-subtitle">LC Notch, Active CW BPF, LC SSB Bandpass, and DSP Audio Processing</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH &nbsp;&bull;&nbsp;
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial use</em>
+                    </div>
+                </div>
+                <div class="chapter-body">
+
+<h2 class="chapter-heading" id="ch1">Chapter 1 — Introduction and Scope</h2>
+<p>This manual covers four audio filter designs for improving receiver
+selectivity and noise reduction: an LC notch filter (eliminating heterodyne
+interference), an active CW bandpass filter (300&ndash;500&nbsp;Hz center,
+&plusmn;50&nbsp;Hz bandwidth), an LC SSB bandpass filter (2.4&nbsp;kHz,
+300&ndash;2700&nbsp;Hz passband), and a DSP audio processor (ESP32-based
+FIR/IIR filtering with 16-bit 44.1&nbsp;kHz audio codec).</p>
+
+<h2 class="chapter-heading" id="ch2">Chapter 2 — Theory of Operation</h2>
+<h3>2-1 LC Notch Filter</h3>
+<p>A series LC circuit resonant at the interference frequency presents near-zero
+impedance in parallel with the audio path, pulling the interference signal to
+ground.  At resonance f<sub>0</sub> = 1/(2&pi;&radic;LC), the notch depth depends
+on component Q.  Practical notch depth: 30&ndash;50&nbsp;dB.  A variable
+capacitor makes the notch tunable across 200&ndash;5000&nbsp;Hz.</p>
+<h3>2-2 Active CW Filter</h3>
+<p>A cascade of two Sallen-Key bandpass stages using LM833 (low-noise, 15&nbsp;MHz
+GBW) op-amps provides approximately 36&nbsp;dB/octave roll-off outside the
+passband.  The center frequency Q is set by resistor ratios; Q = 10 for CW
+(narrow, 50&nbsp;Hz &minus;3&nbsp;dB BW at 500&nbsp;Hz center).  This narrow
+bandwidth dramatically improves CW copy in high-noise conditions.</p>
+<h3>2-3 DSP Audio Processor</h3>
+<p>An ESP32-S3 with I2S audio codec (PCM5102A output, INMP441 microphone-grade
+input) implements digital filters in software.  FIR filters achieve linear phase
+(no transient distortion); IIR filters achieve steep rolloff with fewer taps.
+Available modes: CW narrow (500&nbsp;Hz), SSB bandpass, noise reduction
+(spectral subtraction), and audio peak filtering (sharp peak at detected
+CW frequency).</p>
+
+<h2 class="chapter-heading" id="ch3">Chapter 3 — Equipment and Materials</h2>
+<table>
+<tr><th>Component</th><th>LC Notch</th><th>Active CW</th><th>DSP</th></tr>
+<tr><td>Inductors</td><td>1&nbsp;mH pot-core</td><td>—</td><td>—</td></tr>
+<tr><td>Capacitors</td><td>VC 10&ndash;100&nbsp;pF + fixed NP0</td><td>1% polypropylene</td><td>—</td></tr>
+<tr><td>Op-amps</td><td>—</td><td>LM833, 2&times;</td><td>—</td></tr>
+<tr><td>DSP processor</td><td>—</td><td>—</td><td>ESP32-S3 WROOM</td></tr>
+<tr><td>Audio codec</td><td>—</td><td>—</td><td>PCM5102A + INMP441</td></tr>
+<tr><td>Power</td><td>&plusmn;12V or 9V battery</td><td>&plusmn;12V</td><td>5V USB-C</td></tr>
+<tr><td>Audio connectors</td><td>3.5&nbsp;mm stereo (×2)</td><td>Same</td><td>Same</td></tr>
+</table>
+
+<h2 class="chapter-heading" id="ch4">Chapter 4 — Construction</h2>
+<h3>4-1 LC Notch Filter</h3>
+<ol>
+<li>Wind 1&nbsp;mH inductor on a ferrite pot-core for the highest achievable Q
+    (target Q &ge;50).  Measure inductance with LCR meter before mounting.</li>
+<li>Connect a variable capacitor (10&ndash;100&nbsp;pF air-variable) in series
+    with the inductor.  This LC series combination connects in shunt (in parallel)
+    with the audio signal path between the receiver audio output and the headphone
+    or speaker.</li>
+<li>Tune by listening: with an interfering tone present, adjust the variable cap
+    until the tone disappears.  Notch depth should be audibly dramatic
+    (&gt;30&nbsp;dB).</li>
+</ol>
+<h3>4-2 Active CW Filter</h3>
+<ol>
+<li>Build two Sallen-Key stages.  Stage 1: f<sub>0</sub> = 500&nbsp;Hz, Q = 5.
+    Stage 2: f<sub>0</sub> = 500&nbsp;Hz, Q = 10.  Series connection gives
+    combined Q &sim;50 (approximate).</li>
+<li>Power: use a &plusmn;12V regulated supply.  Use 100&nbsp;nF NP0 + 10&nbsp;&micro;F
+    electrolytic bypass on each supply pin within 5&nbsp;mm of the op-amp.</li>
+<li>Set gain &lt;6&nbsp;dB to avoid clipping.  Check output at maximum received
+    signal level with an oscilloscope — no flat-topping.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch5">Chapter 5 — Operating Procedures</h2>
+<ol>
+<li>LC Notch: insert inline in the headphone lead.  Tune the variable cap while
+    a heterodyne tone is present until the tone nulls.  Leave set; retune if
+    the interferer changes frequency.</li>
+<li>Active CW Filter: insert inline.  Turn on with the band switch.  The filter
+    is narrowest in CW mode; switch to bypass or SSB mode if copying SSB.
+    The filter does not switch fast enough for RTTY (use DSP mode).</li>
+<li>DSP Filter: select mode on the CYD touchscreen.  CW NARROW enables a
+    500&nbsp;Hz FIR bandpass.  NOISE REDUCE applies spectral subtraction;
+    optimal for weak SSB signals with broadband noise.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch6">Chapter 6 — Calibration</h2>
+<ol>
+<li>Inject a 1&nbsp;kHz &minus;30&nbsp;dBV audio tone into the input.  Measure
+    output level with a true-RMS voltmeter.  Passband insertion loss must be
+    &lt;3&nbsp;dB for in-band signals.</li>
+<li>Inject tones at 100, 200, 300, 3000, 4000&nbsp;Hz.  Verify attenuation
+    &ge;30&nbsp;dB (LC notch) or &ge;40&nbsp;dB (active) for out-of-band signals.</li>
+<li>DSP filter: use a sweep generator (PC software or TinySA audio output) to
+    sweep 100&ndash;5000&nbsp;Hz.  Verify &minus;3&nbsp;dB points match the
+    selected filter specification within 10%.</li>
+</ol>
+
+<h2 class="chapter-heading" id="ch7">Chapter 7 — Verification and Acceptance</h2>
+<ol>
+<li>CW filter: passband 450&ndash;550&nbsp;Hz, loss &lt;3&nbsp;dB; stopband
+    outside 300&ndash;700&nbsp;Hz, attenuation &ge;30&nbsp;dB.</li>
+<li>SSB filter: passband 300&ndash;2700&nbsp;Hz, loss &lt;3&nbsp;dB; &gt;50&nbsp;Hz
+    and &gt;3000&nbsp;Hz at least 30&nbsp;dB down.</li>
+<li>LC notch: tunable to any frequency in 200&ndash;5000&nbsp;Hz range; notch
+    depth &ge;30&nbsp;dB at any tuned frequency.</li>
+<li>No audible distortion on a steady 1&nbsp;kHz tone at maximum receiver audio
+    output (no clipping).</li>
+<li>Log: date, filter type, passband &minus;3&nbsp;dB points, stopband attenuation
+    at key test frequencies, operator.</li>
+</ol>
+
+<h2 class="chapter-heading" id="appa">Appendix A — Filter Design Formulas</h2>
+<pre>LC series resonance (notch frequency):
+  f0 = 1 / (2&pi; &times; sqrt(L &times; C))
+
+Sallen-Key BPF center frequency:
+  f0 = 1 / (2&pi; &times; R &times; C)    [equal-component design]
+
+Q (quality factor):
+  Q = f0 / BW_3dB
+
+BW at -3 dB:
+  BW = f0 / Q</pre>
+
+<h2 class="chapter-heading" id="appb">Appendix B — Worked Example</h2>
+<p>CW filter, f<sub>0</sub> = 500&nbsp;Hz, Q = 10:</p>
+<pre>BW = 500 / 10 = 50 Hz  (-3 dB bandwidth)
+-3 dB points: 475 Hz and 525 Hz
+Skirt at 300 Hz: well into stopband (200 Hz away from center)
+Skirt attenuation (2-pole): ~12 dB/octave; at 300 Hz (~0.8 octave below)
+  attenuation ≈ 2 × 12 × log2(500/300) = ~16 dB per stage × 2 stages = ~32 dB total</pre>
+
+                </div>
+                <div class="back-link">
+                    <a href="../index.html">&larr; Antenna Gear</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item"><strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a></div>
+                <div class="contact-item"><strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a></div>
+                <div class="contact-item"><strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a></div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Designs shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
