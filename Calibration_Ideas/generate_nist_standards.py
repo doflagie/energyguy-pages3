@@ -54,7 +54,7 @@ def wrap_html(title, css_href, body_html):
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{title} - Merv's Dump</title>
+    <title>{title} - EnergyGuy LLC</title>
     <link rel="stylesheet" href="{css_href}">
 </head>
 <body>
@@ -62,7 +62,7 @@ def wrap_html(title, css_href, body_html):
         <header>
             <div class="banner">
                 <div>
-                    <h1>Merv's Dump</h1>
+                    <h1>EnergyGuy LLC</h1>
                     <p class="tagline">Amateur Radio • Electronics • Engineering</p>
                 </div>
             </div>
