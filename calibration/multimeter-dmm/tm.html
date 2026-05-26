@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-INST-017 MULTIMETER DMM CALIBRATION OVERVIEW - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+.tm-cover{border:3px solid #2c5f8d;padding:28px 36px;text-align:center;margin-bottom:28px;background:#f8f8f4}
+.tm-classification{font-size:1.05em;font-weight:bold;color:#006600;letter-spacing:3px;margin-bottom:16px}
+.tm-number{font-family:'Courier New',monospace;font-size:1.15em;font-weight:bold;color:#2c5f8d;margin-bottom:8px}
+.tm-title{font-size:1.7em;font-weight:bold;color:#1a3a5c;text-transform:uppercase;letter-spacing:1px;margin:12px 0 8px;line-height:1.3}
+.tm-subtitle{font-size:.98em;font-style:italic;color:#555;margin-bottom:12px}
+.tm-meta{font-size:.88em;color:#555;margin-top:16px;border-top:1px solid #aaa;padding-top:12px}
+.tm-toc{background:#f0f4f8;border:1px solid #c0ccd8;padding:18px 28px;margin-bottom:28px}
+.tm-toc h2{font-size:1.05em;color:#2c5f8d;border-bottom:1px solid #4a7ba7;padding-bottom:6px;margin-bottom:10px;text-transform:uppercase;letter-spacing:1px}
+.tm-toc ol{margin:0;padding-left:22px}
+.tm-toc li{margin:4px 0;font-size:.93em}
+.tm-toc a{color:#2c5f8d;text-decoration:none}
+.tm-toc a:hover{text-decoration:underline}
+.chapter-heading{background:#2c5f8d;color:#fff;padding:9px 18px;margin-top:32px;margin-bottom:16px;font-size:1.15em;font-weight:bold;text-transform:uppercase;letter-spacing:1px}
+.chapter-body h1,.chapter-body h2{color:#1a3a5c;border-bottom:2px solid #4a7ba7;padding-bottom:4px;margin-top:22px;margin-bottom:10px}
+.chapter-body h3{color:#2c5f8d;margin-top:16px;margin-bottom:8px}
+.chapter-body table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93em}
+.chapter-body th{background:#4a7ba7;color:#fff;padding:7px 11px;text-align:left;font-size:.88em;text-transform:uppercase}
+.chapter-body td{border:1px solid #c0ccd8;padding:6px 11px;vertical-align:top}
+.chapter-body tr:nth-child(even) td{background:#f4f7fb}
+.chapter-body ol,.chapter-body ul{margin:8px 0 8px 20px}
+.chapter-body li{margin:5px 0;line-height:1.5}
+.chapter-body p{margin:8px 0 10px}
+.chapter-body pre,.chapter-body code{background:#f4f4ee;border:1px solid #ddd;padding:2px 5px;font-size:.9em}
+.chapter-body blockquote{border-left:4px solid #4a7ba7;margin:12px 0;padding:8px 16px;background:#f0f5ff;color:#333}
+.back-link{margin-top:28px;padding-top:12px;border-top:1px solid #c0ccd8;font-size:.9em}
+</style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+            
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="../../about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Calibration Library</summary>
+                <ul><li><a href="../index.html">Calibration Library</a></li></ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Test Equipment</summary>
+                <ul><li><a href="../../test_gear/index.html">Test Equipment Library</a></li></ul>
+            </details>
+            <h3>Standards</h3>
+            <ul>
+                <li><a href="../../Calibration_Ideas/index.html">Calibration Standards</a></li>
+            </ul>
+        </nav>
+
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-INST-017</div>
+                    <div class="tm-title">MULTIMETER DMM CALIBRATION OVERVIEW</div>
+                    <div class="tm-subtitle">Construction, Theory, Calibration and Verification Procedures</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH &nbsp;&bull;&nbsp;
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial calibration use</em>
+                    </div>
+                </div>
+
+                <div class="tm-toc">
+                    <h2>Table of Contents</h2>
+                    <ol>
+            <li><a href="#ch1">CHAPTER 1 &mdash; GENERAL INFORMATION</a></li>
+            <li><a href="#ch2">CHAPTER 2 &mdash; THEORY OF OPERATION</a></li>
+            <li><a href="#ch3">CHAPTER 3 &mdash; MATERIALS AND CONSTRUCTION</a></li>
+            <li><a href="#ch4">CHAPTER 4 &mdash; ASSEMBLY PROCEDURES</a></li>
+            <li><a href="#ch5">CHAPTER 5 &mdash; CALIBRATION PROCEDURE</a></li>
+            <li><a href="#ch6">CHAPTER 6 &mdash; TUNING AND ADJUSTMENT</a></li>
+            <li><a href="#ch7">CHAPTER 7 &mdash; VERIFICATION</a></li>
+            <li><a href="#chA">APPENDIX A &mdash; CALCULATIONS AND FORMULAS</a></li>
+            <li><a href="#chB">APPENDIX B &mdash; EXAMPLE RESULTS</a></li>
+            <li><a href="#chappc">APPENDIX C &mdash; MULTIMETER CALIBRATION OVERVIEW</a></li>
+                    </ol>
+                </div>
+
+                <h2 class="chapter-heading" id="ch1">CHAPTER 1 &mdash; GENERAL INFORMATION</h2>
+<div class="chapter-body">
+<h2 id="gear-profile">Gear Profile</h2>
+                <ul>
+                <li>Example models: Generic bench or handheld units</li>
+                <li>Frequency range: Varies by model; verify datasheet</li>
+                <li>Connector type: BNC, SMA, or binding posts</li>
+                <li>Typical use: General measurement and calibration checks</li>
+                </ul>
+                <h2 id="purpose">Purpose</h2>
+                <p>This guide describes a <strong>homebrew, no-calibration-needed</strong> method to calibrate a multimeter DMM using
+                public reference signals and first-principles checks. It borrows techniques from:</p>
+                <ul>
+                <li><code>../gps_calibration.md</code></li>
+                <li><code>../fm_broadcast_calibration.md</code></li>
+                <li><code>../radio_standard_calibration.md</code></li>
+                <li><code>../verification_procedures.md</code></li>
+                </ul>
+                <h2 id="what-you-will-build">What You Will Build</h2>
+                <ul>
+                <li>A simple reference load (homebrew 50 ohm)</li>
+                <li>A quarter-wave coax stub test fixture</li>
+                <li>Optional GPS 1PPS counter (if you want tighter frequency checks)</li>
+                </ul>
+                <h2 id="expected-accuracy">Expected Accuracy</h2>
+                <ul>
+                <li>Frequency axis: 0.1 to 1 ppm (with GPS or time standards)</li>
+                <li>SWR/impedance: limited by resistor tolerance (typically 1-2%)</li>
+                </ul>
+</div>
+<h2 class="chapter-heading" id="ch2">CHAPTER 2 &mdash; THEORY OF OPERATION</h2>
+<div class="chapter-body">
+<h2 id="calibration-philosophy">Calibration Philosophy</h2>
+                <p>We use <strong>absolute references</strong> (GPS 1PPS, WWV/CHU, FM stations) and <strong>known physics</strong>
+                (speed of light, coax velocity factor, resonance) to validate the analyzer without relying on
+                any pre-calibrated lab equipment.</p>
+                <h2 id="key-principles">Key Principles</h2>
+                <ol>
+                <li><strong>Frequency accuracy</strong>: Check displayed frequency against GPS/WWV/CHU/FM carriers.</li>
+                <li><strong>Impedance accuracy</strong>: Validate using a known load and known reactance from a stub or LC.</li>
+                <li><strong>Repeatability</strong>: Measurements should be stable over time and temperature.</li>
+                </ol>
+                <h2 id="reference-sources">Reference Sources</h2>
+                <ul>
+                <li><strong>GPS 1PPS</strong>: Atomic time tick (best accuracy).</li>
+                <li><strong>WWV/CHU</strong>: HF time standards (good accuracy).</li>
+                <li><strong>FM broadcast</strong>: Convenient local reference (moderate accuracy).</li>
+                </ul>
+</div>
+<h2 class="chapter-heading" id="ch3">CHAPTER 3 &mdash; MATERIALS AND CONSTRUCTION</h2>
+<div class="chapter-body">
+<h2 id="build-a-50-ohm-load">Build a 50 ohm Load</h2>
+                <ul>
+                <li>Use four 200 ohm, 1% resistors in parallel.</li>
+                <li>Solder directly inside a BNC/SMA connector shell if possible.</li>
+                <li>Keep leads short to reduce inductance.</li>
+                </ul>
+                <h2 id="build-a-quarter-wave-stub">Build a Quarter-Wave Stub</h2>
+                <ul>
+                <li>Choose coax with known velocity factor.</li>
+                <li>Cut to calculated length (see Calculations).</li>
+                <li>Short the far end (center to shield).</li>
+                <li>Label the stub with its target frequency and VF.</li>
+                </ul>
+                <h2 id="optional-gps-1pps-interface">Optional GPS 1PPS Interface</h2>
+                <ul>
+                <li>GPS module with 1PPS output.</li>
+                <li>LED + resistor for lock indication.</li>
+                <li>Optional ESP32/CYD counter (see optional code example).</li>
+                </ul>
+</div>
+<h2 class="chapter-heading" id="ch4">CHAPTER 4 &mdash; ASSEMBLY PROCEDURES</h2>
+<div class="chapter-body">
+<h2 id="assembly-steps">Assembly Steps</h2>
+                <ol>
+                <li>Build or verify the 50 ohm load.</li>
+                <li>Build one or more quarter-wave stubs (pick key bands).</li>
+                <li>Prepare short, known-good test leads.</li>
+                <li>Warm up the analyzer (10-15 minutes) before calibration checks.</li>
+                </ol>
+</div>
+<h2 class="chapter-heading" id="ch5">CHAPTER 5 &mdash; CALIBRATION PROCEDURE</h2>
+<div class="chapter-body">
+<h2 id="step-by-step">Step-by-Step</h2>
+                <ol>
+                <li><strong>Warm up</strong> the analyzer for 10-15 minutes.</li>
+                <li><strong>Frequency check</strong> using WWV/CHU or FM station:</li>
+                <li>Measure known carrier.</li>
+                <li>Calculate ppm error.</li>
+                <li>Apply correction if supported.</li>
+                <li><strong>Impedance check</strong> using the 50 ohm load:</li>
+                <li>Confirm 45-55 ohm range.</li>
+                <li>Record SWR.</li>
+                <li><strong>Reactive check</strong> using the shorted stub:</li>
+                <li>Find resonance dip.</li>
+                <li>Compare with calculated frequency.</li>
+                <li><strong>Document</strong> the offsets and repeatability.</li>
+                </ol>
+</div>
+<h2 class="chapter-heading" id="ch6">CHAPTER 6 &mdash; TUNING AND ADJUSTMENT</h2>
+<div class="chapter-body">
+<h2 id="frequency-axis-check">Frequency Axis Check</h2>
+                <ul>
+                <li>Measure WWV/CHU or FM carrier frequency.</li>
+                <li>Compare to published frequency.</li>
+                <li>If your analyzer supports frequency offset adjustment, apply correction.</li>
+                </ul>
+                <h2 id="impedanceswr-check">Impedance/SWR Check</h2>
+                <ul>
+                <li>Connect the 50 ohm load.</li>
+                <li>The analyzer should read close to 50 ohm and low SWR.</li>
+                <li>Connect the shorted stub and locate the resonance dip; compare to expected.</li>
+                </ul>
+                <h2 id="trim-and-iterate">Trim and Iterate</h2>
+                <ul>
+                <li>If stub resonance is off, trim length in small increments.</li>
+                <li>Re-check until resonance aligns within expected tolerance.</li>
+                </ul>
+</div>
+<h2 class="chapter-heading" id="ch7">CHAPTER 7 &mdash; VERIFICATION</h2>
+<div class="chapter-body">
+<h2 id="verification-checklist">Verification Checklist</h2>
+                <ul>
+                <li>Re-measure the reference carrier after calibration.</li>
+                <li>Measure a second independent reference (FM vs WWV/CHU).</li>
+                <li>Confirm measurements are stable across 3-5 repetitions.</li>
+                </ul>
+                <h2 id="acceptance-targets">Acceptance Targets</h2>
+                <ul>
+                <li>Frequency accuracy: within 0.1-1 ppm of reference.</li>
+                <li>Load accuracy: within 1-2% of 50 ohm.</li>
+                </ul>
+</div>
+<h2 class="chapter-heading" id="chA">APPENDIX A &mdash; CALCULATIONS AND FORMULAS</h2>
+<div class="chapter-body">
+<h2 id="quarter-wave-coax-stub">Quarter-Wave Coax Stub</h2>
+                <p>Use a shorted coax stub to create a known resonance:</p>
+                <pre><code>L = (c / (4 * f)) * VF
+                </code></pre>
+                <p>Where:
+                - <code>L</code> = stub length (meters)
+                - <code>c</code> = 299,792,458 m/s
+                - <code>f</code> = frequency (Hz)
+                - <code>VF</code> = velocity factor of coax (e.g., 0.66 solid PE, 0.78 foam)</p>
+                <h3 id="example">Example</h3>
+                <p>Target frequency: 14.200 MHz</p>
+                <pre><code>L = (299,792,458 / (4 * 14,200,000)) * 0.66
+                L = 3.49 m
+                </code></pre>
+                <p>Cut slightly long, then trim while watching the analyzer until resonance hits target.</p>
+                <h2 id="50-ohm-load-homebrew">50 ohm Load (Homebrew)</h2>
+                <p>Parallel resistor network:</p>
+                <pre><code>R_total = 1 / (1/R1 + 1/R2 + ... + 1/Rn)
+                </code></pre>
+                <h3 id="example_1">Example</h3>
+                <p>Four 200 ohm resistors in parallel:</p>
+                <pre><code>R_total = 1 / (4/200) = 50 ohms
+                </code></pre>
+                <p>Use 1% or 0.1% resistors if possible.</p>
+</div>
+<h2 class="chapter-heading" id="chB">APPENDIX B &mdash; EXAMPLE RESULTS</h2>
+<div class="chapter-body">
+<h2 id="example-log">Example Log</h2>
+                <pre><code>Date: 2026-01-15
+                Gear: Example Analyzer
+                
+                Reference: WWV 15 MHz
+                Measured: 15,000,012 Hz
+                Error: +0.8 ppm
+                
+                Load Test: 50 ohm load
+                Measured: 50.9 ohm
+                SWR: 1.02
+                
+                Stub Test (14.200 MHz target)
+                Measured dip: 14.198 MHz
+                Error: -0.14%
+                </code></pre>
+</div>
+<h2 class="chapter-heading" id="chappc">APPENDIX C &mdash; MULTIMETER CALIBRATION OVERVIEW</h2>
+<div class="chapter-body">
+<h2 id="overview">Overview</h2>
+                <p>The Fluke 15B+ is an excellent budget multimeter, but even Fluke meters need calibration. This guide provides <strong>cheap, homebrew methods</strong> using <strong>no calibrated test equipment</strong>.</p>
+                <p><strong>Key Insight:</strong> We can calibrate a multimeter using precision components and statistical methods!</p>
+                <hr />
+                <h2 id="what-needs-calibration">What Needs Calibration</h2>
+                <h3 id="fluke-15b-functions">Fluke 15B+ Functions</h3>
+                <ol>
+                <li><strong>DC Voltage</strong> - 0.1 mV to 1000 V</li>
+                <li><strong>AC Voltage</strong> - 0.1 V to 750 V</li>
+                <li><strong>Resistance</strong> - 0.1 Ω to 40 MΩ</li>
+                <li><strong>DC Current</strong> - 0.001 mA to 10 A</li>
+                <li><strong>AC Current</strong> - 0.001 mA to 10 A</li>
+                <li><strong>Capacitance</strong> - 1 nF to 100 μF</li>
+                <li><strong>Frequency</strong> - 0.001 Hz to 100 kHz (counter mode)</li>
+                <li><strong>Continuity/Diode</strong> - Functional test</li>
+                </ol>
+                <h3 id="typical-fluke-15b-specifications">Typical Fluke 15B+ Specifications</h3>
+                <p><strong>DC Voltage:</strong>
+                - Accuracy: ±0.5% + 2 digits (best range)
+                - Resolution: 0.1 mV</p>
+                <p><strong>Resistance:</strong>
+                - Accuracy: ±0.9% + 2 digits
+                - Resolution: 0.1 Ω</p>
+                <p><strong>DC Current:</strong>
+                - Accuracy: ±1.5% + 3 digits
+                - Resolution: 0.001 mA</p>
+                <hr />
+                <h2 id="calibration-strategy">Calibration Strategy</h2>
+                <h3 id="what-we-can-calibrate">What We Can Calibrate</h3>
+                <table>
+                <thead>
+                <tr>
+                <th>Function</th>
+                <th>Method</th>
+                <th>Accuracy</th>
+                <th>Cost</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td><strong>DC Voltage</strong></td>
+                <td>LM4040 references</td>
+                <td>±0.1-0.5%</td>
+                <td>$10-15</td>
+                </tr>
+                <tr>
+                <td><strong>Resistance</strong></td>
+                <td>Precision resistors</td>
+                <td>±0.1-0.5%</td>
+                <td>$10-20</td>
+                </tr>
+                <tr>
+                <td><strong>DC Current</strong></td>
+                <td>V/R method</td>
+                <td>±1-2%</td>
+                <td>$0 (derived)</td>
+                </tr>
+                <tr>
+                <td><strong>Frequency</strong></td>
+                <td>GPS 1PPS</td>
+                <td>±0.01 ppm</td>
+                <td>$0 (reuse GPS)</td>
+                </tr>
+                <tr>
+                <td><strong>Capacitance</strong></td>
+                <td>RC time constant</td>
+                <td>±5-10%</td>
+                <td>$5</td>
+                </tr>
+                </tbody>
+                </table>
+                <h3 id="whats-challenging">What's Challenging</h3>
+                <p><strong>AC Voltage:</strong>
+                - Hard to create precision AC without calibrated AC source
+                - Can verify with known mains (but not precise)
+                - Best option: Buy precision AC voltmeter for verification ($$)</p>
+                <p><strong>AC Current:</strong>
+                - Same challenge as AC voltage
+                - Requires precision AC source</p>
+                <p><strong>Our approach:</strong> Focus on DC voltage, resistance, DC current, frequency. Verify AC with reasonable methods.</p>
+                <hr />
+                <h2 id="the-bootstrap-problem">The Bootstrap Problem</h2>
+                <h3 id="how-do-you-calibrate-without-calibrated-equipment">"How do you calibrate without calibrated equipment?"</h3>
+                <p><strong>Answer: Use absolute references!</strong></p>
+                <ol>
+                <li><strong>Voltage:</strong> Precision ICs (LM4040) referenced to bandgap voltage</li>
+                <li><strong>Resistance:</strong> Multiple precision resistors, statistical consensus</li>
+                <li><strong>Frequency:</strong> GPS atomic clocks (free!)</li>
+                <li><strong>Current:</strong> Ohm's law (I = V/R with known V and R)</li>
+                <li><strong>Capacitance:</strong> RC time constant with known R and C</li>
+                </ol>
+                <p><strong>The trick:</strong> These are <em>primary standards</em> - they define the measurement, not depend on it!</p>
+                <hr />
+                <h2 id="cost-breakdown">Cost Breakdown</h2>
+                <h3 id="minimum-budget-10">Minimum Budget: $10</h3>
+                <p><strong>If reusing GPS from TinySA project:</strong>
+                - LM4040 voltage references × 3: $6
+                - Precision resistors × 10: $4
+                - <strong>Total: $10</strong></p>
+                <h3 id="recommended-budget-25">Recommended Budget: $25</h3>
+                <ul>
+                <li>LM4040 references × 4: $8</li>
+                <li>Precision resistors 0.1% × 20: $10</li>
+                <li>Precision capacitors × 5: $5</li>
+                <li>Test clips, wire: $2</li>
+                <li><strong>Total: $25</strong></li>
+                </ul>
+                <h3 id="deluxe-budget-50">Deluxe Budget: $50</h3>
+                <ul>
+                <li>Complete voltage reference board: $15</li>
+                <li>Precision resistor decade set: $20</li>
+                <li>Precision capacitors: $10</li>
+                <li>Enclosure, connectors: $5</li>
+                <li><strong>Total: $50</strong></li>
+                </ul>
+                <p><strong>Compare to:</strong>
+                - Fluke factory calibration: $100-200
+                - NIST-traceable calibration: $300-500</p>
+                <hr />
+                <h2 id="what-youll-achieve">What You'll Achieve</h2>
+                <h3 id="before-calibration">Before Calibration</h3>
+                <p><strong>Unknown errors:</strong>
+                - DC voltage could be off by 1-2%
+                - Resistance could be off by 2-3%
+                - Current readings unreliable
+                - Don't know if meter is within spec</p>
+                <p><strong>Confidence level:</strong> "I think it's accurate..."</p>
+                <h3 id="after-calibration">After Calibration</h3>
+                <p><strong>Known errors:</strong>
+                - DC voltage accuracy documented (typically ±0.3%)
+                - Resistance accuracy verified (typically ±0.5%)
+                - Current derived from V/R
+                - Frequency traceable to GPS atomic clock</p>
+                <p><strong>Confidence level:</strong> "I know this meter is accurate to ±0.5%, verified on [date]"</p>
+                <hr />
+                <h2 id="quick-start-options">Quick Start Options</h2>
+                <h3 id="option-a-dc-voltage-only-1-hour-6">Option A: DC Voltage Only (1 hour, $6)</h3>
+                <p><strong>Build 2.5V and 5V references:</strong>
+                1. Buy LM4040-2.5 and LM4040-5.0
+                2. Build simple circuits
+                3. Measure with Fluke
+                4. Calculate errors</p>
+                <p><strong>Result:</strong> Know DC voltage accuracy</p>
+                <hr />
+                <h3 id="option-b-voltage-resistance-2-hours-15">Option B: Voltage + Resistance (2 hours, $15)</h3>
+                <p><strong>Add precision resistors:</strong>
+                1. Build voltage references
+                2. Buy 10× precision resistors (100Ω, 1kΩ, 10kΩ)
+                3. Measure with Fluke
+                4. Statistical analysis</p>
+                <p><strong>Result:</strong> Know DC voltage and resistance accuracy</p>
+                <hr />
+                <h3 id="option-c-complete-calibration-1-weekend-25-50">Option C: Complete Calibration (1 weekend, $25-50)</h3>
+                <p><strong>Full system:</strong>
+                1. Voltage references (all ranges)
+                2. Precision resistor set
+                3. Current from V/R
+                4. Frequency from GPS
+                5. Capacitance verification
+                6. Complete documentation</p>
+                <p><strong>Result:</strong> Fully characterized multimeter!</p>
+                <hr />
+                <h2 id="calibration-philosophy">Calibration Philosophy</h2>
+                <h3 id="statistical-consensus-method">Statistical Consensus Method</h3>
+                <p><strong>Key idea:</strong> If you measure 10 precision resistors all marked "1.00kΩ ±0.1%", and your meter reads:</p>
+                <pre><code>R1: 1.002 kΩ
+                R2: 1.003 kΩ
+                R3: 1.001 kΩ
+                R4: 1.003 kΩ
+                R5: 1.002 kΩ
+                R6: 1.001 kΩ
+                R7: 1.002 kΩ
+                R8: 1.003 kΩ
+                R9: 1.002 kΩ
+                R10: 1.001 kΩ
+                
+                Average: 1.002 kΩ
+                </code></pre>
+                <p><strong>Two possibilities:</strong>
+                1. All 10 resistors are actually 1.002 kΩ (unlikely)
+                2. Meter reads 0.2% high (more likely!)</p>
+                <p><strong>Statistical confidence:</strong> With 10 resistors, we can determine meter error to ±0.05% with 95% confidence.</p>
+                <hr />
+                <h2 id="fluke-15b-specifications">Fluke 15B+ Specifications</h2>
+                <h3 id="accuracy-specifications-from-manual">Accuracy Specifications (From Manual)</h3>
+                <p><strong>DC Voltage:</strong>
+                - 400.0 mV: ±0.5% + 2 counts
+                - 4.000 V: ±0.5% + 2 counts
+                - 40.00 V: ±0.5% + 2 counts
+                - 400.0 V: ±0.5% + 2 counts
+                - 1000 V: ±0.8% + 2 counts</p>
+                <p><strong>Resistance:</strong>
+                - 400.0 Ω: ±0.9% + 2 counts
+                - 4.000 kΩ: ±0.9% + 2 counts
+                - 40.00 kΩ: ±0.9% + 2 counts
+                - 400.0 kΩ: ±0.9% + 2 counts
+                - 4.000 MΩ: ±0.9% + 2 counts
+                - 40.00 MΩ: ±1.5% + 3 counts</p>
+                <p><strong>DC Current:</strong>
+                - 400.0 mA: ±1.5% + 3 counts
+                - 10.00 A: ±2.0% + 5 counts</p>
+                <p><strong>Frequency:</strong>
+                - 99.99 Hz to 999.9 Hz: ±0.1% + 2 counts
+                - Up to 100 kHz: ±0.1% + 2 counts</p>
+                <p><strong>Goal:</strong> Verify meter is within these specifications.</p>
+                <hr />
+                <h2 id="tools-needed">Tools Needed</h2>
+                <h3 id="essential">Essential</h3>
+                <ul>
+                <li>Fluke 15B+ multimeter (the one we're calibrating!)</li>
+                <li>Soldering iron</li>
+                <li>Breadboard</li>
+                <li>Test leads, clips</li>
+                <li>Calculator or spreadsheet</li>
+                </ul>
+                <h3 id="from-previous-projects">From Previous Projects</h3>
+                <ul>
+                <li>GPS module (for frequency calibration)</li>
+                <li>Voltage references (if already built)</li>
+                </ul>
+                <h3 id="components-to-buy">Components to Buy</h3>
+                <ul>
+                <li>LM4040 voltage references (×3-4)</li>
+                <li>Precision resistors 0.1% (×10-20)</li>
+                <li>Capacitors (for testing)</li>
+                <li>Batteries, wire</li>
+                </ul>
+                <hr />
+                <h2 id="calibration-procedure-overview">Calibration Procedure Overview</h2>
+                <h3 id="phase-1-dc-voltage-2-hours">Phase 1: DC Voltage (2 hours)</h3>
+                <ol>
+                <li>Build precision voltage references</li>
+                <li>Measure on all voltage ranges</li>
+                <li>Calculate errors</li>
+                <li>Document</li>
+                </ol>
+                <p><strong>Result:</strong> Know DC voltage accuracy</p>
+                <hr />
+                <h3 id="phase-2-resistance-2-hours">Phase 2: Resistance (2 hours)</h3>
+                <ol>
+                <li>Buy precision resistor set</li>
+                <li>Measure all resistors</li>
+                <li>Statistical analysis</li>
+                <li>Calculate meter error</li>
+                </ol>
+                <p><strong>Result:</strong> Know resistance accuracy</p>
+                <hr />
+                <h3 id="phase-3-dc-current-1-hour">Phase 3: DC Current (1 hour)</h3>
+                <ol>
+                <li>Use voltage reference + precision resistor</li>
+                <li>I = V/R (Ohm's law)</li>
+                <li>Measure current</li>
+                <li>Compare to calculated value</li>
+                </ol>
+                <p><strong>Result:</strong> Know current accuracy</p>
+                <hr />
+                <h3 id="phase-4-frequency-30-min">Phase 4: Frequency (30 min)</h3>
+                <ol>
+                <li>Connect GPS 1PPS to meter</li>
+                <li>Measure frequency</li>
+                <li>Should read 1.0000 Hz</li>
+                <li>Calculate error</li>
+                </ol>
+                <p><strong>Result:</strong> Know frequency counter accuracy</p>
+                <hr />
+                <h3 id="phase-5-capacitance-optional-1-hour">Phase 5: Capacitance (Optional, 1 hour)</h3>
+                <ol>
+                <li>Use RC time constant method</li>
+                <li>Requires oscilloscope</li>
+                <li>Calculate capacitance from τ = RC</li>
+                <li>Compare to meter reading</li>
+                </ol>
+                <p><strong>Result:</strong> Know capacitance accuracy</p>
+                <hr />
+                <h2 id="internal-vs-external-calibration">Internal vs. External Calibration</h2>
+                <h3 id="internal-calibration">Internal Calibration</h3>
+                <p><strong>Fluke 15B+ has internal calibration procedure:</strong>
+                - Requires opening case
+                - Access via special button sequence
+                - Adjusts internal trimpots or firmware values</p>
+                <p><strong>Pros:</strong>
+                - Actual correction applied
+                - Meter reads correctly</p>
+                <p><strong>Cons:</strong>
+                - Voids warranty
+                - Easy to make worse
+                - Need known references (chicken-and-egg)</p>
+                <h3 id="external-calibration-our-approach">External Calibration (Our Approach)</h3>
+                <p><strong>Document errors without opening meter:</strong>
+                - Measure known references
+                - Calculate errors
+                - Create correction table
+                - Label meter with corrections</p>
+                <p><strong>Pros:</strong>
+                - Non-invasive
+                - Doesn't void warranty
+                - Reversible
+                - Learn about meter characteristics</p>
+                <p><strong>Cons:</strong>
+                - Have to apply mental correction
+                - Meter doesn't auto-correct</p>
+                <p><strong>Recommendation:</strong> Start with external calibration, understand your meter, then decide if internal cal is needed.</p>
+                <hr />
+                <h2 id="limitations">Limitations</h2>
+                <h3 id="what-we-cant-easily-calibrate">What We Can't Easily Calibrate</h3>
+                <p><strong>True RMS AC:</strong>
+                - Requires precision AC source
+                - Frequency-dependent
+                - Waveform-dependent
+                - Complex calibration</p>
+                <p><strong>High Voltage (&gt;50V DC):</strong>
+                - Dangerous to build references
+                - Use series/multiplier of low voltages
+                - Or trust manufacturer (Fluke is usually good)</p>
+                <p><strong>High Current (&gt;1A):</strong>
+                - Requires high power dissipation
+                - Precision shunt resistors expensive
+                - Can verify at low currents, trust linearity</p>
+                <p><strong>Capacitance (precise):</strong>
+                - Requires calibrated capacitors or time constant method
+                - Less critical for most work</p>
+                <hr />
+                <h2 id="safety-notes">Safety Notes</h2>
+                <h3 id="working-safely">Working Safely</h3>
+                <p><strong>Low Voltage DC (&lt; 50V):</strong>
+                - Safe for this project
+                - All our references are 1.2V to 10V</p>
+                <p><strong>Never:</strong>
+                - Connect meter to mains voltage for calibration
+                - Exceed meter's ratings
+                - Open meter while powered</p>
+                <p><strong>Current Measurements:</strong>
+                - Watch power dissipation (I²R)
+                - Don't exceed fuse ratings
+                - Use appropriate test resistor wattage</p>
+                <p><strong>For this project:</strong> Everything is safe, low voltage, low current.</p>
+                <hr />
+                <h2 id="success-criteria">Success Criteria</h2>
+                <h3 id="well-calibrated-multimeter">Well-Calibrated Multimeter</h3>
+                <p><strong>DC Voltage:</strong>
+                - ✓ 2.500V reference reads 2.500V ±0.005V
+                - ✓ 5.000V reference reads 5.000V ±0.010V
+                - ✓ All ranges within ±0.5%</p>
+                <p><strong>Resistance:</strong>
+                - ✓ 1.000kΩ reads 1.000kΩ ±0.010kΩ
+                - ✓ Multiple resistors agree
+                - ✓ All ranges within ±1%</p>
+                <p><strong>DC Current:</strong>
+                - ✓ Calculated current matches reading ±2%</p>
+                <p><strong>Frequency:</strong>
+                - ✓ 1.000 Hz GPS reads 1.000 Hz ±0.001 Hz</p>
+                <hr />
+                <h2 id="applications-after-calibration">Applications After Calibration</h2>
+                <h3 id="what-you-can-now-trust">What You Can Now Trust</h3>
+                <p><strong>Electronics design:</strong>
+                - Accurate power supply voltages
+                - Precise resistor values
+                - Current consumption measurements</p>
+                <p><strong>Troubleshooting:</strong>
+                - Voltage drop analysis
+                - Resistance measurements
+                - Continuity testing</p>
+                <p><strong>Component selection:</strong>
+                - Verify component tolerances
+                - Match components
+                - Quality control</p>
+                <p><strong>Scientific work:</strong>
+                - Lab measurements
+                - Data collection
+                - Sensor calibration</p>
+                <hr />
+                <h2 id="comparison-to-professional-calibration">Comparison to Professional Calibration</h2>
+                <h3 id="commercial-service">Commercial Service</h3>
+                <p><strong>Cost:</strong> $100-200 (Fluke service center)
+                <strong>Time:</strong> 2-4 weeks turnaround
+                <strong>Accuracy:</strong> Traceable to NIST
+                <strong>Certificate:</strong> Yes</p>
+                <h3 id="our-diy-method">Our DIY Method</h3>
+                <p><strong>Cost:</strong> $10-25
+                <strong>Time:</strong> 1 day
+                <strong>Accuracy:</strong> Traceable to voltage references and GPS
+                <strong>Certificate:</strong> Self-documented</p>
+                <p><strong>When to use DIY:</strong>
+                - Personal use
+                - Learning
+                - Non-critical work
+                - Budget constraints</p>
+                <p><strong>When to use commercial:</strong>
+                - ISO certification required
+                - Critical measurements
+                - Legal/medical applications</p>
+                <hr />
+                <h2 id="file-structure">File Structure</h2>
+                <h3 id="documentation">Documentation</h3>
+                <ol>
+                <li><strong>multimeter_calibration_overview.md</strong> (this file)</li>
+                <li><strong>multimeter_voltage_cal.md</strong> - DC voltage calibration</li>
+                <li><strong>multimeter_resistance_cal.md</strong> - Resistance calibration</li>
+                <li><strong>multimeter_current_cal.md</strong> - Current calibration</li>
+                </ol>
+                <h3 id="examples">Examples</h3>
+                <ol>
+                <li><strong>examples/fluke15b_complete_calibration.md</strong> - Complete worked example</li>
+                </ol>
+                <hr />
+                <h2 id="learning-outcomes">Learning Outcomes</h2>
+                <h3 id="technical-knowledge">Technical Knowledge</h3>
+                <ul>
+                <li>Voltage reference operation</li>
+                <li>Statistical analysis</li>
+                <li>Measurement uncertainty</li>
+                <li>Multimeter internals</li>
+                <li>Calibration methodology</li>
+                </ul>
+                <h3 id="practical-skills">Practical Skills</h3>
+                <ul>
+                <li>Precision measurement techniques</li>
+                <li>Error analysis</li>
+                <li>Documentation</li>
+                <li>Troubleshooting</li>
+                </ul>
+                <h3 id="confidence">Confidence</h3>
+                <ul>
+                <li>Trust your measurements</li>
+                <li>Understand error sources</li>
+                <li>Make informed decisions</li>
+                </ul>
+                <hr />
+                <h2 id="next-steps">Next Steps</h2>
+                <ol>
+                <li><strong>Read:</strong> multimeter_voltage_cal.md</li>
+                <li><strong>Build:</strong> Voltage reference circuit (or reuse from oscilloscope project)</li>
+                <li><strong>Read:</strong> multimeter_resistance_cal.md</li>
+                <li><strong>Buy:</strong> Precision resistors</li>
+                <li><strong>Calibrate:</strong> Follow procedures</li>
+                <li><strong>Document:</strong> Record results</li>
+                <li><strong>Verify:</strong> Cross-check with other instruments</li>
+                </ol>
+                <hr />
+                <h2 id="summary">Summary</h2>
+                <h3 id="the-challenge">The Challenge</h3>
+                <p>Multimeters need calibration, but factory calibration is expensive and time-consuming.</p>
+                <h3 id="the-solution">The Solution</h3>
+                <ul>
+                <li><strong>DC Voltage:</strong> Precision references ($6-15)</li>
+                <li><strong>Resistance:</strong> Statistical methods ($10-20)</li>
+                <li><strong>Current:</strong> Derived from V/R (free)</li>
+                <li><strong>Frequency:</strong> GPS atomic clock (free)</li>
+                <li><strong>Total:</strong> $16-35</li>
+                </ul>
+                <h3 id="the-result">The Result</h3>
+                <ul>
+                <li>Know meter accuracy to ±0.3-0.5%</li>
+                <li>Verified against absolute standards</li>
+                <li>Complete documentation</li>
+                <li>Confidence in measurements</li>
+                </ul>
+                <hr />
+                <p><strong>Ready to calibrate? Continue to multimeter_voltage_cal.md!</strong></p>
+</div>
+
+
+                <div class="back-link">
+                    <a href="../index.html">&larr; Back to index</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Radio: KO6NNH &nbsp;&bull;&nbsp; Merced, California 95340</p>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

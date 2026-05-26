@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-INST-015 LCR METER CALIBRATION OVERVIEW - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+.tm-cover{border:3px solid #2c5f8d;padding:28px 36px;text-align:center;margin-bottom:28px;background:#f8f8f4}
+.tm-classification{font-size:1.05em;font-weight:bold;color:#006600;letter-spacing:3px;margin-bottom:16px}
+.tm-number{font-family:'Courier New',monospace;font-size:1.15em;font-weight:bold;color:#2c5f8d;margin-bottom:8px}
+.tm-title{font-size:1.7em;font-weight:bold;color:#1a3a5c;text-transform:uppercase;letter-spacing:1px;margin:12px 0 8px;line-height:1.3}
+.tm-subtitle{font-size:.98em;font-style:italic;color:#555;margin-bottom:12px}
+.tm-meta{font-size:.88em;color:#555;margin-top:16px;border-top:1px solid #aaa;padding-top:12px}
+.tm-toc{background:#f0f4f8;border:1px solid #c0ccd8;padding:18px 28px;margin-bottom:28px}
+.tm-toc h2{font-size:1.05em;color:#2c5f8d;border-bottom:1px solid #4a7ba7;padding-bottom:6px;margin-bottom:10px;text-transform:uppercase;letter-spacing:1px}
+.tm-toc ol{margin:0;padding-left:22px}
+.tm-toc li{margin:4px 0;font-size:.93em}
+.tm-toc a{color:#2c5f8d;text-decoration:none}
+.tm-toc a:hover{text-decoration:underline}
+.chapter-heading{background:#2c5f8d;color:#fff;padding:9px 18px;margin-top:32px;margin-bottom:16px;font-size:1.15em;font-weight:bold;text-transform:uppercase;letter-spacing:1px}
+.chapter-body h1,.chapter-body h2{color:#1a3a5c;border-bottom:2px solid #4a7ba7;padding-bottom:4px;margin-top:22px;margin-bottom:10px}
+.chapter-body h3{color:#2c5f8d;margin-top:16px;margin-bottom:8px}
+.chapter-body table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.93em}
+.chapter-body th{background:#4a7ba7;color:#fff;padding:7px 11px;text-align:left;font-size:.88em;text-transform:uppercase}
+.chapter-body td{border:1px solid #c0ccd8;padding:6px 11px;vertical-align:top}
+.chapter-body tr:nth-child(even) td{background:#f4f7fb}
+.chapter-body ol,.chapter-body ul{margin:8px 0 8px 20px}
+.chapter-body li{margin:5px 0;line-height:1.5}
+.chapter-body p{margin:8px 0 10px}
+.chapter-body pre,.chapter-body code{background:#f4f4ee;border:1px solid #ddd;padding:2px 5px;font-size:.9em}
+.chapter-body blockquote{border-left:4px solid #4a7ba7;margin:12px 0;padding:8px 16px;background:#f0f5ff;color:#333}
+.back-link{margin-top:28px;padding-top:12px;border-top:1px solid #c0ccd8;font-size:.9em}
+</style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+            
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="../../about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Calibration Library</summary>
+                <ul><li><a href="../index.html">Calibration Library</a></li></ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Test Equipment</summary>
+                <ul><li><a href="../../test_gear/index.html">Test Equipment Library</a></li></ul>
+            </details>
+            <h3>Standards</h3>
+            <ul>
+                <li><a href="../../Calibration_Ideas/index.html">Calibration Standards</a></li>
+            </ul>
+        </nav>
+
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-INST-015</div>
+                    <div class="tm-title">LCR METER CALIBRATION OVERVIEW</div>
+                    <div class="tm-subtitle">Construction, Theory, Calibration and Verification Procedures</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH &nbsp;&bull;&nbsp;
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial calibration use</em>
+                    </div>
+                </div>
+
+                <div class="tm-toc">
+                    <h2>Table of Contents</h2>
+                    <ol>
+            <li><a href="#ch1">CHAPTER 1 &mdash; GENERAL INFORMATION</a></li>
+            <li><a href="#ch2">CHAPTER 2 &mdash; THEORY OF OPERATION</a></li>
+            <li><a href="#ch3">CHAPTER 3 &mdash; MATERIALS AND CONSTRUCTION</a></li>
+            <li><a href="#ch4">CHAPTER 4 &mdash; ASSEMBLY PROCEDURES</a></li>
+            <li><a href="#ch5">CHAPTER 5 &mdash; CALIBRATION PROCEDURE</a></li>
+            <li><a href="#ch6">CHAPTER 6 &mdash; TUNING AND ADJUSTMENT</a></li>
+            <li><a href="#ch7">CHAPTER 7 &mdash; VERIFICATION</a></li>
+            <li><a href="#chA">APPENDIX A &mdash; CALCULATIONS AND FORMULAS</a></li>
+            <li><a href="#chB">APPENDIX B &mdash; EXAMPLE RESULTS</a></li>
+            <li><a href="#chappc">APPENDIX C &mdash; LCR METER CALIBRATION OVERVIEW</a></li>
+                    </ol>
+                </div>
+
+                <h2 class="chapter-heading" id="ch1">CHAPTER 1 &mdash; GENERAL INFORMATION</h2>
+<div class="chapter-body">
+<h2 id="gear-profile">Gear Profile</h2>
+                <ul>
+                <li>Example models: Generic bench or handheld units</li>
+                <li>Frequency range: Varies by model; verify datasheet</li>
+                <li>Connector type: BNC, SMA, or binding posts</li>
+                <li>Typical use: General measurement and calibration checks</li>
+                </ul>
+                <h2 id="purpose">Purpose</h2>
+                <p>This guide describes a <strong>homebrew, no-calibration-needed</strong> method to calibrate a LCR meter using
+                public reference signals and first-principles checks. It borrows techniques from:</p>
+                <ul>
+                <li><code>../gps_calibration.md</code></li>
+                <li><code>../fm_broadcast_calibration.md</code></li>
+                <li><code>../radio_standard_calibration.md</code></li>
+                <li><code>../verification_procedures.md</code></li>
+                </ul>
+                <h2 id="what-you-will-build">What You Will Build</h2>
+                <ul>
+                <li>A simple reference load (homebrew 50 ohm)</li>
+                <li>A quarter-wave coax stub test fixture</li>
+                <li>Optional GPS 1PPS counter (if you want tighter frequency checks)</li>
+                </ul>
+                <h2 id="expected-accuracy">Expected Accuracy</h2>
+                <ul>
+                <li>Frequency axis: 0.1 to 1 ppm (with GPS or time standards)</li>
+                <li>SWR/impedance: limited by resistor tolerance (typically 1-2%)</li>
+                </ul>
+</div>
+<h2 class="chapter-heading" id="ch2">CHAPTER 2 &mdash; THEORY OF OPERATION</h2>
+<div class="chapter-body">
+<h2 id="calibration-philosophy">Calibration Philosophy</h2>
+                <p>We use <strong>absolute references</strong> (GPS 1PPS, WWV/CHU, FM stations) and <strong>known physics</strong>
+                (speed of light, coax velocity factor, resonance) to validate the analyzer without relying on
+                any pre-calibrated lab equipment.</p>
+                <h2 id="key-principles">Key Principles</h2>
+                <ol>
+                <li><strong>Frequency accuracy</strong>: Check displayed frequency against GPS/WWV/CHU/FM carriers.</li>
+                <li><strong>Impedance accuracy</strong>: Validate using a known load and known reactance from a stub or LC.</li>
+                <li><strong>Repeatability</strong>: Measurements should be stable over time and temperature.</li>
+                </ol>
+                <h2 id="reference-sources">Reference Sources</h2>
+                <ul>
+                <li><strong>GPS 1PPS</strong>: Atomic time tick (best accuracy).</li>
+                <li><strong>WWV/CHU</strong>: HF time standards (good accuracy).</li>
+                <li><strong>FM broadcast</strong>: Convenient local reference (moderate accuracy).</li>
+                </ul>
+</div>
+<h2 class="chapter-heading" id="ch3">CHAPTER 3 &mdash; MATERIALS AND CONSTRUCTION</h2>
+<div class="chapter-body">
+<h2 id="build-a-50-ohm-load">Build a 50 ohm Load</h2>
+                <ul>
+                <li>Use four 200 ohm, 1% resistors in parallel.</li>
+                <li>Solder directly inside a BNC/SMA connector shell if possible.</li>
+                <li>Keep leads short to reduce inductance.</li>
+                </ul>
+                <h2 id="build-a-quarter-wave-stub">Build a Quarter-Wave Stub</h2>
+                <ul>
+                <li>Choose coax with known velocity factor.</li>
+                <li>Cut to calculated length (see Calculations).</li>
+                <li>Short the far end (center to shield).</li>
+                <li>Label the stub with its target frequency and VF.</li>
+                </ul>
+                <h2 id="optional-gps-1pps-interface">Optional GPS 1PPS Interface</h2>
+                <ul>
+                <li>GPS module with 1PPS output.</li>
+                <li>LED + resistor for lock indication.</li>
+                <li>Optional ESP32/CYD counter (see optional code example).</li>
+                </ul>
+</div>
+<h2 class="chapter-heading" id="ch4">CHAPTER 4 &mdash; ASSEMBLY PROCEDURES</h2>
+<div class="chapter-body">
+<h2 id="assembly-steps">Assembly Steps</h2>
+                <ol>
+                <li>Build or verify the 50 ohm load.</li>
+                <li>Build one or more quarter-wave stubs (pick key bands).</li>
+                <li>Prepare short, known-good test leads.</li>
+                <li>Warm up the analyzer (10-15 minutes) before calibration checks.</li>
+                </ol>
+</div>
+<h2 class="chapter-heading" id="ch5">CHAPTER 5 &mdash; CALIBRATION PROCEDURE</h2>
+<div class="chapter-body">
+<h2 id="step-by-step">Step-by-Step</h2>
+                <ol>
+                <li><strong>Warm up</strong> the analyzer for 10-15 minutes.</li>
+                <li><strong>Frequency check</strong> using WWV/CHU or FM station:</li>
+                <li>Measure known carrier.</li>
+                <li>Calculate ppm error.</li>
+                <li>Apply correction if supported.</li>
+                <li><strong>Impedance check</strong> using the 50 ohm load:</li>
+                <li>Confirm 45-55 ohm range.</li>
+                <li>Record SWR.</li>
+                <li><strong>Reactive check</strong> using the shorted stub:</li>
+                <li>Find resonance dip.</li>
+                <li>Compare with calculated frequency.</li>
+                <li><strong>Document</strong> the offsets and repeatability.</li>
+                </ol>
+</div>
+<h2 class="chapter-heading" id="ch6">CHAPTER 6 &mdash; TUNING AND ADJUSTMENT</h2>
+<div class="chapter-body">
+<h2 id="frequency-axis-check">Frequency Axis Check</h2>
+                <ul>
+                <li>Measure WWV/CHU or FM carrier frequency.</li>
+                <li>Compare to published frequency.</li>
+                <li>If your analyzer supports frequency offset adjustment, apply correction.</li>
+                </ul>
+                <h2 id="impedanceswr-check">Impedance/SWR Check</h2>
+                <ul>
+                <li>Connect the 50 ohm load.</li>
+                <li>The analyzer should read close to 50 ohm and low SWR.</li>
+                <li>Connect the shorted stub and locate the resonance dip; compare to expected.</li>
+                </ul>
+                <h2 id="trim-and-iterate">Trim and Iterate</h2>
+                <ul>
+                <li>If stub resonance is off, trim length in small increments.</li>
+                <li>Re-check until resonance aligns within expected tolerance.</li>
+                </ul>
+</div>
+<h2 class="chapter-heading" id="ch7">CHAPTER 7 &mdash; VERIFICATION</h2>
+<div class="chapter-body">
+<h2 id="verification-checklist">Verification Checklist</h2>
+                <ul>
+                <li>Re-measure the reference carrier after calibration.</li>
+                <li>Measure a second independent reference (FM vs WWV/CHU).</li>
+                <li>Confirm measurements are stable across 3-5 repetitions.</li>
+                </ul>
+                <h2 id="acceptance-targets">Acceptance Targets</h2>
+                <ul>
+                <li>Frequency accuracy: within 0.1-1 ppm of reference.</li>
+                <li>Load accuracy: within 1-2% of 50 ohm.</li>
+                </ul>
+</div>
+<h2 class="chapter-heading" id="chA">APPENDIX A &mdash; CALCULATIONS AND FORMULAS</h2>
+<div class="chapter-body">
+<h2 id="quarter-wave-coax-stub">Quarter-Wave Coax Stub</h2>
+                <p>Use a shorted coax stub to create a known resonance:</p>
+                <pre><code>L = (c / (4 * f)) * VF
+                </code></pre>
+                <p>Where:
+                - <code>L</code> = stub length (meters)
+                - <code>c</code> = 299,792,458 m/s
+                - <code>f</code> = frequency (Hz)
+                - <code>VF</code> = velocity factor of coax (e.g., 0.66 solid PE, 0.78 foam)</p>
+                <h3 id="example">Example</h3>
+                <p>Target frequency: 14.200 MHz</p>
+                <pre><code>L = (299,792,458 / (4 * 14,200,000)) * 0.66
+                L = 3.49 m
+                </code></pre>
+                <p>Cut slightly long, then trim while watching the analyzer until resonance hits target.</p>
+                <h2 id="50-ohm-load-homebrew">50 ohm Load (Homebrew)</h2>
+                <p>Parallel resistor network:</p>
+                <pre><code>R_total = 1 / (1/R1 + 1/R2 + ... + 1/Rn)
+                </code></pre>
+                <h3 id="example_1">Example</h3>
+                <p>Four 200 ohm resistors in parallel:</p>
+                <pre><code>R_total = 1 / (4/200) = 50 ohms
+                </code></pre>
+                <p>Use 1% or 0.1% resistors if possible.</p>
+</div>
+<h2 class="chapter-heading" id="chB">APPENDIX B &mdash; EXAMPLE RESULTS</h2>
+<div class="chapter-body">
+<h2 id="example-log">Example Log</h2>
+                <pre><code>Date: 2026-01-15
+                Gear: Example Analyzer
+                
+                Reference: WWV 15 MHz
+                Measured: 15,000,012 Hz
+                Error: +0.8 ppm
+                
+                Load Test: 50 ohm load
+                Measured: 50.9 ohm
+                SWR: 1.02
+                
+                Stub Test (14.200 MHz target)
+                Measured dip: 14.198 MHz
+                Error: -0.14%
+                </code></pre>
+</div>
+<h2 class="chapter-heading" id="chappc">APPENDIX C &mdash; LCR METER CALIBRATION OVERVIEW</h2>
+<div class="chapter-body">
+<h2 id="overview">Overview</h2>
+                <p>The Proster BM4070 is a handheld digital LCR meter for measuring inductance (L), capacitance (C), and resistance (R). This guide provides <strong>cheap, homebrew methods</strong> using <strong>no calibrated test equipment</strong>.</p>
+                <h3 id="what-is-the-bm4070">What is the BM4070?</h3>
+                <p><strong>Functions:</strong>
+                - <strong>Inductance (L):</strong> 2 μH to 20 H
+                - <strong>Capacitance (C):</strong> 2 pF to 2000 μF
+                - <strong>Resistance (R):</strong> 2 Ω to 20 MΩ
+                - <strong>Test Frequency:</strong> 100 Hz, 120 Hz, 1 kHz, 10 kHz (selectable)
+                - <strong>ESR:</strong> Equivalent Series Resistance measurement
+                - <strong>Q Factor:</strong> Quality factor for inductors</p>
+                <hr />
+                <h2 id="why-calibrate-an-lcr-meter">Why Calibrate an LCR Meter?</h2>
+                <h3 id="typical-issues">Typical Issues</h3>
+                <p><strong>Uncalibrated LCR meters can have:</strong>
+                - ±5-10% errors in capacitance
+                - ±10-20% errors in inductance
+                - Systematic offset errors
+                - Frequency-dependent errors
+                - ESR measurement drift</p>
+                <p><strong>Result:</strong> Can't trust component values for precision design!</p>
+                <hr />
+                <h2 id="the-bootstrap-problem">The Bootstrap Problem</h2>
+                <h3 id="how-do-you-calibrate-without-calibrated-components">"How do you calibrate without calibrated components?"</h3>
+                <p><strong>Answer: Build absolute references!</strong></p>
+                <ol>
+                <li><strong>Resistance:</strong> Statistical method (same as multimeter) + precision resistors</li>
+                <li><strong>Capacitance:</strong> Parallel/series combinations create known values</li>
+                <li><strong>Inductance:</strong> Self-inductance formulas + physical measurements</li>
+                <li><strong>ESR:</strong> Combine known R and C</li>
+                </ol>
+                <p><strong>Key insight:</strong> We can create known reference values from first principles!</p>
+                <hr />
+                <h2 id="calibration-strategy">Calibration Strategy</h2>
+                <h3 id="three-tier-approach">Three-Tier Approach</h3>
+                <p><strong>Tier 1: Resistance (Easy, ±0.5%)</strong>
+                - Buy precision resistors ±0.1%
+                - Statistical consensus method
+                - Verify with multimeter (if calibrated)</p>
+                <p><strong>Tier 2: Capacitance (Medium, ±2-5%)</strong>
+                - Buy precision capacitors ±1-2%
+                - Series/parallel combinations
+                - RC time constant verification</p>
+                <p><strong>Tier 3: Inductance (Hard, ±10-20%)</strong>
+                - Calculate from physical dimensions
+                - Measured resonance with known C
+                - Comparator methods</p>
+                <hr />
+                <h2 id="cost-breakdown">Cost Breakdown</h2>
+                <h3 id="minimum-budget-20">Minimum Budget: $20</h3>
+                <p><strong>If reusing components from previous projects:</strong>
+                - Precision resistors (from multimeter cal): $0
+                - Precision capacitors × 10: $10
+                - Wire for inductors: $5
+                - Misc components: $5
+                - <strong>Total: $20</strong></p>
+                <h3 id="recommended-budget-40">Recommended Budget: $40</h3>
+                <ul>
+                <li>Precision resistor set: $15</li>
+                <li>Precision capacitor set ±1%: $20</li>
+                <li>Reference inductors: $10</li>
+                <li>Wire, core materials: $5</li>
+                <li><strong>Total: $50</strong></li>
+                </ul>
+                <h3 id="deluxe-budget-100">Deluxe Budget: $100</h3>
+                <ul>
+                <li>Complete resistor decade: $30</li>
+                <li>NPO/C0G capacitors ±0.5%: $30</li>
+                <li>Precision inductors: $25</li>
+                <li>Core materials, wire gauge set: $15</li>
+                <li><strong>Total: $100</strong></li>
+                </ul>
+                <p><strong>Compare to:</strong>
+                - Commercial LCR calibration kit: $200-500
+                - Professional calibration service: $150-300</p>
+                <hr />
+                <h2 id="what-youll-achieve">What You'll Achieve</h2>
+                <h3 id="before-calibration">Before Calibration</h3>
+                <p><strong>Unknown errors:</strong>
+                - Capacitance could be ±10%
+                - Inductance could be ±20%
+                - ESR unreliable
+                - Can't trust for precision work</p>
+                <p><strong>Example:</strong> Design 1 μF filter cap
+                - Buy "1 μF" capacitor
+                - LCR reads 1.12 μF
+                - Is it really 1.12 μF, or is meter off by 12%?</p>
+                <h3 id="after-calibration">After Calibration</h3>
+                <p><strong>Known errors:</strong>
+                - Capacitance accurate to ±2-5%
+                - Resistance accurate to ±0.5%
+                - Inductance accurate to ±10%
+                - ESR verified</p>
+                <p><strong>Example:</strong> Same scenario
+                - LCR reads 1.12 μF
+                - Apply -3% correction (from calibration)
+                - Actual: 1.09 μF
+                - Confidence: ±2%</p>
+                <hr />
+                <h2 id="quick-start-options">Quick Start Options</h2>
+                <h3 id="option-a-resistance-only-1-hour-0">Option A: Resistance Only (1 hour, $0)</h3>
+                <p><strong>Reuse multimeter calibration:</strong>
+                1. Use precision resistors from multimeter cal
+                2. Measure with LCR meter
+                3. Compare to known values
+                4. Document errors</p>
+                <p><strong>Result:</strong> Know resistance accuracy</p>
+                <hr />
+                <h3 id="option-b-resistance-capacitance-3-hours-20">Option B: Resistance + Capacitance (3 hours, $20)</h3>
+                <p><strong>Add capacitor calibration:</strong>
+                1. Resistance calibration
+                2. Buy precision capacitors
+                3. Measure and verify
+                4. Series/parallel cross-checks</p>
+                <p><strong>Result:</strong> Know R and C accuracy</p>
+                <hr />
+                <h3 id="option-c-complete-calibration-weekend-40-100">Option C: Complete Calibration (Weekend, $40-100)</h3>
+                <p><strong>Full LCR characterization:</strong>
+                1. Resistance (all ranges)
+                2. Capacitance (all ranges)
+                3. Inductance (calculated + measured)
+                4. ESR verification
+                5. Frequency dependence testing
+                6. Complete documentation</p>
+                <p><strong>Result:</strong> Fully characterized LCR meter!</p>
+                <hr />
+                <h2 id="calibration-methods-overview">Calibration Methods Overview</h2>
+                <h3 id="1-resistance-calibration">1. Resistance Calibration</h3>
+                <p><strong>Method:</strong> Statistical consensus (same as multimeter)</p>
+                <p><strong>Procedure:</strong>
+                1. Buy 10× precision resistors per decade
+                2. Measure all with LCR meter
+                3. Statistical analysis
+                4. Calculate meter error</p>
+                <p><strong>Accuracy:</strong> ±0.5%
+                <strong>Cost:</strong> $15-20 (or $0 if reusing from multimeter cal)</p>
+                <hr />
+                <h3 id="2-capacitance-calibration">2. Capacitance Calibration</h3>
+                <p><strong>Method A: Precision Capacitors</strong>
+                - Buy NPO/C0G ceramic caps ±1-2%
+                - Measure with LCR meter
+                - Calculate errors</p>
+                <p><strong>Method B: Parallel/Series Combinations</strong></p>
+                <pre><code>Two 100pF caps in parallel = 200pF (verify)
+                Two 100pF caps in series = 50pF (verify)
+                If both check out → caps are accurate
+                If not → calculate actual values
+                </code></pre>
+                <p><strong>Method C: RC Time Constant</strong></p>
+                <pre><code>τ = RC
+                With known R and oscilloscope:
+                Measure τ, calculate C
+                C = τ / R
+                </code></pre>
+                <p><strong>Accuracy:</strong> ±2-5%
+                <strong>Cost:</strong> $10-30</p>
+                <hr />
+                <h3 id="3-inductance-calibration">3. Inductance Calibration</h3>
+                <p><strong>Method A: Physical Calculation</strong></p>
+                <pre><code>Single-layer air-core solenoid:
+                L = (μ₀ × N² × A) / l
+                
+                Where:
+                μ₀ = 4π × 10⁻⁷ H/m (permeability of free space)
+                N = number of turns
+                A = cross-sectional area (m²)
+                l = length (m)
+                
+                Build inductor, calculate L, measure with LCR
+                </code></pre>
+                <p><strong>Method B: Resonant Frequency</strong></p>
+                <pre><code>LC resonator: f = 1/(2π√(LC))
+                With known C and measured f:
+                L = 1/(4π²f²C)
+                
+                Use calibrated capacitor + frequency counter
+                </code></pre>
+                <p><strong>Method C: Commercial Reference</strong></p>
+                <pre><code>Buy precision inductor (e.g., Bourns or Coilcraft)
+                Stated tolerance ±5-10%
+                Use as reference
+                </code></pre>
+                <p><strong>Accuracy:</strong> ±10-20%
+                <strong>Cost:</strong> $5-25</p>
+                <hr />
+                <h3 id="4-esr-verification">4. ESR Verification</h3>
+                <p><strong>Method:</strong> Known resistor in series with capacitor</p>
+                <pre><code>Build test fixture:
+                10 μF capacitor + 10Ω resistor in series
+                
+                ESR should measure ≈10Ω
+                (actual ESR of cap is typically &lt;1Ω, negligible)
+                
+                Verify at different frequencies
+                </code></pre>
+                <p><strong>Accuracy:</strong> ±20%
+                <strong>Cost:</strong> $0 (use existing components)</p>
+                <hr />
+                <h2 id="understanding-lcr-measurements">Understanding LCR Measurements</h2>
+                <h3 id="test-frequency-matters">Test Frequency Matters!</h3>
+                <p><strong>BM4070 frequencies: 100Hz, 120Hz, 1kHz, 10kHz</strong></p>
+                <p><strong>Why it matters:</strong></p>
+                <pre><code>Capacitor impedance: Xc = 1/(2πfC)
+                @ 100Hz: 1μF = 1592Ω
+                @ 10kHz: 1μF = 15.9Ω
+                
+                Inductor impedance: XL = 2πfL
+                @ 100Hz: 1mH = 0.63Ω
+                @ 10kHz: 1mH = 62.8Ω
+                </code></pre>
+                <p><strong>Different frequencies reveal different errors!</strong></p>
+                <hr />
+                <h2 id="component-selection-for-calibration">Component Selection for Calibration</h2>
+                <h3 id="resistors">Resistors</h3>
+                <p><strong>Best choices:</strong>
+                - Metal film, ±0.1% or ±1%
+                - Vishay, Yageo, KOA Speer
+                - Non-inductive types
+                - Power rating: 1/4W sufficient</p>
+                <p><strong>Avoid:</strong>
+                - Wire-wound (inductive!)
+                - Carbon comp (noisy, drifty)</p>
+                <hr />
+                <h3 id="capacitors">Capacitors</h3>
+                <p><strong>Best choices for calibration:</strong></p>
+                <p><strong>NPO/C0G Ceramic:</strong>
+                - Most stable
+                - Temperature coefficient: ±30 ppm/°C
+                - Tolerance: ±1%, ±2%, ±5%
+                - Frequency stable
+                - <strong>Best for:</strong> &lt;1nF to 10nF</p>
+                <p><strong>Polypropylene (Film):</strong>
+                - Very stable
+                - Low ESR
+                - Tolerance: ±1%, ±2%
+                - <strong>Best for:</strong> 100nF to 10μF</p>
+                <p><strong>Avoid for calibration:</strong>
+                - X7R, Y5V ceramic (vary ±20% with voltage/temp)
+                - Electrolytic (high ESR, loose tolerance)
+                - Tantalum (voltage/frequency dependent)</p>
+                <hr />
+                <h3 id="inductors">Inductors</h3>
+                <p><strong>Reference options:</strong></p>
+                <p><strong>Option 1: Calculate from geometry</strong>
+                - Wind your own on known former
+                - Measure dimensions carefully
+                - Calculate expected L
+                - ±10-20% accuracy</p>
+                <p><strong>Option 2: Buy precision inductors</strong>
+                - Bourns, Coilcraft, Murata
+                - Tolerance: ±5%, ±10%, ±20%
+                - Cost: $2-5 each
+                - <strong>Recommended values:</strong> 10μH, 100μH, 1mH, 10mH</p>
+                <p><strong>Option 3: Resonance method</strong>
+                - Use with calibrated capacitor
+                - Measure resonant frequency
+                - Calculate L from f and C</p>
+                <hr />
+                <h2 id="common-bm4070-errors">Common BM4070 Errors</h2>
+                <h3 id="typical-issues-found">Typical Issues Found</h3>
+                <p><strong>Capacitance:</strong>
+                - Small caps (&lt;100pF): Often read high (+5-15%)
+                - Large caps (&gt;100μF): Often read low (-5-10%)
+                - Parasitics affect small values</p>
+                <p><strong>Inductance:</strong>
+                - Small inductors (&lt;10μH): Hard to measure accurately
+                - Parasitic capacitance affects readings
+                - Core material affects accuracy</p>
+                <p><strong>ESR:</strong>
+                - Often optimistic (reads lower than actual)
+                - Frequency dependent
+                - Lead resistance adds error</p>
+                <p><strong>Resistance:</strong>
+                - Usually accurate (±2-5%)
+                - Low resistance (&lt;10Ω): Lead resistance matters
+                - High resistance (&gt;1MΩ): Leakage affects reading</p>
+                <hr />
+                <h2 id="typical-bm4070-specifications">Typical BM4070 Specifications</h2>
+                <h3 id="manufacturer-specs-if-available">Manufacturer Specs (if available)</h3>
+                <p><strong>Resistance:</strong>
+                - Range: 0Ω to 20MΩ
+                - Accuracy: ±0.8% typical</p>
+                <p><strong>Capacitance:</strong>
+                - Range: 0.01pF to 20,000μF
+                - Accuracy: ±1.5% typical (varies by range)</p>
+                <p><strong>Inductance:</strong>
+                - Range: 0.01μH to 20H
+                - Accuracy: ±2% typical (varies by range)</p>
+                <p><strong>Note:</strong> Many cheap LCR meters have optimistic specs! Real accuracy often 2-5× worse.</p>
+                <hr />
+                <h2 id="test-fixtures-and-techniques">Test Fixtures and Techniques</h2>
+                <h3 id="minimizing-parasitic-effects">Minimizing Parasitic Effects</h3>
+                <p><strong>Short, thick leads:</strong>
+                - Use shortest possible test leads
+                - Thick wire (18-22 AWG)
+                - Kelvin (4-wire) connections for low R</p>
+                <p><strong>Zeroing procedure:</strong>
+                - Short test leads together
+                - Press "REL" or "ZERO" button
+                - Removes lead resistance/inductance</p>
+                <p><strong>Open circuit compensation:</strong>
+                - Open test leads (nothing connected)
+                - Some meters have "OPEN" cal function
+                - Removes stray capacitance</p>
+                <p><strong>Consistent technique:</strong>
+                - Same lead length every time
+                - Same connection method
+                - Same test frequency</p>
+                <hr />
+                <h2 id="safety-notes">Safety Notes</h2>
+                <p><strong>LCR meters are generally safe:</strong>
+                - Low voltage (typically &lt;5V)
+                - Low current (typically &lt;10mA)
+                - No shock hazard</p>
+                <p><strong>Cautions:</strong>
+                - Don't measure charged capacitors (discharge first!)
+                - Don't measure while circuit powered
+                - Don't exceed meter's voltage rating</p>
+                <p><strong>For this project:</strong> Everything is safe, passive components only.</p>
+                <hr />
+                <h2 id="success-criteria">Success Criteria</h2>
+                <h3 id="well-calibrated-lcr-meter">Well-Calibrated LCR Meter</h3>
+                <p><strong>Resistance:</strong>
+                - ✓ 100Ω reads 100Ω ±0.5Ω
+                - ✓ 1kΩ reads 1kΩ ±5Ω
+                - ✓ All ranges consistent</p>
+                <p><strong>Capacitance:</strong>
+                - ✓ 100pF reads 100pF ±2pF
+                - ✓ 1μF reads 1μF ±20nF
+                - ✓ Parallel combination math checks</p>
+                <p><strong>Inductance:</strong>
+                - ✓ 1mH reads 1mH ±100μH
+                - ✓ Resonance method confirms value
+                - ✓ Within ±15% of calculated value</p>
+                <p><strong>ESR:</strong>
+                - ✓ Known R+C measures expected ESR
+                - ✓ Good cap shows low ESR (&lt;1Ω)</p>
+                <hr />
+                <h2 id="applications-after-calibration">Applications After Calibration</h2>
+                <h3 id="what-you-can-now-trust">What You Can Now Trust</h3>
+                <p><strong>Filter design:</strong>
+                - Accurate cap selection
+                - Predictable cutoff frequencies
+                - Known component tolerances</p>
+                <p><strong>Inductor selection:</strong>
+                - Verify stated values
+                - Match inductors
+                - Measure Q factor</p>
+                <p><strong>Component sorting:</strong>
+                - Bin components by actual value
+                - Match critical parts
+                - Quality control</p>
+                <p><strong>Troubleshooting:</strong>
+                - Identify bad capacitors (high ESR)
+                - Find shorted/open inductors
+                - Verify component values in-circuit</p>
+                <hr />
+                <h2 id="file-structure">File Structure</h2>
+                <h3 id="documentation">Documentation</h3>
+                <ol>
+                <li><strong>lcr_meter_calibration_overview.md</strong> (this file)</li>
+                <li><strong>examples/bm4070_complete_calibration.md</strong> - Complete worked example</li>
+                </ol>
+                <hr />
+                <h2 id="learning-outcomes">Learning Outcomes</h2>
+                <h3 id="technical-knowledge">Technical Knowledge</h3>
+                <ul>
+                <li>LCR measurement principles</li>
+                <li>Parasitic effects</li>
+                <li>Component characteristics</li>
+                <li>Frequency dependence</li>
+                <li>Statistical methods</li>
+                </ul>
+                <h3 id="practical-skills">Practical Skills</h3>
+                <ul>
+                <li>Building reference standards</li>
+                <li>Precision measurement</li>
+                <li>Error analysis</li>
+                <li>Component selection</li>
+                <li>Test fixture design</li>
+                </ul>
+                <h3 id="confidence">Confidence</h3>
+                <ul>
+                <li>Trust your measurements</li>
+                <li>Understand limitations</li>
+                <li>Make informed component choices</li>
+                </ul>
+                <hr />
+                <h2 id="next-steps">Next Steps</h2>
+                <ol>
+                <li><strong>Read:</strong> <a href="../bm4070_complete_calibration.html">examples/bm4070_complete_calibration.md</a></li>
+                <li><strong>Gather:</strong> Precision components</li>
+                <li><strong>Measure:</strong> Resistance, capacitance, inductance</li>
+                <li><strong>Document:</strong> Create calibration record</li>
+                <li><strong>Verify:</strong> Cross-check with calculations</li>
+                </ol>
+                <hr />
+                <h2 id="summary">Summary</h2>
+                <h3 id="the-challenge">The Challenge</h3>
+                <p>LCR meters need calibration, especially cheap models. Commercial cal kits cost $200-500.</p>
+                <h3 id="the-solution">The Solution</h3>
+                <ul>
+                <li><strong>Resistance:</strong> Statistical method with precision resistors ($15)</li>
+                <li><strong>Capacitance:</strong> NPO/C0G caps + parallel/series checks ($20)</li>
+                <li><strong>Inductance:</strong> Calculate from geometry + resonance method ($10)</li>
+                <li><strong>Total:</strong> $45-100</li>
+                </ul>
+                <h3 id="the-result">The Result</h3>
+                <ul>
+                <li>Know meter accuracy to ±2-5% (C), ±10% (L)</li>
+                <li>Verified against absolute standards</li>
+                <li>Complete documentation</li>
+                <li>Confidence in measurements</li>
+                </ul>
+                <hr />
+                <p><strong>Ready to calibrate? Continue to <a href="../bm4070_complete_calibration.html">examples/bm4070_complete_calibration.md</a>!</strong></p>
+</div>
+
+
+                <div class="back-link">
+                    <a href="../index.html">&larr; Back to index</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Radio: KO6NNH &nbsp;&bull;&nbsp; Merced, California 95340</p>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
