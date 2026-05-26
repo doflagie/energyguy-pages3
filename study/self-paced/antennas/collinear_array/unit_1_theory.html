@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 1 — Theory of Operation</title>
+<link rel="stylesheet" href="../../../../css/style.css">
+<style>
+  .course-content { max-width:860px; margin:0 auto; }
+  .course-content table { border-collapse:collapse; width:100%; margin:1rem 0; }
+  .course-content th,
+  .course-content td { border:1px solid var(--border,#ccc); padding:.4rem .6rem; }
+  .course-content th { background:var(--header-bg,#f4f4f4); }
+  .course-content code { background:var(--code-bg,#f4f4f4); padding:.1em .3em; border-radius:3px; font-size:.9em; }
+  .course-content pre code { background:none; padding:0; }
+  .course-content pre { background:var(--code-bg,#f4f4f4); padding:1rem; overflow-x:auto; border-radius:4px; }
+  .course-content blockquote { border-left:3px solid var(--border,#ccc); margin-left:0; padding-left:1rem; color:var(--muted,#666); }
+  .course-content hr { border:none; border-top:2px solid var(--border,#ccc); margin:2rem 0; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <span class="site-title">KO6NNH — Antennas</span>
+    <nav class="main-nav">
+      <a href="../../../../index.html">page3 home</a>
+      <a href="../../../index.html">study</a>
+      <a href="../index.html">Antennas</a>
+    </nav>
+  </div>
+</header>
+<main class="course-content">
+<h1 id="unit-1-theory-of-operation">Unit 1 — Theory of Operation</h1>
+<p><strong><a href="../../../antennas/collinear_array/tm.html">TM-ANT-012 — Open Handout</a></strong>
+<strong>TM Chapter:</strong> Chapter 2
+<strong>ELOs:</strong> Understand the operating principle of the COLLINEAR ARRAY ANTENNA; identify key electrical characteristics
+<strong>Estimated time:</strong> 20 minutes</p>
+<hr />
+<h2 id="step-1-read-the-tm">Step 1: Read the TM</h2>
+<p>Open TM-ANT-012. Read <strong>Chapter 2 — Theory of Operation</strong> completely.</p>
+<p>Then come back here.</p>
+<hr />
+<h2 id="chapter-2-content">Chapter 2 Content</h2>
+<h3 id="2-1-radiation-physics">2-1. RADIATION PHYSICS</h3>
+<p>Stacked co-axial half-wave dipoles fed with in-phase phasing harness (coaxial stubs or phasing lines). A vertical radiator carries current that is vertically polarized; its electromagnetic wave radiates with E-field vertical. The ground (or radial counterpoise) serves as the electrical mirror-image of the above-ground element: a λ/4 vertical above a perfect ground is equivalent to a λ/2 dipole in free space, with radiation resistance Rr = 36.6 Ω.</p>
+<h3 id="2-2-radiation-pattern">2-2. RADIATION PATTERN</h3>
+<p>A quarter-wave vertical over an extensive ground plane radiates omnidirectionally in azimuth with a low-angle elevation lobe ideal for DX. The elevation angle of maximum radiation (θmax) depends on ground conductivity and number of radials: over a perfect ground θmax ≈ 0°; over average ground with 32+ radials, θmax ≈ 5–15°. The vertically polarized wave follows the earth&rsquo;s surface better than a horizontal wave at low angles.</p>
+<h3 id="2-3-impedance-and-bandwidth">2-3. IMPEDANCE AND BANDWIDTH</h3>
+<p>Feed impedance: 50 Ω. The SWR bandwidth of a simple λ/4 vertical at HF is approximately 5–8% of center frequency for 2:1 SWR, typically covering one amateur band. Loading coils reduce bandwidth in proportion to their Q; top loading preserves more bandwidth than base loading because it maintains higher current along more of the radiator length.</p>
+<h3 id="2-4-ground-system-design">2-4. GROUND SYSTEM DESIGN</h3>
+<p>Ground loss resistance Rg appears directly in series with the radiation resistance. For maximum efficiency: Rg &lt; Rr. With buried radials, Rg decreases as Nradials increases: 32 radials each 0.25λ gives Rg ≈ 3 Ω. Elevated resonant radials achieve similar performance with only 4–8 radials. For 4-element 2m yields ~4 dbi gain — follow this requirement closely for efficiency.</p>
+<hr />
+<h2 id="why-theory-matters-for-antenna-construction">Why Theory Matters for Antenna Construction</h2>
+<p>You cannot build a working antenna without understanding the underlying physics. Theory tells you:
+- What determines resonant frequency — and therefore how cutting or loading errors affect performance
+- What radiation pattern the antenna produces and why physical layout matters
+- What feedpoint impedance to expect — so you know whether a matching network is needed
+- What the sources of loss are: conductor resistance, ground losses, impedance mismatch</p>
+<p>If the antenna doesn't resonate where expected, or SWR is high, theory is where you diagnose the cause.</p>
+<hr />
+<h2 id="self-check-questions">Self-Check Questions</h2>
+<p><strong>SC1-1.</strong> In one sentence, state the operating principle of the COLLINEAR ARRAY ANTENNA as described in Chapter 2.</p>
+<p><strong>SC1-2.</strong> What determines the resonant frequency of the COLLINEAR ARRAY ANTENNA? Name the primary physical parameter(s).</p>
+<p><strong>SC1-3.</strong> What feedpoint impedance does Chapter 2 predict for the COLLINEAR ARRAY ANTENNA in free space? How does that change over real ground?</p>
+<p><strong>SC1-4.</strong> What radiation pattern does the COLLINEAR ARRAY ANTENNA produce? What are the nulls and maxima directions?</p>
+<p><strong>SC1-5.</strong> List two formulas or relationships from Chapter 2 that govern the antenna's electrical behavior.</p>
+<hr />
+<h2 id="answer-key">Answer Key</h2>
+<p><strong>SC1-1.</strong> See TM §2-1. Compare your sentence to the first substantive paragraph of Chapter 2.</p>
+<p><strong>SC1-2.</strong> See Chapter 2. For most antennas the primary parameter is physical length relative to wavelength. Loading (coils, capacitors) shifts this.</p>
+<p><strong>SC1-3.</strong> See Chapter 2. Free-space feedpoint impedance is a theoretical value; ground proximity, height, and nearby conductors modify it significantly.</p>
+<p><strong>SC1-4.</strong> See Chapter 2. Directional patterns are usually shown in terms of azimuth and elevation radiation patterns.</p>
+<p><strong>SC1-5.</strong> See Chapter 2 and Appendix A. The key equation usually relates length to frequency, or impedance to element geometry.</p>
+<hr />
+<h2 id="checkpoint">Checkpoint</h2>
+<p>Before proceeding, state without looking:
+- The operating principle of the COLLINEAR ARRAY ANTENNA
+- What determines its resonant frequency
+- The expected feedpoint impedance</p>
+<p><strong>→ Proceed to <a href="unit_2_materials.html">Unit 2</a></strong></p>
+</main>
+<footer class="site-footer">
+  <p>KO6NNH Self-Paced OBT — Antennas</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 3 — Setting Up the TinySA</title>
+<link rel="stylesheet" href="../../../../css/style.css">
+<style>
+  .course-content { max-width:860px; margin:0 auto; }
+  .course-content table { border-collapse:collapse; width:100%; margin:1rem 0; }
+  .course-content th,
+  .course-content td { border:1px solid var(--border,#ccc); padding:.4rem .6rem; }
+  .course-content th { background:var(--header-bg,#f4f4f4); }
+  .course-content code { background:var(--code-bg,#f4f4f4); padding:.1em .3em; border-radius:3px; font-size:.9em; }
+  .course-content pre code { background:none; padding:0; }
+  .course-content pre { background:var(--code-bg,#f4f4f4); padding:1rem; overflow-x:auto; border-radius:4px; }
+  .course-content blockquote { border-left:3px solid var(--border,#ccc); margin-left:0; padding-left:1rem; color:var(--muted,#666); }
+  .course-content hr { border:none; border-top:2px solid var(--border,#ccc); margin:2rem 0; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <span class="site-title">KO6NNH — Calibration Ideas</span>
+    <nav class="main-nav">
+      <a href="../../../../index.html">page3 home</a>
+      <a href="../../../index.html">study</a>
+      <a href="../index.html">Calibration Ideas</a>
+    </nav>
+  </div>
+</header>
+<main class="course-content">
+<h1 id="unit-3-setting-up-the-tinysa">Unit 3 — Setting Up the TinySA</h1>
+<p><strong><a href="../../../Calibration_Ideas/fm_broadcast_reference/tm.html">TM-CAL-004 — Open Handout</a></strong>
+<strong>ELOs:</strong> 1.5, 1.6<br />
+<strong>Estimated time:</strong> 20 minutes<br />
+<strong>TM sections to read first:</strong> Chapter 3 (equipment list), Chapter 4 (all steps)</p>
+<hr />
+<h2 id="step-1-read-the-tm">Step 1: Read the TM</h2>
+<p>Open TM-CAL-004. Read:
+- Section 3-1: Required Equipment (the table)
+- Chapter 4: Assembly Procedures (all 6 steps)</p>
+<p>Then come back here.</p>
+<hr />
+<h2 id="what-this-unit-covers">What This Unit Covers</h2>
+<p>The TinySA setup is a two-stage zoom. You start wide to find the carrier, then narrow down to measure it precisely. Each stage has specific settings. Getting the settings wrong — especially RBW — is the most common source of measurement error in this procedure.</p>
+<hr />
+<h2 id="stage-1-wide-sweep-finding-the-carrier">Stage 1: Wide Sweep — Finding the Carrier</h2>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Value</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mode</td>
+<td>Spectrum analyzer</td>
+<td>Not tracking generator mode</td>
+</tr>
+<tr>
+<td>Center frequency</td>
+<td>~98 MHz (or near a known local station)</td>
+<td>Gets you into the middle of the FM band</td>
+</tr>
+<tr>
+<td>Span</td>
+<td>10 MHz</td>
+<td>Wide enough to see several stations at once</td>
+</tr>
+<tr>
+<td>RBW</td>
+<td>≤3 kHz</td>
+<td>Narrow enough to resolve individual carriers</td>
+</tr>
+</tbody>
+</table>
+<p>At these settings, you will see a series of peaks separated by 200 kHz. Each peak is one FM station's carrier. They look like vertical spikes, with the tallest representing the strongest local station.</p>
+<p><strong>What to look for:</strong> The carrier is the single tallest, sharpest spike within a 200 kHz channel. There will be other content nearby — audio sidebands, the 19 kHz stereo pilot tone, a 38 kHz stereo subcarrier — but these are much lower in amplitude. The carrier is the dominant peak.</p>
+<p><strong>What not to mistake for the carrier:</strong>
+- 19 kHz and 38 kHz offset peaks — these are audio subcarriers, not the carrier
+- The broad "skirt" at the base of the carrier — that's the modulated audio, not the center</p>
+<p><strong>Identify your target station.</strong> Note which channel it appears in. That is the peak you will zoom in on.</p>
+<hr />
+<h2 id="stage-2-narrow-sweep-measuring-the-carrier">Stage 2: Narrow Sweep — Measuring the Carrier</h2>
+<p>Once you have identified the target carrier, zoom in:</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Value</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Center frequency</td>
+<td>On the carrier peak</td>
+<td>Put it in the center of your display</td>
+</tr>
+<tr>
+<td>Span</td>
+<td>500 kHz</td>
+<td>Tight enough to isolate the carrier cleanly</td>
+</tr>
+<tr>
+<td>RBW</td>
+<td>1 kHz</td>
+<td>Narrow enough for precise frequency reading</td>
+</tr>
+</tbody>
+</table>
+<p>At 1 kHz RBW, the carrier peak will appear as a clean, narrow spike. Use the <strong>MARKER PEAK</strong> function to place a marker at the top of the peak. The marker frequency readout is your measured frequency.</p>
+<p><strong>Write this number down.</strong> To be useful, record it to the nearest 100 Hz — for example, 98,101,700 Hz (not just "98.1 MHz").</p>
+<hr />
+<h2 id="why-rbw-matters">Why RBW Matters</h2>
+<p>RBW (Resolution Bandwidth) determines how narrow a signal the analyzer can resolve. A 10 kHz RBW smears a carrier across 10 kHz of display width — you cannot determine the center precisely. A 1 kHz RBW shows the carrier as a narrow spike and lets the marker find the true center.</p>
+<p>Rule: <strong>RBW must be narrower than the measurement precision you need.</strong> For this calibration, you need precision to ±1 kHz or better, so 1 kHz RBW is the minimum. Narrower (300 Hz) is better if your TinySA firmware supports it without excessive sweep time.</p>
+<hr />
+<h2 id="the-six-steps-in-order">The Six Steps in Order</h2>
+<p>This is a condensed version of TM-CAL-004 Chapter 4 so you can check your understanding:</p>
+<ol>
+<li>Connect antenna to TinySA INPUT port</li>
+<li>Set: center 98 MHz, span 10 MHz, RBW ≤3 kHz → find the carrier spike</li>
+<li>Identify the tallest narrowband spike in the target channel</li>
+<li>Set: center on carrier, span 500 kHz, RBW 1 kHz</li>
+<li>Engage MARKER PEAK on the carrier</li>
+<li>Record the measured frequency (to nearest 100 Hz)</li>
+</ol>
+<hr />
+<h2 id="self-check-questions">Self-Check Questions</h2>
+<p><strong>SC3-1.</strong> What span and RBW settings does TM-CAL-004 specify for the initial FM carrier identification sweep?</p>
+<p><strong>SC3-2.</strong> What span and RBW settings are used for precision carrier measurement?</p>
+<p><strong>SC3-3.</strong> After zooming in, what TinySA function does TM-CAL-004 specify to read the carrier frequency?</p>
+<p><strong>SC3-4.</strong> A student sets RBW to 100 kHz for the precision measurement sweep. What problem does this cause?</p>
+<p><strong>SC3-5.</strong> During the wide sweep, you see a peak at your target channel plus smaller peaks ±19 kHz and ±38 kHz offset. Which peak is the carrier?</p>
+<hr />
+<h2 id="answer-key">Answer Key</h2>
+<p><strong>SC3-1.</strong> Span 10 MHz, RBW 3 kHz or narrower. <em>(TM Ch. 4, step 2)</em></p>
+<p><strong>SC3-2.</strong> Span 500 kHz, RBW 1 kHz. <em>(TM Ch. 4, step 4)</em></p>
+<p><strong>SC3-3.</strong> MARKER PEAK function (or cursor on carrier peak). <em>(TM Ch. 4, step 5)</em></p>
+<p><strong>SC3-4.</strong> At 100 kHz RBW, the carrier is smeared across 100 kHz of display width — the marker will not find the true center frequency. Measurement error will be large. RBW must be ≤ the required measurement precision.</p>
+<p><strong>SC3-5.</strong> The carrier is the tallest, sharpest spike at the channel center. The ±19 kHz and ±38 kHz peaks are the stereo pilot and subcarrier — lower in amplitude, not the carrier.</p>
+<hr />
+<h2 id="checkpoint">Checkpoint</h2>
+<p>Before proceeding, you must be able to state both sets of TinySA settings (wide and narrow) from memory, and explain what RBW does.</p>
+<p><strong>→ Proceed to <a href="unit_4_error_calculation.html">Unit 4</a></strong></p>
+</main>
+<footer class="site-footer">
+  <p>KO6NNH Self-Paced OBT — Calibration Ideas</p>
+</footer>
+</body>
+</html>

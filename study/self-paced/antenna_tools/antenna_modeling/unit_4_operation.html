@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 4 — Operating Procedures and Calculations</title>
+<link rel="stylesheet" href="../../../../css/style.css">
+<style>
+  .course-content { max-width:860px; margin:0 auto; }
+  .course-content table { border-collapse:collapse; width:100%; margin:1rem 0; }
+  .course-content th,
+  .course-content td { border:1px solid var(--border,#ccc); padding:.4rem .6rem; }
+  .course-content th { background:var(--header-bg,#f4f4f4); }
+  .course-content code { background:var(--code-bg,#f4f4f4); padding:.1em .3em; border-radius:3px; font-size:.9em; }
+  .course-content pre code { background:none; padding:0; }
+  .course-content pre { background:var(--code-bg,#f4f4f4); padding:1rem; overflow-x:auto; border-radius:4px; }
+  .course-content blockquote { border-left:3px solid var(--border,#ccc); margin-left:0; padding-left:1rem; color:var(--muted,#666); }
+  .course-content hr { border:none; border-top:2px solid var(--border,#ccc); margin:2rem 0; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <span class="site-title">KO6NNH — Antenna Tools</span>
+    <nav class="main-nav">
+      <a href="../../../../index.html">page3 home</a>
+      <a href="../../../index.html">study</a>
+      <a href="../index.html">Antenna Tools</a>
+    </nav>
+  </div>
+</header>
+<main class="course-content">
+<h1 id="unit-4-operating-procedures-and-calculations">Unit 4 — Operating Procedures and Calculations</h1>
+<p><strong><a href="../../../antenna_tools/antenna_modeling/tm.html">TM-TOOL-003 — Open Handout</a></strong>
+<strong>TM Chapters:</strong> Chapter 5, Appendix A
+<strong>ELOs:</strong> Execute operating procedure; interpret readings; compute derived quantities
+<strong>Estimated time:</strong> 30 minutes (includes 3–4 practice problems)</p>
+<hr />
+<h2 id="step-1-read-the-tm">Step 1: Read the TM</h2>
+<p>Open TM-TOOL-003. Read <strong>Chapter 5 — Operating Procedures</strong> and <strong>Appendix A</strong> completely.</p>
+<p>Then come back here.</p>
+<hr />
+<h2 id="chapter-5-content">Chapter 5 Content</h2>
+<p>5-1 Running the Engine</p>
+<p>from nec_runner import NECRunner, NECEngine
+runner = NECRunner(engine=NECEngine.NEC2)
+result = runner.run(model)
+if not result.success:
+ print(result.stderr)
+The runner writes a temporary .nec file, invokes nec2c as a subprocess,
+captures stdout/stderr, and returns a NECResult object. Timeout default:
+60 seconds (adjustable for large sweeps).</p>
+<p>5-2 Parsing Output
+from nec_parser import NECOutputParser
+parser = NECOutputParser()
+points = parser.parse(result.output_file)</p>
+<h1 id="points-list-of-freq_mhz-gain_dbi-z_real-z_imag-swr-theta-phi">points: list of {freq_mhz, gain_dbi, z_real, z_imag, swr, theta, phi}</h1>
+<hr />
+<h2 id="appendix-a-reference-formulas">Appendix A — Reference Formulas</h2>
+<table>
+<thead>
+<tr>
+<th>Error</th>
+<th>Cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SEGMENT FAILURE</td>
+<td>Wire too short for segment count</td>
+<td>Reduce min_segs or increase length</td>
+</tr>
+<tr>
+<td>Impedance = 0+j0</td>
+<td>Source on wrong tag/segment</td>
+<td>Verify EX card tag matches GW tag</td>
+</tr>
+<tr>
+<td>Gain &gt;30 dBi</td>
+<td>Wire below ground (Z 2 × radius</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="key-formulas-summary">Key Formulas Summary</h2>
+<p>Key mathematical relationships from Appendix A:</p>
+<ul>
+<li><code>| Impedance = 0+j0 | Source on wrong tag/segment | Verify EX card tag matches GW tag |</code></li>
+</ul>
+<hr />
+<h2 id="operating-notes">Operating Notes</h2>
+<p>Work through all steps in Chapter 5 in sequence.</p>
+<p>Measurement discipline:
+- Always warm up the tool and reference sources before taking readings
+- Multiple readings improve accuracy — use 3–5 readings and average them
+- Record every reading with frequency, power level, and settings
+- A result that seems wrong almost always means a setup error, not a failed tool</p>
+<hr />
+<h2 id="practice-problems">Practice Problems</h2>
+<p>Work these before reading the answer key below.</p>
+<p><strong>P4-1.</strong> Using the operating procedure from Chapter 5 and the formulas from Appendix A:
+State the measurement steps you would take to characterize a 40m (7.150 MHz) dipole antenna
+using the NEC ANTENNA MODELING SYSTEM. List steps in order.</p>
+<p><strong>P4-2.</strong> From Chapter 5: what measurement setting or configuration produces the most accurate
+result with the NEC ANTENNA MODELING SYSTEM? What is the tradeoff if you use a less accurate setting?</p>
+<p><strong>P4-3.</strong> Chapter 5 specifies an operating procedure for a specific measurement scenario.
+State the first three steps of that procedure from memory.</p>
+<p><strong>P4-4.</strong> Appendix A gives a formula for computing a result from measured values.
+Pick one formula and compute a worked example using made-up but realistic values.
+Show all work.</p>
+<hr />
+<h2 id="answer-key-practice-problems">Answer Key — Practice Problems</h2>
+<p><strong>P4-1.</strong> Compare your list to Chapter 5. Steps should include: select range/mode → connect antenna → apply signal or enable source → adjust for null/maximum → read and record → compute result.</p>
+<p><strong>P4-2.</strong> See Chapter 5. The most accurate setting is usually the narrowest bandwidth or highest resolution, at the cost of longer measurement time or reduced range.</p>
+<p><strong>P4-3.</strong> See Chapter 5, steps 1–3. Copy exactly then close the TM and state from memory.</p>
+<p><strong>P4-4.</strong> See Appendix A for the formula. Your arithmetic is correct if your result has the right units and is physically plausible.</p>
+<hr />
+<h2 id="checkpoint">Checkpoint</h2>
+<p>Before proceeding:
+- [ ] You can state the operating procedure from memory (at least the first 5 steps)
+- [ ] You can compute the derived quantity from Chapter 5 / Appendix A without looking
+- [ ] You understand what "an unexpected result" tells you about setup</p>
+<p><strong>→ Proceed to <a href="unit_5_calibration.html">Unit 5</a></strong></p>
+</main>
+<footer class="site-footer">
+  <p>KO6NNH Self-Paced OBT — Antenna Tools</p>
+</footer>
+</body>
+</html>

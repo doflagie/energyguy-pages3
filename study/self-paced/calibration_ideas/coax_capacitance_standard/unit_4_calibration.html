@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 4 — Calibration Procedure and Calculations</title>
+<link rel="stylesheet" href="../../../../css/style.css">
+<style>
+  .course-content { max-width:860px; margin:0 auto; }
+  .course-content table { border-collapse:collapse; width:100%; margin:1rem 0; }
+  .course-content th,
+  .course-content td { border:1px solid var(--border,#ccc); padding:.4rem .6rem; }
+  .course-content th { background:var(--header-bg,#f4f4f4); }
+  .course-content code { background:var(--code-bg,#f4f4f4); padding:.1em .3em; border-radius:3px; font-size:.9em; }
+  .course-content pre code { background:none; padding:0; }
+  .course-content pre { background:var(--code-bg,#f4f4f4); padding:1rem; overflow-x:auto; border-radius:4px; }
+  .course-content blockquote { border-left:3px solid var(--border,#ccc); margin-left:0; padding-left:1rem; color:var(--muted,#666); }
+  .course-content hr { border:none; border-top:2px solid var(--border,#ccc); margin:2rem 0; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <span class="site-title">KO6NNH — Calibration Ideas</span>
+    <nav class="main-nav">
+      <a href="../../../../index.html">page3 home</a>
+      <a href="../../../index.html">study</a>
+      <a href="../index.html">Calibration Ideas</a>
+    </nav>
+  </div>
+</header>
+<main class="course-content">
+<h1 id="unit-4-calibration-procedure-and-calculations">Unit 4 — Calibration Procedure and Calculations</h1>
+<p><strong><a href="../../../Calibration_Ideas/coax_capacitance_standard/tm.html">TM-CAL-013 — Open Handout</a></strong>
+<strong>TM Chapters:</strong> Chapter 5, Appendix A
+<strong>ELOs:</strong> Execute calibration procedure; compute error and determine pass/fail
+<strong>Estimated time:</strong> 30 minutes</p>
+<hr />
+<h2 id="step-1-read-the-tm">Step 1: Read the TM</h2>
+<p>Open TM-CAL-013. Read <strong>Chapter 5</strong> and <strong>Appendix A</strong> completely.</p>
+<p>Then come back here.</p>
+<hr />
+<h2 id="chapter-5-calibration-procedure">Chapter 5 — Calibration Procedure</h2>
+<ol>
+<li>Calculate expected capacitance: C = (pF/ft) × length(ft).</li>
+<li>Example: 1 m of RG-58 = 3.281 ft × 28.5 pF/ft = 93.5 pF.</li>
+<li>Measure with DMM capacitance function or LCR meter: connect shorting BNC to one end, measure at open BNC.</li>
+<li>Compare measured vs. calculated. Error reflects meter accuracy.</li>
+<li>Error = (measured &minus; calculated) / calculated × 100%.</li>
+<li>If meter reads 91.2 pF and calculated is 93.5 pF: error = &minus;2.5%.</li>
+<li>Apply correction factor to future capacitance measurements.</li>
+</ol>
+<hr />
+<h2 id="appendix-a-formulas">Appendix A — Formulas</h2>
+<pre><code>Total capacitance
+Ctotal = (C/m) × lmeters = (C/ft) × lfeet
+</code></pre>
+<pre><code>RG-58, 1.524 m (5 ft)
+C = 28.5 × 5 = 142.5 pF
+</code></pre>
+<pre><code>Velocity factor and capacitance relationship
+VF = 1/&amp;radic;εr, so C/m = 1/(Z0 × VF × c)
+</code></pre>
+<hr />
+<h2 id="key-formulas-summary">Key Formulas Summary</h2>
+<ul>
+<li>Ctotal = (C/m) × lmeters = (C/ft) × lfeet</li>
+<li>C = 28.5 × 5 = 142.5 pF</li>
+<li>VF = 1/&radic;εr, so C/m = 1/(Z0 × VF × c)</li>
+</ul>
+<hr />
+<h2 id="the-calibration-procedure">The Calibration Procedure</h2>
+<p>Chapter 5 specifies 7 calibration steps.</p>
+<p>Calibration is a comparison: you apply a known reference value to the instrument under test and record what the instrument reads. The difference is the error. You then either:
+- Adjust the instrument until the error is within the acceptance criterion, or
+- Record the error as a correction factor to apply to future readings</p>
+<p>An error criterion found in Chapter 5: <strong>100%</strong>. Confirm the exact criterion in the TM.</p>
+<hr />
+<h2 id="practice-problems">Practice Problems</h2>
+<p>Work these before checking answers.</p>
+<p><strong>P4-1.</strong> The reference value is 10.000 V. Your instrument reads 10.043 V.
+(a) What is the error in volts?
+(b) What is the error as a percentage of the reference value? Show your work.</p>
+<p><strong>P4-2.</strong> Using the formula for % error: error% = (measured − reference) / reference × 100
+Apply it to: reference = 100.0 kHz, measured = 99,985 Hz.
+(a) Error in Hz.
+(b) Error in %.
+(c) Error in ppm.</p>
+<p><strong>P4-3.</strong> The acceptance criterion in the TM is ±1%. Your measurement gives an error of +0.8%. Does it pass? State your reasoning.</p>
+<hr />
+<h2 id="practice-problem-answers">Practice Problem Answers</h2>
+<p><strong>P4-1.</strong>
+(a) 10.043 − 10.000 = <strong>+0.043 V</strong>
+(b) 0.043 / 10.000 × 100 = <strong>+0.43%</strong></p>
+<p><strong>P4-2.</strong>
+(a) 99,985 − 100,000 = <strong>−15 Hz</strong>
+(b) −15 / 100,000 × 100 = <strong>−0.015%</strong>
+(c) −15 / 100,000 × 1,000,000 = <strong>−150 ppm</strong></p>
+<p><strong>P4-3.</strong> +0.8% is within ±1%. <strong>PASS.</strong> State: "error = +0.8%; criterion = ±1%; result = PASS." Always cite the TM section for the criterion.</p>
+<hr />
+<h2 id="self-check-questions">Self-Check Questions</h2>
+<p><strong>SC4-1.</strong> How many steps does Chapter 5 specify for the calibration procedure?</p>
+<p><strong>SC4-2.</strong> What reference value(s) does Chapter 5 apply to the instrument under test?</p>
+<p><strong>SC4-3.</strong> State the calibration acceptance criterion from the TM. Cite the section.</p>
+<p><strong>SC4-4.</strong> Write the error formula from Appendix A. Include units.</p>
+<p><strong>SC4-5.</strong> If the instrument reads 2.3% high, is the error positive or negative? What does a positive error indicate?</p>
+<hr />
+<h2 id="answer-key">Answer Key</h2>
+<p><strong>SC4-1.</strong> Count the numbered steps in Chapter 5. <em>(TM Ch. 5)</em></p>
+<p><strong>SC4-2.</strong> See Chapter 5 for the reference values applied. These are the known-good inputs used to check the instrument. <em>(TM §5-1)</em></p>
+<p><strong>SC4-3.</strong> See TM Chapter 5 or Chapter 7. Copy the criterion exactly with units and section number.</p>
+<p><strong>SC4-4.</strong> See Appendix A. Write it exactly as shown.</p>
+<p><strong>SC4-5.</strong> Positive (instrument reads higher than reference). A positive error means the instrument over-reads — it reports a value higher than the true value. <em>(TM App. A)</em></p>
+<hr />
+<h2 id="checkpoint">Checkpoint</h2>
+<p>Before proceeding, you must be able to:
+- State the calibration acceptance criterion without looking
+- Write the error formula from memory
+- Work a % error and ppm calculation correctly</p>
+<p><strong>→ Proceed to <a href="unit_5_verification.html">Unit 5</a></strong></p>
+</main>
+<footer class="site-footer">
+  <p>KO6NNH Self-Paced OBT — Calibration Ideas</p>
+</footer>
+</body>
+</html>

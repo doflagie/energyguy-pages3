@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 1 — Theory of Operation</title>
+<link rel="stylesheet" href="../../../../css/style.css">
+<style>
+  .course-content { max-width:860px; margin:0 auto; }
+  .course-content table { border-collapse:collapse; width:100%; margin:1rem 0; }
+  .course-content th,
+  .course-content td { border:1px solid var(--border,#ccc); padding:.4rem .6rem; }
+  .course-content th { background:var(--header-bg,#f4f4f4); }
+  .course-content code { background:var(--code-bg,#f4f4f4); padding:.1em .3em; border-radius:3px; font-size:.9em; }
+  .course-content pre code { background:none; padding:0; }
+  .course-content pre { background:var(--code-bg,#f4f4f4); padding:1rem; overflow-x:auto; border-radius:4px; }
+  .course-content blockquote { border-left:3px solid var(--border,#ccc); margin-left:0; padding-left:1rem; color:var(--muted,#666); }
+  .course-content hr { border:none; border-top:2px solid var(--border,#ccc); margin:2rem 0; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <span class="site-title">KO6NNH — Antenna Tools</span>
+    <nav class="main-nav">
+      <a href="../../../../index.html">page3 home</a>
+      <a href="../../../index.html">study</a>
+      <a href="../index.html">Antenna Tools</a>
+    </nav>
+  </div>
+</header>
+<main class="course-content">
+<h1 id="unit-1-theory-of-operation">Unit 1 — Theory of Operation</h1>
+<p><strong><a href="../../../antenna_tools/swr_meter/tm.html">TM-TOOL-010 — Open Handout</a></strong>
+<strong>TM Chapter:</strong> Chapter 2
+<strong>ELOs:</strong> Understand the operating principle of the SWR METER — CONSTRUCTION AND USE; identify key specifications
+<strong>Estimated time:</strong> 20 minutes</p>
+<hr />
+<h2 id="step-1-read-the-tm">Step 1: Read the TM</h2>
+<p>Open TM-TOOL-010. Read <strong>Chapter 2 — Theory of Operation</strong> completely.</p>
+<p>Then come back here.</p>
+<hr />
+<h2 id="chapter-2-content">Chapter 2 Content</h2>
+<p>2-1 Tandem-Match Directional Coupler (HF)</p>
+<p>Two toroids wound on BN-43-202 or FT-50-43 cores provide &minus;30 dB
+coupling. The forward arm measures V_fwd (proportional to forward wave
+voltage); the reflected arm measures V_ref (proportional to reflected wave).
+Termination resistors (51Ω 1%) on each secondary provide the
+directionality; directivity is typically &gt;35 dB across 1.8–30 MHz.</p>
+<p>2-2 Diode Detector Circuits</p>
+<p>1N5711 Schottky diodes detect the coupled RF. In the square-law region
+(V_in 100 mV): V_dc &prop; V_rf. The meter driver compensates
+for detector law by adjusting the meter scale or applying a lookup table
+in firmware.</p>
+<p>2-3 SWR Calculation</p>
+<p>SWR = (V_fwd + V_ref) / (V_fwd &minus; V_ref) [analog cross-needle meter]
+SWR = (1 + sqrt(P_ref/P_fwd)) / (1 &minus; sqrt(P_ref/P_fwd)) [digital meter]
+2-4 Range Switching
+Resistive dividers on the detector outputs set the effective full-scale
+power range. Switching from 100W to 10W range adds 10× attenuation
+before the panel meter, maintaining accuracy across the power range. Six
+ranges: 5W, 20W, 50W, 200W, 500W, 1500W (switchable by front-panel rotary).</p>
+<hr />
+<h2 id="why-theory-matters">Why Theory Matters</h2>
+<p>You cannot use a measurement tool correctly without understanding how it works. Theory tells you:
+- What the tool measures and how it converts the quantity to a readable output
+- What the sources of error are — so you can recognize and minimize them
+- What the valid operating range is — so you stay within its specifications
+- How to interpret results that don't match expectations</p>
+<p>If a measurement looks wrong, theory is where you look first.</p>
+<hr />
+<h2 id="self-check-questions">Self-Check Questions</h2>
+<p><strong>SC1-1.</strong> In one sentence, state the operating principle of the SWR METER — CONSTRUCTION AND USE as described in Chapter 2.</p>
+<p><strong>SC1-2.</strong> What does Chapter 2 identify as the primary source(s) of measurement error or uncertainty?</p>
+<p><strong>SC1-3.</strong> What key specification(s) (accuracy, range, frequency coverage) does the TM state?</p>
+<p><strong>SC1-4.</strong> What does Chapter 2 say the SWR METER — CONSTRUCTION AND USE cannot do — what are its limitations?</p>
+<p><strong>SC1-5.</strong> List two formulas or relationships from Chapter 2 that govern the tool's operation.</p>
+<hr />
+<h2 id="answer-key">Answer Key</h2>
+<p><strong>SC1-1.</strong> See TM §2-1. Compare your sentence to the first substantive paragraph of Chapter 2.</p>
+<p><strong>SC1-2.</strong> See Chapter 2. Look for language about error sources, accuracy limits, parasitic effects, or frequency dependence.</p>
+<p><strong>SC1-3.</strong> See Chapter 2. Look for numbers with units: %, ppm, Hz, Ω, dB, W.</p>
+<p><strong>SC1-4.</strong> See Chapter 2 and Chapter 1. Limitations are often stated as frequency range, power limits, or accuracy bounds.</p>
+<p><strong>SC1-5.</strong> See Chapter 2. Equations or proportionality statements are the relationships that govern the tool.</p>
+<hr />
+<h2 id="checkpoint">Checkpoint</h2>
+<p>Before proceeding, state without looking:
+- The operating principle of the SWR METER — CONSTRUCTION AND USE
+- The primary error source(s)
+- At least one key specification with its value</p>
+<p><strong>→ Proceed to <a href="unit_2_construction.html">Unit 2</a></strong></p>
+</main>
+<footer class="site-footer">
+  <p>KO6NNH Self-Paced OBT — Antenna Tools</p>
+</footer>
+</body>
+</html>

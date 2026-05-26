@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 3 — Assembly Procedures</title>
+<link rel="stylesheet" href="../../../../css/style.css">
+<style>
+  .course-content { max-width:860px; margin:0 auto; }
+  .course-content table { border-collapse:collapse; width:100%; margin:1rem 0; }
+  .course-content th,
+  .course-content td { border:1px solid var(--border,#ccc); padding:.4rem .6rem; }
+  .course-content th { background:var(--header-bg,#f4f4f4); }
+  .course-content code { background:var(--code-bg,#f4f4f4); padding:.1em .3em; border-radius:3px; font-size:.9em; }
+  .course-content pre code { background:none; padding:0; }
+  .course-content pre { background:var(--code-bg,#f4f4f4); padding:1rem; overflow-x:auto; border-radius:4px; }
+  .course-content blockquote { border-left:3px solid var(--border,#ccc); margin-left:0; padding-left:1rem; color:var(--muted,#666); }
+  .course-content hr { border:none; border-top:2px solid var(--border,#ccc); margin:2rem 0; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <span class="site-title">KO6NNH — Antennas</span>
+    <nav class="main-nav">
+      <a href="../../../../index.html">page3 home</a>
+      <a href="../../../index.html">study</a>
+      <a href="../index.html">Antennas</a>
+    </nav>
+  </div>
+</header>
+<main class="course-content">
+<h1 id="unit-3-assembly-procedures">Unit 3 — Assembly Procedures</h1>
+<p><strong><a href="../../../antennas/tilted_terminated_folded_dipole/tm.html">TM-ANT-068 — Open Handout</a></strong>
+<strong>TM Chapter:</strong> Chapter 4
+<strong>ELOs:</strong> Execute assembly in the correct sequence; achieve the physical dimensions specified
+<strong>Estimated time:</strong> 25 minutes</p>
+<hr />
+<h2 id="step-1-read-the-tm">Step 1: Read the TM</h2>
+<p>Open TM-ANT-068. Read <strong>Chapter 4 — Assembly Procedures</strong> completely.</p>
+<p>Then come back here.</p>
+<hr />
+<h2 id="chapter-4-content">Chapter 4 Content</h2>
+<blockquote>
+<p><strong>CAUTION — RF EXPOSURE:</strong> Maintain minimum safe distance from all energized antenna elements during transmission.
+At QRP power levels (≤5 W) the MPE boundary is typically</p>
+</blockquote>
+<ol>
+<li>Calculate element lengths using the formula in Chapter 3. Add 5% extra wire for trimming (do not cut to final length until resonance is verified).</li>
+<li>Solder or crimp conductors to center feedpoint connector. Orient SO-239 with center pin to one arm and braid to the other. Install 1:1 current balun at feedpoint.</li>
+<li>Attach end insulators and support ropes to both wire ends. Tie off-load with a bowline knot — not a slip knot.</li>
+<li>Raise antenna to operating height. Orient element perpendicular to desired direction of maximum radiation (broadside direction).</li>
+<li>Connect RG-8X or RG-213 feed line from balun to shack. Route cable away from element to avoid coupling. Secure with UV-resistant cable ties.</li>
+<li>Perform initial SWR measurement per Chapter 5 before first transmission.</li>
+</ol>
+<hr />
+<h2 id="assembly-quality">Assembly Quality</h2>
+<p>Chapter 4 specifies 6 assembly steps.</p>
+<p>Physical dimensions and assembly quality directly determine resonant frequency and feedpoint impedance:
+- Antenna length errors shift resonance: ~1% length error ≈ ~1% frequency shift at HF
+- Poor solder joints at the feedpoint create resistance that raises SWR and wastes power
+- Loose connections in a matching network change the impedance transformation ratio
+- Incorrect element spacing in a beam changes gain and front-to-back ratio
+- Coax shield continuity to the feedpoint determines how much common-mode current flows on the shield</p>
+<p>If Chapter 4 specifies a pre-installation check (e.g., ohmmeter continuity or pre-resonance trim), do it. These checks catch fabrication errors before the antenna is in the air.</p>
+<hr />
+<h2 id="self-check-questions">Self-Check Questions</h2>
+<p><strong>SC3-1.</strong> How many assembly steps does Chapter 4 specify?</p>
+<p><strong>SC3-2.</strong> What is the specified length of the main radiating element? How was that length calculated?</p>
+<p><strong>SC3-3.</strong> Does Chapter 4 specify a feedpoint connection method? What is the correct solder or mechanical technique?</p>
+<p><strong>SC3-4.</strong> Does Chapter 4 require a pre-installation check? What does it verify?</p>
+<p><strong>SC3-5.</strong> If the assembled element is 2% shorter than specified, which direction will resonance shift? By approximately how much?</p>
+<hr />
+<h2 id="answer-key">Answer Key</h2>
+<p><strong>SC3-1.</strong> Count the numbered steps in Chapter 4.</p>
+<p><strong>SC3-2.</strong> See Chapter 4. The design length comes from the formula in Appendix A (typically 468/f or 234/f in feet, adjusted for wire diameter and proximity effects).</p>
+<p><strong>SC3-3.</strong> See Chapter 4. Good RF solder joints are smooth, shiny, and mechanically sound. Cold joints show up as dull, granular surfaces.</p>
+<p><strong>SC3-4.</strong> Scan Chapter 4 for verification steps before installation. Common pre-checks: DC continuity across element, coax shield-to-ground, open circuit across element center.</p>
+<p><strong>SC3-5.</strong> Shorter element = higher resonant frequency. At HF, the shift is approximately proportional: 2% shorter ≈ 2% higher frequency.</p>
+<hr />
+<h2 id="checkpoint">Checkpoint</h2>
+<p>Before proceeding:
+- [ ] You have read Chapter 4 completely
+- [ ] You can state the specified element length and its derivation
+- [ ] You have assembled the antenna per Chapter 4</p>
+<p><strong>→ Proceed to <a href="unit_4_calibration.html">Unit 4</a></strong></p>
+</main>
+<footer class="site-footer">
+  <p>KO6NNH Self-Paced OBT — Antennas</p>
+</footer>
+</body>
+</html>

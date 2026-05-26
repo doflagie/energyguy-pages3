@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 1 — Theory of Operation</title>
+<link rel="stylesheet" href="../../../../css/style.css">
+<style>
+  .course-content { max-width:860px; margin:0 auto; }
+  .course-content table { border-collapse:collapse; width:100%; margin:1rem 0; }
+  .course-content th,
+  .course-content td { border:1px solid var(--border,#ccc); padding:.4rem .6rem; }
+  .course-content th { background:var(--header-bg,#f4f4f4); }
+  .course-content code { background:var(--code-bg,#f4f4f4); padding:.1em .3em; border-radius:3px; font-size:.9em; }
+  .course-content pre code { background:none; padding:0; }
+  .course-content pre { background:var(--code-bg,#f4f4f4); padding:1rem; overflow-x:auto; border-radius:4px; }
+  .course-content blockquote { border-left:3px solid var(--border,#ccc); margin-left:0; padding-left:1rem; color:var(--muted,#666); }
+  .course-content hr { border:none; border-top:2px solid var(--border,#ccc); margin:2rem 0; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <span class="site-title">KO6NNH — Calibration Ideas</span>
+    <nav class="main-nav">
+      <a href="../../../../index.html">page3 home</a>
+      <a href="../../../index.html">study</a>
+      <a href="../index.html">Calibration Ideas</a>
+    </nav>
+  </div>
+</header>
+<main class="course-content">
+<h1 id="unit-1-theory-of-operation">Unit 1 — Theory of Operation</h1>
+<p><strong><a href="../../../Calibration_Ideas/fm_broadcast_reference/tm.html">TM-CAL-004 — Open Handout</a></strong>
+<strong>TM Chapter:</strong> Chapter 2
+<strong>ELOs:</strong> Understand how the reference standard generates or maintains its reference value; identify key specifications
+<strong>Estimated time:</strong> 20 minutes</p>
+<hr />
+<h2 id="step-1-read-the-tm">Step 1: Read the TM</h2>
+<p>Open TM-CAL-004. Read <strong>Chapter 2 — Theory of Operation</strong> completely.</p>
+<p>Then come back here.</p>
+<hr />
+<h2 id="chapter-2-content">Chapter 2 Content</h2>
+<h3 id="2-1-fm-broadcast-frequency-standards">2-1. FM BROADCAST FREQUENCY STANDARDS</h3>
+<p>FCC Rules 73.1545 require FM stations to maintain carrier frequency within ±2,000 Hz of assigned channel. Channels are assigned in the range 88.1 to 107.9 MHz at 200 kHz spacing. In practice, modern station automation with GPS-disciplined frequency synthesis typically achieves ±100–500 Hz.</p>
+<p>The carrier is accessible without decoding: a spectrum analyzer or antenna analyzer with tracking generator can measure the carrier center frequency directly.</p>
+<table>
+<thead>
+<tr>
+<th>Station Type</th>
+<th>Typical Accuracy</th>
+<th>FCC Limit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Major station with GPS synth</td>
+<td>±100 Hz</td>
+<td>±2 kHz</td>
+</tr>
+<tr>
+<td>Typical commercial station</td>
+<td>±500 Hz</td>
+<td>±2 kHz</td>
+</tr>
+<tr>
+<td>Low-power FM (LPFM)</td>
+<td>±2 kHz</td>
+<td>±3 kHz</td>
+</tr>
+<tr>
+<td>Translator station</td>
+<td>±1 kHz</td>
+<td>±2 kHz</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-2-traceability">2-2. TRACEABILITY</h3>
+<p>FM stations certified under FCC 73.1545 are required to maintain compliance. For the purpose of this standard, the FM carrier provides a VHF reference accurate to approximately ±2 kHz / 100 MHz ≈ ±20 ppm worst case, ±5 ppm typical. This is adequate for VHF receiver alignment and spectrum analyzer calibration checks.</p>
+<hr />
+<h2 id="why-theory-matters-for-calibration">Why Theory Matters for Calibration</h2>
+<p>You cannot calibrate what you do not understand. Theory tells you:
+- What the instrument or standard is supposed to do — so you recognize when it is not doing it
+- What the sources of error are — so you know which ones your calibration procedure addresses
+- What the limits of the calibration are — so you know when to stop and call it good</p>
+<p>If a calibration measurement produces a surprising result, theory is where you look first.</p>
+<hr />
+<h2 id="self-check-questions">Self-Check Questions</h2>
+<p><strong>SC1-1.</strong> In one sentence, state the operating principle of the FM BROADCAST CARRIER REFERENCE as described in Chapter 2.</p>
+<p><strong>SC1-2.</strong> What does Chapter 2 identify as the primary source(s) of measurement error or uncertainty?</p>
+<p><strong>SC1-3.</strong> What key specification(s) (accuracy, range, resolution) does the TM state for this standard?</p>
+<p><strong>SC1-4.</strong> What safety precaution does §1-3 specify? State it exactly.</p>
+<p><strong>SC1-5.</strong> What references does §1-2 cite? List at least two.</p>
+<hr />
+<h2 id="answer-key">Answer Key</h2>
+<p><strong>SC1-1.</strong> See TM §2-1. Compare your sentence to the first substantive paragraph of Chapter 2.</p>
+<p><strong>SC1-2.</strong> See Chapter 2. Look for language about error sources, uncertainty, drift, or limiting factors.</p>
+<p><strong>SC1-3.</strong> See Chapter 2. Look for numbers with units: %, ppm, Hz, Ω, dB.</p>
+<p><strong>SC1-4.</strong> See TM §1-3. Copy the safety text exactly.</p>
+<p><strong>SC1-5.</strong> See TM §1-2. The references list is there.</p>
+<hr />
+<h2 id="checkpoint">Checkpoint</h2>
+<p>Before proceeding, state without looking:
+- The operating principle of the FM BROADCAST CARRIER REFERENCE
+- The primary error source(s)
+- At least one key specification with its value</p>
+<p><strong>→ Proceed to <a href="unit_2_equipment.html">Unit 2</a></strong></p>
+</main>
+<footer class="site-footer">
+  <p>KO6NNH Self-Paced OBT — Calibration Ideas</p>
+</footer>
+</body>
+</html>

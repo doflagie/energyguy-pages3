@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 4 — Computing Frequency Error in Hz and ppm</title>
+<link rel="stylesheet" href="../../../../css/style.css">
+<style>
+  .course-content { max-width:860px; margin:0 auto; }
+  .course-content table { border-collapse:collapse; width:100%; margin:1rem 0; }
+  .course-content th,
+  .course-content td { border:1px solid var(--border,#ccc); padding:.4rem .6rem; }
+  .course-content th { background:var(--header-bg,#f4f4f4); }
+  .course-content code { background:var(--code-bg,#f4f4f4); padding:.1em .3em; border-radius:3px; font-size:.9em; }
+  .course-content pre code { background:none; padding:0; }
+  .course-content pre { background:var(--code-bg,#f4f4f4); padding:1rem; overflow-x:auto; border-radius:4px; }
+  .course-content blockquote { border-left:3px solid var(--border,#ccc); margin-left:0; padding-left:1rem; color:var(--muted,#666); }
+  .course-content hr { border:none; border-top:2px solid var(--border,#ccc); margin:2rem 0; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <span class="site-title">KO6NNH — Calibration Ideas</span>
+    <nav class="main-nav">
+      <a href="../../../../index.html">page3 home</a>
+      <a href="../../../index.html">study</a>
+      <a href="../index.html">Calibration Ideas</a>
+    </nav>
+  </div>
+</header>
+<main class="course-content">
+<h1 id="unit-4-computing-frequency-error-in-hz-and-ppm">Unit 4 — Computing Frequency Error in Hz and ppm</h1>
+<p><strong><a href="../../../Calibration_Ideas/fm_broadcast_reference/tm.html">TM-CAL-004 — Open Handout</a></strong>
+<strong>ELOs:</strong> 2.1, 2.2, 2.3, 2.4<br />
+<strong>Estimated time:</strong> 30 minutes<br />
+<strong>TM sections to read first:</strong> Section 5-1 (steps 3–6), Appendix A, Appendix B</p>
+<hr />
+<h2 id="step-1-read-the-tm">Step 1: Read the TM</h2>
+<p>Open TM-CAL-004. Read:
+- Section 5-1, steps 3–6 (the calculation steps)
+- Appendix A: Calculations and Formulas
+- Appendix B: Example Results</p>
+<p>Then come back here.</p>
+<hr />
+<h2 id="what-this-unit-covers">What This Unit Covers</h2>
+<p>You have a measured frequency from the TinySA and an assigned frequency from the FCC database. This unit shows you how to turn those two numbers into an actionable correction value.</p>
+<p>There are two calculations: error in Hz (absolute), and error in ppm (relative). You need both.</p>
+<hr />
+<h2 id="the-two-formulas">The Two Formulas</h2>
+<h3 id="formula-1-error-in-hz">Formula 1 — Error in Hz</h3>
+<pre><code>error_Hz = f_measured − f_assigned
+</code></pre>
+<p>This is simple subtraction. The sign matters:
+- <strong>Positive result</strong> → TinySA read a higher frequency than the station was actually assigned → your oscillator is running <strong>high</strong>
+- <strong>Negative result</strong> → TinySA read a lower frequency → your oscillator is running <strong>low</strong></p>
+<h3 id="formula-2-error-in-ppm">Formula 2 — Error in ppm</h3>
+<pre><code>error_ppm = error_Hz / f_assigned × 1,000,000
+</code></pre>
+<p>ppm (parts per million) expresses the error <em>relative</em> to the carrier frequency. This is the standard way to express oscillator error because it scales with frequency — a 10 ppm error at 10 MHz is 100 Hz, but the same 10 ppm error at 100 MHz is 1,000 Hz.</p>
+<p>The ppm value is what you enter into the TinySA calibration menu. It is also how you compare your instrument against a specification.</p>
+<hr />
+<h2 id="worked-example-1-from-appendix-a">Worked Example 1 — From Appendix A</h2>
+<ul>
+<li>Assigned: 98,100,000 Hz (98.100 MHz)</li>
+<li>Measured: 98,102,400 Hz</li>
+</ul>
+<p><strong>Step 1:</strong> error_Hz = 98,102,400 − 98,100,000 = <strong>+2,400 Hz</strong></p>
+<p><strong>Step 2:</strong> error_ppm = 2,400 / 98,100,000 × 1,000,000 = <strong>+24.5 ppm</strong></p>
+<p><strong>Interpretation:</strong> The TinySA read 2,400 Hz too high. The internal reference oscillator is running fast (high). The ppm correction to apply is −24.5 ppm.</p>
+<hr />
+<h2 id="worked-example-2-from-appendix-b">Worked Example 2 — From Appendix B</h2>
+<p>Three stations were measured. Their errors:</p>
+<table>
+<thead>
+<tr>
+<th>Station</th>
+<th>Assigned (MHz)</th>
+<th>Measured (MHz)</th>
+<th>error_Hz</th>
+<th>error_ppm</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KXYZ</td>
+<td>98.100</td>
+<td>98.1002</td>
+<td>+200 Hz</td>
+<td>+2.0 ppm</td>
+</tr>
+<tr>
+<td>KABC</td>
+<td>103.500</td>
+<td>103.5011</td>
+<td>+1,100 Hz</td>
+<td>+10.6 ppm</td>
+</tr>
+<tr>
+<td>KDEF</td>
+<td>107.700</td>
+<td>107.7007</td>
+<td>+700 Hz</td>
+<td>+6.5 ppm</td>
+</tr>
+</tbody>
+</table>
+<p>All three errors are positive — the TinySA is reading high on every station. The errors are not identical because each station has its own slight deviation from its assigned frequency, and because the TinySA's measurement has some noise.</p>
+<p><strong>Averaging:</strong> (2.0 + 10.6 + 6.5) / 3 = <strong>6.4 ppm</strong> average correction.</p>
+<p>Averaging across stations reduces the effect of any one station's individual frequency offset and measurement noise. This is why TM-CAL-004 requires at least 2–3 stations, not just one.</p>
+<hr />
+<h2 id="verify-your-understanding-work-these-problems">Verify Your Understanding — Work These Problems</h2>
+<p>Work each problem before checking the answer. Show your arithmetic.</p>
+<hr />
+<p><strong>Problem 4-1.</strong> Station KDEF is assigned 107.700 MHz. Your TinySA measures 107,700,700 Hz.</p>
+<p>(a) Compute error_Hz.<br />
+(b) Compute error_ppm.<br />
+(c) Is the TinySA oscillator running high or low?</p>
+<p><em>Answer:</em><br />
+(a) 107,700,700 − 107,700,000 = <strong>+700 Hz</strong><br />
+(b) 700 / 107,700,000 × 10⁶ = <strong>+6.5 ppm</strong><br />
+(c) <strong>High</strong> (positive error)<br />
+<em>(Matches Appendix B, TM-CAL-004)</em></p>
+<hr />
+<p><strong>Problem 4-2.</strong> Station WXYZ is assigned 91.500 MHz. Your TinySA measures 91,499,100 Hz.</p>
+<p>(a) Compute error_Hz.<br />
+(b) Compute error_ppm.<br />
+(c) Is the TinySA oscillator running high or low?</p>
+<p><em>Answer:</em><br />
+(a) 91,499,100 − 91,500,000 = <strong>−900 Hz</strong><br />
+(b) −900 / 91,500,000 × 10⁶ = <strong>−9.8 ppm</strong><br />
+(c) <strong>Low</strong> (negative error — TinySA is reading frequencies lower than actual)</p>
+<hr />
+<p><strong>Problem 4-3.</strong> You measure three stations and get these errors: +8.2 ppm, +6.9 ppm, +7.5 ppm. What average correction should you apply to the TinySA?</p>
+<p><em>Answer:</em><br />
+(8.2 + 6.9 + 7.5) / 3 = 22.6 / 3 = <strong>+7.5 ppm</strong><br />
+Apply <strong>−7.5 ppm</strong> correction (negative, to bring the high-running oscillator down).</p>
+<hr />
+<p><strong>Problem 4-4.</strong> After applying a −7.5 ppm correction, you re-measure a station assigned 103.900 MHz. You would expect the residual error to be less than what value in Hz?</p>
+<p><em>Answer:</em><br />
+Acceptance criterion is &lt;2 kHz. So residual error &lt; <strong>2,000 Hz</strong> on any station. <em>(TM Ch. 7)</em></p>
+<hr />
+<h2 id="self-check-questions">Self-Check Questions</h2>
+<p><strong>SC4-1.</strong> Write the formula for error in Hz.</p>
+<p><strong>SC4-2.</strong> Write the formula for error in ppm.</p>
+<p><strong>SC4-3.</strong> A measured frequency is 450 Hz <em>below</em> the assigned frequency. Is the oscillator running high or low?</p>
+<p><strong>SC4-4.</strong> Why do you measure 2–3 stations and average the errors rather than correcting from a single measurement?</p>
+<hr />
+<h2 id="answer-key">Answer Key</h2>
+<p><strong>SC4-1.</strong> error_Hz = f_measured − f_assigned <em>(TM App. A)</em></p>
+<p><strong>SC4-2.</strong> error_ppm = error_Hz / f_assigned × 1,000,000 <em>(TM App. A)</em></p>
+<p><strong>SC4-3.</strong> Low — measured is below assigned, so the oscillator is reading frequencies lower than actual. <em>(TM §5-1, step 6)</em></p>
+<p><strong>SC4-4.</strong> Each station has its own slight individual offset from assigned frequency, and each measurement has noise. Averaging reduces the influence of both. <em>(TM §5-1, step 7)</em></p>
+<hr />
+<h2 id="checkpoint">Checkpoint</h2>
+<p>Before proceeding to Unit 5, you must be able to:
+- Write both formulas from memory
+- Correctly determine high vs. low from the sign of the result
+- Work a complete problem (Hz and ppm) without looking at the formulas</p>
+<p>If you missed any of problems 4-1 through 4-4, work through them again before continuing.</p>
+<p><strong>→ Proceed to <a href="unit_5_calibration_verification.html">Unit 5</a></strong></p>
+</main>
+<footer class="site-footer">
+  <p>KO6NNH Self-Paced OBT — Calibration Ideas</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 1 — Theory of Operation</title>
+<link rel="stylesheet" href="../../../../css/style.css">
+<style>
+  .course-content { max-width:860px; margin:0 auto; }
+  .course-content table { border-collapse:collapse; width:100%; margin:1rem 0; }
+  .course-content th,
+  .course-content td { border:1px solid var(--border,#ccc); padding:.4rem .6rem; }
+  .course-content th { background:var(--header-bg,#f4f4f4); }
+  .course-content code { background:var(--code-bg,#f4f4f4); padding:.1em .3em; border-radius:3px; font-size:.9em; }
+  .course-content pre code { background:none; padding:0; }
+  .course-content pre { background:var(--code-bg,#f4f4f4); padding:1rem; overflow-x:auto; border-radius:4px; }
+  .course-content blockquote { border-left:3px solid var(--border,#ccc); margin-left:0; padding-left:1rem; color:var(--muted,#666); }
+  .course-content hr { border:none; border-top:2px solid var(--border,#ccc); margin:2rem 0; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <span class="site-title">KO6NNH — Antennas</span>
+    <nav class="main-nav">
+      <a href="../../../../index.html">page3 home</a>
+      <a href="../../../index.html">study</a>
+      <a href="../index.html">Antennas</a>
+    </nav>
+  </div>
+</header>
+<main class="course-content">
+<h1 id="unit-1-theory-of-operation">Unit 1 — Theory of Operation</h1>
+<p><strong><a href="../../../antennas/yagi_uda/tm.html">TM-ANT-073 — Open Handout</a></strong>
+<strong>TM Chapter:</strong> Chapter 2
+<strong>ELOs:</strong> Understand the operating principle of the YAGI-UDA DIRECTIONAL ANTENNA; identify key electrical characteristics
+<strong>Estimated time:</strong> 20 minutes</p>
+<hr />
+<h2 id="step-1-read-the-tm">Step 1: Read the TM</h2>
+<p>Open TM-ANT-073. Read <strong>Chapter 2 — Theory of Operation</strong> completely.</p>
+<p>Then come back here.</p>
+<hr />
+<h2 id="chapter-2-content">Chapter 2 Content</h2>
+<h3 id="2-1-parasitic-coupling-physics">2-1. PARASITIC COUPLING PHYSICS</h3>
+<p>Driven element with parasitic reflector and one or more directors providing forward gain; boom-mounted. Gain is achieved through parasitic coupling: the driver excites the reflector and director elements by near-field induction. The reflector (5% longer than the driven element) carries current that lags by approximately 160° and re-radiates energy forward. Directors (5% shorter) carry current leading by approximately 140° and focus energy forward. Each additional director adds approximately 1 dB of gain at optimal spacing (0.2–0.25λ).</p>
+<h3 id="2-2-element-design-rules">2-2. ELEMENT DESIGN RULES</h3>
+<p>For a 3-element Yagi on VHF: driver = 0.473λ, reflector = 0.505λ, director = 0.440λ. Spacing: reflector to driver = 0.2λ, driver to director = 0.25λ. These values produce forward gain of 7–8 dBd with front-to-back ratio of 20–25 dB. Gain estimate: 8–12 dBi forward. At UHF, dimensional tolerance is critical — elements must be within ±1 mm of design length for proper pattern formation.</p>
+<h3 id="2-3-feed-impedance-and-matching">2-3. FEED IMPEDANCE AND MATCHING</h3>
+<p>Feed impedance: 50 Ω (via gamma match or T-match at driven element). The driven element impedance drops below 50 Ω when directors are added (typically 20–40 Ω). A gamma match, T-match, or delta match raises this to 50 Ω. The gamma match uses a parallel conductor tapped on the driven element to form an L-network; the shorting bar position and gamma rod length are adjusted for 50 Ω + j0 Ω at the design frequency.</p>
+<hr />
+<h2 id="why-theory-matters-for-antenna-construction">Why Theory Matters for Antenna Construction</h2>
+<p>You cannot build a working antenna without understanding the underlying physics. Theory tells you:
+- What determines resonant frequency — and therefore how cutting or loading errors affect performance
+- What radiation pattern the antenna produces and why physical layout matters
+- What feedpoint impedance to expect — so you know whether a matching network is needed
+- What the sources of loss are: conductor resistance, ground losses, impedance mismatch</p>
+<p>If the antenna doesn't resonate where expected, or SWR is high, theory is where you diagnose the cause.</p>
+<hr />
+<h2 id="self-check-questions">Self-Check Questions</h2>
+<p><strong>SC1-1.</strong> In one sentence, state the operating principle of the YAGI-UDA DIRECTIONAL ANTENNA as described in Chapter 2.</p>
+<p><strong>SC1-2.</strong> What determines the resonant frequency of the YAGI-UDA DIRECTIONAL ANTENNA? Name the primary physical parameter(s).</p>
+<p><strong>SC1-3.</strong> What feedpoint impedance does Chapter 2 predict for the YAGI-UDA DIRECTIONAL ANTENNA in free space? How does that change over real ground?</p>
+<p><strong>SC1-4.</strong> What radiation pattern does the YAGI-UDA DIRECTIONAL ANTENNA produce? What are the nulls and maxima directions?</p>
+<p><strong>SC1-5.</strong> List two formulas or relationships from Chapter 2 that govern the antenna's electrical behavior.</p>
+<hr />
+<h2 id="answer-key">Answer Key</h2>
+<p><strong>SC1-1.</strong> See TM §2-1. Compare your sentence to the first substantive paragraph of Chapter 2.</p>
+<p><strong>SC1-2.</strong> See Chapter 2. For most antennas the primary parameter is physical length relative to wavelength. Loading (coils, capacitors) shifts this.</p>
+<p><strong>SC1-3.</strong> See Chapter 2. Free-space feedpoint impedance is a theoretical value; ground proximity, height, and nearby conductors modify it significantly.</p>
+<p><strong>SC1-4.</strong> See Chapter 2. Directional patterns are usually shown in terms of azimuth and elevation radiation patterns.</p>
+<p><strong>SC1-5.</strong> See Chapter 2 and Appendix A. The key equation usually relates length to frequency, or impedance to element geometry.</p>
+<hr />
+<h2 id="checkpoint">Checkpoint</h2>
+<p>Before proceeding, state without looking:
+- The operating principle of the YAGI-UDA DIRECTIONAL ANTENNA
+- What determines its resonant frequency
+- The expected feedpoint impedance</p>
+<p><strong>→ Proceed to <a href="unit_2_materials.html">Unit 2</a></strong></p>
+</main>
+<footer class="site-footer">
+  <p>KO6NNH Self-Paced OBT — Antennas</p>
+</footer>
+</body>
+</html>

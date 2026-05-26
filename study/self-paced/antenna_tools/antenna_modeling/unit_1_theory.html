@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 1 — Theory of Operation</title>
+<link rel="stylesheet" href="../../../../css/style.css">
+<style>
+  .course-content { max-width:860px; margin:0 auto; }
+  .course-content table { border-collapse:collapse; width:100%; margin:1rem 0; }
+  .course-content th,
+  .course-content td { border:1px solid var(--border,#ccc); padding:.4rem .6rem; }
+  .course-content th { background:var(--header-bg,#f4f4f4); }
+  .course-content code { background:var(--code-bg,#f4f4f4); padding:.1em .3em; border-radius:3px; font-size:.9em; }
+  .course-content pre code { background:none; padding:0; }
+  .course-content pre { background:var(--code-bg,#f4f4f4); padding:1rem; overflow-x:auto; border-radius:4px; }
+  .course-content blockquote { border-left:3px solid var(--border,#ccc); margin-left:0; padding-left:1rem; color:var(--muted,#666); }
+  .course-content hr { border:none; border-top:2px solid var(--border,#ccc); margin:2rem 0; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <span class="site-title">KO6NNH — Antenna Tools</span>
+    <nav class="main-nav">
+      <a href="../../../../index.html">page3 home</a>
+      <a href="../../../index.html">study</a>
+      <a href="../index.html">Antenna Tools</a>
+    </nav>
+  </div>
+</header>
+<main class="course-content">
+<h1 id="unit-1-theory-of-operation">Unit 1 — Theory of Operation</h1>
+<p><strong><a href="../../../antenna_tools/antenna_modeling/tm.html">TM-TOOL-003 — Open Handout</a></strong>
+<strong>TM Chapter:</strong> Chapter 2
+<strong>ELOs:</strong> Understand the operating principle of the NEC ANTENNA MODELING SYSTEM; identify key specifications
+<strong>Estimated time:</strong> 20 minutes</p>
+<hr />
+<h2 id="step-1-read-the-tm">Step 1: Read the TM</h2>
+<p>Open TM-TOOL-003. Read <strong>Chapter 2 — Theory of Operation</strong> completely.</p>
+<p>Then come back here.</p>
+<hr />
+<h2 id="chapter-2-content">Chapter 2 Content</h2>
+<p>2-1 NEC Card Format Summary</p>
+<p>NEC input is a plain-text deck of two-character card mnemonics, one per line:</p>
+<table>
+<thead>
+<tr>
+<th>Card</th>
+<th>Purpose</th>
+<th>Key fields</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CM</td>
+<td>Comment</td>
+<td>Free text</td>
+</tr>
+<tr>
+<td>CE</td>
+<td>End comments</td>
+<td>(no fields)</td>
+</tr>
+<tr>
+<td>GW</td>
+<td>Wire segment</td>
+<td>tag, segs, x1 y1 z1, x2 y2 z2, radius</td>
+</tr>
+<tr>
+<td>GS</td>
+<td>Scale geometry</td>
+<td>scale factor (e.g., 0.3048 = feet to meters)</td>
+</tr>
+<tr>
+<td>GE</td>
+<td>End geometry</td>
+<td>0=free space, 1=ground present</td>
+</tr>
+<tr>
+<td>GN</td>
+<td>Ground parameters</td>
+<td>type, εr, σ (good earth: 13, 0.005)</td>
+</tr>
+<tr>
+<td>EX</td>
+<td>Excitation (source)</td>
+<td>tag, segment, V_real, V_imag</td>
+</tr>
+<tr>
+<td>FR</td>
+<td>Frequency</td>
+<td>start MHz, step MHz, N steps</td>
+</tr>
+<tr>
+<td>RP</td>
+<td>Radiation pattern</td>
+<td>theta/phi start, step, N points, mode</td>
+</tr>
+<tr>
+<td>EN</td>
+<td>End of input</td>
+<td>(last card)</td>
+</tr>
+</tbody>
+</table>
+<p>2-2 Segment Count Guidelines</p>
+<p>NEC accuracy depends on adequate segmentation. Rule: 10–20 segments
+per wavelength, odd count preferred for symmetric elements with a center source.
+Minimum 3 segments per wire. The system function:</p>
+<p>def recommended_segments(length_m, freq_mhz, min_segs=3):
+    wavelength = 299.792458e6 / (freq_mhz * 1e6)
+    segs = max(min_segs, int(length_m / wavelength * 10))
+    return segs if segs % 2 == 1 else segs + 1</p>
+<hr />
+<h2 id="why-theory-matters">Why Theory Matters</h2>
+<p>You cannot use a measurement tool correctly without understanding how it works. Theory tells you:
+- What the tool measures and how it converts the quantity to a readable output
+- What the sources of error are — so you can recognize and minimize them
+- What the valid operating range is — so you stay within its specifications
+- How to interpret results that don't match expectations</p>
+<p>If a measurement looks wrong, theory is where you look first.</p>
+<hr />
+<h2 id="self-check-questions">Self-Check Questions</h2>
+<p><strong>SC1-1.</strong> In one sentence, state the operating principle of the NEC ANTENNA MODELING SYSTEM as described in Chapter 2.</p>
+<p><strong>SC1-2.</strong> What does Chapter 2 identify as the primary source(s) of measurement error or uncertainty?</p>
+<p><strong>SC1-3.</strong> What key specification(s) (accuracy, range, frequency coverage) does the TM state?</p>
+<p><strong>SC1-4.</strong> What does Chapter 2 say the NEC ANTENNA MODELING SYSTEM cannot do — what are its limitations?</p>
+<p><strong>SC1-5.</strong> List two formulas or relationships from Chapter 2 that govern the tool's operation.</p>
+<hr />
+<h2 id="answer-key">Answer Key</h2>
+<p><strong>SC1-1.</strong> See TM §2-1. Compare your sentence to the first substantive paragraph of Chapter 2.</p>
+<p><strong>SC1-2.</strong> See Chapter 2. Look for language about error sources, accuracy limits, parasitic effects, or frequency dependence.</p>
+<p><strong>SC1-3.</strong> See Chapter 2. Look for numbers with units: %, ppm, Hz, Ω, dB, W.</p>
+<p><strong>SC1-4.</strong> See Chapter 2 and Chapter 1. Limitations are often stated as frequency range, power limits, or accuracy bounds.</p>
+<p><strong>SC1-5.</strong> See Chapter 2. Equations or proportionality statements are the relationships that govern the tool.</p>
+<hr />
+<h2 id="checkpoint">Checkpoint</h2>
+<p>Before proceeding, state without looking:
+- The operating principle of the NEC ANTENNA MODELING SYSTEM
+- The primary error source(s)
+- At least one key specification with its value</p>
+<p><strong>→ Proceed to <a href="unit_2_construction.html">Unit 2</a></strong></p>
+</main>
+<footer class="site-footer">
+  <p>KO6NNH Self-Paced OBT — Antenna Tools</p>
+</footer>
+</body>
+</html>

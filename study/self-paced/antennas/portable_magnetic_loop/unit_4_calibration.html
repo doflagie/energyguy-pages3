@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 4 — Calibration and Tuning</title>
+<link rel="stylesheet" href="../../../../css/style.css">
+<style>
+  .course-content { max-width:860px; margin:0 auto; }
+  .course-content table { border-collapse:collapse; width:100%; margin:1rem 0; }
+  .course-content th,
+  .course-content td { border:1px solid var(--border,#ccc); padding:.4rem .6rem; }
+  .course-content th { background:var(--header-bg,#f4f4f4); }
+  .course-content code { background:var(--code-bg,#f4f4f4); padding:.1em .3em; border-radius:3px; font-size:.9em; }
+  .course-content pre code { background:none; padding:0; }
+  .course-content pre { background:var(--code-bg,#f4f4f4); padding:1rem; overflow-x:auto; border-radius:4px; }
+  .course-content blockquote { border-left:3px solid var(--border,#ccc); margin-left:0; padding-left:1rem; color:var(--muted,#666); }
+  .course-content hr { border:none; border-top:2px solid var(--border,#ccc); margin:2rem 0; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <span class="site-title">KO6NNH — Antennas</span>
+    <nav class="main-nav">
+      <a href="../../../../index.html">page3 home</a>
+      <a href="../../../index.html">study</a>
+      <a href="../index.html">Antennas</a>
+    </nav>
+  </div>
+</header>
+<main class="course-content">
+<h1 id="unit-4-calibration-and-tuning">Unit 4 — Calibration and Tuning</h1>
+<p><strong><a href="../../../antennas/portable_magnetic_loop/tm.html">TM-ANT-054 — Open Handout</a></strong>
+<strong>TM Chapters:</strong> Chapter 5, Chapter 6, Appendix A
+<strong>ELOs:</strong> Calibrate the PORTABLE MAGNETIC LOOP ANTENNA to resonance; tune SWR to within acceptance criteria; apply frequency calculations
+<strong>Estimated time:</strong> 45 minutes (actual lab work required)</p>
+<hr />
+<h2 id="step-1-read-the-tm">Step 1: Read the TM</h2>
+<p>Open TM-ANT-054. Read <strong>Chapter 5 — Calibration Procedure</strong>, <strong>Chapter 6 — Tuning and Adjustment</strong>, and <strong>Appendix A</strong> completely.</p>
+<p>Then come back here.</p>
+<hr />
+<h2 id="chapter-5-calibration-procedure">Chapter 5 — Calibration Procedure</h2>
+<blockquote>
+<p><strong>WARNING:</strong> HIGH VOLTAGE HAZARD: At 100 W output power the tuning capacitor of a magnetic loop antenna
+develops 4,000–12,000 V across its terminals, depending on loop Q and operating frequency.
+Use ONLY vacuum variable capacitors or high-voltage butterfly (split-stator) capacitors rated
+for at least 5 kV RMS. Do NOT use DIY stacked aluminum-plate capacitors, rolled-foil capacitors,
+or short lengths of coaxial cable as capacitors — these will arc and fail, causing equipment damage
+and potential personal injury. Allow the capacitor to fully discharge before touching any part of
+the loop structure after transmitting. Keep hands and metal objects away from the capacitor gap
+during tuning.</p>
+</blockquote>
+<ol>
+<li>Begin with transmitter output ≤5 W for initial tuning. Do not apply full power until resonance is confirmed.</li>
+<li>SOLT calibrate NanoVNA. Connect to coupling loop feedpoint.</li>
+<li>Set NanoVNA sweep: target frequency ±10%.</li>
+<li>Slowly rotate capacitor while watching SWR display. Resonance appears as a sharp dip (narrow bandwidth — sweep may miss it at first).</li>
+<li>Narrow sweep span to ±2% once resonance found. Verify minimum SWR occurs at exact target frequency.</li>
+<li>Record: fres, SWRmin, 3 dB bandwidth (rotate cap slowly to find SWR = 1.4× minimum SWR points).</li>
+<li>Calculate Q: Q = fres / BW3dB. High Q (&gt;200) indicates good construction quality.</li>
+<li>Verify capacitor voltage is within rating before applying full power: VC = &radic;(2PQ²Rr).</li>
+</ol>
+<hr />
+<h2 id="chapter-6-tuning-and-adjustment">Chapter 6 — Tuning and Adjustment</h2>
+<p>Magnetic loops require tuning for every frequency change due to high Q and narrow bandwidth. Tune by rotating the variable capacitor until minimum SWR at the desired frequency. A good indicator of resonance is maximum receiver noise (on receive) or minimum reflected power (on transmit at low power). Fine-tune on the air by adjusting for maximum signal strength on a known station or beacon.</p>
+<blockquote>
+<p><strong>CAUTION:</strong> Always tune at ≤5 W first. Verify SWR</p>
+</blockquote>
+<hr />
+<h2 id="appendix-a-calculations-and-formulas">Appendix A — Calculations and Formulas</h2>
+<pre><code>Loop inductance L (μH, circular loop)
+L = 0.002D[ln(4D/d) &amp;minus; 2] (D, d in cm)
+</code></pre>
+<pre><code>Resonant capacitance
+C = 1/(4π²f²L) (μF when L in μH, f in MHz)
+</code></pre>
+<pre><code>Bandwidth
+BW = f0/Q
+</code></pre>
+<pre><code>Efficiency
+η = Rr/(Rr + Rloss)
+</code></pre>
+<pre><code>Capacitor peak voltage
+Vpeak = &amp;radic;(2×P) × Q/&amp;radic;(Rr)
+</code></pre>
+<hr />
+<h2 id="key-formulas-summary">Key Formulas Summary</h2>
+<ul>
+<li><code>L = 0.002D[ln(4D/d) &amp;minus; 2] (D, d in cm)</code></li>
+<li><code>C = 1/(4π²f²L) (μF when L in μH, f in MHz)</code></li>
+<li><code>BW = f0/Q</code></li>
+<li><code>η = Rr/(Rr + Rloss)</code></li>
+<li><code>Vpeak = &amp;radic;(2×P) × Q/&amp;radic;(Rr)</code></li>
+</ul>
+<hr />
+<h2 id="calibration-vs-tuning-distinction">Calibration vs. Tuning — Distinction</h2>
+<p><strong>Calibration</strong> (Chapter 5): initial setup measurements to establish current antenna state — resonant frequency, SWR at design frequency, impedance at feedpoint. No adjustments yet; you are characterizing what you built.</p>
+<p><strong>Tuning</strong> (Chapter 6): active adjustments based on calibration data. Trim the element, adjust the matching network, or change height/orientation until Chapter 7 acceptance criteria are met.</p>
+<hr />
+<h2 id="acceptance-criterion">Acceptance Criterion</h2>
+<p>Chapter 5 specifies a criterion: <strong>3 dB</strong>. Confirm the exact value in the TM.</p>
+<p>Write the exact criterion from the TM here before you start:</p>
+<hr />
+<hr />
+<h2 id="lab-checklist">Lab Checklist</h2>
+<ul>
+<li>[ ] Antenna assembled per Chapter 4 and installed at operating height</li>
+<li>[ ] NanoVNA or SWR bridge connected per Chapter 5</li>
+<li>[ ] Chapter 5 calibration measurements taken and recorded</li>
+<li>[ ] Resonant frequency identified (minimum SWR point)</li>
+<li>[ ] SWR at design frequency recorded</li>
+<li>[ ] Chapter 6 tuning performed if needed</li>
+<li>[ ] Acceptance criterion met</li>
+</ul>
+<hr />
+<h2 id="calibration-log">Calibration Log</h2>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Measured</th>
+<th>Specification</th>
+<th>Pass/Fail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Resonant frequency (MHz)</td>
+<td></td>
+<td>(design freq ± tolerance)</td>
+<td></td>
+</tr>
+<tr>
+<td>SWR at design frequency</td>
+<td></td>
+<td>(from Ch. 5)</td>
+<td></td>
+</tr>
+<tr>
+<td>Feedpoint impedance (Ω)</td>
+<td></td>
+<td>(from Ch. 2)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="practice-problems">Practice Problems</h2>
+<p><strong>P4-1.</strong> The design frequency of the PORTABLE MAGNETIC LOOP ANTENNA is stated in Chapter 1. Using the formula from Appendix A,
+compute the theoretical element length for that frequency. Show all work.</p>
+<p><strong>P4-2.</strong> Your NanoVNA shows minimum SWR at a frequency 3% above the design frequency.
+Which direction do you adjust — lengthen or shorten? By what percentage?</p>
+<p><strong>P4-3.</strong> SWR at resonance is 1.8:1, but the acceptance criterion is SWR ≤ 2.0:1.
+Does the antenna pass? What does SWR 1.8:1 mean in terms of reflected power?</p>
+<p><strong>P4-4.</strong> Compute reflected power percentage for SWR = 2.0:1.
+Formula: reflected power (%) = ((SWR − 1)/(SWR + 1))² × 100</p>
+<hr />
+<h2 id="answer-key-practice-problems">Answer Key — Practice Problems</h2>
+<p><strong>P4-1.</strong> See Appendix A. For a dipole: L(ft) = 468/f(MHz). For a quarter-wave vertical: L(ft) = 234/f(MHz). Apply the formula specific to this antenna type.</p>
+<p><strong>P4-2.</strong> Resonance is above design frequency → antenna is electrically short → <strong>lengthen</strong> the element. Adjustment magnitude: approx. 3% longer.</p>
+<p><strong>P4-3.</strong> SWR 1.8:1 passes the 2.0:1 criterion. Reflected power: ((1.8−1)/(1.8+1))² × 100 = (0.8/2.8)² × 100 = 8.2% reflected.</p>
+<p><strong>P4-4.</strong> SWR 2.0:1: ((2−1)/(2+1))² × 100 = (1/3)² × 100 = 11.1% reflected. Most of the power still gets through.</p>
+<hr />
+<h2 id="checkpoint">Checkpoint</h2>
+<p>Before proceeding:
+- [ ] Calibration measurements taken and logged
+- [ ] Antenna tuned to within the acceptance criterion
+- [ ] You can compute element length adjustment from frequency error</p>
+<p><strong>→ Proceed to <a href="unit_5_verification.html">Unit 5</a></strong></p>
+</main>
+<footer class="site-footer">
+  <p>KO6NNH Self-Paced OBT — Antennas</p>
+</footer>
+</body>
+</html>

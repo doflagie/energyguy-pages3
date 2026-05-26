@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 1 — Theory of Operation</title>
+<link rel="stylesheet" href="../../../../css/style.css">
+<style>
+  .course-content { max-width:860px; margin:0 auto; }
+  .course-content table { border-collapse:collapse; width:100%; margin:1rem 0; }
+  .course-content th,
+  .course-content td { border:1px solid var(--border,#ccc); padding:.4rem .6rem; }
+  .course-content th { background:var(--header-bg,#f4f4f4); }
+  .course-content code { background:var(--code-bg,#f4f4f4); padding:.1em .3em; border-radius:3px; font-size:.9em; }
+  .course-content pre code { background:none; padding:0; }
+  .course-content pre { background:var(--code-bg,#f4f4f4); padding:1rem; overflow-x:auto; border-radius:4px; }
+  .course-content blockquote { border-left:3px solid var(--border,#ccc); margin-left:0; padding-left:1rem; color:var(--muted,#666); }
+  .course-content hr { border:none; border-top:2px solid var(--border,#ccc); margin:2rem 0; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <span class="site-title">KO6NNH — Antenna Gear</span>
+    <nav class="main-nav">
+      <a href="../../../../index.html">page3 home</a>
+      <a href="../../../index.html">study</a>
+      <a href="../index.html">Antenna Gear</a>
+    </nav>
+  </div>
+</header>
+<main class="course-content">
+<h1 id="unit-1-theory-of-operation">Unit 1 — Theory of Operation</h1>
+<p><strong><a href="../../../antenna_gear/audio_filters/tm.html">TM-GEAR-002 — Open Handout</a></strong>
+<strong>TM Chapter:</strong> Chapter 2
+<strong>ELOs:</strong> Understand the operating principle of the AUDIO FILTERS — CW, SSB, AND DSP; identify key specifications
+<strong>Estimated time:</strong> 20 minutes</p>
+<hr />
+<h2 id="step-1-read-the-tm">Step 1: Read the TM</h2>
+<p>Open TM-GEAR-002. Read <strong>Chapter 2 — Theory of Operation</strong> completely.</p>
+<p>Then come back here.</p>
+<hr />
+<h2 id="chapter-2-content">Chapter 2 Content</h2>
+<p>2-1 LC Notch Filter</p>
+<p>A series LC circuit resonant at the interference frequency presents near-zero
+impedance in parallel with the audio path, pulling the interference signal to
+ground. At resonance f0 = 1/(2π&radic;LC), the notch depth depends
+on component Q. Practical notch depth: 30–50 dB. A variable
+capacitor makes the notch tunable across 200–5000 Hz.</p>
+<p>2-2 Active CW Filter</p>
+<p>A cascade of two Sallen-Key bandpass stages using LM833 (low-noise, 15 MHz
+GBW) op-amps provides approximately 36 dB/octave roll-off outside the
+passband. The center frequency Q is set by resistor ratios; Q = 10 for CW
+(narrow, 50 Hz &minus;3 dB BW at 500 Hz center). This narrow
+bandwidth dramatically improves CW copy in high-noise conditions.</p>
+<p>2-3 DSP Audio Processor</p>
+<p>An ESP32-S3 with I2S audio codec (PCM5102A output, INMP441 microphone-grade
+input) implements digital filters in software. FIR filters achieve linear phase
+(no transient distortion); IIR filters achieve steep rolloff with fewer taps.
+Available modes: CW narrow (500 Hz), SSB bandpass, noise reduction
+(spectral subtraction), and audio peak filtering (sharp peak at detected
+CW frequency).</p>
+<hr />
+<h2 id="why-theory-matters">Why Theory Matters</h2>
+<p>You cannot build or use RF gear correctly without understanding how it works. Theory tells you:
+- What the component does and how it produces that effect
+- What the sources of loss, distortion, or error are — so you can recognize and minimize them
+- What the valid operating range is — frequency, power, impedance — so you stay within specifications
+- How to interpret results or system behavior that doesn't match expectations</p>
+<p>If a component doesn't perform as expected, theory is where you look first.</p>
+<hr />
+<h2 id="self-check-questions">Self-Check Questions</h2>
+<p><strong>SC1-1.</strong> In one sentence, state the operating principle of the AUDIO FILTERS — CW, SSB, AND DSP as described in Chapter 2.</p>
+<p><strong>SC1-2.</strong> What does Chapter 2 identify as the primary source(s) of loss or degradation in performance?</p>
+<p><strong>SC1-3.</strong> What key specification(s) (frequency range, power rating, insertion loss, impedance ratio) does the TM state?</p>
+<p><strong>SC1-4.</strong> What does Chapter 2 say the AUDIO FILTERS — CW, SSB, AND DSP cannot do — what are its limitations?</p>
+<p><strong>SC1-5.</strong> List two formulas or relationships from Chapter 2 that govern the component's behavior.</p>
+<hr />
+<h2 id="answer-key">Answer Key</h2>
+<p><strong>SC1-1.</strong> See TM §2-1. Compare your sentence to the first substantive paragraph of Chapter 2.</p>
+<p><strong>SC1-2.</strong> See Chapter 2. Look for language about loss mechanisms, parasitic effects, frequency limits, or power constraints.</p>
+<p><strong>SC1-3.</strong> See Chapter 2. Look for numbers with units: %, dB, Hz, Ω, W, V.</p>
+<p><strong>SC1-4.</strong> See Chapter 2 and Chapter 1. Limitations are often stated as frequency range, power handling, or impedance range.</p>
+<p><strong>SC1-5.</strong> See Chapter 2. Equations or proportionality statements are the relationships that govern the component.</p>
+<hr />
+<h2 id="checkpoint">Checkpoint</h2>
+<p>Before proceeding, state without looking:
+- The operating principle of the AUDIO FILTERS — CW, SSB, AND DSP
+- The primary loss or degradation source(s)
+- At least one key specification with its value</p>
+<p><strong>→ Proceed to <a href="unit_2_construction.html">Unit 2</a></strong></p>
+</main>
+<footer class="site-footer">
+  <p>KO6NNH Self-Paced OBT — Antenna Gear</p>
+</footer>
+</body>
+</html>

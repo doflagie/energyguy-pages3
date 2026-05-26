@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 1 — Theory of Operation</title>
+<link rel="stylesheet" href="../../../../css/style.css">
+<style>
+  .course-content { max-width:860px; margin:0 auto; }
+  .course-content table { border-collapse:collapse; width:100%; margin:1rem 0; }
+  .course-content th,
+  .course-content td { border:1px solid var(--border,#ccc); padding:.4rem .6rem; }
+  .course-content th { background:var(--header-bg,#f4f4f4); }
+  .course-content code { background:var(--code-bg,#f4f4f4); padding:.1em .3em; border-radius:3px; font-size:.9em; }
+  .course-content pre code { background:none; padding:0; }
+  .course-content pre { background:var(--code-bg,#f4f4f4); padding:1rem; overflow-x:auto; border-radius:4px; }
+  .course-content blockquote { border-left:3px solid var(--border,#ccc); margin-left:0; padding-left:1rem; color:var(--muted,#666); }
+  .course-content hr { border:none; border-top:2px solid var(--border,#ccc); margin:2rem 0; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <span class="site-title">KO6NNH — Antenna Tools</span>
+    <nav class="main-nav">
+      <a href="../../../../index.html">page3 home</a>
+      <a href="../../../index.html">study</a>
+      <a href="../index.html">Antenna Tools</a>
+    </nav>
+  </div>
+</header>
+<main class="course-content">
+<h1 id="unit-1-theory-of-operation">Unit 1 — Theory of Operation</h1>
+<p><strong><a href="../../../antenna_tools/sdr_interfaces/tm.html">TM-TOOL-009 — Open Handout</a></strong>
+<strong>TM Chapter:</strong> Chapter 2
+<strong>ELOs:</strong> Understand the operating principle of the SDR INTERFACES AND PRESELECTOR; identify key specifications
+<strong>Estimated time:</strong> 20 minutes</p>
+<hr />
+<h2 id="step-1-read-the-tm">Step 1: Read the TM</h2>
+<p>Open TM-TOOL-009. Read <strong>Chapter 2 — Theory of Operation</strong> completely.</p>
+<p>Then come back here.</p>
+<hr />
+<h2 id="chapter-2-content">Chapter 2 Content</h2>
+<p>2-1 HF Upconverter</p>
+<p>An SA612A double-balanced mixer converts HF input (0.1–30 MHz)
+to IF (125.1–155 MHz) by mixing with a 125.000 MHz TCXO local
+oscillator. The RTL-SDR is then tuned to 125–155 MHz to receive
+HF signals without needing direct-sampling mode. An SPDT relay bypasses
+the upconverter for 6m and above (where RTL-SDR tunes directly).
+Optional SPF5189Z LNA (+19 dB, NF = 0.6 dB) precedes the mixer.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Input frequency</td>
+<td>0.1–30 MHz</td>
+</tr>
+<tr>
+<td>LO frequency</td>
+<td>125.000 MHz (±2.5 ppm TCXO)</td>
+</tr>
+<tr>
+<td>IF output</td>
+<td>125.1–155 MHz</td>
+</tr>
+<tr>
+<td>Conversion gain (passive)</td>
+<td>&minus;2 dB</td>
+</tr>
+<tr>
+<td>Conversion gain (with LNA)</td>
+<td>+17 dB</td>
+</tr>
+<tr>
+<td>Image frequency</td>
+<td>&gt;155 MHz (suppressed &gt;45 dB by IF BPF)</td>
+</tr>
+<tr>
+<td>LO leakage to RF port</td>
+<td>2-2 16-Band Switchable Preselector</td>
+</tr>
+</tbody>
+</table>
+<p>Sixteen bandpass filters (one per amateur band, 160m through 23cm plus
+one bypass) select with an SP4T×4 relay tree driven by a 4-to-16 decoder
+(74HC154) from ESP32 GPIO[3:0]. Filter topology: 3-pole Chebyshev BPF
+for 160m–10m; interdigital for 2m/1.25m; stripline/SAW for 70cm and
+above. Rejection of out-of-band signals: ≥50 dB adjacent band,
+≥60 dB for FM broadcast (88–108 MHz) when tuned to HF.</p>
+<p>2-3 Bias-T</p>
+<p>A bias-T injects DC power onto coax to supply a remote LNA or active
+antenna. An RF choke (L, &gt;10&micro;H SRF) passes DC while blocking RF;
+a DC-blocking capacitor (C) passes RF while blocking DC. The HF version
+(Version A) covers 0.1–50 MHz; the VHF/UHF version (Version B)
+covers 10 MHz–3 GHz.</p>
+<p>2-4 PE4302 Digital Step Attenuator</p>
+<p>The PE4302 provides 0–31.5 dB attenuation in 0.5 dB steps
+via 6-bit SPI control. Frequency range DC–3 GHz, IP3 = +40 dBm,
+NF = attenuation setting + 0.5 dB. Combined with an SPF5189Z LNA
+(+19 dB gain, NF = 0.6 dB), the combination provides adjustable
+gain from &minus;31.5 dB (full atten) to +18.5 dB (no atten, LNA on).</p>
+<hr />
+<h2 id="why-theory-matters">Why Theory Matters</h2>
+<p>You cannot use a measurement tool correctly without understanding how it works. Theory tells you:
+- What the tool measures and how it converts the quantity to a readable output
+- What the sources of error are — so you can recognize and minimize them
+- What the valid operating range is — so you stay within its specifications
+- How to interpret results that don't match expectations</p>
+<p>If a measurement looks wrong, theory is where you look first.</p>
+<hr />
+<h2 id="self-check-questions">Self-Check Questions</h2>
+<p><strong>SC1-1.</strong> In one sentence, state the operating principle of the SDR INTERFACES AND PRESELECTOR as described in Chapter 2.</p>
+<p><strong>SC1-2.</strong> What does Chapter 2 identify as the primary source(s) of measurement error or uncertainty?</p>
+<p><strong>SC1-3.</strong> What key specification(s) (accuracy, range, frequency coverage) does the TM state?</p>
+<p><strong>SC1-4.</strong> What does Chapter 2 say the SDR INTERFACES AND PRESELECTOR cannot do — what are its limitations?</p>
+<p><strong>SC1-5.</strong> List two formulas or relationships from Chapter 2 that govern the tool's operation.</p>
+<hr />
+<h2 id="answer-key">Answer Key</h2>
+<p><strong>SC1-1.</strong> See TM §2-1. Compare your sentence to the first substantive paragraph of Chapter 2.</p>
+<p><strong>SC1-2.</strong> See Chapter 2. Look for language about error sources, accuracy limits, parasitic effects, or frequency dependence.</p>
+<p><strong>SC1-3.</strong> See Chapter 2. Look for numbers with units: %, ppm, Hz, Ω, dB, W.</p>
+<p><strong>SC1-4.</strong> See Chapter 2 and Chapter 1. Limitations are often stated as frequency range, power limits, or accuracy bounds.</p>
+<p><strong>SC1-5.</strong> See Chapter 2. Equations or proportionality statements are the relationships that govern the tool.</p>
+<hr />
+<h2 id="checkpoint">Checkpoint</h2>
+<p>Before proceeding, state without looking:
+- The operating principle of the SDR INTERFACES AND PRESELECTOR
+- The primary error source(s)
+- At least one key specification with its value</p>
+<p><strong>→ Proceed to <a href="unit_2_construction.html">Unit 2</a></strong></p>
+</main>
+<footer class="site-footer">
+  <p>KO6NNH Self-Paced OBT — Antenna Tools</p>
+</footer>
+</body>
+</html>

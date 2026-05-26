@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 5 — Calibration and Verification</title>
+<link rel="stylesheet" href="../../../../css/style.css">
+<style>
+  .course-content { max-width:860px; margin:0 auto; }
+  .course-content table { border-collapse:collapse; width:100%; margin:1rem 0; }
+  .course-content th,
+  .course-content td { border:1px solid var(--border,#ccc); padding:.4rem .6rem; }
+  .course-content th { background:var(--header-bg,#f4f4f4); }
+  .course-content code { background:var(--code-bg,#f4f4f4); padding:.1em .3em; border-radius:3px; font-size:.9em; }
+  .course-content pre code { background:none; padding:0; }
+  .course-content pre { background:var(--code-bg,#f4f4f4); padding:1rem; overflow-x:auto; border-radius:4px; }
+  .course-content blockquote { border-left:3px solid var(--border,#ccc); margin-left:0; padding-left:1rem; color:var(--muted,#666); }
+  .course-content hr { border:none; border-top:2px solid var(--border,#ccc); margin:2rem 0; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <span class="site-title">KO6NNH — Antenna Gear</span>
+    <nav class="main-nav">
+      <a href="../../../../index.html">page3 home</a>
+      <a href="../../../index.html">study</a>
+      <a href="../index.html">Antenna Gear</a>
+    </nav>
+  </div>
+</header>
+<main class="course-content">
+<h1 id="unit-5-calibration-and-verification">Unit 5 — Calibration and Verification</h1>
+<p><strong><a href="../../../antenna_gear/rf_couplers/tm.html">TM-GEAR-015 — Open Handout</a></strong>
+<strong>TM Chapters:</strong> Chapter 6, Chapter 7
+<strong>ELOs:</strong> Calibrate the RF DIRECTIONAL COUPLERS — CONSTRUCTION AND CALIBRATION; verify performance against acceptance criteria; complete calibration log
+<strong>Estimated time:</strong> 45 minutes (actual lab work required)</p>
+<hr />
+<h2 id="step-1-read-the-tm">Step 1: Read the TM</h2>
+<p>Open TM-GEAR-015. Read <strong>Chapter 6 — Calibration</strong> and <strong>Chapter 7 — Verification and Acceptance</strong> completely.</p>
+<p>Then come back here.</p>
+<hr />
+<h2 id="chapter-6-calibration-content">Chapter 6 — Calibration Content</h2>
+<ol>
+<li>Connect a calibrated 50Ω load to the output port. Apply 10W at
+ 14.175 MHz. VFWD must read a consistent voltage; VREF must read
+ &lt;1% of VFWD (indicating &lt;&minus;40 dB directivity).</li>
+<li>Connect a short circuit to the output port. VREF must equal VFWD
+ (SWR = ∞; 100% reflection). Directivity check: VFWD at short circuit
+ should match VFWD at 50Ω load (forward response should not change
+ with load — it measures only forward power).</li>
+<li>Measure directivity: directivity (dB) = 20 log10(VFWD_50 / VREF_50).
+ Target: ≥30 dB.</li>
+</ol>
+<hr />
+<h2 id="chapter-7-verification-content">Chapter 7 — Verification Content</h2>
+<ol>
+<li>Directivity ≥30 dB at all operating frequencies.</li>
+<li>Insertion loss &lt;0.2 dB (measure S21 through the coupler with
+ NanoVNA).</li>
+<li>SWR at input port &lt;1.05:1 with a 50Ω load on the output
+ (the coupler must not introduce a mismatch).</li>
+<li>VFWD response: flat within ±1 dB across the specified frequency
+ range (the coupler must sample equally at all frequencies).</li>
+<li>Log: date, coupler type, directivity at 7 and 14 MHz, insertion
+ loss, input SWR, operator.</li>
+</ol>
+<hr />
+<h2 id="calibration-vs-verification-distinction">Calibration vs. Verification — Distinction</h2>
+<p><strong>Calibration</strong> (Chapter 6): active adjustments to bring the component within specification.
+You are permitted to adjust, tweak, and repeat until the criterion is met.</p>
+<p><strong>Verification</strong> (Chapter 7): independent confirmation that the calibration succeeded.
+No adjustments are permitted during verification. If a verification check fails, you
+return to Chapter 6, not to Chapter 7.</p>
+<hr />
+<h2 id="acceptance-criterion">Acceptance Criterion</h2>
+<p>A criterion found in Chapter 6: <strong>1%</strong>. Confirm the exact criterion in the TM.</p>
+<p>Write the exact criterion from the TM here before you start the lab:</p>
+<hr />
+<hr />
+<h2 id="lab-checklist">Lab Checklist</h2>
+<p>Work through each item in sequence. Do not skip steps.</p>
+<ul>
+<li>[ ] All required equipment gathered and ready</li>
+<li>[ ] Equipment warmed up per TM requirements</li>
+<li>[ ] All Chapter 4 setup steps verified complete</li>
+<li>[ ] Chapter 6 calibration performed (all steps)</li>
+<li>[ ] Calibration criterion met (recorded below)</li>
+<li>[ ] Chapter 7 verification performed (all steps, no adjustments)</li>
+<li>[ ] All verification criteria passed</li>
+<li>[ ] Calibration log entry completed</li>
+</ul>
+<hr />
+<h2 id="calibration-log-entry">Calibration Log Entry</h2>
+<ul>
+<li>[ ] Date</li>
+<li>[ ] Equipment used</li>
+<li>[ ] Measurements taken</li>
+<li>[ ] Results vs. criteria</li>
+<li>[ ] Operator name</li>
+</ul>
+<p>Record your results:</p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Measured Value</th>
+<th>Acceptance Criterion</th>
+<th>Pass/Fail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(from Ch 7)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>(from Ch 7)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>(from Ch 7)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="self-check-questions">Self-Check Questions</h2>
+<p><strong>SC5-1.</strong> What is the acceptance criterion for this calibration (from Chapter 7)?</p>
+<p><strong>SC5-2.</strong> During verification, one reading fails. What is the correct action per the TM?</p>
+<p><strong>SC5-3.</strong> List the items required in a calibration log entry per Chapter 7.</p>
+<p><strong>SC5-4.</strong> What is the difference between calibration and verification in this context?</p>
+<p><strong>SC5-5.</strong> If the component passes all Chapter 7 checks, what does that tell you about its current state?</p>
+<hr />
+<h2 id="answer-key">Answer Key</h2>
+<p><strong>SC5-1.</strong> See Chapter 7. The criterion is stated as a specific value with units.</p>
+<p><strong>SC5-2.</strong> Stop verification. Return to Chapter 6 and re-calibrate. Diagnose the cause before re-adjusting.</p>
+<p><strong>SC5-3.</strong> See Chapter 7, last numbered step. The log items are listed there.</p>
+<p><strong>SC5-4.</strong> Calibration allows adjustments; verification does not. Verification is independent confirmation.</p>
+<p><strong>SC5-5.</strong> It tells you the component is performing within its specified parameters at this time. It does not tell you how long it will remain in calibration — periodic re-verification is required.</p>
+<hr />
+<h2 id="checkpoint">Checkpoint</h2>
+<p>You are ready for the final assessment when you can:
+- [ ] State the acceptance criterion from memory
+- [ ] State the difference between calibration and verification
+- [ ] State the required log items from memory</p>
+<p><strong>→ Proceed to <a href="final_assessment.html">Final Assessment</a></strong></p>
+</main>
+<footer class="site-footer">
+  <p>KO6NNH Self-Paced OBT — Antenna Gear</p>
+</footer>
+</body>
+</html>

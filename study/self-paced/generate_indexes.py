@@ -80,14 +80,15 @@ def make_index(cat, cat_label, tm_dir_name):
         for fname, label in UNIT_LABELS.items():
             fpath = cdir / fname
             if fpath.exists():
-                unit_links.append(f'<a href="{cdir.name}/{fname}">{label}</a>')
+                html_fname = fname.replace('.md', '.html')
+                unit_links.append(f'<a href="{cdir.name}/{html_fname}">{label}</a>')
 
         tm_link = (f'<a class="tm-link" href="{tm_href}">{tm_num}</a>'
                    if tm_href else tm_num)
 
         rows.append(f"""
     <tr>
-      <td class="course-title"><a href="{cdir.name}/README.md">{title}</a></td>
+      <td class="course-title"><a href="{cdir.name}/README.html">{title}</a></td>
       <td class="tm-col">{tm_link}</td>
       <td class="units-col">{'  ·  '.join(unit_links)}</td>
     </tr>""")

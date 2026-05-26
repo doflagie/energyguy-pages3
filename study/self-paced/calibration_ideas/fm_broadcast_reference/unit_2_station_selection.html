@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 2 — Selecting and Looking Up Reference Stations</title>
+<link rel="stylesheet" href="../../../../css/style.css">
+<style>
+  .course-content { max-width:860px; margin:0 auto; }
+  .course-content table { border-collapse:collapse; width:100%; margin:1rem 0; }
+  .course-content th,
+  .course-content td { border:1px solid var(--border,#ccc); padding:.4rem .6rem; }
+  .course-content th { background:var(--header-bg,#f4f4f4); }
+  .course-content code { background:var(--code-bg,#f4f4f4); padding:.1em .3em; border-radius:3px; font-size:.9em; }
+  .course-content pre code { background:none; padding:0; }
+  .course-content pre { background:var(--code-bg,#f4f4f4); padding:1rem; overflow-x:auto; border-radius:4px; }
+  .course-content blockquote { border-left:3px solid var(--border,#ccc); margin-left:0; padding-left:1rem; color:var(--muted,#666); }
+  .course-content hr { border:none; border-top:2px solid var(--border,#ccc); margin:2rem 0; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <span class="site-title">KO6NNH — Calibration Ideas</span>
+    <nav class="main-nav">
+      <a href="../../../../index.html">page3 home</a>
+      <a href="../../../index.html">study</a>
+      <a href="../index.html">Calibration Ideas</a>
+    </nav>
+  </div>
+</header>
+<main class="course-content">
+<h1 id="unit-2-selecting-and-looking-up-reference-stations">Unit 2 — Selecting and Looking Up Reference Stations</h1>
+<p><strong><a href="../../../Calibration_Ideas/fm_broadcast_reference/tm.html">TM-CAL-004 — Open Handout</a></strong>
+<strong>ELOs:</strong> 1.3, 1.4<br />
+<strong>Estimated time:</strong> 15 minutes<br />
+<strong>TM sections to read first:</strong> Section 3-1, Section 3-2</p>
+<hr />
+<h2 id="step-1-read-the-tm">Step 1: Read the TM</h2>
+<p>Open TM-CAL-004. Read:
+- Section 3-1: Required Equipment
+- Section 3-2: Preparation</p>
+<p>Then come back here.</p>
+<hr />
+<h2 id="what-this-unit-covers">What This Unit Covers</h2>
+<p>A frequency reference is only as good as you know it to be. Before you put a TinySA in front of an FM carrier and call it a calibration, you need to know:
+1. What frequency that station is <em>legally assigned</em> to transmit on
+2. Whether that station is a good choice for calibration work</p>
+<p>Both come from the same source: the FCC FM Query database.</p>
+<hr />
+<h2 id="the-fcc-fm-query-database">The FCC FM Query Database</h2>
+<p>The FCC maintains a public database of all licensed FM stations. The URL in TM-CAL-004 is:</p>
+<pre><code>transition.fcc.gov/fcc-bin/fmq.pl
+</code></pre>
+<p>You can search by state, city, or call sign. What you are looking for, for each station:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>What It Tells You</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Call sign</td>
+<td>Station identity (e.g., KXYZ)</td>
+</tr>
+<tr>
+<td>Channel number</td>
+<td>Multiply by 0.2, add 87.9 to get frequency — or just read the frequency directly</td>
+</tr>
+<tr>
+<td>Assigned frequency (MHz)</td>
+<td>The number you use as your reference</td>
+</tr>
+<tr>
+<td>ERP (kW)</td>
+<td>Effective radiated power — affects signal strength at your location</td>
+</tr>
+<tr>
+<td>Transmitter location</td>
+<td>Distance and direction from your site</td>
+</tr>
+</tbody>
+</table>
+<p>Record the assigned frequency to the nearest 100 Hz from the database. This is the number you will compare against your measured value.</p>
+<hr />
+<h2 id="station-selection-criteria">Station Selection Criteria</h2>
+<p>Not every FM station makes an equally good calibration reference. The TM specifies:</p>
+<p><strong>Power:</strong> Choose stations with <strong>≥25 kW ERP</strong>. Higher power means a stronger, cleaner carrier at your location. A weak signal gives a noisy carrier peak, and a noisy peak gives a less precise frequency reading.</p>
+<p><strong>Distance:</strong> Choose stations <strong>10–100 km</strong> away. </p>
+<ul>
+<li>Too close (&lt;10 km): The signal may overdrive your TinySA input, causing intermodulation and a distorted carrier peak.  </li>
+<li>Too far (&gt;100 km): Signal is weak, carrier peak is noisy, measurement is less precise.  </li>
+<li>10–100 km is the sweet spot: strong signal, low noise, no overload.</li>
+</ul>
+<p><strong>How many:</strong> Use <strong>2–3 stations</strong> for calibration. You will average the errors across stations to reduce the effect of any one station being slightly off.</p>
+<p><strong>Spread across the band:</strong> Don't pick three stations clustered in one corner of the band (e.g., 88.1, 88.3, 88.5). Pick stations spread across the 88–108 MHz range so your calibration represents the whole band.</p>
+<hr />
+<h2 id="pre-lab-task">Pre-Lab Task</h2>
+<p>Do this now, before you reach the lab in Unit 5. It takes a few minutes and the lab goes faster if you have this ready.</p>
+<ol>
+<li>Go to the FCC FM Query database.</li>
+<li>Search for FM stations near your location.</li>
+<li>Identify 3 stations that meet the criteria (≥25 kW ERP, 10–100 km, spread across the band).</li>
+<li>For each station, record:
+   - Call sign
+   - Assigned frequency (MHz), to 4 decimal places (e.g., 98.1000)
+   - ERP (kW)
+   - Approximate distance from your location</li>
+</ol>
+<p>Keep this list with you for Unit 5.</p>
+<hr />
+<h2 id="self-check-questions">Self-Check Questions</h2>
+<p><strong>SC2-1.</strong> What is the name of the database you use to find an FM station's assigned frequency?</p>
+<p><strong>SC2-2.</strong> What minimum ERP should your chosen stations have?</p>
+<p><strong>SC2-3.</strong> What distance range is specified for calibration reference stations?</p>
+<p><strong>SC2-4.</strong> Why is a station that is too close (under 10 km) a poor choice?</p>
+<p><strong>SC2-5.</strong> How many stations should you measure to establish your calibration correction?</p>
+<hr />
+<h2 id="answer-key">Answer Key</h2>
+<p><strong>SC2-1.</strong> FCC FM Query database (transition.fcc.gov/fcc-bin/fmq.pl). <em>(TM §3-2)</em></p>
+<p><strong>SC2-2.</strong> ≥25 kW ERP. <em>(TM §3-2)</em></p>
+<p><strong>SC2-3.</strong> 10–100 km. <em>(TM §3-2)</em></p>
+<p><strong>SC2-4.</strong> Not explicitly stated in the TM — but TM §5-1 notes the caution about multipath and overload effects. The TM's selection criteria exist to ensure "best signal quality." Accept: too close may overdrive the input or degrade measurement quality.</p>
+<p><strong>SC2-5.</strong> 2–3 stations. <em>(TM §3-2)</em></p>
+<hr />
+<h2 id="checkpoint">Checkpoint</h2>
+<p>Before proceeding, you must be able to state the two station selection criteria (power and distance) and explain why each matters.</p>
+<p>You should also have your 3 local station assignments recorded and ready for Unit 5.</p>
+<p><strong>→ Proceed to <a href="unit_3_equipment_setup.html">Unit 3</a></strong></p>
+</main>
+<footer class="site-footer">
+  <p>KO6NNH Self-Paced OBT — Calibration Ideas</p>
+</footer>
+</body>
+</html>

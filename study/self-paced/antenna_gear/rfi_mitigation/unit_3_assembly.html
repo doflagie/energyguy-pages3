@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 3 — Assembly and Setup</title>
+<link rel="stylesheet" href="../../../../css/style.css">
+<style>
+  .course-content { max-width:860px; margin:0 auto; }
+  .course-content table { border-collapse:collapse; width:100%; margin:1rem 0; }
+  .course-content th,
+  .course-content td { border:1px solid var(--border,#ccc); padding:.4rem .6rem; }
+  .course-content th { background:var(--header-bg,#f4f4f4); }
+  .course-content code { background:var(--code-bg,#f4f4f4); padding:.1em .3em; border-radius:3px; font-size:.9em; }
+  .course-content pre code { background:none; padding:0; }
+  .course-content pre { background:var(--code-bg,#f4f4f4); padding:1rem; overflow-x:auto; border-radius:4px; }
+  .course-content blockquote { border-left:3px solid var(--border,#ccc); margin-left:0; padding-left:1rem; color:var(--muted,#666); }
+  .course-content hr { border:none; border-top:2px solid var(--border,#ccc); margin:2rem 0; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <span class="site-title">KO6NNH — Antenna Gear</span>
+    <nav class="main-nav">
+      <a href="../../../../index.html">page3 home</a>
+      <a href="../../../index.html">study</a>
+      <a href="../index.html">Antenna Gear</a>
+    </nav>
+  </div>
+</header>
+<main class="course-content">
+<h1 id="unit-3-assembly-and-setup">Unit 3 — Assembly and Setup</h1>
+<p><strong><a href="../../../antenna_gear/rfi_mitigation/tm.html">TM-GEAR-016 — Open Handout</a></strong>
+<strong>TM Chapter:</strong> Chapter 4
+<strong>ELOs:</strong> Execute assembly steps in the correct sequence; verify build quality before operation
+<strong>Estimated time:</strong> 20 minutes</p>
+<hr />
+<h2 id="step-1-read-the-tm">Step 1: Read the TM</h2>
+<p>Open TM-GEAR-016. Read <strong>Chapter 4 — Construction and Assembly</strong> completely.</p>
+<p>Then come back here.</p>
+<hr />
+<h2 id="chapter-4-content">Chapter 4 Content</h2>
+<p>4-1 Active Noise Canceller</p>
+<ol>
+<li>Build the ERA-3SM preamplifier: MMIC in SOT-143 package, bias via 130Ω
+ resistor from +9V, input/output 100 pF DC-block caps.</li>
+<li>Build the phase shifter: an all-pass filter network using a varactor
+ diode (BB515 or SMV1248) whose capacitance is set by a 0–10V
+ control voltage. This provides 0–360° phase range across
+ the HF band.</li>
+<li>Build the subtractor: TL072 dual op-amp configured as a differential
+ amplifier. Gain set by 10 kΩ / 10 kΩ resistors (gain = 1).
+ Apply main signal to non-inverting input; reference signal (after
+ phase shift and attenuation) to inverting input.</li>
+</ol>
+<p>4-2 Near-Field Sniffer Probe</p>
+<ol>
+<li>Wind a 3-turn loop of RG-174 coax, 35 mm diameter. Connect
+ the shield at both ends to the outer conductor of the SMA connector;
+ connect the center conductor at one end only to the SMA center pin.
+ (The shield gap should be at the midpoint of the loop to form a
+ Faraday-shielded loop; solder a jumper to close the shield everywhere
+ except the deliberate gap.)</li>
+</ol>
+<hr />
+<h2 id="assembly-quality">Assembly Quality</h2>
+<p>Chapter 4 specifies 4 construction/assembly steps.</p>
+<p>The assembly directly determines RF performance. Common errors:
+- RF leads too long — lead inductance raises SWR and limits high-frequency performance
+- Cold solder joints on RF nodes — high resistance causes signal loss and intermittent behavior
+- Ground loops — multiple ground paths at different potentials cause noise and calibration errors
+- Ferrite winding errors — wrong turn count or direction reverses transformer polarity or changes impedance ratio
+- Incorrect winding direction on toroidal transformers — affects phase and common-mode rejection</p>
+<p>If Chapter 4 specifies a verification step after assembly (e.g., "verify DC resistance = X before proceeding"), do it. Those checks exist because they are the most common failure points.</p>
+<hr />
+<h2 id="self-check-questions">Self-Check Questions</h2>
+<p><strong>SC3-1.</strong> How many assembly steps does Chapter 4 specify?</p>
+<p><strong>SC3-2.</strong> What is the first assembly step? State it exactly from the TM.</p>
+<p><strong>SC3-3.</strong> Does Chapter 4 specify maximum lead length anywhere? If so, what is the limit and why?</p>
+<p><strong>SC3-4.</strong> Does Chapter 4 require a bench verification after assembly? What does it check?</p>
+<p><strong>SC3-5.</strong> What would you do if a winding resistance measurement came out wrong during assembly verification?</p>
+<hr />
+<h2 id="answer-key">Answer Key</h2>
+<p><strong>SC3-1.</strong> Count the numbered steps in Chapter 4.</p>
+<p><strong>SC3-2.</strong> See Chapter 4, step 1. Copy it exactly.</p>
+<p><strong>SC3-3.</strong> RF lead length limits are typically 10–15 mm for HF circuits. Longer leads add ~1–2 nH per mm, raising inductive reactance at high frequencies.</p>
+<p><strong>SC3-4.</strong> Scan Chapter 4 for verification steps. Common checks: DC resistance, winding balance, null depth on test signal, impedance ratio.</p>
+<p><strong>SC3-5.</strong> Stop assembly. Diagnose before proceeding — a winding error found before completion is much easier to fix than one discovered after the unit is boxed.</p>
+<hr />
+<h2 id="checkpoint">Checkpoint</h2>
+<p>Before proceeding:
+- [ ] You have read Chapter 4 completely
+- [ ] You can state the number of assembly steps and the first and last steps
+- [ ] You understand how assembly quality affects RF performance</p>
+<p><strong>→ Proceed to <a href="unit_4_operation.html">Unit 4</a></strong></p>
+</main>
+<footer class="site-footer">
+  <p>KO6NNH Self-Paced OBT — Antenna Gear</p>
+</footer>
+</body>
+</html>

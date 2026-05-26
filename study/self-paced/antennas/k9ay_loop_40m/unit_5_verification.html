@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 5 — Verification and Field Testing</title>
+<link rel="stylesheet" href="../../../../css/style.css">
+<style>
+  .course-content { max-width:860px; margin:0 auto; }
+  .course-content table { border-collapse:collapse; width:100%; margin:1rem 0; }
+  .course-content th,
+  .course-content td { border:1px solid var(--border,#ccc); padding:.4rem .6rem; }
+  .course-content th { background:var(--header-bg,#f4f4f4); }
+  .course-content code { background:var(--code-bg,#f4f4f4); padding:.1em .3em; border-radius:3px; font-size:.9em; }
+  .course-content pre code { background:none; padding:0; }
+  .course-content pre { background:var(--code-bg,#f4f4f4); padding:1rem; overflow-x:auto; border-radius:4px; }
+  .course-content blockquote { border-left:3px solid var(--border,#ccc); margin-left:0; padding-left:1rem; color:var(--muted,#666); }
+  .course-content hr { border:none; border-top:2px solid var(--border,#ccc); margin:2rem 0; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <span class="site-title">KO6NNH — Antennas</span>
+    <nav class="main-nav">
+      <a href="../../../../index.html">page3 home</a>
+      <a href="../../../index.html">study</a>
+      <a href="../index.html">Antennas</a>
+    </nav>
+  </div>
+</header>
+<main class="course-content">
+<h1 id="unit-5-verification-and-field-testing">Unit 5 — Verification and Field Testing</h1>
+<p><strong><a href="../../../antennas/k9ay_loop_40m/tm.html">TM-ANT-040 — Open Handout</a></strong>
+<strong>TM Chapter:</strong> Chapter 7
+<strong>ELOs:</strong> Perform verification measurements per Chapter 7; confirm acceptance criteria; complete log
+<strong>Estimated time:</strong> 30 minutes (actual lab work required)</p>
+<hr />
+<h2 id="step-1-read-the-tm">Step 1: Read the TM</h2>
+<p>Open TM-ANT-040. Read <strong>Chapter 7 — Verification</strong> completely.</p>
+<p>Then come back here.</p>
+<hr />
+<h2 id="chapter-7-content">Chapter 7 Content</h2>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Requirement</th>
+<th>Pass/Fail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SWR at receiver input</td>
+<td>&lt; 2.0:1</td>
+<td>____</td>
+</tr>
+<tr>
+<td>Front-to-back ratio (measured)</td>
+<td>≥15 dB (minimum useful)</td>
+<td>____</td>
+</tr>
+<tr>
+<td>Insertion loss (antenna term. to coax)</td>
+<td>≤40 dB</td>
+<td>____</td>
+</tr>
+<tr>
+<td>SNR vs. reference dipole on target band</td>
+<td>Improvement ≥3 dB on noise floor</td>
+<td>____</td>
+</tr>
+<tr>
+<td>T/R isolation (if switching)</td>
+<td>≥60 dB during transmit</td>
+<td>____</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="verification-vs-tuning-distinction">Verification vs. Tuning — Distinction</h2>
+<p><strong>Tuning</strong> (Chapter 6) was active: you were permitted to adjust until the criterion was met.</p>
+<p><strong>Verification</strong> (Chapter 7) is passive confirmation: no adjustments are permitted. You are measuring the finished, tuned antenna and confirming it meets specification. If verification fails, return to Chapter 6 for re-tuning, then repeat the full Chapter 7 verification.</p>
+<hr />
+<h2 id="acceptance-criterion">Acceptance Criterion</h2>
+<p>Criterion: <strong>2.0:1 | ____ |</strong></p>
+<p>Write the exact criterion from Chapter 7 here before starting:</p>
+<hr />
+<hr />
+<h2 id="verification-checklist">Verification Checklist</h2>
+<ul>
+<li>[ ] Antenna tuned and stable (no adjustments since completing Chapter 6)</li>
+<li>[ ] NanoVNA or SWR bridge connected at the feedpoint</li>
+<li>[ ] SWR measured at design frequency — result recorded below</li>
+<li>[ ] Resonant frequency (minimum SWR point) recorded</li>
+<li>[ ] All criteria from Chapter 7 checked</li>
+<li>[ ] Pass/fail determined</li>
+<li>[ ] Verification log entry completed</li>
+</ul>
+<hr />
+<h2 id="verification-log-entry">Verification Log Entry</h2>
+<ul>
+<li>[ ] Date and time</li>
+<li>[ ] Antenna type and construction date</li>
+<li>[ ] Operating frequency</li>
+<li>[ ] Height and orientation</li>
+<li>[ ] Measured SWR and resonant frequency</li>
+<li>[ ] Pass/fail determination</li>
+<li>[ ] Operator name</li>
+</ul>
+<p>Record your results:</p>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Measured Value</th>
+<th>Acceptance Criterion</th>
+<th>Pass/Fail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SWR at design frequency</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Resonant frequency</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>(additional checks from Ch. 7)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="self-check-questions">Self-Check Questions</h2>
+<p><strong>SC5-1.</strong> What is the SWR acceptance criterion from Chapter 7? State it exactly.</p>
+<p><strong>SC5-2.</strong> Verification shows SWR = 2.4:1 at the design frequency. What is the correct action?</p>
+<p><strong>SC5-3.</strong> List the required items in a verification log entry per Chapter 7.</p>
+<p><strong>SC5-4.</strong> What is the difference between the Chapter 6 tuning procedure and the Chapter 7 verification?</p>
+<p><strong>SC5-5.</strong> After passing Chapter 7 verification, what can you conclude about the antenna?</p>
+<hr />
+<h2 id="answer-key">Answer Key</h2>
+<p><strong>SC5-1.</strong> See Chapter 7. The criterion is stated with a specific SWR value and conditions (frequency, height, orientation).</p>
+<p><strong>SC5-2.</strong> Verification failed. Do not make adjustments during verification. Return to Chapter 6, re-tune, then repeat the complete Chapter 7 verification.</p>
+<p><strong>SC5-3.</strong> See Chapter 7, final steps. Items typically include: date, antenna type, frequency, height/orientation, SWR measurement, pass/fail, operator name.</p>
+<p><strong>SC5-4.</strong> Tuning (Ch. 6) permits active adjustments. Verification (Ch. 7) permits none — it is independent confirmation of the tuned state.</p>
+<p><strong>SC5-5.</strong> The antenna meets the specified performance criteria at this time, in this location, at this height and orientation. It does not guarantee performance at a different site, height, or orientation without re-verification.</p>
+<hr />
+<h2 id="checkpoint">Checkpoint</h2>
+<p>You are ready for the final assessment when you can:
+- [ ] State the acceptance criterion from memory
+- [ ] State the correct response to a failed verification check
+- [ ] State the required log items from memory</p>
+<p><strong>→ Proceed to <a href="final_assessment.html">Final Assessment</a></strong></p>
+</main>
+<footer class="site-footer">
+  <p>KO6NNH Self-Paced OBT — Antennas</p>
+</footer>
+</body>
+</html>

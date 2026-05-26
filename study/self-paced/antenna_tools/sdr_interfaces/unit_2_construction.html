@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 2 — Construction and Materials</title>
+<link rel="stylesheet" href="../../../../css/style.css">
+<style>
+  .course-content { max-width:860px; margin:0 auto; }
+  .course-content table { border-collapse:collapse; width:100%; margin:1rem 0; }
+  .course-content th,
+  .course-content td { border:1px solid var(--border,#ccc); padding:.4rem .6rem; }
+  .course-content th { background:var(--header-bg,#f4f4f4); }
+  .course-content code { background:var(--code-bg,#f4f4f4); padding:.1em .3em; border-radius:3px; font-size:.9em; }
+  .course-content pre code { background:none; padding:0; }
+  .course-content pre { background:var(--code-bg,#f4f4f4); padding:1rem; overflow-x:auto; border-radius:4px; }
+  .course-content blockquote { border-left:3px solid var(--border,#ccc); margin-left:0; padding-left:1rem; color:var(--muted,#666); }
+  .course-content hr { border:none; border-top:2px solid var(--border,#ccc); margin:2rem 0; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <span class="site-title">KO6NNH — Antenna Tools</span>
+    <nav class="main-nav">
+      <a href="../../../../index.html">page3 home</a>
+      <a href="../../../index.html">study</a>
+      <a href="../index.html">Antenna Tools</a>
+    </nav>
+  </div>
+</header>
+<main class="course-content">
+<h1 id="unit-2-construction-and-materials">Unit 2 — Construction and Materials</h1>
+<p><strong><a href="../../../antenna_tools/sdr_interfaces/tm.html">TM-TOOL-009 — Open Handout</a></strong>
+<strong>TM Chapter:</strong> Chapter 3
+<strong>ELOs:</strong> Identify required components and materials; understand component selection criteria
+<strong>Estimated time:</strong> 20 minutes</p>
+<hr />
+<h2 id="step-1-read-the-tm">Step 1: Read the TM</h2>
+<p>Open TM-TOOL-009. Read <strong>Chapter 3 — Equipment and Materials</strong> completely.</p>
+<p>Then come back here.</p>
+<hr />
+<h2 id="chapter-3-content">Chapter 3 Content</h2>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Key ICs</th>
+<th>Connectors</th>
+<th>Supply</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HF Upconverter</td>
+<td>SA612A, 125 MHz TCXO, K1 relay</td>
+<td>SMA in/out</td>
+<td>5V USB, 80 mA</td>
+</tr>
+<tr>
+<td>Preselector</td>
+<td>74HC154, 4× SP4T relays, 16 BPF modules</td>
+<td>SMA in/out</td>
+<td>5V, 200 mA</td>
+</tr>
+<tr>
+<td>Bias-T (HF)</td>
+<td>L = 10&micro;H RFC, C = 100 nF</td>
+<td>SMA in/out/DC</td>
+<td>5V or 12V from SDR</td>
+</tr>
+<tr>
+<td>Bias-T (VHF)</td>
+<td>L = 100 nH, C = 10 nF NP0</td>
+<td>SMA</td>
+<td>3.3V/5V/12V</td>
+</tr>
+<tr>
+<td>Attenuator/LNA</td>
+<td>PE4302, SPF5189Z</td>
+<td>SMA in/out</td>
+<td>3.3V</td>
+</tr>
+<tr>
+<td>Controller</td>
+<td>ESP32 WROOM-32</td>
+<td>USB-C</td>
+<td>5V</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="component-selection">Component Selection</h2>
+<p>Review the equipment and materials list in Chapter 3 carefully.</p>
+<p>Before building, verify every item on the materials list. Key considerations:
+- Use the specified component types — substitutions may affect performance or frequency coverage
+- Non-inductive components are required in RF circuits; standard wirewound resistors are unsuitable
+- Toroids and ferrite cores are frequency-specific; use the specified core material (#43, #61, #67, etc.)
+- Connector types affect impedance — match the specified connector to avoid SWR errors</p>
+<p>The quality of your materials sets the ceiling on the tool's performance.</p>
+<hr />
+<h2 id="self-check-questions">Self-Check Questions</h2>
+<p><strong>SC2-1.</strong> List the three most critical components or materials specified in Chapter 3. Why are they critical?</p>
+<p><strong>SC2-2.</strong> Does Chapter 3 specify non-inductive resistors? If so, where are they used and why does it matter?</p>
+<p><strong>SC2-3.</strong> What connector type(s) does Chapter 3 specify, and what is the frequency/power justification?</p>
+<p><strong>SC2-4.</strong> Does Chapter 3 specify a particular ferrite core material or type? What is its significance?</p>
+<p><strong>SC2-5.</strong> What would be the consequence of substituting a standard wirewound resistor for a non-inductive type in an RF application?</p>
+<hr />
+<h2 id="answer-key">Answer Key</h2>
+<p><strong>SC2-1.</strong> See Chapter 3. Identify items with specific part numbers, special materials, or critical tolerances — these are the ones that most affect performance.</p>
+<p><strong>SC2-2.</strong> See Chapter 3. Non-inductive types are used wherever standard inductive wirewound resistors would add series inductance that degrades high-frequency performance.</p>
+<p><strong>SC2-3.</strong> See Chapter 3. SO-239, N-type, BNC, and SMA each have different frequency and power ratings.</p>
+<p><strong>SC2-4.</strong> See Chapter 3. Ferrite #43 is for 1–100 MHz; #61 for 10–200 MHz; #67 for 50–500 MHz. Wrong material = wrong permeability = wrong coupling.</p>
+<p><strong>SC2-5.</strong> A wirewound resistor has several microhenries of series inductance. At HF and VHF, this adds inductive reactance proportional to frequency, destroying the resistor's value as a termination or load.</p>
+<hr />
+<h2 id="checkpoint">Checkpoint</h2>
+<p>Before proceeding:
+- [ ] You have read Chapter 3 completely
+- [ ] You can name the critical components from memory
+- [ ] You understand why non-inductive and correct ferrite materials are required</p>
+<p><strong>→ Proceed to <a href="unit_3_assembly.html">Unit 3</a></strong></p>
+</main>
+<footer class="site-footer">
+  <p>KO6NNH Self-Paced OBT — Antenna Tools</p>
+</footer>
+</body>
+</html>

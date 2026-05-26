@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 4 — Operating Procedures and Calculations</title>
+<link rel="stylesheet" href="../../../../css/style.css">
+<style>
+  .course-content { max-width:860px; margin:0 auto; }
+  .course-content table { border-collapse:collapse; width:100%; margin:1rem 0; }
+  .course-content th,
+  .course-content td { border:1px solid var(--border,#ccc); padding:.4rem .6rem; }
+  .course-content th { background:var(--header-bg,#f4f4f4); }
+  .course-content code { background:var(--code-bg,#f4f4f4); padding:.1em .3em; border-radius:3px; font-size:.9em; }
+  .course-content pre code { background:none; padding:0; }
+  .course-content pre { background:var(--code-bg,#f4f4f4); padding:1rem; overflow-x:auto; border-radius:4px; }
+  .course-content blockquote { border-left:3px solid var(--border,#ccc); margin-left:0; padding-left:1rem; color:var(--muted,#666); }
+  .course-content hr { border:none; border-top:2px solid var(--border,#ccc); margin:2rem 0; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <span class="site-title">KO6NNH — Antenna Gear</span>
+    <nav class="main-nav">
+      <a href="../../../../index.html">page3 home</a>
+      <a href="../../../index.html">study</a>
+      <a href="../index.html">Antenna Gear</a>
+    </nav>
+  </div>
+</header>
+<main class="course-content">
+<h1 id="unit-4-operating-procedures-and-calculations">Unit 4 — Operating Procedures and Calculations</h1>
+<p><strong><a href="../../../antenna_gear/mast_tower/tm.html">TM-GEAR-011 — Open Handout</a></strong>
+<strong>TM Chapters:</strong> Chapter 5, Appendix A
+<strong>ELOs:</strong> Install and operate the MAST AND TOWER — PORTABLE AND FIXED INSTALLATIONS correctly; interpret performance data; compute derived quantities
+<strong>Estimated time:</strong> 30 minutes (includes 3–4 practice problems)</p>
+<hr />
+<h2 id="step-1-read-the-tm">Step 1: Read the TM</h2>
+<p>Open TM-GEAR-011. Read <strong>Chapter 5 — Operating Procedures</strong> and <strong>Appendix A</strong> completely.</p>
+<p>Then come back here.</p>
+<hr />
+<h2 id="chapter-5-content">Chapter 5 Content</h2>
+<ol>
+<li>Never erect a mast within fall distance of power lines.
+ Required clearance: mast height + 3 m.</li>
+<li>For portable operation, lower the antenna before moving the mast.
+ Telescoping sections must be collapsed before transport; partially
+ extended masts have the lowest collapse load capacity.</li>
+<li>Inspect all guy wire attachment points before each use. Replace any
+ guy wire showing kinks, broken strands, or corrosion at terminations.</li>
+<li>In winds exceeding 50 mph: lower the antenna or lower the mast
+ entirely if the design survival wind speed is less than the forecast wind.</li>
+</ol>
+<hr />
+<h2 id="appendix-a-reference-formulas">Appendix A — Reference Formulas</h2>
+<p>10 m aluminum mast, 50 mm OD, at 70 mph (31.3 m/s):</p>
+<p>q = 0.613 × 31.3² = 0.613 × 979 = 600 Pa
+A = 0.050 m × 10 m = 0.50 m²
+F = 600 × 1.0 × 0.50 = 300 N (67 lbf) on the mast alone</p>
+<p>Add 2-element Yagi (projected area ~0.5 m²) at top:
+F_antenna = 600 × 1.2 × 0.50 = 360 N
+Total F = 300 + 360 = 660 N (148 lbf)
+Overturning moment M = 660 × 5 m = 3300 N·m (mast + antenna CG)</p>
+<p>Guy wire tension (3 guys, 45° angle, 6 m radius):
+T = 3300 / (6 × 0.707 × 2/3) = 3300 / 2.83 = 1166 N per guy
+Use 1/4" Phillystran (rated 2200 N) with 3:1 safety factor.</p>
+<hr />
+<h2 id="key-formulas-summary">Key Formulas Summary</h2>
+<p>Key mathematical relationships from Appendix A:</p>
+<ul>
+<li><code>q = 0.613 × 31.3² = 0.613 × 979 = 600 Pa</code></li>
+<li><code>A = 0.050 m × 10 m = 0.50 m²</code></li>
+<li><code>F = 600 × 1.0 × 0.50 = 300 N (67 lbf) on the mast alone</code></li>
+<li><code>F_antenna = 600 × 1.2 × 0.50 = 360 N</code></li>
+<li><code>Total F = 300 + 360 = 660 N (148 lbf)</code></li>
+<li><code>Overturning moment M = 660 × 5 m = 3300 N·m (mast + antenna CG)</code></li>
+</ul>
+<hr />
+<h2 id="operating-notes">Operating Notes</h2>
+<p>Chapter 5 specifies 4 operating steps.</p>
+<p>Installation and operating discipline:
+- Always verify polarity and orientation before making connections — RF transformers and baluns are phase-sensitive
+- Route feedlines away from parallel conductors — parallel runs create mutual coupling that degrades isolation
+- Ground all exposed metalwork at a single chassis point — multiple grounds create loops
+- Record settings, frequencies, and power levels for every test — you need baseline data for comparisons</p>
+<hr />
+<h2 id="practice-problems">Practice Problems</h2>
+<p>Work these before reading the answer key below.</p>
+<p><strong>P4-1.</strong> Using the operating procedure from Chapter 5 and the formulas from Appendix A:
+State the installation steps you would take to put the MAST AND TOWER — PORTABLE AND FIXED INSTALLATIONS in service on a 40m (7.150 MHz) station.
+List steps in order.</p>
+<p><strong>P4-2.</strong> From Chapter 5: what installation or setup detail produces the best RF performance
+with the MAST AND TOWER — PORTABLE AND FIXED INSTALLATIONS? What is the tradeoff if you omit or shortcut that step?</p>
+<p><strong>P4-3.</strong> Chapter 5 specifies an operating procedure for a specific use case.
+State the first three steps of that procedure from memory.</p>
+<p><strong>P4-4.</strong> Appendix A gives a formula for computing a result from measured values.
+Pick one formula and compute a worked example using made-up but realistic values.
+Show all work.</p>
+<hr />
+<h2 id="answer-key-practice-problems">Answer Key — Practice Problems</h2>
+<p><strong>P4-1.</strong> Compare your list to Chapter 5. Steps should include: select mounting location → connect to feedline/antenna → verify polarity/orientation → apply power or signal → verify operation → record baseline.</p>
+<p><strong>P4-2.</strong> See Chapter 5. The most important installation detail is usually physical orientation, lead length, or ground bonding — the tradeoff if omitted is degraded isolation, increased SWR, or common-mode current leakage.</p>
+<p><strong>P4-3.</strong> See Chapter 5, steps 1–3. Copy exactly then close the TM and state from memory.</p>
+<p><strong>P4-4.</strong> See Appendix A for the formula. Your arithmetic is correct if your result has the right units and is physically plausible.</p>
+<hr />
+<h2 id="checkpoint">Checkpoint</h2>
+<p>Before proceeding:
+- [ ] You can state the operating procedure from memory (at least the first 5 steps)
+- [ ] You can compute the derived quantity from Chapter 5 / Appendix A without looking
+- [ ] You understand what a degraded or unexpected result tells you about the installation</p>
+<p><strong>→ Proceed to <a href="unit_5_calibration.html">Unit 5</a></strong></p>
+</main>
+<footer class="site-footer">
+  <p>KO6NNH Self-Paced OBT — Antenna Gear</p>
+</footer>
+</body>
+</html>

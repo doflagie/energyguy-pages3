@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 5 — Verification and Logging</title>
+<link rel="stylesheet" href="../../../../css/style.css">
+<style>
+  .course-content { max-width:860px; margin:0 auto; }
+  .course-content table { border-collapse:collapse; width:100%; margin:1rem 0; }
+  .course-content th,
+  .course-content td { border:1px solid var(--border,#ccc); padding:.4rem .6rem; }
+  .course-content th { background:var(--header-bg,#f4f4f4); }
+  .course-content code { background:var(--code-bg,#f4f4f4); padding:.1em .3em; border-radius:3px; font-size:.9em; }
+  .course-content pre code { background:none; padding:0; }
+  .course-content pre { background:var(--code-bg,#f4f4f4); padding:1rem; overflow-x:auto; border-radius:4px; }
+  .course-content blockquote { border-left:3px solid var(--border,#ccc); margin-left:0; padding-left:1rem; color:var(--muted,#666); }
+  .course-content hr { border:none; border-top:2px solid var(--border,#ccc); margin:2rem 0; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <span class="site-title">KO6NNH — Calibration</span>
+    <nav class="main-nav">
+      <a href="../../../../index.html">page3 home</a>
+      <a href="../../../index.html">study</a>
+      <a href="../index.html">Calibration</a>
+    </nav>
+  </div>
+</header>
+<main class="course-content">
+<h1 id="unit-5-verification-and-logging">Unit 5 — Verification and Logging</h1>
+<p><strong><a href="../../../calibration/rf-attenuator-set/tm.html">TM-INST-022 — Open Handout</a></strong>
+<strong>TM Chapters:</strong> Chapter 6, Chapter 7
+<strong>ELOs:</strong> Apply adjustments; perform independent verification; produce calibration log
+<strong>Estimated time:</strong> 45 minutes (hands-on lab)</p>
+<hr />
+<h2 id="step-1-read-the-tm">Step 1: Read the TM</h2>
+<p>Open TM-INST-022. Read <strong>Chapter 6</strong> and <strong>Chapter 7</strong> completely.</p>
+<p>Then come back here.</p>
+<hr />
+<h2 id="chapter-6-tuning-and-adjustment">Chapter 6 — Tuning and Adjustment</h2>
+<p>Frequency Axis Check</p>
+<ul>
+<li>Measure WWV/CHU or FM carrier frequency.</li>
+<li>Compare to published frequency.</li>
+<li>
+<p>If your analyzer supports frequency offset adjustment, apply correction.</p>
+<pre><code>        Impedance/SWR Check
+</code></pre>
+</li>
+<li>
+<p>Connect the 50 ohm load.</p>
+</li>
+<li>The analyzer should read close to 50 ohm and low SWR.</li>
+<li>
+<p>Connect the shorted stub and locate the resonance dip; compare to expected.</p>
+<pre><code>        Trim and Iterate
+</code></pre>
+</li>
+<li>
+<p>If stub resonance is off, trim length in small increments.</p>
+</li>
+<li>Re-check until resonance aligns within expected tolerance.</li>
+</ul>
+<hr />
+<h2 id="chapter-7-verification">Chapter 7 — Verification</h2>
+<p>Verification Checklist</p>
+<ul>
+<li>Re-measure the reference carrier after calibration.</li>
+<li>Measure a second independent reference (FM vs WWV/CHU).</li>
+<li>
+<p>Confirm measurements are stable across 3-5 repetitions.</p>
+<pre><code>        Acceptance Targets
+</code></pre>
+</li>
+<li>
+<p>Frequency accuracy: within 0.1-1 ppm of reference.</p>
+</li>
+<li>Load accuracy: within 1-2% of 50 ohm.</li>
+</ul>
+<hr />
+<h2 id="calibration-vs-verification">Calibration vs. Verification</h2>
+<p>These are two different things:</p>
+<p><strong>Calibration (Chapter 5):</strong> You apply reference inputs and record what the instrument reads. You may adjust the instrument during this process. The result is a set of measurements taken while you are actively tuning.</p>
+<p><strong>Verification (Chapter 7):</strong> After all adjustments are complete, you perform an independent confirmation measurement. You do not adjust during verification — you are testing whether the calibration held.</p>
+<p>The TM states a verification criterion of: <strong>2% of 50 ohm</strong>. Confirm the exact wording in Chapter 7.</p>
+<p>If verification fails, you do not re-adjust and re-verify in one step. You return to Chapter 5, re-calibrate, and then re-verify from scratch.</p>
+<hr />
+<h2 id="lab-checklist">Lab Checklist</h2>
+<p>Work through this with equipment in hand. Check each box when complete.</p>
+<ul>
+<li>[ ] Chapter 4 setup complete</li>
+<li>[ ] Chapter 5 calibration procedure complete</li>
+<li>[ ] Any adjustments applied per Chapter 6</li>
+<li>[ ] Chapter 7 verification measurement performed</li>
+<li>[ ] Verification criterion met</li>
+<li>
+<p>[ ] Calibration log entry completed:</p>
+</li>
+<li>
+<p>[ ] Re-measure the reference carrier after calibration.</p>
+</li>
+<li>[ ] Measure a second independent reference (FM vs WWV/CHU).</li>
+<li>[ ] Confirm measurements are stable across 3-5 repetitions.</li>
+<li>[ ] Frequency accuracy: within 0.1-1 ppm of reference.</li>
+<li>[ ] Load accuracy: within 1-2% of 50 ohm.</li>
+</ul>
+<hr />
+<h2 id="self-check-questions">Self-Check Questions</h2>
+<p><strong>SC5-1.</strong> What is the verification acceptance criterion per Chapter 7? State it with units.</p>
+<p><strong>SC5-2.</strong> What is the difference between the Chapter 5 calibration and the Chapter 7 verification?</p>
+<p><strong>SC5-3.</strong> Your Chapter 7 verification fails. What is the correct next step per the TM?</p>
+<p><strong>SC5-4.</strong> List the required entries in the calibration log.</p>
+<p><strong>SC5-5.</strong> Why must the log be completed before the calibration is considered finished?</p>
+<hr />
+<h2 id="answer-key">Answer Key</h2>
+<p><strong>SC5-1.</strong> See TM Chapter 7. Copy the criterion exactly with units and section number.</p>
+<p><strong>SC5-2.</strong> Chapter 5 is the active calibration — you apply references and may adjust. Chapter 7 is an independent confirmation after all adjustments are locked in — no further adjustment during verification.</p>
+<p><strong>SC5-3.</strong> Return to Chapter 5 and re-calibrate. Do not re-adjust and re-verify without re-doing the full calibration procedure.</p>
+<p><strong>SC5-4.</strong> See TM Chapter 7. List every item the TM specifies.</p>
+<p><strong>SC5-5.</strong> A calibration with no record did not happen in any traceable sense. The log is the evidence that the procedure was followed, the results were within specification, and who performed it.</p>
+<hr />
+<h2 id="checkpoint">Checkpoint</h2>
+<p>TLO-1 is complete when:
+- [ ] Verification criterion met (Chapter 7)
+- [ ] Calibration log entry completed with all required fields
+- [ ] You can explain the difference between calibration and verification</p>
+<p><strong>→ Proceed to <a href="final_assessment.html">Final Assessment</a></strong></p>
+</main>
+<footer class="site-footer">
+  <p>KO6NNH Self-Paced OBT — Calibration</p>
+</footer>
+</body>
+</html>

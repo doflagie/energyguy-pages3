@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 2 — Equipment and Test Setup</title>
+<link rel="stylesheet" href="../../../../css/style.css">
+<style>
+  .course-content { max-width:860px; margin:0 auto; }
+  .course-content table { border-collapse:collapse; width:100%; margin:1rem 0; }
+  .course-content th,
+  .course-content td { border:1px solid var(--border,#ccc); padding:.4rem .6rem; }
+  .course-content th { background:var(--header-bg,#f4f4f4); }
+  .course-content code { background:var(--code-bg,#f4f4f4); padding:.1em .3em; border-radius:3px; font-size:.9em; }
+  .course-content pre code { background:none; padding:0; }
+  .course-content pre { background:var(--code-bg,#f4f4f4); padding:1rem; overflow-x:auto; border-radius:4px; }
+  .course-content blockquote { border-left:3px solid var(--border,#ccc); margin-left:0; padding-left:1rem; color:var(--muted,#666); }
+  .course-content hr { border:none; border-top:2px solid var(--border,#ccc); margin:2rem 0; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <span class="site-title">KO6NNH — Calibration Ideas</span>
+    <nav class="main-nav">
+      <a href="../../../../index.html">page3 home</a>
+      <a href="../../../index.html">study</a>
+      <a href="../index.html">Calibration Ideas</a>
+    </nav>
+  </div>
+</header>
+<main class="course-content">
+<h1 id="unit-2-equipment-and-test-setup">Unit 2 — Equipment and Test Setup</h1>
+<p><strong><a href="../../../Calibration_Ideas/dummy_load_power_standard/tm.html">TM-CAL-014 — Open Handout</a></strong>
+<strong>TM Chapter:</strong> Chapter 3
+<strong>ELOs:</strong> Identify required equipment; understand test configuration
+<strong>Estimated time:</strong> 20 minutes</p>
+<hr />
+<h2 id="step-1-read-the-tm">Step 1: Read the TM</h2>
+<p>Open TM-CAL-014. Read <strong>Chapter 3 — Materials and Construction</strong> completely.</p>
+<p>Then come back here.</p>
+<hr />
+<h2 id="chapter-3-content">Chapter 3 Content</h2>
+<h3 id="3-1-dry-load-up-to-25-w">3-1. DRY LOAD (UP TO 25 W)</h3>
+<table>
+<thead>
+<tr>
+<th>Qty</th>
+<th>Item</th>
+<th>Specification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10</td>
+<td>Non-inductive resistor</td>
+<td>500 Ω 5 W each, carbon film or metal oxide</td>
+</tr>
+<tr>
+<td>1</td>
+<td>BNC or PL-259 chassis connector</td>
+<td>For RF connection</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Copper-clad PCB or ground plane</td>
+<td>For resistor mounting</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Aluminum enclosure</td>
+<td>With ventilation or heatsink</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-2-construction-notes">3-2. CONSTRUCTION NOTES</h3>
+<p>Ten 500 Ω resistors in parallel = 50 Ω total. Each carries 1/10 of total power. For 25 W load, each resistor handles 2.5 W (rated 5 W). Mount resistors radially from center BNC connector with leads  <strong>NOTE:</strong> Carbon composition resistors have good non-inductance but poor power stability. Metal oxide film is preferred: non-inductive and stable. Avoid wirewound at RF frequencies due to inductance.</p>
+<hr />
+<h2 id="equipment-readiness">Equipment Readiness</h2>
+<p>Review the equipment list in Chapter 3 carefully.</p>
+<p>Before beginning any calibration, verify every item on the equipment list is:
+- Present and in working order
+- Within its own calibration period (do not calibrate with an uncalibrated reference)
+- Set up per the configuration specified in Chapter 3</p>
+<p>The reference quality is the ceiling on your calibration quality. A reference with unknown accuracy produces a calibration with unknown accuracy.</p>
+<hr />
+<h2 id="self-check-questions">Self-Check Questions</h2>
+<p><strong>SC2-1.</strong> List the three most important pieces of equipment specified in Chapter 3.</p>
+<p><strong>SC2-2.</strong> What reference standard(s) does the TM specify for this calibration?</p>
+<p><strong>SC2-3.</strong> Does Chapter 3 specify any warm-up time or settling requirement? If so, state it.</p>
+<p><strong>SC2-4.</strong> What is the test configuration? (How is the equipment connected or arranged?)</p>
+<p><strong>SC2-5.</strong> What would be the consequence of using a reference standard that is itself out of calibration?</p>
+<hr />
+<h2 id="answer-key">Answer Key</h2>
+<p><strong>SC2-1.</strong> See Chapter 3 equipment table or list. Identify the three items that appear first or are marked most critical.</p>
+<p><strong>SC2-2.</strong> See Chapter 3. The reference standard is the source of known-good values used to check the instrument under test.</p>
+<p><strong>SC2-3.</strong> See Chapter 3. Warm-up time is often specified for instruments that use oscillators or amplifiers — they need thermal stabilization before measurements are valid.</p>
+<p><strong>SC2-4.</strong> See Chapter 3. Describe the connection or arrangement in your own words, then verify against the TM.</p>
+<p><strong>SC2-5.</strong> The calibration error of the reference propagates directly into your calibration result. If the reference is 5% off and you do not know it, your calibration will also be 5% off — and you will not know that either.</p>
+<hr />
+<h2 id="checkpoint">Checkpoint</h2>
+<p>Before proceeding, you must be able to:
+- List the required equipment from memory
+- State the reference standard and its specified accuracy</p>
+<p><strong>→ Proceed to <a href="unit_3_setup.html">Unit 3</a></strong></p>
+</main>
+<footer class="site-footer">
+  <p>KO6NNH Self-Paced OBT — Calibration Ideas</p>
+</footer>
+</body>
+</html>

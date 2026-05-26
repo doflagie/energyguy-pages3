@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 2 — Materials and Construction</title>
+<link rel="stylesheet" href="../../../../css/style.css">
+<style>
+  .course-content { max-width:860px; margin:0 auto; }
+  .course-content table { border-collapse:collapse; width:100%; margin:1rem 0; }
+  .course-content th,
+  .course-content td { border:1px solid var(--border,#ccc); padding:.4rem .6rem; }
+  .course-content th { background:var(--header-bg,#f4f4f4); }
+  .course-content code { background:var(--code-bg,#f4f4f4); padding:.1em .3em; border-radius:3px; font-size:.9em; }
+  .course-content pre code { background:none; padding:0; }
+  .course-content pre { background:var(--code-bg,#f4f4f4); padding:1rem; overflow-x:auto; border-radius:4px; }
+  .course-content blockquote { border-left:3px solid var(--border,#ccc); margin-left:0; padding-left:1rem; color:var(--muted,#666); }
+  .course-content hr { border:none; border-top:2px solid var(--border,#ccc); margin:2rem 0; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <span class="site-title">KO6NNH — Antennas</span>
+    <nav class="main-nav">
+      <a href="../../../../index.html">page3 home</a>
+      <a href="../../../index.html">study</a>
+      <a href="../index.html">Antennas</a>
+    </nav>
+  </div>
+</header>
+<main class="course-content">
+<h1 id="unit-2-materials-and-construction">Unit 2 — Materials and Construction</h1>
+<p><strong><a href="../../../antennas/traveling_wave_vertical/tm.html">TM-ANT-070 — Open Handout</a></strong>
+<strong>TM Chapter:</strong> Chapter 3
+<strong>ELOs:</strong> Identify and gather all required materials; understand why each material is specified
+<strong>Estimated time:</strong> 20 minutes</p>
+<hr />
+<h2 id="step-1-read-the-tm">Step 1: Read the TM</h2>
+<p>Open TM-ANT-070. Read <strong>Chapter 3 — Materials and Construction</strong> completely.</p>
+<p>Then come back here.</p>
+<hr />
+<h2 id="chapter-3-content">Chapter 3 Content</h2>
+<h3 id="3-1-bill-of-materials">3-1. BILL OF MATERIALS</h3>
+<table>
+<thead>
+<tr>
+<th>Qty</th>
+<th>Item</th>
+<th>Specification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Vertical element</td>
+<td>Aluminum tubing 1–1.5 in OD or #12 AWG copper wire; length per formula</td>
+</tr>
+<tr>
+<td>Per design</td>
+<td>Radials</td>
+<td>#16–#14 AWG copper; per ground system design above</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Mast/base insulator</td>
+<td>UV-resistant PVC or polycarbonate; must support element tension/weight</td>
+</tr>
+<tr>
+<td>1</td>
+<td>SO-239 or N-type connector</td>
+<td>Weatherproof; mount at base</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Feed line</td>
+<td>RG-213 or LMR-400 for permanent install; RG-8X for portable use</td>
+</tr>
+<tr>
+<td>As needed</td>
+<td>Loading coil (if loaded vertical)</td>
+<td>T-200 toroidal core or air-wound; Ql &gt; 200 for minimum loss</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-2-dimension-formulas">3-2. DIMENSION FORMULAS</h3>
+<pre><code>Quarter-wave vertical height (feet)
+L = 234 / fMHz
+</code></pre>
+<pre><code>Example: 40M at 7.150 MHz
+L = 234 / 7.150 = 32.7 ft
+</code></pre>
+<pre><code>Resonant radial length (each radial, feet)
+Lrad = 246 / fMHz (resonant elevated radials)
+</code></pre>
+<pre><code>Loading coil inductance for shortened element
+L (μH) = Z0 × (1 &amp;minus; cos(θ)) / (2πf × sin(θ)) where θ = electrical length of element
+</code></pre>
+<hr />
+<h2 id="material-selection">Material Selection</h2>
+<p>Review the full materials list in Chapter 3.</p>
+<p>Before building, verify every item on the materials list. Key considerations:
+- Wire gauge affects conductor resistance and therefore efficiency — use the specified gauge or heavier
+- Coax type affects velocity factor, which changes electrical length vs. physical length
+- Ferrite core type (#43, #61, #67) is frequency-specific for matching transformers and chokes
+- Connector types affect impedance continuity — SO-239, N, BNC, and SMA each have frequency limits
+- Insulator material and placement affect wind loading and UV degradation</p>
+<p>The materials list in Chapter 3 is the bill of materials for a tested, working antenna. Substitutions must be evaluated, not assumed equivalent.</p>
+<hr />
+<h2 id="self-check-questions">Self-Check Questions</h2>
+<p><strong>SC2-1.</strong> List the three most critical materials or components specified in Chapter 3. Why are they critical?</p>
+<p><strong>SC2-2.</strong> What wire gauge does Chapter 3 specify? What is the consequence of using a smaller gauge?</p>
+<p><strong>SC2-3.</strong> If Chapter 3 specifies coaxial cable, what type is called for? What is its velocity factor?</p>
+<p><strong>SC2-4.</strong> Does Chapter 3 specify a particular ferrite or core type? What is its application in this antenna?</p>
+<p><strong>SC2-5.</strong> What is the consequence of using a connector type outside its rated frequency range?</p>
+<hr />
+<h2 id="answer-key">Answer Key</h2>
+<p><strong>SC2-1.</strong> See Chapter 3. Identify items with specific part numbers, gauge specifications, or where substitution would change resonant frequency or impedance.</p>
+<p><strong>SC2-2.</strong> See Chapter 3. Smaller gauge = higher conductor resistance = lower efficiency and greater I²R losses.</p>
+<p><strong>SC2-3.</strong> See Chapter 3. Common types: RG-58 (0.66 VF), RG-8X (0.84), LMR-400 (0.85). Velocity factor changes electrical length: physical length = λ × VF.</p>
+<p><strong>SC2-4.</strong> See Chapter 3. Type #43 ferrite is general HF (1–50 MHz); #61 for upper HF/VHF; #67 for VHF. Wrong material means wrong impedance ratio at the operating frequency.</p>
+<p><strong>SC2-5.</strong> A connector used beyond its frequency rating introduces unpredictable impedance discontinuities, increasing reflected power and SWR.</p>
+<hr />
+<h2 id="checkpoint">Checkpoint</h2>
+<p>Before proceeding:
+- [ ] You have read Chapter 3 completely
+- [ ] You can name the critical materials from memory
+- [ ] You have sourced or confirmed availability of all required materials</p>
+<p><strong>→ Proceed to <a href="unit_3_assembly.html">Unit 3</a></strong></p>
+</main>
+<footer class="site-footer">
+  <p>KO6NNH Self-Paced OBT — Antennas</p>
+</footer>
+</body>
+</html>

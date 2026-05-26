@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 3 — Assembly and Setup</title>
+<link rel="stylesheet" href="../../../../css/style.css">
+<style>
+  .course-content { max-width:860px; margin:0 auto; }
+  .course-content table { border-collapse:collapse; width:100%; margin:1rem 0; }
+  .course-content th,
+  .course-content td { border:1px solid var(--border,#ccc); padding:.4rem .6rem; }
+  .course-content th { background:var(--header-bg,#f4f4f4); }
+  .course-content code { background:var(--code-bg,#f4f4f4); padding:.1em .3em; border-radius:3px; font-size:.9em; }
+  .course-content pre code { background:none; padding:0; }
+  .course-content pre { background:var(--code-bg,#f4f4f4); padding:1rem; overflow-x:auto; border-radius:4px; }
+  .course-content blockquote { border-left:3px solid var(--border,#ccc); margin-left:0; padding-left:1rem; color:var(--muted,#666); }
+  .course-content hr { border:none; border-top:2px solid var(--border,#ccc); margin:2rem 0; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <span class="site-title">KO6NNH — Antenna Tools</span>
+    <nav class="main-nav">
+      <a href="../../../../index.html">page3 home</a>
+      <a href="../../../index.html">study</a>
+      <a href="../index.html">Antenna Tools</a>
+    </nav>
+  </div>
+</header>
+<main class="course-content">
+<h1 id="unit-3-assembly-and-setup">Unit 3 — Assembly and Setup</h1>
+<p><strong><a href="../../../antenna_tools/antenna-analyzer/tm.html">TM-TOOL-002 — Open Handout</a></strong>
+<strong>TM Chapter:</strong> Chapter 4
+<strong>ELOs:</strong> Execute assembly steps in the correct sequence; verify build quality before operation
+<strong>Estimated time:</strong> 20 minutes</p>
+<hr />
+<h2 id="step-1-read-the-tm">Step 1: Read the TM</h2>
+<p>Open TM-TOOL-002. Read <strong>Chapter 4 — Construction and Assembly</strong> completely.</p>
+<p>Then come back here.</p>
+<hr />
+<h2 id="chapter-4-content">Chapter 4 Content</h2>
+<p>4-1 PCB Layout Notes</p>
+<p>Route the RF signal paths (DDS/PLL output → coupler → DUT port) as
+50Ω microstrip (width 2.9 mm on 1.6 mm FR4 with εr=4.6).
+Keep reference and reflected coupler outputs equal length to the AD8302 inputs.
+Length mismatch &gt;5 mm introduces a phase error of approximately
+Δφ = 360° × ΔL / λ.</p>
+<p>4-2 AD8302 Bias</p>
+<p>The AD8302 requires ±5V dual supply. Derive from 5V USB with a
+MAX1044 charge pump for the &minus;5V rail. Bypass each supply pin with
+10 nF NP0 + 100 nF X5R within 3 mm of the device.</p>
+<p>4-3 DDS Output Filtering</p>
+<p>The AD9851 output contains harmonics and alias products. A 7-pole
+elliptic low-pass filter (cutoff 35 MHz) reduces spurious outputs to
+&lt;&minus;60 dBc before the coupler. Without this filter, harmonic
+reflections from the DUT appear as bearing errors at sub-harmonic frequencies.</p>
+<hr />
+<h2 id="assembly-quality">Assembly Quality</h2>
+<p>Work through all construction steps in Chapter 4 in sequence.</p>
+<p>The assembly directly determines measurement quality. Common errors:
+- RF leads too long — lead inductance raises SWR and limits high-frequency performance
+- Cold solder joints on RF nodes — high resistance causes signal loss and intermittent readings
+- Ground loops — multiple ground paths at different potentials cause noise and calibration errors
+- Ferrite winding errors — wrong turn count or direction reverses transformer polarity</p>
+<p>If Chapter 4 specifies a verification step after assembly (e.g., "verify DC resistance = X before proceeding"), do it. Those checks exist because they are the most common failure points.</p>
+<hr />
+<h2 id="self-check-questions">Self-Check Questions</h2>
+<p><strong>SC3-1.</strong> How many assembly steps does Chapter 4 specify?</p>
+<p><strong>SC3-2.</strong> What is the first assembly step? State it exactly from the TM.</p>
+<p><strong>SC3-3.</strong> Does Chapter 4 specify maximum lead length anywhere? If so, what is the limit and why?</p>
+<p><strong>SC3-4.</strong> Does Chapter 4 require a bench verification after assembly? What does it check?</p>
+<p><strong>SC3-5.</strong> What would you do if a winding resistance measurement came out wrong during assembly verification?</p>
+<hr />
+<h2 id="answer-key">Answer Key</h2>
+<p><strong>SC3-1.</strong> Count the numbered steps in Chapter 4.</p>
+<p><strong>SC3-2.</strong> See Chapter 4, step 1. Copy it exactly.</p>
+<p><strong>SC3-3.</strong> RF lead length limits are typically 10–15 mm for HF circuits. Longer leads add ~1–2 nH per mm, raising inductive reactance at high frequencies.</p>
+<p><strong>SC3-4.</strong> Scan Chapter 4 for verification steps. Common checks: DC resistance, winding balance, null depth on test signal.</p>
+<p><strong>SC3-5.</strong> Stop assembly. Diagnose before proceeding — a winding error found before completion is much easier to fix than one discovered after the unit is boxed.</p>
+<hr />
+<h2 id="checkpoint">Checkpoint</h2>
+<p>Before proceeding:
+- [ ] You have read Chapter 4 completely
+- [ ] You can state the number of assembly steps and the first and last steps
+- [ ] You understand how assembly quality affects measurement accuracy</p>
+<p><strong>→ Proceed to <a href="unit_4_operation.html">Unit 4</a></strong></p>
+</main>
+<footer class="site-footer">
+  <p>KO6NNH Self-Paced OBT — Antenna Tools</p>
+</footer>
+</body>
+</html>

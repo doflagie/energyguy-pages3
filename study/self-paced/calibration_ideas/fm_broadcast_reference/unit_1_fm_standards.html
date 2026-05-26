@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 1 — FM Broadcast Standards and Traceability</title>
+<link rel="stylesheet" href="../../../../css/style.css">
+<style>
+  .course-content { max-width:860px; margin:0 auto; }
+  .course-content table { border-collapse:collapse; width:100%; margin:1rem 0; }
+  .course-content th,
+  .course-content td { border:1px solid var(--border,#ccc); padding:.4rem .6rem; }
+  .course-content th { background:var(--header-bg,#f4f4f4); }
+  .course-content code { background:var(--code-bg,#f4f4f4); padding:.1em .3em; border-radius:3px; font-size:.9em; }
+  .course-content pre code { background:none; padding:0; }
+  .course-content pre { background:var(--code-bg,#f4f4f4); padding:1rem; overflow-x:auto; border-radius:4px; }
+  .course-content blockquote { border-left:3px solid var(--border,#ccc); margin-left:0; padding-left:1rem; color:var(--muted,#666); }
+  .course-content hr { border:none; border-top:2px solid var(--border,#ccc); margin:2rem 0; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <span class="site-title">KO6NNH — Calibration Ideas</span>
+    <nav class="main-nav">
+      <a href="../../../../index.html">page3 home</a>
+      <a href="../../../index.html">study</a>
+      <a href="../index.html">Calibration Ideas</a>
+    </nav>
+  </div>
+</header>
+<main class="course-content">
+<h1 id="unit-1-fm-broadcast-standards-and-traceability">Unit 1 — FM Broadcast Standards and Traceability</h1>
+<p><strong><a href="../../../Calibration_Ideas/fm_broadcast_reference/tm.html">TM-CAL-004 — Open Handout</a></strong>
+<strong>ELOs:</strong> 1.1, 1.2, 2.5<br />
+<strong>Estimated time:</strong> 20 minutes<br />
+<strong>TM sections to read first:</strong> Chapter 1, Section 2-1, Section 2-2</p>
+<hr />
+<h2 id="step-1-read-the-tm">Step 1: Read the TM</h2>
+<p>Open TM-CAL-004. Read:
+- Chapter 1 (all — it's short)
+- Section 2-1: FM Broadcast Frequency Standards
+- Section 2-2: Traceability</p>
+<p>Then come back here.</p>
+<hr />
+<h2 id="what-this-unit-covers">What This Unit Covers</h2>
+<p>You just read that FM stations are required by FCC law to hold their carrier frequency within a specified tolerance. This unit makes sure you understand exactly what that tolerance is, why it makes FM carriers useful as a reference, and what the limits of that usefulness are.</p>
+<hr />
+<h2 id="the-fm-broadcast-band">The FM Broadcast Band</h2>
+<p>The FM broadcast band runs from <strong>88.1 MHz to 107.9 MHz</strong>. Channels are assigned at <strong>200 kHz spacing</strong> — so 88.1, 88.3, 88.5 ... 107.7, 107.9 MHz. Each station is assigned one of these specific frequencies. That assignment is a matter of FCC license record — it is not an estimate, and it does not drift.</p>
+<p>What <em>can</em> drift is the station's actual transmitted carrier relative to its assigned frequency. That drift is what FCC Part 73.1545 controls.</p>
+<hr />
+<h2 id="fcc-part-731545-the-tolerance">FCC Part 73.1545 — The Tolerance</h2>
+<p>The FCC sets different tolerances by station class:</p>
+<table>
+<thead>
+<tr>
+<th>Station Type</th>
+<th>FCC Tolerance</th>
+<th>Typical In Practice</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Commercial FM (full power)</td>
+<td>±2,000 Hz</td>
+<td>±100–500 Hz</td>
+</tr>
+<tr>
+<td>Low Power FM (LPFM)</td>
+<td>±3,000 Hz</td>
+<td>±2,000 Hz</td>
+</tr>
+<tr>
+<td>Translator</td>
+<td>±2,000 Hz</td>
+<td>±1,000 Hz</td>
+</tr>
+</tbody>
+</table>
+<p>The key number for this course is <strong>±2 kHz</strong> for commercial stations. That is the <em>worst case you should ever see</em> from a licensed commercial FM station. Modern stations with GPS-disciplined synthesizers typically do far better — major stations run ±100 Hz routinely.</p>
+<p>Why the difference between FCC limit and actual practice? The FCC sets a legal floor. Modern station automation uses GPS-locked frequency synthesis because it's cheap and reliable, so stations run well inside the limit.</p>
+<hr />
+<h2 id="traceability-what-that-means-here">Traceability — What That Means Here</h2>
+<p>"Traceability" in calibration means you can draw an unbroken chain from your measurement back to a primary standard (usually NIST). FM carriers are not NIST-traceable in the formal sense. The chain is:</p>
+<p><strong>FCC license (assigned frequency) → station GPS/synthesizer → transmitted carrier → your measurement</strong></p>
+<p>The FCC compliance requirement is what gives you confidence. Stations are legally required to stay within ±2 kHz and subject to enforcement. For field calibration purposes, this is adequate — but know the limits.</p>
+<hr />
+<h2 id="the-numbers-in-ppm">The Numbers in ppm</h2>
+<p>Parts per million (ppm) is how frequency error is expressed relative to the carrier frequency. It lets you compare errors across different frequencies on a common scale.</p>
+<p>The worst-case FM tolerance in ppm:</p>
+<pre><code>±2,000 Hz at 100 MHz = ±2,000 / 100,000,000 × 1,000,000 = ±20 ppm
+</code></pre>
+<p>Typical accuracy from a commercial station: <strong>±5 ppm</strong>.</p>
+<p>These numbers tell you what FM carriers are good for:
+- VHF receiver alignment: yes
+- Spectrum analyzer calibration check: yes
+- Frequency counter verification at VHF: yes
+- Replacing a GPSDO for precision work: no</p>
+<hr />
+<h2 id="self-check-questions">Self-Check Questions</h2>
+<p>Answer these before moving to Unit 2. Write your answers, then check against the key below.</p>
+<p><strong>SC1-1.</strong> What is the FCC Part 73.1545 carrier frequency tolerance for a commercial FM station?</p>
+<p><strong>SC1-2.</strong> What is the FCC tolerance for a Low Power FM (LPFM) station?</p>
+<p><strong>SC1-3.</strong> What is the channel spacing in the FM broadcast band, and what is the frequency range?</p>
+<p><strong>SC1-4.</strong> Express the worst-case commercial FM tolerance in ppm (show your calculation).</p>
+<p><strong>SC1-5.</strong> A major FM station uses GPS-disciplined frequency synthesis. What typical accuracy does TM-CAL-004 state for such a station?</p>
+<hr />
+<h2 id="answer-key">Answer Key</h2>
+<p><strong>SC1-1.</strong> ±2,000 Hz (±2 kHz). <em>(TM §2-1)</em></p>
+<p><strong>SC1-2.</strong> ±3,000 Hz (±3 kHz). <em>(TM §2-1, Table)</em></p>
+<p><strong>SC1-3.</strong> 200 kHz spacing; 88.1 MHz to 107.9 MHz. <em>(TM §2-1)</em></p>
+<p><strong>SC1-4.</strong> ±2,000 Hz / 100,000,000 Hz × 10⁶ = <strong>±20 ppm</strong>. <em>(TM §2-2)</em></p>
+<p><strong>SC1-5.</strong> ±100 Hz. <em>(TM §2-1, Table)</em></p>
+<hr />
+<h2 id="checkpoint">Checkpoint</h2>
+<p>Before proceeding to Unit 2, you must be able to state — without looking:
+- The FCC tolerance for commercial FM (in Hz)
+- The FCC tolerance for LPFM (in Hz)
+- FM band range and channel spacing
+- Worst-case accuracy in ppm</p>
+<p>If any of those are unclear, re-read TM §2-1 and §2-2.</p>
+<p><strong>→ Proceed to <a href="unit_2_station_selection.html">Unit 2</a></strong></p>
+</main>
+<footer class="site-footer">
+  <p>KO6NNH Self-Paced OBT — Calibration Ideas</p>
+</footer>
+</body>
+</html>

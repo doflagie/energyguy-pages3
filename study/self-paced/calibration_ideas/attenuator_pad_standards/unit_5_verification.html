@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 5 — Verification and Logging</title>
+<link rel="stylesheet" href="../../../../css/style.css">
+<style>
+  .course-content { max-width:860px; margin:0 auto; }
+  .course-content table { border-collapse:collapse; width:100%; margin:1rem 0; }
+  .course-content th,
+  .course-content td { border:1px solid var(--border,#ccc); padding:.4rem .6rem; }
+  .course-content th { background:var(--header-bg,#f4f4f4); }
+  .course-content code { background:var(--code-bg,#f4f4f4); padding:.1em .3em; border-radius:3px; font-size:.9em; }
+  .course-content pre code { background:none; padding:0; }
+  .course-content pre { background:var(--code-bg,#f4f4f4); padding:1rem; overflow-x:auto; border-radius:4px; }
+  .course-content blockquote { border-left:3px solid var(--border,#ccc); margin-left:0; padding-left:1rem; color:var(--muted,#666); }
+  .course-content hr { border:none; border-top:2px solid var(--border,#ccc); margin:2rem 0; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <span class="site-title">KO6NNH — Calibration Ideas</span>
+    <nav class="main-nav">
+      <a href="../../../../index.html">page3 home</a>
+      <a href="../../../index.html">study</a>
+      <a href="../index.html">Calibration Ideas</a>
+    </nav>
+  </div>
+</header>
+<main class="course-content">
+<h1 id="unit-5-verification-and-logging">Unit 5 — Verification and Logging</h1>
+<p><strong><a href="../../../Calibration_Ideas/attenuator_pad_standards/tm.html">TM-CAL-015 — Open Handout</a></strong>
+<strong>TM Chapters:</strong> Chapter 6, Chapter 7
+<strong>ELOs:</strong> Apply adjustments; perform independent verification; produce calibration log
+<strong>Estimated time:</strong> 45 minutes (hands-on lab)</p>
+<hr />
+<h2 id="step-1-read-the-tm">Step 1: Read the TM</h2>
+<p>Open TM-CAL-015. Read <strong>Chapter 6</strong> and <strong>Chapter 7</strong> completely.</p>
+<p>Then come back here.</p>
+<hr />
+<h2 id="chapter-6-tuning-and-adjustment">Chapter 6 — Tuning and Adjustment</h2>
+<p>Attenuator pads are not tunable after construction. If attenuation is off by &gt;0.5 dB, check individual resistor values and replace as needed. A 1% error in R2 causes approximately 0.1 dB error in attenuation at high attenuation values.</p>
+<hr />
+<h2 id="chapter-7-verification">Chapter 7 — Verification</h2>
+<ol>
+<li>Cascade two 6 dB pads: total should measure 12.0 ±0.2 dB.</li>
+<li>Compare measured attenuation against NanoVNA S21 measurement for cross-check.</li>
+<li>Log: attenuation at 1 MHz, 10 MHz, 100 MHz; SWR at each end; date.</li>
+</ol>
+<hr />
+<h2 id="calibration-vs-verification">Calibration vs. Verification</h2>
+<p>These are two different things:</p>
+<p><strong>Calibration (Chapter 5):</strong> You apply reference inputs and record what the instrument reads. You may adjust the instrument during this process. The result is a set of measurements taken while you are actively tuning.</p>
+<p><strong>Verification (Chapter 7):</strong> After all adjustments are complete, you perform an independent confirmation measurement. You do not adjust during verification — you are testing whether the calibration held.</p>
+<p>Locate the verification criterion in Chapter 7.</p>
+<p>If verification fails, you do not re-adjust and re-verify in one step. You return to Chapter 5, re-calibrate, and then re-verify from scratch.</p>
+<hr />
+<h2 id="lab-checklist">Lab Checklist</h2>
+<p>Work through this with equipment in hand. Check each box when complete.</p>
+<ul>
+<li>[ ] Chapter 4 setup complete</li>
+<li>[ ] Chapter 5 calibration procedure complete</li>
+<li>[ ] Any adjustments applied per Chapter 6</li>
+<li>[ ] Chapter 7 verification measurement performed</li>
+<li>[ ] Verification criterion met</li>
+<li>
+<p>[ ] Calibration log entry completed:</p>
+</li>
+<li>
+<p>[ ] Date</p>
+</li>
+<li>[ ] Instrument type and model</li>
+<li>[ ] TM number and procedure</li>
+<li>[ ] Reference standard used</li>
+<li>[ ] Measured values</li>
+<li>[ ] Errors (% or ppm)</li>
+<li>[ ] Pass/Fail result</li>
+<li>[ ] Operator name</li>
+</ul>
+<hr />
+<h2 id="self-check-questions">Self-Check Questions</h2>
+<p><strong>SC5-1.</strong> What is the verification acceptance criterion per Chapter 7? State it with units.</p>
+<p><strong>SC5-2.</strong> What is the difference between the Chapter 5 calibration and the Chapter 7 verification?</p>
+<p><strong>SC5-3.</strong> Your Chapter 7 verification fails. What is the correct next step per the TM?</p>
+<p><strong>SC5-4.</strong> List the required entries in the calibration log.</p>
+<p><strong>SC5-5.</strong> Why must the log be completed before the calibration is considered finished?</p>
+<hr />
+<h2 id="answer-key">Answer Key</h2>
+<p><strong>SC5-1.</strong> See TM Chapter 7. Copy the criterion exactly with units and section number.</p>
+<p><strong>SC5-2.</strong> Chapter 5 is the active calibration — you apply references and may adjust. Chapter 7 is an independent confirmation after all adjustments are locked in — no further adjustment during verification.</p>
+<p><strong>SC5-3.</strong> Return to Chapter 5 and re-calibrate. Do not re-adjust and re-verify without re-doing the full calibration procedure.</p>
+<p><strong>SC5-4.</strong> See TM Chapter 7. List every item the TM specifies.</p>
+<p><strong>SC5-5.</strong> A calibration with no record did not happen in any traceable sense. The log is the evidence that the procedure was followed, the results were within specification, and who performed it.</p>
+<hr />
+<h2 id="checkpoint">Checkpoint</h2>
+<p>TLO-1 is complete when:
+- [ ] Verification criterion met (Chapter 7)
+- [ ] Calibration log entry completed with all required fields
+- [ ] You can explain the difference between calibration and verification</p>
+<p><strong>→ Proceed to <a href="final_assessment.html">Final Assessment</a></strong></p>
+</main>
+<footer class="site-footer">
+  <p>KO6NNH Self-Paced OBT — Calibration Ideas</p>
+</footer>
+</body>
+</html>

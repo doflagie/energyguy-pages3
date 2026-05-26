@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 1 — Theory of Operation</title>
+<link rel="stylesheet" href="../../../../css/style.css">
+<style>
+  .course-content { max-width:860px; margin:0 auto; }
+  .course-content table { border-collapse:collapse; width:100%; margin:1rem 0; }
+  .course-content th,
+  .course-content td { border:1px solid var(--border,#ccc); padding:.4rem .6rem; }
+  .course-content th { background:var(--header-bg,#f4f4f4); }
+  .course-content code { background:var(--code-bg,#f4f4f4); padding:.1em .3em; border-radius:3px; font-size:.9em; }
+  .course-content pre code { background:none; padding:0; }
+  .course-content pre { background:var(--code-bg,#f4f4f4); padding:1rem; overflow-x:auto; border-radius:4px; }
+  .course-content blockquote { border-left:3px solid var(--border,#ccc); margin-left:0; padding-left:1rem; color:var(--muted,#666); }
+  .course-content hr { border:none; border-top:2px solid var(--border,#ccc); margin:2rem 0; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <span class="site-title">KO6NNH — Antennas</span>
+    <nav class="main-nav">
+      <a href="../../../../index.html">page3 home</a>
+      <a href="../../../index.html">study</a>
+      <a href="../index.html">Antennas</a>
+    </nav>
+  </div>
+</header>
+<main class="course-content">
+<h1 id="unit-1-theory-of-operation">Unit 1 — Theory of Operation</h1>
+<p><strong><a href="../../../antennas/end_fed_quarter_wave/tm.html">TM-ANT-020 — Open Handout</a></strong>
+<strong>TM Chapter:</strong> Chapter 2
+<strong>ELOs:</strong> Understand the operating principle of the END-FED QUARTER-WAVE (EFQW) ANTENNA; identify key electrical characteristics
+<strong>Estimated time:</strong> 20 minutes</p>
+<hr />
+<h2 id="step-1-read-the-tm">Step 1: Read the TM</h2>
+<p>Open TM-ANT-020. Read <strong>Chapter 2 — Theory of Operation</strong> completely.</p>
+<p>Then come back here.</p>
+<hr />
+<h2 id="chapter-2-content">Chapter 2 Content</h2>
+<h3 id="2-1-end-fed-matching">2-1. END-FED MATCHING</h3>
+<p>Quarter-wave wire element fed at high-impedance end via 9:1 unun with short counterpoise. An end-fed wire presents a high impedance at its end: ~2500–5000 Ω for a half-wave wire; ~1000–2000 Ω for a quarter-wave wire. This high impedance is transformed down to 50 Ω by the matching transformer or unun. Design values: ~1000–2000 Ω → 50 Ω via 9:1 unun. The transformation ratio n² = Zwire/Zcoax; for a 49:1 unun, n = 7, so the wire impedance appears as 49×50 = 2450 Ω from the wire side.</p>
+<h3 id="2-2-radiation-pattern">2-2. RADIATION PATTERN</h3>
+<p>An end-fed wire radiates in a pattern that varies with length and frequency. A half-wave wire at 10 ft height produces a bidirectional broadside pattern similar to a dipole. At harmonic frequencies the pattern has multiple lobes and nulls. Gain per design: 0 dBi (vertical, omnidirectional). The pattern is affected by the run of the feed line if common-mode current is not controlled.</p>
+<h3 id="2-3-counterpoise-requirements">2-3. COUNTERPOISE REQUIREMENTS</h3>
+<p>A counterpoise (short wire or coax braid) is required as a reference conductor for the feed voltage to work against. Without a counterpoise the coax braid serves as the counterpoise, causing RF current on the braid. Recommended counterpoise: 0.05λ minimum length wire from the unun ground terminal, or a 1:1 choke isolating the antenna current from the coax outer.</p>
+<hr />
+<h2 id="why-theory-matters-for-antenna-construction">Why Theory Matters for Antenna Construction</h2>
+<p>You cannot build a working antenna without understanding the underlying physics. Theory tells you:
+- What determines resonant frequency — and therefore how cutting or loading errors affect performance
+- What radiation pattern the antenna produces and why physical layout matters
+- What feedpoint impedance to expect — so you know whether a matching network is needed
+- What the sources of loss are: conductor resistance, ground losses, impedance mismatch</p>
+<p>If the antenna doesn't resonate where expected, or SWR is high, theory is where you diagnose the cause.</p>
+<hr />
+<h2 id="self-check-questions">Self-Check Questions</h2>
+<p><strong>SC1-1.</strong> In one sentence, state the operating principle of the END-FED QUARTER-WAVE (EFQW) ANTENNA as described in Chapter 2.</p>
+<p><strong>SC1-2.</strong> What determines the resonant frequency of the END-FED QUARTER-WAVE (EFQW) ANTENNA? Name the primary physical parameter(s).</p>
+<p><strong>SC1-3.</strong> What feedpoint impedance does Chapter 2 predict for the END-FED QUARTER-WAVE (EFQW) ANTENNA in free space? How does that change over real ground?</p>
+<p><strong>SC1-4.</strong> What radiation pattern does the END-FED QUARTER-WAVE (EFQW) ANTENNA produce? What are the nulls and maxima directions?</p>
+<p><strong>SC1-5.</strong> List two formulas or relationships from Chapter 2 that govern the antenna's electrical behavior.</p>
+<hr />
+<h2 id="answer-key">Answer Key</h2>
+<p><strong>SC1-1.</strong> See TM §2-1. Compare your sentence to the first substantive paragraph of Chapter 2.</p>
+<p><strong>SC1-2.</strong> See Chapter 2. For most antennas the primary parameter is physical length relative to wavelength. Loading (coils, capacitors) shifts this.</p>
+<p><strong>SC1-3.</strong> See Chapter 2. Free-space feedpoint impedance is a theoretical value; ground proximity, height, and nearby conductors modify it significantly.</p>
+<p><strong>SC1-4.</strong> See Chapter 2. Directional patterns are usually shown in terms of azimuth and elevation radiation patterns.</p>
+<p><strong>SC1-5.</strong> See Chapter 2 and Appendix A. The key equation usually relates length to frequency, or impedance to element geometry.</p>
+<hr />
+<h2 id="checkpoint">Checkpoint</h2>
+<p>Before proceeding, state without looking:
+- The operating principle of the END-FED QUARTER-WAVE (EFQW) ANTENNA
+- What determines its resonant frequency
+- The expected feedpoint impedance</p>
+<p><strong>→ Proceed to <a href="unit_2_materials.html">Unit 2</a></strong></p>
+</main>
+<footer class="site-footer">
+  <p>KO6NNH Self-Paced OBT — Antennas</p>
+</footer>
+</body>
+</html>
