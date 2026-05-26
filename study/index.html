@@ -220,6 +220,10 @@
                         <input type="radio" id="poolExtra" name="questionSet" value="extra">
                         <label for="poolExtra"><strong>Extra Class</strong> - 50 questions</label>
                     </div>
+                    <div class="radio-option" style="border-left: 4px solid #c0392b;">
+                        <input type="radio" id="poolAll" name="questionSet" value="all">
+                        <label for="poolAll"><strong>All Pools — Gauntlet</strong> - 1,436 questions · sudden death · one wrong answer ends the run</label>
+                    </div>
                 </div>
 
                 <h4 style="margin-top: 25px; color: #2c5f8d;">Quiz Mode</h4>
@@ -271,21 +275,39 @@
     </div>
 
     <script>
-        document.getElementById('startButton').addEventListener('click', startQuiz);
+        const startButton = document.getElementById('startButton');
+        const modeRadios  = document.querySelectorAll('input[name="mode"]');
+        const countRadios = document.querySelectorAll('input[name="questionCount"]');
+
+        document.querySelectorAll('input[name="questionSet"]').forEach(r => {
+            r.addEventListener('change', () => {
+                if (r.value === 'all') {
+                    document.getElementById('modeSpeed').checked = true;
+                    document.getElementById('countAll').checked  = true;
+                    modeRadios.forEach(x  => { x.disabled  = x.value  !== 'speed'; });
+                    countRadios.forEach(x => { x.disabled  = x.value  !== 'all';   });
+                    startButton.textContent = 'START GAUNTLET →';
+                    startButton.style.background = 'linear-gradient(135deg, #c0392b 0%, #922b21 100%)';
+                } else {
+                    modeRadios.forEach(x  => { x.disabled = false; });
+                    countRadios.forEach(x => { x.disabled = false; });
+                    startButton.textContent = 'START QUIZ →';
+                    startButton.style.background = '';
+                }
+            });
+        });
+
+        startButton.addEventListener('click', startQuiz);
 
         function startQuiz() {
             const questionSet = document.querySelector('input[name="questionSet"]:checked').value;
             const mode = document.querySelector('input[name="mode"]:checked').value;
             const countValue = document.querySelector('input[name="questionCount"]:checked').value;
-
-            const url = `quiz.html?set=${questionSet}&mode=${mode}&count=${countValue}`;
-            window.location.href = url;
+            window.location.href = `quiz.html?set=${questionSet}&mode=${mode}&count=${countValue}`;
         }
 
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                startQuiz();
-            }
+            if (e.key === 'Enter') startQuiz();
         });
     </script>
 </body>

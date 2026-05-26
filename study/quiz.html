@@ -161,25 +161,33 @@
         let startTime;
         let elapsedSeconds = 0;
         let questionPool;
+        let suddenDeath = false;
+
+        const R2 = 'https://assets.doflagie.com/ham-radio';
 
         const POOL_CONFIG = {
             technician: {
-                file: 'https://assets.doflagie.com/ham-radio/technician-pool.json',
+                file: `${R2}/technician-pool.json`,
                 title: 'ARRL Technician Flash Card Quiz',
                 subtitle: 'ARRL Technician Pool Practice - Navy Training Style',
                 defaultCount: 35
             },
             general: {
-                file: 'https://assets.doflagie.com/ham-radio/general-pool.json',
+                file: `${R2}/general-pool.json`,
                 title: 'General Class Flash Card Quiz',
                 subtitle: 'General Class Pool Practice - Navy Training Style',
                 defaultCount: 35
             },
             extra: {
-                file: 'https://assets.doflagie.com/ham-radio/extra-pool.json',
+                file: `${R2}/extra-pool.json`,
                 title: 'Extra Class Flash Card Quiz',
                 subtitle: 'Extra Class Pool Practice - Navy Training Style',
                 defaultCount: 50
+            },
+            all: {
+                title: 'All Pools — Gauntlet',
+                subtitle: 'Sudden Death · One wrong answer ends the run',
+                defaultCount: Infinity
             }
         };
 
@@ -207,29 +215,56 @@
                 document.getElementById('quizSubtitle').textContent = config.subtitle;
                 document.title = `${config.title} - Merv's Brain Dump`;
 
-                const response = await fetch(config.file);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                if (set === 'all') {
+                    suddenDeath = true;
+                    document.getElementById('quizTitle').style.color = '#c0392b';
+
+                    const [tech, gen, ext] = await Promise.all([
+                        fetch(`${R2}/technician-pool.json`).then(r => r.json()),
+                        fetch(`${R2}/general-pool.json`).then(r => r.json()),
+                        fetch(`${R2}/extra-pool.json`).then(r => r.json())
+                    ]);
+
+                    // Tag each question with its pool label
+                    const combined = [
+                        ...tech.questions.map(q => ({ ...q, poolTag: 'T' })),
+                        ...gen.questions.map(q  => ({ ...q, poolTag: 'G' })),
+                        ...ext.questions.map(q  => ({ ...q, poolTag: 'E' }))
+                    ];
+
+                    // Fisher-Yates shuffle
+                    for (let i = combined.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [combined[i], combined[j]] = [combined[j], combined[i]];
+                    }
+
+                    questionPool = { questions: combined, totalQuestions: combined.length };
+                } else {
+                    const response = await fetch(config.file);
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    questionPool = await response.json();
                 }
 
-                questionPool = await response.json();
                 if (!questionPool.questions || questionPool.questions.length === 0) {
                     throw new Error('No questions found in pool');
                 }
 
-                let questionCount = config.defaultCount;
-                if (countParam === 'all') {
-                    questionCount = questionPool.questions.length;
-                } else if (countParam) {
-                    const parsed = parseInt(countParam, 10);
-                    if (!Number.isNaN(parsed)) {
-                        questionCount = parsed;
+                let questionCount = suddenDeath
+                    ? questionPool.questions.length
+                    : config.defaultCount;
+
+                if (!suddenDeath) {
+                    if (countParam === 'all') {
+                        questionCount = questionPool.questions.length;
+                    } else if (countParam) {
+                        const parsed = parseInt(countParam, 10);
+                        if (!Number.isNaN(parsed)) questionCount = parsed;
                     }
                 }
 
                 quizEngine = new QuizEngine(questionPool, {
                     count: questionCount,
-                    shuffle: true,
+                    shuffle: !suddenDeath,   // already shuffled for gauntlet
                     shuffleAnswers: false
                 });
                 quizEngine.init();
@@ -305,7 +340,9 @@
 
             document.getElementById('questionNumber').textContent =
                 `Question ${question.number} / ${question.total}`;
-            document.getElementById('questionSection').textContent = question.section || '';
+            const rawQ = quizEngine.questions[quizEngine.currentIndex];
+            const poolLabel = rawQ.poolTag ? `[${rawQ.poolTag}] ` : '';
+            document.getElementById('questionSection').textContent = poolLabel + (question.section || '');
             document.getElementById('questionText').textContent = question.text;
 
             const buttons = ['A', 'B', 'C', 'D'];
@@ -383,6 +420,15 @@
             }
 
             updateProgress();
+
+            if (suddenDeath && !result.correct) {
+                setTimeout(() => {
+                    stopTimer();
+                    progressManager.endSession(elapsedSeconds);
+                    showResults(quizEngine.getResults(), true);
+                }, 1500);
+                return;
+            }
 
             setTimeout(() => {
                 if (quizEngine.currentIndex < quizEngine.questions.length - 1) {
@@ -480,19 +526,38 @@
             showResults(results);
         }
 
-        function showResults(results) {
+        function showResults(results, gauntletOver = false) {
             document.getElementById('quizLayout').classList.add('hidden');
 
             const resultsContainer = document.getElementById('resultsContainer');
             resultsContainer.classList.remove('hidden');
 
             const scoreDisplay = document.getElementById('scoreDisplay');
-            scoreDisplay.textContent = `${results.score}%`;
-            scoreDisplay.classList.add(results.passing ? 'passing' : 'failing');
 
-            document.getElementById('resultTotal').textContent = results.total;
-            document.getElementById('resultCorrect').textContent = results.correct;
-            document.getElementById('resultIncorrect').textContent = results.incorrect;
+            if (gauntletOver) {
+                resultsContainer.querySelector('h2').textContent = '💀 GAME OVER';
+                const mins = String(Math.floor(elapsedSeconds / 60)).padStart(2, '0');
+                const secs = String(elapsedSeconds % 60).padStart(2, '0');
+                scoreDisplay.textContent = `${mins}:${secs}`;
+                scoreDisplay.style.fontSize = '3em';
+                scoreDisplay.classList.add('failing');
+
+                const labels = resultsContainer.querySelectorAll('.result-stat-label');
+                if (labels[0]) labels[0].textContent = 'Time Survived';
+                document.getElementById('resultTotal').textContent = `${mins}:${secs}`;
+
+                if (labels[1]) labels[1].textContent = 'Correct';
+                document.getElementById('resultCorrect').textContent = results.correct;
+
+                if (labels[2]) labels[2].textContent = 'Fell on Q#';
+                document.getElementById('resultIncorrect').textContent = results.correct + 1;
+            } else {
+                scoreDisplay.textContent = `${results.score}%`;
+                scoreDisplay.classList.add(results.passing ? 'passing' : 'failing');
+                document.getElementById('resultTotal').textContent = results.total;
+                document.getElementById('resultCorrect').textContent = results.correct;
+                document.getElementById('resultIncorrect').textContent = results.incorrect;
+            }
         }
 
         function reviewAnswers() {
