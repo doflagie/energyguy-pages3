@@ -1,13 +1,7 @@
 #!/usr/bin/env python3
 """
 Generate HTML index pages for each self-paced course category.
-
-Each index.html lists all courses in the category with:
-  - Course title (from README.md first heading)
-  - TM number and link
-  - Links to each unit and final assessment
-
-Output: study/self-paced/<category>/index.html
+Matches the home page layout: .container > header.banner + .main-wrapper > nav + main.
 
 Usage: python3 generate_indexes.py
 """
@@ -22,8 +16,16 @@ CAT_MAP = {
     'calibration':       ('Calibration',       'calibration'),
     'calibration_ideas': ('Calibration Ideas', 'Calibration_Ideas'),
     'antenna_tools':     ('Antenna Tools',     'antenna_tools'),
-    'antenna_gear':      ('Antenna Gear',       'antenna_gear'),
-    'antennas':          ('Antennas',           'antennas'),
+    'antenna_gear':      ('Antenna Gear',      'antenna_gear'),
+    'antennas':          ('Antennas',          'antennas'),
+}
+
+CAT_COUNTS = {
+    'antennas':          73,
+    'antenna_gear':      19,
+    'antenna_tools':     10,
+    'calibration':       35,
+    'calibration_ideas': 17,
 }
 
 UNIT_LABELS = {
@@ -42,6 +44,33 @@ UNIT_LABELS = {
     'unit_5_verification.md':  'Unit 5 — Verification',
     'final_assessment.md':     'Final Assessment',
 }
+
+
+def sidebar_nav(current_cat):
+    cats = [
+        ('antennas',          'Antennas'),
+        ('antenna_gear',      'Antenna Gear'),
+        ('antenna_tools',     'Antenna Tools'),
+        ('calibration',       'Calibration'),
+        ('calibration_ideas', 'Calibration Ideas'),
+    ]
+    items = '\n'.join(
+        f'                    <li><a href="/study/self-paced/{k}/index.html">{label} ({CAT_COUNTS[k]})</a></li>'
+        for k, label in cats
+    )
+    return f"""            <nav>
+                <h3>Main Navigation</h3>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/study/index.html">Study &amp; Training</a></li>
+                </ul>
+                <details class="nav-group" open>
+                    <summary>Self-Paced Courses</summary>
+                    <ul>
+{items}
+                    </ul>
+                </details>
+            </nav>"""
 
 
 def get_title_and_tm(readme_path):
@@ -75,7 +104,6 @@ def make_index(cat, cat_label, tm_dir_name):
         if not title:
             title = cdir.name.replace('_', ' ').replace('-', ' ').title()
 
-        # Build unit links
         unit_links = []
         for fname, label in UNIT_LABELS.items():
             fpath = cdir / fname
@@ -93,55 +121,68 @@ def make_index(cat, cat_label, tm_dir_name):
       <td class="units-col">{'  ·  '.join(unit_links)}</td>
     </tr>""")
 
+    nav = sidebar_nav(cat)
+
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Self-Paced Courses — {cat_label}</title>
-<link rel="stylesheet" href="../../../css/style.css">
-<style>
-  .course-table {{ width:100%; border-collapse:collapse; margin-top:1.5rem; }}
-  .course-table th {{ text-align:left; padding:.4rem .6rem; border-bottom:2px solid var(--border,#ccc); }}
-  .course-table td {{ padding:.35rem .6rem; border-bottom:1px solid var(--border,#eee); vertical-align:top; }}
-  .tm-link {{ font-family:monospace; white-space:nowrap; }}
-  .units-col {{ font-size:.85em; }}
-  .units-col a {{ margin-right:.2em; }}
-  .course-title a {{ font-weight:600; }}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Self-Paced Courses — {cat_label}</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .course-table {{ width:100%; border-collapse:collapse; margin-top:1.5rem; }}
+        .course-table th {{ text-align:left; padding:.4rem .6rem; border-bottom:2px solid #ccc; }}
+        .course-table td {{ padding:.35rem .6rem; border-bottom:1px solid #eee; vertical-align:top; }}
+        .tm-link {{ font-family:monospace; white-space:nowrap; }}
+        .units-col {{ font-size:.85em; }}
+        .units-col a {{ margin-right:.2em; }}
+        .course-title a {{ font-weight:600; }}
+    </style>
 </head>
 <body>
-<header class="site-header">
-  <div class="header-inner">
-    <span class="site-title">KO6NNH — {cat_label} Self-Paced Courses</span>
-    <nav class="main-nav">
-      <a href="../../../index.html">page3 home</a>
-      <a href="../../index.html">study</a>
-    </nav>
-  </div>
-</header>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">When you build it, it teaches.</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+{nav}
+            <main>
+                <h1>Self-Paced Courses — {cat_label}</h1>
+                <p>{len(rows)} courses. Click a course title to open its README, or jump directly to any unit.
+                The <strong>TM</strong> link opens the handout for that course.</p>
 
-<main>
-<h1>Self-Paced Courses — {cat_label}</h1>
-<p>{len(rows)} courses. Click a course title to open its README, or jump directly to any unit.
-The <strong>TM</strong> link opens the handout for that course.</p>
-
-<table class="course-table">
-  <thead>
-    <tr>
-      <th>Course</th>
-      <th>TM</th>
-      <th>Units</th>
-    </tr>
-  </thead>
-  <tbody>{''.join(rows)}
-  </tbody>
-</table>
-</main>
-
-<footer class="site-footer">
-  <p>Self-Paced OBT Courses — {cat_label} — KO6NNH</p>
-</footer>
+                <table class="course-table">
+                    <thead>
+                        <tr>
+                            <th>Course</th>
+                            <th>TM</th>
+                            <th>Units</th>
+                        </tr>
+                    </thead>
+                    <tbody>{''.join(rows)}
+                    </tbody>
+                </table>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a> unless otherwise noted.</p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
 """

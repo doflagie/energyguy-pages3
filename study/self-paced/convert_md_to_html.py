@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """
 Convert all self-paced course markdown files to HTML.
-Wraps each .md in a full HTML page with site CSS and nav.
-Output: alongside each .md as <basename>.html
+Matches the home page layout: .container > header.banner + .main-wrapper > nav + main.
 
 Usage: python3 convert_md_to_html.py
 """
@@ -24,7 +23,34 @@ CAT_LABELS = {
 EXTENSIONS = ['tables', 'fenced_code', 'toc', 'sane_lists']
 
 
-def md_to_html(md_path, cat_label):
+def sidebar_nav(current_cat):
+    cats = [
+        ('antennas',          'Antennas (73)'),
+        ('antenna_gear',      'Antenna Gear (19)'),
+        ('antenna_tools',     'Antenna Tools (10)'),
+        ('calibration',       'Calibration (35)'),
+        ('calibration_ideas', 'Calibration Ideas (17)'),
+    ]
+    items = '\n'.join(
+        f'                    <li><a href="/study/self-paced/{k}/index.html">{label}</a></li>'
+        for k, label in cats
+    )
+    return f"""            <nav>
+                <h3>Main Navigation</h3>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/study/index.html">Study &amp; Training</a></li>
+                </ul>
+                <details class="nav-group" open>
+                    <summary>Self-Paced Courses</summary>
+                    <ul>
+{items}
+                    </ul>
+                </details>
+            </nav>"""
+
+
+def md_to_html(md_path, cat, cat_label):
     text = md_path.read_text(encoding='utf-8', errors='replace')
 
     title = md_path.stem.replace('_', ' ').title()
@@ -40,47 +66,59 @@ def md_to_html(md_path, cat_label):
     body = re.sub(r'href="([^"#]*?)\.md(#[^"]*)?"',
                   lambda m: f'href="{m.group(1)}.html{m.group(2) or ""}"', body)
 
-    html = f"""<!DOCTYPE html>
+    nav = sidebar_nav(cat)
+
+    return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{title}</title>
-<link rel="stylesheet" href="../../../../css/style.css">
-<style>
-  .course-content {{ max-width:860px; margin:0 auto; }}
-  .course-content table {{ border-collapse:collapse; width:100%; margin:1rem 0; }}
-  .course-content th,
-  .course-content td {{ border:1px solid var(--border,#ccc); padding:.4rem .6rem; }}
-  .course-content th {{ background:var(--header-bg,#f4f4f4); }}
-  .course-content code {{ background:var(--code-bg,#f4f4f4); padding:.1em .3em; border-radius:3px; font-size:.9em; }}
-  .course-content pre code {{ background:none; padding:0; }}
-  .course-content pre {{ background:var(--code-bg,#f4f4f4); padding:1rem; overflow-x:auto; border-radius:4px; }}
-  .course-content blockquote {{ border-left:3px solid var(--border,#ccc); margin-left:0; padding-left:1rem; color:var(--muted,#666); }}
-  .course-content hr {{ border:none; border-top:2px solid var(--border,#ccc); margin:2rem 0; }}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title}</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .course-content table {{ border-collapse:collapse; width:100%; margin:1rem 0; }}
+        .course-content th,
+        .course-content td {{ border:1px solid #ccc; padding:.4rem .6rem; }}
+        .course-content th {{ background:#f4f4f4; }}
+        .course-content code {{ background:#f4f4f4; padding:.1em .3em; border-radius:3px; font-size:.9em; }}
+        .course-content pre code {{ background:none; padding:0; }}
+        .course-content pre {{ background:#f4f4f4; padding:1rem; overflow-x:auto; border-radius:4px; }}
+        .course-content blockquote {{ border-left:3px solid #ccc; margin-left:0; padding-left:1rem; color:#666; }}
+        .course-content hr {{ border:none; border-top:2px solid #ccc; margin:2rem 0; }}
+    </style>
 </head>
 <body>
-<header class="site-header">
-  <div class="header-inner">
-    <span class="site-title">KO6NNH — {cat_label}</span>
-    <nav class="main-nav">
-      <a href="../../../../index.html">page3 home</a>
-      <a href="../../../index.html">study</a>
-      <a href="../index.html">{cat_label}</a>
-    </nav>
-  </div>
-</header>
-<main class="course-content">
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">When you build it, it teaches.</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+{nav}
+            <main class="course-content">
 {body}
-</main>
-<footer class="site-footer">
-  <p>KO6NNH Self-Paced OBT — {cat_label}</p>
-</footer>
+            </main>
+        </div>
+    </div>
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a> unless otherwise noted.</p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
 """
-    return html
 
 
 def main():
@@ -88,16 +126,17 @@ def main():
     for cat_dir in sorted(SELF_PACED.iterdir()):
         if not cat_dir.is_dir() or cat_dir.name not in CAT_LABELS:
             continue
-        cat_label = CAT_LABELS[cat_dir.name]
+        cat = cat_dir.name
+        cat_label = CAT_LABELS[cat]
         for course_dir in sorted(cat_dir.iterdir()):
             if not course_dir.is_dir():
                 continue
             for md_path in sorted(course_dir.glob('*.md')):
-                html = md_to_html(md_path, cat_label)
+                html = md_to_html(md_path, cat, cat_label)
                 html_path = md_path.with_suffix('.html')
                 html_path.write_text(html, encoding='utf-8')
                 written += 1
-        print(f"  {cat_dir.name}: done")
+        print(f"  {cat}: done")
     print(f"Total: {written} HTML files written.")
 
 
