@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-CAL-008 PRECISION RESISTOR NETWORK (DECADE BOX) - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    
+<style>
+/* Navy TM Styles */
+.tm-cover {
+    border: 3px solid #2c5f8d;
+    padding: 30px 40px;
+    text-align: center;
+    margin-bottom: 30px;
+    background: #f8f8f4;
+}
+.tm-classification {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #006600;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+.tm-number {
+    font-family: 'Courier New', monospace;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #2c5f8d;
+    margin-bottom: 10px;
+}
+.tm-title {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #1a3a5c;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 15px 0 10px;
+    line-height: 1.3;
+}
+.tm-subtitle {
+    font-size: 1.0em;
+    font-style: italic;
+    color: #555;
+    margin-bottom: 15px;
+}
+.tm-meta {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 20px;
+    border-top: 1px solid #aaa;
+    padding-top: 15px;
+}
+.tm-toc {
+    background: #f0f4f8;
+    border: 1px solid #c0ccd8;
+    padding: 20px 30px;
+    margin-bottom: 30px;
+}
+.tm-toc h2 {
+    font-size: 1.1em;
+    color: #2c5f8d;
+    border-bottom: 1px solid #4a7ba7;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.tm-toc ol {
+    margin: 0;
+    padding-left: 25px;
+}
+.tm-toc li {
+    margin: 4px 0;
+    font-size: 0.95em;
+}
+.tm-toc a {
+    color: #2c5f8d;
+    text-decoration: none;
+}
+.tm-toc a:hover {
+    text-decoration: underline;
+}
+.chapter-heading {
+    background: #2c5f8d;
+    color: #ffffff;
+    padding: 10px 20px;
+    margin-top: 35px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.section-heading {
+    color: #1a3a5c;
+    border-bottom: 2px solid #4a7ba7;
+    padding-bottom: 4px;
+    margin-top: 25px;
+    margin-bottom: 12px;
+    font-size: 1.05em;
+}
+.subsection-heading {
+    color: #2c5f8d;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    font-size: 1.0em;
+}
+.tm-warning {
+    background: #fff0f0;
+    border-left: 5px solid #cc0000;
+    border-top: 1px solid #cc0000;
+    border-bottom: 1px solid #cc0000;
+    border-right: 1px solid #cc0000;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-caution {
+    background: #fffbf0;
+    border-left: 5px solid #cc7700;
+    border-top: 1px solid #cc7700;
+    border-bottom: 1px solid #cc7700;
+    border-right: 1px solid #cc7700;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-note {
+    background: #f0f5ff;
+    border-left: 5px solid #4a7ba7;
+    border-top: 1px solid #4a7ba7;
+    border-bottom: 1px solid #4a7ba7;
+    border-right: 1px solid #4a7ba7;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.admonition-label {
+    font-weight: bold;
+    font-size: 0.9em;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 6px;
+}
+.tm-warning .admonition-label { color: #cc0000; }
+.tm-caution .admonition-label { color: #cc7700; }
+.tm-note .admonition-label { color: #2c5f8d; }
+.tm-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.95em;
+}
+.tm-table th {
+    background: #4a7ba7;
+    color: #ffffff;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.tm-table td {
+    border: 1px solid #c0ccd8;
+    padding: 7px 12px;
+    vertical-align: top;
+}
+.tm-table tr:nth-child(even) td {
+    background: #f4f7fb;
+}
+.tm-table caption {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 5px;
+    text-align: left;
+}
+.procedure ol {
+    margin: 10px 0 10px 20px;
+}
+.procedure li {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+.formula-block {
+    background: #f4f7fb;
+    border: 1px solid #c0ccd8;
+    padding: 12px 20px;
+    margin: 12px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+}
+.formula-block .formula-label {
+    font-family: Georgia, serif;
+    font-size: 0.85em;
+    color: #555;
+    font-style: italic;
+    display: block;
+    margin-bottom: 5px;
+}
+.back-link {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #c0ccd8;
+    font-size: 0.9em;
+}
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+            
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="../../about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul><li><a href="../../antennas/index.html">Antenna Library</a></li></ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul><li><a href="../../test_gear/index.html">Test Equipment Library</a></li></ul>
+            </details>
+            <h3>Standards</h3>
+            <ul>
+                <li><a href="../index.html">Calibration Standards</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Study &amp; Training</summary>
+                <ul>
+                    <li><a href="https://assets.doflagie.com/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                    <li><a href="https://assets.doflagie.com/study/morse.html">Morse Code Practice</a></li>
+                </ul>
+            </details>
+        </nav>
+
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-CAL-008</div>
+                    <div class="tm-title">PRECISION RESISTOR NETWORK (DECADE BOX)</div>
+                    <div class="tm-subtitle">Switchable Precision Resistance Standards from 1 &Omega; to 9999 &Omega;</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH<br>
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial calibration use</em>
+                    </div>
+                </div>
+
+                <div class="tm-toc">
+                    <h2>Table of Contents</h2>
+                    <ol>
+            <li><a href="#ch1">Chapter 1 &mdash; General Information</a></li>
+            <li><a href="#ch2">Chapter 2 &mdash; Theory of Operation</a></li>
+            <li><a href="#ch3">Chapter 3 &mdash; Materials and Construction</a></li>
+            <li><a href="#ch4">Chapter 4 &mdash; Assembly Procedures</a></li>
+            <li><a href="#ch5">Chapter 5 &mdash; Calibration Procedure</a></li>
+            <li><a href="#ch6">Chapter 6 &mdash; Tuning and Adjustment</a></li>
+            <li><a href="#ch7">Chapter 7 &mdash; Verification</a></li>
+            <li><a href="#appa">Appendix A &mdash; Calculations and Formulas</a></li>
+            <li><a href="#appb">Appendix B &mdash; Example Results</a></li>
+                    </ol>
+                </div>
+
+                <h2 class="chapter-heading" id="ch1">CHAPTER 1 &mdash; GENERAL INFORMATION</h2>
+<h3 class="section-heading">1-1. SCOPE</h3>
+<p>This manual covers construction of a precision decade resistance box and fixed resistor standards for calibrating ohmmeters, resistance bridges, and ADC reference circuits. Resistors are available with &plusmn;0.01% tolerance and 2 ppm/&deg;C TC from Vishay and similar vendors.</p>
+
+
+<h2 class="chapter-heading" id="ch2">CHAPTER 2 &mdash; THEORY OF OPERATION</h2>
+<h3 class="section-heading">2-1. RESISTOR TYPES</h3>
+<p>For precision standards, use bulk metal foil (BMF) or metal film resistors. Wire-wound resistors are excellent for DC but introduce inductance at AC. Carbon film and carbon composition types are inadequate for calibration use due to high TC and poor long-term stability.</p>
+<table class="tm-table"><caption>Resistor Technology Comparison</caption><thead><tr><th>Type</th><th>Tolerance</th><th>TC (ppm/&deg;C)</th><th>Stability</th><th>Notes</th></tr></thead><tbody>
+<tr><td>Bulk metal foil (BMF)</td><td>0.01%</td><td>0.2&ndash;2</td><td>Excellent</td><td>Vishay Z201, best choice</td></tr>
+<tr><td>Metal film</td><td>0.1%</td><td>10&ndash;25</td><td>Good</td><td>Yageo MFR, Multicomp</td></tr>
+<tr><td>Wirewound</td><td>0.1%</td><td>5&ndash;10</td><td>Excellent DC</td><td>Inductive at AC</td></tr>
+<tr><td>Thick film (SMD)</td><td>1%</td><td>100&ndash;200</td><td>Fair</td><td>Not suitable</td></tr>
+<tr><td>Carbon film</td><td>5%</td><td>200&ndash;500</td><td>Poor</td><td>Do not use</td></tr>
+</tbody></table>
+<h3 class="section-heading">2-2. 4-WIRE KELVIN CONNECTIONS</h3>
+<p>For resistances below 100 &Omega;, contact resistance in connectors and switch contacts introduces significant error. Use 4-wire (Kelvin) connections: separate current-force and voltage-sense terminals for each resistor position. See TM-CAL-010 for full Kelvin procedure.</p>
+
+
+<h2 class="chapter-heading" id="ch3">CHAPTER 3 &mdash; MATERIALS AND CONSTRUCTION</h2>
+<h3 class="section-heading">3-1. DECADE BOX BILL OF MATERIALS</h3>
+<table class="tm-table"><caption>Components</caption><thead><tr><th>Qty</th><th>Item</th><th>Specification</th></tr></thead><tbody>
+<tr><td>4</td><td>Rotary switch</td><td>12-position, make-before-break, low contact resistance</td></tr>
+<tr><td>40</td><td>Metal film resistors</td><td>1 &Omega; through 10k&Omega; in decade steps, 0.1%</td></tr>
+<tr><td>4</td><td>Binding posts or BNC</td><td>Input/output terminals</td></tr>
+<tr><td>1</td><td>Aluminum enclosure</td><td>Hammond 1590BB or similar</td></tr>
+<tr><td>1</td><td>PC board</td><td>For resistor mounting</td></tr>
+</tbody></table>
+
+<h2 class="chapter-heading" id="ch4">CHAPTER 4 &mdash; ASSEMBLY PROCEDURES</h2>
+<div class="procedure"><ol>
+<li>Mount resistors in each decade: 1&Omega;&ndash;9&Omega; (nine 1&Omega;), 10&Omega;&ndash;90&Omega; (nine 10&Omega;), etc.</li>
+<li>Use low-thermal-EMF solder (SAC305 or rosin-flux silver solder). Avoid no-clean flux which may cause thermal EMF at solder joints.</li>
+<li>Keep lead lengths short and symmetrical within each decade.</li>
+<li>Wire switch wipers in series: decade 4 wiper &rarr; decade 3 input &rarr; decade 2 input &rarr; decade 1 input &rarr; output terminal.</li>
+<li>Verify each decade with ohmmeter before final assembly.</li>
+<li>Mount in enclosure with clear dial markings.</li>
+</ol></div>
+<h2 class="chapter-heading" id="ch5">CHAPTER 5 &mdash; CALIBRATION PROCEDURE</h2>
+<div class="procedure"><ol>
+<li>Measure each individual resistor value before assembly. Record actual values.</li>
+<li>After assembly, measure at each switch position using Fluke 15B+ or better DMM.</li>
+<li>For positions &lt;10 &Omega;, use 4-wire Kelvin measurement (TM-CAL-010).</li>
+<li>Record actual vs. nominal value at each position in calibration table.</li>
+<li>Apply correction factors in use: V<sub>actual</sub> = switch setting &times; (R<sub>meas</sub> / R<sub>nominal</sub>).</li>
+</ol></div>
+<h2 class="chapter-heading" id="ch6">CHAPTER 6 &mdash; TUNING AND ADJUSTMENT</h2>
+<div class="tm-note"><span class="admonition-label">NOTE</span>Decade boxes are not adjustable after construction. Select resistors with measured values closest to nominal at time of assembly. Keep spares for replacement if any resistor drifts.</div>
+<h2 class="chapter-heading" id="ch7">CHAPTER 7 &mdash; VERIFICATION</h2>
+<div class="procedure"><ol>
+<li>Verify 1 &Omega;, 10 &Omega;, 100 &Omega;, 1k &Omega;, 10k &Omega; positions against NIST-certified reference resistors if available.</li>
+<li>For everyday use: compare to Wheatstone bridge null measurement (TM-CAL-009).</li>
+<li>Log calibration values; re-check annually.</li>
+</ol></div>
+<h2 class="chapter-heading" id="appa">APPENDIX A &mdash; CALCULATIONS AND FORMULAS</h2>
+<div class="formula-block"><span class="formula-label">Series resistance total</span>R<sub>total</sub> = R<sub>thousands</sub> + R<sub>hundreds</sub> + R<sub>tens</sub> + R<sub>ones</sub></div><div class="formula-block"><span class="formula-label">Contact resistance error (switch)</span>error% = R<sub>contact</sub> / R<sub>nominal</sub> &times; 100 (significant below 10 &Omega;)</div>
+<h2 class="chapter-heading" id="appb">APPENDIX B &mdash; EXAMPLE RESULTS</h2>
+<table class="tm-table"><caption>Decade Box Calibration</caption><thead><tr><th>Switch Setting (&Omega;)</th><th>Measured (&Omega;)</th><th>Error (%)</th><th>Notes</th></tr></thead><tbody>
+<tr><td>1</td><td>1.002</td><td>+0.2%</td><td>Contact R dominant</td></tr>
+<tr><td>10</td><td>10.05</td><td>+0.5%</td><td>Within 0.1% resistor spec + switch</td></tr>
+<tr><td>100</td><td>100.08</td><td>+0.08%</td><td>Good</td></tr>
+<tr><td>1000</td><td>999.7</td><td>&minus;0.03%</td><td>Excellent</td></tr>
+<tr><td>9999</td><td>9998.2</td><td>&minus;0.018%</td><td>Excellent</td></tr>
+</tbody></table>
+
+
+                <div class="back-link">
+                    <a href="../index.html">&larr; Back to Calibration Standards</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Radio: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+                <p>Amateur Radio | Electronics | Engineering | Knowledge Preservation</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

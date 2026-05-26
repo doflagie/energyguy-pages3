@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-CAL-017 FIELD STRENGTH REFERENCE - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    
+<style>
+/* Navy TM Styles */
+.tm-cover {
+    border: 3px solid #2c5f8d;
+    padding: 30px 40px;
+    text-align: center;
+    margin-bottom: 30px;
+    background: #f8f8f4;
+}
+.tm-classification {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #006600;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+.tm-number {
+    font-family: 'Courier New', monospace;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #2c5f8d;
+    margin-bottom: 10px;
+}
+.tm-title {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #1a3a5c;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 15px 0 10px;
+    line-height: 1.3;
+}
+.tm-subtitle {
+    font-size: 1.0em;
+    font-style: italic;
+    color: #555;
+    margin-bottom: 15px;
+}
+.tm-meta {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 20px;
+    border-top: 1px solid #aaa;
+    padding-top: 15px;
+}
+.tm-toc {
+    background: #f0f4f8;
+    border: 1px solid #c0ccd8;
+    padding: 20px 30px;
+    margin-bottom: 30px;
+}
+.tm-toc h2 {
+    font-size: 1.1em;
+    color: #2c5f8d;
+    border-bottom: 1px solid #4a7ba7;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.tm-toc ol {
+    margin: 0;
+    padding-left: 25px;
+}
+.tm-toc li {
+    margin: 4px 0;
+    font-size: 0.95em;
+}
+.tm-toc a {
+    color: #2c5f8d;
+    text-decoration: none;
+}
+.tm-toc a:hover {
+    text-decoration: underline;
+}
+.chapter-heading {
+    background: #2c5f8d;
+    color: #ffffff;
+    padding: 10px 20px;
+    margin-top: 35px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.section-heading {
+    color: #1a3a5c;
+    border-bottom: 2px solid #4a7ba7;
+    padding-bottom: 4px;
+    margin-top: 25px;
+    margin-bottom: 12px;
+    font-size: 1.05em;
+}
+.subsection-heading {
+    color: #2c5f8d;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    font-size: 1.0em;
+}
+.tm-warning {
+    background: #fff0f0;
+    border-left: 5px solid #cc0000;
+    border-top: 1px solid #cc0000;
+    border-bottom: 1px solid #cc0000;
+    border-right: 1px solid #cc0000;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-caution {
+    background: #fffbf0;
+    border-left: 5px solid #cc7700;
+    border-top: 1px solid #cc7700;
+    border-bottom: 1px solid #cc7700;
+    border-right: 1px solid #cc7700;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-note {
+    background: #f0f5ff;
+    border-left: 5px solid #4a7ba7;
+    border-top: 1px solid #4a7ba7;
+    border-bottom: 1px solid #4a7ba7;
+    border-right: 1px solid #4a7ba7;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.admonition-label {
+    font-weight: bold;
+    font-size: 0.9em;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 6px;
+}
+.tm-warning .admonition-label { color: #cc0000; }
+.tm-caution .admonition-label { color: #cc7700; }
+.tm-note .admonition-label { color: #2c5f8d; }
+.tm-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.95em;
+}
+.tm-table th {
+    background: #4a7ba7;
+    color: #ffffff;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.tm-table td {
+    border: 1px solid #c0ccd8;
+    padding: 7px 12px;
+    vertical-align: top;
+}
+.tm-table tr:nth-child(even) td {
+    background: #f4f7fb;
+}
+.tm-table caption {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 5px;
+    text-align: left;
+}
+.procedure ol {
+    margin: 10px 0 10px 20px;
+}
+.procedure li {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+.formula-block {
+    background: #f4f7fb;
+    border: 1px solid #c0ccd8;
+    padding: 12px 20px;
+    margin: 12px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+}
+.formula-block .formula-label {
+    font-family: Georgia, serif;
+    font-size: 0.85em;
+    color: #555;
+    font-style: italic;
+    display: block;
+    margin-bottom: 5px;
+}
+.back-link {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #c0ccd8;
+    font-size: 0.9em;
+}
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+            
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="../../about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul><li><a href="../../antennas/index.html">Antenna Library</a></li></ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul><li><a href="../../test_gear/index.html">Test Equipment Library</a></li></ul>
+            </details>
+            <h3>Standards</h3>
+            <ul>
+                <li><a href="../index.html">Calibration Standards</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Study &amp; Training</summary>
+                <ul>
+                    <li><a href="https://assets.doflagie.com/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                    <li><a href="https://assets.doflagie.com/study/morse.html">Morse Code Practice</a></li>
+                </ul>
+            </details>
+        </nav>
+
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-CAL-017</div>
+                    <div class="tm-title">FIELD STRENGTH REFERENCE</div>
+                    <div class="tm-subtitle">Calibrated RF Field for Receive Antenna and Field-Strength Meter Calibration</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH<br>
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial calibration use</em>
+                    </div>
+                </div>
+
+                <div class="tm-toc">
+                    <h2>Table of Contents</h2>
+                    <ol>
+            <li><a href="#ch1">Chapter 1 &mdash; General Information</a></li>
+            <li><a href="#ch2">Chapter 2 &mdash; Theory of Operation</a></li>
+            <li><a href="#ch3">Chapter 3 &mdash; Materials and Construction</a></li>
+            <li><a href="#ch4">Chapter 4 &mdash; Assembly Procedures</a></li>
+            <li><a href="#ch5">Chapter 5 &mdash; Calibration Procedure</a></li>
+            <li><a href="#ch6">Chapter 6 &mdash; Tuning and Adjustment</a></li>
+            <li><a href="#ch7">Chapter 7 &mdash; Verification</a></li>
+            <li><a href="#appa">Appendix A &mdash; Calculations and Formulas</a></li>
+            <li><a href="#appb">Appendix B &mdash; Example Results</a></li>
+                    </ol>
+                </div>
+
+                <h2 class="chapter-heading" id="ch1">CHAPTER 1 &mdash; GENERAL INFORMATION</h2>
+<h3 class="section-heading">1-1. SCOPE</h3>
+<p>This manual covers use of a calibrated transmitting antenna and power source to establish a reference electromagnetic field strength. The known field is used to calibrate receiving antennas, field strength meters, and EMC pre-compliance measurement setups.</p>
+
+<h3 class="section-heading">1-3. SAFETY</h3>
+<div class="tm-warning"><span class="admonition-label">WARNING</span>Transmitting RF energy above 1 W can cause interference to other radio services. Conduct tests on a licensed frequency (amateur bands if licensed) or at power levels below 10 mW. Comply with all local regulations.</div><div class="tm-caution"><span class="admonition-label">CAUTION</span>Maintain minimum safe distance from transmitting antenna to avoid RF burns or biohazard. For 100 mW and below, &gt;0.5 m is adequate. For QRP (5 W), maintain &gt;3 m from antenna.</div>
+
+<h2 class="chapter-heading" id="ch2">CHAPTER 2 &mdash; THEORY OF OPERATION</h2>
+<h3 class="section-heading">2-1. FAR-FIELD ELECTRIC FIELD STRENGTH</h3>
+<div class="formula-block"><span class="formula-label">Far-field electric field strength</span>E (V/m) = &radic;(30 &times; P<sub>W</sub> &times; G) / d</div><p>Where P<sub>W</sub> = transmitter power in watts, G = antenna gain (linear ratio, not dB), d = distance in meters from antenna.</p>
+<div class="formula-block"><span class="formula-label">Half-wave dipole gain (linear)</span>G<sub>dipole</sub> = 1.64 (2.15 dBi)</div><div class="formula-block"><span class="formula-label">Isotropic antenna gain</span>G<sub>isotropic</sub> = 1.0 (0 dBi)</div><table class="tm-table"><caption>Field Strength Reference Table (Dipole, G=1.64)</caption><thead><tr><th>Power (W)</th><th>Distance (m)</th><th>E (V/m)</th><th>E (dB&mu;V/m)</th></tr></thead><tbody>
+<tr><td>0.1</td><td>1</td><td>7.01</td><td>137</td></tr>
+<tr><td>0.1</td><td>3</td><td>2.34</td><td>127</td></tr>
+<tr><td>1.0</td><td>3</td><td>7.40</td><td>137</td></tr>
+<tr><td>5.0</td><td>3</td><td>16.5</td><td>144</td></tr>
+<tr><td>5.0</td><td>10</td><td>4.96</td><td>134</td></tr>
+</tbody></table>
+<h3 class="section-heading">2-2. NEAR FIELD VS. FAR FIELD</h3>
+<p>The far-field approximation (above) applies only beyond the Rayleigh distance.</p>
+<div class="formula-block"><span class="formula-label">Far-field boundary (electrically short antenna)</span>d<sub>far</sub> = &lambda; / (2&pi;) &asymp; 0.159 &lambda;</div><p>At HF (3&ndash;30 MHz), &lambda; = 10&ndash;100 m, so far-field begins at 1.6&ndash;16 m. Tests at &lt;3 m at HF may be in the near-field where the 1/d law does not hold.</p>
+
+
+<h2 class="chapter-heading" id="ch3">CHAPTER 3 &mdash; MATERIALS AND CONSTRUCTION</h2>
+<h3 class="section-heading">3-1. REFERENCE SETUP</h3>
+<table class="tm-table"><caption>Equipment</caption><thead><tr><th>Item</th><th>Specification</th></tr></thead><tbody>
+<tr><td>QRP transmitter or signal generator</td><td>Calibrated power output, e.g., 100 mW &plusmn;10%</td></tr>
+<tr><td>Half-wave dipole (TX)</td><td>See TM-CAL-016; length matched to test frequency</td></tr>
+<tr><td>Calibrated dummy load + directional coupler</td><td>Bird 43 or TinySA with coupler for power monitoring</td></tr>
+<tr><td>Calibrated receive antenna</td><td>Field-calibrated loop, calibrated dipole, or standard gain horn</td></tr>
+<tr><td>Spectrum analyzer / receiver</td><td>TinySA Ultra, for measuring received signal level</td></tr>
+<tr><td>Steel tape measure</td><td>For setting exact TX&ndash;RX distance</td></tr>
+</tbody></table>
+
+<h2 class="chapter-heading" id="ch4">CHAPTER 4 &mdash; ASSEMBLY PROCEDURES</h2>
+<div class="procedure"><ol>
+<li>Set up TX dipole outdoors, clear of buildings, height &ge;1 m above ground.</li>
+<li>Position receive antenna at measured distance d (e.g., 3.000 m &plusmn;10 mm).</li>
+<li>Both antennas must be co-polarized (both horizontal or both vertical).</li>
+<li>Align antenna boresights for maximum received signal.</li>
+<li>Connect transmitter to TX dipole through directional coupler for power monitoring.</li>
+<li>Connect receive antenna to TinySA or receiver.</li>
+</ol></div>
+<h2 class="chapter-heading" id="ch5">CHAPTER 5 &mdash; CALIBRATION PROCEDURE</h2>
+<div class="procedure"><ol>
+<li>Transmit CW at calibrated power P<sub>W</sub> (measured at TX antenna feedpoint).</li>
+<li>Record received signal level S<sub>rx</sub> (dBm or dB&mu;V/m) at known distance.</li>
+<li>Calculate expected E: E = &radic;(30 &times; P &times; G) / d.</li>
+<li>If receive antenna is a calibrated dipole: received power P<sub>rx</sub> = E<sup>2</sup> &times; G<sub>rx</sub> &times; &lambda;<sup>2</sup> / (480 &pi;<sup>2</sup>).</li>
+<li>Compare expected vs. measured received level. Difference is receive antenna (or receiver) calibration error.</li>
+<li>Iterate at multiple distances (3 m, 5 m, 10 m) to verify 1/d falloff.</li>
+</ol></div>
+<h2 class="chapter-heading" id="ch6">CHAPTER 6 &mdash; TUNING AND ADJUSTMENT</h2>
+<div class="tm-note"><span class="admonition-label">NOTE</span>Field strength tests are sensitive to ground reflections (multipath). Conduct tests with antennas &ge;1.5 m above ground for reduced ground bounce. Early morning or late evening provides reduced atmospheric refraction effects at VHF and above.</div>
+<h2 class="chapter-heading" id="ch7">CHAPTER 7 &mdash; VERIFICATION</h2>
+<div class="procedure"><ol>
+<li>Verify inverse-square-law (1/d): doubling distance should reduce E by 6 dB.</li>
+<li>Measure at d = 3 m and d = 6 m: received signal should decrease by 6.0 &plusmn;1.0 dB.</li>
+<li>Deviation &gt;2 dB indicates near-field effects, ground reflections, or antenna orientation error.</li>
+<li>Log: frequency, TX power, TX antenna type, distance, measured E, expected E.</li>
+</ol></div>
+<h2 class="chapter-heading" id="appa">APPENDIX A &mdash; CALCULATIONS AND FORMULAS</h2>
+<div class="formula-block"><span class="formula-label">Electric field (far field, from transmitted power)</span>E (V/m) = &radic;(30 &times; P (W) &times; G) / d (m)</div><div class="formula-block"><span class="formula-label">dB&mu;V/m from V/m</span>E (dB&mu;V/m) = 20 &times; log<sub>10</sub>(E &times; 10<sup>6</sup>)</div><div class="formula-block"><span class="formula-label">Effective aperture of half-wave dipole</span>A<sub>eff</sub> = G &times; &lambda;<sup>2</sup> / (4&pi;) = 1.64 &times; &lambda;<sup>2</sup> / (4&pi;)</div><div class="formula-block"><span class="formula-label">Received power from E field</span>P<sub>rx</sub> (W) = E<sup>2</sup> &times; A<sub>eff</sub> / (120&pi;)</div>
+<h2 class="chapter-heading" id="appb">APPENDIX B &mdash; EXAMPLE RESULTS</h2>
+<table class="tm-table"><caption>Field Strength Measurements</caption><thead><tr><th>Freq</th><th>P<sub>TX</sub> (mW)</th><th>d (m)</th><th>E calc (V/m)</th><th>E meas (V/m)</th><th>Error (dB)</th></tr></thead><tbody>
+<tr><td>14.2 MHz</td><td>100</td><td>3.0</td><td>2.35</td><td>2.28</td><td>&minus;0.3 dB</td></tr>
+<tr><td>14.2 MHz</td><td>100</td><td>6.0</td><td>1.17</td><td>1.14</td><td>&minus;0.2 dB</td></tr>
+<tr><td>14.2 MHz</td><td>100</td><td>10.0</td><td>0.704</td><td>0.690</td><td>&minus;0.2 dB</td></tr>
+</tbody></table>
+
+
+                <div class="back-link">
+                    <a href="../index.html">&larr; Back to Calibration Standards</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Radio: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+                <p>Amateur Radio | Electronics | Engineering | Knowledge Preservation</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

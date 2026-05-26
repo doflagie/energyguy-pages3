@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-CAL-003 GPS-DISCIPLINED OSCILLATOR (GPSDO) - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    
+<style>
+/* Navy TM Styles */
+.tm-cover {
+    border: 3px solid #2c5f8d;
+    padding: 30px 40px;
+    text-align: center;
+    margin-bottom: 30px;
+    background: #f8f8f4;
+}
+.tm-classification {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #006600;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+.tm-number {
+    font-family: 'Courier New', monospace;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #2c5f8d;
+    margin-bottom: 10px;
+}
+.tm-title {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #1a3a5c;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 15px 0 10px;
+    line-height: 1.3;
+}
+.tm-subtitle {
+    font-size: 1.0em;
+    font-style: italic;
+    color: #555;
+    margin-bottom: 15px;
+}
+.tm-meta {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 20px;
+    border-top: 1px solid #aaa;
+    padding-top: 15px;
+}
+.tm-toc {
+    background: #f0f4f8;
+    border: 1px solid #c0ccd8;
+    padding: 20px 30px;
+    margin-bottom: 30px;
+}
+.tm-toc h2 {
+    font-size: 1.1em;
+    color: #2c5f8d;
+    border-bottom: 1px solid #4a7ba7;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.tm-toc ol {
+    margin: 0;
+    padding-left: 25px;
+}
+.tm-toc li {
+    margin: 4px 0;
+    font-size: 0.95em;
+}
+.tm-toc a {
+    color: #2c5f8d;
+    text-decoration: none;
+}
+.tm-toc a:hover {
+    text-decoration: underline;
+}
+.chapter-heading {
+    background: #2c5f8d;
+    color: #ffffff;
+    padding: 10px 20px;
+    margin-top: 35px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.section-heading {
+    color: #1a3a5c;
+    border-bottom: 2px solid #4a7ba7;
+    padding-bottom: 4px;
+    margin-top: 25px;
+    margin-bottom: 12px;
+    font-size: 1.05em;
+}
+.subsection-heading {
+    color: #2c5f8d;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    font-size: 1.0em;
+}
+.tm-warning {
+    background: #fff0f0;
+    border-left: 5px solid #cc0000;
+    border-top: 1px solid #cc0000;
+    border-bottom: 1px solid #cc0000;
+    border-right: 1px solid #cc0000;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-caution {
+    background: #fffbf0;
+    border-left: 5px solid #cc7700;
+    border-top: 1px solid #cc7700;
+    border-bottom: 1px solid #cc7700;
+    border-right: 1px solid #cc7700;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-note {
+    background: #f0f5ff;
+    border-left: 5px solid #4a7ba7;
+    border-top: 1px solid #4a7ba7;
+    border-bottom: 1px solid #4a7ba7;
+    border-right: 1px solid #4a7ba7;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.admonition-label {
+    font-weight: bold;
+    font-size: 0.9em;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 6px;
+}
+.tm-warning .admonition-label { color: #cc0000; }
+.tm-caution .admonition-label { color: #cc7700; }
+.tm-note .admonition-label { color: #2c5f8d; }
+.tm-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.95em;
+}
+.tm-table th {
+    background: #4a7ba7;
+    color: #ffffff;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.tm-table td {
+    border: 1px solid #c0ccd8;
+    padding: 7px 12px;
+    vertical-align: top;
+}
+.tm-table tr:nth-child(even) td {
+    background: #f4f7fb;
+}
+.tm-table caption {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 5px;
+    text-align: left;
+}
+.procedure ol {
+    margin: 10px 0 10px 20px;
+}
+.procedure li {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+.formula-block {
+    background: #f4f7fb;
+    border: 1px solid #c0ccd8;
+    padding: 12px 20px;
+    margin: 12px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+}
+.formula-block .formula-label {
+    font-family: Georgia, serif;
+    font-size: 0.85em;
+    color: #555;
+    font-style: italic;
+    display: block;
+    margin-bottom: 5px;
+}
+.back-link {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #c0ccd8;
+    font-size: 0.9em;
+}
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+            
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="../../about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul><li><a href="../../antennas/index.html">Antenna Library</a></li></ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul><li><a href="../../test_gear/index.html">Test Equipment Library</a></li></ul>
+            </details>
+            <h3>Standards</h3>
+            <ul>
+                <li><a href="../index.html">Calibration Standards</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Study &amp; Training</summary>
+                <ul>
+                    <li><a href="https://assets.doflagie.com/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                    <li><a href="https://assets.doflagie.com/study/morse.html">Morse Code Practice</a></li>
+                </ul>
+            </details>
+        </nav>
+
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-CAL-003</div>
+                    <div class="tm-title">GPS-DISCIPLINED OSCILLATOR (GPSDO)</div>
+                    <div class="tm-subtitle">10 MHz Reference Oscillator Disciplined to GPS/UTC via Phase-Locked Loop</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH<br>
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial calibration use</em>
+                    </div>
+                </div>
+
+                <div class="tm-toc">
+                    <h2>Table of Contents</h2>
+                    <ol>
+            <li><a href="#ch1">Chapter 1 &mdash; General Information</a></li>
+            <li><a href="#ch2">Chapter 2 &mdash; Theory of Operation</a></li>
+            <li><a href="#ch3">Chapter 3 &mdash; Materials and Construction</a></li>
+            <li><a href="#ch4">Chapter 4 &mdash; Assembly Procedures</a></li>
+            <li><a href="#ch5">Chapter 5 &mdash; Calibration Procedure</a></li>
+            <li><a href="#ch6">Chapter 6 &mdash; Tuning and Adjustment</a></li>
+            <li><a href="#ch7">Chapter 7 &mdash; Verification</a></li>
+            <li><a href="#appa">Appendix A &mdash; Calculations and Formulas</a></li>
+            <li><a href="#appb">Appendix B &mdash; Example Results</a></li>
+                    </ol>
+                </div>
+
+                <h2 class="chapter-heading" id="ch1">CHAPTER 1 &mdash; GENERAL INFORMATION</h2>
+<h3 class="section-heading">1-1. SCOPE</h3>
+<p>This manual covers construction and calibration use of a GPS-Disciplined Oscillator (GPSDO) providing a 10 MHz sine or square wave reference traceable to UTC via GPS. The GPSDO provides better short-term stability than 1PPS alone and is suitable as a lab reference for all RF calibration work.</p>
+
+<h3 class="section-heading">1-2. REFERENCES</h3>
+<ul>
+<li>TM-CAL-002: GPS 1PPS Timing Reference</li>
+<li>u-blox NEO-M8N Integration Manual</li>
+<li>Silicon Labs Si5351A Datasheet</li>
+<li>Analog Devices AD9833 Datasheet</li>
+</ul>
+<h3 class="section-heading">1-3. SAFETY</h3>
+<div class="tm-note"><span class="admonition-label">NOTE</span>GPSDO construction involves 5 V DC circuits only. No shock hazard.</div><div class="tm-caution"><span class="admonition-label">CAUTION</span>The GPSDO output must be terminated in 50 &Omega;. Open-circuit or short-circuit output damages the Si5351 output stage.</div>
+
+<h2 class="chapter-heading" id="ch2">CHAPTER 2 &mdash; THEORY OF OPERATION</h2>
+<h3 class="section-heading">2-1. GPSDO PRINCIPLE</h3>
+<p>A GPSDO phase-locks a voltage-controlled crystal oscillator (VCXO) or temperature-compensated crystal oscillator (TCXO) to the GPS 1PPS signal using a phase-locked loop (PLL) or proportional-integral (PI) control algorithm.</p>
+<p>Long-term frequency accuracy follows GPS (&asymp;10<sup>&minus;12</sup> relative). Short-term stability (seconds) follows the free-running crystal oscillator, which is better than GPS for short intervals due to GPS noise.</p>
+
+<h3 class="section-heading">2-2. IMPLEMENTATION: NEO-M8N + Si5351</h3>
+<p>The Si5351A clock generator synthesizes multiple output frequencies from an onboard 25 MHz crystal. Output frequencies are set by integer and fractional division registers over I2C. The ESP32 microcontroller reads GPS NMEA data, monitors 1PPS, and adjusts Si5351 PLL registers to phase-lock the output.</p>
+<table class="tm-table"><caption>GPSDO Performance (NEO-M8N + Si5351A, SW PLL)</caption><thead><tr><th>Parameter</th><th>Value</th><th>Notes</th></tr></thead><tbody>
+<tr><td>Frequency range</td><td>1 Hz &ndash; 160 MHz</td><td>Si5351A spec</td></tr>
+<tr><td>Output frequency (typical)</td><td>10.000000 MHz</td><td>Adjustable</td></tr>
+<tr><td>Long-term accuracy</td><td>&lt;1&times;10<sup>&minus;10</sup></td><td>GPS-limited</td></tr>
+<tr><td>Short-term stability (1 s)</td><td>&asymp;10<sup>&minus;9</sup></td><td>Crystal-limited</td></tr>
+<tr><td>Output level</td><td>~3 dBm into 50 &Omega;</td><td>Si5351 CLK0</td></tr>
+<tr><td>Lock time</td><td>5&ndash;15 minutes</td><td>After GPS position fix</td></tr>
+</tbody></table>
+
+<h2 class="chapter-heading" id="ch3">CHAPTER 3 &mdash; MATERIALS AND CONSTRUCTION</h2>
+<h3 class="section-heading">3-1. BILL OF MATERIALS</h3>
+<table class="tm-table"><caption>GPSDO Components</caption><thead><tr><th>Qty</th><th>Item</th><th>Specification</th></tr></thead><tbody>
+<tr><td>1</td><td>u-blox NEO-M8N GPS module</td><td>With UART and TIMEPULSE</td></tr>
+<tr><td>1</td><td>Si5351A clock breakout</td><td>Adafruit or equivalent, 25 MHz XTAL</td></tr>
+<tr><td>1</td><td>ESP32 development board</td><td>Any variant with I2C and UART</td></tr>
+<tr><td>1</td><td>Active GPS patch antenna</td><td>Magnetic mount, 3.3 V bias</td></tr>
+<tr><td>1</td><td>5 V / 500 mA supply</td><td>Clean, low-ripple</td></tr>
+<tr><td>1</td><td>SMA panel connector</td><td>For 10 MHz output</td></tr>
+<tr><td>1</td><td>Project enclosure</td><td>Diecast aluminum preferred for RF shielding</td></tr>
+<tr><td>4</td><td>100 nF bypass capacitors</td><td>On every power rail</td></tr>
+<tr><td>1</td><td>10 &mu;F electrolytic</td><td>Bulk bypass for ESP32 supply</td></tr>
+</tbody></table>
+<h3 class="section-heading">3-2. WIRING</h3>
+<p>Connect NEO-M8N UART TX &rarr; ESP32 UART RX. Connect NEO-M8N TIMEPULSE &rarr; ESP32 GPIO (e.g., GPIO 4) with 100 &Omega; series resistor. Connect Si5351 SDA/SCL &rarr; ESP32 I2C (GPIO 21/22). Connect Si5351 CLK0 output &rarr; SMA panel connector via short 50 &Omega; trace.</p>
+
+
+<h2 class="chapter-heading" id="ch4">CHAPTER 4 &mdash; ASSEMBLY PROCEDURES</h2>
+<div class="procedure"><ol>
+<li>Verify all components with multimeter before assembly.</li>
+<li>Install ESP32 board on DIN rail or in enclosure, securing with 4 M3 screws.</li>
+<li>Mount Si5351 breakout board adjacent to ESP32. Keep I2C traces short (&lt;5 cm).</li>
+<li>Mount NEO-M8N module. Route UART and TIMEPULSE connections to ESP32.</li>
+<li>Install SMA connector on enclosure panel. Solder short RG-174 pigtail from Si5351 CLK0 output to SMA center pin. Minimize trace length.</li>
+<li>Install GPS antenna SMA bulkhead connector on enclosure lid or side panel.</li>
+<li>Wire 5 V supply to all modules. Verify +5 V on each module before applying full power.</li>
+<li>Load ESP32 firmware (simple PLL algorithm: measure 1PPS &rarr; count Si5351 cycles &rarr; adjust frequency word in PI loop).</li>
+<li>Apply power. Observe serial debug output: GPS acquiring, then position fix, then TIMEPULSE valid, then PLL locking.</li>
+<li>Allow 15 minutes for full phase lock. Output frequency should stabilize to &lt;1 Hz of 10.000000 MHz.</li>
+</ol></div>
+<h2 class="chapter-heading" id="ch5">CHAPTER 5 &mdash; CALIBRATION PROCEDURE</h2>
+<h3 class="section-heading">5-1. INITIAL FREQUENCY CALIBRATION</h3>
+<div class="procedure"><ol>
+<li>Connect GPSDO 10 MHz output to frequency counter via 50 &Omega; BNC cable.</li>
+<li>Allow GPSDO to lock completely (GPS fix acquired + 15 min warm-up).</li>
+<li>Measure output frequency. Should read 10.000000 &plusmn;0.010 MHz within 5 minutes of lock.</li>
+<li>If frequency is off by more than 1 Hz, check Si5351 crystal frequency setting in firmware. The on-board crystal may be 25.000 or 26.000 MHz; verify and update firmware constant.</li>
+<li>Monitor frequency for 30 minutes. Deviation from 10.000000 should be &lt;1 Hz after full thermal stabilization.</li>
+<li>Record: frequency, GPS satellite count, ambient temperature.</li>
+</ol></div>
+<h3 class="section-heading">5-2. LONG-TERM VERIFICATION</h3>
+<div class="procedure"><ol>
+<li>Run GPSDO continuously for 24 hours.</li>
+<li>Record frequency every hour (automate with frequency counter if possible).</li>
+<li>Plot frequency vs. time. Drift &gt;0.1 Hz over 24 hours indicates PLL loop filter or crystal aging issue.</li>
+<li>Compare to WWV at 10 MHz using zero-beat method (see TM-CAL-001). Agreement within 1 Hz confirms NIST traceability.</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch6">CHAPTER 6 &mdash; TUNING AND ADJUSTMENT</h2>
+<h3 class="section-heading">6-1. PLL LOOP FILTER TUNING</h3>
+<p>The PI control loop has two parameters: proportional gain (K<sub>p</sub>) and integral gain (K<sub>i</sub>). Too high K<sub>p</sub> causes oscillation; too low causes slow lock. Start with K<sub>p</sub> = 0.1 and K<sub>i</sub> = 0.01, then increase K<sub>p</sub> until oscillation appears, then back off 50%.</p>
+<div class="tm-note"><span class="admonition-label">NOTE</span>The Si5351A frequency resolution is approximately 0.01 Hz at 10 MHz due to the 27-bit PLL multisynth fractional divider. This limits PLL granularity but is adequate for most calibration applications.</div>
+
+<h2 class="chapter-heading" id="ch7">CHAPTER 7 &mdash; VERIFICATION</h2>
+<div class="procedure"><ol>
+<li>Measure GPSDO output against WWV 10 MHz carrier using zero-beat method. Error should be &lt;1 Hz.</li>
+<li>Confirm GPS lock: check satellite count in NMEA GPGGA sentence (&ge;4 sats required).</li>
+<li>Verify 1PPS LED or debug output shows TIMEPULSE active.</li>
+<li>Connect GPSDO to TinySA Ultra reference input (if equipped) and confirm TinySA frequency readouts are consistent with GPSDO.</li>
+<li>Log: date, firmware version, GPS module serial, lock time, frequency error.</li>
+</ol></div>
+<h2 class="chapter-heading" id="appa">APPENDIX A &mdash; CALCULATIONS AND FORMULAS</h2>
+<div class="formula-block"><span class="formula-label">Si5351A output frequency</span>f<sub>out</sub> = f<sub>xtal</sub> &times; PLL_mult / (output_divider)</div><div class="formula-block"><span class="formula-label">PPM error from integer count</span>error<sub>ppm</sub> = (f<sub>measured</sub> &minus; 10,000,000) / 10</div><div class="formula-block"><span class="formula-label">Allan deviation (GPSDO estimate)</span>ADEV(&tau; = 1 s) &asymp; 1&times;10<sup>&minus;9</sup> (crystal limited)</div>
+<h2 class="chapter-heading" id="appb">APPENDIX B &mdash; EXAMPLE RESULTS</h2>
+<table class="tm-table"><caption>GPSDO Lock and Stability Log</caption><thead><tr><th>Time After Power-On</th><th>GPS Sats</th><th>10 MHz Frequency</th><th>Deviation</th><th>PLL State</th></tr></thead><tbody>
+<tr><td>0 min</td><td>0</td><td>&mdash;</td><td>&mdash;</td><td>Acquiring</td></tr>
+<tr><td>2 min</td><td>5</td><td>&mdash;</td><td>&mdash;</td><td>Fix, no PLL</td></tr>
+<tr><td>5 min</td><td>8</td><td>9.999998 MHz</td><td>&minus;0.2 Hz</td><td>PLL locking</td></tr>
+<tr><td>15 min</td><td>9</td><td>10.000000 MHz</td><td>&lt;0.05 Hz</td><td>Locked</td></tr>
+<tr><td>1 hour</td><td>9</td><td>10.000000 MHz</td><td>&lt;0.02 Hz</td><td>Stable</td></tr>
+</tbody></table>
+
+
+                <div class="back-link">
+                    <a href="../index.html">&larr; Back to Calibration Standards</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Radio: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+                <p>Amateur Radio | Electronics | Engineering | Knowledge Preservation</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

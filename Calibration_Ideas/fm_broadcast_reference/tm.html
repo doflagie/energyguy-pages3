@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-CAL-004 FM BROADCAST CARRIER REFERENCE - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    
+<style>
+/* Navy TM Styles */
+.tm-cover {
+    border: 3px solid #2c5f8d;
+    padding: 30px 40px;
+    text-align: center;
+    margin-bottom: 30px;
+    background: #f8f8f4;
+}
+.tm-classification {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #006600;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+.tm-number {
+    font-family: 'Courier New', monospace;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #2c5f8d;
+    margin-bottom: 10px;
+}
+.tm-title {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #1a3a5c;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 15px 0 10px;
+    line-height: 1.3;
+}
+.tm-subtitle {
+    font-size: 1.0em;
+    font-style: italic;
+    color: #555;
+    margin-bottom: 15px;
+}
+.tm-meta {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 20px;
+    border-top: 1px solid #aaa;
+    padding-top: 15px;
+}
+.tm-toc {
+    background: #f0f4f8;
+    border: 1px solid #c0ccd8;
+    padding: 20px 30px;
+    margin-bottom: 30px;
+}
+.tm-toc h2 {
+    font-size: 1.1em;
+    color: #2c5f8d;
+    border-bottom: 1px solid #4a7ba7;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.tm-toc ol {
+    margin: 0;
+    padding-left: 25px;
+}
+.tm-toc li {
+    margin: 4px 0;
+    font-size: 0.95em;
+}
+.tm-toc a {
+    color: #2c5f8d;
+    text-decoration: none;
+}
+.tm-toc a:hover {
+    text-decoration: underline;
+}
+.chapter-heading {
+    background: #2c5f8d;
+    color: #ffffff;
+    padding: 10px 20px;
+    margin-top: 35px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.section-heading {
+    color: #1a3a5c;
+    border-bottom: 2px solid #4a7ba7;
+    padding-bottom: 4px;
+    margin-top: 25px;
+    margin-bottom: 12px;
+    font-size: 1.05em;
+}
+.subsection-heading {
+    color: #2c5f8d;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    font-size: 1.0em;
+}
+.tm-warning {
+    background: #fff0f0;
+    border-left: 5px solid #cc0000;
+    border-top: 1px solid #cc0000;
+    border-bottom: 1px solid #cc0000;
+    border-right: 1px solid #cc0000;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-caution {
+    background: #fffbf0;
+    border-left: 5px solid #cc7700;
+    border-top: 1px solid #cc7700;
+    border-bottom: 1px solid #cc7700;
+    border-right: 1px solid #cc7700;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-note {
+    background: #f0f5ff;
+    border-left: 5px solid #4a7ba7;
+    border-top: 1px solid #4a7ba7;
+    border-bottom: 1px solid #4a7ba7;
+    border-right: 1px solid #4a7ba7;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.admonition-label {
+    font-weight: bold;
+    font-size: 0.9em;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 6px;
+}
+.tm-warning .admonition-label { color: #cc0000; }
+.tm-caution .admonition-label { color: #cc7700; }
+.tm-note .admonition-label { color: #2c5f8d; }
+.tm-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.95em;
+}
+.tm-table th {
+    background: #4a7ba7;
+    color: #ffffff;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.tm-table td {
+    border: 1px solid #c0ccd8;
+    padding: 7px 12px;
+    vertical-align: top;
+}
+.tm-table tr:nth-child(even) td {
+    background: #f4f7fb;
+}
+.tm-table caption {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 5px;
+    text-align: left;
+}
+.procedure ol {
+    margin: 10px 0 10px 20px;
+}
+.procedure li {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+.formula-block {
+    background: #f4f7fb;
+    border: 1px solid #c0ccd8;
+    padding: 12px 20px;
+    margin: 12px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+}
+.formula-block .formula-label {
+    font-family: Georgia, serif;
+    font-size: 0.85em;
+    color: #555;
+    font-style: italic;
+    display: block;
+    margin-bottom: 5px;
+}
+.back-link {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #c0ccd8;
+    font-size: 0.9em;
+}
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+            
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="../../about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul><li><a href="../../antennas/index.html">Antenna Library</a></li></ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul><li><a href="../../test_gear/index.html">Test Equipment Library</a></li></ul>
+            </details>
+            <h3>Standards</h3>
+            <ul>
+                <li><a href="../index.html">Calibration Standards</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Study &amp; Training</summary>
+                <ul>
+                    <li><a href="https://assets.doflagie.com/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                    <li><a href="https://assets.doflagie.com/study/morse.html">Morse Code Practice</a></li>
+                </ul>
+            </details>
+        </nav>
+
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-CAL-004</div>
+                    <div class="tm-title">FM BROADCAST CARRIER REFERENCE</div>
+                    <div class="tm-subtitle">FCC-Licensed FM Stations as VHF Frequency Standards (88&ndash;108 MHz)</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH<br>
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial calibration use</em>
+                    </div>
+                </div>
+
+                <div class="tm-toc">
+                    <h2>Table of Contents</h2>
+                    <ol>
+            <li><a href="#ch1">Chapter 1 &mdash; General Information</a></li>
+            <li><a href="#ch2">Chapter 2 &mdash; Theory of Operation</a></li>
+            <li><a href="#ch3">Chapter 3 &mdash; Materials and Construction</a></li>
+            <li><a href="#ch4">Chapter 4 &mdash; Assembly Procedures</a></li>
+            <li><a href="#ch5">Chapter 5 &mdash; Calibration Procedure</a></li>
+            <li><a href="#ch6">Chapter 6 &mdash; Tuning and Adjustment</a></li>
+            <li><a href="#ch7">Chapter 7 &mdash; Verification</a></li>
+            <li><a href="#appa">Appendix A &mdash; Calculations and Formulas</a></li>
+            <li><a href="#appb">Appendix B &mdash; Example Results</a></li>
+                    </ol>
+                </div>
+
+                <h2 class="chapter-heading" id="ch1">CHAPTER 1 &mdash; GENERAL INFORMATION</h2>
+<h3 class="section-heading">1-1. SCOPE</h3>
+<p>This manual covers use of FM broadcast station carriers as a VHF frequency reference for calibrating spectrum analyzers, antenna analyzers, receivers, and signal generators in the 88&ndash;108 MHz range. FM stations maintain carrier frequencies within &plusmn;2 kHz of their assigned frequency per FCC Part 73; in practice most are within &plusmn;500 Hz.</p>
+
+<h3 class="section-heading">1-2. REFERENCES</h3>
+<ul>
+<li>FCC Part 73.1545: FM Carrier Frequency Tolerance</li>
+<li>FCC AM/FM Query: transition.fcc.gov/fcc-bin/fmq.pl</li>
+<li>ARRL Handbook: VHF/UHF Measurement Techniques</li>
+</ul>
+<h3 class="section-heading">1-3. SAFETY</h3>
+<div class="tm-note"><span class="admonition-label">NOTE</span>No hazardous voltages involved in this procedure. All measurements are performed at receiver or spectrum analyzer input levels.</div>
+
+<h2 class="chapter-heading" id="ch2">CHAPTER 2 &mdash; THEORY OF OPERATION</h2>
+<h3 class="section-heading">2-1. FM BROADCAST FREQUENCY STANDARDS</h3>
+<p>FCC Rules 73.1545 require FM stations to maintain carrier frequency within &plusmn;2,000 Hz of assigned channel. Channels are assigned in the range 88.1 to 107.9 MHz at 200 kHz spacing. In practice, modern station automation with GPS-disciplined frequency synthesis typically achieves &plusmn;100&ndash;500 Hz.</p>
+<p>The carrier is accessible without decoding: a spectrum analyzer or antenna analyzer with tracking generator can measure the carrier center frequency directly.</p>
+<table class="tm-table"><caption>FM Reference Quality Tiers</caption><thead><tr><th>Station Type</th><th>Typical Accuracy</th><th>FCC Limit</th></tr></thead><tbody>
+<tr><td>Major station with GPS synth</td><td>&plusmn;100 Hz</td><td>&plusmn;2 kHz</td></tr>
+<tr><td>Typical commercial station</td><td>&plusmn;500 Hz</td><td>&plusmn;2 kHz</td></tr>
+<tr><td>Low-power FM (LPFM)</td><td>&plusmn;2 kHz</td><td>&plusmn;3 kHz</td></tr>
+<tr><td>Translator station</td><td>&plusmn;1 kHz</td><td>&plusmn;2 kHz</td></tr>
+</tbody></table>
+<h3 class="section-heading">2-2. TRACEABILITY</h3>
+<p>FM stations certified under FCC 73.1545 are required to maintain compliance. For the purpose of this standard, the FM carrier provides a VHF reference accurate to approximately &plusmn;2 kHz / 100 MHz &asymp; &plusmn;20 ppm worst case, &plusmn;5 ppm typical. This is adequate for VHF receiver alignment and spectrum analyzer calibration checks.</p>
+
+
+<h2 class="chapter-heading" id="ch3">CHAPTER 3 &mdash; MATERIALS AND CONSTRUCTION</h2>
+<h3 class="section-heading">3-1. REQUIRED EQUIPMENT</h3>
+<table class="tm-table"><caption>Equipment</caption><thead><tr><th>Item</th><th>Description</th><th>Notes</th></tr></thead><tbody>
+<tr><td>TinySA Ultra</td><td>Spectrum analyzer / frequency counter</td><td>Preferred; direct carrier frequency readout</td></tr>
+<tr><td>Dipole or whip antenna</td><td>88&ndash;108 MHz, &lambda;/4 or &lambda;/2</td><td>~80 cm for 88 MHz</td></tr>
+<tr><td>BNC coax cable</td><td>50 &Omega;, 0.5&ndash;2 m</td><td></td></tr>
+<tr><td>FCC FM database</td><td>List of local stations and assigned frequencies</td><td>fcc.gov lookup</td></tr>
+</tbody></table>
+<h3 class="section-heading">3-2. PREPARATION</h3>
+<p>Before calibrating, look up the assigned frequencies of 2&ndash;3 local FM stations using the FCC FM Query database. Record: call letters, channel number, assigned frequency (MHz), and transmitter location. Choose high-power stations (&ge;25 kW ERP) at moderate distance (10&ndash;100 km) for best signal quality.</p>
+
+
+<h2 class="chapter-heading" id="ch4">CHAPTER 4 &mdash; ASSEMBLY PROCEDURES</h2>
+<div class="procedure"><ol>
+<li>Connect dipole or whip antenna to TinySA Ultra INPUT port.</li>
+<li>Set TinySA Ultra to spectrum analyzer mode, center frequency 98 MHz (adjust to local strong station), span 10 MHz, RBW 3 kHz or narrower.</li>
+<li>Identify the carrier peak of the target station. It will appear as the tallest narrowband spike within the station's 200 kHz channel.</li>
+<li>Set TinySA to narrow span: center on carrier, span 500 kHz, RBW 1 kHz.</li>
+<li>Engage TinySA frequency counter or cursor on carrier peak.</li>
+<li>Record measured frequency.</li>
+</ol></div>
+<h2 class="chapter-heading" id="ch5">CHAPTER 5 &mdash; CALIBRATION PROCEDURE</h2>
+<div class="tm-caution"><span class="admonition-label">CAUTION</span>Multipath reflections can shift the apparent carrier frequency by up to several hundred Hz in urban environments. Measure from a location with clear line-of-sight to the transmitter if possible.</div><h3 class="section-heading">5-1. PROCEDURE</h3>
+<div class="procedure"><ol>
+<li>Identify local FM station; obtain assigned frequency from FCC database.</li>
+<li>Measure carrier center frequency with TinySA using MARKER PEAK function.</li>
+<li>Record: assigned frequency f<sub>assigned</sub>, measured frequency f<sub>meas</sub>.</li>
+<li>Compute error: error<sub>Hz</sub> = f<sub>meas</sub> &minus; f<sub>assigned</sub>.</li>
+<li>Compute ppm: error<sub>ppm</sub> = error<sub>Hz</sub> / f<sub>assigned</sub> &times; 10<sup>6</sup>.</li>
+<li>If TinySA reads f<sub>meas</sub> = 98.102.4 kHz and assigned is 98.100.0 kHz, error = +2.4 kHz / 98.1 MHz = +24.5 ppm &rarr; TinySA internal reference is high.</li>
+<li>Repeat on 2 additional stations. Average the errors.</li>
+<li>Apply correction offset in TinySA reference calibration menu.</li>
+<li>Verify correction by re-measuring all stations: residual error should be &lt;2 kHz on all.</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch6">CHAPTER 6 &mdash; TUNING AND ADJUSTMENT</h2>
+<p>Most spectrum analyzers (including TinySA) provide a reference oscillator calibration function accessible through the system menu. Enter the correction value in ppm or Hz as determined in Chapter 5. Consult instrument documentation for specific menu path.</p>
+
+<h2 class="chapter-heading" id="ch7">CHAPTER 7 &mdash; VERIFICATION</h2>
+<div class="procedure"><ol>
+<li>After calibration, measure 3 different FM stations on different frequencies across the 88&ndash;108 MHz band.</li>
+<li>Compare all measured frequencies against FCC database values.</li>
+<li>Residual errors &lt;2 kHz on all stations confirm adequate calibration.</li>
+<li>If any station shows error &gt;3 kHz, verify that station assignment in FCC database is current (stations occasionally shift channels).</li>
+<li>Log: date, station call signs, assigned frequencies, measured frequencies, errors.</li>
+</ol></div>
+<h2 class="chapter-heading" id="appa">APPENDIX A &mdash; CALCULATIONS AND FORMULAS</h2>
+<div class="formula-block"><span class="formula-label">Carrier frequency error (Hz)</span>error<sub>Hz</sub> = f<sub>measured</sub> &minus; f<sub>assigned</sub></div><div class="formula-block"><span class="formula-label">Error in ppm</span>error<sub>ppm</sub> = error<sub>Hz</sub> / f<sub>assigned</sub> &times; 10<sup>6</sup></div><div class="formula-block"><span class="formula-label">Example: 98.1 MHz station, measured 98,102,400 Hz</span>error = +2400 Hz; error<sub>ppm</sub> = 2400 / 98,100,000 &times; 10<sup>6</sup> = +24.5 ppm</div>
+<h2 class="chapter-heading" id="appb">APPENDIX B &mdash; EXAMPLE RESULTS</h2>
+<table class="tm-table"><caption>FM Carrier Calibration</caption><thead><tr><th>Station</th><th>Assigned (MHz)</th><th>Measured (MHz)</th><th>Error (Hz)</th><th>Error (ppm)</th></tr></thead><tbody>
+<tr><td>KXYZ</td><td>98.100</td><td>98.1002</td><td>+200 Hz</td><td>+2.0 ppm</td></tr>
+<tr><td>KABC</td><td>103.500</td><td>103.5011</td><td>+1100 Hz</td><td>+10.6 ppm</td></tr>
+<tr><td>KDEF</td><td>107.700</td><td>107.7007</td><td>+700 Hz</td><td>+6.5 ppm</td></tr>
+</tbody></table>
+
+
+                <div class="back-link">
+                    <a href="../index.html">&larr; Back to Calibration Standards</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Radio: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+                <p>Amateur Radio | Electronics | Engineering | Knowledge Preservation</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

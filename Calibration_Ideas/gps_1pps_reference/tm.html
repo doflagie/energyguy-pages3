@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-CAL-002 GPS 1PPS TIMING REFERENCE - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    
+<style>
+/* Navy TM Styles */
+.tm-cover {
+    border: 3px solid #2c5f8d;
+    padding: 30px 40px;
+    text-align: center;
+    margin-bottom: 30px;
+    background: #f8f8f4;
+}
+.tm-classification {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #006600;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+.tm-number {
+    font-family: 'Courier New', monospace;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #2c5f8d;
+    margin-bottom: 10px;
+}
+.tm-title {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #1a3a5c;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 15px 0 10px;
+    line-height: 1.3;
+}
+.tm-subtitle {
+    font-size: 1.0em;
+    font-style: italic;
+    color: #555;
+    margin-bottom: 15px;
+}
+.tm-meta {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 20px;
+    border-top: 1px solid #aaa;
+    padding-top: 15px;
+}
+.tm-toc {
+    background: #f0f4f8;
+    border: 1px solid #c0ccd8;
+    padding: 20px 30px;
+    margin-bottom: 30px;
+}
+.tm-toc h2 {
+    font-size: 1.1em;
+    color: #2c5f8d;
+    border-bottom: 1px solid #4a7ba7;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.tm-toc ol {
+    margin: 0;
+    padding-left: 25px;
+}
+.tm-toc li {
+    margin: 4px 0;
+    font-size: 0.95em;
+}
+.tm-toc a {
+    color: #2c5f8d;
+    text-decoration: none;
+}
+.tm-toc a:hover {
+    text-decoration: underline;
+}
+.chapter-heading {
+    background: #2c5f8d;
+    color: #ffffff;
+    padding: 10px 20px;
+    margin-top: 35px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.section-heading {
+    color: #1a3a5c;
+    border-bottom: 2px solid #4a7ba7;
+    padding-bottom: 4px;
+    margin-top: 25px;
+    margin-bottom: 12px;
+    font-size: 1.05em;
+}
+.subsection-heading {
+    color: #2c5f8d;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    font-size: 1.0em;
+}
+.tm-warning {
+    background: #fff0f0;
+    border-left: 5px solid #cc0000;
+    border-top: 1px solid #cc0000;
+    border-bottom: 1px solid #cc0000;
+    border-right: 1px solid #cc0000;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-caution {
+    background: #fffbf0;
+    border-left: 5px solid #cc7700;
+    border-top: 1px solid #cc7700;
+    border-bottom: 1px solid #cc7700;
+    border-right: 1px solid #cc7700;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-note {
+    background: #f0f5ff;
+    border-left: 5px solid #4a7ba7;
+    border-top: 1px solid #4a7ba7;
+    border-bottom: 1px solid #4a7ba7;
+    border-right: 1px solid #4a7ba7;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.admonition-label {
+    font-weight: bold;
+    font-size: 0.9em;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 6px;
+}
+.tm-warning .admonition-label { color: #cc0000; }
+.tm-caution .admonition-label { color: #cc7700; }
+.tm-note .admonition-label { color: #2c5f8d; }
+.tm-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.95em;
+}
+.tm-table th {
+    background: #4a7ba7;
+    color: #ffffff;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.tm-table td {
+    border: 1px solid #c0ccd8;
+    padding: 7px 12px;
+    vertical-align: top;
+}
+.tm-table tr:nth-child(even) td {
+    background: #f4f7fb;
+}
+.tm-table caption {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 5px;
+    text-align: left;
+}
+.procedure ol {
+    margin: 10px 0 10px 20px;
+}
+.procedure li {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+.formula-block {
+    background: #f4f7fb;
+    border: 1px solid #c0ccd8;
+    padding: 12px 20px;
+    margin: 12px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+}
+.formula-block .formula-label {
+    font-family: Georgia, serif;
+    font-size: 0.85em;
+    color: #555;
+    font-style: italic;
+    display: block;
+    margin-bottom: 5px;
+}
+.back-link {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #c0ccd8;
+    font-size: 0.9em;
+}
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+            
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="../../about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul><li><a href="../../antennas/index.html">Antenna Library</a></li></ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul><li><a href="../../test_gear/index.html">Test Equipment Library</a></li></ul>
+            </details>
+            <h3>Standards</h3>
+            <ul>
+                <li><a href="../index.html">Calibration Standards</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Study &amp; Training</summary>
+                <ul>
+                    <li><a href="https://assets.doflagie.com/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                    <li><a href="https://assets.doflagie.com/study/morse.html">Morse Code Practice</a></li>
+                </ul>
+            </details>
+        </nav>
+
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-CAL-002</div>
+                    <div class="tm-title">GPS 1PPS TIMING REFERENCE</div>
+                    <div class="tm-subtitle">GPS Receiver 1 Pulse-per-Second Output as a UTC-Traceable Timing Standard</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH<br>
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial calibration use</em>
+                    </div>
+                </div>
+
+                <div class="tm-toc">
+                    <h2>Table of Contents</h2>
+                    <ol>
+            <li><a href="#ch1">Chapter 1 &mdash; General Information</a></li>
+            <li><a href="#ch2">Chapter 2 &mdash; Theory of Operation</a></li>
+            <li><a href="#ch3">Chapter 3 &mdash; Materials and Construction</a></li>
+            <li><a href="#ch4">Chapter 4 &mdash; Assembly Procedures</a></li>
+            <li><a href="#ch5">Chapter 5 &mdash; Calibration Procedure</a></li>
+            <li><a href="#ch6">Chapter 6 &mdash; Tuning and Adjustment</a></li>
+            <li><a href="#ch7">Chapter 7 &mdash; Verification</a></li>
+            <li><a href="#appa">Appendix A &mdash; Calculations and Formulas</a></li>
+            <li><a href="#appb">Appendix B &mdash; Example Results</a></li>
+                    </ol>
+                </div>
+
+                <h2 class="chapter-heading" id="ch1">CHAPTER 1 &mdash; GENERAL INFORMATION</h2>
+<h3 class="section-heading">1-1. SCOPE</h3>
+<p>This manual covers use of a GPS receiver's 1 pulse-per-second (1PPS) output as a timing reference for calibrating frequency counters, oscilloscopes, and time-interval measurement equipment. GPS 1PPS is traceable to UTC within &plusmn;100 ns under normal operating conditions.</p>
+
+<h3 class="section-heading">1-2. REFERENCES</h3>
+<ul>
+<li>IS-GPS-200 (GPS Interface Specification)</li>
+<li>u-blox NEO-M8N Product Summary</li>
+<li>NIST SP-432: Time and Frequency Services</li>
+</ul>
+<h3 class="section-heading">1-3. SAFETY</h3>
+<div class="tm-note"><span class="admonition-label">NOTE</span>GPS receiver modules operate at 3.3 V or 5 V DC. No shock hazard under normal operating conditions.</div><div class="tm-note"><span class="admonition-label">NOTE</span>Outdoor GPS antenna installation: maintain safe clearance from power lines.</div>
+
+<h2 class="chapter-heading" id="ch2">CHAPTER 2 &mdash; THEORY OF OPERATION</h2>
+<h3 class="section-heading">2-1. GPS TIMING PRINCIPLE</h3>
+<p>GPS satellites carry cesium and rubidium atomic clocks synchronized to the GPS master control segment, which in turn is steered to UTC(USNO). The GPS receiver continuously solves for the time offset between the receiver clock and GPS time. Once a navigation solution is obtained (position locked), the 1PPS output is synchronized to UTC(GPS) within the stated accuracy.</p>
+<p>Typical 1PPS accuracy specifications:</p>
+<table class="tm-table"><caption>GPS Receiver 1PPS Accuracy</caption><thead><tr><th>Module</th><th>1PPS Accuracy (RMS)</th><th>1PPS Accuracy (Peak)</th></tr></thead><tbody>
+<tr><td>u-blox NEO-M8N (standard)</td><td>&plusmn;30 ns RMS</td><td>&plusmn;60 ns peak</td></tr>
+<tr><td>u-blox NEO-M8N (timing mode)</td><td>&plusmn;20 ns RMS</td><td>&plusmn;30 ns peak</td></tr>
+<tr><td>Generic SiRF IV module</td><td>&plusmn;100 ns RMS</td><td>&plusmn;300 ns peak</td></tr>
+<tr><td>Generic NEO-6M</td><td>&plusmn;50 ns RMS</td><td>&plusmn;100 ns peak</td></tr>
+</tbody></table>
+<h3 class="section-heading">2-2. 1PPS SIGNAL CHARACTERISTICS</h3>
+<p>The 1PPS pulse is a TTL-level (3.3 V or 5 V, depending on module) positive pulse, typically 100 ms wide, with the <em>rising edge</em> coinciding with the UTC second boundary. The pulse width is configurable on most modules.</p>
+<div class="tm-note"><span class="admonition-label">NOTE</span>The 1PPS output is valid only after the receiver achieves a 3D position lock (typically 60&ndash;120 seconds outdoors, longer with indoor antenna). Always verify lock status before using 1PPS for calibration.</div>
+
+<h2 class="chapter-heading" id="ch3">CHAPTER 3 &mdash; MATERIALS AND CONSTRUCTION</h2>
+<h3 class="section-heading">3-1. BILL OF MATERIALS</h3>
+<table class="tm-table"><caption>Required Components</caption><thead><tr><th>Qty</th><th>Item</th><th>Specification</th><th>Notes</th></tr></thead><tbody>
+<tr><td>1</td><td>GPS receiver module</td><td>NEO-M8N preferred; NEO-6M acceptable</td><td>Must have 1PPS output pin</td></tr>
+<tr><td>1</td><td>GPS patch antenna</td><td>Active, 25&times;25 mm or 35&times;35 mm</td><td>Magnetic mount for mobility</td></tr>
+<tr><td>1</td><td>SMA or IPEX cable</td><td>50 &Omega;, length as needed</td><td>GPS antenna to module</td></tr>
+<tr><td>1</td><td>5 V power supply</td><td>100 mA minimum, clean DC</td><td>USB supply acceptable</td></tr>
+<tr><td>1</td><td>SMA/BNC adapter</td><td>For 1PPS output</td><td>Or BNC connector direct</td></tr>
+<tr><td>1</td><td>50 &Omega; BNC cable</td><td>RG-58, 0.5&ndash;1 m</td><td>1PPS to counter/scope</td></tr>
+</tbody></table>
+<h3 class="section-heading">3-2. LEVEL SHIFTING</h3>
+<p>If the GPS module outputs 3.3 V logic and the counter requires 5 V TTL, a simple level-shift circuit is needed.</p>
+<div class="formula-block"><span class="formula-label">Voltage divider for 5V to 3.3V (GPS antenna power only)</span>Not required for 1PPS: most counters accept 3.3 V on TTL input</div><div class="tm-note"><span class="admonition-label">NOTE</span>The NanoVNA, TinySA Ultra, and most modern frequency counters accept 3.3 V logic on TTL inputs. No level shifting is required for these instruments.</div>
+
+<h2 class="chapter-heading" id="ch4">CHAPTER 4 &mdash; ASSEMBLY PROCEDURES</h2>
+<div class="procedure"><ol>
+<li>Solder or connect the GPS module to 5 V power supply. Observe polarity. Module draws approximately 30&ndash;50 mA during acquisition.</li>
+<li>Connect GPS patch antenna to module antenna port (IPEX or SMA connector).</li>
+<li>Identify the 1PPS output pin. On NEO-M8N breakout boards, this is labeled TIMEPULSE or 1PPS. On bare modules, pin 3 (TIMEPULSE).</li>
+<li>Connect a 100 &Omega; series resistor in-line with the 1PPS output to protect the module output stage from capacitive loading.</li>
+<li>Connect 1PPS output to BNC connector on enclosure. Use short lead lengths (&lt;10 cm) to minimize EMI pickup.</li>
+<li>Place module in enclosure with antenna cable routed to exterior.</li>
+<li>Apply power. Confirm LED blink on most breakout boards; 1 Hz blink indicates lock. Acquisition takes 60&ndash;120 seconds outdoors.</li>
+<li>Verify 1PPS output with oscilloscope: 3.3 V (or 5 V) positive pulse, 100 ms wide, 1.000000 Hz repetition rate.</li>
+</ol></div>
+<h2 class="chapter-heading" id="ch5">CHAPTER 5 &mdash; CALIBRATION PROCEDURE</h2>
+<div class="tm-caution"><span class="admonition-label">CAUTION</span>Do not use 1PPS for calibration until GPS lock is confirmed. Many modules continue to output 1PPS without lock; unlocked 1PPS can be off by milliseconds.</div><h3 class="section-heading">5-1. FREQUENCY COUNTER GATE CALIBRATION</h3>
+<div class="procedure"><ol>
+<li>Set frequency counter to 1 Hz external gate input or 1 s internal gate.</li>
+<li>Apply 1PPS to the counter's external trigger or gate input.</li>
+<li>Measure a 10 MHz oscillator with 10 s gate time. The count should be exactly 100,000,000 &plusmn; 1 count for a perfect oscillator.</li>
+<li>Record: counts = f<sub>osc</sub> / f<sub>1PPS</sub> &times; gate time.</li>
+<li>Error in ppm = (actual counts &minus; expected counts) / (expected counts) &times; 10<sup>6</sup>.</li>
+<li>Example: gate = 10 s, expected 100,000,000 counts, actual 100,000,210 counts &rarr; +2.1 ppm error.</li>
+</ol></div>
+<h3 class="section-heading">5-2. OSCILLOSCOPE TIMEBASE CALIBRATION</h3>
+<div class="procedure"><ol>
+<li>Connect 1PPS to oscilloscope input. Set trigger to rising edge.</li>
+<li>Set timebase to 200 ms/div (2 seconds full screen for a 10-div display).</li>
+<li>The 1PPS pulse should appear at exactly 1.000000 s intervals.</li>
+<li>Measure the displayed period using cursors or automated measurement.</li>
+<li>Compare displayed period to 1.000000 s. Error &gt;0.5% indicates timebase drift.</li>
+<li>For 2&ndash;div cursor placement: set cursors at 0 ms and 1000 ms displayed. Count actual division spacing. Error = (measured &minus; 1000 ms) / 1000 ms &times; 100%.</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch6">CHAPTER 6 &mdash; TUNING AND ADJUSTMENT</h2>
+<h3 class="section-heading">6-1. GPS RECEIVER CONFIGURATION</h3>
+<p>The u-blox NEO-M8N timing mode can be enabled via UBX configuration commands to reduce 1PPS jitter from ~30 ns to ~20 ns. This requires UART or USB connection to the module and u-center software or custom serial commands.</p>
+<div class="tm-note"><span class="admonition-label">NOTE</span>For most amateur calibration work, the default timing mode is entirely adequate. Enabling timing mode is optional.</div>
+<h3 class="section-heading">6-2. PULSE WIDTH ADJUSTMENT</h3>
+<p>Default 1PPS pulse width is 100 ms. For triggering older counters or oscilloscopes with high trigger thresholds, a one-shot circuit can reshape the pulse width. The pulse <em>timing</em> (rising edge position) is not affected by pulse width adjustments.</p>
+
+
+<h2 class="chapter-heading" id="ch7">CHAPTER 7 &mdash; VERIFICATION</h2>
+<div class="procedure"><ol>
+<li>Confirm GPS lock: check lock indicator LED (1 Hz blink on most modules) or parse NMEA GPRMC sentence for validity character 'A' (active).</li>
+<li>Measure 1PPS frequency with calibrated frequency counter. Should read 1.000000 Hz &plusmn;0.000001 Hz (1 &mu;Hz).</li>
+<li>Compare 1PPS timing to WWV second tick (audio): within 0.5 s over 10 s is normal for ionospheric delay; phase difference should be constant.</li>
+<li>Log: date, time, GPS module model, satellite count, 1PPS frequency measured, ambient temperature.</li>
+</ol></div>
+<h2 class="chapter-heading" id="appa">APPENDIX A &mdash; CALCULATIONS AND FORMULAS</h2>
+<div class="formula-block"><span class="formula-label">Frequency error from 1PPS gate count</span>error<sub>ppm</sub> = (N<sub>actual</sub> &minus; N<sub>expected</sub>) / N<sub>expected</sub> &times; 10<sup>6</sup></div><div class="formula-block"><span class="formula-label">Expected counts (10 MHz oscillator, 10 s gate)</span>N<sub>expected</sub> = f<sub>osc</sub> &times; t<sub>gate</sub> = 10&times;10<sup>6</sup> &times; 10 = 100,000,000</div><div class="formula-block"><span class="formula-label">1PPS accuracy in seconds per day</span>drift<sub>s/day</sub> = accuracy<sub>ns</sub> &times; 10<sup>&minus;9</sup> (this is per-pulse jitter, not accumulation)</div>
+<h2 class="chapter-heading" id="appb">APPENDIX B &mdash; EXAMPLE RESULTS</h2>
+<table class="tm-table"><caption>GPS 1PPS Calibration Log</caption><thead><tr><th>Date</th><th>GPS Module</th><th>Sats</th><th>Counter Ref (10 MHz)</th><th>Error</th><th>Notes</th></tr></thead><tbody>
+<tr><td>2026-05-26</td><td>NEO-M8N</td><td>9</td><td>10.000000 MHz</td><td>0 ppm</td><td>Timing mode enabled</td></tr>
+<tr><td>2026-05-26</td><td>NEO-6M</td><td>7</td><td>9.999978 MHz</td><td>&minus;2.2 ppm</td><td>TCXO drift</td></tr>
+<tr><td>2026-05-26</td><td>NEO-M8N</td><td>11</td><td>FNIRSI scope 1 ms/div</td><td>+0.3%</td><td>Acceptable</td></tr>
+</tbody></table>
+
+
+                <div class="back-link">
+                    <a href="../index.html">&larr; Back to Calibration Standards</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Radio: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+                <p>Amateur Radio | Electronics | Engineering | Knowledge Preservation</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-CAL-009 WHEATSTONE BRIDGE NULL METHOD - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    
+<style>
+/* Navy TM Styles */
+.tm-cover {
+    border: 3px solid #2c5f8d;
+    padding: 30px 40px;
+    text-align: center;
+    margin-bottom: 30px;
+    background: #f8f8f4;
+}
+.tm-classification {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #006600;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+.tm-number {
+    font-family: 'Courier New', monospace;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #2c5f8d;
+    margin-bottom: 10px;
+}
+.tm-title {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #1a3a5c;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 15px 0 10px;
+    line-height: 1.3;
+}
+.tm-subtitle {
+    font-size: 1.0em;
+    font-style: italic;
+    color: #555;
+    margin-bottom: 15px;
+}
+.tm-meta {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 20px;
+    border-top: 1px solid #aaa;
+    padding-top: 15px;
+}
+.tm-toc {
+    background: #f0f4f8;
+    border: 1px solid #c0ccd8;
+    padding: 20px 30px;
+    margin-bottom: 30px;
+}
+.tm-toc h2 {
+    font-size: 1.1em;
+    color: #2c5f8d;
+    border-bottom: 1px solid #4a7ba7;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.tm-toc ol {
+    margin: 0;
+    padding-left: 25px;
+}
+.tm-toc li {
+    margin: 4px 0;
+    font-size: 0.95em;
+}
+.tm-toc a {
+    color: #2c5f8d;
+    text-decoration: none;
+}
+.tm-toc a:hover {
+    text-decoration: underline;
+}
+.chapter-heading {
+    background: #2c5f8d;
+    color: #ffffff;
+    padding: 10px 20px;
+    margin-top: 35px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.section-heading {
+    color: #1a3a5c;
+    border-bottom: 2px solid #4a7ba7;
+    padding-bottom: 4px;
+    margin-top: 25px;
+    margin-bottom: 12px;
+    font-size: 1.05em;
+}
+.subsection-heading {
+    color: #2c5f8d;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    font-size: 1.0em;
+}
+.tm-warning {
+    background: #fff0f0;
+    border-left: 5px solid #cc0000;
+    border-top: 1px solid #cc0000;
+    border-bottom: 1px solid #cc0000;
+    border-right: 1px solid #cc0000;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-caution {
+    background: #fffbf0;
+    border-left: 5px solid #cc7700;
+    border-top: 1px solid #cc7700;
+    border-bottom: 1px solid #cc7700;
+    border-right: 1px solid #cc7700;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-note {
+    background: #f0f5ff;
+    border-left: 5px solid #4a7ba7;
+    border-top: 1px solid #4a7ba7;
+    border-bottom: 1px solid #4a7ba7;
+    border-right: 1px solid #4a7ba7;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.admonition-label {
+    font-weight: bold;
+    font-size: 0.9em;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 6px;
+}
+.tm-warning .admonition-label { color: #cc0000; }
+.tm-caution .admonition-label { color: #cc7700; }
+.tm-note .admonition-label { color: #2c5f8d; }
+.tm-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.95em;
+}
+.tm-table th {
+    background: #4a7ba7;
+    color: #ffffff;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.tm-table td {
+    border: 1px solid #c0ccd8;
+    padding: 7px 12px;
+    vertical-align: top;
+}
+.tm-table tr:nth-child(even) td {
+    background: #f4f7fb;
+}
+.tm-table caption {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 5px;
+    text-align: left;
+}
+.procedure ol {
+    margin: 10px 0 10px 20px;
+}
+.procedure li {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+.formula-block {
+    background: #f4f7fb;
+    border: 1px solid #c0ccd8;
+    padding: 12px 20px;
+    margin: 12px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+}
+.formula-block .formula-label {
+    font-family: Georgia, serif;
+    font-size: 0.85em;
+    color: #555;
+    font-style: italic;
+    display: block;
+    margin-bottom: 5px;
+}
+.back-link {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #c0ccd8;
+    font-size: 0.9em;
+}
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+            
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="../../about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul><li><a href="../../antennas/index.html">Antenna Library</a></li></ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul><li><a href="../../test_gear/index.html">Test Equipment Library</a></li></ul>
+            </details>
+            <h3>Standards</h3>
+            <ul>
+                <li><a href="../index.html">Calibration Standards</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Study &amp; Training</summary>
+                <ul>
+                    <li><a href="https://assets.doflagie.com/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                    <li><a href="https://assets.doflagie.com/study/morse.html">Morse Code Practice</a></li>
+                </ul>
+            </details>
+        </nav>
+
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-CAL-009</div>
+                    <div class="tm-title">WHEATSTONE BRIDGE NULL METHOD</div>
+                    <div class="tm-subtitle">Ratio-Based Precision Resistance Measurement Without Meter Calibration</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH<br>
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial calibration use</em>
+                    </div>
+                </div>
+
+                <div class="tm-toc">
+                    <h2>Table of Contents</h2>
+                    <ol>
+            <li><a href="#ch1">Chapter 1 &mdash; General Information</a></li>
+            <li><a href="#ch2">Chapter 2 &mdash; Theory of Operation</a></li>
+            <li><a href="#ch3">Chapter 3 &mdash; Materials and Construction</a></li>
+            <li><a href="#ch4">Chapter 4 &mdash; Assembly Procedures</a></li>
+            <li><a href="#ch5">Chapter 5 &mdash; Calibration Procedure</a></li>
+            <li><a href="#ch6">Chapter 6 &mdash; Tuning and Adjustment</a></li>
+            <li><a href="#ch7">Chapter 7 &mdash; Verification</a></li>
+            <li><a href="#appa">Appendix A &mdash; Calculations and Formulas</a></li>
+            <li><a href="#appb">Appendix B &mdash; Example Results</a></li>
+                    </ol>
+                </div>
+
+                <h2 class="chapter-heading" id="ch1">CHAPTER 1 &mdash; GENERAL INFORMATION</h2>
+<h3 class="section-heading">1-1. SCOPE</h3>
+<p>This manual covers construction and use of a Wheatstone bridge for precision resistance measurement. At null balance, accuracy depends only on the ratio of precision resistors and is independent of meter calibration, supply voltage variation, or meter sensitivity. This method can measure resistance to &plusmn;0.01% with 0.01% ratio-arm resistors.</p>
+
+
+<h2 class="chapter-heading" id="ch2">CHAPTER 2 &mdash; THEORY OF OPERATION</h2>
+<h3 class="section-heading">2-1. BRIDGE BALANCE CONDITION</h3>
+<p>The Wheatstone bridge consists of four resistors in a diamond configuration with a battery across one diagonal and a null detector across the other.</p>
+<div class="formula-block"><span class="formula-label">Bridge balance (null condition)</span>R<sub>x</sub> = R<sub>s</sub> &times; R<sub>b</sub> / R<sub>a</sub></div><p>At null: R<sub>x</sub> is the unknown, R<sub>s</sub> is the standard (decade box), R<sub>a</sub> and R<sub>b</sub> are the ratio arms (precision fixed resistors). No current flows through the detector at balance; its internal resistance does not affect accuracy.</p>
+<table class="tm-table"><caption>Bridge Configurations</caption><thead><tr><th>Ratio R<sub>b</sub>/R<sub>a</sub></th><th>R<sub>x</sub> Range</th><th>Notes</th></tr></thead><tbody>
+<tr><td>1:1 (equal arms)</td><td>1 &Omega;&ndash;10k &Omega;</td><td>Highest accuracy</td></tr>
+<tr><td>10:1</td><td>10&ndash;100k &Omega;</td><td>Extends range</td></tr>
+<tr><td>100:1</td><td>100 &Omega;&ndash;1M &Omega;</td><td>Higher ratio, lower sensitivity</td></tr>
+</tbody></table>
+
+<h2 class="chapter-heading" id="ch3">CHAPTER 3 &mdash; MATERIALS AND CONSTRUCTION</h2>
+<h3 class="section-heading">3-1. BILL OF MATERIALS</h3>
+<table class="tm-table"><caption>Wheatstone Bridge Components</caption><thead><tr><th>Qty</th><th>Item</th><th>Specification</th></tr></thead><tbody>
+<tr><td>2</td><td>Precision ratio-arm resistors (R<sub>a</sub>, R<sub>b</sub>)</td><td>1k&Omega; 0.01% or 0.1%</td></tr>
+<tr><td>1</td><td>Decade resistance box</td><td>TM-CAL-008 or commercial</td></tr>
+<tr><td>1</td><td>Galvanometer or null detector</td><td>1 &mu;A sensitivity preferred</td></tr>
+<tr><td>1</td><td>1.5 V battery or USB power</td><td>Stable DC supply</td></tr>
+<tr><td>1</td><td>Push-button switch</td><td>For galvanometer protective circuit</td></tr>
+<tr><td>4</td><td>Binding posts</td><td>For R<sub>x</sub> unknown connection</td></tr>
+</tbody></table>
+
+<h2 class="chapter-heading" id="ch4">CHAPTER 4 &mdash; ASSEMBLY PROCEDURES</h2>
+<div class="procedure"><ol>
+<li>Wire bridge: battery+ &rarr; junction of R<sub>a</sub> and R<sub>x</sub>. Battery&minus; &rarr; junction of R<sub>b</sub> and R<sub>s</sub>.</li>
+<li>Galvanometer: one terminal to junction of R<sub>a</sub>/R<sub>b</sub>, other to junction of R<sub>x</sub>/R<sub>s</sub>.</li>
+<li>Add protective switch (normally open) in series with galvanometer. Close briefly to check null; prevents galvanometer deflection from extreme imbalance.</li>
+<li>Connect unknown R<sub>x</sub> to external binding posts.</li>
+<li>Mount all components in labeled enclosure.</li>
+</ol></div>
+<h2 class="chapter-heading" id="ch5">CHAPTER 5 &mdash; CALIBRATION PROCEDURE</h2>
+<div class="procedure"><ol>
+<li>Connect unknown resistor to R<sub>x</sub> terminals.</li>
+<li>Set decade box (R<sub>s</sub>) to estimated value of unknown.</li>
+<li>Briefly close galvanometer switch. Observe deflection direction.</li>
+<li>Adjust R<sub>s</sub>: if galvanometer deflects right, R<sub>s</sub> is low (increase); if left, R<sub>s</sub> is high (decrease).</li>
+<li>Iterate until galvanometer reads zero with switch held closed (null balance).</li>
+<li>Calculate: R<sub>x</sub> = R<sub>s</sub> &times; (R<sub>b</sub> / R<sub>a</sub>).</li>
+<li>Read R<sub>s</sub> value from decade box. Apply ratio-arm correction if R<sub>b</sub> &ne; R<sub>a</sub>.</li>
+</ol></div>
+<h2 class="chapter-heading" id="ch6">CHAPTER 6 &mdash; TUNING AND ADJUSTMENT</h2>
+<p>Verify ratio arms R<sub>a</sub> and R<sub>b</sub> are equal by null test: replace R<sub>x</sub> with a shorting link, set R<sub>s</sub> = 0, check galvanometer reads null. If not, ratio arms are unequal; measure them with 4-wire method and apply correction factor.</p>
+
+<h2 class="chapter-heading" id="ch7">CHAPTER 7 &mdash; VERIFICATION</h2>
+<div class="procedure"><ol>
+<li>Measure a 0.01% certified reference resistor. Compare result against certified value. Error should be &lt;0.05%.</li>
+<li>Measure three different unknown resistors on the decade box range. Compare bridge result vs. direct 4-wire DMM measurement.</li>
+<li>Log date, ratio arm values, and results.</li>
+</ol></div>
+<h2 class="chapter-heading" id="appa">APPENDIX A &mdash; CALCULATIONS AND FORMULAS</h2>
+<div class="formula-block"><span class="formula-label">Unknown resistance at null</span>R<sub>x</sub> = R<sub>s</sub> &times; R<sub>b</sub> / R<sub>a</sub></div><div class="formula-block"><span class="formula-label">Equal-arm bridge (R<sub>a</sub> = R<sub>b</sub>)</span>R<sub>x</sub> = R<sub>s</sub></div><div class="formula-block"><span class="formula-label">Bridge sensitivity (for galvanometer selection)</span>I<sub>G</sub> = E &times; &Delta;R / (4 &times; R &times; R<sub>G</sub>) (small imbalance, equal arms)</div>
+<h2 class="chapter-heading" id="appb">APPENDIX B &mdash; EXAMPLE RESULTS</h2>
+<table class="tm-table"><caption>Bridge Measurement Log</caption><thead><tr><th>R<sub>x</sub> (nominal)</th><th>R<sub>s</sub> at null</th><th>Ratio</th><th>R<sub>x</sub> (measured)</th><th>4-Wire Check</th></tr></thead><tbody>
+<tr><td>100 &Omega;</td><td>99.87 &Omega;</td><td>1:1</td><td>99.87 &Omega;</td><td>99.86 &Omega;</td></tr>
+<tr><td>1k &Omega;</td><td>999.2 &Omega;</td><td>1:1</td><td>999.2 &Omega;</td><td>999.1 &Omega;</td></tr>
+<tr><td>10k &Omega;</td><td>9982 &Omega;</td><td>1:1</td><td>9982 &Omega;</td><td>9981 &Omega;</td></tr>
+</tbody></table>
+
+
+                <div class="back-link">
+                    <a href="../index.html">&larr; Back to Calibration Standards</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Radio: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+                <p>Amateur Radio | Electronics | Engineering | Knowledge Preservation</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

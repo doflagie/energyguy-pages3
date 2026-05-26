@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-CAL-010 4-WIRE KELVIN RESISTANCE STANDARD - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    
+<style>
+/* Navy TM Styles */
+.tm-cover {
+    border: 3px solid #2c5f8d;
+    padding: 30px 40px;
+    text-align: center;
+    margin-bottom: 30px;
+    background: #f8f8f4;
+}
+.tm-classification {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #006600;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+.tm-number {
+    font-family: 'Courier New', monospace;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #2c5f8d;
+    margin-bottom: 10px;
+}
+.tm-title {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #1a3a5c;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 15px 0 10px;
+    line-height: 1.3;
+}
+.tm-subtitle {
+    font-size: 1.0em;
+    font-style: italic;
+    color: #555;
+    margin-bottom: 15px;
+}
+.tm-meta {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 20px;
+    border-top: 1px solid #aaa;
+    padding-top: 15px;
+}
+.tm-toc {
+    background: #f0f4f8;
+    border: 1px solid #c0ccd8;
+    padding: 20px 30px;
+    margin-bottom: 30px;
+}
+.tm-toc h2 {
+    font-size: 1.1em;
+    color: #2c5f8d;
+    border-bottom: 1px solid #4a7ba7;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.tm-toc ol {
+    margin: 0;
+    padding-left: 25px;
+}
+.tm-toc li {
+    margin: 4px 0;
+    font-size: 0.95em;
+}
+.tm-toc a {
+    color: #2c5f8d;
+    text-decoration: none;
+}
+.tm-toc a:hover {
+    text-decoration: underline;
+}
+.chapter-heading {
+    background: #2c5f8d;
+    color: #ffffff;
+    padding: 10px 20px;
+    margin-top: 35px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.section-heading {
+    color: #1a3a5c;
+    border-bottom: 2px solid #4a7ba7;
+    padding-bottom: 4px;
+    margin-top: 25px;
+    margin-bottom: 12px;
+    font-size: 1.05em;
+}
+.subsection-heading {
+    color: #2c5f8d;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    font-size: 1.0em;
+}
+.tm-warning {
+    background: #fff0f0;
+    border-left: 5px solid #cc0000;
+    border-top: 1px solid #cc0000;
+    border-bottom: 1px solid #cc0000;
+    border-right: 1px solid #cc0000;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-caution {
+    background: #fffbf0;
+    border-left: 5px solid #cc7700;
+    border-top: 1px solid #cc7700;
+    border-bottom: 1px solid #cc7700;
+    border-right: 1px solid #cc7700;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-note {
+    background: #f0f5ff;
+    border-left: 5px solid #4a7ba7;
+    border-top: 1px solid #4a7ba7;
+    border-bottom: 1px solid #4a7ba7;
+    border-right: 1px solid #4a7ba7;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.admonition-label {
+    font-weight: bold;
+    font-size: 0.9em;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 6px;
+}
+.tm-warning .admonition-label { color: #cc0000; }
+.tm-caution .admonition-label { color: #cc7700; }
+.tm-note .admonition-label { color: #2c5f8d; }
+.tm-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.95em;
+}
+.tm-table th {
+    background: #4a7ba7;
+    color: #ffffff;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.tm-table td {
+    border: 1px solid #c0ccd8;
+    padding: 7px 12px;
+    vertical-align: top;
+}
+.tm-table tr:nth-child(even) td {
+    background: #f4f7fb;
+}
+.tm-table caption {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 5px;
+    text-align: left;
+}
+.procedure ol {
+    margin: 10px 0 10px 20px;
+}
+.procedure li {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+.formula-block {
+    background: #f4f7fb;
+    border: 1px solid #c0ccd8;
+    padding: 12px 20px;
+    margin: 12px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+}
+.formula-block .formula-label {
+    font-family: Georgia, serif;
+    font-size: 0.85em;
+    color: #555;
+    font-style: italic;
+    display: block;
+    margin-bottom: 5px;
+}
+.back-link {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #c0ccd8;
+    font-size: 0.9em;
+}
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+            
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="../../about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul><li><a href="../../antennas/index.html">Antenna Library</a></li></ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul><li><a href="../../test_gear/index.html">Test Equipment Library</a></li></ul>
+            </details>
+            <h3>Standards</h3>
+            <ul>
+                <li><a href="../index.html">Calibration Standards</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Study &amp; Training</summary>
+                <ul>
+                    <li><a href="https://assets.doflagie.com/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                    <li><a href="https://assets.doflagie.com/study/morse.html">Morse Code Practice</a></li>
+                </ul>
+            </details>
+        </nav>
+
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-CAL-010</div>
+                    <div class="tm-title">4-WIRE KELVIN RESISTANCE STANDARD</div>
+                    <div class="tm-subtitle">Elimination of Lead Resistance Error in Low-Resistance Measurements</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH<br>
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial calibration use</em>
+                    </div>
+                </div>
+
+                <div class="tm-toc">
+                    <h2>Table of Contents</h2>
+                    <ol>
+            <li><a href="#ch1">Chapter 1 &mdash; General Information</a></li>
+            <li><a href="#ch2">Chapter 2 &mdash; Theory of Operation</a></li>
+            <li><a href="#ch3">Chapter 3 &mdash; Materials and Construction</a></li>
+            <li><a href="#ch4">Chapter 4 &mdash; Assembly Procedures</a></li>
+            <li><a href="#ch5">Chapter 5 &mdash; Calibration Procedure</a></li>
+            <li><a href="#ch6">Chapter 6 &mdash; Tuning and Adjustment</a></li>
+            <li><a href="#ch7">Chapter 7 &mdash; Verification</a></li>
+            <li><a href="#appa">Appendix A &mdash; Calculations and Formulas</a></li>
+            <li><a href="#appb">Appendix B &mdash; Example Results</a></li>
+                    </ol>
+                </div>
+
+                <h2 class="chapter-heading" id="ch1">CHAPTER 1 &mdash; GENERAL INFORMATION</h2>
+<h3 class="section-heading">1-1. SCOPE</h3>
+<p>This manual covers the 4-wire Kelvin measurement method for precision resistance calibration. By separating current-forcing leads from voltage-sensing leads, lead and contact resistance is eliminated from the measurement. Applicable for resistances from 0.001 &Omega; to 10k &Omega;.</p>
+
+
+<h2 class="chapter-heading" id="ch2">CHAPTER 2 &mdash; THEORY OF OPERATION</h2>
+<h3 class="section-heading">2-1. KELVIN PRINCIPLE</h3>
+<p>In a standard 2-wire resistance measurement, the DMM forces current through the same leads it uses to measure voltage. Lead resistance (typically 0.1&ndash;0.5 &Omega; per lead) adds directly to the measured value, introducing significant error for low resistances.</p>
+<p>In 4-wire Kelvin measurement, dedicated current-force leads (F+, F&minus;) carry the test current, and separate voltage-sense leads (S+, S&minus;) measure the voltage drop across the unknown resistor only. The voltage-sense leads carry negligible current (DMM input impedance &gt;10 M&Omega;), so their resistance does not affect the measurement.</p>
+<div class="formula-block"><span class="formula-label">Kelvin measurement</span>R<sub>x</sub> = V<sub>sense</sub> / I<sub>force</sub></div>
+
+<h2 class="chapter-heading" id="ch3">CHAPTER 3 &mdash; MATERIALS AND CONSTRUCTION</h2>
+<h3 class="section-heading">3-1. KELVIN PROBES AND FIXTURES</h3>
+<table class="tm-table"><caption>Equipment</caption><thead><tr><th>Item</th><th>Description</th></tr></thead><tbody>
+<tr><td>DMM with 4-wire mode</td><td>Fluke 15B+ does NOT have 4-wire; requires Fluke 87V or bench meter</td></tr>
+<tr><td>Kelvin clip probes</td><td>Paired force/sense clips per terminal (4 total)</td></tr>
+<tr><td>Reference resistors</td><td>Certified 0.01% standard resistors: 0.1, 1, 10, 100, 1k &Omega;</td></tr>
+<tr><td>4-wire socket</td><td>DUT mounting with separated F+, F&minus;, S+, S&minus; connections</td></tr>
+</tbody></table>
+<div class="tm-note"><span class="admonition-label">NOTE</span>The Fluke 15B+ is a 2-wire meter and cannot perform true Kelvin measurements. For 4-wire work, use a bench DMM with Hi-Force, Lo-Force, Hi-Sense, Lo-Sense terminals, or construct a current-source circuit with separate voltmeter.</div>
+<h2 class="chapter-heading" id="ch4">CHAPTER 4 &mdash; ASSEMBLY PROCEDURES</h2>
+<h3 class="section-heading">4-1. DIY KELVIN FIXTURE</h3>
+<div class="procedure"><ol>
+<li>Build a simple current source: LM334 or constant-current diode set to 1 mA through unknown resistor.</li>
+<li>Measure voltage across resistor with separate high-impedance voltmeter leads.</li>
+<li>R<sub>x</sub> = V / 0.001 A.</li>
+<li>Calibrate current source: force through 100 &Omega; standard, measure V, actual I = V/100.</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch5">CHAPTER 5 &mdash; CALIBRATION PROCEDURE</h2>
+<div class="procedure"><ol>
+<li>Zero the meter on a shorting bar: connect F+ to S+ and F&minus; to S&minus;. The meter should read &lt;0.01 &Omega;. If not, apply offset null.</li>
+<li>Connect reference resistor in proper 4-wire configuration: F+ to one end, S+ to same end (inner), F&minus; to other end, S&minus; to same end (inner).</li>
+<li>Measure and record. Compare to certified value.</li>
+<li>Error ppm = (measured &minus; certified) / certified &times; 10<sup>6</sup>.</li>
+<li>Repeat for all decades: 0.1, 1, 10, 100, 1k &Omega;.</li>
+</ol></div>
+<h2 class="chapter-heading" id="ch6">CHAPTER 6 &mdash; TUNING AND ADJUSTMENT</h2>
+<div class="tm-note"><span class="admonition-label">NOTE</span>Standard resistors are not adjustable. Select from characterized lot for best accuracy.</div>
+<h2 class="chapter-heading" id="ch7">CHAPTER 7 &mdash; VERIFICATION</h2>
+<div class="procedure"><ol>
+<li>Compare 10 &Omega; standard against Wheatstone bridge (TM-CAL-009).</li>
+<li>Agreement within 0.05% confirms both methods are consistent.</li>
+<li>Log all results; recertify standards annually.</li>
+</ol></div>
+<h2 class="chapter-heading" id="appa">APPENDIX A &mdash; CALCULATIONS AND FORMULAS</h2>
+<div class="formula-block"><span class="formula-label">4-Wire resistance</span>R<sub>x</sub> = V<sub>sense</sub> / I<sub>force</sub></div><div class="formula-block"><span class="formula-label">Contact resistance error in 2-wire measurement (example)</span>Error = 2 &times; R<sub>lead</sub> / R<sub>x</sub>. For R<sub>lead</sub>=0.2&Omega;, R<sub>x</sub>=1&Omega;: error = 40%</div><div class="formula-block"><span class="formula-label">Same measurement 4-wire</span>Error &asymp; 0 (lead resistance eliminated)</div>
+<h2 class="chapter-heading" id="appb">APPENDIX B &mdash; EXAMPLE RESULTS</h2>
+<table class="tm-table"><caption>Kelvin vs 2-Wire Comparison</caption><thead><tr><th>R<sub>x</sub> nominal</th><th>2-Wire (DMM)</th><th>4-Wire (Kelvin)</th><th>Lead R (calculated)</th></tr></thead><tbody>
+<tr><td>0.1 &Omega;</td><td>0.42 &Omega;</td><td>0.099 &Omega;</td><td>0.16 &Omega;/lead</td></tr>
+<tr><td>1 &Omega;</td><td>1.34 &Omega;</td><td>1.001 &Omega;</td><td>0.17 &Omega;/lead</td></tr>
+<tr><td>10 &Omega;</td><td>10.34 &Omega;</td><td>10.003 &Omega;</td><td>0.17 &Omega;/lead</td></tr>
+<tr><td>100 &Omega;</td><td>100.35 &Omega;</td><td>100.02 &Omega;</td><td>0.17 &Omega;/lead</td></tr>
+</tbody></table>
+
+
+                <div class="back-link">
+                    <a href="../index.html">&larr; Back to Calibration Standards</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Radio: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+                <p>Amateur Radio | Electronics | Engineering | Knowledge Preservation</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

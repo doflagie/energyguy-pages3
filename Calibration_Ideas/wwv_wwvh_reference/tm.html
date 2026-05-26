@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-CAL-001 WWV/WWVH TIME SIGNAL REFERENCE - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    
+<style>
+/* Navy TM Styles */
+.tm-cover {
+    border: 3px solid #2c5f8d;
+    padding: 30px 40px;
+    text-align: center;
+    margin-bottom: 30px;
+    background: #f8f8f4;
+}
+.tm-classification {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #006600;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+.tm-number {
+    font-family: 'Courier New', monospace;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #2c5f8d;
+    margin-bottom: 10px;
+}
+.tm-title {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #1a3a5c;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 15px 0 10px;
+    line-height: 1.3;
+}
+.tm-subtitle {
+    font-size: 1.0em;
+    font-style: italic;
+    color: #555;
+    margin-bottom: 15px;
+}
+.tm-meta {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 20px;
+    border-top: 1px solid #aaa;
+    padding-top: 15px;
+}
+.tm-toc {
+    background: #f0f4f8;
+    border: 1px solid #c0ccd8;
+    padding: 20px 30px;
+    margin-bottom: 30px;
+}
+.tm-toc h2 {
+    font-size: 1.1em;
+    color: #2c5f8d;
+    border-bottom: 1px solid #4a7ba7;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.tm-toc ol {
+    margin: 0;
+    padding-left: 25px;
+}
+.tm-toc li {
+    margin: 4px 0;
+    font-size: 0.95em;
+}
+.tm-toc a {
+    color: #2c5f8d;
+    text-decoration: none;
+}
+.tm-toc a:hover {
+    text-decoration: underline;
+}
+.chapter-heading {
+    background: #2c5f8d;
+    color: #ffffff;
+    padding: 10px 20px;
+    margin-top: 35px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.section-heading {
+    color: #1a3a5c;
+    border-bottom: 2px solid #4a7ba7;
+    padding-bottom: 4px;
+    margin-top: 25px;
+    margin-bottom: 12px;
+    font-size: 1.05em;
+}
+.subsection-heading {
+    color: #2c5f8d;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    font-size: 1.0em;
+}
+.tm-warning {
+    background: #fff0f0;
+    border-left: 5px solid #cc0000;
+    border-top: 1px solid #cc0000;
+    border-bottom: 1px solid #cc0000;
+    border-right: 1px solid #cc0000;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-caution {
+    background: #fffbf0;
+    border-left: 5px solid #cc7700;
+    border-top: 1px solid #cc7700;
+    border-bottom: 1px solid #cc7700;
+    border-right: 1px solid #cc7700;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-note {
+    background: #f0f5ff;
+    border-left: 5px solid #4a7ba7;
+    border-top: 1px solid #4a7ba7;
+    border-bottom: 1px solid #4a7ba7;
+    border-right: 1px solid #4a7ba7;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.admonition-label {
+    font-weight: bold;
+    font-size: 0.9em;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 6px;
+}
+.tm-warning .admonition-label { color: #cc0000; }
+.tm-caution .admonition-label { color: #cc7700; }
+.tm-note .admonition-label { color: #2c5f8d; }
+.tm-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.95em;
+}
+.tm-table th {
+    background: #4a7ba7;
+    color: #ffffff;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.tm-table td {
+    border: 1px solid #c0ccd8;
+    padding: 7px 12px;
+    vertical-align: top;
+}
+.tm-table tr:nth-child(even) td {
+    background: #f4f7fb;
+}
+.tm-table caption {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 5px;
+    text-align: left;
+}
+.procedure ol {
+    margin: 10px 0 10px 20px;
+}
+.procedure li {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+.formula-block {
+    background: #f4f7fb;
+    border: 1px solid #c0ccd8;
+    padding: 12px 20px;
+    margin: 12px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+}
+.formula-block .formula-label {
+    font-family: Georgia, serif;
+    font-size: 0.85em;
+    color: #555;
+    font-style: italic;
+    display: block;
+    margin-bottom: 5px;
+}
+.back-link {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #c0ccd8;
+    font-size: 0.9em;
+}
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+            
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="../../about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul><li><a href="../../antennas/index.html">Antenna Library</a></li></ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul><li><a href="../../test_gear/index.html">Test Equipment Library</a></li></ul>
+            </details>
+            <h3>Standards</h3>
+            <ul>
+                <li><a href="../index.html">Calibration Standards</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Study &amp; Training</summary>
+                <ul>
+                    <li><a href="https://assets.doflagie.com/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                    <li><a href="https://assets.doflagie.com/study/morse.html">Morse Code Practice</a></li>
+                </ul>
+            </details>
+        </nav>
+
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-CAL-001</div>
+                    <div class="tm-title">WWV/WWVH TIME SIGNAL REFERENCE</div>
+                    <div class="tm-subtitle">NIST Shortwave Time and Frequency Broadcasts as a Primary Frequency Standard</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH<br>
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial calibration use</em>
+                    </div>
+                </div>
+
+                <div class="tm-toc">
+                    <h2>Table of Contents</h2>
+                    <ol>
+            <li><a href="#ch1">Chapter 1 &mdash; General Information</a></li>
+            <li><a href="#ch2">Chapter 2 &mdash; Theory of Operation</a></li>
+            <li><a href="#ch3">Chapter 3 &mdash; Materials and Construction</a></li>
+            <li><a href="#ch4">Chapter 4 &mdash; Assembly Procedures</a></li>
+            <li><a href="#ch5">Chapter 5 &mdash; Calibration Procedure</a></li>
+            <li><a href="#ch6">Chapter 6 &mdash; Tuning and Adjustment</a></li>
+            <li><a href="#ch7">Chapter 7 &mdash; Verification</a></li>
+            <li><a href="#appa">Appendix A &mdash; Calculations and Formulas</a></li>
+            <li><a href="#appb">Appendix B &mdash; Example Results</a></li>
+                    </ol>
+                </div>
+
+                <h2 class="chapter-heading" id="ch1">CHAPTER 1 &mdash; GENERAL INFORMATION</h2>
+<h3 class="section-heading">1-1. SCOPE</h3>
+<p>This manual covers the use of NIST shortwave time and frequency radio broadcasts (WWV and WWVH) as a primary frequency reference for calibrating frequency counters, receivers, signal generators, and other RF test equipment. The method requires only a shortwave receiver and is suitable for the amateur radio station or electronics workbench.</p>
+
+<h3 class="section-heading">1-2. APPLICABLE REFERENCES</h3>
+<ul>
+<li>NIST Special Publication 432: NIST Time and Frequency Services</li>
+<li>ITU-R TF.460: Standard Frequency and Time Signal Emissions</li>
+<li>ARRL Handbook: Frequency and Time Standards</li>
+<li>FCC Rules Part 25 &mdash; Satellite Communications</li>
+</ul>
+<h3 class="section-heading">1-3. SAFETY PRECAUTIONS</h3>
+<div class="tm-note"><span class="admonition-label">NOTE</span>No hazardous voltages or currents are involved in normal use of this standard. All measurements are made at receiver output levels.</div><div class="tm-note"><span class="admonition-label">NOTE</span>Antenna installation safety: observe local building codes and maintain safe clearance from power lines when installing shortwave antennas.</div>
+
+<h2 class="chapter-heading" id="ch2">CHAPTER 2 &mdash; THEORY OF OPERATION</h2>
+<h3 class="section-heading">2-1. NIST TIME AND FREQUENCY BROADCASTS</h3>
+<p>NIST operates two shortwave time and frequency stations: WWV at Fort Collins, Colorado, and WWVH at Kekaha, Hawaii. Both broadcast continuous signals that serve as NIST primary frequency standards, traceable to the NIST F-2 cesium fountain atomic clock.</p>
+<p>WWV broadcast frequencies: 2.5, 5.0, 10.0, 15.0, and 20.0 MHz. WWVH broadcast frequencies: 2.5, 5.0, 10.0, and 15.0 MHz. Carrier frequency accuracy: ±1&times;10<sup>&minus;12</sup> relative, equivalent to &lt;0.001 Hz error at 10 MHz.</p>
+<table class="tm-table"><caption>WWV/WWVH Carrier Frequencies</caption><thead><tr><th>Freq (MHz)</th><th>WWV</th><th>WWVH</th><th>Best Reception (EST)</th></tr></thead><tbody>
+<tr><td>2.5</td><td>Yes</td><td>Yes</td><td>Night, low-band propagation</td></tr>
+<tr><td>5.0</td><td>Yes</td><td>Yes</td><td>Night, 0000&ndash;1200</td></tr>
+<tr><td>10.0</td><td>Yes</td><td>Yes</td><td>Daytime, most reliable</td></tr>
+<tr><td>15.0</td><td>Yes</td><td>Yes</td><td>Daytime, high solar activity</td></tr>
+<tr><td>20.0</td><td>Yes</td><td>No</td><td>Daytime, high solar activity</td></tr>
+</tbody></table>
+<h3 class="section-heading">2-2. TRACEABILITY CHAIN</h3>
+<p>NIST F-2 cesium fountain &rarr; GPS carrier-phase comparison &rarr; master clock system &rarr; broadcast transmitters. The carrier is phase-coherent with UTC at the transmitter. Propagation delay introduces error (approximately 3.3 ms/1000 km); for frequency calibration this cancels out when measuring frequency rather than phase.</p>
+<div class="tm-note"><span class="admonition-label">NOTE</span>For frequency calibration (not timing), propagation delay is irrelevant. The received carrier frequency is identical to the transmitted frequency within the stated accuracy. Doppler shift from ionospheric movement is small (&lt;0.1 Hz at 10 MHz) and averages to zero over minutes.</div>
+
+<h2 class="chapter-heading" id="ch3">CHAPTER 3 &mdash; MATERIALS AND CONSTRUCTION</h2>
+<h3 class="section-heading">3-1. REQUIRED EQUIPMENT</h3>
+<table class="tm-table"><caption>Equipment List</caption><thead><tr><th>Item</th><th>Description</th><th>Specification</th><th>Notes</th></tr></thead><tbody>
+<tr><td>1</td><td>Shortwave receiver</td><td>Coverage 2.5&ndash;20 MHz, SSB/AM</td><td>Any general coverage HF receiver</td></tr>
+<tr><td>2</td><td>Frequency counter</td><td>Resolution 1 Hz or better</td><td>Gate time 1 s minimum</td></tr>
+<tr><td>3</td><td>BNC coax cable</td><td>RG-58 or RG-174, 1&ndash;2 m</td><td>Receiver output to counter</td></tr>
+<tr><td>4</td><td>Shortwave antenna</td><td>Any wire, 5&ndash;30 m preferred</td><td>Outdoor or attic preferred</td></tr>
+<tr><td>5</td><td>Headphones (optional)</td><td>Any impedance</td><td>Monitoring only</td></tr>
+</tbody></table>
+<h3 class="section-heading">3-2. ANTENNA CONSIDERATIONS</h3>
+<p>Any wire antenna will receive WWV/WWVH under favorable conditions. A 15 m (50 ft) end-fed wire antenna in the attic or outdoors provides adequate signal on most frequencies. Noise level in the shack is more limiting than antenna size.</p>
+<div class="tm-note"><span class="admonition-label">NOTE</span>A NanoVNA or TinySA can serve as the frequency counter for this procedure if the reference output connector is accessible. The TinySA Ultra internal reference can itself be calibrated by this method.</div>
+
+<h2 class="chapter-heading" id="ch4">CHAPTER 4 &mdash; ASSEMBLY PROCEDURES</h2>
+<h3 class="section-heading">4-1. SETUP</h3>
+<div class="procedure"><ol>
+<li>Connect shortwave antenna to receiver antenna input.</li>
+<li>Connect receiver line output or headphone output to frequency counter input via attenuator pad if needed. (Most receivers output 100&ndash;600 mV; most counters accept 100 mV minimum.)</li>
+<li>Set receiver to AM or SSB mode. For frequency calibration, USB mode gives a stable audio tone from the 1 kHz second-tick.</li>
+<li>Set frequency counter gate time to 10 seconds or longer for best accuracy.</li>
+<li>Allow equipment to warm up for 15 minutes minimum.</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch5">CHAPTER 5 &mdash; CALIBRATION PROCEDURE</h2>
+<div class="tm-caution"><span class="admonition-label">CAUTION</span>If calibrating the frequency counter's internal oscillator (TCXO/OCXO), refer to the counter manufacturer's manual. Some counters require internal adjustment access; incorrect adjustment can degrade accuracy.</div><h3 class="section-heading">5-1. DIRECT CARRIER METHOD (PREFERRED)</h3>
+<p>This method measures the received carrier directly with the frequency counter. It requires a receiver with a BFO output or accessible IF/detector output.</p>
+<div class="procedure"><ol>
+<li>Tune receiver to 10.000 MHz (best daytime signal) or 5.000 MHz (night).</li>
+<li>Switch receiver to CW or USB mode. Zero-beat the carrier: the audio beat note approaches zero Hz as receiver VFO aligns with the carrier.</li>
+<li>Measure the receiver VFO frequency at zero-beat. This equals 10.000000 MHz (within &plusmn;5 Hz for consumer receivers, &plusmn;100 Hz for older equipment).</li>
+<li>If the counter shows 10.000100 MHz at zero-beat, the counter's reference is high by 10 Hz at 10 MHz = 1 ppm high.</li>
+<li>Apply correction: freq<sub>true</sub> = freq<sub>displayed</sub> &times; (1 &minus; error<sub>ppm</sub>/10<sup>6</sup>).</li>
+<li>Repeat on 5.000 MHz and 15.000 MHz to verify consistency.</li>
+<li>Record result in calibration log.</li>
+</ol></div>
+<h3 class="section-heading">5-2. AUDIO BEAT NOTE METHOD</h3>
+<p>If direct carrier access is not available, beat the carrier against a known oscillator and count the beat note frequency.</p>
+<div class="procedure"><ol>
+<li>Connect a 10 MHz signal generator (or GPSDO output) to one input of a signal mixer or the RF input of a second receiver.</li>
+<li>Receive WWV on the first receiver.</li>
+<li>Mix the two signals; the difference frequency (beat note) is the error between your oscillator and WWV.</li>
+<li>Count the beat note with the frequency counter. Any non-zero reading is the error of your signal generator at 10 MHz.</li>
+<li>Error in ppm = beat<sub>Hz</sub> / 10 (at 10 MHz reference).</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch6">CHAPTER 6 &mdash; TUNING AND ADJUSTMENT</h2>
+<h3 class="section-heading">6-1. ADJUSTING A FREQUENCY COUNTER REFERENCE</h3>
+<div class="procedure"><ol>
+<li>Identify the trimmer capacitor (TCXO) or voltage adjustment pin (VCTCXO/OCXO) in the frequency counter.</li>
+<li>While monitoring the counter reading against WWV, adjust the trimmer in small increments until the displayed frequency matches expected value.</li>
+<li>Allow 5 minutes after each adjustment for thermal stabilization before reading final value.</li>
+<li>Do not over-adjust. Most TCXO trimmers have a range of &plusmn;10 ppm.</li>
+</ol></div>
+<h3 class="section-heading">6-2. ADJUSTING A SIGNAL GENERATOR</h3>
+<div class="procedure"><ol>
+<li>Set the generator to 10.000 MHz and connect output to the frequency counter.</li>
+<li>Compare counter reading against WWV-calibrated reference.</li>
+<li>Adjust the generator's frequency calibration control (typically a front-panel vernier or internal trimmer) to match.</li>
+<li>Lock the calibration control (if equipped) and record the setting.</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch7">CHAPTER 7 &mdash; VERIFICATION</h2>
+<h3 class="section-heading">7-1. INDEPENDENT VERIFICATION</h3>
+<div class="procedure"><ol>
+<li>After calibration, tune to a second WWV frequency (e.g., if calibrated on 10 MHz, verify on 5 MHz).</li>
+<li>Repeat the frequency measurement. Error should be &lt;1 ppm if calibration was performed correctly.</li>
+<li>Verify at least 24 hours later to confirm stability: TCXO drift should be &lt;0.5 ppm/day.</li>
+<li>Enter all readings in the calibration log with date, temperature, and receiving conditions (fair/poor/excellent).</li>
+</ol></div>
+<h3 class="section-heading">7-2. ACCEPTANCE CRITERIA</h3>
+<table class="tm-table"><caption>Calibration Acceptance</caption><thead><tr><th>Instrument</th><th>Acceptable Error</th><th>Reject Threshold</th></tr></thead><tbody>
+<tr><td>TCXO-based counter</td><td>&lt;1 ppm</td><td>&gt;5 ppm</td></tr>
+<tr><td>Crystal counter (no temp comp)</td><td>&lt;10 ppm</td><td>&gt;50 ppm</td></tr>
+<tr><td>Signal generator</td><td>&lt;5 ppm</td><td>&gt;20 ppm</td></tr>
+<tr><td>Receiver VFO</td><td>&lt;100 Hz at 10 MHz</td><td>&gt;500 Hz</td></tr>
+</tbody></table>
+
+<h2 class="chapter-heading" id="appa">APPENDIX A &mdash; CALCULATIONS AND FORMULAS</h2>
+<h3 class="section-heading">A-1. FREQUENCY ERROR</h3>
+<div class="formula-block"><span class="formula-label">Parts-per-million error</span>error<sub>ppm</sub> = (f<sub>measured</sub> &minus; f<sub>nominal</sub>) / f<sub>nominal</sub> &times; 10<sup>6</sup></div><div class="formula-block"><span class="formula-label">Correction factor</span>f<sub>true</sub> = f<sub>displayed</sub> &times; (1 &minus; error<sub>ppm</sub> / 10<sup>6</sup>)</div><div class="formula-block"><span class="formula-label">Hz error from ppm (10 MHz)</span>error<sub>Hz</sub> = error<sub>ppm</sub> &times; 10 (at 10 MHz)</div>
+<h3 class="section-heading">A-2. PROPAGATION DELAY</h3>
+<div class="formula-block"><span class="formula-label">One-way propagation delay (ionospheric, approximate)</span>delay &asymp; 3.3 ms per 1000 km</div><div class="tm-note"><span class="admonition-label">NOTE</span>Propagation delay affects <em>phase</em> and <em>timing</em> measurements only. For frequency calibration, the Doppler shift from a quasi-static ionosphere averages to zero over 30 seconds or more. Time-of-day synchronization requires propagation delay correction; frequency calibration does not.</div>
+
+<h2 class="chapter-heading" id="appb">APPENDIX B &mdash; EXAMPLE RESULTS</h2>
+<table class="tm-table"><caption>Typical Calibration Results</caption><thead><tr><th>Instrument</th><th>Reference</th><th>Displayed</th><th>Error</th><th>Action</th></tr></thead><tbody>
+<tr><td>TinySA Ultra (internal ref)</td><td>10.000000 MHz (WWV)</td><td>10.000020 MHz</td><td>+2 ppm</td><td>Acceptable; log</td></tr>
+<tr><td>Old HP frequency counter</td><td>10.000000 MHz (WWV)</td><td>10.000180 MHz</td><td>+18 ppm</td><td>Adjust TCXO</td></tr>
+<tr><td>Receiver VFO</td><td>10.000000 MHz (WWV)</td><td>9.999800 MHz</td><td>&minus;200 Hz / &minus;20 ppm</td><td>Note offset; apply correction</td></tr>
+<tr><td>Signal generator (old)</td><td>5.000000 MHz (WWV)</td><td>5.000045 MHz</td><td>+9 ppm</td><td>Adjust if accessible</td></tr>
+</tbody></table>
+
+
+                <div class="back-link">
+                    <a href="../index.html">&larr; Back to Calibration Standards</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Radio: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+                <p>Amateur Radio | Electronics | Engineering | Knowledge Preservation</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

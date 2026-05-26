@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TM-CAL-014 50-OHM DUMMY LOAD POWER STANDARD - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    
+<style>
+/* Navy TM Styles */
+.tm-cover {
+    border: 3px solid #2c5f8d;
+    padding: 30px 40px;
+    text-align: center;
+    margin-bottom: 30px;
+    background: #f8f8f4;
+}
+.tm-classification {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #006600;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+.tm-number {
+    font-family: 'Courier New', monospace;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #2c5f8d;
+    margin-bottom: 10px;
+}
+.tm-title {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #1a3a5c;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 15px 0 10px;
+    line-height: 1.3;
+}
+.tm-subtitle {
+    font-size: 1.0em;
+    font-style: italic;
+    color: #555;
+    margin-bottom: 15px;
+}
+.tm-meta {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 20px;
+    border-top: 1px solid #aaa;
+    padding-top: 15px;
+}
+.tm-toc {
+    background: #f0f4f8;
+    border: 1px solid #c0ccd8;
+    padding: 20px 30px;
+    margin-bottom: 30px;
+}
+.tm-toc h2 {
+    font-size: 1.1em;
+    color: #2c5f8d;
+    border-bottom: 1px solid #4a7ba7;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.tm-toc ol {
+    margin: 0;
+    padding-left: 25px;
+}
+.tm-toc li {
+    margin: 4px 0;
+    font-size: 0.95em;
+}
+.tm-toc a {
+    color: #2c5f8d;
+    text-decoration: none;
+}
+.tm-toc a:hover {
+    text-decoration: underline;
+}
+.chapter-heading {
+    background: #2c5f8d;
+    color: #ffffff;
+    padding: 10px 20px;
+    margin-top: 35px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.section-heading {
+    color: #1a3a5c;
+    border-bottom: 2px solid #4a7ba7;
+    padding-bottom: 4px;
+    margin-top: 25px;
+    margin-bottom: 12px;
+    font-size: 1.05em;
+}
+.subsection-heading {
+    color: #2c5f8d;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    font-size: 1.0em;
+}
+.tm-warning {
+    background: #fff0f0;
+    border-left: 5px solid #cc0000;
+    border-top: 1px solid #cc0000;
+    border-bottom: 1px solid #cc0000;
+    border-right: 1px solid #cc0000;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-caution {
+    background: #fffbf0;
+    border-left: 5px solid #cc7700;
+    border-top: 1px solid #cc7700;
+    border-bottom: 1px solid #cc7700;
+    border-right: 1px solid #cc7700;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.tm-note {
+    background: #f0f5ff;
+    border-left: 5px solid #4a7ba7;
+    border-top: 1px solid #4a7ba7;
+    border-bottom: 1px solid #4a7ba7;
+    border-right: 1px solid #4a7ba7;
+    padding: 12px 16px;
+    margin: 16px 0;
+}
+.admonition-label {
+    font-weight: bold;
+    font-size: 0.9em;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 6px;
+}
+.tm-warning .admonition-label { color: #cc0000; }
+.tm-caution .admonition-label { color: #cc7700; }
+.tm-note .admonition-label { color: #2c5f8d; }
+.tm-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 0.95em;
+}
+.tm-table th {
+    background: #4a7ba7;
+    color: #ffffff;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.tm-table td {
+    border: 1px solid #c0ccd8;
+    padding: 7px 12px;
+    vertical-align: top;
+}
+.tm-table tr:nth-child(even) td {
+    background: #f4f7fb;
+}
+.tm-table caption {
+    font-style: italic;
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 5px;
+    text-align: left;
+}
+.procedure ol {
+    margin: 10px 0 10px 20px;
+}
+.procedure li {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+.formula-block {
+    background: #f4f7fb;
+    border: 1px solid #c0ccd8;
+    padding: 12px 20px;
+    margin: 12px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95em;
+}
+.formula-block .formula-label {
+    font-family: Georgia, serif;
+    font-size: 0.85em;
+    color: #555;
+    font-style: italic;
+    display: block;
+    margin-bottom: 5px;
+}
+.back-link {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #c0ccd8;
+    font-size: 0.9em;
+}
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">Amateur Radio &bull; Electronics &bull; Engineering</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+            
+        <nav>
+            <h3>Main Navigation</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="../../about/bio.html">About</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul><li><a href="../../antennas/index.html">Antenna Library</a></li></ul>
+            </details>
+            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul><li><a href="../../test_gear/index.html">Test Equipment Library</a></li></ul>
+            </details>
+            <h3>Standards</h3>
+            <ul>
+                <li><a href="../index.html">Calibration Standards</a></li>
+            </ul>
+            <details class="nav-group" open>
+                <summary>Study &amp; Training</summary>
+                <ul>
+                    <li><a href="https://assets.doflagie.com/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                    <li><a href="https://assets.doflagie.com/study/morse.html">Morse Code Practice</a></li>
+                </ul>
+            </details>
+        </nav>
+
+            <main>
+                <div class="tm-cover">
+                    <div class="tm-classification">UNCLASSIFIED</div>
+                    <div class="tm-number">TM-CAL-014</div>
+                    <div class="tm-title">50-OHM DUMMY LOAD POWER STANDARD</div>
+                    <div class="tm-subtitle">Non-Reactive Resistive Load for RF Power Measurement and Transmitter Testing</div>
+                    <div class="tm-meta">
+                        Prepared by: Mervyn Martin, KO6NNH<br>
+                        Merced, California &nbsp;&bull;&nbsp; 26 May 2026<br>
+                        <em>Amateur Radio / Electronics &mdash; Not for commercial calibration use</em>
+                    </div>
+                </div>
+
+                <div class="tm-toc">
+                    <h2>Table of Contents</h2>
+                    <ol>
+            <li><a href="#ch1">Chapter 1 &mdash; General Information</a></li>
+            <li><a href="#ch2">Chapter 2 &mdash; Theory of Operation</a></li>
+            <li><a href="#ch3">Chapter 3 &mdash; Materials and Construction</a></li>
+            <li><a href="#ch4">Chapter 4 &mdash; Assembly Procedures</a></li>
+            <li><a href="#ch5">Chapter 5 &mdash; Calibration Procedure</a></li>
+            <li><a href="#ch6">Chapter 6 &mdash; Tuning and Adjustment</a></li>
+            <li><a href="#ch7">Chapter 7 &mdash; Verification</a></li>
+            <li><a href="#appa">Appendix A &mdash; Calculations and Formulas</a></li>
+            <li><a href="#appb">Appendix B &mdash; Example Results</a></li>
+                    </ol>
+                </div>
+
+                <h2 class="chapter-heading" id="ch1">CHAPTER 1 &mdash; GENERAL INFORMATION</h2>
+<h3 class="section-heading">1-1. SCOPE</h3>
+<p>This manual covers construction and calibration of a 50 &Omega; non-reactive dummy load for measuring RF power. The load is used with a calibrated voltmeter or directional coupler to verify transmitter power output and calibrate wattmeters.</p>
+
+<h3 class="section-heading">1-3. SAFETY</h3>
+<div class="tm-warning"><span class="admonition-label">WARNING</span>RF power above 1 watt represents significant electric field intensity at close range. Do not contact the antenna output of a transmitter during operation. Always connect dummy load before applying RF drive.</div><div class="tm-caution"><span class="admonition-label">CAUTION</span>Resistor thermal rating: ensure dummy load power dissipation rating exceeds transmitter peak output by at least 2&times;. An oil-cooled load handles higher power but requires sealed construction.</div>
+
+<h2 class="chapter-heading" id="ch2">CHAPTER 2 &mdash; THEORY OF OPERATION</h2>
+<h3 class="section-heading">2-1. RESISTIVE LOAD PRINCIPLE</h3>
+<p>Power delivered to a resistive load equals P = V<sup>2</sup>/R = I<sup>2</sup>R. For a 50 &Omega; load driven by an RF source matched to 50 &Omega;:</p>
+<div class="formula-block"><span class="formula-label">Power from RMS voltage</span>P (W) = V<sub>RMS</sub><sup>2</sup> / 50</div><div class="formula-block"><span class="formula-label">RMS voltage for given power</span>V<sub>RMS</sub> = &radic;(P &times; 50)</div><table class="tm-table"><caption>Power &mdash; Voltage Reference</caption><thead><tr><th>Power (W)</th><th>V<sub>RMS</sub> (V)</th><th>V<sub>peak</sub> (V)</th><th>I<sub>RMS</sub> (A)</th></tr></thead><tbody>
+<tr><td>0.1</td><td>2.24</td><td>3.16</td><td>0.045</td></tr>
+<tr><td>1.0</td><td>7.07</td><td>10.0</td><td>0.141</td></tr>
+<tr><td>5.0</td><td>15.8</td><td>22.4</td><td>0.316</td></tr>
+<tr><td>10.0</td><td>22.4</td><td>31.6</td><td>0.447</td></tr>
+<tr><td>100.0</td><td>70.7</td><td>100.0</td><td>1.41</td></tr>
+</tbody></table>
+
+<h2 class="chapter-heading" id="ch3">CHAPTER 3 &mdash; MATERIALS AND CONSTRUCTION</h2>
+<h3 class="section-heading">3-1. DRY LOAD (UP TO 25 W)</h3>
+<table class="tm-table"><caption>Components</caption><thead><tr><th>Qty</th><th>Item</th><th>Specification</th></tr></thead><tbody>
+<tr><td>10</td><td>Non-inductive resistor</td><td>500 &Omega; 5 W each, carbon film or metal oxide</td></tr>
+<tr><td>1</td><td>BNC or PL-259 chassis connector</td><td>For RF connection</td></tr>
+<tr><td>1</td><td>Copper-clad PCB or ground plane</td><td>For resistor mounting</td></tr>
+<tr><td>1</td><td>Aluminum enclosure</td><td>With ventilation or heatsink</td></tr>
+</tbody></table>
+<h3 class="section-heading">3-2. CONSTRUCTION NOTES</h3>
+<p>Ten 500 &Omega; resistors in parallel = 50 &Omega; total. Each carries 1/10 of total power. For 25 W load, each resistor handles 2.5 W (rated 5 W). Mount resistors radially from center BNC connector with leads &lt;10 mm. Keep all leads equal length to maintain SWR flatness to &ge;100 MHz.</p>
+<div class="tm-note"><span class="admonition-label">NOTE</span>Carbon composition resistors have good non-inductance but poor power stability. Metal oxide film is preferred: non-inductive and stable. Avoid wirewound at RF frequencies due to inductance.</div>
+
+<h2 class="chapter-heading" id="ch4">CHAPTER 4 &mdash; ASSEMBLY PROCEDURES</h2>
+<div class="procedure"><ol>
+<li>Drill BNC mounting hole in center of ground plane. Mount BNC chassis connector.</li>
+<li>Cut 10 resistor leads to equal length (15 mm each). Bend leads outward radially.</li>
+<li>Solder all resistor leads to BNC center pin simultaneously (one end) and to ground plane (other end). Use minimum solder.</li>
+<li>Verify 50 &Omega; with DMM at DC. Should read 50 &Omega; &plusmn;5%.</li>
+<li>Install in enclosure with ventilation holes (or heat-sink adhesive for high power).</li>
+<li>Apply label: '50 &Omega; 25 W DUMMY LOAD &mdash; NON-INDUCTIVE'.</li>
+</ol></div>
+<h2 class="chapter-heading" id="ch5">CHAPTER 5 &mdash; CALIBRATION PROCEDURE</h2>
+<h3 class="section-heading">5-1. DC RESISTANCE VERIFICATION</h3>
+<div class="procedure"><ol>
+<li>Measure DC resistance at BNC terminals with calibrated ohmmeter.</li>
+<li>Should read 50.0 &plusmn;2.5 &Omega; (5%).</li>
+<li>4-wire measurement preferred for accuracy (TM-CAL-010).</li>
+</ol></div>
+<h3 class="section-heading">5-2. RF POWER CALIBRATION</h3>
+<div class="procedure"><ol>
+<li>Connect load to NanoVNA PORT 1. Measure |S11| from 1&ndash;100 MHz.</li>
+<li>SWR &lt;1.5:1 (|S11| &lt; &minus;14 dB) across full range confirms non-reactive construction.</li>
+<li>For power measurement: connect calibrated Bird 43 wattmeter or TinySA tracking generator source in series with load.</li>
+<li>Measure V<sub>RMS</sub> at load terminals: P<sub>calc</sub> = V<sup>2</sup>/50.</li>
+<li>Compare P<sub>calc</sub> against wattmeter reading. Agreement &lt;10% is adequate.</li>
+</ol></div>
+
+<h2 class="chapter-heading" id="ch6">CHAPTER 6 &mdash; TUNING AND ADJUSTMENT</h2>
+<div class="tm-note"><span class="admonition-label">NOTE</span>Resistance can be adjusted within &plusmn;10% by replacing individual resistors. For exact 50.00 &Omega;: measure all 10 resistors before assembly, select from characterized lot, combine to achieve closest total.</div>
+<h2 class="chapter-heading" id="ch7">CHAPTER 7 &mdash; VERIFICATION</h2>
+<div class="procedure"><ol>
+<li>Apply 5 W from QRP transmitter to dummy load for 60 seconds. Verify resistors do not reach unsafe temperature (&lt;100&deg;C surface).</li>
+<li>Measure |S11| after thermal cycling to confirm mechanical stability.</li>
+<li>Log: DC resistance, |S11| at 10 and 50 MHz, power test level, date.</li>
+</ol></div>
+<h2 class="chapter-heading" id="appa">APPENDIX A &mdash; CALCULATIONS AND FORMULAS</h2>
+<div class="formula-block"><span class="formula-label">Parallel resistance</span>R<sub>total</sub> = R<sub>each</sub> / N for N equal resistors</div><div class="formula-block"><span class="formula-label">10 &times; 500 &Omega;</span>R = 500/10 = 50 &Omega;</div><div class="formula-block"><span class="formula-label">SWR from R<sub>load</sub> and Z<sub>0</sub></span>SWR = R<sub>load</sub>/Z<sub>0</sub> if R<sub>load</sub> &gt; Z<sub>0</sub>, else Z<sub>0</sub>/R<sub>load</sub></div><div class="formula-block"><span class="formula-label">Maximum power per resistor</span>P<sub>each</sub> = P<sub>total</sub> / N</div>
+<h2 class="chapter-heading" id="appb">APPENDIX B &mdash; EXAMPLE RESULTS</h2>
+<table class="tm-table"><caption>Dummy Load Verification</caption><thead><tr><th>Measurement</th><th>Expected</th><th>Measured</th><th>Pass/Fail</th></tr></thead><tbody>
+<tr><td>DC resistance</td><td>50.0 &Omega;</td><td>50.4 &Omega;</td><td>Pass</td></tr>
+<tr><td>|S11| at 10 MHz</td><td>&lt;&minus;14 dB</td><td>&minus;28 dB</td><td>Pass</td></tr>
+<tr><td>|S11| at 50 MHz</td><td>&lt;&minus;14 dB</td><td>&minus;22 dB</td><td>Pass</td></tr>
+<tr><td>|S11| at 100 MHz</td><td>&lt;&minus;14 dB</td><td>&minus;17 dB</td><td>Pass</td></tr>
+<tr><td>Thermal (5 W, 60 s)</td><td>&lt;100&deg;C</td><td>68&deg;C</td><td>Pass</td></tr>
+</tbody></table>
+
+
+                <div class="back-link">
+                    <a href="../index.html">&larr; Back to Calibration Standards</a>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Radio: KO6NNH</p>
+            <p>Merced, California 95340</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>.</p>
+                <p>Amateur Radio | Electronics | Engineering | Knowledge Preservation</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
