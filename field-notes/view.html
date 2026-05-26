@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Field Notes - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Markdown content styles */
+        #md-content h1 { color: #2c5f8d; border-bottom: 2px solid #4a7ba7; padding-bottom: 8px; margin-top: 1.5em; }
+        #md-content h2 { color: #2c5f8d; margin-top: 1.5em; }
+        #md-content h3 { color: #4a7ba7; margin-top: 1.2em; }
+        #md-content table { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: 0.9em; }
+        #md-content th { background: #4a7ba7; color: #fff; padding: 6px 10px; text-align: left; }
+        #md-content td { border: 1px solid #ccc; padding: 5px 10px; vertical-align: top; }
+        #md-content tr:nth-child(even) td { background: #f5f5f0; }
+        #md-content pre { background: #f4f4f0; border-left: 4px solid #4a7ba7; padding: 1em; overflow-x: auto; font-size: 0.88em; line-height: 1.5; white-space: pre-wrap; }
+        #md-content code { background: #f4f4f0; padding: 2px 5px; border-radius: 3px; font-size: 0.9em; }
+        #md-content pre code { background: none; padding: 0; }
+        #md-content blockquote { border-left: 4px solid #ffa500; background: #fffacd; padding: 0.75em 1em; margin: 1em 0; }
+        #md-content hr { border: none; border-top: 1px solid #ccc; margin: 1.5em 0; }
+        #md-content ul, #md-content ol { padding-left: 1.5em; line-height: 1.7; }
+        #md-content strong { color: #2c5f8d; }
+        #md-content p { line-height: 1.7; }
+        .loading { color: #999; font-style: italic; }
+        .error-msg { color: #c0392b; background: #fdecea; border-left: 4px solid #c0392b; padding: 1em; }
+        .print-link { float: right; font-size: 0.9em; color: #4a7ba7; cursor: pointer; text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">When you build it, it teaches.</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-wrapper">
+            <nav>
+                <h3>Main Navigation</h3>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="index.html">← Field Notes Index</a></li>
+                </ul>
+
+                <details class="nav-group" open>
+                    <summary>Field Notes</summary>
+                    <ul>
+                        <li><a href="view.html?doc=CALIFORNIA_SITE_ASSESSMENT">California Site Assessment</a></li>
+                        <li><a href="view.html?doc=SIERRA_SITE_ASSESSMENT">Sierra Site Assessment</a></li>
+                        <li><a href="view.html?doc=ONE_HANDED_SURVIVAL_KIT">One-Handed Field Kit</a></li>
+                        <li><a href="view.html?doc=POTA_naturalist_log">POTA Naturalist Log</a></li>
+                        <li><a href="view.html?doc=R_ground_site_log_card">R_Ground Site Log Card</a></li>
+                        <li><a href="view.html?doc=SUNDIAL_FIELD_REFERENCE">Sundial Field Reference</a></li>
+                    </ul>
+                </details>
+            </nav>
+
+            <main>
+                <span class="print-link" onclick="window.print()">Print / Save PDF</span>
+                <div id="md-content"><p class="loading">Loading…</p></div>
+            </main>
+        </div>
+    </div>
+
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor &nbsp;|&nbsp; KO6NNH &nbsp;|&nbsp; Merced, California</p>
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked@9.1.6/marked.min.js"></script>
+    <script>
+        const doc = new URLSearchParams(window.location.search).get('doc');
+        if (!doc || !/^[A-Za-z0-9_-]+$/.test(doc)) {
+            document.getElementById('md-content').innerHTML =
+                '<p class="error-msg">No document specified. <a href="index.html">← Back to Field Notes</a></p>';
+        } else {
+            fetch(`${doc}.md`)
+                .then(r => {
+                    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+                    return r.text();
+                })
+                .then(md => {
+                    // Strip YAML front matter if present
+                    const stripped = md.replace(/^---[\s\S]*?---\n/, '');
+                    document.getElementById('md-content').innerHTML = marked.parse(stripped);
+                    // Update page title from first H1
+                    const h1 = document.querySelector('#md-content h1');
+                    if (h1) document.title = `${h1.textContent} - Merv's Brain Dump`;
+                })
+                .catch(err => {
+                    document.getElementById('md-content').innerHTML =
+                        `<p class="error-msg">Could not load document: ${err.message}. <a href="index.html">← Back to Field Notes</a></p>`;
+                });
+        }
+    </script>
+</body>
+</html>
