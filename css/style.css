@@ -486,6 +486,42 @@ footer {
 }
 
 /* ============================================
+ * FIGURES SECTION
+ * ============================================ */
+section.figures {
+    margin-top: 2em;
+    padding-top: 1em;
+    border-top: 1px solid #ccc;
+}
+section.figures h2 {
+    font-size: 1.1em;
+    margin-bottom: 0.75em;
+    color: #4a7ba7;
+}
+.figure-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5em;
+}
+.figure-grid figure {
+    margin: 0;
+    flex: 1 1 260px;
+    max-width: 420px;
+    text-align: center;
+}
+.figure-grid img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    margin: 0 0 0.4em 0;
+}
+.figure-grid figcaption {
+    font-size: 0.85em;
+    color: #555;
+}
+
+/* ============================================
  * DOWNLOADS SECTION
  * ============================================ */
 section.downloads {
