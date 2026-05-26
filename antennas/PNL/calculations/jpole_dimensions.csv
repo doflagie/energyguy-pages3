@@ -1,4 +1,0 @@
-band,freq_mhz,lambda_m,lambda_vf_m,radiator_half_wave_m,matching_stub_quarter_wave_m,total_wire_m,feed_tap_above_short_m,gap_mm,noodle_length_needed_cm,antenna_type,wire_gauge,vf,impedance_at_feed,gain_dBd,gain_dBi,notes
-6m,51.000,5.8784,5.5845,2.7923,1.3961,4.1884,0.1396,25,142.1,J-pole,#14 AWG,0.95,50Ω (tap point),2.15,4.30,Stub runs along pool noodle; radiator extends above; 2.5:1 current balun recommended
-2m,146.000,2.0534,1.9508,0.9754,0.4877,1.4631,0.0488,25,51.3,J-pole,#14 AWG,0.95,50Ω (tap point),2.15,4.30,Single pool noodle stub section; radiator wire above; good portable 2m antenna
-1.25m,222.000,1.3505,1.2829,0.6415,0.3207,0.9622,0.0321,25,34.6,J-pole,#16 AWG,0.95,50Ω (tap point),2.15,4.30,Short stub fits on noodle section; 35cm noodle needed; all dimensions precise to 1mm

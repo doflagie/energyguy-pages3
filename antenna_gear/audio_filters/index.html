@@ -1,0 +1,2369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Filters - Merv's Dump</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Dump</h1>
+                    <p class="tagline">When you build it, it teaches.</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+            <nav>
+                <h3>Main Navigation</h3>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about/bio.html">About</a></li>
+                </ul>
+
+                <details class="nav-group">
+                    <summary>Antennas</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/antennas/phased_array_of_2/">2-Element Phased Array</a></li>
+                    <li><a href="/antennas/phased_array_of_4/">4-Element Phased Array</a></li>
+                    <li><a href="/antennas/active_receiving/">Active Receiving</a></li>
+                    <li><a href="/antennas/beverage_receiving/">Beverage (Receiving)</a></li>
+                    <li><a href="/antennas/cage_dipole/">Cage Dipole</a></li>
+                    <li><a href="/antennas/collinear_array/">Collinear Array</a></li>
+                    <li><a href="/antennas/compact-dipole/">Compact Dipole</a></li>
+                    <li><a href="/antennas/cross_polarized/">Cross-Polarized</a></li>
+                    <li><a href="/antennas/cubical_quad/">Cubical Quad</a></li>
+                    <li><a href="/antennas/delta_loop_40m/">Delta Loop (40m)</a></li>
+                    <li><a href="/antennas/dipole/">Dipole</a></li>
+                    <li><a href="/antennas/discone/">Discone</a></li>
+                    <li><a href="/antennas/double_bazooka/">Double Bazooka</a></li>
+                    <li><a href="/antennas/end_fed_half_wave/">EFHW</a></li>
+                    <li><a href="/antennas/end_fed_quarter_wave/">EFQW</a></li>
+                    <li><a href="/antennas/end_fed_random_wire/">EFRW</a></li>
+                    <li><a href="/antennas/elevated_radials/">Elevated Radials</a></li>
+                    <li><a href="/antennas/end_fed_zepp/">End-Fed Zepp</a></li>
+                    <li><a href="/antennas/extended_double_zepp/">Extended Double Zepp</a></li>
+                    <li><a href="/antennas/fan_dipole/">Fan Dipole</a></li>
+                    <li><a href="/antennas/flagpole/">Flagpole</a></li>
+                    <li><a href="/antennas/flower_pot/">Flowerpot</a></li>
+                    <li><a href="/antennas/folded_dipole/">Folded Dipole</a></li>
+                    <li><a href="/antennas/folded_dipole_2conductor/">Folded Dipole (2-cond)</a></li>
+                    <li><a href="/antennas/folded_dipole_3conductor/">Folded Dipole (3-cond)</a></li>
+                    <li><a href="/antennas/frame_loop/">Frame Loop</a></li>
+                    <li><a href="/antennas/full_wave_loop/">Full-Wave Loop</a></li>
+                    <li><a href="/antennas/g5rv/">G5RV</a></li>
+                    <li><a href="/antennas/gmrs_loaded_vertical/">GMRS Loaded Vertical</a></li>
+                    <li><a href="/antennas/ground_plane/">Ground Plane</a></li>
+                    <li><a href="/antennas/helical/">Helical</a></li>
+                    <li><a href="/antennas/helical_antenna_2m_satellite/">Helical (2m Satellite)</a></li>
+                    <li><a href="/antennas/hentenna/">Hentenna</a></li>
+                    <li><a href="/antennas/hex_loop/">Hex Loop</a></li>
+                    <li><a href="/antennas/inverted_l_40m/">Inverted-L (40m)</a></li>
+                    <li><a href="/antennas/inverted_vee_dipole/">Inverted-V</a></li>
+                    <li><a href="/antennas/j_pole/">J-Pole</a></li>
+                    <li><a href="/antennas/k9ay_loop_40m/">K9AY Loop (40m)</a></li>
+                    <li><a href="/antennas/kmr_400_magnetic_loop/">KMR-400 Mag Loop</a></li>
+                    <li><a href="/antennas/log_periodic_dipole_arrays_for_wideband_operation/">LPDA Wideband</a></li>
+                    <li><a href="/antennas/loaded_vertical_hf/">Loaded Vertical (HF)</a></li>
+                    <li><a href="/antennas/log_periodic/">Log Periodic</a></li>
+                    <li><a href="/antennas/magnetic_loop_antennas/">Magnetic Loop</a></li>
+                    <li><a href="/antennas/moxon/">Moxon Rectangle</a></li>
+                    <li><a href="/antennas/near_vertical_incidence_skywave/">NVIS</a></li>
+                    <li><a href="/antennas/ocfd_windom/">OCFD / Windom</a></li>
+                    <li><a href="/antennas/octal_loop/">Octal Loop</a></li>
+                    <li><a href="/antennas/off_center_fed_dipole/">Off-Center Fed</a></li>
+                    <li><a href="/antennas/patch_antenna_2.4_ghz/">Patch (2.4 GHz)</a></li>
+                    <li><a href="/antennas/portable_magnetic_loop/">Portable Mag Loop</a></li>
+                    <li><a href="/antennas/rhombic/">Rhombic</a></li>
+                    <li><a href="/antennas/rybakov/">Rybakov</a></li>
+                    <li><a href="/antennas/satellite_yagi_antenna/">Satellite Yagi</a></li>
+                    <li><a href="/antennas/screwdriver/">Screwdriver</a></li>
+                    <li><a href="/antennas/shunt_fed/">Shunt-Fed Vertical</a></li>
+                    <li><a href="/antennas/slim_jim/">Slim Jim</a></li>
+                    <li><a href="/antennas/slinky_antenna_20m_portable/">Slinky (20m)</a></li>
+                    <li><a href="/antennas/sloped_dipole/">Sloped Dipole</a></li>
+                    <li><a href="/antennas/slot_antenna_uhf/">Slot Antenna (UHF)</a></li>
+                    <li><a href="/antennas/t_antenna/">T-Antenna</a></li>
+                    <li><a href="/antennas/tilted_terminated_folded_dipole/">T2FD</a></li>
+                    <li><a href="/antennas/tape_antennas/">Tape Antennas</a></li>
+                    <li><a href="/antennas/tape_measure_yagi/">Tape Measure Yagi</a></li>
+                    <li><a href="/antennas/telescopic/">Telescopic</a></li>
+                    <li><a href="/antennas/telescopic_vertical/">Telescopic Vertical</a></li>
+                    <li><a href="/antennas/terminated_folded_dipole/">Terminated Folded Dipole</a></li>
+                    <li><a href="/antennas/terminated_sloper_receiving/">Terminated Sloper</a></li>
+                    <li><a href="/antennas/trap_dipole/">Trap Dipole</a></li>
+                    <li><a href="/antennas/traveling_wave_vertical/">Traveling Wave Vertical</a></li>
+                    <li><a href="/antennas/turnstile/">Turnstile</a></li>
+                    <li><a href="/antennas/v_beam/">V-Beam</a></li>
+                    <li><a href="/antennas/vertical_dipole/">Vertical Dipole</a></li>
+                    <li><a href="/antennas/yagi_uda/">Yagi-Uda</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group">
+                    <summary>Antenna Gear</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/antenna_gear/ant_switches/">Antenna Switches</a></li>
+                    <li><a href="/antenna_gear/audio_filters/">Audio Filters</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/">Baluns And Ununs</a></li>
+                    <li><a href="/antenna_gear/bms/">BMS</a></li>
+                    <li><a href="/antenna_gear/coax_traps/">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/coil_winder/">Coil Winder</a></li>
+                    <li><a href="/antenna_gear/common_mode_chokes/">Common Mode Chokes</a></li>
+                    <li><a href="/antenna_gear/crystal_radio/">Crystal Radio</a></li>
+                    <li><a href="/antenna_gear/hybrids/">Hybrids</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/">Lightning Protection</a></li>
+                    <li><a href="/antenna_gear/mast_tower/">Mast Tower</a></li>
+                    <li><a href="/antenna_gear/motorized_tuner/">Motorized Tuner</a></li>
+                    <li><a href="/antenna_gear/power_supplies/">Power Supplies</a></li>
+                    <li><a href="/antenna_gear/remote-element-switching/">Remote Element Switching</a></li>
+                    <li><a href="/antenna_gear/rf_couplers/">RF Couplers</a></li>
+                    <li><a href="/antenna_gear/rfi_mitigation/">RFI Mitigation</a></li>
+                    <li><a href="/antenna_gear/roller_inductors/">Roller Inductors</a></li>
+                    <li><a href="/antenna_gear/transmatch/">Transmatch</a></li>
+                    <li><a href="/antenna_gear/variable_caps/">Variable Capacitors</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group">
+                    <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/adf_systems/">ADF Systems</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/antenna_modeling/">Antenna Modeling</a></li>
+                    <li><a href="/antenna_tools/dummy_loads/">Dummy Loads</a></li>
+                    <li><a href="/antenna_tools/field_strength_meter/">Field Strength Meter</a></li>
+                    <li><a href="/antenna_tools/noise_bridge/">Noise Bridge</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/">RF Power Meter</a></li>
+                    <li><a href="/antenna_tools/rf_power_meters/">RF Power Meters</a></li>
+                    <li><a href="/antenna_tools/sdr_interfaces/">SDR Interfaces</a></li>
+                    <li><a href="/antenna_tools/swr_meter/">SWR Meter</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group">
+                    <summary>Calibration</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/calibration/1013d-plus-oscilloscope/">1013D Plus Oscilloscope</a></li>
+                    <li><a href="/calibration/antenna-analyzer/">Antenna Analyzer</a></li>
+                    <li><a href="/calibration/audio-oscillator/">Audio Oscillator</a></li>
+                    <li><a href="/calibration/bm4070-digital-lcr-tester/">BM4070 Digital LCR Tester</a></li>
+                    <li><a href="/calibration/capacitance-meter/">Capacitance Meter</a></li>
+                    <li><a href="/calibration/current-source/">Current Source</a></li>
+                    <li><a href="/calibration/decade-capacitance-box/">Decade Capacitance Box</a></li>
+                    <li><a href="/calibration/decade-inductance-box/">Decade Inductance Box</a></li>
+                    <li><a href="/calibration/decade-resistance-box/">Decade Resistance Box</a></li>
+                    <li><a href="/calibration/dip-meter-grid-dip-oscillator/">Dip Meter Grid Dip Oscillator</a></li>
+                    <li><a href="/calibration/dso138-digital-oscilloscope/">DSO138 Digital Oscilloscope</a></li>
+                    <li><a href="/calibration/dummy-load-50-ohm/">Dummy Load 50 Ohm</a></li>
+                    <li><a href="/calibration/field-strength-meter/">Field Strength Meter</a></li>
+                    <li><a href="/calibration/fluke-15b-multimeter/">Fluke 15B Multimeter</a></li>
+                    <li><a href="/calibration/fm-broadcast/">Fm Broadcast</a></li>
+                    <li><a href="/calibration/frequency-counter/">Frequency Counter</a></li>
+                    <li><a href="/calibration/frequency-standard-gpsdo/">Frequency Standard GPSDO</a></li>
+                    <li><a href="/calibration/function-generator/">Function Generator</a></li>
+                    <li><a href="/calibration/gps-reference/">GPS Reference</a></li>
+                    <li><a href="/calibration/impedance-bridge/">Impedance Bridge</a></li>
+                    <li><a href="/calibration/inductance-meter/">Inductance Meter</a></li>
+                    <li><a href="/calibration/lcr-meter/">LCR Meter</a></li>
+                    <li><a href="/calibration/modulation-analyzer/">Modulation Analyzer</a></li>
+                    <li><a href="/calibration/multimeter-dmm/">Multimeter DMM</a></li>
+                    <li><a href="/calibration/nanovna/">Nanovna</a></li>
+                    <li><a href="/calibration/nanovna-vector-network-analyzer/">NanoVNA Vector Network Analyzer</a></li>
+                    <li><a href="/calibration/noise-figure-meter/">Noise Figure Meter</a></li>
+                    <li><a href="/calibration/oscilloscope/">Oscilloscope</a></li>
+                    <li><a href="/calibration/q-meter/">Q Meter</a></li>
+                    <li><a href="/calibration/radio-standards/">Radio Standards</a></li>
+                    <li><a href="/calibration/rf-attenuator-set/">RF Attenuator Set</a></li>
+                    <li><a href="/calibration/rf-power-meter/">RF Power Meter</a></li>
+                    <li><a href="/calibration/rf-probe-detector/">RF Probe Detector</a></li>
+                    <li><a href="/calibration/rf-signal-tracer/">RF Signal Tracer</a></li>
+                    <li><a href="/calibration/signal-generator/">Signal Generator</a></li>
+                    <li><a href="/calibration/simpson-260-series-3-analog-multimeter/">Simpson 260 Series 3 Analog Multimeter</a></li>
+                    <li><a href="/calibration/swr-meter/">SWR Meter</a></li>
+                    <li><a href="/calibration/tinysa-spectrum-analyzer/">TinySA Spectrum Analyzer</a></li>
+                    <li><a href="/calibration/verification/">Verification</a></li>
+                    <li><a href="/calibration/voltage-reference/">Voltage Reference</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group">
+                    <summary>Calibration Ideas</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/Calibration_Ideas/ac_mains_reference/">AC Mains Reference</a></li>
+                    <li><a href="/Calibration_Ideas/attenuator_pad_standards/">Attenuator Pad Standards</a></li>
+                    <li><a href="/Calibration_Ideas/coax_capacitance_standard/">Coax Capacitance Standard</a></li>
+                    <li><a href="/Calibration_Ideas/dummy_load_power_standard/">Dummy Load Power Standard</a></li>
+                    <li><a href="/Calibration_Ideas/field_strength_reference/">Field Strength Reference</a></li>
+                    <li><a href="/Calibration_Ideas/fm_broadcast_reference/">FM Broadcast Reference</a></li>
+                    <li><a href="/Calibration_Ideas/gps_1pps_reference/">GPS 1PPS Reference</a></li>
+                    <li><a href="/Calibration_Ideas/gpsdo_reference/">GPSDO Reference</a></li>
+                    <li><a href="/Calibration_Ideas/kelvin_resistance_standard/">Kelvin Resistance Standard</a></li>
+                    <li><a href="/Calibration_Ideas/known_length_dipole_standard/">Known Length Dipole Standard</a></li>
+                    <li><a href="/Calibration_Ideas/lc_resonance_standard/">LC Resonance Standard</a></li>
+                    <li><a href="/Calibration_Ideas/precision_resistor_network/">Precision Resistor Network</a></li>
+                    <li><a href="/Calibration_Ideas/precision_voltage_reference/">Precision Voltage Reference</a></li>
+                    <li><a href="/Calibration_Ideas/rc_time_constant_standard/">RC Time Constant Standard</a></li>
+                    <li><a href="/Calibration_Ideas/wheatstone_bridge/">Wheatstone Bridge</a></li>
+                    <li><a href="/Calibration_Ideas/wwv_wwvh_reference/">WWV/WWVH Reference</a></li>
+                    <li><a href="/Calibration_Ideas/zener_divider_reference/">Zener Divider Reference</a></li>
+                </ul>
+                </details>
+
+<details class="nav-group" open>
+    <summary>Study & Training</summary>
+    <ul>
+                    <li><a href="/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                    <li><a href="/study/morse.html">Morse Code Practice</a></li>
+                </ul>
+</details>
+
+</nav>
+            <main>
+<h1 id="technical-manual-portable-cwssb-audio-filter">TECHNICAL MANUAL —
+PORTABLE CW/SSB AUDIO FILTER</h1>
+<p><strong>TM-AF-001 Revision A</strong> <strong>Passive LC, Active
+Op-Amp, DSP, and Adaptive Notch Audio Filters</strong> <strong>For CW
+and SSB Amateur Radio Operation</strong></p>
+<hr />
+<p><strong>CLASSIFICATION:</strong> Unclassified / For General
+Distribution <strong>DATE:</strong> 2026-04-25
+<strong>SUPERSEDES:</strong> None (initial issue) <strong>APPLICABLE
+EQUIPMENT:</strong> AF-1 Passive LC Filter, AF-2 Active CW Filter, AF-3
+Variable Bandwidth Filter, AF-4 Notch Filter, AF-5 DSP Filter</p>
+<hr />
+<h2 id="table-of-contents">TABLE OF CONTENTS</h2>
+<ul>
+<li><a href="#chapter-1">Chapter 1 — Introduction and Theory of Audio
+Filtering</a></li>
+<li><a href="#chapter-2">Chapter 2 — Passive LC SSB Bandpass Filter
+(AF-1)</a></li>
+<li><a href="#chapter-3">Chapter 3 — Active Op-Amp CW Bandpass Filter
+(AF-2)</a></li>
+<li><a href="#chapter-4">Chapter 4 — Variable Bandwidth Filter with
+Switchable Q (AF-3)</a></li>
+<li><a href="#chapter-5">Chapter 5 — Notch Filters — Manual and Adaptive
+(AF-4)</a></li>
+<li><a href="#chapter-6">Chapter 6 — DSP Audio Filter — ESP32
+Implementation (AF-5)</a></li>
+<li><a href="#chapter-7">Chapter 7 — Enclosure and Mechanical
+Assembly</a></li>
+<li><a href="#chapter-8">Chapter 8 — Alignment and Test
+Procedures</a></li>
+<li><a href="#chapter-9">Chapter 9 — Filter Response Plots and Insertion
+Loss</a></li>
+<li><a href="#chapter-10">Chapter 10 — Battery Operation and Power
+Management</a></li>
+<li><a href="#chapter-11">Chapter 11 — Troubleshooting</a></li>
+<li><a href="#appendix-a">Appendix A — Component Reference and
+Substitution Guide</a></li>
+<li><a href="#appendix-b">Appendix B — Filter Design Equations and
+Tables</a></li>
+<li><a href="#appendix-c">Appendix C — FIR Coefficient Generation
+(Python/scipy)</a></li>
+<li><a href="#appendix-d">Appendix D — Parts Lists Master Index</a></li>
+</ul>
+<hr />
+<p><a name="chapter-1"></a> ## CHAPTER 1 — INTRODUCTION AND THEORY OF
+AUDIO FILTERING</p>
+<h3 id="purpose">1.1 Purpose</h3>
+<p>This manual describes the design, construction, alignment, and
+operation of portable audio filters for use with CW and SSB amateur
+radio receivers and transceivers. Audio filtering reduces interference,
+removes adjacent-channel splatter, eliminates heterodyne beat notes from
+carriers, and shapes the received audio to match hearing requirements
+for CW copying accuracy.</p>
+<p>The filter suite documented here covers four hardware topologies and
+one firmware- based DSP implementation:</p>
+<table>
+<colgroup>
+<col style="width: 8%" />
+<col style="width: 19%" />
+<col style="width: 23%" />
+<col style="width: 23%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Unit</th>
+<th>Designation</th>
+<th>Type</th>
+<th>Bandwidth</th>
+<th>Primary Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AF-1</td>
+<td>Passive LC</td>
+<td>LC ladder</td>
+<td>300–3000 Hz</td>
+<td>SSB passband</td>
+</tr>
+<tr>
+<td>AF-2</td>
+<td>Active CW</td>
+<td>SVF op-amp</td>
+<td>28–140 Hz</td>
+<td>CW selectivity</td>
+</tr>
+<tr>
+<td>AF-3</td>
+<td>Variable BW</td>
+<td>4th-order SVF</td>
+<td>200–2700 Hz</td>
+<td>Multi-mode</td>
+</tr>
+<tr>
+<td>AF-4</td>
+<td>Notch</td>
+<td>Twin-T / LMS</td>
+<td>50 Hz null</td>
+<td>Heterodyne kill</td>
+</tr>
+<tr>
+<td>AF-5</td>
+<td>DSP ESP32</td>
+<td>FIR/IIR/LMS</td>
+<td>Programmable</td>
+<td>All modes</td>
+</tr>
+</tbody>
+</table>
+<h3 id="audio-frequency-fundamentals">1.2 Audio Frequency
+Fundamentals</h3>
+<p><strong>Voice (SSB):</strong> Intelligible speech occupies 300–3000
+Hz. Reducing the upper limit below 2500 Hz reduces hiss without
+appreciable intelligibility loss. Reducing below 1800 Hz causes a
+“telephone” quality reduction acceptable for DX contacts.</p>
+<p><strong>CW:</strong> Morse code consists of a single carrier
+frequency shifted on and off. The operator selects a pitch (typically
+400–800 Hz) via receiver offset (RIT) or BFO. A narrowband filter
+centered on that pitch improves signal-to-noise ratio directly: for
+Gaussian noise, SNR improvement = 10 × log₁₀(BW_original /
+BW_filter).</p>
+<p>Example: reducing from 2700 Hz SSB bandwidth to 500 Hz CW filter: SNR
+improvement = 10 × log₁₀(2700/500) = 7.3 dB</p>
+<p><strong>Heterodyne (birdie, beat note):</strong> When a carrier or an
+image falls within the passband, it produces a steady audio tone at the
+beat frequency. A notch filter at that exact frequency can provide 30–60
+dB rejection.</p>
+<h3 id="filter-parameter-definitions">1.3 Filter Parameter
+Definitions</h3>
+<p><strong>Center frequency (f₀):</strong> The geometric mean of the
+lower and upper −3 dB points. f₀ = √(f_lo × f_hi)</p>
+<p><strong>Bandwidth (BW):</strong> f_hi − f_lo at −3 dB points.</p>
+<p><strong>Quality factor (Q):</strong> Q = f₀ / BW. High Q = narrow,
+selective filter.</p>
+<p><strong>Order (n):</strong> Number of reactive elements (poles). Each
+pole contributes 6 dB/ octave rolloff outside the passband. A 4th-order
+filter has 24 dB/octave.</p>
+<p><strong>Insertion loss (IL):</strong> IL = 20 × log₁₀(V_out / V_in)
+at passband center with matched source and load impedances. Passive
+filters have inherent IL; active filters can be designed for IL = 0 dB
+or gain.</p>
+<p><strong>Stopband attenuation:</strong> Minimum attenuation at
+specified frequencies outside the passband.</p>
+<p><strong>Group delay:</strong> Time delay of envelope through filter.
+Non-constant group delay causes phase distortion. Critical for SSB
+intelligibility if variations exceed ~1 ms across the voice band. FIR
+filters are linear phase (constant group delay); IIR filters are
+not.</p>
+<h3 id="filter-topology-comparison">1.4 Filter Topology Comparison</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 12%" />
+<col style="width: 19%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+</colgroup>
+<thead>
+<tr>
+<th>Topology</th>
+<th>IL</th>
+<th>Selectivity</th>
+<th>Phase</th>
+<th>Tunable</th>
+<th>Battery</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Passive LC</td>
+<td>1–2 dB</td>
+<td>Moderate</td>
+<td>Good</td>
+<td>Fixed</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Active SVF</td>
+<td>0 dB</td>
+<td>High</td>
+<td>Mod</td>
+<td>Yes</td>
+<td>~35 hr</td>
+</tr>
+<tr>
+<td>FIR (DSP)</td>
+<td>0 dB</td>
+<td>Very high</td>
+<td>Linear</td>
+<td>Yes</td>
+<td>~6.6 hr</td>
+</tr>
+<tr>
+<td>IIR (DSP)</td>
+<td>0 dB</td>
+<td>High</td>
+<td>Nonlin</td>
+<td>Yes</td>
+<td>~6.6 hr</td>
+</tr>
+<tr>
+<td>LMS Adaptive</td>
+<td>0 dB</td>
+<td>Auto-null</td>
+<td>Varies</td>
+<td>Auto</td>
+<td>~6.6 hr</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><a name="chapter-2"></a> ## CHAPTER 2 — PASSIVE LC SSB BANDPASS
+FILTER (AF-1)</p>
+<h3 id="design-overview">2.1 Design Overview</h3>
+<p>The AF-1 passive LC filter provides a 300–3000 Hz audio bandpass for
+SSB use with a 600 Ω source and load impedance. The design cascades: - A
+3rd-order Butterworth highpass section at 300 Hz - A 3rd-order
+Butterworth lowpass section at 3000 Hz</p>
+<p>This yields a 6th-order composite bandpass with −18 dB/octave
+rolloffs on both sides of the passband. The filter requires no power
+supply.</p>
+<h3 id="component-values">2.2 Component Values</h3>
+<p><strong>Highpass section (300 Hz, 600 Ω):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Ref</th>
+<th>Value</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C1</td>
+<td>820 nF</td>
+<td>Series highpass cap</td>
+</tr>
+<tr>
+<td>L2</td>
+<td>150 mH</td>
+<td>Shunt inductor</td>
+</tr>
+<tr>
+<td>C3</td>
+<td>820 nF</td>
+<td>Series highpass cap</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Lowpass section (3000 Hz, 600 Ω):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Ref</th>
+<th>Value</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L4</td>
+<td>33 mH</td>
+<td>Series lowpass ind.</td>
+</tr>
+<tr>
+<td>C5</td>
+<td>180 nF</td>
+<td>Shunt capacitor</td>
+</tr>
+<tr>
+<td>L6</td>
+<td>33 mH</td>
+<td>Series lowpass ind.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="inductor-construction">2.3 Inductor Construction</h3>
+<p><strong>L2 (150 mH):</strong> Wind 412 turns of #32 AWG enamel on two
+stacked T-94A-77 (Mix 77) toroids. A_L = 884 nH/N² per core; stacked
+doubles A_L to ~1768 nH/N². N = √(150e6 / 1768) ≈ 291 turns (adjusted;
+verify with LC meter). DCR target: ≤ 60 Ω. Split winding into two equal
+layers to reduce winding capacitance.</p>
+<p><strong>L4, L6 (33 mH each):</strong> Wind 137 turns of #28 AWG on
+single T-94A-77. N = √(33e6 / 884) = 193 turns. DCR target: ≤ 18 Ω.</p>
+<p>Alternative: Bourns SRR1260 series wirewound power chokes (pre-made,
+low cost). SRR1260-151Y = 150 mH nominal (acceptable for L2).
+SRR1260-330Y = 33 mH nominal (for L4, L6). Verify A_C (self-resonant
+frequency) &gt; 20 kHz before use.</p>
+<h3 id="frequency-derivation">2.4 Frequency Derivation</h3>
+<p>Highpass −3 dB frequency: f_HP = 1 / (2π × √(L2 × C1)) [for ladder;
+this is an approximation] Exact: determined by prototype normalization.
+With values above, f_HP ≈ 295–310 Hz.</p>
+<p>Lowpass −3 dB frequency: f_LP ≈ 1 / (2π × √(L4 × C5)) ≈ 2900–3100 Hz
+with values above.</p>
+<p>Tolerance of 5% capacitors and 10% inductors can shift cutoffs ±10%.
+For precise cutoffs, measure components and adjust C1/C3 within ±15% of
+nominal.</p>
+<h3 id="impedance-matching">2.5 Impedance Matching</h3>
+<p>The filter is designed for 600 Ω. Most modern radio headphone outputs
+present 8–32 Ω (driving headphones directly) or 600 Ω (classic AF
+outputs).</p>
+<p><strong>Input matching for low-impedance source (8–32 Ω):</strong>
+Use input transformer T1: 8Ω:600Ω or 32Ω:600Ω (Xicon 42TU series). T1
+winding ratio: N = √(600/Z_source) = √(600/8) = 8.66:1</p>
+<p><strong>Output matching for headphones (32–600 Ω):</strong> If
+driving 32 Ω headphones from 600 Ω filter output: Add output transformer
+T2: 600Ω:32Ω Or accept ~18 dB additional insertion loss due to impedance
+mismatch (Ls = 10 × log₁₀(4 × 600 × 32 / (600+32)²) = −16.3 dB mismatch
+loss).</p>
+<p><strong>Practical recommendation:</strong> Insert this filter between
+the receiver audio out and a 600 Ω amplifier stage, or between an
+auxiliary headphone amplifier and headphones via output transformer.</p>
+<h3 id="insertion-loss-measurement">2.6 Insertion Loss Measurement</h3>
+<p><strong>Required equipment:</strong> - Audio oscillator or signal
+generator (TM-SG-001 recommended) - AC voltmeter or oscilloscope with
+dBu capability</p>
+<p><strong>Procedure:</strong> 1. Connect generator to filter input
+through 600 Ω series resistor (to set source impedance). 2. Connect 600
+Ω load resistor across filter output (terminate properly). 3. Measure
+V_in at filter input terminals (before series 600 Ω). 4. Measure V_out
+at filter output. 5. IL = 20 × log₁₀(V_out / V_in) − 6 dB (correction
+for source voltage divider).</p>
+<p>Expected midband IL: 1.0–2.0 dB. If IL &gt; 3 dB, check inductor
+DCR.</p>
+<hr />
+<p><a name="chapter-3"></a> ## CHAPTER 3 — ACTIVE OP-AMP CW BANDPASS
+FILTER (AF-2)</p>
+<h3 id="design-overview-1">3.1 Design Overview</h3>
+<p>The AF-2 active filter uses the state-variable
+(Kerwin-Huelsman-Newcomb) topology implemented with two NE5532 low-noise
+dual op-amps. Key performance:</p>
+<ul>
+<li>Center frequency: 400 / 500 / 600 / 700 / 800 Hz (5-position
+switch)</li>
+<li>Q range: 5 to 25 (continuously variable via front-panel
+potentiometer)</li>
+<li>Passband insertion loss: 0 dB nominal (with gain = 1 summing
+stage)</li>
+<li>Noise figure: adequate for all modern receivers (op-amp noise ≪
+receiver noise floor)</li>
+<li>Power: ±9V from 2× PP3 alkaline batteries; ~35 hour life</li>
+</ul>
+<h3 id="state-variable-filter-operation">3.2 State-Variable Filter
+Operation</h3>
+<p>The SVF topology is a feedback system with three integrators:</p>
+<pre><code>                         R_FB (Q control)
+                    ┌────────────────────────────┐
+ IN ──[ R1 ]──┬─── U1A (summing) ──────────────►│
+              │                                  │
+ LP ──[ R_LP ]┘                                  │
+              │                                  │
+ BP ──[ R_Q ]─┘                                  │
+                                                 │
+              U1B (integrator 1) → BP output ────┘
+                                   │
+              U2A (integrator 2) → LP output ─── (LP feedback to U1A)</code></pre>
+<p>The three outputs are available simultaneously: - <strong>HP
+output</strong> at U1A output: highpass transfer function - <strong>BP
+output</strong> at first integrator output: bandpass (the primary
+output) - <strong>LP output</strong> at second integrator output:
+lowpass</p>
+<p>The same circuit provides notch by summing HP + LP outputs.</p>
+<h3 id="center-frequency-calculation">3.3 Center Frequency
+Calculation</h3>
+<p>Both integrators must have the same time constant τ = R_INT × C_INT:
+f₀ = 1 / (2π × R_INT × C_INT) = 1 / (2π × 10kΩ × C_INT)</p>
+<p>Required C_INT for each frequency position:</p>
+<table>
+<thead>
+<tr>
+<th>SW Position</th>
+<th>f₀ (Hz)</th>
+<th>C_INT (calc)</th>
+<th>C_INT (standard)</th>
+<th>Error</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>400</td>
+<td>39.8 nF</td>
+<td>39 nF</td>
+<td>−2.0%</td>
+</tr>
+<tr>
+<td>2</td>
+<td>500</td>
+<td>31.8 nF</td>
+<td>33 nF</td>
+<td>+3.8%</td>
+</tr>
+<tr>
+<td>3</td>
+<td>600</td>
+<td>26.5 nF</td>
+<td>27 nF</td>
+<td>+1.9%</td>
+</tr>
+<tr>
+<td>4</td>
+<td>700</td>
+<td>22.7 nF</td>
+<td>22 nF</td>
+<td>−3.1%</td>
+</tr>
+<tr>
+<td>5</td>
+<td>800</td>
+<td>19.9 nF</td>
+<td>18 nF</td>
+<td>−4.5%</td>
+</tr>
+</tbody>
+</table>
+<p>Use NP0/C0G capacitors (1% or better) for low temperature
+coefficient. Polypropylene film acceptable if NP0 unavailable (TCC &lt;
+50 ppm/°C).</p>
+<p>Actual f₀ after assembly: measure with audio oscillator; peak at BP
+output. Trim C_INT if f₀ error &gt; 5% (parallel small caps or
+substitute tighter values).</p>
+<h3 id="q-control">3.4 Q Control</h3>
+<p>Q = R_Q / R_FB where R_FB = 10 kΩ (fixed).</p>
+<p>The front-panel pot (250 kΩ linear) with 50 kΩ series minimum stop
+provides: R_Q_min = 50 kΩ → Q_min = 5 R_Q_max = 300 kΩ → Q_max = 30
+(practical limit; higher Q may oscillate)</p>
+<p><strong>Q calibration marks for pot dial:</strong> Set Q marker
+positions by injecting audio oscillator at f₀ and sweeping ±BW: Mark the
+knob position where −3 dB BW equals f₀/Q for each target Q.</p>
+<table>
+<thead>
+<tr>
+<th>Q</th>
+<th>BW <span class="citation" data-cites="700">@700</span> Hz</th>
+<th>R_Q (kΩ)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5</td>
+<td>140 Hz</td>
+<td>50</td>
+</tr>
+<tr>
+<td>10</td>
+<td>70 Hz</td>
+<td>100</td>
+</tr>
+<tr>
+<td>15</td>
+<td>47 Hz</td>
+<td>150</td>
+</tr>
+<tr>
+<td>20</td>
+<td>35 Hz</td>
+<td>200</td>
+</tr>
+<tr>
+<td>25</td>
+<td>28 Hz</td>
+<td>250</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Stability limit:</strong> At Q &gt; 30, phase margin may
+become insufficient and the filter can self-oscillate. Install a 50 kΩ
+minimum stop resistor in series with the pot wiper to prevent reaching Q
+&gt; 30.</p>
+<h3 id="single-supply-operation">3.5 Single-Supply Operation</h3>
+<p>The NE5532 requires a split supply (± rails). For a single 9V
+battery: 1. Install R_A = R_B = 100 kΩ from +9V to GND. Junction = V_mid
+= 4.5V. 2. Bypass V_mid with 10 µF electrolytic (+ toward V_mid). 3. All
+op-amp (+) inputs bias to V_mid via 100 kΩ. 4. Input and output couple
+through 10 µF NP electrolytic capacitors.</p>
+<p>This eliminates the need for a dual battery but halves the output
+voltage swing (headroom = 4.5V vs 9V for split supply).</p>
+<p><strong>Preferred for portable use:</strong> Two PP3 batteries (18V
+total) provide ±9V split supply, full output swing, and 35+ hours
+battery life.</p>
+<h3 id="cw-pitch-preference-and-frequency-selection">3.6 CW Pitch
+Preference and Frequency Selection</h3>
+<p>Most operators develop a preferred CW pitch. Standard practice:</p>
+<table>
+<thead>
+<tr>
+<th>Operator style</th>
+<th>Preferred pitch</th>
+<th>SW position</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Classic (ARRL)</td>
+<td>700–800 Hz</td>
+<td>4 or 5</td>
+</tr>
+<tr>
+<td>Modern contest</td>
+<td>600–700 Hz</td>
+<td>3 or 4</td>
+</tr>
+<tr>
+<td>DX (weak sig)</td>
+<td>500–600 Hz</td>
+<td>2 or 3</td>
+</tr>
+<tr>
+<td>Low-fatigue</td>
+<td>400–500 Hz</td>
+<td>1 or 2</td>
+</tr>
+</tbody>
+</table>
+<p>The radio’s BFO or RIT should be adjusted so that the desired
+station’s CW signal beats at the filter center frequency. The filter
+then maximizes SNR for that exact pitch.</p>
+<hr />
+<p><a name="chapter-4"></a> ## CHAPTER 4 — VARIABLE BANDWIDTH FILTER
+WITH SWITCHABLE Q (AF-3)</p>
+<h3 id="design-overview-2">4.1 Design Overview</h3>
+<p>The AF-3 extends the SVF topology to a cascaded 4th-order bandpass
+for improved out-of-band rejection (−80 dB/decade vs −40 dB/decade for
+2nd-order). Two identical biquad sections are cascaded; their Q values
+are switched together.</p>
+<p>Bandwidth modes: - CW narrow: 200 Hz (Q per section ≈ 3.5 × √2 = 4.95
+for Butterworth cascade) - CW standard: 500 Hz - SSB narrow: 1500 Hz -
+SSB wide: 2700 Hz</p>
+<p>Center frequency: switched 400–800 Hz (same 5-position switch as
+AF-2).</p>
+<h3 id="th-order-butterworth-cascade">4.2 4th-Order Butterworth
+Cascade</h3>
+<p>For a maximally-flat 4th-order Butterworth bandpass, two 2nd-order
+sections are cascaded. Section Q values are: Q_1 = 1 / (2 sin(π/8)) = 1
+/ 0.7654 = 1.307 × Q_overall Q_2 = 1 / (2 sin(3π/8)) = 1 / 1.848 = 0.541
+× Q_overall</p>
+<p>For narrow CW (overall Q = f₀/BW = 700/200 = 3.5): Q_1 = 4.57; Q_2 =
+1.89</p>
+<p>For SSB (overall Q = 700/2700 = 0.26): Q_1 = 0.34; Q_2 = 0.14
+(overdamped — broadband response, not resonant)</p>
+<p><strong>Switched R_Q values for each BW mode (R_INT = 10kΩ, R_FB =
+10kΩ):</strong></p>
+<table>
+<thead>
+<tr>
+<th>BW Mode</th>
+<th>Target BW</th>
+<th>Q_overall</th>
+<th>R_Q_sect1</th>
+<th>R_Q_sect2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CW 200 Hz</td>
+<td>200 Hz</td>
+<td>3.50</td>
+<td>45.7 kΩ</td>
+<td>18.9 kΩ</td>
+</tr>
+<tr>
+<td>CW 500 Hz</td>
+<td>500 Hz</td>
+<td>1.40</td>
+<td>18.3 kΩ</td>
+<td>7.57 kΩ</td>
+</tr>
+<tr>
+<td>SSB 1500 Hz</td>
+<td>1500 Hz</td>
+<td>0.47</td>
+<td>6.14 kΩ</td>
+<td>2.54 kΩ</td>
+</tr>
+<tr>
+<td>SSB 2700 Hz</td>
+<td>2700 Hz</td>
+<td>0.26</td>
+<td>3.40 kΩ</td>
+<td>1.41 kΩ</td>
+</tr>
+</tbody>
+</table>
+<p>Standard resistors (1% metal film, nearest values): CW 200: R_Q_1 =
+47kΩ (−2.8%), R_Q_2 = 20kΩ (+5.8%) CW 500: R_Q_1 = 18kΩ (−1.6%), R_Q_2 =
+7.5kΩ (−0.9%) SSB 1500: R_Q_1 = 6.2kΩ (+0.9%), R_Q_2 = 2.49kΩ (−2.0%)
+SSB 2700: R_Q_1 = 3.4kΩ (0.0%), R_Q_2 = 1.4kΩ (−0.7%)</p>
+<p>Use a 4-position 2-pole rotary switch (2 poles for 2 sections, 4
+throws for 4 modes).</p>
+<h3 id="response-shapes">4.3 Response Shapes</h3>
+<p>The 4th-order response provides significantly steeper skirts than
+2nd-order:</p>
+<p><strong>CW 200 Hz mode at 700 Hz center:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Frequency</th>
+<th>2nd-order attenuation</th>
+<th>4th-order attenuation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>700 Hz</td>
+<td>0 dB (ref)</td>
+<td>0 dB (ref)</td>
+</tr>
+<tr>
+<td>750 Hz</td>
+<td>−0.9 dB</td>
+<td>−1.8 dB</td>
+</tr>
+<tr>
+<td>800 Hz</td>
+<td>−3.4 dB</td>
+<td>−6.8 dB</td>
+</tr>
+<tr>
+<td>900 Hz</td>
+<td>−10 dB</td>
+<td>−20 dB</td>
+</tr>
+<tr>
+<td>1000 Hz</td>
+<td>−15 dB</td>
+<td>−30 dB</td>
+</tr>
+<tr>
+<td>1400 Hz</td>
+<td>−22 dB</td>
+<td>−44 dB</td>
+</tr>
+</tbody>
+</table>
+<p>The 4th-order (cascaded) filter doubles the dB rejection at every
+offset frequency, making it substantially more effective for
+adjacent-signal rejection.</p>
+<hr />
+<p><a name="chapter-5"></a> ## CHAPTER 5 — NOTCH FILTERS — MANUAL AND
+ADAPTIVE (AF-4)</p>
+<h3 id="heterodyne-interference">5.1 Heterodyne Interference</h3>
+<p>When a carrier (AM broadcast station, spurious emission, or adjacent
+SSB signal) falls within the passband, it produces a steady audio tone.
+This “birdie” or “heterodyne” at beat frequency f_beat can be 30–50 dB
+stronger than the desired signal, making copying impossible.</p>
+<p>A notch filter (band-reject) at f_beat removes the interferer with
+minimal effect on surrounding audio.</p>
+<h3 id="twin-t-passive-notch">5.2 Twin-T Passive Notch</h3>
+<p>The twin-T network is the simplest passive notch, requiring no power
+supply. Theoretical notch depth: unlimited (infinite in ideal
+simulation). Practical notch depth: 30–45 dB with 1% components
+(tolerance-limited).</p>
+<p><strong>Design equations:</strong> f_notch = 1 / (2π × R × C)
+Component values: two series R, one shunt 2C (upper T); two series C,
+one shunt R/2 (lower T)</p>
+<p><strong>Critical matching:</strong> All three R values and both C
+values must be matched for maximum notch depth. Measure and sort
+components; use pairs within 0.5% of each other.</p>
+<p><strong>Fixed 800 Hz notch:</strong> C = 100 nF (PP film, measured),
+R = 2.0 kΩ (two 1% resistors in series to make exact value)</p>
+<p><strong>Notch depth verification:</strong> Drive with audio generator
+at 800 Hz. At minimum output (rotate notch trim if variable), depth
+should be ≥ 30 dB. If depth &lt; 25 dB, one component is mismatched;
+re-measure all six components individually.</p>
+<h3 id="active-bootstrapped-notch-deep-null">5.3 Active Bootstrapped
+Notch (Deep Null)</h3>
+<p>Adding an op-amp follower bootstrapped to the twin-T shunt network
+increases notch depth from ~35 dB to ~55–65 dB.</p>
+<p>The op-amp (U3A, NE5532) senses the null point voltage and drives it
+to hold the potential at the shunt node at near-zero, which forces the
+null deeper. The improvement is limited by the op-amp’s open-loop gain
+at f_notch.</p>
+<p>NE5532 open-loop gain at 800 Hz ≈ 80 dB → notch improvement potential
+~80 dB Practical limit (PCB parasitics, component tolerance): 55–65 dB
+null</p>
+<h3 id="variable-notch-3003500-hz-range">5.4 Variable Notch (300–3500 Hz
+Range)</h3>
+<p><strong>Option A (two-gang pot):</strong> Replace fixed R and R with
+dual-gang 5kΩ pot. The R/2 element can be derived from a JFET in the
+ohmic region tracking the pot output, or from a half-value tap using a
+two-resistor voltage divider plus an op-amp follower driving the shunt
+element through a JFET.</p>
+<p><strong>Option B (switched C, two-gang R):</strong> Use a two-gang
+pot over two capacitor ranges. More practical for construction: - Range
+1 (C=100nF, R=1–5kΩ): covers 318–1592 Hz - Range 2 (C=47nF, R=1–5kΩ):
+covers 677–3386 Hz - Switch SW_RANGE selects capacitor value.</p>
+<h3 id="ne567-tone-decoder-auto-notch">5.5 NE567 Tone Decoder
+Auto-Notch</h3>
+<p>The NE567 is a PLL that locks to a tone within ±14% of its center
+frequency. Used for auto-notch, the VCO tracks the interfering carrier
+frequency. The tracked VCO output, phase-shifted 180°, is summed with
+the input to produce cancellation (notch).</p>
+<p><strong>Limitations:</strong> - Lock range: ±14% of f₀ (only one
+frequency at a time) - Convergence time: ~50 ms for initial lock -
+Effective only for single-carrier interference</p>
+<p><strong>Setting f₀ (initial center frequency):</strong> f₀ = 1 / (1.1
+× R_T × C_T) For 800 Hz: R_T = 12 kΩ, C_T = 0.1 µF → f₀ = 758 Hz ✓
+Adjust R_T trim pot until lock LED illuminates at the known heterodyne
+frequency.</p>
+<h3 id="lms-adaptive-auto-notch-dsp">5.6 LMS Adaptive Auto-Notch
+(DSP)</h3>
+<p>The Least Mean Squares (LMS) algorithm adapts a digital notch filter
+that automatically tracks and cancels any steady narrowband
+interference.</p>
+<p><strong>Algorithm:</strong> 1. Maintain a delay line of N recent
+samples: x[n-1], x[n-2], …, x[n-N] 2. Form estimate of interference:
+ŷ[n] = Σ w[i] × x[n-1-i] 3. Error signal: e[n] = x[n] − ŷ[n] (error =
+signal without interference) 4. Adapt weights: w[i] += 2μ × e[n] ×
+x[n-1-i]</p>
+<p>The error signal e[n] is the output (desired signal with interference
+suppressed).</p>
+<p><strong>Advantages over hardware notch:</strong> - Tracks multiple
+simultaneous tones automatically - No manual tuning required - Notch
+depth: 40–60 dB steady-state - Tracks drifting carriers as they move in
+frequency</p>
+<p><strong>Parameters:</strong> μ (step size) = 0.005 nominal N (filter
+length) = 32 taps</p>
+<p><strong>Convergence time:</strong> typically 0.5–2 seconds from
+startup or after a carrier frequency change. Larger μ converges faster
+but has higher residual noise.</p>
+<hr />
+<p><a name="chapter-6"></a> ## CHAPTER 6 — DSP AUDIO FILTER — ESP32
+IMPLEMENTATION (AF-5)</p>
+<h3 id="system-architecture">6.1 System Architecture</h3>
+<p>The AF-5 uses an ESP32-WROOM-32 as the signal processing core. Audio
+is captured via an INMP441 I2S MEMS microphone (repurposed as line-in
+ADC with appropriate level conditioning) or the WM8978 audio codec,
+processed in 32-sample blocks at 8 kHz sample rate, and output through a
+PCM5102A I2S stereo DAC.</p>
+<p><strong>Block diagram:</strong></p>
+<pre><code>Radio audio out
+      │
+  [C_coupling]
+      │
+  [Level adjust (R divider + bias to 1.65V)]
+      │
+  [INMP441 or WM8978 ADC]
+      │ I2S1 (GPIO14/15/12)
+  [ESP32 — Core 1 audio task]
+      │ Processing:
+      │   1. HP prefilter (DC block, 38 Hz)
+      │   2. Main filter (FIR, IIR, or LMS)
+      │   3. AGC
+      │ I2S0 (GPIO25/26/27)
+  [PCM5102A DAC]
+      │
+  [200Ω series]
+      │
+  Headphones</code></pre>
+<h3 id="filter-modes">6.2 Filter Modes</h3>
+<table>
+<colgroup>
+<col style="width: 8%" />
+<col style="width: 22%" />
+<col style="width: 26%" />
+<col style="width: 12%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr>
+<th>Mode</th>
+<th>Name</th>
+<th>Coefficients</th>
+<th>Latency</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>SSB 300–3kHz</td>
+<td>FIR_SSB (127 tap)</td>
+<td>~12 ms</td>
+<td>SSB voice</td>
+</tr>
+<tr>
+<td>1</td>
+<td>CW 700 Hz</td>
+<td>FIR_CW_700 (127t)</td>
+<td>~12 ms</td>
+<td>CW at 700 Hz</td>
+</tr>
+<tr>
+<td>2</td>
+<td>CW 500 Hz</td>
+<td>FIR_CW_500 (127t)</td>
+<td>~12 ms</td>
+<td>CW at 500 Hz</td>
+</tr>
+<tr>
+<td>3</td>
+<td>CW 400 Hz</td>
+<td>FIR_CW_400 (127t)</td>
+<td>~12 ms</td>
+<td>CW at 400 Hz</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Notch 800 Hz</td>
+<td>FIR_NOTCH_800 (63)</td>
+<td>~8 ms</td>
+<td>Static notch</td>
+</tr>
+<tr>
+<td>5</td>
+<td>IIR CW 700 Hz</td>
+<td>Biquad (2-state)</td>
+<td>~4 ms</td>
+<td>Low-latency CW</td>
+</tr>
+<tr>
+<td>6</td>
+<td>IIR Notch 800</td>
+<td>Biquad (2-state)</td>
+<td>~4 ms</td>
+<td>Low-latency notch</td>
+</tr>
+<tr>
+<td>7</td>
+<td>BYPASS</td>
+<td>None</td>
+<td>~4 ms</td>
+<td>A/B comparison</td>
+</tr>
+<tr>
+<td>8</td>
+<td>LMS Auto-Notch</td>
+<td>Adaptive LMS</td>
+<td>~4 ms</td>
+<td>Carrier rejection</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Mode selection:</strong> Rotate encoder to cycle through
+modes. <strong>Bypass toggle:</strong> Press encoder pushbutton
+(hardware relay bypasses ESP32 signal path).</p>
+<h3 id="fir-filter-implementation">6.3 FIR Filter Implementation</h3>
+<p>The FIR filter processes each input sample x[n] as:</p>
+<p>y[n] = Σᵢ h[i] × x[n-i] for i = 0 to N-1</p>
+<p>where h[i] is the coefficient array and x[n-i] is the delay line.</p>
+<p><strong>Direct-form implementation</strong> (see firmware
+<code>fir_apply()</code>): - Circular buffer stores N most recent
+samples - Each new sample: 127 multiply-accumulate operations - At 8 kHz
+sample rate: 127 × 8000 = 1.016 × 10⁶ MAC/second - ESP32 at 240 MHz:
+easily executes in time (&gt;200 MACs/µs available)</p>
+<p><strong>Coefficient symmetry:</strong> FIR bandpass filters have
+symmetric coefficients (h[i] = h[N-1-i]). This can be exploited to halve
+the number of multiplications using the “symmetric convolution”
+technique. The firmware uses the simple direct-form; optimize if CPU
+headroom becomes an issue.</p>
+<h3 id="iir-biquad-implementation">6.4 IIR Biquad Implementation</h3>
+<p>The IIR biquad (Direct Form II transposed) processes one sample per
+call:</p>
+<pre><code>  y[n] = b[0]×x[n] + s[0]
+  s[0] = b[1]×x[n] − a[0]×y[n] + s[1]
+  s[1] = b[2]×x[n] − a[1]×y[n]</code></pre>
+<p>Only 2 state variables per section. Much lower latency than FIR
+(effective delay = 2 samples = 250 µs at 8 kHz) but non-linear phase and
+less selectivity.</p>
+<p><strong>Use IIR mode when:</strong> - CW copying with real-time
+timing critical (contesting) - Operator sensitive to the ~12 ms latency
+of 127-tap FIR</p>
+<h3 id="lms-adaptive-notch-algorithm">6.5 LMS Adaptive Notch
+Algorithm</h3>
+<p>The LMS adaptive notch is implemented in
+<code>lms_autonotch()</code>. Key parameters:</p>
+<ul>
+<li><strong>Delay line length N = 32:</strong> Longer N allows tracking
+more tones but uses more CPU</li>
+<li><strong>Step size μ = 0.005:</strong> Controls convergence/stability
+tradeoff</li>
+</ul>
+<p><strong>Setting μ via serial command:</strong> <code>mu 0.003</code>
+— slower convergence, lower residual noise; use for weak signal copying
+<code>mu 0.010</code> — faster convergence; use when carrier drifts
+rapidly</p>
+<p><strong>Stability condition:</strong> μ &lt; 1 / (N × P_x) where P_x
+is input signal power Approximate check: if output shows excessive noise
+or oscillation, reduce μ.</p>
+<h3 id="agc-automatic-gain-control">6.6 AGC (Automatic Gain
+Control)</h3>
+<p>The AGC adjusts audio output level to a constant target (g_agc_target
+= 0.5 normalized = −6 dBFS RMS).</p>
+<p>Attack and release rates: - Attack: gain multiplied by 0.999 per
+sample (slow: -0.87 dB/second) - Release: exponential average toward
+target/level (medium-fast)</p>
+<p><strong>Effect on CW copying:</strong> The slow attack allows the
+burst of a dash or dit to pass at normal amplitude while long carriers
+(from QRM) are progressively attenuated. This behavior is desirable and
+resembles a good hardware AGC.</p>
+<p><strong>Disabling AGC:</strong> Set g_agc_target = 0 and g_agc_gain =
+1.0 in firmware (add a serial command <code>agc off</code> if
+desired).</p>
+<h3 id="serial-monitor-commands">6.7 Serial Monitor Commands</h3>
+<p>Connect USB-C to computer; open terminal at 115200 baud.</p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 79%" />
+</colgroup>
+<thead>
+<tr>
+<th>Command</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>help</code></td>
+<td>List all commands</td>
+</tr>
+<tr>
+<td><code>mode N</code></td>
+<td>Set filter mode 0–8</td>
+</tr>
+<tr>
+<td><code>bypass on</code></td>
+<td>Enable bypass (relay engages)</td>
+</tr>
+<tr>
+<td><code>bypass off</code></td>
+<td>Enable filter</td>
+</tr>
+<tr>
+<td><code>mu X</code></td>
+<td>Set LMS step size (0.001 to 0.05)</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>Print current mode, AGC gain, LMS μ, sample rate</td>
+</tr>
+<tr>
+<td><code>save</code></td>
+<td>Save current settings to NVS (persist across power cycles)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><a name="chapter-7"></a> ## CHAPTER 7 — ENCLOSURE AND MECHANICAL
+ASSEMBLY</p>
+<h3 id="enclosure-dimensions">7.1 Enclosure Dimensions</h3>
+<p>Outer dimensions: 160 × 100 × 55 mm Print material: ASA (preferred;
+UV stable) or PETG Print bed requirement: 200 × 200 mm minimum Lid
+separation: 12 mm deep lid + 43 mm box body</p>
+<p>Two-part print (body + lid, printed separately): - Body: print flat
+on bed (no support needed); estimated 14 hours at 0.2 mm layers - Lid:
+print inverted (display window faces down, no support needed for
+rectangular opening)</p>
+<h3 id="front-panel-layout">7.2 Front Panel Layout</h3>
+<p>Left to right across front panel at centerline:</p>
+<table>
+<thead>
+<tr>
+<th>X (mm)</th>
+<th>Control</th>
+<th>Component</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>20</td>
+<td>AUDIO IN jack</td>
+<td>3.5mm TRS</td>
+</tr>
+<tr>
+<td>40</td>
+<td>AUDIO OUT jack</td>
+<td>3.5mm TRS</td>
+</tr>
+<tr>
+<td>68</td>
+<td>BYPASS SW</td>
+<td>DPDT toggle</td>
+</tr>
+<tr>
+<td>86</td>
+<td>POWER SW</td>
+<td>SPST toggle</td>
+</tr>
+<tr>
+<td>104</td>
+<td>STATUS LED</td>
+<td>3mm green</td>
+</tr>
+<tr>
+<td>130</td>
+<td>MODE ENCODER</td>
+<td>Rotary encoder</td>
+</tr>
+<tr>
+<td>148</td>
+<td>BW ENCODER</td>
+<td>Rotary encoder (AF-3)</td>
+</tr>
+</tbody>
+</table>
+<p>Label each connector above the jack using self-adhesive label tape or
+by printing a label panel overlay (front_label() module in
+OpenSCAD).</p>
+<h3 id="rear-panel-layout">7.3 Rear Panel Layout</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Position</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>USB-C charge port</td>
+<td>Center</td>
+<td>TP4056 module input</td>
+</tr>
+<tr>
+<td>Battery door</td>
+<td>Left-center</td>
+<td>60×(variable) mm opening</td>
+</tr>
+</tbody>
+</table>
+<h3 id="internal-mounting">7.4 Internal Mounting</h3>
+<ul>
+<li>PCB/modules: 4× M3 heat-set inserts in standoffs (cast into box
+body)</li>
+<li>Standoff height: 8 mm (clears solder points below PCB)</li>
+<li>Battery tray: slides into rear opening; retained by door or
+screw</li>
+<li>Wire routing: route audio wires along left wall; power wires along
+right wall</li>
+</ul>
+<h3 id="heat-set-insert-installation">7.5 Heat-Set Insert
+Installation</h3>
+<p>M3 heat-set inserts (M3×4mm OD=5mm) installed with soldering iron: 1.
+Set iron to 230°C (450°F) 2. Place insert on top of bore (D_M3_HS = 5.5
+mm bore) 3. Press gently with iron tip until flush with surface 4. Allow
+60 seconds to cool before applying force</p>
+<hr />
+<p><a name="chapter-8"></a> ## CHAPTER 8 — ALIGNMENT AND TEST
+PROCEDURES</p>
+<h3 id="required-test-equipment">8.1 Required Test Equipment</h3>
+<ul>
+<li>Audio oscillator or signal generator covering 100 Hz–5 kHz
+(TM-SG-001 recommended)</li>
+<li>AC voltmeter or oscilloscope with dBu measurement</li>
+<li>Digital multimeter (VOM) for DC checks and component
+measurement</li>
+<li>Optional: Spectrum analyzer or PC soundcard with ARTA/REW
+software</li>
+</ul>
+<h3 id="initial-power-up-check-active-filters-af-2-af-3-af-4-af-5">8.2
+Initial Power-Up Check (Active Filters AF-2, AF-3, AF-4, AF-5)</h3>
+<p><strong>Before first power application:</strong> 1. Verify supply
+voltage with DMM across battery terminals: AF-2/AF-3: ±9V (each battery
+≥ 8.5V). AF-5: 3.7–4.2V (Li-Ion), or 5V USB. 2. Set all potentiometers
+to midpoint. 3. Set mode switch to SSB (AF-3) or CW 700 Hz (AF-2).</p>
+<p><strong>First power-on:</strong> 1. Apply power; measure current:
+AF-2/AF-3 each rail should be 5–15 mA. AF-5: 200–350 mA from 3.3V. 2.
+With no audio input, measure DC at op-amp outputs (AF-2/AF-3): should be
+within ±0.5V of GND (or V_mid for single supply). 3. Monitor output jack
+for DC voltage: should be near 0V (or V_mid through coupling cap).</p>
+<p><strong>If output DC &gt; 1V:</strong> Check op-amp supply pins;
+verify coupling capacitors; check for solder bridges.</p>
+<h3 id="frequency-response-measurement-af-2-active-cw-filter">8.3
+Frequency Response Measurement (AF-2 Active CW Filter)</h3>
+<ol type="1">
+<li>Set frequency switch to 700 Hz position.</li>
+<li>Set Q pot to midpoint (Q ≈ 12–15).</li>
+<li>Connect audio generator to input; set level to −10 dBu (245 mV
+RMS).</li>
+<li>Connect AC voltmeter to output through 10 kΩ load.</li>
+<li>Set generator to 700 Hz; note output level. This is your 0 dB
+reference.</li>
+<li>Vary frequency; record output at each point:</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>f (Hz)</th>
+<th>Expected att. (dB)</th>
+<th>Measured (dB)</th>
+<th>Pass?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>−35 (Q=15)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>400</td>
+<td>−18</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>500</td>
+<td>−9</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>600</td>
+<td>−3</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>700</td>
+<td>0 (ref)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>800</td>
+<td>−3</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>900</td>
+<td>−9</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1000</td>
+<td>−16</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1400</td>
+<td>−30</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Pass criterion: −3 dB points within ±10% of f₀ ± BW/2.</p>
+<h3 id="notch-depth-measurement-af-4">8.4 Notch Depth Measurement
+(AF-4)</h3>
+<ol type="1">
+<li>Connect audio generator at 800 Hz to input.</li>
+<li>Measure output voltage at generator frequency.</li>
+<li>Tune notch (if variable) for minimum output.</li>
+<li>Record output level.</li>
+<li>Notch depth = (reference level) − (null level) in dB.</li>
+</ol>
+<p>Pass criterion: - Passive twin-T: ≥ 25 dB - Active bootstrapped: ≥ 45
+dB - DSP FIR: ≥ 40 dB (FIR_NOTCH_800) - LMS adaptive (steady state): ≥
+35 dB</p>
+<h3 id="lms-auto-notch-convergence-test-af-5-mode-8">8.5 LMS Auto-Notch
+Convergence Test (AF-5 mode 8)</h3>
+<ol type="1">
+<li>Set AF-5 to mode 8 (AUTO NOTCH via serial or encoder).</li>
+<li>Connect audio generator at 800 Hz tone mixed with speech or pink
+noise.</li>
+<li>Observe output on oscilloscope or listen on headphones.</li>
+<li>After 1–2 seconds: 800 Hz component should be strongly
+attenuated.</li>
+<li>Change generator to 600 Hz. Verify notch shifts to track within 2
+seconds.</li>
+<li>With μ = 0.005 nominal: steady-state attenuation should reach −35 dB
+or better.</li>
+</ol>
+<h3 id="bypass-test">8.6 Bypass Test</h3>
+<ol type="1">
+<li>Connect generator at −10 dBu, 1000 Hz.</li>
+<li>Measure output in FILTER mode.</li>
+<li>Toggle bypass switch (or press encoder on AF-5).</li>
+<li>Measure output in BYPASS mode.</li>
+<li>Difference (insertion loss of bypass path) should be ≤ 0.1 dB.</li>
+</ol>
+<hr />
+<p><a name="chapter-9"></a> ## CHAPTER 9 — FILTER RESPONSE PLOTS AND
+INSERTION LOSS</p>
+<h3 id="theoretical-response-tables">9.1 Theoretical Response
+Tables</h3>
+<p><strong>AF-1 Passive LC (6th-order composite, 300–3000
+Hz):</strong></p>
+<table>
+<thead>
+<tr>
+<th>f (Hz)</th>
+<th>Expected att (dB)</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>50</td>
+<td>−50</td>
+<td>Below HP cutoff</td>
+</tr>
+<tr>
+<td>100</td>
+<td>−27</td>
+<td></td>
+</tr>
+<tr>
+<td>200</td>
+<td>−9</td>
+<td></td>
+</tr>
+<tr>
+<td>300</td>
+<td>−3</td>
+<td>HP −3 dB point</td>
+</tr>
+<tr>
+<td>500</td>
+<td>−0.5</td>
+<td></td>
+</tr>
+<tr>
+<td>1000</td>
+<td>−0</td>
+<td>Reference</td>
+</tr>
+<tr>
+<td>2000</td>
+<td>−0.5</td>
+<td></td>
+</tr>
+<tr>
+<td>3000</td>
+<td>−3</td>
+<td>LP −3 dB point</td>
+</tr>
+<tr>
+<td>4000</td>
+<td>−9</td>
+<td></td>
+</tr>
+<tr>
+<td>6000</td>
+<td>−27</td>
+<td></td>
+</tr>
+<tr>
+<td>9000</td>
+<td>−50</td>
+<td>Above LP cutoff</td>
+</tr>
+</tbody>
+</table>
+<p><strong>AF-2 Active CW SVF (700 Hz, Q=10):</strong></p>
+<table>
+<thead>
+<tr>
+<th>f (Hz)</th>
+<th>Expected att (dB)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>350</td>
+<td>−20</td>
+</tr>
+<tr>
+<td>500</td>
+<td>−8.9</td>
+</tr>
+<tr>
+<td>600</td>
+<td>−4.2</td>
+</tr>
+<tr>
+<td>630</td>
+<td>−3.0 (−3dB)</td>
+</tr>
+<tr>
+<td>700</td>
+<td>0</td>
+</tr>
+<tr>
+<td>770</td>
+<td>−3.0 (−3dB)</td>
+</tr>
+<tr>
+<td>800</td>
+<td>−4.2</td>
+</tr>
+<tr>
+<td>900</td>
+<td>−8.9</td>
+</tr>
+<tr>
+<td>1400</td>
+<td>−20</td>
+</tr>
+</tbody>
+</table>
+<p><strong>AF-5 FIR SSB 300–3000 Hz (127 taps, Kaiser β=6):</strong></p>
+<table>
+<thead>
+<tr>
+<th>f (Hz)</th>
+<th>Expected att (dB)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>100</td>
+<td>−52</td>
+</tr>
+<tr>
+<td>200</td>
+<td>−32</td>
+</tr>
+<tr>
+<td>300</td>
+<td>−3</td>
+</tr>
+<tr>
+<td>500</td>
+<td>−0.3</td>
+</tr>
+<tr>
+<td>1000</td>
+<td>0</td>
+</tr>
+<tr>
+<td>2000</td>
+<td>−0.3</td>
+</tr>
+<tr>
+<td>3000</td>
+<td>−3</td>
+</tr>
+<tr>
+<td>4000</td>
+<td>−30</td>
+</tr>
+<tr>
+<td>5000</td>
+<td>−50</td>
+</tr>
+</tbody>
+</table>
+<h3 id="insertion-loss-budget-summary">9.2 Insertion Loss Budget
+Summary</h3>
+<table>
+<thead>
+<tr>
+<th>Filter</th>
+<th>Midband IL</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AF-1</td>
+<td>1.5–2.0 dB</td>
+<td>Inductor DCR loss; reduce with lower-DCR L</td>
+</tr>
+<tr>
+<td>AF-2</td>
+<td>0 dB</td>
+<td>Op-amp active; gain can be added</td>
+</tr>
+<tr>
+<td>AF-3</td>
+<td>0–1 dB</td>
+<td>2 cascaded stages; output buffer restores</td>
+</tr>
+<tr>
+<td>AF-4</td>
+<td>0.1–0.5 dB</td>
+<td>Passive twin-T; active bootstrapped = 0dB</td>
+</tr>
+<tr>
+<td>AF-5</td>
+<td>0 dB</td>
+<td>DSP; gain set by AGC</td>
+</tr>
+</tbody>
+</table>
+<h3 id="measurement-record-sheet">9.3 Measurement Record Sheet</h3>
+<p><strong>Unit serial/date:</strong> _____________
+<strong>Operator:</strong> _____________</p>
+<table>
+<thead>
+<tr>
+<th>Measurement</th>
+<th>Spec</th>
+<th>Measured</th>
+<th>Date</th>
+<th>Pass</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AF-1 midband IL</td>
+<td>≤ 2.5 dB</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>AF-1 HP −3 dB</td>
+<td>300±30 Hz</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>AF-1 LP −3 dB</td>
+<td>3000±100Hz</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>AF-2 center freq</td>
+<td>±5%</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>AF-2 Q=10 BW</td>
+<td>70±10 Hz</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>AF-4 notch depth</td>
+<td>≥25 dB</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>AF-5 FIR HP edge</td>
+<td>300±20 Hz</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>AF-5 FIR LP edge</td>
+<td>3000±50 Hz</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>AF-5 LMS notch</td>
+<td>≥35 dB ss</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Bypass IL</td>
+<td>≤ 0.1 dB</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><a name="chapter-10"></a> ## CHAPTER 10 — BATTERY OPERATION AND POWER
+MANAGEMENT</p>
+<h3 id="battery-options-by-filter-type">10.1 Battery Options by Filter
+Type</h3>
+<table>
+<thead>
+<tr>
+<th>Filter</th>
+<th>Power required</th>
+<th>Battery option</th>
+<th>Estimated life</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AF-1</td>
+<td>None (passive)</td>
+<td>N/A</td>
+<td>Unlimited</td>
+</tr>
+<tr>
+<td>AF-2</td>
+<td>±9V @ 16 mA</td>
+<td>2× PP3 alkaline</td>
+<td>35 hours</td>
+</tr>
+<tr>
+<td>AF-3</td>
+<td>±9V @ 24 mA</td>
+<td>2× PP3 alkaline</td>
+<td>23 hours</td>
+</tr>
+<tr>
+<td>AF-4</td>
+<td>±9V @ 10 mA</td>
+<td>2× PP3 alkaline (opt)</td>
+<td>55 hours</td>
+</tr>
+<tr>
+<td>AF-5</td>
+<td>3.3V @ 365 mA</td>
+<td>18650 Li-Ion 2500 mAh</td>
+<td>6.6 hours</td>
+</tr>
+</tbody>
+</table>
+<h3 id="battery-monitoring">10.2 Battery Monitoring</h3>
+<p><strong>AF-2 / AF-3 / AF-4 (PP3):</strong> Monitor battery voltage
+with DMM at battery terminal. - PP3 fresh: 9.6V - PP3 nominal: 9.0V -
+Replace when: &lt; 7.5V (filter frequency will drift below 7V)</p>
+<p><strong>AF-5 (18650 Li-Ion):</strong> ESP32 firmware reads V_bat via
+GPIO35 divider (100kΩ / 100kΩ). Display shows battery level bar. -
+Cutoff voltage: 3.0V (TP4056 or BMS protection circuit) -
+Replace/recharge when: display shows LOW (&lt; 3.3V)</p>
+<h3 id="low-power-optimization-af-5">10.3 Low-Power Optimization
+(AF-5)</h3>
+<p>To extend Li-Ion battery life on the AF-5:</p>
+<ol type="1">
+<li><p>Reduce ESP32 CPU frequency: <code>setCpuFrequencyMhz(80)</code>
+(reduces power ~40%) Note: confirm 8 kHz audio processing remains stable
+at 80 MHz before field use.</p></li>
+<li><p>Disable Bluetooth and WiFi (not used by default; confirm off):
+<code>btStop(); WiFi.disconnect(true); WiFi.mode(WIFI_OFF);</code></p></li>
+<li><p>Turn off OLED when inactive (display off after 60 seconds):
+<code>oled.ssd1306_command(SSD1306_DISPLAYOFF);</code> Saves ~5
+mA.</p></li>
+<li><p>Use sleep mode between audio blocks if PCM5102A supports
+hardware-triggered wake: ESP32 light sleep between I2S DMA interrupts
+(~20 µs sleep per 32-sample block).</p></li>
+</ol>
+<p>With all optimizations: estimated battery life extends from 6.6 to
+~9–10 hours.</p>
+<h3 id="usb-c-charging-af-5">10.4 USB-C Charging (AF-5)</h3>
+<p>The TP4056 charger module accepts 5V USB-C input. Charge rate: set by
+PROG resistor (1.2 kΩ = 1A; 2.4 kΩ = 500 mA). Charge LED: RED =
+charging; BLUE/GREEN = charge complete. Full charge time (18650 2500 mAh
+at 1A): ~2.5 hours.</p>
+<p><strong>Do not charge during high-current RF operation</strong>
+(signal generator running with PA stages active). RF current spikes can
+interfere with charger IC. Charge separately or use a USB power bank for
+dedicated clean 5V supply.</p>
+<hr />
+<p><a name="chapter-11"></a> ## CHAPTER 11 — TROUBLESHOOTING</p>
+<h3 id="af-1-passive-lc-no-output">11.1 AF-1 Passive LC — No Output</h3>
+<table>
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 37%" />
+<col style="width: 38%" />
+</colgroup>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Likely Cause</th>
+<th>Remedy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No audio out</td>
+<td>Open inductor winding</td>
+<td>Measure DCR; &gt;5× expected = open</td>
+</tr>
+<tr>
+<td>Weak output</td>
+<td>Source impedance mismatch</td>
+<td>Add input transformer</td>
+</tr>
+<tr>
+<td>Audio, no filtering</td>
+<td>Shorted capacitor</td>
+<td>Measure C with LCR meter</td>
+</tr>
+<tr>
+<td>Frequency shifted</td>
+<td>Wrong capacitor value installed</td>
+<td>Verify markings; measure with LCR</td>
+</tr>
+</tbody>
+</table>
+<h3 id="af-2af-3-active-no-output">11.2 AF-2/AF-3 Active — No
+Output</h3>
+<table>
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 36%" />
+<col style="width: 36%" />
+</colgroup>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Likely Cause</th>
+<th>Remedy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No output</td>
+<td>Dead battery</td>
+<td>Measure supply voltage</td>
+</tr>
+<tr>
+<td>Constant DC at output</td>
+<td>Op-amp oscillation</td>
+<td>Add bypass caps to supply</td>
+</tr>
+<tr>
+<td>Very weak output</td>
+<td>Missing V_mid bias (S/S mode)</td>
+<td>Check R_A/R_B divider</td>
+</tr>
+<tr>
+<td>Wrong center freq</td>
+<td>Wrong C_INT installed</td>
+<td>Verify against frequency table</td>
+</tr>
+<tr>
+<td>No Q (flat response)</td>
+<td>R_Q disconnected or open pot</td>
+<td>Measure pot end-to-end</td>
+</tr>
+<tr>
+<td>Oscillation</td>
+<td>Q too high (pot at max)</td>
+<td>Install 50kΩ series min stop</td>
+</tr>
+</tbody>
+</table>
+<h3 id="af-4-notch-insufficient-depth">11.3 AF-4 Notch — Insufficient
+Depth</h3>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 37%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Likely Cause</th>
+<th>Remedy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Notch &lt; 20 dB</td>
+<td>Component mismatch &gt; 2%</td>
+<td>Sort and match R and C pairs</td>
+</tr>
+<tr>
+<td>Notch at wrong freq</td>
+<td>Miscalculated R value</td>
+<td>Recalculate; use LCR meter</td>
+</tr>
+<tr>
+<td>No null at any setting</td>
+<td>Open notch path</td>
+<td>Check both T networks</td>
+</tr>
+<tr>
+<td>NE567 won’t lock</td>
+<td>f₀ too far from interference</td>
+<td>Adjust R_T trim pot</td>
+</tr>
+</tbody>
+</table>
+<h3 id="af-5-dsp-no-audio">11.4 AF-5 DSP — No Audio</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 37%" />
+<col style="width: 36%" />
+</colgroup>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Likely Cause</th>
+<th>Remedy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No sound from DAC</td>
+<td>I2S0 wiring error</td>
+<td>Verify GPIO25/26/27 continuity</td>
+</tr>
+<tr>
+<td>Distorted output</td>
+<td>Input level too high (clipping)</td>
+<td>Reduce input level divider</td>
+</tr>
+<tr>
+<td>High noise floor</td>
+<td>ADC floating (no input bias)</td>
+<td>Verify 1.65V bias at GPIO34</td>
+</tr>
+<tr>
+<td>Firmware won’t start</td>
+<td>Boot issues with GPIO0/12</td>
+<td>Release GPIO12 low at boot</td>
+</tr>
+<tr>
+<td>LMS won’t converge</td>
+<td>μ too small for signal level</td>
+<td>Increase mu to 0.01–0.02</td>
+</tr>
+<tr>
+<td>Wrong filter</td>
+<td>Mode number out of range</td>
+<td><code>mode 0</code> via serial; check enum</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><a name="appendix-a"></a> ## APPENDIX A — COMPONENT REFERENCE AND
+SUBSTITUTION GUIDE</p>
+<h3 id="a.1-op-amps">A.1 Op-Amps</h3>
+<table>
+<thead>
+<tr>
+<th>Specified</th>
+<th>Substitute</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NE5532</td>
+<td>NE5534 (×1)</td>
+<td>Single; use DIP-8 with one channel tied</td>
+</tr>
+<tr>
+<td>NE5532</td>
+<td>OPA2134</td>
+<td>Premium; 10 pA bias, lower noise</td>
+</tr>
+<tr>
+<td>NE5532</td>
+<td>TL072</td>
+<td>Acceptable; higher noise, lower supply</td>
+</tr>
+<tr>
+<td>NE5532</td>
+<td>LM358</td>
+<td>NOT recommended; slew rate too low</td>
+</tr>
+</tbody>
+</table>
+<h3 id="a.2-capacitors">A.2 Capacitors</h3>
+<table>
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 43%" />
+<col style="width: 44%" />
+</colgroup>
+<thead>
+<tr>
+<th>Type</th>
+<th>Application</th>
+<th>Substitution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PP film</td>
+<td>LC filter C, SVF C_INT</td>
+<td>Polystyrene (PS) for audio frequency</td>
+</tr>
+<tr>
+<td>NP0/C0G</td>
+<td>SVF C_INT 1% or better</td>
+<td>Polypropylene if NP0 unavailable</td>
+</tr>
+<tr>
+<td>Electrolytic NP</td>
+<td>Coupling capacitors</td>
+<td>Bipolar electrolytic or film ≥ 10µF</td>
+</tr>
+<tr>
+<td>Electrolytic</td>
+<td>Supply bypass</td>
+<td>Standard electrolytic (+ toward +V)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="a.3-inductors">A.3 Inductors</h3>
+<table>
+<thead>
+<tr>
+<th>Specified</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>150 mH</td>
+<td>Wind on T-94A-77 ×2 stacked; or Bourns SRR1260-151Y</td>
+</tr>
+<tr>
+<td>33 mH</td>
+<td>Wind on T-94A-77 ×1; or Bourns SRR1260-330Y</td>
+</tr>
+</tbody>
+</table>
+<p>Self-resonant frequency (SRF) of audio chokes must be &gt; 20 kHz.
+Measure SRF: apply AC; find frequency where impedance is maximum
+(parallel resonance).</p>
+<hr />
+<p><a name="appendix-b"></a> ## APPENDIX B — FILTER DESIGN EQUATIONS AND
+TABLES</p>
+<h3 id="b.1-butterworth-normalized-prototype-elements-ladder">B.1
+Butterworth Normalized Prototype Elements (Ladder)</h3>
+<table>
+<thead>
+<tr>
+<th>n</th>
+<th>g1</th>
+<th>g2</th>
+<th>g3</th>
+<th>g4</th>
+<th>g5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>2.0000</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>1.4142</td>
+<td>1.4142</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>1.0000</td>
+<td>2.0000</td>
+<td>1.0000</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>0.7654</td>
+<td>1.8478</td>
+<td>1.8478</td>
+<td>0.7654</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>0.6180</td>
+<td>1.6180</td>
+<td>2.0000</td>
+<td>1.6180</td>
+<td>0.6180</td>
+</tr>
+</tbody>
+</table>
+<p>Denormalization: L = g × Z₀ / ωc; C = g / (Z₀ × ωc) for lowpass C =
+1/(g × Z₀ × ωc); L = Z₀ / (g × ωc) for highpass</p>
+<h3 id="b.2-svf-component-calculation">B.2 SVF Component
+Calculation</h3>
+<p>Given: f₀ (Hz), Q, R_INT (Ω)</p>
+<p>C_INT = 1 / (2π × f₀ × R_INT) R_Q = Q × R_FB (R_FB = R_INT nominally)
+BW = f₀ / Q</p>
+<h3 id="b.3-twin-t-notch-frequency-table">B.3 Twin-T Notch Frequency
+Table</h3>
+<p>C = 100 nF, vary R for different notch frequencies:</p>
+<table>
+<thead>
+<tr>
+<th>f_notch (Hz)</th>
+<th>R (kΩ)</th>
+<th>R/2 (kΩ)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>300</td>
+<td>5.305</td>
+<td>2.653</td>
+</tr>
+<tr>
+<td>400</td>
+<td>3.979</td>
+<td>1.990</td>
+</tr>
+<tr>
+<td>500</td>
+<td>3.183</td>
+<td>1.592</td>
+</tr>
+<tr>
+<td>600</td>
+<td>2.653</td>
+<td>1.326</td>
+</tr>
+<tr>
+<td>700</td>
+<td>2.274</td>
+<td>1.137</td>
+</tr>
+<tr>
+<td>800</td>
+<td>1.989</td>
+<td>0.995</td>
+</tr>
+<tr>
+<td>1000</td>
+<td>1.592</td>
+<td>0.796</td>
+</tr>
+<tr>
+<td>1500</td>
+<td>1.061</td>
+<td>0.531</td>
+</tr>
+<tr>
+<td>2000</td>
+<td>0.796</td>
+<td>0.398</td>
+</tr>
+<tr>
+<td>3000</td>
+<td>0.531</td>
+<td>0.265</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><a name="appendix-c"></a> ## APPENDIX C — FIR COEFFICIENT GENERATION
+(Python/scipy)</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env python3</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">FIR coefficient generator for TM-AF-001 audio filters.</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">Requires: numpy, scipy</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">Usage: python3 gen_fir.py</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.signal <span class="im">import</span> firwin, freqz</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>Fs <span class="op">=</span> <span class="dv">8000</span>       <span class="co"># sample rate Hz</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>N  <span class="op">=</span> <span class="dv">127</span>        <span class="co"># number of taps (odd for Type I linear phase)</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gen_bandpass(f_lo, f_hi, N, beta, label):</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    nyq <span class="op">=</span> Fs <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> firwin(N, [f_lo<span class="op">/</span>nyq, f_hi<span class="op">/</span>nyq], pass_zero<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>               window<span class="op">=</span>(<span class="st">&#39;kaiser&#39;</span>, beta))</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    print_coeffs(h, label)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> h</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gen_notch(f_lo, f_hi, N, beta, label):</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    nyq <span class="op">=</span> Fs <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> firwin(N, [f_lo<span class="op">/</span>nyq, f_hi<span class="op">/</span>nyq], pass_zero<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>               window<span class="op">=</span>(<span class="st">&#39;kaiser&#39;</span>, beta))</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    print_coeffs(h, label)</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> h</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> print_coeffs(h, name):</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f&quot;</span><span class="ch">\n</span><span class="ss">// </span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f&quot;const float </span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">[</span><span class="sc">{</span><span class="bu">len</span>(h)<span class="sc">}</span><span class="ss">] PROGMEM = </span><span class="ch">{{</span><span class="ss">&quot;</span>)</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, c <span class="kw">in</span> <span class="bu">enumerate</span>(h):</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>        end <span class="op">=</span> <span class="st">&#39;,</span><span class="ch">\n</span><span class="st">&#39;</span> <span class="cf">if</span> (i<span class="op">+</span><span class="dv">1</span>) <span class="op">%</span> <span class="dv">6</span> <span class="op">==</span> <span class="dv">0</span> <span class="kw">and</span> i <span class="op">&lt;</span> <span class="bu">len</span>(h)<span class="op">-</span><span class="dv">1</span> <span class="cf">else</span> <span class="st">&#39;, &#39;</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f&quot;    </span><span class="sc">{</span>c<span class="sc">:.6f}</span><span class="ss">f&quot;</span>, end<span class="op">=</span>end)</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">};&quot;</span>)</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_response(filters, labels):</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>    fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>    freqs <span class="op">=</span> np.linspace(<span class="dv">0</span>, Fs<span class="op">/</span><span class="dv">2</span>, <span class="dv">4096</span>)</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> h, lbl <span class="kw">in</span> <span class="bu">zip</span>(filters, labels):</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>        w, H <span class="op">=</span> freqz(h, worN<span class="op">=</span><span class="dv">8192</span>, fs<span class="op">=</span>Fs)</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>        dB <span class="op">=</span> <span class="dv">20</span> <span class="op">*</span> np.log10(np.<span class="bu">abs</span>(H) <span class="op">+</span> <span class="fl">1e-10</span>)</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>        ax.plot(w, dB, label<span class="op">=</span>lbl)</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>    ax.set_xlim(<span class="dv">0</span>, <span class="dv">4000</span>)</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>    ax.set_ylim(<span class="op">-</span><span class="dv">80</span>, <span class="dv">5</span>)</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">&quot;Frequency (Hz)&quot;</span>)</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="st">&quot;Attenuation (dB)&quot;</span>)</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="st">&quot;TM-AF-001 FIR Filter Responses&quot;</span>)</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>    ax.legend()</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>    ax.grid(<span class="va">True</span>)</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>    plt.tight_layout()</span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>    plt.savefig(<span class="st">&quot;filter_responses.png&quot;</span>, dpi<span class="op">=</span><span class="dv">150</span>)</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&quot;__main__&quot;</span>:</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>    filters <span class="op">=</span> []</span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>    labels  <span class="op">=</span> []</span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>    <span class="co"># SSB bandpass 300-3000 Hz</span></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> gen_bandpass(<span class="dv">300</span>, <span class="dv">3000</span>, <span class="dv">127</span>, <span class="dv">6</span>, <span class="st">&quot;FIR_SSB&quot;</span>)</span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>    filters.append(h)<span class="op">;</span> labels.append(<span class="st">&quot;SSB 300-3kHz&quot;</span>)</span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>    <span class="co"># CW bandpass 450-950 Hz (center 700 Hz)</span></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> gen_bandpass(<span class="dv">450</span>, <span class="dv">950</span>, <span class="dv">127</span>, <span class="dv">8</span>, <span class="st">&quot;FIR_CW_700&quot;</span>)</span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>    filters.append(h)<span class="op">;</span> labels.append(<span class="st">&quot;CW 700Hz&quot;</span>)</span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>    <span class="co"># CW bandpass 350-650 Hz (center 500 Hz)</span></span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> gen_bandpass(<span class="dv">350</span>, <span class="dv">650</span>, <span class="dv">127</span>, <span class="dv">8</span>, <span class="st">&quot;FIR_CW_500&quot;</span>)</span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>    filters.append(h)<span class="op">;</span> labels.append(<span class="st">&quot;CW 500Hz&quot;</span>)</span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>    <span class="co"># CW bandpass 300-500 Hz (center 400 Hz)</span></span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> gen_bandpass(<span class="dv">300</span>, <span class="dv">500</span>, <span class="dv">127</span>, <span class="dv">8</span>, <span class="st">&quot;FIR_CW_400&quot;</span>)</span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>    filters.append(h)<span class="op">;</span> labels.append(<span class="st">&quot;CW 400Hz&quot;</span>)</span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Notch 750-850 Hz</span></span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> gen_notch(<span class="dv">750</span>, <span class="dv">850</span>, <span class="dv">63</span>, <span class="dv">10</span>, <span class="st">&quot;FIR_NOTCH_800&quot;</span>)</span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>    filters.append(h)<span class="op">;</span> labels.append(<span class="st">&quot;Notch 800Hz&quot;</span>)</span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>    plot_response(filters, labels)</span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">// All coefficients generated successfully.&quot;</span>)</span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;// Copy into fir_coefficients.h&quot;</span>)</span></code></pre></div>
+<p>Run this script to regenerate exact coefficients and verify the plot
+matches the expected response table in Chapter 9. The coefficients in
+<code>fir_coefficients.h</code> were computed with this script;
+reproduction should yield identical values within float32 rounding.</p>
+<hr />
+<p><a name="appendix-d"></a> ## APPENDIX D — PARTS LISTS MASTER
+INDEX</p>
+<p>All detailed parts lists are in the schematic files:</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>schematics/sch_lc_ssb_bandpass.txt</td>
+<td>AF-1 passive LC parts list</td>
+</tr>
+<tr>
+<td>schematics/sch_active_cw_filter.txt</td>
+<td>AF-2 active CW SVF parts list</td>
+</tr>
+<tr>
+<td>schematics/sch_variable_bw_filter.txt</td>
+<td>AF-3 variable BW parts list</td>
+</tr>
+<tr>
+<td>schematics/sch_notch_filter.txt</td>
+<td>AF-4 notch filter parts list</td>
+</tr>
+<tr>
+<td>schematics/sch_dsp_power.txt</td>
+<td>AF-5 DSP board and power</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Common items across all units:</strong></p>
+<table>
+<colgroup>
+<col style="width: 24%" />
+<col style="width: 25%" />
+<col style="width: 14%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr>
+<th>Item</th>
+<th>Value / Part</th>
+<th>Qty total</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3.5mm TRS jacks</td>
+<td>Panel mount stereo</td>
+<td>8 (2/unit)</td>
+<td>Switchcraft 35RAPC3BV4</td>
+</tr>
+<tr>
+<td>DPDT toggle SW</td>
+<td>Panel mount 6.4mm</td>
+<td>4 (1/unit)</td>
+<td>NKK M2012 or equiv.</td>
+</tr>
+<tr>
+<td>SPST toggle SW</td>
+<td>Panel mount 6.4mm</td>
+<td>4 (1/unit)</td>
+<td>Power switch</td>
+</tr>
+<tr>
+<td>PP3 connectors</td>
+<td>I-clip snap</td>
+<td>8+</td>
+<td>For battery leads</td>
+</tr>
+<tr>
+<td>3mm LED, green</td>
+<td>T-1 package</td>
+<td>4+</td>
+<td>Power indicators</td>
+</tr>
+<tr>
+<td>Heat-set inserts</td>
+<td>M3×4mm</td>
+<td>16 (4/enc)</td>
+<td>McMaster 94180A333 equiv</td>
+</tr>
+<tr>
+<td>M3×8mm screws</td>
+<td>Pan head, SS</td>
+<td>16</td>
+<td>Lid attachment</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>End of Technical Manual TM-AF-001 Revision A</em></p>
+<p><em>This document is maintained in:</em>
+<code>/home/merv/Public/claude/ant_gear/audio_filters/MANUAL_AUDIO_FILTER.md</code></p>
+<p><em>Related documents:</em> - TM-SG-001 — VFO/Signal Generator (for
+filter alignment) - TM-CR-001 — Crystal Radio (passive audio
+detection)</p>
+
+            </main>
+        </div>
+    </div>
+</body>
+</html>

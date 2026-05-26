@@ -1,0 +1,2235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Common-Mode Chokes - Merv's Dump</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Dump</h1>
+                    <p class="tagline">When you build it, it teaches.</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+            <nav>
+                <h3>Main Navigation</h3>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about/bio.html">About</a></li>
+                </ul>
+
+                <details class="nav-group">
+                    <summary>Antennas</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/antennas/phased_array_of_2/">2-Element Phased Array</a></li>
+                    <li><a href="/antennas/phased_array_of_4/">4-Element Phased Array</a></li>
+                    <li><a href="/antennas/active_receiving/">Active Receiving</a></li>
+                    <li><a href="/antennas/beverage_receiving/">Beverage (Receiving)</a></li>
+                    <li><a href="/antennas/cage_dipole/">Cage Dipole</a></li>
+                    <li><a href="/antennas/collinear_array/">Collinear Array</a></li>
+                    <li><a href="/antennas/compact-dipole/">Compact Dipole</a></li>
+                    <li><a href="/antennas/cross_polarized/">Cross-Polarized</a></li>
+                    <li><a href="/antennas/cubical_quad/">Cubical Quad</a></li>
+                    <li><a href="/antennas/delta_loop_40m/">Delta Loop (40m)</a></li>
+                    <li><a href="/antennas/dipole/">Dipole</a></li>
+                    <li><a href="/antennas/discone/">Discone</a></li>
+                    <li><a href="/antennas/double_bazooka/">Double Bazooka</a></li>
+                    <li><a href="/antennas/end_fed_half_wave/">EFHW</a></li>
+                    <li><a href="/antennas/end_fed_quarter_wave/">EFQW</a></li>
+                    <li><a href="/antennas/end_fed_random_wire/">EFRW</a></li>
+                    <li><a href="/antennas/elevated_radials/">Elevated Radials</a></li>
+                    <li><a href="/antennas/end_fed_zepp/">End-Fed Zepp</a></li>
+                    <li><a href="/antennas/extended_double_zepp/">Extended Double Zepp</a></li>
+                    <li><a href="/antennas/fan_dipole/">Fan Dipole</a></li>
+                    <li><a href="/antennas/flagpole/">Flagpole</a></li>
+                    <li><a href="/antennas/flower_pot/">Flowerpot</a></li>
+                    <li><a href="/antennas/folded_dipole/">Folded Dipole</a></li>
+                    <li><a href="/antennas/folded_dipole_2conductor/">Folded Dipole (2-cond)</a></li>
+                    <li><a href="/antennas/folded_dipole_3conductor/">Folded Dipole (3-cond)</a></li>
+                    <li><a href="/antennas/frame_loop/">Frame Loop</a></li>
+                    <li><a href="/antennas/full_wave_loop/">Full-Wave Loop</a></li>
+                    <li><a href="/antennas/g5rv/">G5RV</a></li>
+                    <li><a href="/antennas/gmrs_loaded_vertical/">GMRS Loaded Vertical</a></li>
+                    <li><a href="/antennas/ground_plane/">Ground Plane</a></li>
+                    <li><a href="/antennas/helical/">Helical</a></li>
+                    <li><a href="/antennas/helical_antenna_2m_satellite/">Helical (2m Satellite)</a></li>
+                    <li><a href="/antennas/hentenna/">Hentenna</a></li>
+                    <li><a href="/antennas/hex_loop/">Hex Loop</a></li>
+                    <li><a href="/antennas/inverted_l_40m/">Inverted-L (40m)</a></li>
+                    <li><a href="/antennas/inverted_vee_dipole/">Inverted-V</a></li>
+                    <li><a href="/antennas/j_pole/">J-Pole</a></li>
+                    <li><a href="/antennas/k9ay_loop_40m/">K9AY Loop (40m)</a></li>
+                    <li><a href="/antennas/kmr_400_magnetic_loop/">KMR-400 Mag Loop</a></li>
+                    <li><a href="/antennas/log_periodic_dipole_arrays_for_wideband_operation/">LPDA Wideband</a></li>
+                    <li><a href="/antennas/loaded_vertical_hf/">Loaded Vertical (HF)</a></li>
+                    <li><a href="/antennas/log_periodic/">Log Periodic</a></li>
+                    <li><a href="/antennas/magnetic_loop_antennas/">Magnetic Loop</a></li>
+                    <li><a href="/antennas/moxon/">Moxon Rectangle</a></li>
+                    <li><a href="/antennas/near_vertical_incidence_skywave/">NVIS</a></li>
+                    <li><a href="/antennas/ocfd_windom/">OCFD / Windom</a></li>
+                    <li><a href="/antennas/octal_loop/">Octal Loop</a></li>
+                    <li><a href="/antennas/off_center_fed_dipole/">Off-Center Fed</a></li>
+                    <li><a href="/antennas/patch_antenna_2.4_ghz/">Patch (2.4 GHz)</a></li>
+                    <li><a href="/antennas/portable_magnetic_loop/">Portable Mag Loop</a></li>
+                    <li><a href="/antennas/rhombic/">Rhombic</a></li>
+                    <li><a href="/antennas/rybakov/">Rybakov</a></li>
+                    <li><a href="/antennas/satellite_yagi_antenna/">Satellite Yagi</a></li>
+                    <li><a href="/antennas/screwdriver/">Screwdriver</a></li>
+                    <li><a href="/antennas/shunt_fed/">Shunt-Fed Vertical</a></li>
+                    <li><a href="/antennas/slim_jim/">Slim Jim</a></li>
+                    <li><a href="/antennas/slinky_antenna_20m_portable/">Slinky (20m)</a></li>
+                    <li><a href="/antennas/sloped_dipole/">Sloped Dipole</a></li>
+                    <li><a href="/antennas/slot_antenna_uhf/">Slot Antenna (UHF)</a></li>
+                    <li><a href="/antennas/t_antenna/">T-Antenna</a></li>
+                    <li><a href="/antennas/tilted_terminated_folded_dipole/">T2FD</a></li>
+                    <li><a href="/antennas/tape_antennas/">Tape Antennas</a></li>
+                    <li><a href="/antennas/tape_measure_yagi/">Tape Measure Yagi</a></li>
+                    <li><a href="/antennas/telescopic/">Telescopic</a></li>
+                    <li><a href="/antennas/telescopic_vertical/">Telescopic Vertical</a></li>
+                    <li><a href="/antennas/terminated_folded_dipole/">Terminated Folded Dipole</a></li>
+                    <li><a href="/antennas/terminated_sloper_receiving/">Terminated Sloper</a></li>
+                    <li><a href="/antennas/trap_dipole/">Trap Dipole</a></li>
+                    <li><a href="/antennas/traveling_wave_vertical/">Traveling Wave Vertical</a></li>
+                    <li><a href="/antennas/turnstile/">Turnstile</a></li>
+                    <li><a href="/antennas/v_beam/">V-Beam</a></li>
+                    <li><a href="/antennas/vertical_dipole/">Vertical Dipole</a></li>
+                    <li><a href="/antennas/yagi_uda/">Yagi-Uda</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group">
+                    <summary>Antenna Gear</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/antenna_gear/ant_switches/">Antenna Switches</a></li>
+                    <li><a href="/antenna_gear/audio_filters/">Audio Filters</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/">Baluns And Ununs</a></li>
+                    <li><a href="/antenna_gear/bms/">BMS</a></li>
+                    <li><a href="/antenna_gear/coax_traps/">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/coil_winder/">Coil Winder</a></li>
+                    <li><a href="/antenna_gear/common_mode_chokes/">Common Mode Chokes</a></li>
+                    <li><a href="/antenna_gear/crystal_radio/">Crystal Radio</a></li>
+                    <li><a href="/antenna_gear/hybrids/">Hybrids</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/">Lightning Protection</a></li>
+                    <li><a href="/antenna_gear/mast_tower/">Mast Tower</a></li>
+                    <li><a href="/antenna_gear/motorized_tuner/">Motorized Tuner</a></li>
+                    <li><a href="/antenna_gear/power_supplies/">Power Supplies</a></li>
+                    <li><a href="/antenna_gear/remote-element-switching/">Remote Element Switching</a></li>
+                    <li><a href="/antenna_gear/rf_couplers/">RF Couplers</a></li>
+                    <li><a href="/antenna_gear/rfi_mitigation/">RFI Mitigation</a></li>
+                    <li><a href="/antenna_gear/roller_inductors/">Roller Inductors</a></li>
+                    <li><a href="/antenna_gear/transmatch/">Transmatch</a></li>
+                    <li><a href="/antenna_gear/variable_caps/">Variable Capacitors</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group">
+                    <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/adf_systems/">ADF Systems</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/antenna_modeling/">Antenna Modeling</a></li>
+                    <li><a href="/antenna_tools/dummy_loads/">Dummy Loads</a></li>
+                    <li><a href="/antenna_tools/field_strength_meter/">Field Strength Meter</a></li>
+                    <li><a href="/antenna_tools/noise_bridge/">Noise Bridge</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/">RF Power Meter</a></li>
+                    <li><a href="/antenna_tools/rf_power_meters/">RF Power Meters</a></li>
+                    <li><a href="/antenna_tools/sdr_interfaces/">SDR Interfaces</a></li>
+                    <li><a href="/antenna_tools/swr_meter/">SWR Meter</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group">
+                    <summary>Calibration</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/calibration/1013d-plus-oscilloscope/">1013D Plus Oscilloscope</a></li>
+                    <li><a href="/calibration/antenna-analyzer/">Antenna Analyzer</a></li>
+                    <li><a href="/calibration/audio-oscillator/">Audio Oscillator</a></li>
+                    <li><a href="/calibration/bm4070-digital-lcr-tester/">BM4070 Digital LCR Tester</a></li>
+                    <li><a href="/calibration/capacitance-meter/">Capacitance Meter</a></li>
+                    <li><a href="/calibration/current-source/">Current Source</a></li>
+                    <li><a href="/calibration/decade-capacitance-box/">Decade Capacitance Box</a></li>
+                    <li><a href="/calibration/decade-inductance-box/">Decade Inductance Box</a></li>
+                    <li><a href="/calibration/decade-resistance-box/">Decade Resistance Box</a></li>
+                    <li><a href="/calibration/dip-meter-grid-dip-oscillator/">Dip Meter Grid Dip Oscillator</a></li>
+                    <li><a href="/calibration/dso138-digital-oscilloscope/">DSO138 Digital Oscilloscope</a></li>
+                    <li><a href="/calibration/dummy-load-50-ohm/">Dummy Load 50 Ohm</a></li>
+                    <li><a href="/calibration/field-strength-meter/">Field Strength Meter</a></li>
+                    <li><a href="/calibration/fluke-15b-multimeter/">Fluke 15B Multimeter</a></li>
+                    <li><a href="/calibration/fm-broadcast/">Fm Broadcast</a></li>
+                    <li><a href="/calibration/frequency-counter/">Frequency Counter</a></li>
+                    <li><a href="/calibration/frequency-standard-gpsdo/">Frequency Standard GPSDO</a></li>
+                    <li><a href="/calibration/function-generator/">Function Generator</a></li>
+                    <li><a href="/calibration/gps-reference/">GPS Reference</a></li>
+                    <li><a href="/calibration/impedance-bridge/">Impedance Bridge</a></li>
+                    <li><a href="/calibration/inductance-meter/">Inductance Meter</a></li>
+                    <li><a href="/calibration/lcr-meter/">LCR Meter</a></li>
+                    <li><a href="/calibration/modulation-analyzer/">Modulation Analyzer</a></li>
+                    <li><a href="/calibration/multimeter-dmm/">Multimeter DMM</a></li>
+                    <li><a href="/calibration/nanovna/">Nanovna</a></li>
+                    <li><a href="/calibration/nanovna-vector-network-analyzer/">NanoVNA Vector Network Analyzer</a></li>
+                    <li><a href="/calibration/noise-figure-meter/">Noise Figure Meter</a></li>
+                    <li><a href="/calibration/oscilloscope/">Oscilloscope</a></li>
+                    <li><a href="/calibration/q-meter/">Q Meter</a></li>
+                    <li><a href="/calibration/radio-standards/">Radio Standards</a></li>
+                    <li><a href="/calibration/rf-attenuator-set/">RF Attenuator Set</a></li>
+                    <li><a href="/calibration/rf-power-meter/">RF Power Meter</a></li>
+                    <li><a href="/calibration/rf-probe-detector/">RF Probe Detector</a></li>
+                    <li><a href="/calibration/rf-signal-tracer/">RF Signal Tracer</a></li>
+                    <li><a href="/calibration/signal-generator/">Signal Generator</a></li>
+                    <li><a href="/calibration/simpson-260-series-3-analog-multimeter/">Simpson 260 Series 3 Analog Multimeter</a></li>
+                    <li><a href="/calibration/swr-meter/">SWR Meter</a></li>
+                    <li><a href="/calibration/tinysa-spectrum-analyzer/">TinySA Spectrum Analyzer</a></li>
+                    <li><a href="/calibration/verification/">Verification</a></li>
+                    <li><a href="/calibration/voltage-reference/">Voltage Reference</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group">
+                    <summary>Calibration Ideas</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/Calibration_Ideas/ac_mains_reference/">AC Mains Reference</a></li>
+                    <li><a href="/Calibration_Ideas/attenuator_pad_standards/">Attenuator Pad Standards</a></li>
+                    <li><a href="/Calibration_Ideas/coax_capacitance_standard/">Coax Capacitance Standard</a></li>
+                    <li><a href="/Calibration_Ideas/dummy_load_power_standard/">Dummy Load Power Standard</a></li>
+                    <li><a href="/Calibration_Ideas/field_strength_reference/">Field Strength Reference</a></li>
+                    <li><a href="/Calibration_Ideas/fm_broadcast_reference/">FM Broadcast Reference</a></li>
+                    <li><a href="/Calibration_Ideas/gps_1pps_reference/">GPS 1PPS Reference</a></li>
+                    <li><a href="/Calibration_Ideas/gpsdo_reference/">GPSDO Reference</a></li>
+                    <li><a href="/Calibration_Ideas/kelvin_resistance_standard/">Kelvin Resistance Standard</a></li>
+                    <li><a href="/Calibration_Ideas/known_length_dipole_standard/">Known Length Dipole Standard</a></li>
+                    <li><a href="/Calibration_Ideas/lc_resonance_standard/">LC Resonance Standard</a></li>
+                    <li><a href="/Calibration_Ideas/precision_resistor_network/">Precision Resistor Network</a></li>
+                    <li><a href="/Calibration_Ideas/precision_voltage_reference/">Precision Voltage Reference</a></li>
+                    <li><a href="/Calibration_Ideas/rc_time_constant_standard/">RC Time Constant Standard</a></li>
+                    <li><a href="/Calibration_Ideas/wheatstone_bridge/">Wheatstone Bridge</a></li>
+                    <li><a href="/Calibration_Ideas/wwv_wwvh_reference/">WWV/WWVH Reference</a></li>
+                    <li><a href="/Calibration_Ideas/zener_divider_reference/">Zener Divider Reference</a></li>
+                </ul>
+                </details>
+
+<details class="nav-group" open>
+    <summary>Study & Training</summary>
+    <ul>
+                    <li><a href="/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                    <li><a href="/study/morse.html">Morse Code Practice</a></li>
+                </ul>
+</details>
+
+</nav>
+            <main>
+<h1
+id="technical-manual-portable-common-mode-chokes-for-rfi-suppression">TECHNICAL
+MANUAL — PORTABLE COMMON-MODE CHOKES FOR RFI SUPPRESSION</h1>
+<p><strong>TM-CMC-001 Revision A</strong> <strong>Common-Mode Chokes
+Covering 160M through 23cm Amateur Radio Bands</strong>
+<strong>Toroidal, Snap-On Bead, Coiled Coax, and Sleeve Balun
+Designs</strong></p>
+<hr />
+<p><strong>CLASSIFICATION:</strong> Unclassified / For General
+Distribution <strong>DATE:</strong> 2026-04-25
+<strong>SUPERSEDES:</strong> None (initial issue) <strong>APPLICABLE
+EQUIPMENT:</strong> CMC-1 Toroid HF, CMC-2 Snap-On Beads, CMC-3 Ugly
+Balun, CMC-4 Bead-on-Coax, CMC-5 Sleeve Balun VHF/UHF</p>
+<hr />
+<h2 id="table-of-contents">TABLE OF CONTENTS</h2>
+<ul>
+<li><a href="#chapter-1">Chapter 1 — Introduction: Common-Mode Current
+and RFI</a></li>
+<li><a href="#chapter-2">Chapter 2 — Ferrite Core Materials and
+Selection</a></li>
+<li><a href="#chapter-3">Chapter 3 — Toroidal Wound Chokes — HF Bands
+(CMC-1)</a></li>
+<li><a href="#chapter-4">Chapter 4 — Snap-On Ferrite Bead Chokes
+(CMC-2)</a></li>
+<li><a href="#chapter-5">Chapter 5 — Ugly Balun and Coiled Coax Chokes
+(CMC-3)</a></li>
+<li><a href="#chapter-6">Chapter 6 — Bead-on-Coax Wideband Choke
+(CMC-4)</a></li>
+<li><a href="#chapter-7">Chapter 7 — Sleeve Balun for VHF and UHF
+(CMC-5)</a></li>
+<li><a href="#chapter-8">Chapter 8 — Choking Impedance Measurements and
+Calculations</a></li>
+<li><a href="#chapter-9">Chapter 9 — Weatherproof Enclosure and
+Mechanical Installation</a></li>
+<li><a href="#chapter-10">Chapter 10 — RFI Troubleshooting
+Procedures</a></li>
+<li><a href="#chapter-11">Chapter 11 — Band-by-Band Quick
+Reference</a></li>
+<li><a href="#appendix-a">Appendix A — Ferrite Core Specification
+Tables</a></li>
+<li><a href="#appendix-b">Appendix B — Choking Impedance Equations and
+Design Nomographs</a></li>
+<li><a href="#appendix-c">Appendix C — Common-Mode Rejection Measurement
+Procedure</a></li>
+<li><a href="#appendix-d">Appendix D — Parts Sources and
+Equivalents</a></li>
+</ul>
+<hr />
+<p><a name="chapter-1"></a> ## CHAPTER 1 — INTRODUCTION: COMMON-MODE
+CURRENT AND RFI</p>
+<h3 id="purpose">1.1 Purpose</h3>
+<p>This manual describes the design, construction, installation, and
+testing of portable common-mode chokes for amateur radio RFI
+suppression. Five distinct choke designs are documented, covering all
+amateur bands from 160 meters (1.8 MHz) through the 23-centimeter band
+(1296 MHz).</p>
+<p>Common-mode chokes are the single most effective tool for: -
+Eliminating RF current on the outside of coaxial cable feedlines -
+Isolating antenna feedpoints from feedline radiation - Suppressing
+received interference entering the station via feedlines - Achieving
+proper balance at dipole and balanced antenna feedpoints - Reducing TVI,
+BCI, and audio rectification complaints</p>
+<h3 id="common-mode-current-definition-and-effects">1.2 Common-Mode
+Current — Definition and Effects</h3>
+<p>A coaxial transmission line carries two modes of current
+simultaneously:</p>
+<p><strong>Differential mode (desired):</strong> Signal current flows on
+the center conductor in one direction and returns on the INSIDE surface
+of the outer conductor in the opposite direction. Fields cancel outside
+the cable; no radiation.</p>
+<p><strong>Common-mode (undesired):</strong> Current flows on the
+OUTSIDE surface of the outer conductor. This current is driven by
+antenna feedpoint imbalance, ground loops, or coupling from nearby RF
+sources. Common-mode current:</p>
+<ol type="1">
+<li>Causes feedline radiation, changing antenna pattern and
+efficiency</li>
+<li>Carries received interference from noise sources in the shack into
+the receiver</li>
+<li>Produces “RF in the shack” — RF burns on microphones, TVI, audio
+rectification</li>
+<li>Creates ground loops between equipment creating hum and buzz</li>
+<li>Allows transmit power to heat shack equipment via ground loops</li>
+</ol>
+<p><strong>Measurement of common-mode current:</strong> Insert a snap-on
+current probe (clamp-on RF ammeter) around the coax feedline at the
+shack entry. Any reading indicates common-mode current. A well-choked
+system will show near-zero on the probe. Target: &lt; 5 mA common-mode
+current at antenna feedpoint while transmitting.</p>
+<h3 id="the-choking-action">1.3 The Choking Action</h3>
+<p>A common-mode choke places a series impedance Z_choke in the
+common-mode current path. The choke is transparent to differential mode
+(signal).</p>
+<p>Common-mode rejection in dB:</p>
+<pre><code>CMR = 20 × log₁₀( 1 + |Z_choke| / |Z_CM_path| )</code></pre>
+<p>Where Z_CM_path is the impedance of the common-mode return path
+(typically 50–300 Ω for the antenna-feedline-ground system).</p>
+<p><strong>Practical CMR targets:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Application</th>
+<th>CMR needed</th>
+<th>Z_choke @ 150Ω path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Minimum (any benefit)</td>
+<td>10 dB</td>
+<td>474 Ω</td>
+</tr>
+<tr>
+<td>Field use, portable</td>
+<td>20 dB</td>
+<td>1500 Ω</td>
+</tr>
+<tr>
+<td>Fixed station, HF</td>
+<td>25 dB</td>
+<td>2820 Ω</td>
+</tr>
+<tr>
+<td>Contest station</td>
+<td>30 dB</td>
+<td>4743 Ω</td>
+</tr>
+<tr>
+<td>Extreme isolation (SO2R)</td>
+<td>40 dB</td>
+<td>15000 Ω</td>
+</tr>
+</tbody>
+</table>
+<h3 id="choke-type-selection-matrix">1.4 Choke Type Selection
+Matrix</h3>
+<table>
+<colgroup>
+<col style="width: 52%" />
+<col style="width: 34%" />
+<col style="width: 13%" />
+</colgroup>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Recommended Type</th>
+<th>Section</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HF bands, feedpoint balun</td>
+<td>Toroid wound (CMC-1)</td>
+<td>Ch. 3</td>
+</tr>
+<tr>
+<td>HF bands, quick install, no cutting</td>
+<td>Snap-on beads (CMC-2)</td>
+<td>Ch. 4</td>
+</tr>
+<tr>
+<td>Field day, no ferrite available</td>
+<td>Ugly balun (CMC-3)</td>
+<td>Ch. 5</td>
+</tr>
+<tr>
+<td>Wideband 3–1300 MHz, one choke</td>
+<td>Bead-on-coax (CMC-4)</td>
+<td>Ch. 6</td>
+</tr>
+<tr>
+<td>VHF/UHF antenna feedpoint</td>
+<td>Sleeve balun (CMC-5)</td>
+<td>Ch. 7</td>
+</tr>
+<tr>
+<td>RFI entering shack on all cables</td>
+<td>Snap-on beads (CMC-2)</td>
+<td>Ch. 4</td>
+</tr>
+<tr>
+<td>160M–10M wideband single choke</td>
+<td>Stacked FT-240-31+43</td>
+<td>Ch. 3</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><a name="chapter-2"></a> ## CHAPTER 2 — FERRITE CORE MATERIALS AND
+SELECTION</p>
+<h3 id="ferrite-chemistry-and-permeability">2.1 Ferrite Chemistry and
+Permeability</h3>
+<p>Ferrite cores used for RF chokes are ceramic compounds of iron oxide
+with manganese-zinc (MnZn) or nickel-zinc (NiZn) additives. The material
+type determines the complex permeability µ = µ’ − jµ’’ as a function of
+frequency.</p>
+<p><strong>µ’ (real component):</strong> Reactive inductance; energy
+stored and returned. Produces inductive (jX) component of choke
+impedance.</p>
+<p><strong>µ’’ (imaginary component):</strong> Loss; energy absorbed
+from RF signal. Produces resistive (R) component of choke impedance.</p>
+<p><strong>For common-mode choke applications, BOTH R and jX contribute
+to choking.</strong> A resistive choke actually provides BETTER
+broad-frequency suppression than a purely inductive one — the R
+component is non-resonant and wideband.</p>
+<h3 id="core-material-comparison">2.2 Core Material Comparison</h3>
+<table>
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 19%" />
+<col style="width: 15%" />
+<col style="width: 22%" />
+<col style="width: 36%" />
+</colgroup>
+<thead>
+<tr>
+<th>Mix</th>
+<th>Base material</th>
+<th>µ_initial</th>
+<th>Peak loss freq</th>
+<th>Best application</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>31</td>
+<td>MnZn</td>
+<td>1500</td>
+<td>2–30 MHz</td>
+<td>160M–10M, best HF choice</td>
+</tr>
+<tr>
+<td>43</td>
+<td>NiZn</td>
+<td>850</td>
+<td>10–100 MHz</td>
+<td>40M–6M, upper HF/VHF</td>
+</tr>
+<tr>
+<td>61</td>
+<td>NiZn</td>
+<td>125</td>
+<td>50–1000 MHz</td>
+<td>VHF/UHF bead-on-coax</td>
+</tr>
+<tr>
+<td>52</td>
+<td>NiZn</td>
+<td>250</td>
+<td>100–1500 MHz</td>
+<td>UHF applications</td>
+</tr>
+<tr>
+<td>77</td>
+<td>MnZn</td>
+<td>2000</td>
+<td>0.1–5 MHz</td>
+<td>160M emphasis</td>
+</tr>
+<tr>
+<td>75</td>
+<td>MnZn</td>
+<td>5000</td>
+<td>&lt;2 MHz</td>
+<td>LF/60Hz only</td>
+</tr>
+</tbody>
+</table>
+<h3 id="core-size-designations">2.3 Core Size Designations</h3>
+<p>Fair-Rite / Amidon standard: - <strong>FT-240-xx</strong>: 61mm OD ×
+35mm ID × 12.7mm height (large, standard HF) -
+<strong>FT-193-xx</strong>: 49mm OD × 31mm ID × 12.7mm height (medium) -
+<strong>FT-140-xx</strong>: 35.5mm OD × 23mm ID × 12.7mm height
+(portable HF) - <strong>FT-114-xx</strong>: 29mm OD × 19mm ID × 7.5mm
+height (VHF) - <strong>FT-82-xx</strong>: 21mm OD × 13mm ID × 6.35mm
+height (VHF/UHF) - <strong>FT-50-xx</strong>: 12.7mm OD × 7.7mm ID ×
+6.35mm height (UHF) - <strong>FT-37-xx</strong>: 9.5mm OD × 4.7mm ID ×
+3.2mm height (microwave)</p>
+<p><strong>FT-240 cores</strong> are the workhorse of HF station choke
+design. <strong>FT-82 and FT-50</strong> are used for bead-on-coax
+VHF/UHF chokes.</p>
+<h3 id="inductance-factor-a_l">2.4 Inductance Factor A_L</h3>
+<p>The inductance of N turns on a core:</p>
+<pre><code>L (nH) = A_L × N²</code></pre>
+<p>where A_L is in nH/N² (nH per turn squared).</p>
+<table>
+<thead>
+<tr>
+<th>Core</th>
+<th>Mix 31</th>
+<th>Mix 43</th>
+<th>Mix 61</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FT-240</td>
+<td>1800</td>
+<td>1100</td>
+<td>195</td>
+</tr>
+<tr>
+<td>FT-140</td>
+<td>1000</td>
+<td>625</td>
+<td>111</td>
+</tr>
+<tr>
+<td>FT-82</td>
+<td>570</td>
+<td>557</td>
+<td>36</td>
+</tr>
+<tr>
+<td>FT-50</td>
+<td>320</td>
+<td>320</td>
+<td>22</td>
+</tr>
+</tbody>
+</table>
+<p>A_L values are nominal at 10 kHz; vary with frequency as µ
+changes.</p>
+<h3 id="core-selection-procedure">2.5 Core Selection Procedure</h3>
+<ol type="1">
+<li>Identify the lowest operating frequency (determines minimum A_L
+needed)</li>
+<li>At lowest frequency: need |Z| ≥ 1000 Ω; L = |Z|/(2πf); N =
+√(L/A_L)</li>
+<li>Verify N × coax OD fits within core ID (for wound chokes)</li>
+<li>Verify impedance remains adequate across entire operating range</li>
+<li>Confirm power handling: at intended transmit power, core temperature
+&lt; 50°C</li>
+</ol>
+<p><strong>Design example: wound choke for 80M–20M with FT-240-43,
+targeting |Z| ≥ 2000 Ω:</strong></p>
+<p>At 80M (3.5 MHz): L_needed = 2000 / (2π × 3.5×10⁶) = 90.9 µH N =
+√(90.9×10⁶ / 1100) = √82636 = 288 turns — far too many!</p>
+<p>Conclusion: FT-240-43 is not adequate for 80M. Use Mix 31: At 80M:
+L_needed = 90.9 µH, A_L = 1800 → N = √(90.9×10⁶/1800) = 225 turns? Also
+too many — BUT at 3.5 MHz, Mix 31 has significant resistive component
+that adds to total |Z|. The true impedance table (measured data) shows
+FT-240-31 at 10 turns provides |Z| = 3190 Ω at 3.5 MHz.</p>
+<p>This is why measured impedance data (see ODS file, Chapter 8) is more
+reliable than purely inductive calculations at the frequencies where
+loss dominates.</p>
+<hr />
+<p><a name="chapter-3"></a> ## CHAPTER 3 — TOROIDAL WOUND CHOKES — HF
+BANDS (CMC-1)</p>
+<h3 id="design-variants">3.1 Design Variants</h3>
+<p>Three wound toroid configurations are documented (see also
+schematics/sch_toroid_choke_hf.txt):</p>
+<table>
+<thead>
+<tr>
+<th>Variant</th>
+<th>Core(s)</th>
+<th>Turns</th>
+<th>Cable</th>
+<th>Best for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CMC-1A</td>
+<td>FT-240-31</td>
+<td>10</td>
+<td>RG-8X</td>
+<td>160M–10M general</td>
+</tr>
+<tr>
+<td>CMC-1B</td>
+<td>FT-240-31+43 stacked</td>
+<td>8</td>
+<td>RG-8X</td>
+<td>160M–10M maximum Z</td>
+</tr>
+<tr>
+<td>CMC-1C</td>
+<td>FT-140-43</td>
+<td>10</td>
+<td>RG-58</td>
+<td>40M–6M portable/QRP</td>
+</tr>
+</tbody>
+</table>
+<h3 id="winding-instructions-cmc-1a-ft-240-31-10-turns-rg-8x">3.2
+Winding Instructions — CMC-1A (FT-240-31, 10 turns RG-8X)</h3>
+<p><strong>Materials:</strong> - 1× FT-240-31 toroid core (61mm OD) -
+2.2m RG-8X (8.4mm OD) - 2× PL-259 or N-type connectors -
+Self-amalgamating tape (weatherproof wrap) - Heavy cable tie × 2</p>
+<p><strong>Procedure:</strong> 1. Install connectors on both ends of the
+RG-8X. Test continuity before winding (center to center; shield to
+shield; no shorts). 2. Place the FT-240-31 core flat on work surface. 3.
+Pass one connector-end of RG-8X down through the center hole of the
+core. Pull through leaving 25cm of pigtail below the core. 4. Bring the
+cable up and over the outer edge of the core, passing down through the
+center again. This completes 1 turn. 5. Continue winding in the same
+rotational direction for all 10 turns. 6. Distribute turns evenly around
+approximately 270–300° of the core. Leave a gap of 60–90° between the
+first and last turn. DO NOT close-wind 360° — inter-winding capacitance
+rises sharply. 7. Secure turns with 2× cable ties through core center
+hole. 8. Wrap the entire coil with 3 layers of self-amalgamating tape
+for weatherproofing.</p>
+<p><strong>Winding diagram:</strong></p>
+<pre><code>    Looking from above — turns wound CW, spread 300° around core:
+
+                  ┌────── gap ──────┐
+         Turn 10 /                   \ Turn 1
+         Turn 9 │    FT-240-31       │
+         Turn 8 │      CORE          │ Turn 2
+         Turn 7 │                    │ Turn 3
+         Turn 6  \                  / Turn 4
+                   Turn 5 ─ Turn 5</code></pre>
+<p><strong>Maximum turns before cable fills core ID:</strong> - RG-8X
+(8.4mm) through FT-240 (35mm ID): max ~11 turns comfortably - RG-58
+(5mm) through FT-240 (35mm ID): max ~17 turns - RG-174 (2.8mm) through
+FT-140 (23mm ID): max ~12 turns</p>
+<h3 id="stacked-core-choke-cmc-1b">3.3 Stacked Core Choke (CMC-1B)</h3>
+<p>For maximum impedance across 160M–10M, stack one FT-240-31 and one
+FT-240-43 core and wind both simultaneously as a single unit.</p>
+<p><strong>Stacking procedure:</strong> 1. Place both cores face-to-face
+(flat faces together). 2. Check alignment — hole centers should be
+concentric. 3. Wrap both cores together with 2 layers of
+self-amalgamating tape to bind them. 4. Wind 8 turns of RG-8X through
+both stacked cores simultaneously. Each pass through the combined
+double-hole aperture = 1 turn. 5. Resulting compound core behaves as the
+sum of individual core impedances.</p>
+<h3 id="impedance-measurement-wound-choke">3.4 Impedance Measurement —
+Wound Choke</h3>
+<p><strong>Required equipment:</strong> VNA (NanoVNA or similar); 50Ω
+termination</p>
+<p><strong>Procedure:</strong> 1. Connect VNA PORT 1 to one coax pigtail
+of the choke. 2. Connect 50Ω termination to the other pigtail. 3.
+Configure VNA for S11 measurement, 1–54 MHz sweep. 4. The choke
+common-mode impedance is NOT directly measured this way — S11 measures
+the DIFFERENTIAL mode (transmission line) impedance, which should be
+flat at 50Ω ± 2Ω (VSWR &lt; 1.1) for a well-built choke.</p>
+<p><strong>True common-mode measurement:</strong> (see Appendix C for
+full procedure) Requires a 1:1 RF transformer (or direct injection) to
+drive the choke in common-mode configuration. The standard W1JR/W7EL
+measurement method uses a coaxial fixture with the choke outer conductor
+driven as a one-port device.</p>
+<p><strong>Simplified check:</strong> Place a clip-on RF current probe
+around the choke output coax. Drive the choke input with RF at known
+power. Current probe reading directly shows common-mode current. Repeat
+at multiple frequencies. Choking impedance ≈ V_input /
+I_CM_measured.</p>
+<hr />
+<p><a name="chapter-4"></a> ## CHAPTER 4 — SNAP-ON FERRITE BEAD CHOKES
+(CMC-2)</p>
+<h3 id="advantages-of-snap-on-beads">4.1 Advantages of Snap-On
+Beads</h3>
+<p>Snap-on (split) ferrite cores require no disassembly of existing coax
+or cable runs. They can be field-installed in minutes on any cable
+regardless of connector type. Disadvantages: lower impedance per unit
+than wound toroids; multiple beads required for adequate
+suppression.</p>
+<h3 id="bead-material-selection">4.2 Bead Material Selection</h3>
+<p>For HF (1.8–30 MHz): Mix 31 (Fair-Rite 0431xxxxxx or Laird 28B
+series) For HF/VHF (7–144 MHz): Mix 43 (Fair-Rite 0443xxxxxx) For
+wideband: mix 4× Mix 31 + 4× Mix 43 in series on same cable</p>
+<p>Reference data: ferrite_impedance_table.ods, sheet “Snap-On
+Beads”</p>
+<h3 id="required-bead-count">4.3 Required Bead Count</h3>
+<p>Minimum required beads for CMR ≥ 20 dB (Z_path assumed 150 Ω): Target
+|Z_choke| ≥ 1500 Ω</p>
+<table>
+<thead>
+<tr>
+<th>Band</th>
+<th>Freq</th>
+<th>Z per Mix31 bead</th>
+<th>Beads needed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>160M</td>
+<td>1.8 MHz</td>
+<td>195 Ω</td>
+<td>8+</td>
+</tr>
+<tr>
+<td>80M</td>
+<td>3.5 MHz</td>
+<td>270 Ω</td>
+<td>6</td>
+</tr>
+<tr>
+<td>40M</td>
+<td>7.0 MHz</td>
+<td>430 Ω</td>
+<td>4</td>
+</tr>
+<tr>
+<td>20M</td>
+<td>14 MHz</td>
+<td>545 Ω</td>
+<td>3</td>
+</tr>
+<tr>
+<td>10M</td>
+<td>28 MHz</td>
+<td>600 Ω</td>
+<td>3</td>
+</tr>
+<tr>
+<td>6M</td>
+<td>50 MHz</td>
+<td>600 Ω</td>
+<td>3 Mix43 better</td>
+</tr>
+<tr>
+<td>2M</td>
+<td>144 MHz</td>
+<td>480 Ω</td>
+<td>4 Mix43</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Practical recommendation:</strong> 8 beads (4× Mix31 + 4×
+Mix43) covers all bands adequately. Install in a row along the cable;
+secure with cable ties.</p>
+<h3 id="multiple-pass-installation">4.4 Multiple-Pass Installation</h3>
+<p>For powerline and mains filtering where cable length allows: Thread
+cable through same bead N times. Impedance scales as N²:</p>
+<table>
+<thead>
+<tr>
+<th>Passes</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>430 Ω</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1720 Ω (4×)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>3870 Ω (9×)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>6880 Ω (16×)</td>
+</tr>
+</tbody>
+</table>
+<p>Note: f_SR (self-resonant frequency) decreases with multiple passes.
+At 3 passes, f_SR drops to ~10 MHz — adequate for AM/HF powerline noise
+only. Use single-pass multiple-bead approach for wideband HF/VHF.</p>
+<h3 id="installation-locations">4.5 Installation Locations</h3>
+<p><strong>Priority locations for snap-on beads:</strong></p>
+<ol type="1">
+<li><p><strong>Coax at shack bulkhead entry point</strong> — most
+important; intercepts all common-mode current attempting to enter the
+shack. Install 6–8 beads here.</p></li>
+<li><p><strong>Radio power supply cable</strong> — switching supplies
+generate wideband noise; beads on output DC cable prevent conducted
+noise.</p></li>
+<li><p><strong>Microphone cable</strong> — common entry point for RF
+during TX. Wind mic cable 3–4 turns through 1× large snap-on
+bead.</p></li>
+<li><p><strong>Computer USB/monitor cables</strong> — USB devices and
+LCD monitors are common broadband noise sources on HF. Install at device
+end.</p></li>
+<li><p><strong>Ethernet cable</strong> — can radiate broadband digital
+noise and also conduct interference between equipment.</p></li>
+<li><p><strong>Rotor control cable</strong> — long runs of rotor cable
+act as effective antennas for picking up local noise.</p></li>
+</ol>
+<hr />
+<p><a name="chapter-5"></a> ## CHAPTER 5 — UGLY BALUN AND COILED COAX
+CHOKES (CMC-3)</p>
+<h3 id="operating-principle">5.1 Operating Principle</h3>
+<p>The “ugly balun” (coined by W7EL, Roy Lewallen, 1983) uses the
+inductance of coax wound into an air-core coil. No ferrite is required.
+Coiling the coax creates inductance that blocks common-mode current.
+Differential mode (the signal) is unaffected because the electromagnetic
+fields of the center conductor and shield cancel within the cable.</p>
+<h3 id="design-frequency-targeting">5.2 Design Frequency Targeting</h3>
+<p>The ugly balun works best near its self-resonant frequency (f_SR)
+where impedance is maximum. Design f_SR to match the operating
+frequency.</p>
+<p>f_SR is lowered by: - More turns (increases L and C together) -
+Smaller coil diameter (increases C) - Closer winding spacing (increases
+C)</p>
+<p>f_SR is raised by: - Fewer turns - Larger diameter - Space-wound
+turns</p>
+<p><strong>Coil inductance (Wheeler formula):</strong></p>
+<pre><code>L (µH) = [r² × N²] / [9r + 10l]</code></pre>
+<p>Where r = coil radius (inches), l = coil length (inches), N =
+turns</p>
+<p><strong>Example: 9 turns RG-8X, 6” OD form (r=3”), space-wound
+l=3.5”:</strong> L = [9 × 81] / [9×3 + 10×3.5] = 729 / [27 + 35] = 11.8
+µH C_distributed ≈ 15 pF (loose RG-8X) f_SR = 1 / (2π × √(11.8×10⁻⁶ ×
+15×10⁻¹²)) = 11.9 MHz</p>
+<p>Design table: coil parameters vs. target f_SR:</p>
+<table>
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 10%" />
+<col style="width: 13%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 17%" />
+<col style="width: 22%" />
+</colgroup>
+<thead>
+<tr>
+<th>Form OD</th>
+<th>Turns</th>
+<th>Coax</th>
+<th>l (mm)</th>
+<th>L (µH)</th>
+<th>f_SR (MHz)</th>
+<th>Best bands</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2” (51mm)</td>
+<td>12</td>
+<td>RG-174</td>
+<td>60</td>
+<td>3.1</td>
+<td>49</td>
+<td>6M, VHF</td>
+</tr>
+<tr>
+<td>3” (76mm)</td>
+<td>9</td>
+<td>RG-58</td>
+<td>50</td>
+<td>8.6</td>
+<td>18</td>
+<td>17M–10M</td>
+</tr>
+<tr>
+<td>4” (102mm)</td>
+<td>8</td>
+<td>RG-58</td>
+<td>50</td>
+<td>11.8</td>
+<td>14</td>
+<td>20M–15M</td>
+</tr>
+<tr>
+<td>6” (150mm)</td>
+<td>7</td>
+<td>RG-8X</td>
+<td>70</td>
+<td>14.7</td>
+<td>11</td>
+<td>30M–20M</td>
+</tr>
+<tr>
+<td>8” (200mm)</td>
+<td>7</td>
+<td>RG-8X</td>
+<td>100</td>
+<td>21.0</td>
+<td>7</td>
+<td>40M</td>
+</tr>
+</tbody>
+</table>
+<h3 id="portable-ugly-balun-construction-cmc-3a-field-expedient">5.3
+Portable Ugly Balun Construction (CMC-3A, field expedient)</h3>
+<p>When no ferrite is available, coil available feedline around any
+available form:</p>
+<ol type="1">
+<li>Find a cylindrical object 10–20cm diameter (water bottle, PVC pipe,
+coffee can).</li>
+<li>Wind 8–12 turns of the coax feedline.</li>
+<li>Secure with zip ties or tape.</li>
+<li>Best performance at operating frequency; some benefit ±1
+octave.</li>
+</ol>
+<p><strong>This is the emergency field technique.</strong> Pre-built
+ferrite chokes are strongly preferred for any planned installation.</p>
+<h3 id="power-handling">5.4 Power Handling</h3>
+<p>Coiled coax handles full rated power of the coax used. No ferrite to
+saturate or overheat. RG-8X handles 1500W at 14 MHz indefinitely. RG-58
+handles 500W.</p>
+<p>The ugly balun is the ONLY choke type with no practical RF power
+limitation (limited only by coax specs, not ferrite saturation). This
+makes it attractive for high-power 160M/80M operation where ferrite
+heating can occur.</p>
+<hr />
+<p><a name="chapter-6"></a> ## CHAPTER 6 — BEAD-ON-COAX WIDEBAND CHOKE
+(CMC-4)</p>
+<h3 id="construction">6.1 Construction</h3>
+<p>Thread ferrite toroid beads over the coaxial cable before connector
+installation. No winding required. The beads sit on the cable’s outer
+jacket and present impedance to any current flowing on the outside of
+the cable.</p>
+<p><strong>Critical:</strong> Connectors (PL-259, N-type) must be
+installed AFTER threading all beads onto the cable — connector body will
+not pass through bead aperture.</p>
+<p><strong>Bead aperture vs. cable OD:</strong> - FT-82-43 (13mm ID)
+accepts RG-58 (5mm OD) with 8mm of clearance — easy - FT-50-61 (7.7mm
+ID) accepts RG-58 (5mm OD) with 2.7mm clearance — OK - FT-50-61 will NOT
+accept RG-8X (8.4mm) — use FT-82 or larger</p>
+<h3 id="optimal-bead-mix-by-frequency-range">6.2 Optimal Bead Mix by
+Frequency Range</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 39%" />
+<col style="width: 9%" />
+<col style="width: 26%" />
+</colgroup>
+<thead>
+<tr>
+<th>Purpose</th>
+<th>Bead selection</th>
+<th>Count</th>
+<th>CMR at design freq</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HF only (40M–10M)</td>
+<td>FT-82-43</td>
+<td>10</td>
+<td>30+ dB at 14 MHz</td>
+</tr>
+<tr>
+<td>HF + VHF</td>
+<td>6× FT-82-43 + 4× FT-82-61</td>
+<td>10</td>
+<td>25+ dB, 7–432 MHz</td>
+</tr>
+<tr>
+<td>VHF/UHF only</td>
+<td>FT-50-61</td>
+<td>20</td>
+<td>30+ dB, 50–1300 MHz</td>
+</tr>
+<tr>
+<td>Wideband 3–1300MHz</td>
+<td>4× FT-82-43 + 4× FT-50-61</td>
+<td>8</td>
+<td>20+ dB all bands</td>
+</tr>
+</tbody>
+</table>
+<h3 id="securing-the-bead-stack">6.3 Securing the Bead Stack</h3>
+<ol type="1">
+<li>Position beads in middle of coax run (not over connector).</li>
+<li>Butt beads together; no gap needed.</li>
+<li>Slide a 50mm length of heat-shrink (1” diameter) over the
+stack.</li>
+<li>Heat to shrink; encases the beads as a unit.</li>
+<li>Add cable tie at each end of heat-shrink to prevent migration.</li>
+</ol>
+<p>Optional: use the 3D-printed bead rail
+(openscad/mounting_brackets.scad, module bead_rail()) for a neater,
+field-serviceable installation.</p>
+<hr />
+<p><a name="chapter-7"></a> ## CHAPTER 7 — SLEEVE BALUN FOR VHF AND UHF
+(CMC-5)</p>
+<h3 id="operating-principle-1">7.1 Operating Principle</h3>
+<p>A sleeve balun (also called a choke sleeve or bazooka balun) uses a
+λ/4 shorted coaxial stub formed by an outer conductive sleeve around the
+feed coax.</p>
+<p><strong>The sleeve and the outer surface of the coax form a
+transmission line stub:</strong> - Shorted at the ANTENNA END
+(electrically bonded to outer conductor) - Open at the TRANSMITTER END
+(free end of sleeve)</p>
+<p>A λ/4 shorted stub presents infinite impedance at the open end. This
+infinite impedance blocks common-mode current at the operating
+frequency.</p>
+<h3 id="band-specific-sleeve-lengths">7.2 Band-Specific Sleeve
+Lengths</h3>
+<p>Using velocity factor 0.96 (air-spaced sleeve with end
+correction):</p>
+<table>
+<thead>
+<tr>
+<th>Band</th>
+<th>f₀ (MHz)</th>
+<th>Physical length</th>
+<th>Sleeve OD</th>
+<th>Coax type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2M</td>
+<td>144.0</td>
+<td>500 mm</td>
+<td>19 mm</td>
+<td>RG-58</td>
+</tr>
+<tr>
+<td>1.25M</td>
+<td>222.0</td>
+<td>325 mm</td>
+<td>16 mm</td>
+<td>RG-58</td>
+</tr>
+<tr>
+<td>70cm</td>
+<td>432.0</td>
+<td>167 mm</td>
+<td>12.7 mm</td>
+<td>RG-58/LMR-195</td>
+</tr>
+<tr>
+<td>33cm</td>
+<td>902.0</td>
+<td>80 mm</td>
+<td>9.5 mm</td>
+<td>LMR-195</td>
+</tr>
+<tr>
+<td>23cm</td>
+<td>1296.0</td>
+<td>56 mm</td>
+<td>6.4 mm</td>
+<td>LMR-195</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sleeve-balun-construction">7.3 Sleeve Balun Construction</h3>
+<p><strong>Copper foil tape method (easiest,
+field-expedient):</strong></p>
+<ol type="1">
+<li>Cut 3mm closed-cell foam tape to sleeve length.</li>
+<li>Wrap foam tape once around coax outer jacket. Foam provides ~3mm gap
+between coax outer conductor and sleeve.</li>
+<li>Apply 1.5”-wide (38mm) copper foil tape over foam. Wrap around
+cable, length = sleeve length. Overlap seams for electrical
+continuity.</li>
+<li>At the antenna end: connect copper foil sleeve to coax outer
+conductor with a solder bridge — remove jacket for 5mm, tin copper foil
+edge, solder to braid.</li>
+<li>Transmitter end of sleeve: simply leave free (open circuit).</li>
+<li>Seal with self-amalgamating tape (2 layers), then UV-resistant vinyl
+tape.</li>
+</ol>
+<p><strong>Copper tube method (more durable, permanent
+installation):</strong></p>
+<ol type="1">
+<li>Cut copper or brass tube to sleeve length (see table above).</li>
+<li>Tube ID must be ≥ coax OD + 3mm for slip fit.</li>
+<li>Slide tube over coax before connector installation.</li>
+<li>Center tube at desired position; solder tube end to coax outer braid
+at the antenna end.</li>
+<li>Weatherproof with self-amalgamating tape.</li>
+</ol>
+<h3 id="bandwidth">7.4 Bandwidth</h3>
+<p>Sleeve balun bandwidth (to −3 dB of peak impedance): approximately
+±3–5% of center frequency for copper sleeves with Q ≈ 20–50.</p>
+<p>For 144 MHz: ±3% = ±4.3 MHz → covers 139.7–148.3 MHz (all 2M ham use)
+For 432 MHz: ±3% = ±13 MHz → covers 419–445 MHz (entire 70cm band)</p>
+<p>For narrower antenna designs, tune sleeve length ±2mm per MHz of f_SR
+error. Shortening sleeve raises f_SR; lengthening lowers f_SR.</p>
+<h3 id="m-sleeve-balun-special-case">7.5 6M Sleeve Balun — Special
+Case</h3>
+<p>At 50 MHz, the sleeve would be 1437mm (nearly 1.5 meters) —
+impractical. For 6M: - Use FT-240-43 wound toroid (8 turns, |Z| ≈ 4866
+Ω) - Or use ugly balun coil (2” PVC pipe, 12 turns RG-174, f_SR ≈ 49
+MHz) - Or use 6× snap-on Mix 43 beads</p>
+<hr />
+<p><a name="chapter-8"></a> ## CHAPTER 8 — CHOKING IMPEDANCE
+MEASUREMENTS AND CALCULATIONS</p>
+<h3 id="impedance-data-tables">8.1 Impedance Data Tables</h3>
+<p>Complete measured impedance data is contained in:
+<code>data/ferrite_impedance_table.ods</code></p>
+<p>The spreadsheet contains 8 worksheets: 1. <strong>Ferrite
+Materials</strong> — core material properties comparison 2.
+<strong>FT-240-31 10T</strong> — 10-turn FT-240-31 impedance
+vs. frequency 3. <strong>FT-240-43 12T</strong> — 12-turn FT-240-43
+impedance vs. frequency 4. <strong>FT-240-43 8T</strong> — 8-turn
+FT-240-43 impedance vs. frequency 5. <strong>Stacked 31+43 8T</strong> —
+stacked core combination data 6. <strong>Snap-On Beads</strong> —
+per-bead and N-bead stack data 7. <strong>Sleeve Balun Dims</strong> —
+band-by-band sleeve dimensions 8. <strong>RFI Troubleshooting</strong> —
+symptom-to-solution cross reference</p>
+<h3 id="common-mode-impedance-calculation">8.2 Common-Mode Impedance
+Calculation</h3>
+<p>For a wound toroid choke, total impedance at frequency f:</p>
+<p><strong>Inductive reactance:</strong></p>
+<pre><code>X_L = 2π × f × L = 2π × f × A_L × N²</code></pre>
+<p><strong>At frequencies where material is lossy (above loss peak
+frequency):</strong> The R component dominates and is approximately:</p>
+<pre><code>R_choke ≈ µ&#39;&#39; × (2π × f × µ₀ × N² × A_c / l_e)</code></pre>
+<p>Where A_c = core cross-section, l_e = effective magnetic path
+length.</p>
+<p><strong>In practice:</strong> Use manufacturer-measured complex
+permeability data (Fair-Rite #43 and #31 data sheets available at
+fair-rite.com) and compute Z = N² × Z_1turn.</p>
+<p><strong>CMR from measured impedance:</strong></p>
+<pre><code>CMR (dB) = 20 × log₁₀(1 + |Z_choke| / |Z_CM_path|)</code></pre>
+<p>Where Z_CM_path is the measured or estimated impedance of the
+common-mode path at the antenna feedpoint (typically 50–300 Ω; see
+Appendix C for measurement).</p>
+<h3 id="insertion-loss-of-choke-differential-mode">8.3 Insertion Loss of
+Choke (Differential Mode)</h3>
+<p>A well-built choke has negligible differential-mode insertion loss: -
+Differential currents cancel in the ferrite; no net magnetizing force -
+Core does not contribute to differential-mode impedance - Only the coax
+series resistance contributes: RL = R_DC × l_coax</p>
+<p>For 10 turns RG-8X (2.2m), center conductor DC resistance: RG-8X
+conductor R = 8.8 mΩ/m × 2.2m = 19.4 mΩ Insertion loss = R/(2 ×
+Z_source) = 19.4×10⁻³ / (2 × 50) = 0.000194 → −0.0017 dB</p>
+<p><strong>Differential insertion loss of a properly wound choke is
+negligible (&lt;0.01 dB).</strong> Any significant insertion loss
+indicates a winding error (shorted turns) or wrong core material (core
+is lossy at the operating frequency for differential mode).</p>
+<h3 id="response-measurement-nanovna-method">8.4 Response Measurement —
+NanoVNA Method</h3>
+<p>A NanoVNA can measure the common-mode impedance of a wound choke
+using the “open-short-through” method if the following fixture is
+used:</p>
+<p><strong>Fixture:</strong> Short the coax outer conductor to the coax
+center conductor at one end of the choke. Connect other end to PORT1 of
+NanoVNA. Configure NanoVNA for S11 measurement with OPEN calibration
+standard. The one-port measurement now sees the choke as a one-port
+impedance = the common-mode impedance.</p>
+<p><strong>Calibrate:</strong> Place standard SHORT at measurement port;
+place OPEN; place LOAD. Then connect fixture. Read Z = R + jX on Smith
+chart or Z display.</p>
+<p><strong>Alternative (requires two NanoVNA ports or external
+bridge):</strong> Connect a 50Ω two-port measurement where the outer
+conductor of the input and output coax are JOINED (common-mode
+injection) while center conductors are the + ports. S21 attenuation
+equals the CMR of the choke.</p>
+<hr />
+<p><a name="chapter-9"></a> ## CHAPTER 9 — WEATHERPROOF ENCLOSURE AND
+MECHANICAL INSTALLATION</p>
+<h3 id="enclosure-design">9.1 Enclosure Design</h3>
+<p>The weatherproof enclosure (openscad/enclosure_choke_hf.scad)
+protects wound toroid chokes from the following outdoor hazards:</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 75%" />
+</colgroup>
+<thead>
+<tr>
+<th>Hazard</th>
+<th>Protection method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rain/moisture</td>
+<td>O-ring sealed lid + drainage hole at bottom</td>
+</tr>
+<tr>
+<td>UV degradation</td>
+<td>ASA material (rated for 10+ years outdoor)</td>
+</tr>
+<tr>
+<td>Ice loading</td>
+<td>3.5mm walls + gusseted corners</td>
+</tr>
+<tr>
+<td>Wind vibration</td>
+<td>Ferrite standoff shelf; bead retainer clips</td>
+</tr>
+<tr>
+<td>Connector moisture</td>
+<td>Weatherproof cable gland / self-amal. tape at ports</td>
+</tr>
+<tr>
+<td>Thermal cycling</td>
+<td>ASA TCC &lt; 60 ppm/°C; minimal dimensional change</td>
+</tr>
+</tbody>
+</table>
+<p><strong>NEVER use PLA for outdoor enclosures.</strong> PLA softens at
+~60°C — easily reached in a dark enclosure in direct summer sun. ASA or
+PETG minimum.</p>
+<h3 id="printed-part-list-and-orientation">9.2 Printed Part List and
+Orientation</h3>
+<table>
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 38%" />
+<col style="width: 20%" />
+<col style="width: 14%" />
+</colgroup>
+<thead>
+<tr>
+<th>Part</th>
+<th>File</th>
+<th>Orientation</th>
+<th>Supports?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Choke body</td>
+<td>enclosure_choke_hf.scad</td>
+<td>Open side up</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Choke lid</td>
+<td>enclosure_choke_hf.scad</td>
+<td>Flat side down</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Port gland ×2</td>
+<td>enclosure_choke_hf.scad</td>
+<td>Upright</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Mast bracket</td>
+<td>mounting_brackets.scad</td>
+<td>Flat side down</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Wall bracket</td>
+<td>mounting_brackets.scad</td>
+<td>Any</td>
+<td>Optional</td>
+</tr>
+<tr>
+<td>Strain relief ×2</td>
+<td>mounting_brackets.scad</td>
+<td>Lower side down</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Core retainer ×2</td>
+<td>mounting_brackets.scad</td>
+<td>Flat side down</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Bead rail (opt)</td>
+<td>mounting_brackets.scad</td>
+<td>Side</td>
+<td>None</td>
+</tr>
+</tbody>
+</table>
+<h3 id="assembly-sequence">9.3 Assembly Sequence</h3>
+<ol type="1">
+<li><p><strong>Install heat-set inserts:</strong> M4 inserts in lid
+screw boss holes using 230°C soldering iron. Cool completely before
+threading any screws.</p></li>
+<li><p><strong>Prepare coax:</strong> Install connectors; test S11 (VSWR
+&lt; 1.1 at operating freq).</p></li>
+<li><p><strong>Wind core:</strong> Per Chapter 3 procedures. Wrap in
+self-amalgamating tape.</p></li>
+<li><p><strong>Place in enclosure:</strong> Set core on standoff shelf.
+Route pigtails to coax ports. Maintain 5mm clearance between coil and
+enclosure walls.</p></li>
+<li><p><strong>Install port connectors:</strong> Thread connectors
+through port holes. Apply silicone sealant around connector body from
+inside before tightening nut.</p></li>
+<li><p><strong>Apply O-ring:</strong> Place 3mm Viton or EPDM O-ring in
+lid groove. Apply thin bead of RTV silicone over O-ring before closing
+lid.</p></li>
+<li><p><strong>Close and secure:</strong> 4× M4 × 12mm pan-head
+stainless screws. Torque to 0.5 N·m (hand tight + 1/4 turn). Do not
+overtorque — will deform O-ring groove.</p></li>
+<li><p><strong>Label:</strong> Attach label to recess on lid:
+<code>CMC-1A  FT-240-31  10t RG-8X  160M–10M  Date: ______</code></p></li>
+</ol>
+<h3 id="mast-mounting">9.4 Mast Mounting</h3>
+<p><strong>U-bolt mast bracket</strong> (mounting_brackets.scad,
+<code>ubolt_mast_bracket()</code>): 1. Print bracket with mast_d
+parameter matching actual mast diameter. 2. Slide two M6 U-bolts through
+bracket slots (open toward mast). 3. Position bracket on mast at desired
+height; engage U-bolts around mast. 4. Thread M6 wing nuts; tighten to 8
+N·m (firm, not crushing plastic). 5. Mount choke enclosure to bracket
+with 4× M6 × 16mm stainless bolts. 6. Route coax with drip loop (lowest
+point of coax run below connector entry).</p>
+<p><strong>Drip loop:</strong> A downward loop in the coax below the
+choke forces water to drip off the cable before reaching the connector.
+Always install a drip loop on any outdoor coax connector.</p>
+<h3 id="inspection-and-maintenance">9.5 Inspection and Maintenance</h3>
+<table>
+<colgroup>
+<col style="width: 31%" />
+<col style="width: 15%" />
+<col style="width: 53%" />
+</colgroup>
+<thead>
+<tr>
+<th>Item</th>
+<th>Interval</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Visual check</td>
+<td>Annually</td>
+<td>Look for cracks, UV whitening, damaged tape</td>
+</tr>
+<tr>
+<td>O-ring condition</td>
+<td>Annually</td>
+<td>Replace if compressed flat or cracked</td>
+</tr>
+<tr>
+<td>Connector check</td>
+<td>Annually</td>
+<td>Check for corrosion; retighten</td>
+</tr>
+<tr>
+<td>Coil check</td>
+<td>5 years</td>
+<td>Open enclosure; inspect for moisture</td>
+</tr>
+<tr>
+<td>ASA enclosure</td>
+<td>10 years</td>
+<td>Replace if brittle or cracked</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Replacement schedule:</strong> Viton O-rings: 5–7 years
+outdoors. Self-amalgamating tape: replace UV tape wrap every 3 years;
+inner seal typically lasts 7–10 years.</p>
+<hr />
+<p><a name="chapter-10"></a> ## CHAPTER 10 — RFI TROUBLESHOOTING
+PROCEDURES</p>
+<h3 id="rfi-troubleshooting-philosophy">10.1 RFI Troubleshooting
+Philosophy</h3>
+<p><strong>Principle 1 — Identify the path, not just the
+source.</strong> A noise source matters only if there is a conduction or
+radiation path to the receiver. Block the path; you need not silence the
+source.</p>
+<p><strong>Principle 2 — Work from the receiver backward.</strong> Start
+at the radio; add chokes or filters at each successive point until noise
+disappears.</p>
+<p><strong>Principle 3 — Use the antenna bypass test.</strong>
+Disconnect the antenna; connect a 50Ω dummy load. If noise disappears:
+conducted path is through feedline or ground connection. If noise
+remains: noise is radiated and reaching the radio directly (or via power
+line).</p>
+<p><strong>Principle 4 — Measure before guessing.</strong> A clip-on RF
+current probe is the most useful RFI diagnostic tool. Clip it around
+each cable successively. The cable carrying the most RF current is the
+primary conduction path.</p>
+<h3 id="systematic-rfi-diagnostic-procedure">10.2 Systematic RFI
+Diagnostic Procedure</h3>
+<p><strong>Step 1 — Characterize the noise:</strong> a. Note frequency
+range (HF, VHF, specific bands) b. Note character (broadband hash,
+discrete tones, pulsed, periodic) c. Note correlation with house
+activity (appliances, lighting, computers) d. Note time of day pattern
+(neighborhood activity)</p>
+<p><strong>Step 2 — Antenna bypass test:</strong> a. Disconnect antenna;
+connect 50Ω dummy load to radio. b. If noise drops &gt;20 dB: noise
+enters via antenna/feedline. Go to Step 4. c. If noise drops &lt;5 dB:
+noise enters via power line or internal to radio. Go to Step 3.</p>
+<p><strong>Step 3 — Power line test:</strong> a. Run radio from battery
+(fully disconnect from AC mains). b. If noise drops: noise enters via
+power line. Install common-mode choke on power supply primary cable
+(before the supply); or use a line filter. c. If noise persists on
+battery: noise is broadband and entering radio directly (shielding
+issue, not common-mode).</p>
+<p><strong>Step 4 — Identify feedline current source:</strong> a. Clip
+RF current probe around coax at shack bulkhead entry. b. Note current
+level (reference measurement). c. Install 8× Mix 31 snap-on beads at
+bulkhead. Remeasure. d. If noise drops: common-mode current was entering
+at bulkhead. Source is outdoors (antenna environment). Add wound toroid
+at antenna feedpoint. e. If noise unchanged: current path is inside the
+shack. Clip probe around individual cables inside shack to find which
+one carries the most current.</p>
+<p><strong>Step 5 — Locate external source:</strong> a. Drive or walk
+around neighborhood with handheld receiver (HT or SDR + whip). b. Noise
+should get louder as you approach source. c. Note GPS coordinates of
+maximum field strength. d. Common external sources: LED street lights,
+LED household bulbs, plasma TVs, switching power supplies, variable
+speed motor drives, solar grid inverters.</p>
+<h3 id="symptom-specific-procedures">10.3 Symptom-Specific
+Procedures</h3>
+<p><strong>Symptom: S-meter deflects during transmit (RF in
+shack)</strong></p>
+<p>Diagnosis: Common-mode current on feedline returning to shack. Most
+common cause: unbalanced antenna (dipole center off-ground), or coax
+touching ground at wrong point, or single-ended (Marconi) antenna with
+poor ground system.</p>
+<p>Remedy sequence: 1. Install FT-240-31, 10 turns at antenna feedpoint.
+2. Verify coax route: no contact with ground for first 5m from
+feedpoint. 3. If problem persists: add second choke at shack entry. 4.
+Check that antenna is actually balanced (measure current on each
+leg).</p>
+<hr />
+<p><strong>Symptom: Received HF noise level rises after dark / certain
+hours</strong></p>
+<p>Diagnosis: Conducted or radiated noise from household electronics.
+Timed noise sources: LED dimmers on timers, HVAC variable-speed drives,
+neighbor’s electronics.</p>
+<p>Remedy sequence: 1. Battery test to isolate power line entry. 2. One
+by one, turn off breakers in your panel. Note which breaker drop reduces
+noise. That circuit is the conduction path. 3. Install common-mode choke
+on offending equipment power cable. 4. If noise is radiated from
+neighbor’s equipment: nothing to do at your station except install
+bandpass receive filters.</p>
+<hr />
+<p><strong>Symptom: 60Hz hum in receive audio, correlated with transmit
+power</strong></p>
+<p>Diagnosis: Ground loop. Common-mode TX current finding a path through
+the AC mains safety ground back to antenna.</p>
+<p>Remedy sequence: 1. Install FT-240-31 choke at feedpoint AND at shack
+entry. 2. Verify single-point ground: all station equipment grounds
+connect to ONE point at the station entrance ground rod. 3. Do NOT
+disconnect AC safety ground — this is a safety hazard. 4. Instead,
+install a 1:1 isolation transformer on audio paths between
+equipment.</p>
+<hr />
+<p><strong>Symptom: TVI on neighbor’s TV during HF
+transmission</strong></p>
+<p>Diagnosis: HF fundamental or harmonic coupling into TV coax or power
+lines. Most common on 15M (21 MHz) near TV channel harmonics.</p>
+<p>Remedy sequence: 1. Identify TV frequency affected. Cable TV:
+common-mode on house cable system. Antenna TV: HF radiation getting into
+TV antenna cable. 2. Offer to install snap-on beads on neighbor’s TV
+cable (at TV end and antenna end). 3. Check transmitter harmonic output:
+should be &lt;−50 dBc. 4. Add low-pass filter on transmitter output
+(Butterworth at 30 MHz).</p>
+<hr />
+<p><strong>Symptom: Audio rectification in
+telephone/speaker/intercom</strong></p>
+<p>Diagnosis: Strong RF field rectifying in audio semiconductor
+junctions. Occurs at close range or very high power.</p>
+<p>Remedy sequence: 1. Install ferrite chokes on all audio cables going
+to affected device (inside the device enclosure if possible). 2. Add
+0.01 µF ceramic bypass cap across audio input terminals. 3. Reduce power
+or change antenna direction/location. 4. As last resort: install
+RF-tight enclosure around affected device.</p>
+<h3 id="rfi-measurement-record">10.4 RFI Measurement Record</h3>
+<p><strong>Station RFI log</strong> — maintain before and after each
+modification:</p>
+<table>
+<colgroup>
+<col style="width: 7%" />
+<col style="width: 7%" />
+<col style="width: 23%" />
+<col style="width: 23%" />
+<col style="width: 23%" />
+<col style="width: 15%" />
+</colgroup>
+<thead>
+<tr>
+<th>Date</th>
+<th>Band</th>
+<th>S-unit noise floor</th>
+<th>Common-mode current</th>
+<th>Modification made</th>
+<th>Improvement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Minimum documentation: band, noise floor (S-units or dBm), and
+modification. Good documentation: add common-mode current (mA measured
+with clip probe) and insertion loss of choke (dB attenuation).</p>
+<hr />
+<p><a name="chapter-11"></a> ## CHAPTER 11 — BAND-BY-BAND QUICK
+REFERENCE</p>
+<h3 id="choke-selection-by-band">11.1 Choke Selection by Band</h3>
+<table>
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 8%" />
+<col style="width: 47%" />
+<col style="width: 6%" />
+<col style="width: 29%" />
+</colgroup>
+<thead>
+<tr>
+<th>Band</th>
+<th>Freq</th>
+<th>Best choke choice</th>
+<th>Turns</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>160M</td>
+<td>1.8 MHz</td>
+<td>FT-240-31 ×2 stacked, 10t RG-8X</td>
+<td>10</td>
+<td>High power: consider ugly balun</td>
+</tr>
+<tr>
+<td>80M</td>
+<td>3.5 MHz</td>
+<td>FT-240-31, 10t RG-8X</td>
+<td>10</td>
+<td>Single core excellent</td>
+</tr>
+<tr>
+<td>40M</td>
+<td>7.0 MHz</td>
+<td>FT-240-31 or -43, 10t</td>
+<td>10</td>
+<td>Either mix adequate</td>
+</tr>
+<tr>
+<td>30M</td>
+<td>10.1 MHz</td>
+<td>FT-240-43, 12t RG-8X</td>
+<td>12</td>
+<td>Mix 43 peak region</td>
+</tr>
+<tr>
+<td>20M</td>
+<td>14 MHz</td>
+<td>FT-240-43, 12t</td>
+<td>12</td>
+<td>Best single core for 20M</td>
+</tr>
+<tr>
+<td>17M</td>
+<td>18 MHz</td>
+<td>FT-240-43, 12t</td>
+<td>12</td>
+<td>Peak of Mix 43</td>
+</tr>
+<tr>
+<td>15M</td>
+<td>21 MHz</td>
+<td>FT-240-43, 12t</td>
+<td>12</td>
+<td>Excellent</td>
+</tr>
+<tr>
+<td>12M</td>
+<td>24.9 MHz</td>
+<td>FT-240-43, 12t</td>
+<td>12</td>
+<td>Excellent</td>
+</tr>
+<tr>
+<td>10M</td>
+<td>28 MHz</td>
+<td>FT-240-43, 8–12t</td>
+<td>10</td>
+<td>Still good impedance</td>
+</tr>
+<tr>
+<td>6M</td>
+<td>50 MHz</td>
+<td>FT-240-43, 8t OR ugly balun (2” coil)</td>
+<td>8</td>
+<td>Sleeve balun too long; use ferrite</td>
+</tr>
+<tr>
+<td>2M</td>
+<td>144 MHz</td>
+<td>Sleeve balun 500mm, or 6× FT-82-43 bead-on-coax</td>
+<td>N/A</td>
+<td>Sleeve preferred at feedpoint</td>
+</tr>
+<tr>
+<td>1.25M</td>
+<td>222 MHz</td>
+<td>Sleeve balun 325mm, or bead-on-coax</td>
+<td>N/A</td>
+<td>Sleeve 325mm practical</td>
+</tr>
+<tr>
+<td>70cm</td>
+<td>432 MHz</td>
+<td>Sleeve balun 167mm, or 8× FT-82-43</td>
+<td>N/A</td>
+<td>Both excellent</td>
+</tr>
+<tr>
+<td>33cm</td>
+<td>902 MHz</td>
+<td>Sleeve balun 80mm, or 10× FT-50-61</td>
+<td>N/A</td>
+<td>Either; sleeve very small</td>
+</tr>
+<tr>
+<td>23cm</td>
+<td>1296 MHz</td>
+<td>Sleeve balun 56mm, or bead-on-coax FT-50-61</td>
+<td>N/A</td>
+<td>Precision required for sleeve</td>
+</tr>
+</tbody>
+</table>
+<h3 id="field-day-quick-setup">11.2 Field Day Quick Setup</h3>
+<p><strong>Minimum CMC kit for a multi-band field station:</strong></p>
+<table>
+<colgroup>
+<col style="width: 35%" />
+<col style="width: 7%" />
+<col style="width: 25%" />
+<col style="width: 32%" />
+</colgroup>
+<thead>
+<tr>
+<th>Item</th>
+<th>Qty</th>
+<th>Bands covered</th>
+<th>Location</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FT-240-31, 10t RG-8X</td>
+<td>2</td>
+<td>160M–10M</td>
+<td>Each HF antenna feedpoint</td>
+</tr>
+<tr>
+<td>8× Mix31 + 4× Mix43</td>
+<td>12 beads</td>
+<td>All HF</td>
+<td>Shack bulkhead entry, all coax</td>
+</tr>
+<tr>
+<td>Sleeve balun 500mm</td>
+<td>1</td>
+<td>2M</td>
+<td>2M antenna feedpoint</td>
+</tr>
+<tr>
+<td>Sleeve balun 167mm</td>
+<td>1</td>
+<td>70cm</td>
+<td>70cm antenna feedpoint</td>
+</tr>
+</tbody>
+</table>
+<h3 id="maximum-choking-impedance-quick-reference">11.3 Maximum Choking
+Impedance Quick Reference</h3>
+<p>Based on best single-core configuration per band:</p>
+<table>
+<thead>
+<tr>
+<th>Band</th>
+<th>Best single choke</th>
+<th></th>
+<th>Z_max</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>160M</td>
+<td>FT-240-31, 12t</td>
+<td>5,200</td>
+<td>31.0</td>
+</tr>
+<tr>
+<td>80M</td>
+<td>FT-240-31, 12t</td>
+<td>7,600</td>
+<td>34.1</td>
+</tr>
+<tr>
+<td>40M</td>
+<td>FT-240-31, 12t</td>
+<td>9,700</td>
+<td>36.2</td>
+</tr>
+<tr>
+<td>20M</td>
+<td>FT-240-43, 12t</td>
+<td>5,819</td>
+<td>31.9</td>
+</tr>
+<tr>
+<td>10M</td>
+<td>FT-240-43, 12t</td>
+<td>6,393</td>
+<td>32.6</td>
+</tr>
+<tr>
+<td>6M</td>
+<td>FT-240-43, 8t</td>
+<td>2,163</td>
+<td>23.2</td>
+</tr>
+<tr>
+<td>2M</td>
+<td>Sleeve balun</td>
+<td>6,000+</td>
+<td>32.0+</td>
+</tr>
+<tr>
+<td>70cm</td>
+<td>Sleeve balun</td>
+<td>8,000+</td>
+<td>34.5+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>For maximum suppression at any single HF band:</strong> Stack
+two FT-240-31 cores. Combined |Z| approximately doubles; CMR improves 6
+dB.</p>
+<hr />
+<p><a name="appendix-a"></a> ## APPENDIX A — FERRITE CORE SPECIFICATION
+TABLES</p>
+<h3 id="a.1-fair-rite-material-properties-condensed">A.1 Fair-Rite
+Material Properties (condensed)</h3>
+<table>
+<thead>
+<tr>
+<th>Mix</th>
+<th>µ_i</th>
+<th>Tc (°C)</th>
+<th>Peak R freq</th>
+<th>Resistivity (Ω·cm)</th>
+<th>Sat (mT)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>31</td>
+<td>1500</td>
+<td>230</td>
+<td>2–20 MHz</td>
+<td>1×10³</td>
+<td>470</td>
+</tr>
+<tr>
+<td>43</td>
+<td>850</td>
+<td>200</td>
+<td>10–100 MHz</td>
+<td>1×10⁵</td>
+<td>320</td>
+</tr>
+<tr>
+<td>61</td>
+<td>125</td>
+<td>350</td>
+<td>100–1000 MHz</td>
+<td>1×10⁸</td>
+<td>235</td>
+</tr>
+<tr>
+<td>52</td>
+<td>250</td>
+<td>350</td>
+<td>100–1500 MHz</td>
+<td>5×10⁷</td>
+<td>320</td>
+</tr>
+<tr>
+<td>77</td>
+<td>2000</td>
+<td>200</td>
+<td>0.1–5 MHz</td>
+<td>1×10²</td>
+<td>460</td>
+</tr>
+</tbody>
+</table>
+<p>Data source: Fair-Rite Products Corp., Material Specification sheets,
+2023.</p>
+<h3 id="a.2-core-dimension-cross-reference-ft-amidon-designation">A.2
+Core Dimension Cross-Reference (FT = Amidon designation)</h3>
+<table>
+<thead>
+<tr>
+<th>Amidon</th>
+<th>Fair-Rite P/N prefix</th>
+<th>OD (mm)</th>
+<th>ID (mm)</th>
+<th>H (mm)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FT-240</td>
+<td>5943/5961/5977</td>
+<td>61.0</td>
+<td>35.6</td>
+<td>12.7</td>
+</tr>
+<tr>
+<td>FT-193</td>
+<td>5943/5961/5977</td>
+<td>49.0</td>
+<td>30.5</td>
+<td>13.0</td>
+</tr>
+<tr>
+<td>FT-140</td>
+<td>5943/5961/5977</td>
+<td>35.5</td>
+<td>22.9</td>
+<td>12.7</td>
+</tr>
+<tr>
+<td>FT-114</td>
+<td>5943/5961</td>
+<td>29.1</td>
+<td>19.1</td>
+<td>7.5</td>
+</tr>
+<tr>
+<td>FT-82</td>
+<td>5943/5961</td>
+<td>21.0</td>
+<td>13.0</td>
+<td>6.4</td>
+</tr>
+<tr>
+<td>FT-50</td>
+<td>5943/5961</td>
+<td>12.7</td>
+<td>7.7</td>
+<td>6.4</td>
+</tr>
+<tr>
+<td>FT-37</td>
+<td>5943/5961</td>
+<td>9.5</td>
+<td>4.7</td>
+<td>3.2</td>
+</tr>
+</tbody>
+</table>
+<h3 id="a.3-snap-on-bead-cross-reference">A.3 Snap-On Bead
+Cross-Reference</h3>
+<table>
+<thead>
+<tr>
+<th>Fair-Rite P/N</th>
+<th>Mix</th>
+<th>Aperture (mm)</th>
+<th>Cable max OD (mm)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0431167251</td>
+<td>31</td>
+<td>16.0</td>
+<td>15 (RG-8 marginal)</td>
+</tr>
+<tr>
+<td>0443167251</td>
+<td>43</td>
+<td>16.0</td>
+<td>15</td>
+</tr>
+<tr>
+<td>0461167251</td>
+<td>61</td>
+<td>16.0</td>
+<td>15</td>
+</tr>
+<tr>
+<td>0431164281</td>
+<td>31</td>
+<td>24.4</td>
+<td>23 (LMR-400 OK)</td>
+</tr>
+<tr>
+<td>0231167251</td>
+<td>31</td>
+<td>7.9</td>
+<td>7 (RG-58, RG-174)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><a name="appendix-b"></a> ## APPENDIX B — CHOKING IMPEDANCE EQUATIONS
+AND DESIGN NOMOGRAPHS</p>
+<h3 id="b.1-key-design-equations">B.1 Key Design Equations</h3>
+<p><strong>Inductance of wound toroid:</strong></p>
+<pre><code>L (nH) = A_L (nH/N²) × N²</code></pre>
+<p><strong>Inductive impedance (below material loss
+frequency):</strong></p>
+<pre><code>|Z_L| = 2π × f × L = 2π × f × A_L × N²</code></pre>
+<p><strong>Common-mode rejection:</strong></p>
+<pre><code>CMR (dB) = 20 × log₁₀(1 + |Z_choke| / |Z_path|)</code></pre>
+<p><strong>Sleeve balun physical length:</strong></p>
+<pre><code>l (mm) = VF × 75,000,000 / (4 × f_MHz × 1000)
+       = VF × 75,000 / (4 × f_MHz)</code></pre>
+<p>Where VF = 0.96 for air-spaced copper sleeve</p>
+<p><strong>Ugly balun inductance (Wheeler):</strong></p>
+<pre><code>L (µH) = [r² × N²] / [9r + 10l]</code></pre>
+<p>Where r, l in inches; result in µH</p>
+<p><strong>Coil self-resonant frequency:</strong></p>
+<pre><code>f_SR (MHz) = 1000 / (2π × √(L_µH × C_pF))</code></pre>
+<h3 id="b.2-minimum-turns-for-target-impedance-mix-31-ft-240">B.2
+Minimum Turns for Target Impedance (Mix 31, FT-240)</h3>
+<p>Target |Z| = 2000 Ω at frequency f using FT-240-31 (A_L = 1800
+nH/N²): L_need = 2000 / (2π × f) N = √(L_need × 10⁹ / A_L)</p>
+<table>
+<thead>
+<tr>
+<th>f (MHz)</th>
+<th>L_need (µH)</th>
+<th>N (turns)</th>
+<th>Actual</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.8</td>
+<td>176.9</td>
+<td>314</td>
+<td>Use 12t+measured data</td>
+</tr>
+<tr>
+<td>3.5</td>
+<td>90.9</td>
+<td>225</td>
+<td>NOTE: above ~8 MHz, resistive</td>
+</tr>
+<tr>
+<td>7.0</td>
+<td>45.5</td>
+<td>159</td>
+<td>component dominates</td>
+</tr>
+<tr>
+<td>14.0</td>
+<td>22.7</td>
+<td>112</td>
+<td>Use measured table</td>
+</tr>
+</tbody>
+</table>
+<p><strong>IMPORTANT:</strong> The above calculation is purely inductive
+and overestimates required turns at HF because it ignores the large
+resistive (loss) component of Mix 31 above ~3 MHz. Measured impedance
+tables show only 10 turns achieves |Z| = 4250 Ω at 14 MHz — far better
+than inductance formula predicts. Always use measured data tables for
+choke design.</p>
+<hr />
+<p><a name="appendix-c"></a> ## APPENDIX C — COMMON-MODE REJECTION
+MEASUREMENT PROCEDURE</p>
+<h3 id="c.1-required-equipment">C.1 Required Equipment</h3>
+<ul>
+<li>VNA (NanoVNA-H4 or better; 2-port preferred)</li>
+<li>Two BNC tees or SMA tees</li>
+<li>Short coaxial patch cables ×4</li>
+<li>Device under test (choke)</li>
+<li>50Ω termination ×2</li>
+</ul>
+<h3 id="c.2-common-mode-measurement-fixture">C.2 Common-Mode Measurement
+Fixture</h3>
+<p>The standard method (per W1JR / W2DU) uses a transmission measurement
+where both ports of the VNA are driven in common mode:</p>
+<pre><code>         R_load (50Ω)
+PORT1 ───┤├─────────────────────────────────── PORT2
+(+)      C_block                               (+)
+         
+PORT1 ──┐                             ┌─── PORT2
+(GND)   │  Both grounds joined ──── ──┘   (GND)
+        │  (common mode injection)
+        │  CHOKE connected in common-mode path here
+        │  Outer conductors joined; center conductors = two ports</code></pre>
+<p><strong>Simplified fixture (single port):</strong> 1. Short center
+conductor to outer conductor at the FAR end of choke. 2. Connect choke
+(far end shorted) to PORT1 of NanoVNA, configured for Z display. 3.
+NanoVNA reads directly the common-mode impedance = R + jX. 4. Read |Z| =
+√(R² + X²) at each frequency. 5. Calculate CMR per Appendix B.B.1 with
+estimated Z_path = 150 Ω.</p>
+<h3 id="c.3-field-measurement-with-rf-current-probe">C.3 Field
+Measurement with RF Current Probe</h3>
+<p><strong>Equipment:</strong> Clip-on RF current probe (AIM-TTi H-503,
+or homebrew using small toroid and millivoltmeter)</p>
+<p><strong>Procedure:</strong> 1. Transmit into antenna at known power
+(e.g., 10W = 13.0 dBm nominal). 2. Clip probe around feed coax at
+antenna feedpoint. Read current I_CM. 3. Common-mode impedance of path ≈
+V_source / I_CM where V_source = √(P × Z) = √(10 × 50) = 22.4V RMS at
+10W/50Ω. 4. Install choke. Repeat measurement. 5. Improvement = 20 ×
+log₁₀(I_before / I_after) dB.</p>
+<p><strong>Typical results with good choke:</strong> Before choke: I_CM
+= 5–50 mA (typical unbalanced feedpoint) After choke: I_CM = 0.5–2 mA →
+improvement 8–20 dB per choke</p>
+<hr />
+<p><a name="appendix-d"></a> ## APPENDIX D — PARTS SOURCES AND
+EQUIVALENTS</p>
+<h3 id="d.1-primary-suppliers">D.1 Primary Suppliers</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 39%" />
+<col style="width: 34%" />
+</colgroup>
+<thead>
+<tr>
+<th>Supplier</th>
+<th>Products</th>
+<th>URL / contact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Palomar Engineers</td>
+<td>FT-240, FT-140, all mixes</td>
+<td>palomar-engineers.com</td>
+</tr>
+<tr>
+<td>Mouser Electronics</td>
+<td>Fair-Rite cores and beads</td>
+<td>mouser.com</td>
+</tr>
+<tr>
+<td>Digi-Key</td>
+<td>Fair-Rite, Laird beads</td>
+<td>digikey.com</td>
+</tr>
+<tr>
+<td>Amidon Associates</td>
+<td>FT series cores, all mixes</td>
+<td>amidoncorp.com</td>
+</tr>
+<tr>
+<td>KF7P Metalwerks</td>
+<td>Pre-wound choke baluns</td>
+<td>kf7p.com</td>
+</tr>
+<tr>
+<td>DX Engineering</td>
+<td>Coaxial chokes, assembled</td>
+<td>dxengineering.com</td>
+</tr>
+<tr>
+<td>Fair-Rite Products</td>
+<td>Manufacturer, all materials</td>
+<td>fair-rite.com</td>
+</tr>
+</tbody>
+</table>
+<h3 id="d.2-core-equivalents">D.2 Core Equivalents</h3>
+<table>
+<thead>
+<tr>
+<th>Amidon / Palomar</th>
+<th>Fair-Rite P/N (Mix 31)</th>
+<th>Fair-Rite P/N (Mix 43)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FT-240-31</td>
+<td>5943002701</td>
+<td>5943002701 (Mix43 request)</td>
+</tr>
+<tr>
+<td>FT-240-43</td>
+<td>5943002401</td>
+<td>(order -43 suffix)</td>
+</tr>
+<tr>
+<td>FT-140-43</td>
+<td>5943001401</td>
+<td></td>
+</tr>
+<tr>
+<td>FT-82-43</td>
+<td>5943000801</td>
+<td></td>
+</tr>
+<tr>
+<td>Snap-on 1.125”</td>
+<td>0431167251 (Mix31)</td>
+<td>0443167251 (Mix43)</td>
+</tr>
+<tr>
+<td>Snap-on 2.4”</td>
+<td>0431164281 (Mix31)</td>
+<td>0443164281 (Mix43)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="d.3-weatherproofing-materials">D.3 Weatherproofing
+Materials</h3>
+<table>
+<colgroup>
+<col style="width: 38%" />
+<col style="width: 32%" />
+<col style="width: 29%" />
+</colgroup>
+<thead>
+<tr>
+<th>Item</th>
+<th>Brand/Type</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Self-amalgamating tape</td>
+<td>3M 23 Scotch</td>
+<td>Electrical suppliers</td>
+</tr>
+<tr>
+<td>UV-resistant vinyl tape</td>
+<td>3M Temflex 1700 (black)</td>
+<td>Hardware stores</td>
+</tr>
+<tr>
+<td>Silicone RTV sealant</td>
+<td>Dow Corning 795</td>
+<td>Hardware stores</td>
+</tr>
+<tr>
+<td>Viton O-ring 3mm CS</td>
+<td>Parker 2-131 or equiv</td>
+<td>McMaster-Carr</td>
+</tr>
+<tr>
+<td>ASA filament</td>
+<td>Polymaker PolyLite ASA</td>
+<td>Amazon, Filamentive</td>
+</tr>
+</tbody>
+</table>
+<h3 id="d.4-test-equipment">D.4 Test Equipment</h3>
+<table>
+<colgroup>
+<col style="width: 34%" />
+<col style="width: 30%" />
+<col style="width: 34%" />
+</colgroup>
+<thead>
+<tr>
+<th>Item</th>
+<th>Minimum spec</th>
+<th>Recommended model</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VNA (component analyzer)</td>
+<td>1–300 MHz, 2-port</td>
+<td>NanoVNA-H4 (&lt; $50)</td>
+</tr>
+<tr>
+<td>RF current probe</td>
+<td>1–300 MHz clip-on</td>
+<td>AIM-TTi H-503 or homebrew</td>
+</tr>
+<tr>
+<td>Audio frequency analyzer</td>
+<td>For audio filter tests</td>
+<td>PC soundcard + REW software</td>
+</tr>
+<tr>
+<td>Field strength meter</td>
+<td>1–500 MHz handheld</td>
+<td>TinySA or similar SDR</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>End of Technical Manual TM-CMC-001 Revision A</em></p>
+<p><em>Data spreadsheet:</em>
+<code>data/ferrite_impedance_table.ods</code> (8 worksheets)
+<em>Schematic files:</em> -
+<code>schematics/sch_toroid_choke_hf.txt</code> — FT-240 wound chokes -
+<code>schematics/sch_snapon_beads.txt</code> — Snap-on bead stacks -
+<code>schematics/sch_ugly_balun_and_bead_coax.txt</code> — Ugly balun +
+bead-on-coax - <code>schematics/sch_sleeve_balun_vhf_uhf.txt</code> —
+VHF/UHF sleeve balun</p>
+<p><em>3D print files:</em> -
+<code>openscad/enclosure_choke_hf.scad</code> — Weatherproof HF choke
+enclosure - <code>openscad/mounting_brackets.scad</code> — Mast, wall,
+tower, and bead rail brackets</p>
+<p><em>Related documents:</em> - TM-SG-001 — VFO/Signal Generator (for
+impedance measurement signal source) - TM-AF-001 — Audio Filters (for
+received noise reduction)</p>
+
+            </main>
+        </div>
+    </div>
+</body>
+</html>

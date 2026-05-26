@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baluns and Ununs - Merv's Dump</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Dump</h1>
+                    <p class="tagline">When you build it, it teaches.</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+            <nav>
+                <h3>Main Navigation</h3>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about/bio.html">About</a></li>
+                </ul>
+
+                <details class="nav-group">
+                    <summary>Antennas</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/antennas/phased_array_of_2/">2-Element Phased Array</a></li>
+                    <li><a href="/antennas/phased_array_of_4/">4-Element Phased Array</a></li>
+                    <li><a href="/antennas/active_receiving/">Active Receiving</a></li>
+                    <li><a href="/antennas/beverage_receiving/">Beverage (Receiving)</a></li>
+                    <li><a href="/antennas/cage_dipole/">Cage Dipole</a></li>
+                    <li><a href="/antennas/collinear_array/">Collinear Array</a></li>
+                    <li><a href="/antennas/compact-dipole/">Compact Dipole</a></li>
+                    <li><a href="/antennas/cross_polarized/">Cross-Polarized</a></li>
+                    <li><a href="/antennas/cubical_quad/">Cubical Quad</a></li>
+                    <li><a href="/antennas/delta_loop_40m/">Delta Loop (40m)</a></li>
+                    <li><a href="/antennas/dipole/">Dipole</a></li>
+                    <li><a href="/antennas/discone/">Discone</a></li>
+                    <li><a href="/antennas/double_bazooka/">Double Bazooka</a></li>
+                    <li><a href="/antennas/end_fed_half_wave/">EFHW</a></li>
+                    <li><a href="/antennas/end_fed_quarter_wave/">EFQW</a></li>
+                    <li><a href="/antennas/end_fed_random_wire/">EFRW</a></li>
+                    <li><a href="/antennas/elevated_radials/">Elevated Radials</a></li>
+                    <li><a href="/antennas/end_fed_zepp/">End-Fed Zepp</a></li>
+                    <li><a href="/antennas/extended_double_zepp/">Extended Double Zepp</a></li>
+                    <li><a href="/antennas/fan_dipole/">Fan Dipole</a></li>
+                    <li><a href="/antennas/flagpole/">Flagpole</a></li>
+                    <li><a href="/antennas/flower_pot/">Flowerpot</a></li>
+                    <li><a href="/antennas/folded_dipole/">Folded Dipole</a></li>
+                    <li><a href="/antennas/folded_dipole_2conductor/">Folded Dipole (2-cond)</a></li>
+                    <li><a href="/antennas/folded_dipole_3conductor/">Folded Dipole (3-cond)</a></li>
+                    <li><a href="/antennas/frame_loop/">Frame Loop</a></li>
+                    <li><a href="/antennas/full_wave_loop/">Full-Wave Loop</a></li>
+                    <li><a href="/antennas/g5rv/">G5RV</a></li>
+                    <li><a href="/antennas/gmrs_loaded_vertical/">GMRS Loaded Vertical</a></li>
+                    <li><a href="/antennas/ground_plane/">Ground Plane</a></li>
+                    <li><a href="/antennas/helical/">Helical</a></li>
+                    <li><a href="/antennas/helical_antenna_2m_satellite/">Helical (2m Satellite)</a></li>
+                    <li><a href="/antennas/hentenna/">Hentenna</a></li>
+                    <li><a href="/antennas/hex_loop/">Hex Loop</a></li>
+                    <li><a href="/antennas/inverted_l_40m/">Inverted-L (40m)</a></li>
+                    <li><a href="/antennas/inverted_vee_dipole/">Inverted-V</a></li>
+                    <li><a href="/antennas/j_pole/">J-Pole</a></li>
+                    <li><a href="/antennas/k9ay_loop_40m/">K9AY Loop (40m)</a></li>
+                    <li><a href="/antennas/kmr_400_magnetic_loop/">KMR-400 Mag Loop</a></li>
+                    <li><a href="/antennas/log_periodic_dipole_arrays_for_wideband_operation/">LPDA Wideband</a></li>
+                    <li><a href="/antennas/loaded_vertical_hf/">Loaded Vertical (HF)</a></li>
+                    <li><a href="/antennas/log_periodic/">Log Periodic</a></li>
+                    <li><a href="/antennas/magnetic_loop_antennas/">Magnetic Loop</a></li>
+                    <li><a href="/antennas/moxon/">Moxon Rectangle</a></li>
+                    <li><a href="/antennas/near_vertical_incidence_skywave/">NVIS</a></li>
+                    <li><a href="/antennas/ocfd_windom/">OCFD / Windom</a></li>
+                    <li><a href="/antennas/octal_loop/">Octal Loop</a></li>
+                    <li><a href="/antennas/off_center_fed_dipole/">Off-Center Fed</a></li>
+                    <li><a href="/antennas/patch_antenna_2.4_ghz/">Patch (2.4 GHz)</a></li>
+                    <li><a href="/antennas/portable_magnetic_loop/">Portable Mag Loop</a></li>
+                    <li><a href="/antennas/rhombic/">Rhombic</a></li>
+                    <li><a href="/antennas/rybakov/">Rybakov</a></li>
+                    <li><a href="/antennas/satellite_yagi_antenna/">Satellite Yagi</a></li>
+                    <li><a href="/antennas/screwdriver/">Screwdriver</a></li>
+                    <li><a href="/antennas/shunt_fed/">Shunt-Fed Vertical</a></li>
+                    <li><a href="/antennas/slim_jim/">Slim Jim</a></li>
+                    <li><a href="/antennas/slinky_antenna_20m_portable/">Slinky (20m)</a></li>
+                    <li><a href="/antennas/sloped_dipole/">Sloped Dipole</a></li>
+                    <li><a href="/antennas/slot_antenna_uhf/">Slot Antenna (UHF)</a></li>
+                    <li><a href="/antennas/t_antenna/">T-Antenna</a></li>
+                    <li><a href="/antennas/tilted_terminated_folded_dipole/">T2FD</a></li>
+                    <li><a href="/antennas/tape_antennas/">Tape Antennas</a></li>
+                    <li><a href="/antennas/tape_measure_yagi/">Tape Measure Yagi</a></li>
+                    <li><a href="/antennas/telescopic/">Telescopic</a></li>
+                    <li><a href="/antennas/telescopic_vertical/">Telescopic Vertical</a></li>
+                    <li><a href="/antennas/terminated_folded_dipole/">Terminated Folded Dipole</a></li>
+                    <li><a href="/antennas/terminated_sloper_receiving/">Terminated Sloper</a></li>
+                    <li><a href="/antennas/trap_dipole/">Trap Dipole</a></li>
+                    <li><a href="/antennas/traveling_wave_vertical/">Traveling Wave Vertical</a></li>
+                    <li><a href="/antennas/turnstile/">Turnstile</a></li>
+                    <li><a href="/antennas/v_beam/">V-Beam</a></li>
+                    <li><a href="/antennas/vertical_dipole/">Vertical Dipole</a></li>
+                    <li><a href="/antennas/yagi_uda/">Yagi-Uda</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group">
+                    <summary>Antenna Gear</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/antenna_gear/ant_switches/">Antenna Switches</a></li>
+                    <li><a href="/antenna_gear/audio_filters/">Audio Filters</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/">Baluns And Ununs</a></li>
+                    <li><a href="/antenna_gear/bms/">BMS</a></li>
+                    <li><a href="/antenna_gear/coax_traps/">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/coil_winder/">Coil Winder</a></li>
+                    <li><a href="/antenna_gear/common_mode_chokes/">Common Mode Chokes</a></li>
+                    <li><a href="/antenna_gear/crystal_radio/">Crystal Radio</a></li>
+                    <li><a href="/antenna_gear/hybrids/">Hybrids</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/">Lightning Protection</a></li>
+                    <li><a href="/antenna_gear/mast_tower/">Mast Tower</a></li>
+                    <li><a href="/antenna_gear/motorized_tuner/">Motorized Tuner</a></li>
+                    <li><a href="/antenna_gear/power_supplies/">Power Supplies</a></li>
+                    <li><a href="/antenna_gear/remote-element-switching/">Remote Element Switching</a></li>
+                    <li><a href="/antenna_gear/rf_couplers/">RF Couplers</a></li>
+                    <li><a href="/antenna_gear/rfi_mitigation/">RFI Mitigation</a></li>
+                    <li><a href="/antenna_gear/roller_inductors/">Roller Inductors</a></li>
+                    <li><a href="/antenna_gear/transmatch/">Transmatch</a></li>
+                    <li><a href="/antenna_gear/variable_caps/">Variable Capacitors</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group">
+                    <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/adf_systems/">ADF Systems</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/antenna_modeling/">Antenna Modeling</a></li>
+                    <li><a href="/antenna_tools/dummy_loads/">Dummy Loads</a></li>
+                    <li><a href="/antenna_tools/field_strength_meter/">Field Strength Meter</a></li>
+                    <li><a href="/antenna_tools/noise_bridge/">Noise Bridge</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/">RF Power Meter</a></li>
+                    <li><a href="/antenna_tools/rf_power_meters/">RF Power Meters</a></li>
+                    <li><a href="/antenna_tools/sdr_interfaces/">SDR Interfaces</a></li>
+                    <li><a href="/antenna_tools/swr_meter/">SWR Meter</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group">
+                    <summary>Calibration</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/calibration/1013d-plus-oscilloscope/">1013D Plus Oscilloscope</a></li>
+                    <li><a href="/calibration/antenna-analyzer/">Antenna Analyzer</a></li>
+                    <li><a href="/calibration/audio-oscillator/">Audio Oscillator</a></li>
+                    <li><a href="/calibration/bm4070-digital-lcr-tester/">BM4070 Digital LCR Tester</a></li>
+                    <li><a href="/calibration/capacitance-meter/">Capacitance Meter</a></li>
+                    <li><a href="/calibration/current-source/">Current Source</a></li>
+                    <li><a href="/calibration/decade-capacitance-box/">Decade Capacitance Box</a></li>
+                    <li><a href="/calibration/decade-inductance-box/">Decade Inductance Box</a></li>
+                    <li><a href="/calibration/decade-resistance-box/">Decade Resistance Box</a></li>
+                    <li><a href="/calibration/dip-meter-grid-dip-oscillator/">Dip Meter Grid Dip Oscillator</a></li>
+                    <li><a href="/calibration/dso138-digital-oscilloscope/">DSO138 Digital Oscilloscope</a></li>
+                    <li><a href="/calibration/dummy-load-50-ohm/">Dummy Load 50 Ohm</a></li>
+                    <li><a href="/calibration/field-strength-meter/">Field Strength Meter</a></li>
+                    <li><a href="/calibration/fluke-15b-multimeter/">Fluke 15B Multimeter</a></li>
+                    <li><a href="/calibration/fm-broadcast/">Fm Broadcast</a></li>
+                    <li><a href="/calibration/frequency-counter/">Frequency Counter</a></li>
+                    <li><a href="/calibration/frequency-standard-gpsdo/">Frequency Standard GPSDO</a></li>
+                    <li><a href="/calibration/function-generator/">Function Generator</a></li>
+                    <li><a href="/calibration/gps-reference/">GPS Reference</a></li>
+                    <li><a href="/calibration/impedance-bridge/">Impedance Bridge</a></li>
+                    <li><a href="/calibration/inductance-meter/">Inductance Meter</a></li>
+                    <li><a href="/calibration/lcr-meter/">LCR Meter</a></li>
+                    <li><a href="/calibration/modulation-analyzer/">Modulation Analyzer</a></li>
+                    <li><a href="/calibration/multimeter-dmm/">Multimeter DMM</a></li>
+                    <li><a href="/calibration/nanovna/">Nanovna</a></li>
+                    <li><a href="/calibration/nanovna-vector-network-analyzer/">NanoVNA Vector Network Analyzer</a></li>
+                    <li><a href="/calibration/noise-figure-meter/">Noise Figure Meter</a></li>
+                    <li><a href="/calibration/oscilloscope/">Oscilloscope</a></li>
+                    <li><a href="/calibration/q-meter/">Q Meter</a></li>
+                    <li><a href="/calibration/radio-standards/">Radio Standards</a></li>
+                    <li><a href="/calibration/rf-attenuator-set/">RF Attenuator Set</a></li>
+                    <li><a href="/calibration/rf-power-meter/">RF Power Meter</a></li>
+                    <li><a href="/calibration/rf-probe-detector/">RF Probe Detector</a></li>
+                    <li><a href="/calibration/rf-signal-tracer/">RF Signal Tracer</a></li>
+                    <li><a href="/calibration/signal-generator/">Signal Generator</a></li>
+                    <li><a href="/calibration/simpson-260-series-3-analog-multimeter/">Simpson 260 Series 3 Analog Multimeter</a></li>
+                    <li><a href="/calibration/swr-meter/">SWR Meter</a></li>
+                    <li><a href="/calibration/tinysa-spectrum-analyzer/">TinySA Spectrum Analyzer</a></li>
+                    <li><a href="/calibration/verification/">Verification</a></li>
+                    <li><a href="/calibration/voltage-reference/">Voltage Reference</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group">
+                    <summary>Calibration Ideas</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/Calibration_Ideas/ac_mains_reference/">AC Mains Reference</a></li>
+                    <li><a href="/Calibration_Ideas/attenuator_pad_standards/">Attenuator Pad Standards</a></li>
+                    <li><a href="/Calibration_Ideas/coax_capacitance_standard/">Coax Capacitance Standard</a></li>
+                    <li><a href="/Calibration_Ideas/dummy_load_power_standard/">Dummy Load Power Standard</a></li>
+                    <li><a href="/Calibration_Ideas/field_strength_reference/">Field Strength Reference</a></li>
+                    <li><a href="/Calibration_Ideas/fm_broadcast_reference/">FM Broadcast Reference</a></li>
+                    <li><a href="/Calibration_Ideas/gps_1pps_reference/">GPS 1PPS Reference</a></li>
+                    <li><a href="/Calibration_Ideas/gpsdo_reference/">GPSDO Reference</a></li>
+                    <li><a href="/Calibration_Ideas/kelvin_resistance_standard/">Kelvin Resistance Standard</a></li>
+                    <li><a href="/Calibration_Ideas/known_length_dipole_standard/">Known Length Dipole Standard</a></li>
+                    <li><a href="/Calibration_Ideas/lc_resonance_standard/">LC Resonance Standard</a></li>
+                    <li><a href="/Calibration_Ideas/precision_resistor_network/">Precision Resistor Network</a></li>
+                    <li><a href="/Calibration_Ideas/precision_voltage_reference/">Precision Voltage Reference</a></li>
+                    <li><a href="/Calibration_Ideas/rc_time_constant_standard/">RC Time Constant Standard</a></li>
+                    <li><a href="/Calibration_Ideas/wheatstone_bridge/">Wheatstone Bridge</a></li>
+                    <li><a href="/Calibration_Ideas/wwv_wwvh_reference/">WWV/WWVH Reference</a></li>
+                    <li><a href="/Calibration_Ideas/zener_divider_reference/">Zener Divider Reference</a></li>
+                </ul>
+                </details>
+
+<details class="nav-group" open>
+    <summary>Study & Training</summary>
+    <ul>
+                    <li><a href="/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                    <li><a href="/study/morse.html">Morse Code Practice</a></li>
+                </ul>
+</details>
+
+</nav>
+            <main>
+<h1 id="balun-and-unun-system">BALUN AND UNUN SYSTEM</h1>
+<h2 id="technical-manual">TECHNICAL MANUAL</h2>
+<p><strong>Document Number:</strong> TM-BAL-001 Rev A<br />
+<strong>Equipment:</strong> Baluns (1:1, 4:1, 6:1, 9:1) and Ununs (4:1,
+9:1, 16:1, 49:1, 64:1)<br />
+<strong>Frequency Coverage:</strong> 1.8 MHz – 1.3 GHz (160M through
+23cm)<br />
+<strong>Classification:</strong> UNCLASSIFIED — Amateur Radio / Field
+Use<br />
+<strong>Date:</strong> 2026-05-24<br />
+<strong>Supersedes:</strong> None (initial issue)</p>
+<hr />
+<pre><code>CHAPTER/SECTION                                                    PAGE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CHAPTER 1   INTRODUCTION — IMPEDANCE TRANSFORMATION THEORY  . . .  1-1
+CHAPTER 2   FERRITE CORE MATERIALS AND SELECTION  . . . . . . . .  2-1
+CHAPTER 3   WINDING TECHNIQUES AND CONSTRUCTION . . . . . . . . .  3-1
+CHAPTER 4   CURRENT BALUN vs VOLTAGE BALUN DESIGN  . . . . . . .  4-1
+CHAPTER 5   COMMON-MODE CHOKE THEORY AND DESIGN . . . . . . . . .  5-1
+CHAPTER 6   UNUN THEORY AND APPLICATIONS  . . . . . . . . . . . .  6-1
+CHAPTER 7   BAND-SPECIFIC DESIGN GUIDE  . . . . . . . . . . . . .  7-1
+CHAPTER 8   FIELD CONSTRUCTION AND WEATHERPROOFING  . . . . . . .  8-1
+CHAPTER 9   TEST AND VERIFICATION PROCEDURES  . . . . . . . . . .  9-1
+CHAPTER 10  TROUBLESHOOTING  . . . . . . . . . . . . . . . . . . 10-1
+APPENDIX A  WINDING TABLES — BALUNS . . . . . . . . . . . . . . .  A-1
+APPENDIX B  WINDING TABLES — UNUNS  . . . . . . . . . . . . . . .  B-1
+APPENDIX C  FERRITE CORE SPECIFICATIONS . . . . . . . . . . . . .  C-1
+APPENDIX D  PARTS LIST AND SOURCING . . . . . . . . . . . . . . .  D-1
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</code></pre>
+<h2 id="record-of-changes">RECORD OF CHANGES</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Change No.</th>
+<th style="text-align: center;">Rev</th>
+<th style="text-align: center;">Date</th>
+<th>Description</th>
+<th style="text-align: center;">By</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">2026-05-24</td>
+<td>Initial issue — all chapters</td>
+<td style="text-align: center;">M. Martin</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="chapter-1-introduction-impedance-transformation-theory">CHAPTER
+1 — INTRODUCTION: IMPEDANCE TRANSFORMATION THEORY</h2>
+<h3 id="scope">1.1 Scope</h3>
+<p>This manual covers the design, construction, installation, and
+testing of baluns and ununs for portable and fixed amateur radio antenna
+systems operating on 160 meters (1.8 MHz) through the 23-centimeter band
+(1296 MHz). Balun designs covered: 1:1 common-mode choke, 4:1 Guanella
+current balun, 6:1 trifilar, 9:1 trifilar. Unun designs covered: 4:1,
+9:1, 16:1, 49:1, 64:1.</p>
+<h3 id="impedance-transformation-why-it-is-required">1.2 Impedance
+Transformation — Why It Is Required</h3>
+<p>Standard RF transmission systems operate at 50 ohms. Antenna
+feedpoint impedances vary widely:</p>
+<table>
+<thead>
+<tr>
+<th>Antenna Type</th>
+<th>Feedpoint Impedance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Resonant half-wave dipole</td>
+<td>50–73 Ω</td>
+</tr>
+<tr>
+<td>Folded dipole</td>
+<td>200–300 Ω</td>
+</tr>
+<tr>
+<td>Off-center fed dipole</td>
+<td>150–300 Ω</td>
+</tr>
+<tr>
+<td>Random wire / longwire</td>
+<td>50–600 Ω (variable)</td>
+</tr>
+<tr>
+<td>End-fed half-wave (EFHW)</td>
+<td>1000–5000 Ω</td>
+</tr>
+<tr>
+<td>High-Q loop</td>
+<td>10–50 Ω or 1000+ Ω</td>
+</tr>
+</tbody>
+</table>
+<p>Direct connection of a mismatched impedance causes: elevated SWR,
+reduced power transfer efficiency, and receiver noise figure
+degradation.</p>
+<h3 id="impedance-ratio-and-turns-ratio">1.3 Impedance Ratio and Turns
+Ratio</h3>
+<p>The impedance transformation ratio equals the square of the turns
+ratio:</p>
+<pre><code>Z_ratio = (N_secondary / N_primary)²</code></pre>
+<p>Example — 4:1 transformation (200Ω antenna → 50Ω feedline):</p>
+<pre><code>N_ratio = √4 = 2
+Turns: 3 primary, 6 secondary (2:1 ratio)
+Z_out = 200 / 4 = 50 Ω</code></pre>
+<p>Voltage and current relationships for a lossless transformer:</p>
+<pre><code>V_out / V_in = N_primary / N_secondary
+I_out / I_in = N_secondary / N_primary
+P_in = P_out   (minus resistive losses)</code></pre>
+<h3 id="balun-vs-unun-definitions">1.4 Balun vs Unun — Definitions</h3>
+<p><strong>BALUN (Balanced to Unbalanced):</strong> - Input: balanced —
+two conductors carrying equal and opposite signals - Output: unbalanced
+— single conductor plus shield - Requires common-mode suppression
+(ferrite choke action) - Applications: center-fed dipoles, folded
+dipoles, balanced feedline systems</p>
+<p><strong>UNUN (Unbalanced to Unbalanced):</strong> - Input: unbalanced
+— single conductor plus ground reference - Output: unbalanced — coaxial
+feedline - Provides impedance transformation only; no common-mode
+suppression - Applications: random wires, longwires, end-fed
+antennas</p>
+<pre><code>CRITICAL DISTINCTION: Baluns suppress common-mode current through ferrite
+impedance.  Ununs provide impedance transformation only.  Using a unun where
+a balun is needed will not suppress feedline radiation.</code></pre>
+<h3 id="transmission-line-transformer-guanella-principle">1.5
+Transmission-Line Transformer (Guanella) Principle</h3>
+<p>A transmission-line transformer uses ferrite-loaded coaxial segments
+rather than simple wire windings. Each segment acts as a transmission
+line with characteristic impedance Z_c.</p>
+<p>Characteristic impedance of RG-58 wound on ferrite:</p>
+<pre><code>Z_c ≈ 100 Ω</code></pre>
+<p>Guanella 4:1 balun — series-parallel configuration:</p>
+<pre><code>Two TL segments in series on primary (antenna): 100 + 100 = 200 Ω input
+Two TL segments in parallel on secondary (feedline): 100 ∥ 100 = 50 Ω output
+Impedance ratio: 200 / 50 = 4:1</code></pre>
+<p>Advantages over simple transformer: superior common-mode suppression,
+tighter phase coherence, and excellent bandwidth (±50% frequency
+range).</p>
+<h3 id="insertion-loss">1.6 Insertion Loss</h3>
+<p>Balun insertion loss depends on ferrite material loss, wire
+resistance, and turns count. Typical values at HF:</p>
+<table>
+<thead>
+<tr>
+<th>Device</th>
+<th>Insertion Loss</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1:1 choke</td>
+<td>0.08–0.15 dB</td>
+</tr>
+<tr>
+<td>4:1 Guanella</td>
+<td>0.15–0.25 dB</td>
+</tr>
+<tr>
+<td>9:1 trifilar</td>
+<td>0.30–0.50 dB</td>
+</tr>
+<tr>
+<td>4:1 voltage unun</td>
+<td>0.08–0.12 dB</td>
+</tr>
+<tr>
+<td>49:1 EFHW unun</td>
+<td>0.20–0.40 dB</td>
+</tr>
+</tbody>
+</table>
+<p>Power dissipated as heat at 500 W input with 0.2 dB insertion
+loss:</p>
+<pre><code>P_loss = 500 × (1 – 10^(–0.2/10)) = 500 × 0.0046 ≈ 2.3 W</code></pre>
+<hr />
+<h2 id="chapter-2-ferrite-core-materials-and-selection">CHAPTER 2 —
+FERRITE CORE MATERIALS AND SELECTION</h2>
+<h3 id="ferrite-basics">2.1 Ferrite Basics</h3>
+<p>Ferrites are ceramic materials with high magnetic permeability (µ).
+They increase inductance per turn without requiring large physical
+dimensions.</p>
+<p>Key parameter: <strong>permeability (µ)</strong> - High µ (850): more
+inductance per turn; suited to low frequencies - Low µ (125): less
+inductance per turn; suited to high frequencies - Ferrite loss increases
+significantly above 100 MHz</p>
+<h3 id="fair-rite-material-mixes">2.2 Fair-Rite Material Mixes</h3>
+<p><strong>Mix 31 (µ = 3000):</strong> - Extremely lossy at RF — use for
+EMI suppression on power leads only - Not suitable for impedance
+transformation baluns or ununs</p>
+<p><strong>Mix 43 (µ = 850) — RECOMMENDED FOR HF:</strong> - Balanced
+permeability and low loss; frequency range 1–100 MHz - Insertion loss:
+0.1–0.2 dB at 80M, rising to 0.3 dB at 10M - Core sizes: FT-240-43 (AL =
+1100), FT-140-43 (AL = 520)</p>
+<p><strong>Mix 61 (µ = 125) — RECOMMENDED FOR VHF:</strong> - Low
+permeability, minimal loss; frequency range 10–1000 MHz - Insertion
+loss: &lt; 0.1 dB across VHF/UHF - Core sizes: FT-240-61 (AL = 500),
+FT-140-61 (AL = 240)</p>
+<p><strong>Mix 75 (µ = 50):</strong> - Extreme VHF/UHF (100 MHz–3 GHz);
+specialized use only</p>
+<h3 id="al-parameter-inductance-index">2.3 AL Parameter (Inductance
+Index)</h3>
+<pre><code>L (µH) = AL × N² / 10,000
+
+FT-240-43, 10 turns: L = 1100 × 100 / 10000 = 11 µH
+FT-240-43, 12 turns: L = 1100 × 144 / 10000 = 15.84 µH
+FT-240-61,  5 turns: L = 500  × 25  / 10000 = 1.25 µH</code></pre>
+<h3 id="core-saturation">2.4 Core Saturation</h3>
+<p>Ferrite saturates when flux density exceeds the core’s critical
+value. Indicators: inductance drop, rapid temperature rise,
+unpredictable SWR.</p>
+<p>Prevention: select core appropriate for frequency and power; add
+turns on FT-240 cores for high power; use stacked cores for 160M/80M
+operation.</p>
+<h3 id="core-specifications">2.5 Core Specifications</h3>
+<table>
+<thead>
+<tr>
+<th>Core</th>
+<th>OD (mm)</th>
+<th>Mix</th>
+<th>AL (µH/100T)</th>
+<th>Max Power (W)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FT-240-43</td>
+<td>61</td>
+<td>43</td>
+<td>1100</td>
+<td>700</td>
+</tr>
+<tr>
+<td>FT-140-43</td>
+<td>35.6</td>
+<td>43</td>
+<td>520</td>
+<td>350</td>
+</tr>
+<tr>
+<td>FT-240-61</td>
+<td>61</td>
+<td>61</td>
+<td>500</td>
+<td>600</td>
+</tr>
+<tr>
+<td>FT-140-61</td>
+<td>35.6</td>
+<td>61</td>
+<td>240</td>
+<td>200</td>
+</tr>
+</tbody>
+</table>
+<p>Temperature coefficient: µ decreases ~0.3% per °C. Effect is
+negligible when Z_CM &gt;&gt; 250 Ω (design margin accommodates
+drift).</p>
+<hr />
+<h2 id="chapter-3-winding-techniques-and-construction">CHAPTER 3 —
+WINDING TECHNIQUES AND CONSTRUCTION</h2>
+<h3 id="wire-selection">3.1 Wire Selection</h3>
+<ul>
+<li>Gauge: AWG #12–#20; larger gauge = fewer turns needed, easier
+winding</li>
+<li>Insulation: polyurethane (red) or polyimide (yellow) enamel</li>
+<li>Strip enamel: sand lightly with 400-grit, tin with rosin-core
+solder</li>
+</ul>
+<h3 id="bifilar-winding">3.2 Bifilar Winding</h3>
+<p>Two wires wound simultaneously through the core.</p>
+<p>Procedure: 1. Cut two equal-length wire segments. 2. Twist together
+loosely (uniform helix, not tight). 3. Wind twisted pair through the
+core bore simultaneously. 4. Count as bifilar turns (each pass counts as
+one bifilar turn).</p>
+<p>Use: Guanella 4:1 current balun; 1:1 CM choke bifilar variant.</p>
+<h3 id="trifilar-winding">3.3 Trifilar Winding</h3>
+<p>Three wires wound simultaneously; required for 6:1 and 9:1
+designs.</p>
+<p>Procedure: 1. Cut three equal wire lengths. 2. Keep parallel — do NOT
+pre-twist. 3. Feed all three through core bore together. 4. Wrap around
+core in synchronized pattern. 5. Separate and connect per device
+schematic.</p>
+<pre><code>WARNING
+-------
+Keep wires parallel and untwisted.  Crossing wires during trifilar winding
+causes interleaved short circuits that destroy the impedance transformation
+ratio.  Verify continuity between all windings (&gt;10 MΩ primary to secondary)
+before installation.</code></pre>
+<h3 id="coaxial-winding">3.4 Coaxial Winding</h3>
+<p>Thread coaxial cable (RG-58, RG-174) through the core bore. Preferred
+for common-mode chokes because it maintains 50 Ω characteristic
+impedance throughout and avoids enamel insulation damage.</p>
+<p>Bend radius constraint: do not kink coax. Minimum bend radius of
+RG-58 is 25 mm; RG-174 is 12 mm.</p>
+<h3 id="interleaving">3.5 Interleaving</h3>
+<p>Alternating primary and secondary turns around the core reduces
+leakage inductance and stray capacitance, improving high-frequency
+bandwidth.</p>
+<p>Non-interleaved (poor): all primary turns together, then all
+secondary. Interleaved (preferred): primary–secondary–primary–secondary
+pattern.</p>
+<h3 id="practical-winding-procedure">3.6 Practical Winding
+Procedure</h3>
+<pre><code>CAUTION
+-------
+Do not allow wire enamel to contact sharp core edges.  Abrasion of enamel
+insulation causes primary-to-secondary shorts.  Inspect core edges; smooth
+with fine sandpaper if sharp burrs are present before winding.</code></pre>
+<p>Materials required: FT-240-43 core, #14 enameled copper wire, small
+vise, 400-grit sandpaper, soldering iron, rosin-core solder.</p>
+<ol type="1">
+<li>Estimate wire length: 30 inches per turn (rule of thumb for
+FT-240).</li>
+<li>Mark starting point on core with tape.</li>
+<li>Wind primary coil — tight, even spacing. Mark every 2–3 turns.</li>
+<li>Wind secondary coil — continue on same core.</li>
+<li>Strip 8 mm of enamel from each wire end.</li>
+<li>Tin all wire ends with rosin solder.</li>
+<li>Solder to connector lugs per device schematic.</li>
+<li>Verify isolation: ohmmeter, primary to secondary ≥ 10 MΩ.</li>
+</ol>
+<hr />
+<h2 id="chapter-4-current-balun-vs-voltage-balun-design">CHAPTER 4 —
+CURRENT BALUN vs VOLTAGE BALUN DESIGN</h2>
+<h3 id="current-balun-guanella">4.1 Current Balun (Guanella)</h3>
+<p>Operates on the transmission-line transformer principle. Two
+bifilar-wound TL segments are connected in series on the balanced
+(antenna) side and in parallel on the unbalanced (feedline) side.</p>
+<p>Common-mode suppression mechanism: - Differential signal (opposite
+polarity on two legs): passes through with minimal loss through the TL
+impedance - Common-mode signal (same polarity on both legs): blocked by
+series ferrite core impedance Z_CM = 2πfL</p>
+<p>Advantages: excellent CM suppression (&gt;20 dB typical), tight phase
+matching, wide bandwidth. Disadvantages: complex bifilar winding, larger
+cores required at low frequencies.</p>
+<h3 id="voltage-balun-ruthroff">4.2 Voltage Balun (Ruthroff)</h3>
+<p>Operates as a simple flux-coupled transformer. Voltage is divided by
+turns ratio; no series TL impedance in the CM path.</p>
+<p>CM suppression is limited to the primary winding inductance only
+(typically 5–10 dB). Insertion loss is lower than Guanella (simpler
+magnetic path).</p>
+<h3 id="selection-criteria">4.3 Selection Criteria</h3>
+<p>Use current balun (Guanella) when: - Antenna is balanced (dipole,
+folded dipole, balanced feedline) - CM suppression is critical -
+Multiband operation is required</p>
+<p>Use voltage balun (Ruthroff) when: - Simple impedance transformation
+only (no CM current expected) - Antenna is unbalanced (random wire,
+longwire) - A separate 1:1 CM choke will be added downstream</p>
+<h3 id="hybrid-approach-recommended-for-field-portable-use">4.4 Hybrid
+Approach (Recommended for Field Portable Use)</h3>
+<p>Voltage unun (impedance transformation, 0.08 dB) + separate 1:1 CM
+choke on feedline coax (CM suppression, 0.15 dB). Total insertion loss ≈
+0.25 dB. This combination simplifies winding while providing effective
+performance.</p>
+<hr />
+<h2 id="chapter-5-common-mode-choke-theory-and-design">CHAPTER 5 —
+COMMON-MODE CHOKE THEORY AND DESIGN</h2>
+<h3 id="differential-mode-vs-common-mode">5.1 Differential Mode vs
+Common Mode</h3>
+<p><strong>Differential mode (signal, desired):</strong> current flows
+on center conductor, returns on INSIDE of outer conductor. Fields
+cancel; no radiation.</p>
+<p><strong>Common mode (unwanted):</strong> current flows on OUTSIDE of
+outer conductor. Driven by antenna feedpoint imbalance, ground loops, or
+coupling from nearby RF. Effects: feedline radiation, RFI in shack,
+pattern distortion.</p>
+<h3 id="choking-impedance-requirements">5.2 Choking Impedance
+Requirements</h3>
+<p>Target: Z_CM ≥ 250 Ω at the operating frequency. This provides &gt;14
+dB of CM suppression relative to the 50 Ω system impedance.</p>
+<p>Design equation:</p>
+<pre><code>Z_CM = 2π × f × L
+L (µH) = AL × N² / 10,000</code></pre>
+<p>Example — 160M (1.8 MHz), FT-240-43, 14 turns:</p>
+<pre><code>L = 1100 × 196 / 10,000 = 21.56 µH
+Z_CM = 2π × 1.8×10⁶ × 21.56×10⁻⁶ = 245 Ω  (meets minimum)
+At 3.75 MHz (80M):  Z_CM = 514 Ω  (excellent)
+At 7.15 MHz (40M):  Z_CM = 967 Ω  (excellent)</code></pre>
+<h3 id="self-resonant-frequency-srf">5.3 Self-Resonant Frequency
+(SRF)</h3>
+<p>Parasitic inter-turn capacitance creates a parallel resonance. Above
+SRF, impedance drops (capacitive behavior).</p>
+<p>Typical SRF values: | Core / Turns | SRF | |—|—| | FT-240-43, 14
+turns | 40–50 MHz | | FT-140-43, 8 turns | 60–80 MHz | | FT-240-61, 5
+turns | 150–200 MHz |</p>
+<p>Design rule: keep operating frequency at least 2× below SRF.</p>
+<h3 id="cm-impedance-measurement">5.4 CM Impedance Measurement</h3>
+<p>Using NanoVNA: 1. Leave Port 2 open circuit. 2. Connect Port 1 to
+choke input. 3. Measure S11 reflection coefficient. 4. Convert: Z_CM =
+50 × (1+S11) / (1–S11) 5. Verify Z_CM ≥ 250 Ω at operating
+frequency.</p>
+<hr />
+<h2 id="chapter-6-unun-theory-and-applications">CHAPTER 6 — UNUN THEORY
+AND APPLICATIONS</h2>
+<h3 id="unun-definition">6.1 Unun Definition</h3>
+<p>An unun transforms impedance between two unbalanced ports. There is
+no balanced signal present; therefore no common-mode suppression is
+required or provided.</p>
+<h3 id="impedance-transformation">6.2 Impedance Transformation</h3>
+<pre><code>Z_out = Z_in / N²     where N = N_secondary / N_primary
+
+4:1 unun:   3 primary, 6 secondary  → 200 Ω → 50 Ω
+9:1 unun:   4 primary, 12 secondary → 450 Ω → 50 Ω
+49:1 unun:  3 primary, 21 secondary → 2450 Ω → 50 Ω</code></pre>
+<h3 id="random-wire-antenna-applications">6.3 Random Wire Antenna
+Applications</h3>
+<p>Random wire (non-resonant) feedpoint impedance varies widely with
+frequency: 50–100 Ω near resonance; 100–600 Ω typical; occasionally
+&gt;1000 Ω. A 4:1 unun provides coarse matching; an antenna tuner
+handles residual variation.</p>
+<h3 id="end-fed-half-wave-efhw-antenna">6.4 End-Fed Half-Wave (EFHW)
+Antenna</h3>
+<p>The EFHW is fed at the end of a half-wave element. End impedance is
+very high (theoretically infinite at exact resonance; practically
+2000–5000 Ω). A 49:1 unun (3:21 turns, FT-240-43 core) transforms this
+to the 50 Ω range.</p>
+<p>Standard design: 135-foot wire (resonant on 40M, harmonically useful
+on 80M–10M) + 49:1 unun + 10–30 foot counterpoise + small ATU.</p>
+<pre><code>NOTE: The floating (unbalanced) secondary of the 49:1 unun means the EFHW
+counterpoise can be short (λ/20 ≈ 1.5m on 40M) without loss of matching.
+This is a key advantage of EFHW over other end-fed designs.</code></pre>
+<hr />
+<h2 id="chapter-7-band-specific-design-guide">CHAPTER 7 — BAND-SPECIFIC
+DESIGN GUIDE</h2>
+<h3 id="m-1.8-mhz">7.1 160M (1.8 MHz)</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Recommended device</td>
+<td>1:1 CM choke or 9:1 unun</td>
+</tr>
+<tr>
+<td>Core</td>
+<td>FT-240-43 × 2 stacked</td>
+</tr>
+<tr>
+<td>Turns (1:1 choke)</td>
+<td>14</td>
+</tr>
+<tr>
+<td>Turns (9:1 unun)</td>
+<td>4:12</td>
+</tr>
+<tr>
+<td>Wire gauge</td>
+<td>AWG #14</td>
+</tr>
+<tr>
+<td>Insertion loss</td>
+<td>0.35–0.50 dB</td>
+</tr>
+<tr>
+<td>Z_CM (1:1 choke)</td>
+<td>~280 Ω (marginal, acceptable)</td>
+</tr>
+</tbody>
+</table>
+<p>Stacked cores required at 160M to provide adequate inductance
+headroom.</p>
+<h3 id="m-3.75-mhz">7.2 80M (3.75 MHz)</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Recommended</td>
+<td>1:1 CM choke, 4:1 Guanella, or 9:1 unun</td>
+</tr>
+<tr>
+<td>Core</td>
+<td>FT-240-43 single</td>
+</tr>
+<tr>
+<td>Insertion loss</td>
+<td>0.20–0.30 dB</td>
+</tr>
+<tr>
+<td>Z_CM (1:1 choke)</td>
+<td>~375 Ω (excellent)</td>
+</tr>
+</tbody>
+</table>
+<p>Sweet spot for ferrite performance.</p>
+<h3 id="m-7.15-mhz">7.3 40M (7.15 MHz)</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Recommended</td>
+<td>4:1 Guanella, 6:1 trifilar, or 9:1 unun</td>
+</tr>
+<tr>
+<td>Core</td>
+<td>FT-240-43 or FT-140-43</td>
+</tr>
+<tr>
+<td>Insertion loss</td>
+<td>0.15–0.25 dB</td>
+</tr>
+<tr>
+<td>Z_CM</td>
+<td>&gt;500 Ω (excellent)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="m20m-1014-mhz">7.4 30M–20M (10–14 MHz)</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Recommended</td>
+<td>4:1 Guanella or 9:1 unun</td>
+</tr>
+<tr>
+<td>Core</td>
+<td>FT-140-43 adequate</td>
+</tr>
+<tr>
+<td>Insertion loss</td>
+<td>0.15–0.20 dB</td>
+</tr>
+<tr>
+<td>Z_CM</td>
+<td>500–1000 Ω (very good)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="m10m-1828-mhz">7.5 17M–10M (18–28 MHz)</h3>
+<p>Ferrite marginally usable; air-core coiled-coax choke preferred above
+10M.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Recommended</td>
+<td>4:1 Guanella (ferrite) or air-core coax choke</td>
+</tr>
+<tr>
+<td>Insertion loss (ferrite)</td>
+<td>0.12–0.18 dB</td>
+</tr>
+<tr>
+<td>Insertion loss (air-core)</td>
+<td>0.03 dB</td>
+</tr>
+</tbody>
+</table>
+<h3 id="m-51-mhz-through-23cm-1296-mhz">7.6 6M (51 MHz) through 23cm
+(1296 MHz)</h3>
+<p>Air-core coiled-coax choke only. Ferrite loss is too high above 100
+MHz.</p>
+<table>
+<thead>
+<tr>
+<th>Band</th>
+<th>Recommended Form</th>
+<th>Turns</th>
+<th>Insertion Loss</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>6M</td>
+<td>RG-174 on 89mm PVC</td>
+<td>5</td>
+<td>0.05 dB</td>
+</tr>
+<tr>
+<td>2M</td>
+<td>RG-58 on 89mm PVC</td>
+<td>8</td>
+<td>0.08 dB</td>
+</tr>
+<tr>
+<td>70cm</td>
+<td>RG-58 on 76mm PVC</td>
+<td>6</td>
+<td>0.05 dB</td>
+</tr>
+<tr>
+<td>33cm</td>
+<td>RG-58 on 64mm PVC</td>
+<td>5</td>
+<td>0.03 dB</td>
+</tr>
+<tr>
+<td>23cm</td>
+<td>RG-58 on 51mm PVC</td>
+<td>3</td>
+<td>0.02 dB</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="chapter-8-field-construction-and-weatherproofing">CHAPTER 8 —
+FIELD CONSTRUCTION AND WEATHERPROOFING</h2>
+<h3 id="enclosure-material-selection">8.1 Enclosure Material
+Selection</h3>
+<table>
+<thead>
+<tr>
+<th>Material</th>
+<th>UV Resistance</th>
+<th>Thermal</th>
+<th>Cost</th>
+<th>Recommended Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PETG</td>
+<td>Excellent</td>
+<td>Good</td>
+<td>Low</td>
+<td>Portable field use</td>
+</tr>
+<tr>
+<td>ABS</td>
+<td>Poor (paint required)</td>
+<td>Excellent</td>
+<td>Low</td>
+<td>Permanent/structural</td>
+</tr>
+<tr>
+<td>Aluminum</td>
+<td>Excellent (anodize)</td>
+<td>Best</td>
+<td>High</td>
+<td>High-power, permanent</td>
+</tr>
+</tbody>
+</table>
+<p>Print settings: PETG — 240°C nozzle, 80°C bed.</p>
+<h3 id="weatherproofing-levels">8.2 Weatherproofing Levels</h3>
+<p><strong>Level 1 — Quick field seal:</strong> Silicone sealant around
+connector holes; PVC tape wrap. Cost: &lt;$5. Durability: 6–12
+months.</p>
+<p><strong>Level 2 — Portable/field operation:</strong> O-ring gasket on
+enclosure lid; 1.6mm drain hole in bottom to prevent water accumulation.
+Cost: $15–25. Durability: 2–3 years.</p>
+<p><strong>Level 3 — Semi-permanent installation:</strong> Aluminum
+enclosure; O-ring; two-part polyurethane paint; stainless hardware.
+Cost: $40–60. Durability: 5+ years.</p>
+<h3 id="potting-compound-selection">8.3 Potting Compound Selection</h3>
+<p>Silicone rubber: recommended — flexible (resists thermal cracking),
+moderate thermal conductivity. Epoxy: not recommended for baluns — poor
+thermal conductivity traps heat from ferrite losses.</p>
+<h3 id="heat-management">8.4 Heat Management</h3>
+<pre><code>CAUTION
+-------
+All balun/unun cores dissipate heat during transmission.  Expected
+temperature rise at 500 W input with 0.2 dB insertion loss is approximately
+20°C above ambient.  Do not exceed 100°C core temperature — ferrite
+permeability degrades above this point.  If enclosure is uncomfortably hot
+to the touch, reduce operating power or improve ventilation.</code></pre>
+<h3 id="pre-installation-checklist">8.5 Pre-Installation Checklist</h3>
+<pre><code>[ ] All solder connections complete and cooled
+[ ] No bare conductors — insulation intact throughout
+[ ] Primary to secondary continuity: OPEN (≥ 10 MΩ)
+[ ] Center to shield (antenna side) continuity: OPEN
+[ ] Visual inspection: no cracked core, no enamel damage
+[ ] Preliminary SWR test: impedance transformation verified</code></pre>
+<hr />
+<h2 id="chapter-9-test-and-verification-procedures">CHAPTER 9 — TEST AND
+VERIFICATION PROCEDURES</h2>
+<h3 id="test-equipment-required">9.1 Test Equipment Required</h3>
+<ul>
+<li>NanoVNA (50 kHz–3 GHz; $50–150) — required</li>
+<li>Short, open, and 50 Ω load calibration standards</li>
+<li>Dummy loads: 50 Ω, 200 Ω (for 4:1 ratio verification)</li>
+</ul>
+<h3 id="nanovna-solt-calibration">9.2 NanoVNA SOLT Calibration</h3>
+<pre><code>CAUTION
+-------
+Calibration is mandatory.  Uncalibrated NanoVNA measurements are not
+suitable for balun/unun verification.  Perform SOLT calibration at the
+cable ends that will be connected to the device under test.</code></pre>
+<p>SOLT procedure: 1. SHORT — short center to braid; measure Port 1,
+Port 2. 2. OPEN — leave port open (no connector); measure each port. 3.
+LOAD — connect 50 Ω standard resistor; measure each port. 4. THRU —
+connect Port 1 directly to Port 2; record baseline loss.</p>
+<p>After calibration: connect known 50 Ω load; verify S11 = 0 dB, Z = 50
+Ω.</p>
+<h3 id="insertion-loss-measurement-s21">9.3 Insertion Loss Measurement
+(S21)</h3>
+<ol type="1">
+<li>Port 1: balun input (50 Ω).</li>
+<li>Port 2: balun output into 50 Ω termination.</li>
+<li>Sweep frequency range.</li>
+<li>Record S21 in dB.</li>
+</ol>
+<p>Accept/reject criteria: - S21 &gt; –0.5 dB: PASS (good design) - S21
+–0.5 to –1.0 dB: MARGINAL (investigate) - S21 &lt; –1.0 dB: FAIL (rewind
+or replace core)</p>
+<h3 id="impedance-ratio-verification">9.4 Impedance Ratio
+Verification</h3>
+<ol type="1">
+<li>Connect design-impedance load on antenna port (e.g., 200 Ω for
+4:1).</li>
+<li>Measure S11 at feedline port.</li>
+<li>Convert: Z_in = 50 × (1+S11) / (1–S11)</li>
+<li>Expected: Z_in = design input impedance ±10%.</li>
+</ol>
+<h3 id="common-mode-impedance-measurement">9.5 Common-Mode Impedance
+Measurement</h3>
+<ol type="1">
+<li>Leave Port 2 open circuit.</li>
+<li>Connect Port 1 to choke input.</li>
+<li>Measure S11.</li>
+<li>Convert: Z_CM = 50 × (1+S11) / (1–S11)</li>
+<li>Verify Z_CM ≥ 250 Ω at operating frequency.</li>
+</ol>
+<h3 id="inductance-verification-indirect">9.6 Inductance Verification
+(Indirect)</h3>
+<p>At a single frequency:</p>
+<pre><code>L (µH) = Z_measured / (2π × f)
+
+Example: Z_measured = 375 Ω at 3.75 MHz
+L = 375 / (2π × 3.75×10⁶) = 15.9 µH
+Expected (FT-240-43, 12 turns): L = 1100 × 144 / 10000 = 15.84 µH
+Agreement: &lt; 1% error — PASS</code></pre>
+<p>If measured L differs &gt; 10% from design: wrong turn count, damaged
+core, or primary-to-secondary short circuit.</p>
+<h3 id="quick-field-test-procedure-5-minutes">9.7 Quick Field Test
+Procedure (5 Minutes)</h3>
+<ol type="1">
+<li>Calibrate NanoVNA (SOLT).</li>
+<li>Measure S11 at operating frequency: verify Z matches design.</li>
+<li>Measure S21 at operating frequency: verify &gt; –0.5 dB.</li>
+<li>If both pass: balun functional.</li>
+</ol>
+<hr />
+<h2 id="chapter-10-troubleshooting">CHAPTER 10 — TROUBLESHOOTING</h2>
+<h3 id="symptom-index">10.1 Symptom Index</h3>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Paragraph</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>High SWR (&gt; 3:1) on antenna</td>
+<td>10.2</td>
+</tr>
+<tr>
+<td>Balun heating during transmission</td>
+<td>10.3</td>
+</tr>
+<tr>
+<td>Intermittent connection or frequency-dependent SWR</td>
+<td>10.4</td>
+</tr>
+<tr>
+<td>Radiation pattern distorted</td>
+<td>10.5</td>
+</tr>
+<tr>
+<td>RF in shack (microphone burns, audio rectification)</td>
+<td>10.6</td>
+</tr>
+</tbody>
+</table>
+<h3 id="high-swr-31">10.2 High SWR (&gt; 3:1)</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Possible Cause</th>
+<th>Diagnostic Test</th>
+<th>Corrective Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Wrong turns ratio</td>
+<td>Count turns; compare to design table</td>
+<td>Rewind</td>
+</tr>
+<tr>
+<td>Ferrite core damaged or saturated</td>
+<td>Measure L with NanoVNA; if L &lt; design ÷ 2</td>
+<td>Replace core</td>
+</tr>
+<tr>
+<td>Feedline impedance mismatch</td>
+<td>Check antenna resonance</td>
+<td>Use antenna tuner</td>
+</tr>
+<tr>
+<td>Primary-to-secondary short</td>
+<td>Ohmmeter: should be &gt; 10 MΩ</td>
+<td>Rewind</td>
+</tr>
+<tr>
+<td>Connector corrosion or cold solder joint</td>
+<td>Inspect connectors visually</td>
+<td>Resolder; apply corrosion preventative</td>
+</tr>
+</tbody>
+</table>
+<h3 id="balun-heating-during-transmission-core-50c">10.3 Balun Heating
+During Transmission (Core &gt; 50°C)</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Possible Cause</th>
+<th>Diagnostic Test</th>
+<th>Corrective Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>High common-mode current</td>
+<td>Measure Z_CM with NanoVNA; if &lt; 250 Ω</td>
+<td>Add CM choke in series</td>
+</tr>
+<tr>
+<td>Core saturation (insufficient turns)</td>
+<td>Measure L vs power; if L drops at high power</td>
+<td>Add turns or use FT-240 core</td>
+</tr>
+<tr>
+<td>Ferrite loss excessive</td>
+<td>Measure S21; if &gt; –0.3 dB</td>
+<td>Reduce power or switch to air-core design</td>
+</tr>
+<tr>
+<td>Antenna shorted</td>
+<td>Ohmmeter on antenna — should be &gt; 5 Ω</td>
+<td>Inspect antenna for contact with structure</td>
+</tr>
+</tbody>
+</table>
+<h3 id="intermittent-swr">10.4 Intermittent SWR</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Possible Cause</th>
+<th>Diagnostic Test</th>
+<th>Corrective Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Approaching self-resonant frequency (SRF)</td>
+<td>Sweep impedance; look for peak at SRF</td>
+<td>Reduce turns; use Mix 61 core; air-core above 30 MHz</td>
+</tr>
+<tr>
+<td>Connector intermittent</td>
+<td>Visual inspection; flex test</td>
+<td>Resolder; apply thread-locker</td>
+</tr>
+</tbody>
+</table>
+<h3 id="radiation-pattern-distorted">10.5 Radiation Pattern
+Distorted</h3>
+<p>Cause: common-mode current on feedline. Z_CM &lt; 250 Ω. Action: add
+CM choke at feedpoint; move feedline away from metal structures.</p>
+<h3 id="rf-in-shack">10.6 RF in Shack</h3>
+<p>Cause: common-mode current returning to shack on feedline outer
+conductor. Action: install 1:1 CM choke at shack entry point; verify
+antenna balance.</p>
+<hr />
+<h2 id="appendix-a-winding-tables-baluns">APPENDIX A — WINDING TABLES:
+BALUNS</h2>
+<p>Detailed winding tables are in:</p>
+<pre><code>baluns/winding_tables/balun_1to1_winding_table.csv
+baluns/winding_tables/balun_4to1_winding_table.csv
+baluns/winding_tables/balun_6to1_winding_table.csv
+baluns/winding_tables/balun_9to1_winding_table.csv</code></pre>
+<h3 id="a.1-11-current-choke-coaxial-winding">A.1 1:1 Current Choke
+(Coaxial Winding)</h3>
+<table>
+<thead>
+<tr>
+<th>Band</th>
+<th>Core</th>
+<th>Turns</th>
+<th>Wire</th>
+<th>Z_CM (Ω)</th>
+<th>Max Power (W)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>160M</td>
+<td>FT-240-43 × 2</td>
+<td>14</td>
+<td>RG-174</td>
+<td>245</td>
+<td>700</td>
+</tr>
+<tr>
+<td>80M</td>
+<td>FT-240-43</td>
+<td>12</td>
+<td>RG-174</td>
+<td>375</td>
+<td>700</td>
+</tr>
+<tr>
+<td>40M</td>
+<td>FT-240-43</td>
+<td>10</td>
+<td>RG-174</td>
+<td>500</td>
+<td>700</td>
+</tr>
+<tr>
+<td>20M</td>
+<td>FT-140-43</td>
+<td>8</td>
+<td>RG-174</td>
+<td>600</td>
+<td>350</td>
+</tr>
+<tr>
+<td>6M</td>
+<td>FT-240-61</td>
+<td>6</td>
+<td>RG-174</td>
+<td>800</td>
+<td>500</td>
+</tr>
+</tbody>
+</table>
+<h3 id="a.2-41-guanella-current-balun">A.2 4:1 Guanella Current
+Balun</h3>
+<table>
+<thead>
+<tr>
+<th>Band</th>
+<th>Core</th>
+<th>Turns/Leg</th>
+<th>Wire</th>
+<th>Insertion Loss</th>
+<th>Max Power (W)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>160M–80M</td>
+<td>FT-240-43 × 2</td>
+<td>10</td>
+<td>#14 bifilar</td>
+<td>0.20 dB</td>
+<td>500</td>
+</tr>
+<tr>
+<td>40M–10M</td>
+<td>FT-240-43</td>
+<td>8</td>
+<td>#14 bifilar</td>
+<td>0.18 dB</td>
+<td>700</td>
+</tr>
+<tr>
+<td>6M</td>
+<td>FT-240-61</td>
+<td>6</td>
+<td>#16 bifilar</td>
+<td>0.12 dB</td>
+<td>400</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="appendix-b-winding-tables-ununs">APPENDIX B — WINDING TABLES:
+UNUNS</h2>
+<p>Detailed winding tables are in:</p>
+<pre><code>ununs/winding_tables/unun_4to1_winding_table.csv
+ununs/winding_tables/unun_9to1_winding_table.csv
+ununs/winding_tables/unun_49to1_winding_table.csv
+ununs/winding_tables/unun_16to1_winding_table.csv
+ununs/winding_tables/unun_64to1_winding_table.csv</code></pre>
+<h3 id="b.1-491-efhw-unun-most-common-field-design">B.1 49:1 EFHW Unun
+(Most Common Field Design)</h3>
+<table>
+<thead>
+<tr>
+<th>Core</th>
+<th>Primary Turns</th>
+<th>Secondary Turns</th>
+<th>Wire</th>
+<th>Max Power (W)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FT-240-43</td>
+<td>3</td>
+<td>21</td>
+<td>#16 bifilar</td>
+<td>700</td>
+</tr>
+<tr>
+<td>FT-140-43</td>
+<td>3</td>
+<td>21</td>
+<td>#18 bifilar</td>
+<td>350</td>
+</tr>
+</tbody>
+</table>
+<p>Counterpoise: 1.5–2.5 m at 45°, or λ/20 for operating band.</p>
+<hr />
+<h2 id="appendix-c-ferrite-core-specifications">APPENDIX C — FERRITE
+CORE SPECIFICATIONS</h2>
+<p>See Section 2.5 for tabulated specifications. Supplier: Fair-Rite
+Products (www.fair-rite.com); Mouser; Amidon Associates.</p>
+<p>Core identification: outer diameter (inches) × 100, followed by dash
+and mix number. FT-240-43 = 2.40 inch OD, Mix 43.</p>
+<hr />
+<h2 id="appendix-d-parts-list-and-sourcing">APPENDIX D — PARTS LIST AND
+SOURCING</h2>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Specification</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FT-240-43</td>
+<td>2.4” OD Mix 43 toroid</td>
+<td>Amidon, Mouser, eBay</td>
+</tr>
+<tr>
+<td>FT-140-43</td>
+<td>1.4” OD Mix 43 toroid</td>
+<td>Amidon, Mouser</td>
+</tr>
+<tr>
+<td>FT-240-61</td>
+<td>2.4” OD Mix 61 toroid</td>
+<td>Amidon, Mouser</td>
+</tr>
+<tr>
+<td>Enameled wire</td>
+<td>AWG #14, polyurethane</td>
+<td>Amidon, Amazon</td>
+</tr>
+<tr>
+<td>RG-174 coax</td>
+<td>50 Ω, 2.8 mm OD</td>
+<td>Mouser, eBay</td>
+</tr>
+<tr>
+<td>SO-239 chassis</td>
+<td>UHF female, 50 Ω</td>
+<td>Amazon, RF Parts</td>
+</tr>
+<tr>
+<td>PETG filament</td>
+<td>1.75 mm, UV-resistant</td>
+<td>Amazon, Hatchbox</td>
+</tr>
+</tbody>
+</table>
+<p>End of TM-BAL-001 Rev A.</p>
+
+            </main>
+        </div>
+    </div>
+</body>
+</html>

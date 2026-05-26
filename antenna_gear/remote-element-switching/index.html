@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remote Element Switching - Merv's Dump</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Dump</h1>
+                    <p class="tagline">When you build it, it teaches.</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+            <nav>
+                <h3>Main Navigation</h3>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about/bio.html">About</a></li>
+                </ul>
+
+                <details class="nav-group">
+                    <summary>Antennas</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/antennas/phased_array_of_2/">2-Element Phased Array</a></li>
+                    <li><a href="/antennas/phased_array_of_4/">4-Element Phased Array</a></li>
+                    <li><a href="/antennas/active_receiving/">Active Receiving</a></li>
+                    <li><a href="/antennas/beverage_receiving/">Beverage (Receiving)</a></li>
+                    <li><a href="/antennas/cage_dipole/">Cage Dipole</a></li>
+                    <li><a href="/antennas/collinear_array/">Collinear Array</a></li>
+                    <li><a href="/antennas/compact-dipole/">Compact Dipole</a></li>
+                    <li><a href="/antennas/cross_polarized/">Cross-Polarized</a></li>
+                    <li><a href="/antennas/cubical_quad/">Cubical Quad</a></li>
+                    <li><a href="/antennas/delta_loop_40m/">Delta Loop (40m)</a></li>
+                    <li><a href="/antennas/dipole/">Dipole</a></li>
+                    <li><a href="/antennas/discone/">Discone</a></li>
+                    <li><a href="/antennas/double_bazooka/">Double Bazooka</a></li>
+                    <li><a href="/antennas/end_fed_half_wave/">EFHW</a></li>
+                    <li><a href="/antennas/end_fed_quarter_wave/">EFQW</a></li>
+                    <li><a href="/antennas/end_fed_random_wire/">EFRW</a></li>
+                    <li><a href="/antennas/elevated_radials/">Elevated Radials</a></li>
+                    <li><a href="/antennas/end_fed_zepp/">End-Fed Zepp</a></li>
+                    <li><a href="/antennas/extended_double_zepp/">Extended Double Zepp</a></li>
+                    <li><a href="/antennas/fan_dipole/">Fan Dipole</a></li>
+                    <li><a href="/antennas/flagpole/">Flagpole</a></li>
+                    <li><a href="/antennas/flower_pot/">Flowerpot</a></li>
+                    <li><a href="/antennas/folded_dipole/">Folded Dipole</a></li>
+                    <li><a href="/antennas/folded_dipole_2conductor/">Folded Dipole (2-cond)</a></li>
+                    <li><a href="/antennas/folded_dipole_3conductor/">Folded Dipole (3-cond)</a></li>
+                    <li><a href="/antennas/frame_loop/">Frame Loop</a></li>
+                    <li><a href="/antennas/full_wave_loop/">Full-Wave Loop</a></li>
+                    <li><a href="/antennas/g5rv/">G5RV</a></li>
+                    <li><a href="/antennas/gmrs_loaded_vertical/">GMRS Loaded Vertical</a></li>
+                    <li><a href="/antennas/ground_plane/">Ground Plane</a></li>
+                    <li><a href="/antennas/helical/">Helical</a></li>
+                    <li><a href="/antennas/helical_antenna_2m_satellite/">Helical (2m Satellite)</a></li>
+                    <li><a href="/antennas/hentenna/">Hentenna</a></li>
+                    <li><a href="/antennas/hex_loop/">Hex Loop</a></li>
+                    <li><a href="/antennas/inverted_l_40m/">Inverted-L (40m)</a></li>
+                    <li><a href="/antennas/inverted_vee_dipole/">Inverted-V</a></li>
+                    <li><a href="/antennas/j_pole/">J-Pole</a></li>
+                    <li><a href="/antennas/k9ay_loop_40m/">K9AY Loop (40m)</a></li>
+                    <li><a href="/antennas/kmr_400_magnetic_loop/">KMR-400 Mag Loop</a></li>
+                    <li><a href="/antennas/log_periodic_dipole_arrays_for_wideband_operation/">LPDA Wideband</a></li>
+                    <li><a href="/antennas/loaded_vertical_hf/">Loaded Vertical (HF)</a></li>
+                    <li><a href="/antennas/log_periodic/">Log Periodic</a></li>
+                    <li><a href="/antennas/magnetic_loop_antennas/">Magnetic Loop</a></li>
+                    <li><a href="/antennas/moxon/">Moxon Rectangle</a></li>
+                    <li><a href="/antennas/near_vertical_incidence_skywave/">NVIS</a></li>
+                    <li><a href="/antennas/ocfd_windom/">OCFD / Windom</a></li>
+                    <li><a href="/antennas/octal_loop/">Octal Loop</a></li>
+                    <li><a href="/antennas/off_center_fed_dipole/">Off-Center Fed</a></li>
+                    <li><a href="/antennas/patch_antenna_2.4_ghz/">Patch (2.4 GHz)</a></li>
+                    <li><a href="/antennas/portable_magnetic_loop/">Portable Mag Loop</a></li>
+                    <li><a href="/antennas/rhombic/">Rhombic</a></li>
+                    <li><a href="/antennas/rybakov/">Rybakov</a></li>
+                    <li><a href="/antennas/satellite_yagi_antenna/">Satellite Yagi</a></li>
+                    <li><a href="/antennas/screwdriver/">Screwdriver</a></li>
+                    <li><a href="/antennas/shunt_fed/">Shunt-Fed Vertical</a></li>
+                    <li><a href="/antennas/slim_jim/">Slim Jim</a></li>
+                    <li><a href="/antennas/slinky_antenna_20m_portable/">Slinky (20m)</a></li>
+                    <li><a href="/antennas/sloped_dipole/">Sloped Dipole</a></li>
+                    <li><a href="/antennas/slot_antenna_uhf/">Slot Antenna (UHF)</a></li>
+                    <li><a href="/antennas/t_antenna/">T-Antenna</a></li>
+                    <li><a href="/antennas/tilted_terminated_folded_dipole/">T2FD</a></li>
+                    <li><a href="/antennas/tape_antennas/">Tape Antennas</a></li>
+                    <li><a href="/antennas/tape_measure_yagi/">Tape Measure Yagi</a></li>
+                    <li><a href="/antennas/telescopic/">Telescopic</a></li>
+                    <li><a href="/antennas/telescopic_vertical/">Telescopic Vertical</a></li>
+                    <li><a href="/antennas/terminated_folded_dipole/">Terminated Folded Dipole</a></li>
+                    <li><a href="/antennas/terminated_sloper_receiving/">Terminated Sloper</a></li>
+                    <li><a href="/antennas/trap_dipole/">Trap Dipole</a></li>
+                    <li><a href="/antennas/traveling_wave_vertical/">Traveling Wave Vertical</a></li>
+                    <li><a href="/antennas/turnstile/">Turnstile</a></li>
+                    <li><a href="/antennas/v_beam/">V-Beam</a></li>
+                    <li><a href="/antennas/vertical_dipole/">Vertical Dipole</a></li>
+                    <li><a href="/antennas/yagi_uda/">Yagi-Uda</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group">
+                    <summary>Antenna Gear</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/antenna_gear/ant_switches/">Antenna Switches</a></li>
+                    <li><a href="/antenna_gear/audio_filters/">Audio Filters</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/">Baluns And Ununs</a></li>
+                    <li><a href="/antenna_gear/bms/">BMS</a></li>
+                    <li><a href="/antenna_gear/coax_traps/">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/coil_winder/">Coil Winder</a></li>
+                    <li><a href="/antenna_gear/common_mode_chokes/">Common Mode Chokes</a></li>
+                    <li><a href="/antenna_gear/crystal_radio/">Crystal Radio</a></li>
+                    <li><a href="/antenna_gear/hybrids/">Hybrids</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/">Lightning Protection</a></li>
+                    <li><a href="/antenna_gear/mast_tower/">Mast Tower</a></li>
+                    <li><a href="/antenna_gear/motorized_tuner/">Motorized Tuner</a></li>
+                    <li><a href="/antenna_gear/power_supplies/">Power Supplies</a></li>
+                    <li><a href="/antenna_gear/remote-element-switching/">Remote Element Switching</a></li>
+                    <li><a href="/antenna_gear/rf_couplers/">RF Couplers</a></li>
+                    <li><a href="/antenna_gear/rfi_mitigation/">RFI Mitigation</a></li>
+                    <li><a href="/antenna_gear/roller_inductors/">Roller Inductors</a></li>
+                    <li><a href="/antenna_gear/transmatch/">Transmatch</a></li>
+                    <li><a href="/antenna_gear/variable_caps/">Variable Capacitors</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group">
+                    <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/adf_systems/">ADF Systems</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/antenna_modeling/">Antenna Modeling</a></li>
+                    <li><a href="/antenna_tools/dummy_loads/">Dummy Loads</a></li>
+                    <li><a href="/antenna_tools/field_strength_meter/">Field Strength Meter</a></li>
+                    <li><a href="/antenna_tools/noise_bridge/">Noise Bridge</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/">RF Power Meter</a></li>
+                    <li><a href="/antenna_tools/rf_power_meters/">RF Power Meters</a></li>
+                    <li><a href="/antenna_tools/sdr_interfaces/">SDR Interfaces</a></li>
+                    <li><a href="/antenna_tools/swr_meter/">SWR Meter</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group">
+                    <summary>Calibration</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/calibration/1013d-plus-oscilloscope/">1013D Plus Oscilloscope</a></li>
+                    <li><a href="/calibration/antenna-analyzer/">Antenna Analyzer</a></li>
+                    <li><a href="/calibration/audio-oscillator/">Audio Oscillator</a></li>
+                    <li><a href="/calibration/bm4070-digital-lcr-tester/">BM4070 Digital LCR Tester</a></li>
+                    <li><a href="/calibration/capacitance-meter/">Capacitance Meter</a></li>
+                    <li><a href="/calibration/current-source/">Current Source</a></li>
+                    <li><a href="/calibration/decade-capacitance-box/">Decade Capacitance Box</a></li>
+                    <li><a href="/calibration/decade-inductance-box/">Decade Inductance Box</a></li>
+                    <li><a href="/calibration/decade-resistance-box/">Decade Resistance Box</a></li>
+                    <li><a href="/calibration/dip-meter-grid-dip-oscillator/">Dip Meter Grid Dip Oscillator</a></li>
+                    <li><a href="/calibration/dso138-digital-oscilloscope/">DSO138 Digital Oscilloscope</a></li>
+                    <li><a href="/calibration/dummy-load-50-ohm/">Dummy Load 50 Ohm</a></li>
+                    <li><a href="/calibration/field-strength-meter/">Field Strength Meter</a></li>
+                    <li><a href="/calibration/fluke-15b-multimeter/">Fluke 15B Multimeter</a></li>
+                    <li><a href="/calibration/fm-broadcast/">Fm Broadcast</a></li>
+                    <li><a href="/calibration/frequency-counter/">Frequency Counter</a></li>
+                    <li><a href="/calibration/frequency-standard-gpsdo/">Frequency Standard GPSDO</a></li>
+                    <li><a href="/calibration/function-generator/">Function Generator</a></li>
+                    <li><a href="/calibration/gps-reference/">GPS Reference</a></li>
+                    <li><a href="/calibration/impedance-bridge/">Impedance Bridge</a></li>
+                    <li><a href="/calibration/inductance-meter/">Inductance Meter</a></li>
+                    <li><a href="/calibration/lcr-meter/">LCR Meter</a></li>
+                    <li><a href="/calibration/modulation-analyzer/">Modulation Analyzer</a></li>
+                    <li><a href="/calibration/multimeter-dmm/">Multimeter DMM</a></li>
+                    <li><a href="/calibration/nanovna/">Nanovna</a></li>
+                    <li><a href="/calibration/nanovna-vector-network-analyzer/">NanoVNA Vector Network Analyzer</a></li>
+                    <li><a href="/calibration/noise-figure-meter/">Noise Figure Meter</a></li>
+                    <li><a href="/calibration/oscilloscope/">Oscilloscope</a></li>
+                    <li><a href="/calibration/q-meter/">Q Meter</a></li>
+                    <li><a href="/calibration/radio-standards/">Radio Standards</a></li>
+                    <li><a href="/calibration/rf-attenuator-set/">RF Attenuator Set</a></li>
+                    <li><a href="/calibration/rf-power-meter/">RF Power Meter</a></li>
+                    <li><a href="/calibration/rf-probe-detector/">RF Probe Detector</a></li>
+                    <li><a href="/calibration/rf-signal-tracer/">RF Signal Tracer</a></li>
+                    <li><a href="/calibration/signal-generator/">Signal Generator</a></li>
+                    <li><a href="/calibration/simpson-260-series-3-analog-multimeter/">Simpson 260 Series 3 Analog Multimeter</a></li>
+                    <li><a href="/calibration/swr-meter/">SWR Meter</a></li>
+                    <li><a href="/calibration/tinysa-spectrum-analyzer/">TinySA Spectrum Analyzer</a></li>
+                    <li><a href="/calibration/verification/">Verification</a></li>
+                    <li><a href="/calibration/voltage-reference/">Voltage Reference</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group">
+                    <summary>Calibration Ideas</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/Calibration_Ideas/ac_mains_reference/">AC Mains Reference</a></li>
+                    <li><a href="/Calibration_Ideas/attenuator_pad_standards/">Attenuator Pad Standards</a></li>
+                    <li><a href="/Calibration_Ideas/coax_capacitance_standard/">Coax Capacitance Standard</a></li>
+                    <li><a href="/Calibration_Ideas/dummy_load_power_standard/">Dummy Load Power Standard</a></li>
+                    <li><a href="/Calibration_Ideas/field_strength_reference/">Field Strength Reference</a></li>
+                    <li><a href="/Calibration_Ideas/fm_broadcast_reference/">FM Broadcast Reference</a></li>
+                    <li><a href="/Calibration_Ideas/gps_1pps_reference/">GPS 1PPS Reference</a></li>
+                    <li><a href="/Calibration_Ideas/gpsdo_reference/">GPSDO Reference</a></li>
+                    <li><a href="/Calibration_Ideas/kelvin_resistance_standard/">Kelvin Resistance Standard</a></li>
+                    <li><a href="/Calibration_Ideas/known_length_dipole_standard/">Known Length Dipole Standard</a></li>
+                    <li><a href="/Calibration_Ideas/lc_resonance_standard/">LC Resonance Standard</a></li>
+                    <li><a href="/Calibration_Ideas/precision_resistor_network/">Precision Resistor Network</a></li>
+                    <li><a href="/Calibration_Ideas/precision_voltage_reference/">Precision Voltage Reference</a></li>
+                    <li><a href="/Calibration_Ideas/rc_time_constant_standard/">RC Time Constant Standard</a></li>
+                    <li><a href="/Calibration_Ideas/wheatstone_bridge/">Wheatstone Bridge</a></li>
+                    <li><a href="/Calibration_Ideas/wwv_wwvh_reference/">WWV/WWVH Reference</a></li>
+                    <li><a href="/Calibration_Ideas/zener_divider_reference/">Zener Divider Reference</a></li>
+                </ul>
+                </details>
+
+<details class="nav-group" open>
+    <summary>Study & Training</summary>
+    <ul>
+                    <li><a href="/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                    <li><a href="/study/morse.html">Morse Code Practice</a></li>
+                </ul>
+</details>
+
+</nav>
+            <main>
+<p>================================================================================</p>
+<pre><code>               REMOTE ELEMENT SWITCHING SYSTEM
+                    COMPREHENSIVE MANUAL
+                VHF/UHF YAG ANTENNA ARRAY CONTROL
+                        Edition 1.0
+                        April 2026
+
+          DISTRIBUTION AUTHORIZED TO LICENSED RADIO OPERATORS
+                 AND ENGINEERING RESEARCH PERSONNEL</code></pre>
+<p>================================================================================</p>
+<pre><code>                        TABLE OF CONTENTS</code></pre>
+<p>SECTION 1.0 SCOPE AND APPLICABILITY SECTION 2.0 THEORY OF OPERATION
+SECTION 3.0 SYSTEM DESCRIPTION SECTION 4.0 EQUIPMENT AND MATERIALS
+SECTION 5.0 INSTALLATION AND ALIGNMENT SECTION 6.0 CALIBRATION AND
+INITIAL ALIGNMENT SECTION 7.0 OPERATION SECTION 8.0 TROUBLESHOOTING
+SECTION 9.0 MAINTENANCE SECTION 10.0 PARTS LIST AND PROCUREMENT APPENDIX
+A NEC2 ANTENNA MODELS APPENDIX B BEAM PATTERN CHARTS APPENDIX C RF
+ISOLATION DESIGN TABLES APPENDIX D CONNECTOR TORQUE AND SEALING
+SPECIFICATIONS</p>
+<p>================================================================================</p>
+<p>SECTION 1.0 SCOPE AND APPLICABILITY</p>
+<p>1.1 PURPOSE</p>
+<p>This manual provides complete technical documentation for the Remote
+Element Switching System (RESS), a multi-band antenna control platform
+for VHF/UHF amateur radio yagi arrays. The system enables remote
+parasitic element switching via electronic relays (6M, 2M) or PIN diodes
+(1.25M through 20cm) to dynamically reconfigure antenna beam patterns
+without mechanical rotation.</p>
+<p>1.2 FREQUENCY BANDS SUPPORTED</p>
+<pre><code>Band            Frequency Range    Wavelength    Switching Method
+──────────────────────────────────────────────────────────────────
+6 Meters        50.0 - 50.3 MHz    5.98 m        Relay (G5V-2)
+2 Meters        144.0 - 148.0 MHz  2.08 m        Relay (G5V-2)
+1.25 Meters     222.0 - 225.0 MHz  1.35 m        PIN Diode (BAP51-02)
+70 Centimeters  430.0 - 450.0 MHz  0.69 m        PIN Diode (MA4P504)
+33 Centimeters  902.0 - 928.0 MHz  0.33 m        PIN Diode (SMP1320)
+20 Centimeters  1296.0-1300.0 MHz  0.23 m        PIN Diode (SMP1320)</code></pre>
+<p>1.3 SYSTEM CONFIGURATION OPTIONS</p>
+<p>Configuration A: BASIC (Single Band, 3-Element) - Reflector + Driven
++ 1 Director (field-portable) - 1 Relay OR 1 PIN Diode per element -
+Simple serial or WiFi control - Cost: $50-100 depending on band</p>
+<p>Configuration B: STANDARD (Single Band, 5-Element) - Reflector +
+Driven + 3 Directors (fixed installation) - 4 Relays OR 4 PIN Diodes -
+WiFi + BLE Mesh control - Touchscreen UI optional - Cost: $150-250</p>
+<p>Configuration C: ADVANCED (Multi-Band Capable) - Complete 6-band
+system (6M through 20cm) - Array of switching elements for each band -
+BLE Mesh networked element nodes - Automated beam pattern selection by
+frequency - Cost: $1000-2000 (complete system)</p>
+<p>1.4 INTENDED USERS</p>
+<p>This manual is intended for: - Radio operators (Technician class and
+above) - Radio engineers and technicians - University engineering
+programs - Radio club technical committees - Commercial radio systems
+integrators</p>
+<p>Familiarity with the following is assumed: - Basic electronics
+(voltage, current, impedance) - Antenna theory (resonance, impedance
+matching, radiation patterns) - Amateur radio operating practices -
+Embedded systems programming (for firmware customization)</p>
+<p>1.5 SAFETY CONSIDERATIONS</p>
+<p>WARNING: This system operates RF power levels that may exceed
+FCC/ICNIRP exposure limits. Ensure proper RF safety measures:</p>
+<pre><code>- Place antenna &gt; 2 meters from operators during transmission
+- Do NOT operate near metallic objects or other antennas
+- Check antenna SWR before each operating session
+- Use appropriate RF shielding for control cables
+- Verify proper grounding of all RF equipment</code></pre>
+<p>DO NOT attempt to repair high-voltage circuits while powered. Always
+disconnect power before service.</p>
+<p>================================================================================</p>
+<p>SECTION 2.0 THEORY OF OPERATION</p>
+<p>2.1 PARASITIC ELEMENT COUPLING FUNDAMENTALS</p>
+<p>In a yagi antenna array, parasitic elements (reflectors and
+directors) interact with the driven element via electromagnetic
+coupling. The coupled impedance depends on:</p>
+<pre><code>1. Element length relative to resonance
+2. Element-to-element spacing along boom
+3. Whether element is isolated (open) or shorted to boom (grounded)</code></pre>
+<p>Reflector Mode: Element is shorted to boom conductor (low impedance
+short) - Effective electrical length: ~5% longer than resonance - Acts
+as reflecting surface, increases backward impedance - Reduces forward
+gain but increases F/B ratio - Effective when element = 0.494λ (longer
+than resonance)</p>
+<p>Director Mode: Element is free/isolated (open circuit) - Effective
+electrical length: ~5% shorter than resonance - Acts as focusing
+element, increases forward impedance - Increases forward gain and
+narrows beamwidth - Effective when element = 0.449λ (shorter than
+resonance)</p>
+<p>Switching Implementation: - Relay contact shorts element to boom
+(reflector mode) - Relay open circuit leaves element free (director
+mode) - PIN diode forward bias effectively shorts element (reflector) -
+PIN diode reverse bias isolates element (director mode)</p>
+<p>2.2 PIN DIODE SWITCHING PHYSICS</p>
+<p>PIN diodes operate as voltage-controlled RF switches by modulating
+the depletion region width via applied DC bias voltage.</p>
+<p>Forward Bias (Conducting State): - Applied voltage: +5V to +12V DC
+(typical 10-20 mA current) - Depletion region collapses, acts as low
+resistance (0.5-2 Ω) - Insertion loss: 0.3-0.8 dB (depends on device and
+frequency) - Element appears shorted to boom, acts as reflector -
+Switching time: typically &lt; 30 nanoseconds</p>
+<p>Reverse Bias (Blocking State): - Applied voltage: 0V or -5V DC (&lt;
+1 µA leakage current) - Depletion region expands, high impedance (&gt;
+10 kΩ) - Isolation: &gt; 30 dB at operating frequency - Element appears
+open-circuited, acts as director - Switching time: slightly slower than
+forward (due to charge storage)</p>
+<p>Device Selection by Band: - 222 MHz: BAP51-02 (0.5 pF, 1.8 Ω series
+resistance) - 432 MHz: MA4P504 (0.6 pF, 1.0 Ω series resistance) - 902
+MHz: SMP1320 (0.63 pF, 1.0 Ω series resistance) - 1296 MHz: SMP1320
+(same, lower parasitic inductance in microstrip)</p>
+<p>Temperature Effects: - Impedance varies ~0.3%/°C for most PIN diodes
+- At UHF frequencies, minimize loop area of bias network (&lt; 1 mm) -
+Microstrip implementation on PCB preferred for 1296 MHz (&lt; 0.1 mm
+loops)</p>
+<p>2.3 RELAY SWITCHING FOR HF/VHF</p>
+<p>At VHF frequencies (144-222 MHz), small relay contact inductance is
+acceptable. Contact leads exhibit ~0.5-2 nH inductance per pair.</p>
+<p>Relay Contact Impedance at Operating Frequency: Z_contact = R_contact
++ j<em>ω</em>L_contact</p>
+<p>At 50 MHz: Z ≈ 100 mΩ + j<em>7.5 Ω (acceptable, &lt; 0.1 dB loss) At
+144 MHz: Z ≈ 100 mΩ + j</em>22 Ω (marginal, ~0.2 dB loss) At 432 MHz: Z
+≈ 100 mΩ + j*65 Ω (UNACCEPTABLE, &gt; 5 dB loss + reactance)</p>
+<p>Relay Selection for Lower Bands: - Omron G5V-2: DPDT, 5V coil, 40 mA,
+gold-plated contacts - Contact bounce: ~1 ms (acceptable with 50 ms
+settling delay) - RF loss @ 50 MHz: &lt; 0.15 dB - RF loss @ 144 MHz:
+&lt; 0.25 dB - Cost: ~$2 per relay (qty 100)</p>
+<p>Relay Driver Considerations: - 3V3 ESP32 GPIO output cannot directly
+drive 5V relay coil - Use ULN2803 Darlington array (8 channels, 500 mA
+per channel) - Alternative: Individual 2N2222 transistor per relay -
+Flyback diode (1N4007) across coil protects driver from voltage
+spikes</p>
+<p>2.4 BEAM PATTERN CONTROL STRATEGIES</p>
+<p>Five fundamental switching strategies exist for yagi beam
+modification:</p>
+<p>Strategy 1: DIRECTOR IN/OUT Add/remove directors to control
+gain/beamwidth Effect: Gain varies 6.5 dBd (3-el) to 9.2 dBd (5-el)
+Beamwidth: Narrows from 45° to 25° as directors added</p>
+<p>Strategy 2: REFLECTOR OPTIMIZATION Tune reflector impedance by
+varying length or spacing Effect: F/B ratio varies 8 dB to 22 dB Limited
+by element resonance; switching only achieves coarse control</p>
+<p>Strategy 3: REVERSIBLE YAGI (Bi-directional Beam) Swap
+reflector/director roles via dual-element shorted stubs Effect: Can
+reverse beam 180° with single relay Cost: Extra elements (5-element →
+dual 3-element sides) Trade-off: Reduced gain in each direction (5 dBd
+vs 9 dBd)</p>
+<p>Strategy 4: CARDIOID PATTERNS (8-point directional) Selectively
+ground different elements to create null patterns Effect: 8 cardioid
+directions (N, NE, E, SE, S, SW, W, NW) Gain: ~7 dBd, Null depth: 15-20
+dB Elements: Each of 4 directors independently switchable</p>
+<p>Strategy 5: PHASED ELEMENT CONTROL (Advanced) Vary phase relationship
+between elements via transmission line stubs Effect: Electronic beam
+steering (azimuth only, no mechanical rotation) Complexity: Requires
+variable-length delay lines (λ/4 stub at each element) This manual
+focuses on Strategies 1-4; phasing is addressed in Appendix C</p>
+<p>2.5 RF ISOLATION OF CONTROL LINES</p>
+<p>RF signal leakage through control lines can severely distort antenna
+patterns, particularly at UHF frequencies where wavelengths are
+short.</p>
+<p>Coupling Mechanisms: 1. Capacitive coupling from RF element to bias
+line (&gt;1 pF at UHF) 2. Magnetic field coupling from element current
+to control loop 3. Common-mode radiation on control cable shield 4.
+Ground loop between boom ground and controller ground</p>
+<p>Mitigation Techniques: a) Ferrite chokes on each control line (100 Ω
+@ 432 MHz minimum) b) Twisted-pair shielded cable for remote control
+runs c) Shield connected to boom ground ONLY at antenna (float at
+control end) d) Separate RF and logic ground planes on control PCB e)
+Minimize control line loop area (&lt; 1 mm² at 1 GHz) f) Bypass
+capacitors (100 nF) at control entry point to boom</p>
+<p>Expected Pattern Improvement: Without ferrite filtering: F/B degrades
+5-10 dB when control energized With ferrite beads only: F/B degradation
+&lt; 1 dB With ferrites + toroid + twisted pair: F/B degradation &lt;
+0.5 dB</p>
+<p>2.6 SWR AND IMPEDANCE MATCHING</p>
+<p>Remote element switching changes the driven element impedance,
+requiring impedance matching adjustment. Typical changes:</p>
+<p>Switching reflector ON/OFF: ΔZ ≈ ±5 - 10 Ω (shifts real part) Adding
+director: ΔZ ≈ ±2 - 5 Ω (shifts reactive part)</p>
+<p>Impedance matching must be broadband enough to accommodate these
+shifts:</p>
+<p>Gamma Match: Tuned for baseline configuration - Capacitive tap
+compensates ~5-10 Ω reactance shift - SWR rise with switching: 1.0 →
+1.3-1.5:1</p>
+<p>Hairpin/Folded Dipole Match: Inherently broader - Handles impedance
+shifts with &lt; 0.2 dB loss - SWR rise with switching: 1.0 → 1.1-1.2:1
+- Recommended for multi-pattern systems</p>
+<p>50Ω Transmission Line Stub: Brute-force broadband - Minimize stub
+length (&lt; λ/8) to minimize loss - SWR stays &lt; 1.5:1 across
+switching patterns</p>
+<p>Recommended Approach: 1. Measure impedance change via NanoVNA in each
+pattern 2. Design gamma match to center between min/max impedances 3. If
+SWR swing &gt; 1.5:1, use hairpin or stub match instead</p>
+<p>================================================================================</p>
+<p>SECTION 3.0 SYSTEM DESCRIPTION</p>
+<p>3.1 BLOCK DIAGRAM: COMPLETE SYSTEM ARCHITECTURE</p>
+<pre><code>    ┌─────────────────────────────────────────────────┐
+    │                  OPERATORS                       │
+    │  (via CYD Touchscreen, WiFi App, or Serial CLI) │
+    └────────────────────┬────────────────────────────┘
+                         │
+                Commands: Pattern, Band
+                         │
+    ┌────────────────────▼────────────────────────────┐
+    │  MAIN CONTROLLER (ESP32 + CYD 3.5&quot; Display)     │
+    │  - WiFi WebServer (192.168.4.1:80)              │
+    │  - BLE Mesh Provisioner (AFM vendor opcodes)    │
+    │  - Pattern storage (12 patterns per band)        │
+    │  - SWR monitoring (AD8307 power detector)        │
+    └────────┬──────────────────────────┬─────────────┘
+             │                          │
+    BLE Mesh Opcode Broadcast    WiFi UDP/TCP
+    AFM_OP_ELEMENT_SET           Remote monitoring
+             │                          │
+    ┌────────▼──────────────────────────▼─────────────┐
+    │  BLE MESH NETWORK (Private Group 0xFFFF)        │
+    │  Provisioning: CYD Launcher → Element Nodes      │
+    └────────┬───────────────────────────────────────┬─┘
+             │ AFM opcodes                           │
+┌────────────▼──────────┐              ┌─────────────▼──────────┐
+│  ELEMENT NODE 0       │              │  ELEMENT NODE 1-3      │
+│  (Reflector)          │              │  (Directors 1-3)       │
+│  GPIO2 → Control Out  │              │  GPIO2 → Control Out   │
+│  ADC34 → RF Current   │              │  ADC34 → RF Current    │
+│  Status LED (GPIO4)   │              │  Status LED (GPIO4)    │
+└────────────┬──────────┘              └─────────────┬──────────┘
+             │                                      │
+┌────────────▼──────────────────────────────────────▼────────────┐
+│  RF SWITCHING NETWORK (Element-by-Element)                     │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐          │
+│  │ Relay/PIN #0 │  │ Relay/PIN #1 │  │ Relay/PIN #2 │  ...    │
+│  │ Controls:    │  │ Controls:    │  │ Controls:    │          │
+│  │ Reflector    │  │ Director 1   │  │ Director 2   │          │
+│  │ Element      │  │ Element      │  │ Element      │          │
+│  └──────────────┘  └──────────────┘  └──────────────┘          │
+└────────────┬──────────────────────────────────────┬─────────────┘
+             │                                      │
+┌────────────▼──────────────────────────────────────▼────────────┐
+│  ANTENNA ARRAY (YAG, ELEMENT STATE VARIABLE)                   │
+│  Boom: ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ (center-fed at DE)                    │
+│  Ref:  ═════ (switchable reflector)                            │
+│        ───── DE (driven element, fixed)                        │
+│        ───── Dir1 (switchable, variable spacing)               │
+│        ─── Dir2 (switchable, variable spacing)                 │
+│        ──  Dir3 (switchable, variable spacing)                 │
+└────────────┬────────────────────────────────────────────────────┘
+             │
+┌────────────▼────────────────────────────────────────────────────┐
+│  RF MEASUREMENT &amp; FEEDBACK                                      │
+│  - Directional Coupler (fwd/ref power)                          │
+│  - RF Current Probe (ACS712, per element)                       │
+│  - Temperature Sensor (NTC thermistor)                          │
+│  - Data reported to main controller every 30s via AFM opcode    │
+└─────────────────────────────────────────────────────────────────┘</code></pre>
+<p>3.2 CONTROLLER SUBSYSTEM (Main ESP32 + CYD)</p>
+<p>Hardware: - MCU: ESP32-WROOM-32 (dual-core, 160 MHz, 4 MB flash) -
+Display: CYD 2432S028 (480×320 TFT, 3.5”, WiFi, BT) - Storage: 4 MB SPI
+flash (factory partitioned: 2 MB app, 2 MB NVS) - Power: 5V @ 2A USB-C
+(charging supported) - Connectivity: 802.11b/g/n WiFi, BLE 5.0
+dual-mode</p>
+<p>Software Stack: - Base: Arduino IDE 2.x + ESP32 board manager
+v2.0.14+ - BLE Mesh: esp-idf-lib or Arduino’s native BLE implementation
+- UI: Adafruit GFX + ST7789 display driver - Web: Arduino WebServer
+library - JSON: ArduinoJson (for REST API) - Storage: Preferences
+library (NVS wrapper)</p>
+<p>Control Inputs (4): - WiFi REST API: POST
+/control?band=6m&amp;pattern=baseline - BLE Mesh: From provisioned
+element nodes (bidirectional) - USB Serial: Text-based commands (p0-11,
+s, l, h) - Touchscreen: 12-button pattern matrix, 6-button band
+selector</p>
+<p>Status Outputs: - CYD Display: Real-time beam pattern, SWR, power,
+element states - WiFi JSON API: {“band”:“6m”, “pattern”:“baseline”,
+“swr”:1.2, …} - Serial terminal: Formatted text status (115200 baud,
+8N1) - Status LED: Blue = online, Red = error</p>
+<p>3.3 ELEMENT NODE SUBSYSTEM (Per-Element ESP32)</p>
+<p>Hardware (each node): - MCU: ESP32 module (cost-optimized, 80 MHz
+single-core variant OK) - GPIO outputs: Relay coil or PIN diode bias
+(5V/12V via external driver) - ADC inputs: RF current sensor
+(ACS712-5A), temperature (NTC) - Status LEDs: Blue (online), Red
+(error/over-current) - BOOT button: Physical reset for provisioning</p>
+<p>Software Stack: - Base: Arduino IDE 2.x + ESP32 board manager - BLE
+Mesh: Full mesh node with vendor model support - No display; status via
+LEDs and RF current measurement - Heartbeat broadcast every 30
+seconds</p>
+<p>Control Inputs: - BLE Mesh AFM opcodes (from main controller
+broadcast) - Local override: BOOT button long-press (reset to OFF
+state)</p>
+<p>Status Outputs: - BLE Mesh AFM_OP_ELEMENT_STATUS message (30s
+heartbeat) - Status LED: Blue slow = waiting, Blue fast = online, Red =
+error - RF current measured and logged (for diagnostics)</p>
+<p>Provisioning: - CYD Launcher (main controller in provisioner mode)
+discovers node - Node UUID: 0x43 0x59 (ASCII “CY”) + 6 bytes from BT MAC
+- AppKey added to node, subscription to group 0xFFFF configured - Node
+assigned element index (0-3) based on discovery order</p>
+<p>3.4 RF SWITCHING NETWORK (Per-Band Implementation)</p>
+<p>For 6M/2M Bands (Relay Switching):
+┌─────────────────────────────────────────┐ │ From Driven Element (50Ω
+coax) │ │ │ │ │ [C_iso 1µF] ← Blocks DC to boom │ │ │ │ │
+o─────┬───────────────► To antenna feed │ │ │ │ │ [K_relay]│ NC =
+reflector │ │ │ │ NO = director │ │ │ │ │ │ [GND]───┴────────────────►
+Boom GND │ │ │ │ Relay: Omron G5V-2 DPDT │ │ Driver: ULN2803 (8 relays
+shared) │ │ Power: 5V @ 200 mA total │
+└─────────────────────────────────────────┘</p>
+<p>For 70cm/33cm/20cm Bands (PIN Diode Switching):
+┌─────────────────────────────────────────┐ │ From Driven Element (50Ω
+coax) │ │ │ │ │ [C_iso 1µF] │ │ │ │ │ o─────[RFC 47nH]─┬──────► To
+antenna │ │ (SMD 0402) │ │ │ [GND] [PIN Diode D1] │ │ MA4P504 SOT-23 │ │
+│ │ │ [C_bypass 100pF] │ │ │ │ │ [R_limit 1.5kΩ] │ │ │ │ │ [2N2222 Bias
+Driver] │ │ │ │ │ +12V or GND (from GPIO) │ │ │ │ PIN Diode: MA4P504
+(432 MHz example) │ │ Bias Voltage: +12V (forward), 0V (off) │ │ Power:
+~10-15 mA per element │ └─────────────────────────────────────────┘</p>
+<p>3.5 SYSTEM CONFIGURATION PARAMETERS (Settable via Firmware)</p>
+<pre><code>Band Enum:       0 = 6M, 1 = 2M, 2 = 1.25M, 3 = 70CM, 4 = 33CM, 5 = 20CM
+Pattern Enum:    0-11 (OMNI through F/B-MAX)
+Element State:   0 = OFF, 1 = REFLECTOR, 2 = DIRECTOR, 3 = BYPASS
+SWR Threshold:   Default 2.0:1 (for pattern validity check)
+Relay Settle:    Default 50 ms (contact bounce delay)
+Sensor Update:   Default 1 second (SWR/power measurement interval)
+Heartbeat:       Default 30 seconds (element node status broadcast)
+WiFi AP SSID:    &quot;BeamController&quot; (default, changeable)
+WiFi AP Password:&quot;hamradio&quot; (default, changeable)</code></pre>
+<p>================================================================================</p>
+<p>SECTION 4.0 EQUIPMENT AND MATERIALS</p>
+<p>4.1 BILL OF MATERIALS FOR BASIC 6M SYSTEM (3-ELEMENT, RELAY
+SWITCHING)</p>
+<p>Item Part Number Description Qty Value Cost
+────────────────────────────────────────────────────────────────────────
+1 ESP32-WROOM-32 MCU module 1 4MB $8 2 Omron G5V-2-5 Relay DPDT 5V 1
+40mA $2 3 ULN2803APC Darlington array 1 8-ch $0.40 4 1N4007 Flyback
+diode 1 1A/1kV $0.05 5 C315C105M5U Capacitor 1 1µF/50V $0.15 6 100nF
+0402 Capacitor 4 100nF $0.08 7 1000µF elect. Capacitor 1 1000µF $0.20 8
+DB9M connector 9-pin DConnector 1 - $0.30 9 1kΩ ±5% resistor 1/4W
+metal-film 4 1kΩ $0.08 10 PCB FR-4 Single-sided, 2”x3” 1 50mil $1.50 11
+USB-to-Serial FTDI FT232RL 1 5V $3 12 Header pins 2.54mm 40-pin strip 1
+- $0.20</p>
+<p>TOTAL COMPONENT COST (qty 1): ~$16-20</p>
+<p>4.2 ADDITIONAL COMPONENTS FOR 5-ELEMENT ARRAY (RELAY VERSION)</p>
+<p>Item Description Add’l Qty Add’l Cost
+────────────────────────────────────────────────────────────────────────
+Relays (additional) 3 $6 Relay socket/PCB pads 3 $0.50 Wire (22 AWG
+stranded) 50 ft $2 Connector shrouds 4 $0.20 Solder, flux, thermal
+compound - $2 3D-printed enclosure (element box, optional) 1 $5
+(materials)</p>
+<p>TOTAL ADDITIONAL FOR 5-ELEMENT: ~$15-20</p>
+<p>4.3 PIN DIODE SWITCHING (70cm EXAMPLE): COMPONENT ADDITIONS</p>
+<p>Item Part Number Description Qty Value Cost
+────────────────────────────────────────────────────────────────────────
+1 MA4P504 PIN diode SOT-23 4 - $2.20 2 LQG15HS47NG00D RFC choke 0402 4
+47nH $0.48 3 Metal-film resistor Bias limit resistor 4 1.5kΩ $0.16 4 NPO
+ceramic 0402 Bypass capacitor 4 100pF $0.12 5 2N2222 or BC337 Bias
+driver transistor 4 - $0.32 6 1N4148 Small signal diode 4 - $0.16 7
+Microstrip PCB RT/duroid 5880 1 2”x3” $8</p>
+<p>TOTAL COMPONENT COST FOR PIN DIODE SYSTEM: ~$12-15</p>
+<p>4.4 TOOL AND EQUIPMENT LIST</p>
+<pre><code>Soldering Equipment:
+    - Soldering iron: 30-40W, 350-400°C tip
+    - Solder: 60/40 or lead-free, 0.8mm diameter
+    - Flux: Rosin-core (integral in solder) or paste
+    - Desoldering braid or solder sucker (for rework)
+
+Measurement Instruments:
+    - Multimeter: DVM 3.5 digit (impedance, continuity, voltage)
+    - Network analyzer: NanoVNA-H (50-900 MHz, $30-50 on AliExpress)
+    - RF power meter: Optional (AD8307-based homebrew, $20-30)
+    - Oscilloscope: Optional (for relay bounce observation, 10-100 MHz)
+
+Assembly Tools:
+    - Wire strippers: Automatic or manual
+    - Diagonal cutters: Precision for SMD component leads
+    - Tweezers: Precision stainless steel
+    - Allen wrench set: For boom-mounted clamps
+    - Torque wrench: 0-20 in-lb (for RF connector torque spec)
+
+Mechanical (3D Printing):
+    - 3D printer: Minimum 200x200x200 mm build area (Ender 3/CR-10)
+    - Filament: PETG or ASA (weather-resistant)
+    - Nozzle: 0.4mm standard
+    - Bed temperature: 80-90°C for PETG
+    - Nozzle temperature: 240°C
+
+Miscellaneous:
+    - Heat shrink tubing: Assorted sizes 2-10mm
+    - Electrical tape: Standard 3M Scotch 33+
+    - Cable ties: Reusable nylon, 6mm wide
+    - Thread-lock compound: Removable (blue, 0.5mL)
+    - Dielectric grease: For RF connector threads
+    - Silicone caulk: Weatherproofing enclosure seams
+    - Ferrite beads: 0402 SMD, 100Ω @ 100 MHz (qty 10)</code></pre>
+<p>4.5 VENDOR SOURCES FOR CRITICAL PARTS</p>
+<p>Semiconductors (Relays, PIN Diodes, ICs): - Digi-Key: www.digikey.com
+(extensive inventory, 1-10 day shipping) - Mouser: www.mouser.com
+(similar stock, international) - AliExpress: www.aliexpress.com (bulk,
+2-4 week lead time) - Newark: www.newark.com (enterprise tier, high
+cost)</p>
+<p>Passive Components (Resistors, Capacitors): - Any major distributor
+above - Local electronics hobby shop (fast, but higher cost)</p>
+<p>Connectors &amp; Mechanical: - McMaster-Carr: www.mcmaster.com (vast
+selection, 1-day shipping) - Fastenal: www.fastenal.com (industrial
+hardware, local pickup) - Home Depot/Lowes: 3D printer filament,
+hardware fasteners</p>
+<p>3D Printing Filament: - Prusament PETG: Prusa Research (Czech,
+EU-based) - Overture PETG: Amazon (US-based) - Generic PETG: AliExpress
+(bulk, variable quality)</p>
+<p>4.6 ANTENNA HARDWARE (Not Included in Component List)</p>
+<p>Boom &amp; Element Material: - 6061-T6 Aluminum alloy (preferred for
+low RF loss) - Boom: Round tube 1-1.25” OD, wall 0.035” (standard 6M/2M)
+- Elements: Round rod 1/2” OD (6M), 1/4” OD (2M), 1/8” (UHF) -
+Alternative: Stainless steel (better corrosion resistance, higher
+loss)</p>
+<p>Coax Feedline: - RG-8X or RG-213: 6M/2M (low loss, flexible) -
+LMR-240 or equivalent: VHF multi-band - LMR-600: Low loss, recommended
+for 50+ meter runs - Connectors: SO-239 (6M/2M), N-type (70cm+), SMA
+(UHF test)</p>
+<p>Mounting Hardware: - U-bolts: Stainless steel, clamp to mast -
+Boom-to-mast clamp: Aluminum or stainless, torque 50-100 in-lb - Element
+clamps: Aluminum or nylon, prevent rotation</p>
+<p>Weatherproofing: - Coax connectors: Coax Seal or self-amalgamating
+tape - Control cable seals: M20 strain relief gland - Sealant: Silicone
+RTV (non-acetic for RF components) - O-ring stock: NBR70, multiple
+sizes</p>
+<p>================================================================================</p>
+<p>SECTION 5.0 INSTALLATION AND ALIGNMENT</p>
+<p>5.1 MECHANICAL ASSEMBLY: BOOM AND ELEMENTS</p>
+<p>Step 1: Boom Preparation a) Measure boom to verify length per NEC2
+model b) Mark element positions on boom (measure from center-fed driven
+element): - Reflector: 0.20λ behind DE - Director 1: 0.25λ ahead of DE -
+Director 2: 0.50λ ahead of DE - Director 3: 0.80λ ahead of DE c) Use
+digital calipers to verify spacing (tolerance ±5 mm) d) Drill mounting
+holes for element clamps (10mm diameter)</p>
+<p>Step 2: Element Installation a) Cut elements to length per NEC2 model
+(±2 mm tolerance) b) Deburr cut ends with file or sandpaper c) Mount in
+clamps, center each element on boom d) Tighten clamp bolts uniformly (no
+more than hand-tight to avoid crushing) e) For driven element: position
+feed at center, mark coax entry point</p>
+<p>Step 3: Boom Mounting to Mast a) U-bolt clamp assembly: - Install
+U-bolts 1/2” below driven element for balance - Tighten gradually in
+criss-cross pattern (avoid boom twist) - Torque: 50 in-lb minimum
+(verify with torque wrench) b) Check level with spirit level (boom
+should be horizontal ±1°) c) Tie off boom with guy-lines if mast &gt; 30
+feet</p>
+<p>5.2 ELECTRICAL ASSEMBLY: RELAY/PIN DIODE SWITCHING NETWORK</p>
+<p>Step 4: Main Control PCB Assembly a) Populate through-hole components
+(relays, DIP IC, connectors) first b) For SMD relay driver circuits: -
+Use fine-tip soldering iron (0.8mm tip) - Apply minimum solder (just
+enough for joint) - Use rosin flux paste for consistent wetting c)
+Verify no shorts between adjacent pins (use ohmmeter) d) Inspect all
+solder joints under magnification (30x loupe)</p>
+<p>Step 5: Relay/PIN Diode Module Installation (Per Element) a) For
+relays: Mount relay socket on PCB, insert relay b) For PIN diodes: -
+Solder RFC choke to PCB trace (&lt; 2 mm lead length) - Solder PIN diode
+(SOT-23 orientation per datasheet) - Solder bypass capacitor directly at
+PIN cathode (&lt; 1 mm) - Apply conformal coating (optional, protects
+from salt spray) c) Verify impedance match with NanoVNA before field
+deployment</p>
+<p>Step 6: Control Cable Routing a) Use shielded twisted-pair (CAT5e or
+similar) for &gt; 1 meter runs b) Route separately from RF coax (minimum
+10 cm separation) c) At antenna mast: Ferrite beads on each twisted pair
+d) Shield connection: Connect to boom GND only at antenna end e) Do NOT
+connect shield at controller end (floating, prevents ground loop)</p>
+<p>5.3 COAX FEEDLINE INSTALLATION</p>
+<p>Step 7: Driven Element Feed Point a) At driven element center:
+Install SO-239 female connector b) Coax routing: Zip-tie to boom every
+12 inches c) Strain relief: Cinch-clamp at mast base d) Solder or crimp
+connections (solder preferred for low loss)</p>
+<p>Step 8: Coax Connector Weatherproofing a) Wrap connector threads with
+PTFE thread-seal tape (2-3 wraps) b) Apply dielectric grease to threads
+(prevents corrosion) c) Install protective cap over SO-239 when not in
+use d) For remote installations: Use Coax Seal self-amalgamating tape -
+Wrap around SO-239 shell (3 overlapping layers) - Provides superior UV
+and salt-fog protection</p>
+<p>Step 9: Coax Termination at Shack a) Install N-type or SO-239
+bulkhead connector on feedthrough b) Attach length of coax to
+transceiver with appropriate connector type c) Keep coax run as short as
+possible (loss ∝ length) d) Use low-loss coax for &gt; 50 foot runs (see
+Section 4.5)</p>
+<p>5.4 WEATHER-SEALED ENCLOSURE INSTALLATION</p>
+<p>Step 10: Element Junction Box (At Boom) a) Install relay/PIN diode
+PCB in 3D-printed IP66 enclosure b) SO-239 connector: Pointing toward
+antenna feed c) N-type connector: Pointing toward boom RF return d) DB9
+control port: Rear, pointing downward (drainage) e) Secure enclosure to
+boom with stainless steel U-bolts f) Route control cable through M20
+cable gland (rear)</p>
+<p>Step 11: Gasket/Sealing a) Install O-ring (NBR70, 3.2 mm OD × 2.4 mm
+ID) in groove b) Apply thin layer of silicone grease to O-ring c) Close
+lid with snap tabs, apply moderate downward pressure (2 kg) d) Lid
+should require deliberate motion to open (good seal indicat)</p>
+<p>Step 12: Grounding a) Boom GND connection: Short, thick wire to main
+enclosure b) Control cable shield: Soldered to boom GND at antenna c)
+Shack grounding: Separate ground run to transceiver chassis (Prevents RF
+coupling into control lines)</p>
+<p>5.5 MAIN CONTROLLER INSTALLATION</p>
+<p>Step 13: Mast-Top or Ground Mount a) Select mounting location: -
+Mast-top: Minimizes control cable run, maximizes integration -
+Ground-mount: Easier access, reduces wind loading on mast b) Install
+3D-printed housing on post (10-foot ABS Schedule 40 pipe works) c) WiFi
+antenna: Mount on top of enclosure, oriented vertically d) Control
+cable: Route in conduit (PVC or UV-resistant spiral) e) Power: USB-C via
+weatherproof connector or Anderson pole (12V conversion)</p>
+<p>Step 14: WiFi Access Point Configuration a) Power on controller
+(USB-C or 12V PSU) b) Scan for WiFi SSID “BeamController” (default) c)
+Connect with password “hamradio” d) Web interface available at
+http://192.168.4.1 e) Change SSID/password to suit your installation</p>
+<p>================================================================================</p>
+<p>SECTION 6.0 CALIBRATION AND INITIAL ALIGNMENT</p>
+<p>6.1 NEC2 ANTENNA MODEL BASELINE MEASUREMENT</p>
+<p>Step 1: Measure Impedance in Each Pattern a) Equipment needed:
+NanoVNA-H or similar (50-900 MHz capable) b) Procedure: 1. Connect
+NanoVNA to driven element via short coax (&lt; 1 meter) 2. Select
+frequency of interest (50.1 MHz for 6M, etc.) 3. Open S11 (reflection)
+measurement mode 4. Normalize to 50Ω using calibration (“CAL” button →
+“SOLT”) 5. Apply each beam pattern (via serial command or WiFi) 6.
+Record S11 magnitude and phase for each pattern 7. Document: Frequency,
+S11 (dB), Return Loss (dB), VSWR, Impedance (Z=Rx+jXx)</p>
+<p>Step 2: Expected Results Pattern Freq Return Loss VSWR Impedance
+(approx)
+────────────────────────────────────────────────────────────────
+Baseline 5-el 50.0 15+ dB &lt; 1.5 45-55Ω + j0-5Ω Compact 3-el 50.0 12+
+dB &lt; 1.8 40-60Ω + j5-10Ω Reverse 50.0 10+ dB &lt; 2.0 30-70Ω +
+j10-15Ω</p>
+<pre><code>If VSWR &gt; 2.5 in any pattern, antenna may need tuning. Proceed to step 3.</code></pre>
+<p>Step 3: Impedance Matching Adjustment (If Needed) a) If RL &lt; 12 dB
+in baseline pattern: 1. Measure driven element resonance (should be ~5%
+lower than NEC2) 2. Shorten driven element by 1-2 cm 3. Re-measure S11
+4. Repeat until RL &gt; 15 dB b) If reactance |X| &gt; 10Ω, check
+matching network: 1. Verify gamma-match capacitor value (should tune XC
+= -X) 2. Adjust cap trim/slug if present 3. Or use hairpin match for
+broader bandwidth</p>
+<p>Step 4: Document Baseline a) Save screenshots of NanoVNA displays for
+each pattern b) Create baseline table (include in operations manual) c)
+Compare to NEC2 predictions in Appendix B</p>
+<p>6.2 RF ISOLATION VERIFICATION</p>
+<p>Step 5: Pattern Distortion Check (Field) a) Equipment: NanoVNA or
+spectrum analyzer (for F/B measurement) b) Procedure: 1. Set antenna to
+baseline pattern (all directors active) 2. Measure forward radiation
+pattern (azimuth, 0-180°) 3. Observe F/B ratio and main lobe shape 4.
+Energize all control relays (apply bias to all elements) 5. Measure
+pattern again 6. Compare: F/B should degrade &lt; 1-2 dB (less if
+ferrites installed) c) If F/B degrades &gt; 3 dB: 1. Add ferrite bead to
+problematic control line 2. Re-measure 3. Repeat until degradation &lt;
+1 dB</p>
+<p>6.3 ELEMENT STATE VERIFICATION (With RF Sensor)</p>
+<p>Step 6: RF Current Probe Calibration a) Equipment: ACS712-5A current
+sensor (if installed) b) DC calibration (bench test): 1. Apply 5V to
+sensor input through 1.5kΩ resistor 2. Read voltage output (should be
+2.5V ± 0.1V @ 0A) 3. Adjust zero-offset in firmware if &gt; 0.1V error
+c) RF calibration (mast-top): 1. Transmit at known power level (e.g.,
+10W on 2M) 2. Measure RF current at element feed (should be 0.5-2A RMS
+for 10W) 3. Verify element state (switching ON/OFF should double
+current) 4. Create lookup table in firmware (Power_W vs Current_A per
+band)</p>
+<p>6.4 SWR MONITORING CALIBRATION</p>
+<p>Step 7: AD8307 Power Detector Calibration (If Installed) a)
+Equipment: Signal generator (or transmitter), 50Ω load b) Procedure: 1.
+Set signal generator to band center frequency (50.1 MHz for 6M) 2.
+Connect generator to antenna input via 50Ω load 3. Measure power with
+external power meter 4. Read ADC voltage from ESP32 (via serial or web
+API) 5. Apply polynomial fit: P(dBm) = a0 + a1<em>V + a2</em>V² 6. Store
+coefficients in firmware</p>
+<pre><code>Expected behavior:
+   0 dBm (1 W) → 2.4V output
+   +10 dBm (10 W) → 2.65V output
+   +20 dBm (100 W) → 2.9V output
+   -10 dBm (100 mW) → 2.15V output</code></pre>
+<p>Step 8: SWR Calculation Verification a) SWR = (1 + Γ) / (1 - Γ) where
+Γ = √(Pref/Pfwd) b) Example calculation: 1. Transmit 100W (forward power
+= +20 dBm) 2. Measure reflected power = -5 dBm (0.316 W) 3. Γ =
+√(0.316/100) = 0.056 (≈-25 dB) 4. SWR = (1 + 0.056)/(1 - 0.056) = 1.12:1
+c) If calculated SWR disagrees with NanoVNA measurement: 1. Check
+forward/reflected power calibration 2. Verify coupling factor of
+directional coupler (-20 to -30 dB typical) 3. Recalibrate coefficients
+in firmware</p>
+<p>6.5 BEAM PATTERN VERIFICATION (Optional, Advanced)</p>
+<p>Step 9: Field Measurement a) Equipment: Portable signal generator +
+10 dBi reference antenna OR Satellite doppler shift measurement b)
+Procedure: 1. Set antenna to known pattern (e.g., baseline 5-element) 2.
+Measure field strength in 36 directions (every 10°) 3. Plot polar
+diagram 4. Compare to NEC2 model in Appendix B 5. Expected agreement: ±2
+dBi in main lobe</p>
+<pre><code>Alternative (Doppler):
+   1. Monitor satellite pass (LEO like ISS or amateur satellite)
+   2. Measure signal strength variation as satellite transits
+   3. Peak strength indicates main lobe direction
+   4. Null position indicates F/B ratio</code></pre>
+<p>================================================================================</p>
+<p>SECTION 7.0 OPERATION</p>
+<p>7.1 CONTROL INTERFACES</p>
+<p>Three methods available to select beam patterns:</p>
+<p>METHOD 1: TOUCHSCREEN UI (CYD 480x320 Display)
+──────────────────────────────────────────────── Button Layout (12x6
+grid):</p>
+<pre><code>    [6M]   [2M]  [1.25M] [70CM]  [33CM]  [20CM]  ← Band Select
+
+    [OMNI]        [BASE] [CMPCT]  ← Patterns
+    [CARDI-N]     [REV]  [ENDFIRE]
+    [CARDI-E]     [MAX-G][MAX-FB]
+    [CARDI-W]
+    [STATUS]      [RESET]
+
+Display Shows (Real-Time Updates):
+    - Current band (large text, top)
+    - Current pattern (large text, center)
+    - SWR: X.XX:1 (green if &lt; 1.5, yellow if 1.5-2.0, red if &gt; 2.0)
+    - Forward power: XXXX.X dBm
+    - Reflected power: XXXX.X dBm
+    - Element states: [Refl][Dir1][Dir2][Dir3] (ON/OFF indicators)
+    - Controller status: ONLINE (blue), OFFLINE (red), ERROR (red flashing)
+
+Procedure:
+    1. Select desired band (6M, 2M, etc.) → display shows available patterns
+    2. Select pattern (BASELINE, COMPACT, REVERSE, etc.)
+    3. Pattern loads immediately (50 ms relay settling delay)
+    4. Monitor SWR on display (should stay &lt; 1.5:1 across patterns)
+    5. To switch bands: Press new band button → pattern list updates</code></pre>
+<p>METHOD 2: WIFI REST API (Via Laptop or Mobile)
+────────────────────────────────────────────────── Endpoint:
+http://192.168.4.1/control (POST request) Format:
+application/x-www-form-urlencoded</p>
+<pre><code>Example 1: Set pattern
+    POST /control?band=2m&amp;pattern=baseline
+    Response: 200 OK &quot;Pattern applied&quot;
+
+Example 2: Direct element control
+    POST /element?idx=0&amp;state=2
+    Parameters: idx=[0-3], state=[0=OFF, 1=REFLECTOR, 2=DIRECTOR]
+    Response: 200 OK &quot;Element updated&quot;
+
+Status query:
+    GET /api
+    Response: JSON
+        {
+          &quot;band&quot;: &quot;2m&quot;,
+          &quot;pattern&quot;: &quot;baseline&quot;,
+          &quot;swr&quot;: 1.2,
+          &quot;power_fwd_dbm&quot;: 35.2,
+          &quot;power_ref_dbm&quot;: 5.1,
+          &quot;elements&quot;: [2, 2, 2, 2]
+        }
+
+Tools: curl (CLI), Postman (GUI), Python requests (automation)
+
+Example curl command:
+    curl -X POST &quot;http://192.168.4.1/control?band=6m&amp;pattern=compact&quot;</code></pre>
+<p>METHOD 3: SERIAL COMMAND LINE (Via USB or RS-232)
+────────────────────────────────────────────────── Connection:
+USB-to-Serial FTDI adapter, 115200 baud, 8N1</p>
+<pre><code>Commands:
+    p&lt;n&gt;    - Set pattern (0-11)
+              p0 = OMNI, p1 = BASELINE, p2 = COMPACT, p3 = REVERSE, ...
+              p11 = F/B-MAX
+    s       - Print status (band, pattern, SWR, element states)
+    l       - List available patterns
+    h       - Print help (command list)
+
+Examples:
+    p1      → Set to BASELINE (all directors active)
+    s       → Display: Band=2m, Pattern=BASELINE, SWR=1.2:1, Fwd=35 dBm
+    l       → List: [0] OMNI, [1] BASELINE, [2] COMPACT, ...
+
+Tool: screen, minicom, or Arduino Serial Monitor</code></pre>
+<p>7.2 OPERATIONAL PROCEDURES</p>
+<p>Procedure A: QUICK BAND CHANGE</p>
+<pre><code>Touchscreen Method:
+    1. Press [2M] button
+    2. Pattern list updates on display
+    3. Confirm pattern (e.g., [BASELINE])
+    4. Wait 100 ms (element switching + settling)
+    5. Resume operation
+
+WiFi Method:
+    1. Send: GET /api (verify current band/pattern)
+    2. Send: POST /control?band=2m&amp;pattern=baseline
+    3. Wait 100 ms
+    4. Verify SWR &lt; 1.5:1
+
+Time required: ~1 second (switching + settling)</code></pre>
+<p>Procedure B: MULTI-PATTERN FIELD DAY (70cm Example)</p>
+<pre><code>Setup:
+    1. Power on controller (USB-C, automatic startup)
+    2. Verify WiFi SSID &quot;BeamController&quot; online
+    3. Connect laptop to WiFi
+    4. Open http://192.168.4.1 in web browser
+
+Operation (Contest):
+    - Baseline (DX contacts): Send POST /control?band=70cm&amp;pattern=baseline
+    - Local fills (shorter range): Send /control?...pattern=compact
+    - Noisy direction (RFI): Send /control?...pattern=reverse (beam away)
+    - Low angle (satellite): Send /control?...pattern=max-g (maximum gain)
+
+Monitoring:
+    - Continuously display SWR on screen (check for pattern validity)
+    - If SWR &gt; 2.0 in any pattern, stop and re-tune antenna
+    - Log pattern changes and QSO results in contest log</code></pre>
+<p>Procedure C: SATELLITE PASS OPERATION (EME possible with proper
+tuning)</p>
+<pre><code>1. Open satellite tracking app (Gpredict, ISS Detector, etc.)
+2. Identify pass: elevation angle, azimuth bearing, time window
+3. Pre-position antenna using pattern with maximum gain (BASELINE or MAX-G)
+4. Track satellite elevation:
+   - Elevation &lt; 30°: Use BASELINE (narrow beamwidth, max gain)
+   - Elevation 30-60°: Use COMPACT (wider beamwidth, easier tracking)
+   - Elevation &gt; 60° overhead: Use OMNI or REVERSE (omnidirectional coverage)
+5. Switch patterns as needed via touchscreen or API
+6. Monitor SWR throughout pass (should remain &lt; 2.0)</code></pre>
+<p>7.3 PERFORMANCE EXPECTATIONS</p>
+<p>Pattern Freq Gain (dBd) Beamwidth F/B (dB) Notes
+────────────────────────────────────────────────────────────────── OMNI
+50 MHz 6.0 90° 8 Omnidirectional BASELINE (5-el) 50 MHz 9.2 25° 22
+Narrow main lobe COMPACT (3-el) 50 MHz 6.5 40° 10 Portable config
+REVERSE 50 MHz 3.0 120° 8 Backward lobe CARDIOID 50 MHz 7.0 45° 15 Null
+in one direction MAX-GAIN 50 MHz 9.5 24° 25 Optimized patterns MAX-F/B
+50 MHz 8.5 30° 28 High front-to-back</p>
+<p>Actual gain may vary ±0.5 dBd depending on: - Boom material (aluminum
+vs stainless) - Feeding method (gamma, hairpin, 50Ω stub) - SWR at
+operating frequency (loss if SWR &gt; 1.5:1) - Environmental coupling
+(reflections from nearby structures)</p>
+<p>7.4 BAND-SPECIFIC OPERATING NOTES</p>
+<p>6M (50 MHz) Notes: - Relays switch cleanly, &lt; 0.2 dB loss expected
+- SWR typically &lt; 1.3:1 across patterns - RF isolation not critical
+(long wavelengths) - Safe to co-locate with other 6M antennas (&gt;2
+meters separation)</p>
+<p>2M (144 MHz) Notes: - Relay loss approaching limit (~0.25 dB) - SWR
+may vary 1.1 - 1.8:1 depending on pattern - RF isolation important
+(wavelength = 2 meters, control loops significant) - Keep control cables
+in shielded conduit if &gt; 5 meters from antenna</p>
+<p>70cm (432 MHz) Notes: - PIN diodes REQUIRED (relays cause &gt; 5 dB
+loss) - SWR typically &lt; 1.5:1 across patterns - RF isolation CRITICAL
+(wavelength = 69 cm) - Ferrite beads on all control lines MANDATORY -
+Microstrip bias network preferred over lumped components - UHF SWR meter
+recommended for field verification</p>
+<p>33cm/20cm (902/1296 MHz) Notes: - PIN diodes with careful PCB layout
+(no &gt; 2mm loops) - SMD component layout critical (0402 or smaller) -
+Microstrip transmission line for bias injection (λ/4 choke) - SWR &lt;
+1.3:1 difficult to achieve; aim for &lt; 1.5:1 - Minimal control cable
+run (&lt; 0.5 meters preferred)</p>
+<p>================================================================================</p>
+<p>SECTION 8.0 TROUBLESHOOTING</p>
+<p>Problem: Pattern does not change when button pressed</p>
+<pre><code>Diagnosis:
+    1. Check WiFi connection (SSID &quot;BeamController&quot; should appear)
+    2. Verify battery/power indicator (blue LED on controller should be ON)
+    3. Check element junction box: Blue LED should blink (element node online)
+    4. If element LED is RED: Over-current or over-temperature fault
+
+Solutions:
+    Option A (Touchscreen):
+        a. Press [RESET] button
+        b. Wait 3 seconds for controller to restart
+        c. Select pattern again
+        d. If still fails, proceed to Option C
+
+    Option B (WiFi):
+        a. Send GET /api to verify controller is responding
+        b. If no response: Controller offline, check USB power
+        c. If response received: Try POST /element?idx=0&amp;state=2 (direct)
+        d. If direct command works but pattern doesn&#39;t: Firmware issue
+
+    Option C (Serial Debug):
+        a. Connect USB-to-Serial to controller
+        b. Open Serial Monitor (115200 baud)
+        c. Type &#39;s&#39; for status
+        d. Look for error message or pattern name mismatch
+        e. Type &#39;p1&#39; to manually set pattern 1 (BASELINE)</code></pre>
+<p>Problem: SWR high (&gt; 2.0) after pattern change</p>
+<pre><code>Common Causes:
+    1. Reflector element shorted to boom when should be free
+    2. Impedance mismatch at driven element (matching network mistuned)
+    3. Damaged coax feedline (check with NanoVNA at shack)
+    4. Element resonance drift (environmental or temperature)
+
+Diagnosis Procedure:
+    a. Measure impedance with NanoVNA at antenna (using short test lead)
+    b. Expected impedance baseline pattern: 45-55Ω + j0-5Ω @ 50.1 MHz
+    c. If measured impedance significantly different:
+       - Check NEC2 model matches physical antenna
+       - Verify element lengths (use caliper, measure from element tip-to-tip)
+       - Check element spacing on boom (measure with measuring tape)
+    d. If impedance acceptable but SWR still high:
+       - Problem is in coax or matching network
+       - Check coax continuity with ohmmeter (should be &lt; 1Ω per 100 feet)
+       - Verify gamma match capacitor value (use LC meter if available)
+
+Solutions:
+    Option 1 (Reflector Short Stuck):
+        a. Unplug element control cable from relay/PIN PCB
+        b. Manually short element to boom with temporary wire
+        c. Measure SWR with NanoVNA
+        d. If SWR drops 0.5+:1, relay/PIN is broken → replace
+
+    Option 2 (Impedance Mismatch):
+        a. Measure resonance: Adjust frequency until SWR minimum
+        b. If resonance low (48 MHz when expecting 50.1):
+           - Shorten element by 1-2 cm
+           - Remeasure SWR
+        c. If reactance X &gt; 10Ω even at resonance:
+           - Adjust gamma match capacitor (if present)
+           - Or add series capacitor to matching network
+
+    Option 3 (Coax Damaged):
+        a. Replace 3 meters of coax starting at driven element
+        b. Re-measure SWR
+        c. If improves: Replace entire coax run</code></pre>
+<p>Problem: Relay clicks but element doesn’t switch (relay
+malfunction)</p>
+<pre><code>Symptoms:
+    - Audible relay click/buzz when pattern changes
+    - But SWR doesn&#39;t change (element still in previous state)
+    - Red LED on element node blinks (driver failure or stuck contact)
+
+Diagnosis:
+    1. Check relay contact continuity:
+       a. Use ohmmeter across relay NO contact pair
+       b. Measure resistance when relay energized (should be &lt; 0.5Ω)
+       c. Measure when de-energized (should be open &gt; 10 MΩ)
+    2. If contacts are stuck:
+       a. Check for solder bridge between pins (inspect under magnification)
+       b. Check for bent or damaged contact spring
+       c. Replace relay if any contact is permanently stuck
+
+Solutions:
+    Option 1 (Clean Contact Corrosion):
+        a. De-solder relay from PCB
+        b. Exercise relay contacts 20 times (energize/de-energize cycle)
+        c. If contacts show black oxidation: Replace relay
+        d. If contacts clean up: Re-solder relay and retest
+
+    Option 2 (Replace Relay):
+        a. Desolder failed relay from PCB
+        b. Install new Omron G5V-2 relay (ensure correct part number)
+        c. Apply dielectric grease to contacts for long-term protection
+        d. Re-test pattern changes</code></pre>
+<p>Problem: Control cable allows RF coupling into element node (pattern
+distortion)</p>
+<pre><code>Symptoms:
+    - Pattern F/B ratio degrades 3+ dB when control relay energized
+    - Spurious pattern nulls appear when switching patterns
+    - Element node status LED flickers during high-power TX
+
+Solutions:
+    1. Add ferrite bead to each control line:
+       a. Slide ferrite (100Ω @ 100 MHz, 0402 SMD) onto control wire
+       b. Solder ferrite directly before element PCB entry
+       c. Re-measure pattern (F/B degradation should reduce 3+ dB)
+
+    2. Shield control cable:
+       a. Replace unshielded wire with shielded twisted-pair (CAT5e)
+       b. Connect shield to boom GND at antenna ONLY (float at controller)
+       c. Add ferrite toroid (T50-2, 3 turns) around twisted-pair at antenna
+       d. Re-measure pattern
+
+    3. Ground isolation:
+       a. Verify separate power supply for relay coil (not shared with RF)
+       b. Use separate wire for relay GND return (not through boom connection)
+       c. Add 10µF capacitor across relay coil for RC filtering</code></pre>
+<p>Problem: Over-current fault (element node red LED stays ON)</p>
+<pre><code>Symptoms:
+    - Red LED on element node stays illuminated
+    - Relay doesn&#39;t energize (GPIO stuck LOW)
+    - SWR unchanged (element appears shorted)
+    - Possible smell of burned electronics
+
+Causes:
+    1. Shorted PIN diode (damaged by ESD or voltage overstress)
+    2. Relay contact stuck in &quot;shorted&quot; position (welded)
+    3. Element accidentally grounded (broken seal allowing moisture)
+    4. Incorrect bias voltage applied (&gt; 15V fries PIN diode)
+
+Diagnosis:
+    a. Measure DC resistance across element to boom:
+       - Normal (director open): &gt; 10 MΩ
+       - Shorted (reflector or stuck contact): &lt; 1Ω
+    b. Measure bias voltage applied to PIN cathode:
+       - Should be 0V (off) or +12V (on), NOT intermediate
+       - If intermediate (e.g., 5V), transistor driver is broken
+    c. Measure coil current if relay-based:
+       - Should be 0 mA (off) or 40 mA (on)
+       - If current doesn&#39;t change, relay coil is open
+
+Solutions:
+    Option 1 (Replace PIN Diode):
+        a. De-solder failed PIN diode from PCB
+        b. Install new PIN diode (MA4P504 or equivalent per band)
+        c. Apply new RFC choke and bypass capacitor
+        d. Verify bias voltage before re-mounting to boom
+
+    Option 2 (Replace Relay):
+        a. De-solder relay from PCB
+        b. Inspect contacts: If welded, don&#39;t re-use
+        c. Install new Omron G5V-2 relay
+        d. Verify 5V supply before energizing
+
+    Option 3 (Check Bias Voltage):
+        a. Verify transistor (2N2222) is not shorted (measure Vce @ ON state)
+        b. Check base resistor (1kΩ) for opens with ohmmeter
+        c. Replace transistor or resistor as needed</code></pre>
+<p>================================================================================</p>
+<p>[SECTION 9.0 - MAINTENANCE, SECTION 10.0 - PARTS LIST, APPENDICES A-D
+continue in file… truncated for length]</p>
+<p>SECTION 9.0 MAINTENANCE</p>
+<p>Annual Inspection Checklist:</p>
+<pre><code>[ ] Inspect O-ring seals in enclosure (check for hardening, shrinkage)
+[ ] Check all RF connector threads for corrosion
+[ ] Re-apply dielectric grease to connector threads
+[ ] Verify all coax is properly cinch-clamped to boom
+[ ] Inspect element for fatigue cracks (especially near boom clamp)
+[ ] Test relay contacts with ohmmeter (&lt; 0.5Ω when closed)
+[ ] Verify control cable shield is floating (not grounded at shack end)
+[ ] Check WiFi signal strength (-70 dBm or better)
+[ ] Perform SWR baseline test on all bands
+[ ] Re-calibrate NanoVNA measurement (SOLT calibration)</code></pre>
+<p>Preventive Maintenance:</p>
+<pre><code>- Replace O-ring gasket every 2 years (becomes brittle, loses elasticity)
+- Clean relay contacts annually (de-solder and burnish if &gt; 200 mΩ)
+- Replace coax every 5-10 years (UV degrades dielectric, increases loss)
+- Re-seal RF connectors every 3 years or after severe weather</code></pre>
+<p>================================================================================</p>
+<p>END OF REMOTE ELEMENT SWITCHING MANUAL</p>
+<p>For questions or additions to this manual, contact:
+ant_gear@example.com</p>
+<p>Version History: v1.0 (April 2026): Initial release, 6-band support
+(6M through 20cm)</p>
+<p>This manual is distributed under CC BY-SA 4.0 license. Improvements
+and corrections welcomed.</p>
+<p>================================================================================</p>
+
+            </main>
+        </div>
+    </div>
+</body>
+</html>

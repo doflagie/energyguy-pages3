@@ -1,7 +1,0 @@
-trap_name,freq_trap_mhz,core_type,core_part,AL_nH_per_t2,n_turns,wire_awg,L_calc_uH,C_pF,C_standard_pF,Z_trap_ohm,Q_trap,notes
-40m-trap,7.150,T50-2,T50-2,4,12,18,0.576,860.2,820,3976,150,Wind 12T #18AWG on T50-2; parallel with 820pF silver-mica; Z>3180Ohm at 7.15MHz; isolates outer loop from 40m resonant section
-30m-trap,10.125,T50-2,T50-2,4,10,18,0.400,617.7,560,4009,150,Wind 10T #18AWG on T50-2; parallel with 560pF silver-mica; Z>3207Ohm at 10.125MHz; isolates 30m section
-20m-trap,14.175,T50-2,T50-2,4,8,18,0.256,492.4,470,3501,150,Wind 8T #18AWG on T50-2; parallel with 470pF NP0; Z>2801Ohm at 14.175MHz; isolates 20m section
-17m-trap,18.118,T50-6,T50-6,3,8,18,0.192,401.9,390,4438,200,Wind 8T #18AWG on T50-6; parallel with 390pF NP0; Z>3550Ohm at 18.118MHz; isolates 17m section
-15m-trap,21.225,T50-6,T50-6,3,7,18,0.147,382.5,390,3883,200,Wind 7T #18AWG on T50-6; parallel with 390pF NP0; Z>3106Ohm at 21.225MHz; isolates 15m section
-10m-trap,28.500,T50-6,T50-6,3,5,18,0.075,415.8,390,2774,200,Wind 5T #18AWG on T50-6; parallel with 390pF NP0; Z>2219Ohm at 28.5MHz; innermost trap; closes 10m loop

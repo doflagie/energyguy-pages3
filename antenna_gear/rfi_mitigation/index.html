@@ -1,0 +1,1744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RFI Mitigation - Merv's Dump</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Dump</h1>
+                    <p class="tagline">When you build it, it teaches.</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+            <nav>
+                <h3>Main Navigation</h3>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about/bio.html">About</a></li>
+                </ul>
+
+                <details class="nav-group">
+                    <summary>Antennas</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/antennas/phased_array_of_2/">2-Element Phased Array</a></li>
+                    <li><a href="/antennas/phased_array_of_4/">4-Element Phased Array</a></li>
+                    <li><a href="/antennas/active_receiving/">Active Receiving</a></li>
+                    <li><a href="/antennas/beverage_receiving/">Beverage (Receiving)</a></li>
+                    <li><a href="/antennas/cage_dipole/">Cage Dipole</a></li>
+                    <li><a href="/antennas/collinear_array/">Collinear Array</a></li>
+                    <li><a href="/antennas/compact-dipole/">Compact Dipole</a></li>
+                    <li><a href="/antennas/cross_polarized/">Cross-Polarized</a></li>
+                    <li><a href="/antennas/cubical_quad/">Cubical Quad</a></li>
+                    <li><a href="/antennas/delta_loop_40m/">Delta Loop (40m)</a></li>
+                    <li><a href="/antennas/dipole/">Dipole</a></li>
+                    <li><a href="/antennas/discone/">Discone</a></li>
+                    <li><a href="/antennas/double_bazooka/">Double Bazooka</a></li>
+                    <li><a href="/antennas/end_fed_half_wave/">EFHW</a></li>
+                    <li><a href="/antennas/end_fed_quarter_wave/">EFQW</a></li>
+                    <li><a href="/antennas/end_fed_random_wire/">EFRW</a></li>
+                    <li><a href="/antennas/elevated_radials/">Elevated Radials</a></li>
+                    <li><a href="/antennas/end_fed_zepp/">End-Fed Zepp</a></li>
+                    <li><a href="/antennas/extended_double_zepp/">Extended Double Zepp</a></li>
+                    <li><a href="/antennas/fan_dipole/">Fan Dipole</a></li>
+                    <li><a href="/antennas/flagpole/">Flagpole</a></li>
+                    <li><a href="/antennas/flower_pot/">Flowerpot</a></li>
+                    <li><a href="/antennas/folded_dipole/">Folded Dipole</a></li>
+                    <li><a href="/antennas/folded_dipole_2conductor/">Folded Dipole (2-cond)</a></li>
+                    <li><a href="/antennas/folded_dipole_3conductor/">Folded Dipole (3-cond)</a></li>
+                    <li><a href="/antennas/frame_loop/">Frame Loop</a></li>
+                    <li><a href="/antennas/full_wave_loop/">Full-Wave Loop</a></li>
+                    <li><a href="/antennas/g5rv/">G5RV</a></li>
+                    <li><a href="/antennas/gmrs_loaded_vertical/">GMRS Loaded Vertical</a></li>
+                    <li><a href="/antennas/ground_plane/">Ground Plane</a></li>
+                    <li><a href="/antennas/helical/">Helical</a></li>
+                    <li><a href="/antennas/helical_antenna_2m_satellite/">Helical (2m Satellite)</a></li>
+                    <li><a href="/antennas/hentenna/">Hentenna</a></li>
+                    <li><a href="/antennas/hex_loop/">Hex Loop</a></li>
+                    <li><a href="/antennas/inverted_l_40m/">Inverted-L (40m)</a></li>
+                    <li><a href="/antennas/inverted_vee_dipole/">Inverted-V</a></li>
+                    <li><a href="/antennas/j_pole/">J-Pole</a></li>
+                    <li><a href="/antennas/k9ay_loop_40m/">K9AY Loop (40m)</a></li>
+                    <li><a href="/antennas/kmr_400_magnetic_loop/">KMR-400 Mag Loop</a></li>
+                    <li><a href="/antennas/log_periodic_dipole_arrays_for_wideband_operation/">LPDA Wideband</a></li>
+                    <li><a href="/antennas/loaded_vertical_hf/">Loaded Vertical (HF)</a></li>
+                    <li><a href="/antennas/log_periodic/">Log Periodic</a></li>
+                    <li><a href="/antennas/magnetic_loop_antennas/">Magnetic Loop</a></li>
+                    <li><a href="/antennas/moxon/">Moxon Rectangle</a></li>
+                    <li><a href="/antennas/near_vertical_incidence_skywave/">NVIS</a></li>
+                    <li><a href="/antennas/ocfd_windom/">OCFD / Windom</a></li>
+                    <li><a href="/antennas/octal_loop/">Octal Loop</a></li>
+                    <li><a href="/antennas/off_center_fed_dipole/">Off-Center Fed</a></li>
+                    <li><a href="/antennas/patch_antenna_2.4_ghz/">Patch (2.4 GHz)</a></li>
+                    <li><a href="/antennas/portable_magnetic_loop/">Portable Mag Loop</a></li>
+                    <li><a href="/antennas/rhombic/">Rhombic</a></li>
+                    <li><a href="/antennas/rybakov/">Rybakov</a></li>
+                    <li><a href="/antennas/satellite_yagi_antenna/">Satellite Yagi</a></li>
+                    <li><a href="/antennas/screwdriver/">Screwdriver</a></li>
+                    <li><a href="/antennas/shunt_fed/">Shunt-Fed Vertical</a></li>
+                    <li><a href="/antennas/slim_jim/">Slim Jim</a></li>
+                    <li><a href="/antennas/slinky_antenna_20m_portable/">Slinky (20m)</a></li>
+                    <li><a href="/antennas/sloped_dipole/">Sloped Dipole</a></li>
+                    <li><a href="/antennas/slot_antenna_uhf/">Slot Antenna (UHF)</a></li>
+                    <li><a href="/antennas/t_antenna/">T-Antenna</a></li>
+                    <li><a href="/antennas/tilted_terminated_folded_dipole/">T2FD</a></li>
+                    <li><a href="/antennas/tape_antennas/">Tape Antennas</a></li>
+                    <li><a href="/antennas/tape_measure_yagi/">Tape Measure Yagi</a></li>
+                    <li><a href="/antennas/telescopic/">Telescopic</a></li>
+                    <li><a href="/antennas/telescopic_vertical/">Telescopic Vertical</a></li>
+                    <li><a href="/antennas/terminated_folded_dipole/">Terminated Folded Dipole</a></li>
+                    <li><a href="/antennas/terminated_sloper_receiving/">Terminated Sloper</a></li>
+                    <li><a href="/antennas/trap_dipole/">Trap Dipole</a></li>
+                    <li><a href="/antennas/traveling_wave_vertical/">Traveling Wave Vertical</a></li>
+                    <li><a href="/antennas/turnstile/">Turnstile</a></li>
+                    <li><a href="/antennas/v_beam/">V-Beam</a></li>
+                    <li><a href="/antennas/vertical_dipole/">Vertical Dipole</a></li>
+                    <li><a href="/antennas/yagi_uda/">Yagi-Uda</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group">
+                    <summary>Antenna Gear</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/antenna_gear/ant_switches/">Antenna Switches</a></li>
+                    <li><a href="/antenna_gear/audio_filters/">Audio Filters</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/">Baluns And Ununs</a></li>
+                    <li><a href="/antenna_gear/bms/">BMS</a></li>
+                    <li><a href="/antenna_gear/coax_traps/">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/coil_winder/">Coil Winder</a></li>
+                    <li><a href="/antenna_gear/common_mode_chokes/">Common Mode Chokes</a></li>
+                    <li><a href="/antenna_gear/crystal_radio/">Crystal Radio</a></li>
+                    <li><a href="/antenna_gear/hybrids/">Hybrids</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/">Lightning Protection</a></li>
+                    <li><a href="/antenna_gear/mast_tower/">Mast Tower</a></li>
+                    <li><a href="/antenna_gear/motorized_tuner/">Motorized Tuner</a></li>
+                    <li><a href="/antenna_gear/power_supplies/">Power Supplies</a></li>
+                    <li><a href="/antenna_gear/remote-element-switching/">Remote Element Switching</a></li>
+                    <li><a href="/antenna_gear/rf_couplers/">RF Couplers</a></li>
+                    <li><a href="/antenna_gear/rfi_mitigation/">RFI Mitigation</a></li>
+                    <li><a href="/antenna_gear/roller_inductors/">Roller Inductors</a></li>
+                    <li><a href="/antenna_gear/transmatch/">Transmatch</a></li>
+                    <li><a href="/antenna_gear/variable_caps/">Variable Capacitors</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group">
+                    <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/adf_systems/">ADF Systems</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/antenna_modeling/">Antenna Modeling</a></li>
+                    <li><a href="/antenna_tools/dummy_loads/">Dummy Loads</a></li>
+                    <li><a href="/antenna_tools/field_strength_meter/">Field Strength Meter</a></li>
+                    <li><a href="/antenna_tools/noise_bridge/">Noise Bridge</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/">RF Power Meter</a></li>
+                    <li><a href="/antenna_tools/rf_power_meters/">RF Power Meters</a></li>
+                    <li><a href="/antenna_tools/sdr_interfaces/">SDR Interfaces</a></li>
+                    <li><a href="/antenna_tools/swr_meter/">SWR Meter</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group">
+                    <summary>Calibration</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/calibration/1013d-plus-oscilloscope/">1013D Plus Oscilloscope</a></li>
+                    <li><a href="/calibration/antenna-analyzer/">Antenna Analyzer</a></li>
+                    <li><a href="/calibration/audio-oscillator/">Audio Oscillator</a></li>
+                    <li><a href="/calibration/bm4070-digital-lcr-tester/">BM4070 Digital LCR Tester</a></li>
+                    <li><a href="/calibration/capacitance-meter/">Capacitance Meter</a></li>
+                    <li><a href="/calibration/current-source/">Current Source</a></li>
+                    <li><a href="/calibration/decade-capacitance-box/">Decade Capacitance Box</a></li>
+                    <li><a href="/calibration/decade-inductance-box/">Decade Inductance Box</a></li>
+                    <li><a href="/calibration/decade-resistance-box/">Decade Resistance Box</a></li>
+                    <li><a href="/calibration/dip-meter-grid-dip-oscillator/">Dip Meter Grid Dip Oscillator</a></li>
+                    <li><a href="/calibration/dso138-digital-oscilloscope/">DSO138 Digital Oscilloscope</a></li>
+                    <li><a href="/calibration/dummy-load-50-ohm/">Dummy Load 50 Ohm</a></li>
+                    <li><a href="/calibration/field-strength-meter/">Field Strength Meter</a></li>
+                    <li><a href="/calibration/fluke-15b-multimeter/">Fluke 15B Multimeter</a></li>
+                    <li><a href="/calibration/fm-broadcast/">Fm Broadcast</a></li>
+                    <li><a href="/calibration/frequency-counter/">Frequency Counter</a></li>
+                    <li><a href="/calibration/frequency-standard-gpsdo/">Frequency Standard GPSDO</a></li>
+                    <li><a href="/calibration/function-generator/">Function Generator</a></li>
+                    <li><a href="/calibration/gps-reference/">GPS Reference</a></li>
+                    <li><a href="/calibration/impedance-bridge/">Impedance Bridge</a></li>
+                    <li><a href="/calibration/inductance-meter/">Inductance Meter</a></li>
+                    <li><a href="/calibration/lcr-meter/">LCR Meter</a></li>
+                    <li><a href="/calibration/modulation-analyzer/">Modulation Analyzer</a></li>
+                    <li><a href="/calibration/multimeter-dmm/">Multimeter DMM</a></li>
+                    <li><a href="/calibration/nanovna/">Nanovna</a></li>
+                    <li><a href="/calibration/nanovna-vector-network-analyzer/">NanoVNA Vector Network Analyzer</a></li>
+                    <li><a href="/calibration/noise-figure-meter/">Noise Figure Meter</a></li>
+                    <li><a href="/calibration/oscilloscope/">Oscilloscope</a></li>
+                    <li><a href="/calibration/q-meter/">Q Meter</a></li>
+                    <li><a href="/calibration/radio-standards/">Radio Standards</a></li>
+                    <li><a href="/calibration/rf-attenuator-set/">RF Attenuator Set</a></li>
+                    <li><a href="/calibration/rf-power-meter/">RF Power Meter</a></li>
+                    <li><a href="/calibration/rf-probe-detector/">RF Probe Detector</a></li>
+                    <li><a href="/calibration/rf-signal-tracer/">RF Signal Tracer</a></li>
+                    <li><a href="/calibration/signal-generator/">Signal Generator</a></li>
+                    <li><a href="/calibration/simpson-260-series-3-analog-multimeter/">Simpson 260 Series 3 Analog Multimeter</a></li>
+                    <li><a href="/calibration/swr-meter/">SWR Meter</a></li>
+                    <li><a href="/calibration/tinysa-spectrum-analyzer/">TinySA Spectrum Analyzer</a></li>
+                    <li><a href="/calibration/verification/">Verification</a></li>
+                    <li><a href="/calibration/voltage-reference/">Voltage Reference</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group">
+                    <summary>Calibration Ideas</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/Calibration_Ideas/ac_mains_reference/">AC Mains Reference</a></li>
+                    <li><a href="/Calibration_Ideas/attenuator_pad_standards/">Attenuator Pad Standards</a></li>
+                    <li><a href="/Calibration_Ideas/coax_capacitance_standard/">Coax Capacitance Standard</a></li>
+                    <li><a href="/Calibration_Ideas/dummy_load_power_standard/">Dummy Load Power Standard</a></li>
+                    <li><a href="/Calibration_Ideas/field_strength_reference/">Field Strength Reference</a></li>
+                    <li><a href="/Calibration_Ideas/fm_broadcast_reference/">FM Broadcast Reference</a></li>
+                    <li><a href="/Calibration_Ideas/gps_1pps_reference/">GPS 1PPS Reference</a></li>
+                    <li><a href="/Calibration_Ideas/gpsdo_reference/">GPSDO Reference</a></li>
+                    <li><a href="/Calibration_Ideas/kelvin_resistance_standard/">Kelvin Resistance Standard</a></li>
+                    <li><a href="/Calibration_Ideas/known_length_dipole_standard/">Known Length Dipole Standard</a></li>
+                    <li><a href="/Calibration_Ideas/lc_resonance_standard/">LC Resonance Standard</a></li>
+                    <li><a href="/Calibration_Ideas/precision_resistor_network/">Precision Resistor Network</a></li>
+                    <li><a href="/Calibration_Ideas/precision_voltage_reference/">Precision Voltage Reference</a></li>
+                    <li><a href="/Calibration_Ideas/rc_time_constant_standard/">RC Time Constant Standard</a></li>
+                    <li><a href="/Calibration_Ideas/wheatstone_bridge/">Wheatstone Bridge</a></li>
+                    <li><a href="/Calibration_Ideas/wwv_wwvh_reference/">WWV/WWVH Reference</a></li>
+                    <li><a href="/Calibration_Ideas/zener_divider_reference/">Zener Divider Reference</a></li>
+                </ul>
+                </details>
+
+<details class="nav-group" open>
+    <summary>Study & Training</summary>
+    <ul>
+                    <li><a href="/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                    <li><a href="/study/morse.html">Morse Code Practice</a></li>
+                </ul>
+</details>
+
+</nav>
+            <main>
+<h1 id="technical-manual">TECHNICAL MANUAL</h1>
+<h2 id="tm-rfi-001-rev-a">TM-RFI-001 Rev A</h2>
+<h1 id="radio-frequency-interference-rfi-and-qrm-mitigation">RADIO
+FREQUENCY INTERFERENCE (RFI) AND QRM MITIGATION</h1>
+<h3 id="complete-home-station-noise-reduction-system">Complete Home
+Station Noise Reduction System</h3>
+<hr />
+<p><strong>DOCUMENT NUMBER:</strong> TM-RFI-001 Rev A<br />
+<strong>DATE:</strong> 2 May 2026<br />
+<strong>SUPERSEDES:</strong> None (initial issue)<br />
+<strong>APPLICABLE TO:</strong> All ham shack installations; residential
+environment; co-location with computers, peripherals, LED lighting, and
+household appliances.</p>
+<hr />
+<h2 id="table-of-contents">TABLE OF CONTENTS</h2>
+<table>
+<thead>
+<tr>
+<th>Chapter</th>
+<th>Title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Fundamentals of RFI and QRM</td>
+</tr>
+<tr>
+<td>2</td>
+<td>RFI Sources in the Modern Home</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Conducted vs. Radiated Interference</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Common-Mode Current and Feed Line Noise</td>
+</tr>
+<tr>
+<td>5</td>
+<td>AC Mains EMI Filter</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Common-Mode Chokes — Ferrite Selection and Winding</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Active Noise Cancellation</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Near-Field RFI Sniffer Probes</td>
+</tr>
+<tr>
+<td>9</td>
+<td>ESP32 Automated Noise Floor Monitor</td>
+</tr>
+<tr>
+<td>10</td>
+<td>CYD Display for Noise Monitoring</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Grounding, Bonding, and Single-Point Ground Systems</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Systematic RFI Hunt — Field Procedures</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Device-Specific Remediation</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Troubleshooting</td>
+</tr>
+<tr>
+<td>A</td>
+<td>Ferrite Core Quick Reference</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Common RFI Frequencies and Signatures</td>
+</tr>
+<tr>
+<td>C</td>
+<td>NEC Model Interpretation Guide</td>
+</tr>
+<tr>
+<td>D</td>
+<td>Parts List and Sources</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="chapter-1-fundamentals-of-rfi-and-qrm">CHAPTER 1 — FUNDAMENTALS
+OF RFI AND QRM</h2>
+<h3 id="definitions">1.1 Definitions</h3>
+<p><strong>RFI (Radio Frequency Interference):</strong> Any RF signal
+that degrades the quality of a desired radio communication. RFI may
+originate from intentional transmitters (legal or illegal) or from
+unintentional emitters (electronic devices).</p>
+<p><strong>QRM:</strong> Amateur radio shorthand for manmade
+interference. Specifically denotes non-atmospheric interference on a
+radio channel. Used to distinguish from QRN (atmospheric noise, static)
+and QSB (fading).</p>
+<p><strong>Noise floor:</strong> The lowest signal level readable on a
+receiver. Determined by thermal noise (unavoidable) plus all received
+manmade noise (RFI). Lower noise floor = greater sensitivity = better
+weak-signal capability.</p>
+<p><strong>S-meter scale (ITU standard):</strong> Each S-unit = 6 dB. S9
+= −73 dBm at HF. S0 = −121 dBm (below noise floor of most receivers) S1
+= −115 dBm S5 = −91 dBm S9 = −73 dBm S9+10 = −63 dBm S9+20 = −53 dBm
+S9+60 = −13 dBm (very strong — possible damage threshold)</p>
+<p>A noise floor of S7 (−79 dBm) means: any signal below S7 is buried in
+noise. Reducing noise floor to S1 (−115 dBm) improves sensitivity by 6
+S-units = 36 dB. This is the difference between hearing a DX station and
+not hearing it.</p>
+<h3 id="types-of-rf-noise">1.2 Types of RF Noise</h3>
+<p><strong>Broadband noise:</strong> Continuous spectral content across
+a wide frequency range. Source: switching power supplies, motor brushes,
+SMPS inverters. Signature on SDR: raised noise floor across entire
+panadapter display.</p>
+<p><strong>Narrowband interference:</strong> Strong signal on one or a
+few specific frequencies. Source: oscillators (CPU clocks, PWM
+controllers), LO leakage, harmonics. Signature: one or more discrete
+“birdies” (narrow spikes) on panadapter.</p>
+<p><strong>Periodic impulsive noise:</strong> Repeated bursts at a
+regular interval. Source: microcontroller timers, PWM dimmer switching,
+motor commutation. Signature: S-meter twitches rhythmically; audio has
+periodic “buzz” or “crackle.”</p>
+<p><strong>Conducted interference:</strong> Noise travels via electrical
+conductors (mains wiring, signal cables, coax braid). Enters shack via
+AC power line or coax feed line.</p>
+<p><strong>Radiated interference:</strong> Noise radiates as
+electromagnetic waves through space. Enters shack via antenna, or
+couples directly to equipment through proximity.</p>
+<h3 id="noise-figure-noise-temperature-and-mds">1.3 Noise Figure, Noise
+Temperature, and MDS</h3>
+<p><strong>Thermal noise power</strong> at temperature T in bandwidth B:
+P_noise = k × T × B = 1.38×10⁻²³ × 290 × B = 4.0×10⁻²¹ × B (watts) =
+−174 dBm/Hz + 10×log10(B)</p>
+<p>At B = 2400 Hz (SSB bandwidth): P_noise = −174 + 33.8 = −140.2 dBm At
+B = 500 Hz (CW): P_noise = −147 dBm</p>
+<p><strong>Minimum Detectable Signal (MDS):</strong> P_noise + receiver
+NF Good HF receiver (NF = 10 dB), SSB BW: MDS = −130 dBm = S0−9 dB SDR
+with LNA (NF = 3 dB), SSB BW: MDS = −137 dBm</p>
+<p><strong>Effect of RFI on MDS:</strong> If RFI raises the noise floor
+by 20 dB (S4 to S8), then MDS worsens by 20 dB. You have lost all
+sensitivity advantage of a good receiver/antenna combination.</p>
+<p><strong>Conclusion:</strong> Noise mitigation is as important as
+transmit power and antenna gain. Reducing noise by 10 dB is equivalent
+to doubling transmit power of the other station.</p>
+<hr />
+<h2 id="chapter-2-rfi-sources-in-the-modern-home">CHAPTER 2 — RFI
+SOURCES IN THE MODERN HOME</h2>
+<h3 id="survey-of-common-home-rfi-sources">2.1 Survey of Common Home RFI
+Sources</h3>
+<p>The following categories cover the vast majority of residential
+RFI:</p>
+<p><strong>Category 1: Switching Power Supplies (SMPS)</strong> Every
+wall wart, laptop charger, phone charger, and LED power supply contains
+a switching regulator operating at 50 kHz–3 MHz. The switching creates
+harmonics extending into the HF amateur bands.</p>
+<table>
+<thead>
+<tr>
+<th>Device</th>
+<th>Typical switching frequency</th>
+<th>Harmonic bands affected</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Phone charger (5W)</td>
+<td>100–400 kHz</td>
+<td>160m, 80m</td>
+</tr>
+<tr>
+<td>Laptop charger (65W)</td>
+<td>60–200 kHz</td>
+<td>160m, 80m, 40m</td>
+</tr>
+<tr>
+<td>LED bulb driver</td>
+<td>25–100 kHz</td>
+<td>160m, 80m</td>
+</tr>
+<tr>
+<td>Computer ATX supply</td>
+<td>100–200 kHz</td>
+<td>160m, 80m, 40m</td>
+</tr>
+<tr>
+<td>Solar MPPT charge controller</td>
+<td>50–150 kHz</td>
+<td>160m, 80m, 40m</td>
+</tr>
+<tr>
+<td>Inverter/UPS</td>
+<td>50–60 Hz fundamental; PWM: 10–50 kHz</td>
+<td>all bands</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Category 2: LED Lighting</strong> Modern LED bulbs use
+switching drivers (same as SMPS). Additional noise from PWM dimming.
+Some LED drivers intentionally spread-spectrum their switching frequency
+to pass EMC testing — this creates broadband hash rather than discrete
+harmonics.</p>
+<p>Particularly troublesome: LED strip lights with cheaply made
+constant-current drivers. Cheap LED “corn bulb” replacements: notorious
+for severe HF interference.</p>
+<p><strong>Category 3: Computers and Peripherals</strong> - USB 3.0
+generates a strong noise signature at 2.5 GHz and harmonics down to HF -
+HDMI cables radiate 165 MHz carrier and harmonics (affects VHF bands) -
+Ethernet switches: broadband digital noise - CPU core voltage
+regulators: switch at 200–500 kHz × number of phases - GPU power
+regulators: especially during high GPU load</p>
+<p><strong>Category 4: Smart Devices and Wireless</strong> - Smart
+meters: power line carrier (30–500 kHz) + ZigBee (2.4 GHz) - WiFi
+routers: 2.4 GHz and 5 GHz broadband noise - Baby monitors (older 49 MHz
+models): directly in ham bands - Baby monitors (DECT 6.0): 1.9 GHz but
+local desensitization - Plasma TVs (older): severe HF noise; modern
+OLED/LCD much better - Touchscreen dimmer switches: often generate
+significant QRM</p>
+<p><strong>Category 5: Appliances and Mechanical</strong> - Refrigerator
+compressor: impulsive noise on startup and stop; AC induction motor -
+Vacuum cleaner: universal motor (brushes = arcing = broadband noise) -
+Dimmer switches (TRIAC): generate harmonics of power line frequency -
+Electric blankets / heating pads: similar to TRIAC dimmers - Fluorescent
+lights (magnetic ballast): 50/60 Hz and harmonics - CFL bulbs: switching
+power supply noise + ballast harmonics</p>
+<h3 id="identifying-your-specific-noise-sources">2.2 Identifying Your
+Specific Noise Sources</h3>
+<p>Every home is different. Systematic identification is required before
+mitigation.</p>
+<p><strong>STEP 1: Baseline measurement.</strong> Note noise floor on
+each ham band with all shack equipment on, nothing else running. Use SDR
+noise floor monitor (Chapter 9) or S-meter plus careful note-taking.</p>
+<p><strong>STEP 2: Circuit breaker test.</strong> Turn off all circuit
+breakers except shack power. Re-measure. Reduction = mains-conducted
+noise from rest of house. Progressive re-energization of circuits
+identifies which circuit(s) contribute most.</p>
+<p><strong>STEP 3: Device elimination.</strong> With individual circuit
+identified, walk through the circuit unplugging devices one at a time.
+When noise floor drops: that device is the culprit.</p>
+<p><strong>STEP 4: Near-field probe confirmation.</strong> Use H-field
+sniffer (Chapter 8) near confirmed device. Verify S-meter peaks near the
+device.</p>
+<p><strong>STEP 5: Coupling path identification.</strong> Once source
+identified, determine HOW the noise reaches your antenna: - Conducted
+via mains: mains filter at shack entry will help - Conducted via coax
+braid: feed line choke at antenna will help - Radiated direct to
+antenna: source must be physically suppressed</p>
+<hr />
+<h2 id="chapter-3-conducted-vs.-radiated-interference">CHAPTER 3 —
+CONDUCTED vs. RADIATED INTERFERENCE</h2>
+<h3 id="conducted-path">3.1 Conducted Path</h3>
+<p>Noise travels through electrical conductors. Main conducted
+paths:</p>
+<p><strong>AC mains wiring:</strong> The mains power network is a giant
+antenna. Switching supply noise generated by any device on the
+building’s wiring appears on all outlets. A SMPS in one room conducts
+noise to your shack’s power outlets.</p>
+<p><strong>Mitigations:</strong> - AC mains EMI filter at shack power
+entry (Chapter 5) - Ferrite cores on offending device’s power cord -
+Separate circuit for shack (dedicated 20A circuit from panel) - Replace
+offending device with low-noise alternative</p>
+<p><strong>Coaxial feed line braid:</strong> See Chapter 4 (common-mode
+current) for the detailed treatment. This is often the dominant path for
+HF noise.</p>
+<p><strong>Signal cables (audio, USB, Ethernet):</strong> Noise coupling
+via signal reference ground. Use shielded cables. Install ferrite clamps
+on both ends.</p>
+<h3 id="radiated-path">3.2 Radiated Path</h3>
+<p>Noise travels through space as electromagnetic radiation. Directly
+couples to antenna.</p>
+<p><strong>Near-field coupling:</strong> Distance &lt; λ/2π ≈ λ/6.
+Fields fall off rapidly (1/r² or 1/r³). At 7 MHz, near-field region
+extends to λ/6 = 7.1m. Sources within 7m couple strongly.</p>
+<p><strong>Far-field:</strong> Distance &gt; λ. Fields fall off as 1/r.
+Neighbor’s equipment can couple at far field if strong enough.</p>
+<p><strong>Mitigations for radiated path:</strong> - Physically separate
+antenna from noise sources (height, distance) - Use directional antenna
+to null toward noise source - Active noise cancellation (Chapter 7) -
+Shielding the noise source itself (if possible/legal)</p>
+<h3 id="which-path-dominates">3.3 Which Path Dominates?</h3>
+<p><strong>Test:</strong> Disconnect antenna. Does noise floor drop? -
+YES: noise primarily enters via antenna/feed line (radiated or
+common-mode conducted) - NO: noise enters via mains or ground (conducted
+via wiring)</p>
+<p><strong>Test:</strong> Connect dummy load instead of antenna. Does
+noise floor drop significantly? - YES: noise primarily via antenna - NO:
+noise is generated internally in the receiver or enters via power
+supply</p>
+<hr />
+<h2 id="chapter-4-common-mode-current-and-feed-line-noise">CHAPTER 4 —
+COMMON-MODE CURRENT AND FEED LINE NOISE</h2>
+<h3 id="why-coax-braid-carries-noise">4.1 Why Coax Braid Carries
+Noise</h3>
+<p>A coaxial cable has two electrical modes: 1. <strong>Differential
+mode:</strong> Current flows forward on center conductor; return on
+inner surface of braid. Signal energy stays INSIDE the coax. 2.
+<strong>Common-mode:</strong> Current flows in the SAME direction on
+both conductors (like a single wire). This current flows on the OUTSIDE
+surface of the braid.</p>
+<p>Common-mode current arises from: - <strong>Ground potential
+difference:</strong> The antenna feedpoint ground and the shack ground
+are at different RF potentials. This drives current on the outside of
+the braid. - <strong>Station RF:</strong> During transmit, current
+returns to station through the braid exterior instead of through the
+antenna radials/ground. - <strong>External noise coupling:</strong> The
+entire coax exterior acts as a noise receiving antenna. Every noise
+source with a ground path can drive current on the braid.</p>
+<h3 id="effect-on-reception">4.2 Effect on Reception</h3>
+<p>The coax braid exterior is typically 10–30 meters long (antenna mast
+height + shack run). At 7 MHz, λ = 42m; 20m of coax braid = λ/2 — a
+resonant antenna!</p>
+<p>Noise current on the braid creates a received noise signal
+indistinguishable from a signal arriving at the antenna. The NEC model
+(nec_models/dipole_cm_current.nec) demonstrates how 30% common-mode
+current on a 3m stub distorts the dipole pattern and fills in nulls —
+dramatically increasing noise pick-up.</p>
+<p><strong>Quantitative effect:</strong> A well-measured example: -
+Before choke at antenna: noise floor S7 on 40m - After choke at antenna
+(FT-240-31 × 2, 8 turns): noise floor S3 - Improvement: 4 S-units = 24
+dB</p>
+<p>This 24 dB improvement represents the noise that was being injected
+via the coax braid.</p>
+<h3 id="choking-the-common-mode">4.3 Choking the Common Mode</h3>
+<p>A common-mode choke (see Chapter 6) presents high impedance to the
+common-mode current path while being transparent to the differential
+signal inside the coax.</p>
+<p>Required choke impedance for good suppression: Suppression (dB) = 20
+× log10(Z_CM / Z_load) For 20 dB: Z_CM / Z_load = 10, so Z_CM = 500Ω
+(into 50Ω load) For 30 dB: Z_CM = 1580Ω For 40 dB: Z_CM = 5000Ω</p>
+<p>A 2× FT-240-31, 8-turn choke provides Z_CM &gt; 10,000Ω at 7 MHz (see
+Chapter 6). This gives theoretical suppression &gt; 46 dB —
+excellent.</p>
+<h3 id="choke-placement-strategy">4.4 Choke Placement Strategy</h3>
+<p><strong>Primary choke:</strong> At the antenna feed point. This is
+the highest-leverage placement. - Prevents house noise from traveling up
+the braid - Prevents transmitter RF from returning on the braid - Forces
+the antenna feed impedance to be purely differential (balanced)</p>
+<p><strong>Secondary choke:</strong> At the shack entry point (where
+coax comes through the wall). - Second line of defense for any residual
+common-mode current - Particularly important if the outside coax run is
+in conduit with other wiring</p>
+<p><strong>Tertiary (optional):</strong> On the shack side, at the back
+of the transceiver. - Protects the transceiver from RFI that enters
+after the shack entry choke - Useful if the problem is computer noise
+coupling to coax via RF ground loops</p>
+<h3 id="balanced-antennas">4.5 Balanced Antennas</h3>
+<p>A truly balanced antenna (center-fed dipole with tuned feedline)
+inherently has less common-mode current than an unbalanced antenna
+(vertical, end-fed):</p>
+<p><strong>Dipole:</strong> Feed point is balanced. With a choke balun
+at the feed point, near-zero common-mode current. This is the quietest
+antenna configuration.</p>
+<p><strong>Vertical / end-fed:</strong> Inherently unbalanced.
+Common-mode current is normal operation — the braid is the radial
+system. MUCH more noise pickup. For these antennas, a choke at the shack
+entry is especially important.</p>
+<p><strong>EFHW (end-fed half-wave):</strong> Despite high-impedance
+match transformer, common-mode is significant. Install 1:49 UNUN + choke
+at shack entry.</p>
+<hr />
+<h2 id="chapter-5-ac-mains-emi-filter">CHAPTER 5 — AC MAINS EMI
+FILTER</h2>
+<h3 id="why-filter-at-the-mains-entry">5.1 Why Filter at the Mains
+Entry</h3>
+<p>The AC mains wiring in a house acts as a distributed antenna — any RF
+energy on the wiring radiates and couples to nearby equipment. By
+filtering the AC power at the point where it enters the shack, you: 1.
+Block conducted noise from reaching shack equipment 2. Block transmitter
+harmonics from entering the mains and radiating back into your antenna
+3. Provide a clean reference ground for the shack</p>
+<h3 id="filter-design">5.2 Filter Design</h3>
+<p>See schematic TM-RFI-SCH-001 for full circuit detail.</p>
+<p><strong>Differential-mode (DM) filter:</strong> X2 capacitors across
+Line-Neutral and series inductors on each conductor. Attenuates noise
+between the two conductors.</p>
+<p><strong>Common-mode (CM) filter:</strong> Y2 capacitors from Line and
+Neutral to Earth Ground, plus a bifilar common-mode choke (CM inductor).
+Attenuates noise common to both conductors relative to earth.</p>
+<p><strong>MOV transient suppressor:</strong> Absorbs lightning-induced
+spikes. Required in any outdoor antenna installation environment.</p>
+<h3 id="installation">5.3 Installation</h3>
+<p><strong>WARNING:</strong> Mains voltage installation must comply with
+NEC (USA), CEC (Canada), or applicable local electrical codes. If
+unsure, consult a licensed electrician.</p>
+<ol type="1">
+<li>Install filter in a suitable enclosure (printed enclosure
+TM-RFI-ENC-001 or commercial metal project box).</li>
+<li>Wire IEC C14 inlet to filter input; filter output to multiple IEC
+C13 outlets for shack equipment.</li>
+<li>Earth ground: #12 AWG minimum from filter chassis ground terminal to
+building grounding electrode conductor at the main panel or to a local
+ground rod bonded to the main ground.</li>
+<li>Place shack power distribution box on the bench; plug all shack
+equipment into it.</li>
+</ol>
+<h3 id="safety-requirements">5.4 Safety Requirements</h3>
+<ul>
+<li>All mains connections: minimum 14 AWG wire with appropriate
+ratings.</li>
+<li>X2 capacitors: rated specifically for across-the-line use. Do not
+substitute.</li>
+<li>Y2 capacitors: rated for Y2 service. Do not substitute
+general-purpose caps.</li>
+<li>Fuse: slow-blow, properly rated for the load (10A for typical
+shack).</li>
+<li>Earth ground: mandatory. The filter is ineffective and potentially
+dangerous without a solid earth ground connection.</li>
+</ul>
+<hr />
+<h2
+id="chapter-6-common-mode-chokes-ferrite-selection-and-winding">CHAPTER
+6 — COMMON-MODE CHOKES: FERRITE SELECTION AND WINDING</h2>
+<h3 id="ferrite-material-properties">6.1 Ferrite Material
+Properties</h3>
+<p>Ferrite cores work by absorbing (dissipating) RF energy in the
+magnetic material. The key parameter is complex permeability: µ = µ’ −
+j×µ’‘. The µ’’ (imaginary, loss) component is what we want — high µ’’ =
+high absorption at target frequency.</p>
+<p><strong>Select by frequency:</strong> | Mix | Best frequency range |
+Application | |—–|———————|————-| | 31 | 1–30 MHz (best 1–10 MHz) | HF
+feed line chokes | | 43 | 1–300 MHz (best 10–50 MHz) | HF + low VHF | |
+61 | 10–300 MHz | Upper HF + VHF | | 75 | 0.1–5 MHz | AM broadcast
+suppression | | 77 | 0.1–5 MHz | Low-frequency applications |</p>
+<p><strong>For most ham station use:</strong> Mix 31 is the right
+choice. Stacking two FT-240-31 cores covers 160m through 10m with
+excellent suppression.</p>
+<h3 id="core-size-selection">6.2 Core Size Selection</h3>
+<p><strong>FT-140-31 (1.4” OD):</strong> Fits up to RG-58 (5mm OD).
+Limited turns. <strong>FT-240-31 (2.4” OD):</strong> Fits RG-8X (7.5mm
+OD) for 8 turns. Standard choice. <strong>FT-240-43:</strong> Same size,
+Mix 43. Use when noise is above 30 MHz.</p>
+<p>For RG-213 (10.3mm OD), FT-240 hole (25.4mm) allows 5–6 turns.
+Acceptable. For RG-8 (10.3mm OD): same as RG-213. Use Palomar FB-73-6401
+(larger, 38mm hole) for 8 turns of large coax.</p>
+<h3 id="winding-procedure-for-coax-choke">6.3 Winding Procedure for Coax
+Choke</h3>
+<p>See schematic TM-RFI-SCH-002 for detailed winding tables.</p>
+<p><strong>For FT-240-31 × 2 stacked, RG-8X, 8 turns:</strong></p>
+<ol type="1">
+<li>Tape the two FT-240-31 cores together with 2–3 layers of Kapton
+tape.</li>
+<li>Mark the center of a 2m piece of RG-8X coax with a marker.</li>
+<li>Place the stacked cores on the coax, centered.</li>
+<li>Make the first pass: bring both sides of coax through the hole
+together.</li>
+<li>Continue looping the coax through the core hole, maintaining neat,
+tight turns.</li>
+<li>Count 8 complete passes through the center hole.</li>
+<li>Secure loose turns with cable ties or electrical tape.</li>
+<li>Install in choke housing (TM-RFI-ENC-002).</li>
+<li>Fit PL-259 connectors on both ends.</li>
+<li>Test impedance with NanoVNA (see Section 6.4).</li>
+</ol>
+<p><strong>Verification with NanoVNA:</strong> - Connect Port 1 to one
+end of choke. - Terminate other end in 50Ω (or leave open for impedance
+measurement). - Measure S11 (reflection): at each frequency, observe
+impedance. - At 7 MHz: |Z| should exceed 10 kΩ (confirms effective
+choking).</p>
+<h3 id="choke-quality-factor-expectations">6.4 Choke Quality Factor
+Expectations</h3>
+<p>A well-wound choke should meet these minimums:</p>
+<table>
+<thead>
+<tr>
+<th>Frequency</th>
+<th>Z_CM minimum</th>
+<th>Achievable (2× FT-240-31, 8T)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.8 MHz</td>
+<td>2 kΩ</td>
+<td>8 kΩ</td>
+</tr>
+<tr>
+<td>3.5 MHz</td>
+<td>5 kΩ</td>
+<td>16 kΩ</td>
+</tr>
+<tr>
+<td>7.0 MHz</td>
+<td>10 kΩ</td>
+<td>28 kΩ</td>
+</tr>
+<tr>
+<td>14 MHz</td>
+<td>10 kΩ</td>
+<td>40 kΩ</td>
+</tr>
+<tr>
+<td>28 MHz</td>
+<td>5 kΩ</td>
+<td>44 kΩ</td>
+</tr>
+</tbody>
+</table>
+<p>If measured values fall short: verify correct core mix (stamped on
+core or check ferrite color); verify adequate number of turns; check for
+turn-to-turn shorts.</p>
+<h3 id="feed-line-choke-for-specific-antenna-types">6.5 Feed Line Choke
+for Specific Antenna Types</h3>
+<p><strong>Center-fed dipole:</strong> One choke at the feed point. Can
+use wound coax on form or toroid choke. For simple installation, the
+wound coax (“ugly balun”) is easiest.</p>
+<p><strong>Vertical with radials:</strong> Two chokes recommended: one
+at the base (feed point) and one at the shack entry. The feed point
+choke prevents common-mode current from flowing down the outside of the
+coax; the shack entry choke blocks any that remains.</p>
+<p><strong>End-fed half-wave:</strong> Three chokes: at the
+UNUN/transformer output, at the shack entry, and optionally one midway
+on long coax runs.</p>
+<p><strong>Inverted-L or T-antenna:</strong> At least shack entry choke;
+feed point choke if transmission line is coax; otherwise use a proper
+ATU with balanced output.</p>
+<hr />
+<h2 id="chapter-7-active-noise-cancellation">CHAPTER 7 — ACTIVE NOISE
+CANCELLATION</h2>
+<h3 id="principle">7.1 Principle</h3>
+<p>The active noise canceller uses a reference (auxiliary) antenna
+positioned near the noise source to sample the interference. The
+reference signal is phase-shifted and amplitude-adjusted to match the
+noise component in the main antenna, then subtracted.</p>
+<p>This technique is highly effective when: - The noise source is nearby
+(strong reference signal) - The desired signal arrives from a different
+direction than the noise - The noise is coherent (stable phase and
+amplitude) — most SMPS noise is coherent</p>
+<p><strong>Limitations:</strong> - Only one noise direction can be
+cancelled at a time - Phase adjustment must be re-tuned when frequency
+changes significantly - Desired signal is slightly attenuated (~3 dB) in
+the cancel direction</p>
+<h3 id="reference-antenna-selection">7.2 Reference Antenna
+Selection</h3>
+<p>The reference antenna should pick up maximum noise with minimum
+desired signal:</p>
+<p><strong>Short vertical whip (1–2m):</strong> Best for noise arriving
+from high angles or nearby horizontal sources. Place near the noise
+source, away from the main antenna direction.</p>
+<p><strong>Small loop:</strong> Aimed at the noise source. The null can
+be directed away from the desired signal direction for best
+signal-to-noise cancellation ratio.</p>
+<p><strong>Sense antenna (existing):</strong> If you already have a
+small loop RDF antenna, it can serve as the reference antenna for noise
+cancelling.</p>
+<h3 id="adjustment-procedure">7.3 Adjustment Procedure</h3>
+<p>See schematic TM-RFI-SCH-003 for circuit details.</p>
+<ol type="1">
+<li><strong>Connect main antenna</strong> to MAIN port (from feed
+line).</li>
+<li><strong>Connect reference antenna</strong> (short whip, aimed at
+noise source) to REF port.</li>
+<li><strong>Connect output</strong> to SDR or transceiver antenna
+input.</li>
+<li><strong>Tune to noise frequency.</strong> Maximize SDR display on
+noise birdie.</li>
+<li><strong>Note reference level:</strong> Is there signal on the
+reference port? Enable bypass momentarily to confirm reference picks up
+the noise.</li>
+<li><strong>Phase adjustment:</strong>
+<ul>
+<li>Slowly rotate RV1 (Phase 1) through full rotation.</li>
+<li>Observe S-meter for dip. Stop near minimum.</li>
+<li>Slowly rotate RV2 (Phase 2) through full rotation.</li>
+<li>Observe deeper dip. Stop at minimum.</li>
+</ul></li>
+<li><strong>Gain adjustment:</strong>
+<ul>
+<li>Rotate RV3 (Gain) for deepest null.</li>
+<li>The null deepens as gain approaches the correct setting; then rises
+again.</li>
+<li>Set gain at deepest point.</li>
+</ul></li>
+<li><strong>Iterate:</strong> Phase 1 → Phase 2 → Gain, repeat until
+null bottoms out.</li>
+<li><strong>Check signal preservation:</strong> Tune to a known signal.
+It should be present (possibly slightly weaker). If signal is cancelled
+along with noise, the reference antenna is pointed at the signal
+direction — reposition reference.</li>
+</ol>
+<p><strong>Expected cancellation:</strong> 20–40 dB of noise reduction.
+Under ideal conditions, a single null can achieve &gt;50 dB cancellation
+(theoretically infinite). In practice, noise source motion, multipath,
+and component drift limit practical null depth.</p>
+<h3 id="digital-noise-cancellation-software">7.4 Digital Noise
+Cancellation Software</h3>
+<p>For SDR software-based noise cancellation:</p>
+<p><strong>GQRX DSP options:</strong> - Noise Blanker (NB): impulsive
+noise (clicks, arc discharge) - Noise Reduction (NR): LMS adaptive
+filter for continuous noise - AGC: prevents noise bursts from
+desensitizing receiver</p>
+<p><strong>SDR++ plugins:</strong> - Noise blanker plugin - Audio NR via
+rtty/voice processing</p>
+<p><strong>GNU Radio:</strong> Implement LMS adaptive filter flow graph:
+Reference signal → LMS filter (tap weight adaptation) LMS output
+subtracted from main signal → cleaned output Filter adapts to minimize
+residual noise power.</p>
+<hr />
+<h2 id="chapter-8-near-field-rfi-sniffer-probes">CHAPTER 8 — NEAR-FIELD
+RFI SNIFFER PROBES</h2>
+<h3 id="overview">8.1 Overview</h3>
+<p>Near-field probes allow locating noise sources to within centimeters.
+They exploit the rapid fall-off of near-field electromagnetic fields
+(1/r² to 1/r³) to distinguish the primary source from secondary
+radiators.</p>
+<p>See schematic TM-RFI-SCH-004 and enclosure TM-RFI-ENC-004 for
+construction details.</p>
+<h3 id="h-field-loop-probe-use">8.2 H-Field Loop Probe Use</h3>
+<p>The H-field loop responds to magnetic field (current flow). Use it to
+find: - Switching inductor cores in SMPS - Transformer windings - PCB
+traces carrying high-frequency switching current - CPU voltage regulator
+inductors</p>
+<p><strong>Usage:</strong> 1. Connect probe to SDR via 20 dB attenuator
+(prevents overload near strong sources). 2. Tune SDR to noise frequency.
+3. Hold probe near suspect device. 4. Move slowly across device surface
+— S-meter peaks over switching inductors. 5. Rotate probe: null
+(minimum) when loop plane points toward source. Peak when loop plane is
+parallel to current direction. 6. Most sensitive position: loop plane
+parallel to PCB with inductor on PCB.</p>
+<h3 id="e-field-rod-probe-use">8.3 E-Field Rod Probe Use</h3>
+<p>The E-field rod responds to electric field (voltage switching). Use
+it to find: - High-voltage switching nodes (drain of FET in SMPS) - PWM
+control signals - Clock outputs on PCBs - Any high-impedance
+rapidly-switching node</p>
+<p><strong>Usage:</strong> 1. ALWAYS use 20 dB attenuator — E-field near
+a SMPS drain can be hundreds of volts! 2. Tune SDR to noise fundamental
+frequency. 3. Touch probe tip toward PCB surface, 1–2cm distance. 4.
+Traverse PCB — peaks over switching transistor drain pins, gate drive
+traces. 5. Work from device exterior inward to identify highest-field
+location.</p>
+<h3 id="probe-safety">8.4 Probe Safety</h3>
+<ul>
+<li>Never touch probe tip to live mains-voltage conductors.</li>
+<li>Use probe only on low-voltage (&lt;50V) circuit boards or on the
+OUTSIDE of appliances.</li>
+<li>For investigating mains-powered devices: probe through plastic case
+only.</li>
+<li>If device case can be opened: unplug the device first, discharge
+capacitors, then investigate with device powered via isolation
+transformer.</li>
+</ul>
+<hr />
+<h2 id="chapter-9-esp32-automated-noise-floor-monitor">CHAPTER 9 — ESP32
+AUTOMATED NOISE FLOOR MONITOR</h2>
+<h3 id="overview-1">9.1 Overview</h3>
+<p>The automated noise floor monitor (TM-RFI-FW-001) scans all amateur
+bands every ~22 seconds and logs the noise floor level. This
+enables:</p>
+<ul>
+<li><strong>Trending:</strong> Is the noise floor rising over time?
+Indicates developing equipment fault.</li>
+<li><strong>Diurnal patterns:</strong> Higher noise during day
+(appliances on) vs. night (appliances off).</li>
+<li><strong>Appliance correlation:</strong> Note timestamp of noise
+rise; correlate with when devices were turned on.</li>
+<li><strong>Mitigation verification:</strong> Log before and after
+installing a choke or filter. The improvement is precisely
+documented.</li>
+</ul>
+<p>See schematics TM-RFI-SCH-005 for hardware, firmware TM-RFI-FW-001
+for software.</p>
+<h3 id="hardware-setup">9.2 Hardware Setup</h3>
+<p><strong>Components required:</strong> - ESP32 DevKit V1 - Si5351
+breakout board (Adafruit or bare chip with 25 MHz crystal) - SA612AN
+mixer (DIP-8) - SPF5189Z LNA (SOT-89-3, on breakout or hand-soldered) -
+AD8307 (SOIC-8 or DIP-8) - 10.7 MHz ceramic BPF (Murata CFWLA10M7KA0-B0)
+- Input LPF components (220 nH × 2, 68/120 pF capacitors) - 3.3V
+regulator and decoupling - Optional: SD card module for data logging</p>
+<p><strong>Antenna:</strong> A 20cm non-resonant vertical wire is
+adequate for noise monitoring (the monitor does not need gain — it
+measures noise, not weak signals). A small loop (~100mm) is quieter
+(less susceptible to electric field noise).</p>
+<h3 id="web-dashboard">9.3 Web Dashboard</h3>
+<p>Connect to WiFi AP “RFI-Monitor” (password: rfimonitor), then browse
+to http://192.168.4.1. The dashboard shows:</p>
+<ul>
+<li><strong>Band grid:</strong> 11 cards (160m–2m), each showing current
+noise level in dBm with color coding (green/yellow/orange/red) and a
+mini bar.</li>
+<li><strong>History chart:</strong> Rolling time-series plot, all bands
+overlaid, 40 data points.</li>
+<li><strong>Alert threshold:</strong> Adjustable — set to your typical
+noise floor baseline. Any band exceeding threshold shows a red alert
+indicator.</li>
+<li><strong>Export CSV:</strong> Downloads current snapshot as CSV for
+offline analysis.</li>
+</ul>
+<h3 id="interpreting-results">9.4 Interpreting Results</h3>
+<p><strong>Normal noise floor ranges (typical suburban/rural ham
+station):</strong> | Band | Quiet (rural) | Typical suburban | High
+urban noise | |——|————–|—————–|—————–| | 160m | −110 dBm | −90 dBm | −70
+dBm | | 80m | −115 dBm | −100 dBm | −85 dBm | | 40m | −120 dBm | −105
+dBm | −90 dBm | | 20m | −120 dBm | −110 dBm | −95 dBm | | 10m | −125 dBm
+| −115 dBm | −105 dBm | | 6m | −125 dBm | −120 dBm | −110 dBm |</p>
+<p>If your measured levels are significantly higher than “typical
+suburban,” significant noise reduction is achievable.</p>
+<hr />
+<h2 id="chapter-10-cyd-display-for-noise-monitoring">CHAPTER 10 — CYD
+DISPLAY FOR NOISE MONITORING</h2>
+<h3 id="overview-2">10.1 Overview</h3>
+<p>The CYD (ESP32-2432S028R) touchscreen provides a portable, always-on
+noise floor display. It connects via Bluetooth to the ESP32 noise
+monitor and shows:</p>
+<ul>
+<li>Per-band noise level in dBm (11 bands simultaneously)</li>
+<li>Color-coded bars: green (quiet) → yellow → orange → red
+(noisy/alert)</li>
+<li>Mini sparklines per band (40-point history)</li>
+<li>Alert indicators when any band exceeds threshold</li>
+<li>Touch control of alert threshold</li>
+</ul>
+<h3 id="tft_espi-configuration">10.2 TFT_eSPI Configuration</h3>
+<p>The CYD uses a specific pin mapping. Ensure User_Setup.h in TFT_eSPI
+library:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#define USER_SETUP_ID </span><span class="dv">206</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#define ILI9341_DRIVER</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#define TFT_MOSI </span><span class="dv">13</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="pp">#define TFT_SCLK </span><span class="dv">14</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="pp">#define TFT_CS   </span><span class="dv">15</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="pp">#define TFT_DC    </span><span class="dv">2</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="pp">#define TFT_RST  </span><span class="op">-</span><span class="dv">1</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="pp">#define TFT_BL   </span><span class="dv">21</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="pp">#define TOUCH_CS </span><span class="dv">33</span></span></code></pre></div>
+<h3 id="display-layout">10.3 Display Layout</h3>
+<p><strong>Top row:</strong> Title “RF Noise Monitor” + Bluetooth
+connection indicator + scan count.</p>
+<p><strong>Main area:</strong> 2-column × 6-row grid of band cards. Each
+card shows: - Band name (e.g., “40M”) in cyan - Current noise level in
+dBm - Color-coded fill bar (proportion of −40 to −120 dBm range) - Mini
+sparkline (40-point history)</p>
+<p><strong>Alert row:</strong> Appears when any band exceeds threshold.
+Lists affected bands.</p>
+<p><strong>Status bar:</strong> Connection state, threshold value, web
+UI hint.</p>
+<p><strong>Touch controls:</strong> - Tap left half of status bar:
+decrease threshold by 5 dBm - Tap right half of status bar: increase
+threshold by 5 dBm</p>
+<hr />
+<h2
+id="chapter-11-grounding-bonding-and-single-point-ground-systems">CHAPTER
+11 — GROUNDING, BONDING, AND SINGLE-POINT GROUND SYSTEMS</h2>
+<h3 id="the-single-point-ground-spg-principle">11.1 The Single-Point
+Ground (SPG) Principle</h3>
+<p><strong>Problem with multiple ground connections:</strong> If the
+shack’s coax shields, equipment chassis, and power ground connect to
+earth at multiple points, ground loops form. RF current flowing between
+ground points is indistinguishable from antenna signal.</p>
+<p><strong>Solution:</strong> All RF ground connections should converge
+at one point — the Single-Point Ground (SPG). From the SPG, a single
+large conductor bonds to earth ground.</p>
+<h3 id="spg-implementation">11.2 SPG Implementation</h3>
+<p><strong>SPG bus:</strong> A copper busbar (25mm × 3mm copper strip or
+braid), typically mounted at the entry point of feed lines through the
+shack wall.</p>
+<p><strong>Connected to SPG:</strong> - All coax shield ground
+connections - All equipment chassis ground connections - Lightning
+arrestor grounds - Any bonded conduit entry</p>
+<p><strong>From SPG to earth:</strong> Single conductor, minimum #6 AWG
+bare copper (or larger). Shortest possible path to earth electrode.
+Avoid sharp bends (inductance).</p>
+<h3 id="feed-line-entry-bonding">11.3 Feed Line Entry Bonding</h3>
+<p>The NEC (National Electrical Code) and good amateur practice both
+require all antenna feed lines to have a grounding/lightning arrestor at
+the building entry point.</p>
+<p><strong>Recommended entry panel:</strong> 1. Mount an outdoor-rated
+bulkhead panel at the point where coax enters the building. 2. Install
+coaxial lightning arrestors (Polyphaser, ICE, or similar) on each feed
+line. 3. Bond all lightning arrestor chassis to the SPG busbar. 4. Bond
+SPG busbar to building ground electrode with #6 AWG or better.</p>
+<h3 id="equipment-grounding-inside-shack">11.4 Equipment Grounding
+Inside Shack</h3>
+<p><strong>Star topology:</strong> All equipment chassis connect via
+short conductors to the SPG bus. Do NOT daisy-chain grounds (A → B → C →
+SPG creates ground loops A-B and B-C).</p>
+<p><strong>Practical implementation:</strong> - Short (#14 AWG) pigtails
+from each equipment chassis to SPG bus - SPG bus directly to earth
+ground via the entry panel</p>
+<h3 id="rf-ground-loops">11.5 RF Ground Loops</h3>
+<p>An RF ground loop forms when two pieces of equipment are grounded via
+the signal cable connection AND separately via their chassis/power
+ground paths. The loop area acts as a receiving antenna for magnetic
+fields (magnetic flux through the loop).</p>
+<p><strong>Identify loops:</strong> Use H-field probe near connecting
+cables. If S-meter peaks when probe is near a signal cable (USB, audio,
+HDMI), there is a ground loop in that cable.</p>
+<p><strong>Break the loop:</strong> Ferrite clamp on the cable (both
+ends) adds CM impedance and disrupts the loop. For audio cables: use a
+transformer-coupled audio isolator (Hum-X or Jensen ISO-MAX). For USB:
+use USB isolator (ADUM4160).</p>
+<hr />
+<h2 id="chapter-12-systematic-rfi-hunt-field-procedures">CHAPTER 12 —
+SYSTEMATIC RFI HUNT: FIELD PROCEDURES</h2>
+<h3 id="investigation-protocol">12.1 Investigation Protocol</h3>
+<p><strong>Phase 1: Documentation</strong> - Record baseline noise floor
+(all bands, time of day, day of week). - Use noise monitor to generate
+24-hour trend (if possible). - Note any temporal correlation with known
+appliance schedules.</p>
+<p><strong>Phase 2: Source Localization</strong> 1. Circuit breaker
+test: identify which branch circuit carries the noise. 2. Device
+elimination on that circuit: identify which device. 3. Near-field probe
+confirmation: verify source by proximity. 4. Coupling path
+identification: conducted (mains) or radiated.</p>
+<p><strong>Phase 3: Remediation</strong> Select the appropriate
+mitigation from Chapter 13. Apply mitigation. Re-measure noise floor.
+Document improvement.</p>
+<p><strong>Phase 4: Documentation of Completion</strong> Record: device
+found, coupling path, mitigation applied, improvement in dB. File in
+station logbook. Future technicians benefit from this history.</p>
+<h3 id="rfi-hunt-field-log-template">12.2 RFI Hunt Field Log
+Template</h3>
+<pre><code>DATE/TIME: _______________  OPERATOR: _______________
+FREQUENCY: _______ MHz     NOISE LEVEL: _______ dBm (S __)
+SUSPECTED SOURCE: ______________________________________
+LOCATION IN HOME: ______________________________________
+
+Circuit breaker test results:
+  Breaker  |  Noise with ON  |  Noise with OFF
+  ─────────────────────────────────────────────
+           |                 |
+           |                 |
+           |                 |
+
+Device elimination on circuit ___:
+  Device removed              |  Noise level
+  ──────────────────────────────────────────
+                              |
+                              |
+  CULPRIT: __________________ |  _________ dBm
+
+Coupling path: [  ] Mains conducted  [  ] Radiated  [  ] Feed line braid
+
+Mitigation applied: ________________________________________
+Noise level after: _________ dBm   Improvement: _____ dB (__ S-units)
+
+Notes: __________________________________________________</code></pre>
+<h3 id="difficult-to-locate-sources">12.3 Difficult-to-Locate
+Sources</h3>
+<p><strong>Problem:</strong> Noise is intermittent and doesn’t correlate
+with any obvious device.</p>
+<p><strong>Approach:</strong> - Use noise monitor logging (Chapter 9).
+Review 24-hour trend. - Note EXACT time of onset. Correlate with
+thermostat/appliance schedules. - Check neighbor’s property for smart
+meters, solar inverters, EV chargers. - Cyclic noise with 20–30 min
+period: refrigerator compressor cycling.</p>
+<p><strong>Problem:</strong> Noise is present even with all circuits off
+at the panel.</p>
+<p><strong>Approach:</strong> - Check with all equipment UNPLUGGED (not
+just off) — some devices have standby SMPS. - Check if noise changes
+when transmitter is keyed (possible re-radiation/intermodulation). -
+Disconnect antenna; if noise disappears, source is on a neighbor’s
+property or public utility equipment (power line, smart meter,
+streetlight ballast).</p>
+<hr />
+<h2 id="chapter-13-device-specific-remediation">CHAPTER 13 —
+DEVICE-SPECIFIC REMEDIATION</h2>
+<h3 id="switching-power-supplies-phone-chargers-wall-warts">13.1
+Switching Power Supplies (Phone Chargers, Wall Warts)</h3>
+<p><strong>Best fix:</strong> Replace with quality supply (Anker,
+Belkin, Apple OEM — EMC certified). Look for FCC Part 15 Class B,
+EN55032 Class B markings.</p>
+<p><strong>If replacement not possible:</strong> 1. Ferrite clamp (Mix
+31) on both AC side and DC output cable. 2. Y-capacitors (2200 pF to
+chassis/earth) from Line and Neutral: ONLY if chassis is earthed —
+floating chassis cannot use Y-caps. 3. Place device in grounded metal
+enclosure (ferrite-lined box is overkill for most).</p>
+<p><strong>Expected improvement:</strong> 15–30 dB with good ferrite
+placement.</p>
+<h3 id="led-lighting">13.2 LED Lighting</h3>
+<p><strong>Best fix:</strong> Replace lamp with verified low-noise unit.
+Look for: - EN55015 Class B certified (European EMC directive) -
+“Flicker-free” LED drivers often have better EMI design - Incandescent
+or halogen lamps: zero switching noise</p>
+<p><strong>If replacement not possible:</strong> 1. AC line filter on
+the lamp’s power circuit (see Chapter 5, scaled down). 2. Ferrite ring
+(Mix 75 or Mix 31) on AC cord near lamp. 3. LED panel replacement:
+replace just the driver board with high-quality alternative (Meanwell
+LDD series or similar EMC-certified driver).</p>
+<p><strong>Note on LED dimmers:</strong> TRIAC dimmers (phase-cut)
+generate broadband hash in addition to the LED driver noise. Replace
+with 0–10V PWM dimmer system with ferrite-filtered output cable, or
+eliminate dimming entirely.</p>
+<h3 id="computer-systems">13.3 Computer Systems</h3>
+<p><strong>CPU/GPU VRM noise (200–500 kHz × harmonics into HF):</strong>
+1. Ferrite clamp on all cables exiting computer (power, monitor, USB,
+audio). 2. Computer case grounded to SPG (add ground wire from case to
+SPG bus). 3. If noise from monitor: ferrite on video cable both ends;
+grounded DVI/HDMI cable.</p>
+<p><strong>USB 3.0 (2.5 GHz noise):</strong> 1. Ferrite cores (Mix 43
+for 2.5 GHz) on USB cables — snap-on type. 2. Shielded USB 3.0 cable. 3.
+Consider using USB 2.0 for peripherals that don’t require high
+speed.</p>
+<p><strong>Ethernet:</strong> 1. Use shielded Cat6A cable (STP/SFTP). 2.
+Ground shield at switch end only (not both ends — ground loop risk). 3.
+Ferrite clamps on unshielded cable (both ends, Mix 31). 4. Consider
+fiber optic Ethernet (no RF coupling at all) for critical links.</p>
+<h3 id="solar-inverters-and-charge-controllers">13.4 Solar Inverters and
+Charge Controllers</h3>
+<p>Solar inverters are frequently the most severe HF noise source in
+modern homes. Grid-tie inverters switch at 10–50 kHz and produce
+harmonics across HF.</p>
+<p><strong>Mitigation options:</strong> 1. Ferrite on DC cables from
+panels to inverter (Mix 31, multiple turns). 2. Ferrite on AC output
+cables. 3. Commercial EMI filter on AC output (Schaffner FN2410 or
+FN2070 series). 4. Verify inverter has current EMC certification; some
+cheaper inverters fail EMC. 5. Shielded conduit for DC wiring runs. 6.
+Contact installer/manufacturer — many countries have regulations
+prohibiting equipment that causes interference to licensed radio
+services.</p>
+<p><strong>Important:</strong> Filing an FCC complaint (in USA) or OFCOM
+complaint (UK) may be appropriate if a commercial inverter is found to
+be non-compliant. Your Technician/ General/Extra license gives you
+standing as an affected licensed station.</p>
+<h3 id="smart-meters">13.5 Smart Meters</h3>
+<p>Smart meters use power-line carrier (PLC) and/or wireless (ZigBee,
+900 MHz). The PLC modulation (30–500 kHz) may be audible on 160m–40m as
+buzzing or tones.</p>
+<p><strong>Options:</strong> 1. Mains filter (Chapter 5): blocks PLC
+from entering shack circuits. 2. Contact utility: some utilities will
+relocate or replace smart meters near affected licensed stations. 3.
+Note: removing or bypassing a utility smart meter is illegal and
+dangerous.</p>
+<h3 id="plasma-tvs-legacy">13.6 Plasma TVs (Legacy)</h3>
+<p>Modern OLED and LCD TVs are much better; plasma TVs were notoriously
+bad.</p>
+<p>If a plasma TV is the source: 1. First try: ferrite clamps on mains
+power cord (Mix 31, multiple turns wound). 2. Replace TV — plasma
+technology is obsolete; modern equivalents produce minimal noise.</p>
+<hr />
+<h2 id="chapter-14-troubleshooting">CHAPTER 14 — TROUBLESHOOTING</h2>
+<h3 id="choke-not-reducing-noise">14.1 Choke Not Reducing Noise</h3>
+<table>
+<colgroup>
+<col style="width: 37%" />
+<col style="width: 29%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Check</th>
+<th>Remedy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Choke installed, no improvement</td>
+<td>Wrong core mix</td>
+<td>Verify core markings; FT-240-31 (gray) for HF</td>
+</tr>
+<tr>
+<td>Choke installed, no improvement</td>
+<td>Insufficient turns</td>
+<td>Add turns (8+ for FT-240-31)</td>
+</tr>
+<tr>
+<td>Choke installed, no improvement</td>
+<td>Noise radiated, not conducted</td>
+<td>Disconnect antenna — does noise persist?</td>
+</tr>
+<tr>
+<td>Choke installed, noise worse at some frequencies</td>
+<td>SRF below operating frequency</td>
+<td>Reduce turns; verify SRF with NanoVNA</td>
+</tr>
+<tr>
+<td>Choke effective, noise returns in wet weather</td>
+<td>Moisture in coax</td>
+<td>Weatherproof choke housing with amalgamating tape</td>
+</tr>
+</tbody>
+</table>
+<h3 id="mains-filter-not-reducing-noise">14.2 Mains Filter Not Reducing
+Noise</h3>
+<table>
+<colgroup>
+<col style="width: 37%" />
+<col style="width: 29%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Check</th>
+<th>Remedy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Filter installed, no improvement</td>
+<td>Earth ground missing</td>
+<td>Verify earth terminal wired to true earth</td>
+</tr>
+<tr>
+<td>Filter installed, partial improvement</td>
+<td>Filter bypassed by unfiltered cable</td>
+<td>All shack equipment must use filtered outlets only</td>
+</tr>
+<tr>
+<td>Filter creates hum on audio</td>
+<td>Ground loop through audio cables</td>
+<td>Add audio isolation transformer on audio path</td>
+</tr>
+<tr>
+<td>Filter reduces noise on some bands only</td>
+<td>CM choke SRF below noise frequency</td>
+<td>Use 2-stage filter; Mix 43 for upper HF</td>
+</tr>
+</tbody>
+</table>
+<h3 id="active-canceller-not-achieving-null">14.3 Active Canceller Not
+Achieving Null</h3>
+<table>
+<colgroup>
+<col style="width: 37%" />
+<col style="width: 29%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Check</th>
+<th>Remedy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Null shallow (&lt;10 dB)</td>
+<td>Noise is incoherent (multiple sources)</td>
+<td>Need separate cancellers for each source</td>
+</tr>
+<tr>
+<td>Null shallow at some frequencies</td>
+<td>Phase network inadequate range</td>
+<td>Verify RV1 and RV2 provide full 0–360°</td>
+</tr>
+<tr>
+<td>Good null at one frequency, poor at others</td>
+<td>Phase network frequency-dependent</td>
+<td>Retune for each frequency; not broadband without redesign</td>
+</tr>
+<tr>
+<td>Null but desired signal also cancelled</td>
+<td>Reference antenna sees desired signal</td>
+<td>Reposition reference; aim null of reference toward signal</td>
+</tr>
+<tr>
+<td>Null achieved then drifts</td>
+<td>Noise source frequency drifting</td>
+<td>Normal for some SMPS; retune periodically</td>
+</tr>
+</tbody>
+</table>
+<h3 id="noise-monitor-inaccurate-readings">14.4 Noise Monitor Inaccurate
+Readings</h3>
+<table>
+<colgroup>
+<col style="width: 39%" />
+<col style="width: 30%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Cause</th>
+<th>Check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>All bands read same level</td>
+<td>Si5351 not changing frequency</td>
+<td>Verify I2C connection; Si5351 library installed</td>
+</tr>
+<tr>
+<td>Readings don’t correlate with S-meter</td>
+<td>AD8307 calibration error</td>
+<td>Apply AD8307_CAL_OFFSET_DB correction; compare to known signal</td>
+</tr>
+<tr>
+<td>Reading too high (saturated)</td>
+<td>Strong broadcast station</td>
+<td>Add 10 dB attenuator at monitor antenna input</td>
+</tr>
+<tr>
+<td>Reading too low (below −75 dBm)</td>
+<td>LPF or IF filter issue</td>
+<td>Verify 10.7 MHz ceramic filter orientation and soldering</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="appendix-a-ferrite-core-quick-reference">APPENDIX A — FERRITE
+CORE QUICK REFERENCE</h2>
+<table>
+<thead>
+<tr>
+<th>Part Number</th>
+<th>Mix</th>
+<th>OD (mm)</th>
+<th>Hole ID (mm)</th>
+<th>Max coax OD for 8T</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FT-140-31</td>
+<td>31</td>
+<td>35.6</td>
+<td>19.0</td>
+<td>5.5 mm (RG-58)</td>
+</tr>
+<tr>
+<td>FT-240-31</td>
+<td>31</td>
+<td>61.0</td>
+<td>25.4</td>
+<td>8.0 mm (RG-8X)</td>
+</tr>
+<tr>
+<td>FT-240-43</td>
+<td>43</td>
+<td>61.0</td>
+<td>25.4</td>
+<td>8.0 mm (RG-8X)</td>
+</tr>
+<tr>
+<td>FT-240-61</td>
+<td>61</td>
+<td>61.0</td>
+<td>25.4</td>
+<td>8.0 mm</td>
+</tr>
+<tr>
+<td>FT-140-43</td>
+<td>43</td>
+<td>35.6</td>
+<td>19.0</td>
+<td>5.5 mm</td>
+</tr>
+<tr>
+<td>0431167281</td>
+<td>31</td>
+<td>28.5</td>
+<td>7.0</td>
+<td>snap-on for USB</td>
+</tr>
+<tr>
+<td>0443006281</td>
+<td>43</td>
+<td>28.5</td>
+<td>7.0</td>
+<td>snap-on for USB</td>
+</tr>
+<tr>
+<td>FairRite 0431177281</td>
+<td>31</td>
+<td>28.5</td>
+<td>12.0</td>
+<td>snap-on RG-58</td>
+</tr>
+</tbody>
+</table>
+<p>Source: Fair-Rite Products Corp. AL values: see Fair-Rite catalog
+(fair-rite.com). For Jim Brown’s (K9YC) measured impedance data: see his
+application notes AN-01005.</p>
+<hr />
+<h2 id="appendix-b-common-rfi-frequencies-and-signatures">APPENDIX B —
+COMMON RFI FREQUENCIES AND SIGNATURES</h2>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 31%" />
+<col style="width: 25%" />
+<col style="width: 18%" />
+</colgroup>
+<thead>
+<tr>
+<th>Frequency</th>
+<th>Typical Source</th>
+<th>Signature</th>
+<th>Remedy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>50/60 Hz + harmonics</td>
+<td>Power line, dimmers</td>
+<td>Tone/buzz at audio</td>
+<td>Y-caps, CM choke</td>
+</tr>
+<tr>
+<td>25–100 kHz and harmonics</td>
+<td>SMPS wall warts</td>
+<td>Hash across HF</td>
+<td>Replace/filter PSU</td>
+</tr>
+<tr>
+<td>65–200 kHz fundamental</td>
+<td>Laptop charger</td>
+<td>Strong carrier + harmonics</td>
+<td>Replace/ferrite</td>
+</tr>
+<tr>
+<td>1.8–5 MHz carrier tones</td>
+<td>Smart meter PLC</td>
+<td>Buzzing tones</td>
+<td>Mains filter</td>
+</tr>
+<tr>
+<td>14.318 MHz</td>
+<td>Computer CPU clock × N</td>
+<td>Narrowband birdie</td>
+<td>Shielded cable, ferrite</td>
+</tr>
+<tr>
+<td>25.000 MHz × N</td>
+<td>Crystal oscillator</td>
+<td>Narrowband birdie</td>
+<td>Filter oscillator</td>
+</tr>
+<tr>
+<td>27.120 MHz</td>
+<td>ISM band devices</td>
+<td>Continuous carrier</td>
+<td>Identify device</td>
+</tr>
+<tr>
+<td>33–50 MHz harmonics</td>
+<td>PWM controllers</td>
+<td>Broadband</td>
+<td>CM chokes on PWM cables</td>
+</tr>
+<tr>
+<td>165 MHz + harmonics</td>
+<td>HDMI cable</td>
+<td>VHF broadband</td>
+<td>Shielded HDMI cable</td>
+</tr>
+<tr>
+<td>2500 MHz (down-conversion products)</td>
+<td>USB 3.0</td>
+<td>HF hash at 2.5G/N</td>
+<td>Ferrite, shielded USB 3.0</td>
+</tr>
+<tr>
+<td>Cyclic ~20 s</td>
+<td>Fluorescent ballast</td>
+<td>Rhythmic S-meter</td>
+<td>Replace with LED + filter</td>
+</tr>
+<tr>
+<td>Cyclic ~20 min</td>
+<td>Refrigerator compressor</td>
+<td>Burst on start/stop</td>
+<td>CM choke on compressor leads</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="appendix-c-nec-model-interpretation-guide">APPENDIX C — NEC
+MODEL INTERPRETATION GUIDE</h2>
+<h3 id="c.1-dipole_cm_current.nec">C.1 dipole_cm_current.nec</h3>
+<p>Run in xnec2c:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">xnec2c</span> /path/to/dipole_cm_current.nec</span></code></pre></div>
+<p>Model A (comment out GW 3 and CM EX on stub): Shows ideal dipole
+azimuth pattern. Model B (include GW 3 and add CM excitation): Shows
+distorted pattern.</p>
+<p>Compare the azimuth patterns at 10° elevation. The filled-in nulls in
+Model B represent the noise pickup added by common-mode feed line
+current.</p>
+<h3 id="c.2-shielded_loop_rfi.nec">C.2 shielded_loop_rfi.nec</h3>
+<p>Near-field probe pattern verification. Look at: - Azimuth at
+elevation=0°: should be figure-8 (bidirectional) - Broadside elevation
+pattern: should show deep null perpendicular to loop plane - Peak: along
+loop axis (in-plane direction)</p>
+<h3 id="c.3-noise_canceller_array.nec">C.3
+noise_canceller_array.nec</h3>
+<p>Run each model separately (comment out other EX cards): - Model 1:
+Omnidirectional main vertical - Model 2: Short reference whip — slightly
+different pattern - Model 3: Combined with cancellation — cardioid
+pattern with null at 0°</p>
+<p>The cardioid pattern of Model 3 shows the desired signal preservation
+(90° direction) while nulling the noise at 0°.</p>
+<hr />
+<h2 id="appendix-d-parts-list-and-sources">APPENDIX D — PARTS LIST AND
+SOURCES</h2>
+<h3 id="d.1-ferrite-cores">D.1 Ferrite Cores</h3>
+<table>
+<colgroup>
+<col style="width: 43%" />
+<col style="width: 26%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr>
+<th>Supplier</th>
+<th>Part</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Amidon Associates (amidon.com)</td>
+<td>FT-240-31, FT-240-43</td>
+<td>Recommended primary supplier</td>
+</tr>
+<tr>
+<td>Kits and Parts (kitsandparts.com)</td>
+<td>Full range</td>
+<td>Ham-friendly quantities</td>
+</tr>
+<tr>
+<td>Fair-Rite Products (fair-rite.com)</td>
+<td>All mixes</td>
+<td>Manufacturer direct</td>
+</tr>
+<tr>
+<td>Mouser Electronics</td>
+<td>5943000201 (FT-240-43 equiv.)</td>
+<td>Verifiable specs</td>
+</tr>
+</tbody>
+</table>
+<h3 id="d.2-mains-filter-components">D.2 Mains Filter Components</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Specification</th>
+<th>Supplier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>X2 capacitor 0.1µF</td>
+<td>275V X2</td>
+<td>WIMA MKP-X2 / Vishay MKX</td>
+</tr>
+<tr>
+<td>Y2 capacitor 2200pF</td>
+<td>250V Y2</td>
+<td>Vishay VY1222M31Y5US63V0</td>
+</tr>
+<tr>
+<td>CM choke core</td>
+<td>FT-240-31</td>
+<td>Amidon</td>
+</tr>
+<tr>
+<td>MOV</td>
+<td>V275LA10A</td>
+<td>Littelfuse (Mouser)</td>
+</tr>
+<tr>
+<td>Fuse holder + fuse</td>
+<td>IEC 5×20, 10A slow</td>
+<td>Keystone 3577</td>
+</tr>
+<tr>
+<td>IEC C14 inlet</td>
+<td>PCB or panel mount</td>
+<td>CUI Devices GEC14-XXXXX</td>
+</tr>
+<tr>
+<td>IEC C13 outlet</td>
+<td>Panel mount</td>
+<td>TE Connectivity 1-770068-1</td>
+</tr>
+</tbody>
+</table>
+<h3 id="d.3-active-noise-canceller-components">D.3 Active Noise
+Canceller Components</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Specification</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>J310 JFET</td>
+<td>N-channel, VHF</td>
+<td>Mouser, DigiKey</td>
+</tr>
+<tr>
+<td>NE5532 op-amp</td>
+<td>Dual, low-noise DIP-8</td>
+<td>Texas Instruments, Philips</td>
+</tr>
+<tr>
+<td>FT-37-43 toroid</td>
+<td>For RF transformer</td>
+<td>Amidon</td>
+</tr>
+<tr>
+<td>10 kΩ pots</td>
+<td>Linear, RK09 series</td>
+<td>Bourns, Alps</td>
+</tr>
+<tr>
+<td>SMA connectors</td>
+<td>Edge mount</td>
+<td>Rosenberger, Amphenol</td>
+</tr>
+</tbody>
+</table>
+<h3 id="d.4-noise-monitor-hardware">D.4 Noise Monitor Hardware</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Specification</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Si5351A</td>
+<td>I2C clock gen</td>
+<td>Adafruit #2045 breakout, $8</td>
+</tr>
+<tr>
+<td>SA612AN</td>
+<td>DBM mixer DIP-8</td>
+<td>NXP, Mouser</td>
+</tr>
+<tr>
+<td>SPF5189Z</td>
+<td>LNA SOT-89</td>
+<td>Mouser</td>
+</tr>
+<tr>
+<td>AD8307</td>
+<td>Log amp SOIC-8</td>
+<td>Analog Devices, DigiKey</td>
+</tr>
+<tr>
+<td>Murata CFWLA10M7KA0-B0</td>
+<td>10.7 MHz ceramic BPF</td>
+<td>Mouser</td>
+</tr>
+<tr>
+<td>SD card module</td>
+<td>SPI, 3.3V</td>
+<td>Amazon or AliExpress</td>
+</tr>
+</tbody>
+</table>
+<h3 id="d.5-estimated-build-cost">D.5 Estimated Build Cost</h3>
+<table>
+<thead>
+<tr>
+<th>Assembly</th>
+<th>Est. Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mains EMI filter (PCB + components)</td>
+<td>$35–55</td>
+</tr>
+<tr>
+<td>3× coax feed line chokes (6 cores)</td>
+<td>$30–45</td>
+</tr>
+<tr>
+<td>Active noise canceller</td>
+<td>$25–40</td>
+</tr>
+<tr>
+<td>Sniffer probe set (2 probes)</td>
+<td>$20–35</td>
+</tr>
+<tr>
+<td>ESP32 noise floor monitor</td>
+<td>$30–45</td>
+</tr>
+<tr>
+<td>CYD display</td>
+<td>$8–12</td>
+</tr>
+<tr>
+<td>Enclosures (filament, 3D printed)</td>
+<td>$12–18</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td><strong>$160–250</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>End of Technical Manual TM-RFI-001 Rev A</em></p>
+<p><em>This manual covers construction and operation of receive-side
+interference mitigation equipment. Always comply with applicable
+electrical codes when working with mains voltage. The Single-Point
+Ground system described herein also constitutes best practice for
+lightning protection; consult a professional for comprehensive lightning
+protection installation.</em></p>
+
+            </main>
+        </div>
+    </div>
+</body>
+</html>

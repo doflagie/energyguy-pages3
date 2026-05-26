@@ -1,0 +1,2200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDR Interfaces - Merv's Dump</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Dump</h1>
+                    <p class="tagline">When you build it, it teaches.</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+            <nav>
+                <h3>Main Navigation</h3>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about/bio.html">About</a></li>
+                </ul>
+
+                <details class="nav-group">
+                    <summary>Antennas</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/antennas/phased_array_of_2/">2-Element Phased Array</a></li>
+                    <li><a href="/antennas/phased_array_of_4/">4-Element Phased Array</a></li>
+                    <li><a href="/antennas/active_receiving/">Active Receiving</a></li>
+                    <li><a href="/antennas/beverage_receiving/">Beverage (Receiving)</a></li>
+                    <li><a href="/antennas/cage_dipole/">Cage Dipole</a></li>
+                    <li><a href="/antennas/collinear_array/">Collinear Array</a></li>
+                    <li><a href="/antennas/compact-dipole/">Compact Dipole</a></li>
+                    <li><a href="/antennas/cross_polarized/">Cross-Polarized</a></li>
+                    <li><a href="/antennas/cubical_quad/">Cubical Quad</a></li>
+                    <li><a href="/antennas/delta_loop_40m/">Delta Loop (40m)</a></li>
+                    <li><a href="/antennas/dipole/">Dipole</a></li>
+                    <li><a href="/antennas/discone/">Discone</a></li>
+                    <li><a href="/antennas/double_bazooka/">Double Bazooka</a></li>
+                    <li><a href="/antennas/end_fed_half_wave/">EFHW</a></li>
+                    <li><a href="/antennas/end_fed_quarter_wave/">EFQW</a></li>
+                    <li><a href="/antennas/end_fed_random_wire/">EFRW</a></li>
+                    <li><a href="/antennas/elevated_radials/">Elevated Radials</a></li>
+                    <li><a href="/antennas/end_fed_zepp/">End-Fed Zepp</a></li>
+                    <li><a href="/antennas/extended_double_zepp/">Extended Double Zepp</a></li>
+                    <li><a href="/antennas/fan_dipole/">Fan Dipole</a></li>
+                    <li><a href="/antennas/flagpole/">Flagpole</a></li>
+                    <li><a href="/antennas/flower_pot/">Flowerpot</a></li>
+                    <li><a href="/antennas/folded_dipole/">Folded Dipole</a></li>
+                    <li><a href="/antennas/folded_dipole_2conductor/">Folded Dipole (2-cond)</a></li>
+                    <li><a href="/antennas/folded_dipole_3conductor/">Folded Dipole (3-cond)</a></li>
+                    <li><a href="/antennas/frame_loop/">Frame Loop</a></li>
+                    <li><a href="/antennas/full_wave_loop/">Full-Wave Loop</a></li>
+                    <li><a href="/antennas/g5rv/">G5RV</a></li>
+                    <li><a href="/antennas/gmrs_loaded_vertical/">GMRS Loaded Vertical</a></li>
+                    <li><a href="/antennas/ground_plane/">Ground Plane</a></li>
+                    <li><a href="/antennas/helical/">Helical</a></li>
+                    <li><a href="/antennas/helical_antenna_2m_satellite/">Helical (2m Satellite)</a></li>
+                    <li><a href="/antennas/hentenna/">Hentenna</a></li>
+                    <li><a href="/antennas/hex_loop/">Hex Loop</a></li>
+                    <li><a href="/antennas/inverted_l_40m/">Inverted-L (40m)</a></li>
+                    <li><a href="/antennas/inverted_vee_dipole/">Inverted-V</a></li>
+                    <li><a href="/antennas/j_pole/">J-Pole</a></li>
+                    <li><a href="/antennas/k9ay_loop_40m/">K9AY Loop (40m)</a></li>
+                    <li><a href="/antennas/kmr_400_magnetic_loop/">KMR-400 Mag Loop</a></li>
+                    <li><a href="/antennas/log_periodic_dipole_arrays_for_wideband_operation/">LPDA Wideband</a></li>
+                    <li><a href="/antennas/loaded_vertical_hf/">Loaded Vertical (HF)</a></li>
+                    <li><a href="/antennas/log_periodic/">Log Periodic</a></li>
+                    <li><a href="/antennas/magnetic_loop_antennas/">Magnetic Loop</a></li>
+                    <li><a href="/antennas/moxon/">Moxon Rectangle</a></li>
+                    <li><a href="/antennas/near_vertical_incidence_skywave/">NVIS</a></li>
+                    <li><a href="/antennas/ocfd_windom/">OCFD / Windom</a></li>
+                    <li><a href="/antennas/octal_loop/">Octal Loop</a></li>
+                    <li><a href="/antennas/off_center_fed_dipole/">Off-Center Fed</a></li>
+                    <li><a href="/antennas/patch_antenna_2.4_ghz/">Patch (2.4 GHz)</a></li>
+                    <li><a href="/antennas/portable_magnetic_loop/">Portable Mag Loop</a></li>
+                    <li><a href="/antennas/rhombic/">Rhombic</a></li>
+                    <li><a href="/antennas/rybakov/">Rybakov</a></li>
+                    <li><a href="/antennas/satellite_yagi_antenna/">Satellite Yagi</a></li>
+                    <li><a href="/antennas/screwdriver/">Screwdriver</a></li>
+                    <li><a href="/antennas/shunt_fed/">Shunt-Fed Vertical</a></li>
+                    <li><a href="/antennas/slim_jim/">Slim Jim</a></li>
+                    <li><a href="/antennas/slinky_antenna_20m_portable/">Slinky (20m)</a></li>
+                    <li><a href="/antennas/sloped_dipole/">Sloped Dipole</a></li>
+                    <li><a href="/antennas/slot_antenna_uhf/">Slot Antenna (UHF)</a></li>
+                    <li><a href="/antennas/t_antenna/">T-Antenna</a></li>
+                    <li><a href="/antennas/tilted_terminated_folded_dipole/">T2FD</a></li>
+                    <li><a href="/antennas/tape_antennas/">Tape Antennas</a></li>
+                    <li><a href="/antennas/tape_measure_yagi/">Tape Measure Yagi</a></li>
+                    <li><a href="/antennas/telescopic/">Telescopic</a></li>
+                    <li><a href="/antennas/telescopic_vertical/">Telescopic Vertical</a></li>
+                    <li><a href="/antennas/terminated_folded_dipole/">Terminated Folded Dipole</a></li>
+                    <li><a href="/antennas/terminated_sloper_receiving/">Terminated Sloper</a></li>
+                    <li><a href="/antennas/trap_dipole/">Trap Dipole</a></li>
+                    <li><a href="/antennas/traveling_wave_vertical/">Traveling Wave Vertical</a></li>
+                    <li><a href="/antennas/turnstile/">Turnstile</a></li>
+                    <li><a href="/antennas/v_beam/">V-Beam</a></li>
+                    <li><a href="/antennas/vertical_dipole/">Vertical Dipole</a></li>
+                    <li><a href="/antennas/yagi_uda/">Yagi-Uda</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group">
+                    <summary>Antenna Gear</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/antenna_gear/ant_switches/">Antenna Switches</a></li>
+                    <li><a href="/antenna_gear/audio_filters/">Audio Filters</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/">Baluns And Ununs</a></li>
+                    <li><a href="/antenna_gear/bms/">BMS</a></li>
+                    <li><a href="/antenna_gear/coax_traps/">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/coil_winder/">Coil Winder</a></li>
+                    <li><a href="/antenna_gear/common_mode_chokes/">Common Mode Chokes</a></li>
+                    <li><a href="/antenna_gear/crystal_radio/">Crystal Radio</a></li>
+                    <li><a href="/antenna_gear/hybrids/">Hybrids</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/">Lightning Protection</a></li>
+                    <li><a href="/antenna_gear/mast_tower/">Mast Tower</a></li>
+                    <li><a href="/antenna_gear/motorized_tuner/">Motorized Tuner</a></li>
+                    <li><a href="/antenna_gear/power_supplies/">Power Supplies</a></li>
+                    <li><a href="/antenna_gear/remote-element-switching/">Remote Element Switching</a></li>
+                    <li><a href="/antenna_gear/rf_couplers/">RF Couplers</a></li>
+                    <li><a href="/antenna_gear/rfi_mitigation/">RFI Mitigation</a></li>
+                    <li><a href="/antenna_gear/roller_inductors/">Roller Inductors</a></li>
+                    <li><a href="/antenna_gear/transmatch/">Transmatch</a></li>
+                    <li><a href="/antenna_gear/variable_caps/">Variable Capacitors</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group">
+                    <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/adf_systems/">ADF Systems</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/antenna_modeling/">Antenna Modeling</a></li>
+                    <li><a href="/antenna_tools/dummy_loads/">Dummy Loads</a></li>
+                    <li><a href="/antenna_tools/field_strength_meter/">Field Strength Meter</a></li>
+                    <li><a href="/antenna_tools/noise_bridge/">Noise Bridge</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/">RF Power Meter</a></li>
+                    <li><a href="/antenna_tools/rf_power_meters/">RF Power Meters</a></li>
+                    <li><a href="/antenna_tools/sdr_interfaces/">SDR Interfaces</a></li>
+                    <li><a href="/antenna_tools/swr_meter/">SWR Meter</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group">
+                    <summary>Calibration</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/calibration/1013d-plus-oscilloscope/">1013D Plus Oscilloscope</a></li>
+                    <li><a href="/calibration/antenna-analyzer/">Antenna Analyzer</a></li>
+                    <li><a href="/calibration/audio-oscillator/">Audio Oscillator</a></li>
+                    <li><a href="/calibration/bm4070-digital-lcr-tester/">BM4070 Digital LCR Tester</a></li>
+                    <li><a href="/calibration/capacitance-meter/">Capacitance Meter</a></li>
+                    <li><a href="/calibration/current-source/">Current Source</a></li>
+                    <li><a href="/calibration/decade-capacitance-box/">Decade Capacitance Box</a></li>
+                    <li><a href="/calibration/decade-inductance-box/">Decade Inductance Box</a></li>
+                    <li><a href="/calibration/decade-resistance-box/">Decade Resistance Box</a></li>
+                    <li><a href="/calibration/dip-meter-grid-dip-oscillator/">Dip Meter Grid Dip Oscillator</a></li>
+                    <li><a href="/calibration/dso138-digital-oscilloscope/">DSO138 Digital Oscilloscope</a></li>
+                    <li><a href="/calibration/dummy-load-50-ohm/">Dummy Load 50 Ohm</a></li>
+                    <li><a href="/calibration/field-strength-meter/">Field Strength Meter</a></li>
+                    <li><a href="/calibration/fluke-15b-multimeter/">Fluke 15B Multimeter</a></li>
+                    <li><a href="/calibration/fm-broadcast/">Fm Broadcast</a></li>
+                    <li><a href="/calibration/frequency-counter/">Frequency Counter</a></li>
+                    <li><a href="/calibration/frequency-standard-gpsdo/">Frequency Standard GPSDO</a></li>
+                    <li><a href="/calibration/function-generator/">Function Generator</a></li>
+                    <li><a href="/calibration/gps-reference/">GPS Reference</a></li>
+                    <li><a href="/calibration/impedance-bridge/">Impedance Bridge</a></li>
+                    <li><a href="/calibration/inductance-meter/">Inductance Meter</a></li>
+                    <li><a href="/calibration/lcr-meter/">LCR Meter</a></li>
+                    <li><a href="/calibration/modulation-analyzer/">Modulation Analyzer</a></li>
+                    <li><a href="/calibration/multimeter-dmm/">Multimeter DMM</a></li>
+                    <li><a href="/calibration/nanovna/">Nanovna</a></li>
+                    <li><a href="/calibration/nanovna-vector-network-analyzer/">NanoVNA Vector Network Analyzer</a></li>
+                    <li><a href="/calibration/noise-figure-meter/">Noise Figure Meter</a></li>
+                    <li><a href="/calibration/oscilloscope/">Oscilloscope</a></li>
+                    <li><a href="/calibration/q-meter/">Q Meter</a></li>
+                    <li><a href="/calibration/radio-standards/">Radio Standards</a></li>
+                    <li><a href="/calibration/rf-attenuator-set/">RF Attenuator Set</a></li>
+                    <li><a href="/calibration/rf-power-meter/">RF Power Meter</a></li>
+                    <li><a href="/calibration/rf-probe-detector/">RF Probe Detector</a></li>
+                    <li><a href="/calibration/rf-signal-tracer/">RF Signal Tracer</a></li>
+                    <li><a href="/calibration/signal-generator/">Signal Generator</a></li>
+                    <li><a href="/calibration/simpson-260-series-3-analog-multimeter/">Simpson 260 Series 3 Analog Multimeter</a></li>
+                    <li><a href="/calibration/swr-meter/">SWR Meter</a></li>
+                    <li><a href="/calibration/tinysa-spectrum-analyzer/">TinySA Spectrum Analyzer</a></li>
+                    <li><a href="/calibration/verification/">Verification</a></li>
+                    <li><a href="/calibration/voltage-reference/">Voltage Reference</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group">
+                    <summary>Calibration Ideas</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/Calibration_Ideas/ac_mains_reference/">AC Mains Reference</a></li>
+                    <li><a href="/Calibration_Ideas/attenuator_pad_standards/">Attenuator Pad Standards</a></li>
+                    <li><a href="/Calibration_Ideas/coax_capacitance_standard/">Coax Capacitance Standard</a></li>
+                    <li><a href="/Calibration_Ideas/dummy_load_power_standard/">Dummy Load Power Standard</a></li>
+                    <li><a href="/Calibration_Ideas/field_strength_reference/">Field Strength Reference</a></li>
+                    <li><a href="/Calibration_Ideas/fm_broadcast_reference/">FM Broadcast Reference</a></li>
+                    <li><a href="/Calibration_Ideas/gps_1pps_reference/">GPS 1PPS Reference</a></li>
+                    <li><a href="/Calibration_Ideas/gpsdo_reference/">GPSDO Reference</a></li>
+                    <li><a href="/Calibration_Ideas/kelvin_resistance_standard/">Kelvin Resistance Standard</a></li>
+                    <li><a href="/Calibration_Ideas/known_length_dipole_standard/">Known Length Dipole Standard</a></li>
+                    <li><a href="/Calibration_Ideas/lc_resonance_standard/">LC Resonance Standard</a></li>
+                    <li><a href="/Calibration_Ideas/precision_resistor_network/">Precision Resistor Network</a></li>
+                    <li><a href="/Calibration_Ideas/precision_voltage_reference/">Precision Voltage Reference</a></li>
+                    <li><a href="/Calibration_Ideas/rc_time_constant_standard/">RC Time Constant Standard</a></li>
+                    <li><a href="/Calibration_Ideas/wheatstone_bridge/">Wheatstone Bridge</a></li>
+                    <li><a href="/Calibration_Ideas/wwv_wwvh_reference/">WWV/WWVH Reference</a></li>
+                    <li><a href="/Calibration_Ideas/zener_divider_reference/">Zener Divider Reference</a></li>
+                </ul>
+                </details>
+
+<details class="nav-group" open>
+    <summary>Study & Training</summary>
+    <ul>
+                    <li><a href="/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                    <li><a href="/study/morse.html">Morse Code Practice</a></li>
+                </ul>
+</details>
+
+</nav>
+            <main>
+<h1 id="technical-manual">TECHNICAL MANUAL</h1>
+<h2 id="tm-sdr-001-rev-a">TM-SDR-001 Rev A</h2>
+<h1
+id="software-defined-radio-interface-and-preselector-system">SOFTWARE-DEFINED
+RADIO INTERFACE AND PRESELECTOR SYSTEM</h1>
+<h3
+id="portable-hfvhfuhf-sdr-front-end-for-amateur-radio-field-operation">Portable
+HF/VHF/UHF SDR Front-End for Amateur Radio Field Operation</h3>
+<hr />
+<p><strong>SECURITY CLASSIFICATION:</strong> UNCLASSIFIED</p>
+<p><strong>DOCUMENT NUMBER:</strong> TM-SDR-001 Rev A<br />
+<strong>DATE:</strong> 2 May 2026<br />
+<strong>SUPERSEDES:</strong> None (initial issue)<br />
+<strong>APPLICABLE TO:</strong> SDR Interface Hub, HF Upconverter,
+Direct Sampling Interface, Bias-T, Switchable Preselector Filters,
+Attenuator/Gain Control, ESP32 Controller, CYD Touchscreen Display</p>
+<p><strong>DISTRIBUTION:</strong> Unrestricted</p>
+<hr />
+<h2 id="table-of-contents">TABLE OF CONTENTS</h2>
+<table>
+<thead>
+<tr>
+<th>Chapter</th>
+<th>Title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>General Information</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Equipment Description</td>
+</tr>
+<tr>
+<td>3</td>
+<td>HF Upconverter Theory and Operation</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Direct Sampling Interface</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Bias-T Power Injector</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Switchable Preselector Filters</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Attenuator and Gain Control</td>
+</tr>
+<tr>
+<td>8</td>
+<td>ESP32 System Controller</td>
+</tr>
+<tr>
+<td>9</td>
+<td>CYD Touchscreen Display</td>
+</tr>
+<tr>
+<td>10</td>
+<td>SDR Software Setup</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Filter Alignment Procedures</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Operating Procedures</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Troubleshooting</td>
+</tr>
+<tr>
+<td>A</td>
+<td>Band Table and Element Dimensions</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Filter Component Values</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Noise Figure Calculations</td>
+</tr>
+<tr>
+<td>D</td>
+<td>Parts List and Procurement</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="chapter-1-general-information">CHAPTER 1 — GENERAL
+INFORMATION</h2>
+<h3 id="purpose-and-scope">1.1 Purpose and Scope</h3>
+<p>This manual provides technical description, theory of operation,
+installation, alignment, operating procedures, and troubleshooting
+guidance for the Software- Defined Radio (SDR) Interface and Preselector
+System. The system extends the capability of commercially available SDR
+dongles (RTL-SDR, RSP1A, Airspy HF+) to provide calibrated,
+interference-free reception across all Amateur Radio allocations from
+1.8 MHz through 1.3 GHz.</p>
+<p>The system was designed for portable field operation and bench-top
+station use. It provides the RF front-end quality necessary for serious
+signal work while remaining constructable from standard amateur-grade
+components.</p>
+<h3 id="equipment-configuration">1.2 Equipment Configuration</h3>
+<p>The complete SDR Interface System consists of the following
+assemblies:</p>
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 30%" />
+<col style="width: 39%" />
+</colgroup>
+<thead>
+<tr>
+<th>Assembly</th>
+<th>Document</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HF Upconverter</td>
+<td>TM-SDR-SCH-001</td>
+<td>0–30 MHz → 125–155 MHz converter</td>
+</tr>
+<tr>
+<td>Direct Sampling IF</td>
+<td>TM-SDR-SCH-002</td>
+<td>Anti-alias LPF, impedance match</td>
+</tr>
+<tr>
+<td>Bias-T (HF)</td>
+<td>TM-SDR-SCH-003 Ver A</td>
+<td>0.1–50 MHz, DC inject, 500 mA</td>
+</tr>
+<tr>
+<td>Bias-T (VHF/UHF)</td>
+<td>TM-SDR-SCH-003 Ver B</td>
+<td>10 MHz–3 GHz, 300 mA</td>
+</tr>
+<tr>
+<td>Preselector</td>
+<td>TM-SDR-SCH-004</td>
+<td>16-band switched BPF suite</td>
+</tr>
+<tr>
+<td>ATT/Gain</td>
+<td>TM-SDR-SCH-005</td>
+<td>PE4302 + SPF5189Z + AD8307</td>
+</tr>
+<tr>
+<td>ESP32 Controller</td>
+<td>TM-SDR-FW-001</td>
+<td>WiFi AP, BT, web UI</td>
+</tr>
+<tr>
+<td>CYD Display</td>
+<td>TM-SDR-FW-002</td>
+<td>ILI9341 touch display</td>
+</tr>
+<tr>
+<td>Hub Enclosure</td>
+<td>TM-SDR-ENC-003</td>
+<td>190×140×65 mm, RF shielded</td>
+</tr>
+<tr>
+<td>Preselector Box</td>
+<td>TM-SDR-ENC-002</td>
+<td>180×120×50 mm, RF shielded</td>
+</tr>
+<tr>
+<td>Upconverter Box</td>
+<td>TM-SDR-ENC-001</td>
+<td>90×65×36 mm, RF shielded</td>
+</tr>
+</tbody>
+</table>
+<h3 id="covered-ham-bands">1.3 Covered Ham Bands</h3>
+<p>The system covers all major U.S. Amateur Radio allocations:</p>
+<table>
+<thead>
+<tr>
+<th>Band</th>
+<th>Frequencies</th>
+<th>Upconv</th>
+<th>Direct</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>160 Meters</td>
+<td>1.800–2.000 MHz</td>
+<td>—</td>
+<td>YES</td>
+</tr>
+<tr>
+<td>80 Meters</td>
+<td>3.500–4.000 MHz</td>
+<td>—</td>
+<td>YES</td>
+</tr>
+<tr>
+<td>40 Meters</td>
+<td>7.000–7.300 MHz</td>
+<td>—</td>
+<td>YES</td>
+</tr>
+<tr>
+<td>30 Meters</td>
+<td>10.100–10.150 MHz</td>
+<td>—</td>
+<td>YES</td>
+</tr>
+<tr>
+<td>20 Meters</td>
+<td>14.000–14.350 MHz</td>
+<td>—</td>
+<td>YES*</td>
+</tr>
+<tr>
+<td>17 Meters</td>
+<td>18.068–18.168 MHz</td>
+<td>YES</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>15 Meters</td>
+<td>21.000–21.450 MHz</td>
+<td>YES</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>12 Meters</td>
+<td>24.890–24.990 MHz</td>
+<td>YES</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>10 Meters</td>
+<td>28.000–29.700 MHz</td>
+<td>YES</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>6 Meters</td>
+<td>50.000–54.000 MHz</td>
+<td>—</td>
+<td>DIR</td>
+</tr>
+<tr>
+<td>2 Meters</td>
+<td>144.000–148.000 MHz</td>
+<td>—</td>
+<td>DIR</td>
+</tr>
+<tr>
+<td>1.25 Meters</td>
+<td>222.000–225.000 MHz</td>
+<td>—</td>
+<td>DIR</td>
+</tr>
+<tr>
+<td>70 cm</td>
+<td>420.000–450.000 MHz</td>
+<td>—</td>
+<td>DIR</td>
+</tr>
+<tr>
+<td>33 cm</td>
+<td>902.000–928.000 MHz</td>
+<td>—</td>
+<td>DIR</td>
+</tr>
+<tr>
+<td>20 cm / 23 cm</td>
+<td>1240–1300 MHz</td>
+<td>—</td>
+<td>DIR</td>
+</tr>
+</tbody>
+</table>
+<p>*20 meters falls just below the 14.4 MHz Nyquist limit for RTL-SDR
+direct sampling. DIR = direct input to SDR without upconverter (RTL-SDR
+tunes these natively).</p>
+<h3 id="operating-configurations">1.4 Operating Configurations</h3>
+<p><strong>Configuration A — HF with Direct Sampling
+(160m–20m):</strong> Antenna → Bias-T → Preselector BPF → ATT/LNA →
+Direct Sampling IF → RTL-SDR v3</p>
+<p><strong>Configuration B — HF with Upconverter (17m–10m):</strong>
+Antenna → Bias-T → Preselector BPF → ATT/LNA → HF Upconverter → RTL-SDR
+v3</p>
+<p><strong>Configuration C — VHF/UHF Direct (6m–23cm):</strong> Antenna
+→ Bias-T → Preselector BPF → ATT/LNA → SDR SMA input (no
+upconverter)</p>
+<p><strong>Configuration D — Wideband Panadapter:</strong> Antenna →
+(bypass preselector) → ATT → SDR SMA input</p>
+<h3 id="conventions">1.5 Conventions</h3>
+<p>In this manual: - Frequencies are expressed in MHz unless noted. -
+Impedances in ohms (Ω) at 50 ohms nominal. - Connector labels: J1=input,
+J2=output, J3=power; full designators in schematics. - Bold text:
+<strong>WARNINGS</strong>, <strong>CAUTIONS</strong>,
+<strong>NOTES</strong>. - RF signal levels: dBm (dB relative to 1
+milliwatt into 50Ω).</p>
+<p><strong>WARNING:</strong> Radio frequency signals above +10 dBm are
+present at some test points during alignment. Do not contact RF circuits
+while transmitting. The preselector system is a RECEIVE-ONLY device. Do
+not apply transmit power (do not connect to transmitter output). Maximum
+safe input: +10 dBm. Apply external attenuator if operating near a
+transmitting antenna.</p>
+<hr />
+<h2 id="chapter-2-equipment-description">CHAPTER 2 — EQUIPMENT
+DESCRIPTION</h2>
+<h3 id="hf-upconverter-assembly">2.1 HF Upconverter Assembly</h3>
+<p>The HF upconverter translates the 0–30 MHz HF frequency range to
+125–155 MHz, placing HF signals within the RTL-SDR v3’s native tuning
+range. The converter uses an SA612A double-balanced Gilbert-cell mixer
+with a 125 MHz TCXO local oscillator.</p>
+<p><strong>Principal Components:</strong> - SA612A NXP double-balanced
+mixer (DIP-8) - 125.000 MHz TCXO, ±2.5 ppm - SPF5189Z low-noise
+preamplifier (+19 dB, NF 0.6 dB), optional - 7-pole Butterworth
+anti-alias LPF, 30 MHz cutoff - 3-pole Chebyshev IF BPF, 125–155 MHz
+passband - SPDT relay K1: upconverter vs. bypass path - AMS1117-3.3
+voltage regulator</p>
+<p><strong>Specifications:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Input frequency</td>
+<td>0.1–30 MHz</td>
+</tr>
+<tr>
+<td>LO frequency</td>
+<td>125.000 MHz</td>
+</tr>
+<tr>
+<td>IF output</td>
+<td>125.1–155 MHz</td>
+</tr>
+<tr>
+<td>Conversion gain (LNA off)</td>
+<td>−4.5 dB</td>
+</tr>
+<tr>
+<td>Conversion gain (LNA on)</td>
+<td>+14.5 dB</td>
+</tr>
+<tr>
+<td>Cascade NF (LNA on)</td>
+<td>2.9 dB</td>
+</tr>
+<tr>
+<td>Cascade NF (LNA off)</td>
+<td>5.0 dB</td>
+</tr>
+<tr>
+<td>Cascade IIP3 (LNA on)</td>
+<td>−12 dBm</td>
+</tr>
+<tr>
+<td>Image rejection</td>
+<td>&gt;45 dB</td>
+</tr>
+<tr>
+<td>LO leakage at IF</td>
+<td>&lt; −60 dBm</td>
+</tr>
+<tr>
+<td>Supply</td>
+<td>5V USB, 140 mA max</td>
+</tr>
+</tbody>
+</table>
+<h3 id="direct-sampling-interface">2.2 Direct Sampling Interface</h3>
+<p>The direct sampling interface prepares HF signals for the RTL-SDR v3
+Q-branch direct ADC input, providing anti-aliasing protection and proper
+impedance matching.</p>
+<p><strong>Principal Components:</strong> - 7-pole elliptic
+anti-aliasing LPF, 30 MHz cutoff (&gt;60 dB at 45 MHz) - FT-37-43 1:6
+impedance transformer (50Ω → ~1800Ω) - SPDT relay K2:
+preselector/wideband selection - Optional SPF5189Z LNA</p>
+<p><strong>Key Limitation:</strong> The RTL-SDR v3 ADC operates at 28.8
+Msps, yielding a Nyquist frequency of 14.4 MHz. Signals above 14.4 MHz
+will alias. Bands 17m and above require the upconverter (Configuration
+B) or a higher-sample-rate SDR such as the Airspy HF+ (912 ksps to 31
+MHz) or RSP1A.</p>
+<h3 id="bias-t-power-injectors">2.3 Bias-T Power Injectors</h3>
+<p>Two bias-T versions are provided:</p>
+<p><strong>Version A (HF, 0.1–50 MHz):</strong> Uses wound toroid RF
+choke and 10 nF series blocking capacitor. Passes DC at 5V or 12V
+(jumper selectable) to remote LNA. PTC fuse rated 500 mA. Reverse
+polarity protection via Schottky diode.</p>
+<p><strong>Version B (VHF/UHF, 10 MHz–3 GHz):</strong> Uses 1 µH SMD
+wirewound choke (SRF &gt;500 MHz) and 100 pF NP0 series blocking
+capacitor. Rated 300 mA, BAT54S reverse protection. RF insertion loss
+&lt; 0.3 dB to 1 GHz.</p>
+<h3 id="preselector-filter-assembly">2.4 Preselector Filter
+Assembly</h3>
+<p>Sixteen switched bandpass filters cover all amateur bands from 160m
+through 23cm. Filters are selected by a 74HC154 4-to-16 decoder driven
+by ESP32 GPIO outputs. Relay switching (Axicom V23105 at HF;
+high-frequency relays or PIN diodes at VHF+).</p>
+<p><strong>HF filter topology:</strong> 3-pole Chebyshev LC bandpass,
+50Ω, wound toroid inductors on T50-2/T50-6 cores. NP0/C0G capacitors
+throughout for temperature stability.</p>
+<p><strong>VHF filter topology:</strong> Helical resonators (6m, 2m) or
+interdigital PCB structures.</p>
+<p><strong>UHF filter topology:</strong> Microstrip coupled resonators
+(FR4 PCB) or SAW filters for 33cm and 23cm bands.</p>
+<h3 id="attenuator-and-gain-control">2.5 Attenuator and Gain
+Control</h3>
+<p><strong>PE4302 Digital Step Attenuator:</strong> 6-bit, 0–31.5 dB in
+0.5 dB steps. SPI controlled. IIP3 = +43 dBm (transparent to system
+linearity). Operates 0–3 GHz.</p>
+<p><strong>SPF5189Z LNA:</strong> Gain +19 dB, NF 0.6 dB, IIP3 +27 dBm.
+Relay-bypass for strong-signal environments. Default-on for weak signal
+work, default-off for broadcast-dense environments.</p>
+<p><strong>AD8307 Log Amplifier:</strong> Calibrated RSSI readback, −75
+to +17 dBm, 25 mV/dB slope. Output voltage read by ESP32 ADC1. Enables
+automatic level control (ALC).</p>
+<h3 id="esp32-controller">2.6 ESP32 Controller</h3>
+<p>The ESP32 module provides: - Preselector band switching (4 GPIO
+address lines + enable) - SPI control of PE4302 attenuator - Relay
+control for LNA, upconverter bypass, bias-T - AD8307 RSSI readback via
+ADC1 - WiFi Access Point: SSID “SDR-Controller” at 192.168.4.1 - Web
+server: full HTML/JavaScript band selector UI - Bluetooth Serial:
+connects to CYD display and terminal - USB UART: programming and
+debug</p>
+<h3 id="cyd-touchscreen-display">2.7 CYD Touchscreen Display</h3>
+<p>The ESP32-2432S028R (CYD) module provides: - 320×240 ILI9341 TFT
+display - XPT2046 resistive touchscreen - Bluetooth master:
+auto-connects to “RF-SDRCtrl” - Displays: band, attenuation,
+LNA/bypass/bias-T state, RSSI bar and history - Touch controls: band
+grid (16 buttons), ATT+/−, toggle controls - Double-buffered rendering
+at 10 FPS via TFT_eSprite</p>
+<hr />
+<h2 id="chapter-3-hf-upconverter-theory-and-operation">CHAPTER 3 — HF
+UPCONVERTER THEORY AND OPERATION</h2>
+<h3 id="mixer-theory">3.1 Mixer Theory</h3>
+<p>A frequency mixer multiplies two signals: the RF input (f_RF) and a
+local oscillator (f_LO), producing sum and difference products at the
+output:</p>
+<pre><code>f_out = f_LO ± f_RF</code></pre>
+<p>With f_LO = 125 MHz and f_RF = 7.15 MHz: f_IF = 125 + 7.15 = 132.15
+MHz (sum product, used) f_IF = 125 − 7.15 = 117.85 MHz (difference
+product, filtered by IF BPF)</p>
+<p>The IF BPF (passband 125–155 MHz) passes sum products and rejects
+difference products. The RTL-SDR is then tuned to the IF frequency
+(125–155 MHz range).</p>
+<h3 id="image-frequency">3.2 Image Frequency</h3>
+<p>Every mixer has an image frequency: the frequency that produces the
+same IF as the desired signal but through the difference product:</p>
+<pre><code>f_image = f_LO − f_IF = f_LO − (f_LO + f_RF) = −f_RF</code></pre>
+<p>For the sum-product upconverter, the image is at: f_image = 2×f_LO −
+f_RF</p>
+<p>Example: f_RF = 7 MHz, f_LO = 125 MHz: f_image = 250 − 7 = 243
+MHz</p>
+<p>The image at 243 MHz is not an HF frequency; it cannot reach the
+mixer because the 30 MHz input LPF provides &gt;60 dB attenuation at 243
+MHz. No image problem exists.</p>
+<h3 id="sa612a-gilbert-cell-operation">3.3 SA612A Gilbert Cell
+Operation</h3>
+<p>The SA612A implements a double-balanced Gilbert-cell topology. Key
+properties:</p>
+<p><strong>Conversion gain:</strong> +14 dB. This gain represents the
+transconductance of the differential pairs converting the RF voltage to
+an IF current.</p>
+<p><strong>Noise figure:</strong> 4.5 dB (SSB). Dominated by the input
+transistor shot noise. With an SPF5189Z LNA preceding it, the cascade NF
+approaches 2.9 dB (Friis).</p>
+<p><strong>IIP3:</strong> −14 dBm. The third-order input intercept
+determines the onset of intermodulation distortion. Two strong signals
+f1 and f2 produce an intermodulation product at 2f1−f2. When the input
+levels reach IIP3, the IMD product equals the desired signal.</p>
+<p><strong>Practical limit:</strong> With LNA engaged, the −3 dB
+compression point of the cascade is around −28 dBm input. For strong HF
+broadcast environments, bypass the LNA and add 10–20 dB external
+attenuation.</p>
+<h3 id="mhz-tcxo-local-oscillator">3.4 125 MHz TCXO Local
+Oscillator</h3>
+<p>The 125 MHz TCXO provides: - Frequency accuracy: ±2.5 ppm → ±312 Hz
+at 125 MHz - Translated to HF: affects IF display frequency, not signal
+detection - Phase noise: −130 dBc/Hz at 10 kHz offset → insignificant
+for SSB/CW - Temperature stability: compensated over −40 to +85°C</p>
+<p>The CMOS output (0/3.3V square wave) contains odd harmonics (375, 625
+MHz, etc.) These are suppressed by the IF BPF to &gt; −60 dBc.</p>
+<h3 id="setting-sdr-software-for-upconverter-operation">3.5 Setting SDR
+Software for Upconverter Operation</h3>
+<p>When using the upconverter, the SDR software must subtract the LO
+offset:</p>
+<p><strong>RTL-SDR in GQRX:</strong> 1. Set “Input controls” →
+“Frequency correction (ppm)” to match TCXO accuracy. 2. Enable LO
+correction: set offset = −125000000 Hz (−125 MHz). 3. GQRX then displays
+the actual HF frequency (e.g., tune to 132.15 MHz → shows 7.15 MHz).</p>
+<p><strong>SDR++ :</strong> 1. Open Source tab → RTL-SDR. 2. Set “Offset
+Tuning” to enabled. 3. Under “Frequency Manager” add custom offset:
+−125.000 MHz. 4. Band plan will display HF frequencies correctly.</p>
+<p><strong>HDSDR:</strong> 1. Options → Input → IF frequency (LO
+offset): enter 125000000. 2. Check “Invert”: no (not inverted with
+sum-product upconverter).</p>
+<hr />
+<h2 id="chapter-4-direct-sampling-interface">CHAPTER 4 — DIRECT SAMPLING
+INTERFACE</h2>
+<h3 id="rtl-sdr-v3-direct-sampling-mode">4.1 RTL-SDR v3 Direct Sampling
+Mode</h3>
+<p>The RTL2832U chip in the RTL-SDR v3 has a direct sampling input on
+the Q branch that bypasses the R820T2 tuner. The signal is applied
+directly to the 28.8 Msps 8-bit ADC. This mode is activated in
+software:</p>
+<p><strong>GQRX activation:</strong> 1. Preferences → Input Controls →
+Device string: <code>rtl=0,direct_samp=2</code> (for Q branch) or
+<code>rtl=0,direct_samp=1</code> (for I branch) 2. Center frequency 0.0
+Hz initially. 3. Sample rate: 2.048 MHz or 2.4 MHz for clean
+operation.</p>
+<p><strong>SDR++ activation:</strong> 1. Source → RTL-SDR → Direct
+Sampling → Q Branch. 2. Frequency offset: 0.</p>
+<h3 id="anti-aliasing-filter-theory">4.2 Anti-Aliasing Filter
+Theory</h3>
+<p>With a 28.8 Msps ADC, the Nyquist theorem states: signals above 14.4
+MHz will alias (fold back into the baseband spectrum). A signal at
+frequency f aliases to:</p>
+<pre><code>f_alias = |f_signal − n × 28.8 MHz|</code></pre>
+<p>for integer n. Signals at 15 MHz appear at 28.8 − 15 = 13.8 MHz in
+the spectrum — overlapping 20m. The anti-aliasing LPF at 30 MHz provides
+&gt;60 dB attenuation above 45 MHz, preventing aliasing from the UHF
+range. Signals in the 14.4–28.8 MHz range are attenuated by the LPF
+rolloff (−3 dB at 30 MHz, −20 dB at 40 MHz).</p>
+<p>For the bands 17m–10m (18–29 MHz), use upconverter mode.</p>
+<h3 id="impedance-matching">4.3 Impedance Matching</h3>
+<p>The RTL-SDR v3 Q input impedance is approximately 2 kΩ at HF
+frequencies. Driving this high-impedance input from 50Ω requires a
+step-up transformer:</p>
+<p><strong>1:6 transformer on FT-37-43:</strong> - Primary: 4 turns (50Ω
+side) - Secondary: 24 turns (to ADC) - Turns ratio: 6:1 - Impedance
+ratio: 36:1 - 50Ω × 36 = 1800Ω (reasonable match to ~2 kΩ ADC input)</p>
+<p>Alternatively, a 75Ω shunt resistor at the ADC input reduces the
+mismatch reflection at the cost of ~5 dB additional attenuation.</p>
+<hr />
+<h2 id="chapter-5-bias-t-power-injector">CHAPTER 5 — BIAS-T POWER
+INJECTOR</h2>
+<h3 id="theory-of-operation">5.1 Theory of Operation</h3>
+<p>A bias-T is an RF/DC diplexer: it combines RF signal and DC power on
+a single coax conductor without mutual interference:</p>
+<p><strong>RF choke path (series, DC side):</strong> The choke (L) has
+high impedance at RF: XL = 2πfL. At 3.5 MHz with 94 µH: XL = 2π × 3.5e6
+× 94e-6 = 2.07 kΩ → good isolation</p>
+<p><strong>Capacitor path (series, RF side):</strong> The capacitor (C)
+has low impedance at RF: XC = 1/(2πfC). At 3.5 MHz with 10 nF: XC =
+1/(2π × 3.5e6 × 10e-9) = 4.5 Ω → good RF pass</p>
+<h3 id="operating-the-hf-bias-t">5.2 Operating the HF Bias-T</h3>
+<ol type="1">
+<li>Connect antenna coax to J1 (ANTENNA).</li>
+<li>Connect SDR input to J2 (RF OUT).</li>
+<li>Connect DC power supply to J3 (12V or 5V per JP1 setting).</li>
+<li>Verify correct voltage at remote end before connecting LNA:
+<ul>
+<li>Use multimeter on coax center-to-shield at remote end.</li>
+<li>Should read within 0.5V of supply voltage (accounting for diode
+drop).</li>
+</ul></li>
+<li>Connect remote LNA.</li>
+<li>Verify LNA is operating: RSSI should increase 10–20 dB with LNA
+connected.</li>
+</ol>
+<p><strong>CAUTION:</strong> Never operate bias-T while transmitting
+into the same coax. Transmit power will destroy the bias-T circuit and
+connected LNA.</p>
+<h3 id="bias-t-troubleshooting">5.3 Bias-T Troubleshooting</h3>
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 48%" />
+<col style="width: 22%" />
+</colgroup>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Probable Cause</th>
+<th>Check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No DC at remote end</td>
+<td>PTC fuse tripped</td>
+<td>Measure across F1; if &gt;0.5V, fuse tripped; wait 30 s or
+replace</td>
+</tr>
+<tr>
+<td>No DC at remote end</td>
+<td>Reversed polarity</td>
+<td>Verify power supply polarity vs. J3 center-pin (+)</td>
+</tr>
+<tr>
+<td>RF signal absent</td>
+<td>Blocking cap C1 shorted</td>
+<td>Measure DC at SDR input; should be 0V; if DC present, C1 failed</td>
+</tr>
+<tr>
+<td>RF noise on signal</td>
+<td>Power supply ripple</td>
+<td>Add 100 µH + 100 µF LC filter at DC input</td>
+</tr>
+<tr>
+<td>LNA not amplifying</td>
+<td>Voltage insufficient for LNA Vmin</td>
+<td>Measure remote end voltage; if &lt;3V, increase supply or shorten
+coax</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="chapter-6-switchable-preselector-filters">CHAPTER 6 — SWITCHABLE
+PRESELECTOR FILTERS</h2>
+<h3 id="bandpass-filter-theory">6.1 Bandpass Filter Theory</h3>
+<p>A bandpass filter passes a range of frequencies (passband) and
+rejects all others (stopband). The quality factor Q = f_center /
+bandwidth defines selectivity:</p>
+<pre><code>High Q: narrow bandwidth, sharper skirts, higher insertion loss
+Low Q: wide bandwidth, easier to build, lower insertion loss</code></pre>
+<p>For ham bands, Q values range from 7.5 (80m, BW 500 kHz) to 202 (30m,
+BW 50 kHz). LC filters practical for Q up to approximately 200 with
+air/toroid inductors. Higher Q requires crystal or ceramic filters (not
+practical for this application).</p>
+<h3 id="pole-chebyshev-bandpass-filter-design">6.2 3-Pole Chebyshev
+Bandpass Filter Design</h3>
+<p>The 3-pole Chebyshev topology provides: - 0.1 dB ripple in passband -
+18 dB/octave rolloff beyond cutoff (steeper than Butterworth) -
+Practical insertion loss 0.6–1.5 dB for wound toroid inductors (Q &gt;
+100)</p>
+<p><strong>Prototype to bandpass transformation:</strong> Given a
+desired f0 (center), BW (bandwidth), and 50Ω system impedance, the
+element values are calculated as:</p>
+<pre><code>L_shunt = g_k × Z0 / (ω0 × w)     where ω0 = 2πf0, w = BW/f0
+C_shunt = 1 / (ω0² × L_shunt)
+C_series = w / (ω0 × Z0 × g_k)
+L_series = 1 / (ω0² × C_series)</code></pre>
+<p>where g_k are the Chebyshev prototype element values: 3-pole, 0.1 dB
+ripple: g1 = g3 = 1.0316, g2 = 1.1474</p>
+<p>For a simplified 3-pole implementation (shunt resonators + series
+coupling caps): 3 shunt resonators each tuned to f0 (Lp||Cp) 2 series
+coupling capacitors Cs (sets bandwidth)</p>
+<p>This simplified topology is practical for amateur construction and
+requires only 6 components (3 Lp, 3 Cp, 2 Cs — with Cs and shunt pair
+combining).</p>
+<h3 id="toroid-inductor-winding">6.3 Toroid Inductor Winding</h3>
+<p>Toroids for HF preselector filters:</p>
+<p><strong>T50-6 (iron powder, yellow/white, µ=8.5):</strong> - Suitable
+for 3.5–30 MHz - AL = 40 nH/turn² (approx.) - Maximum flux density: good
+for receive use - Winding formula: N = √(L_µH / AL_µH) = √(L / 0.04)</p>
+<p><strong>T50-2 (iron powder, red, µ=10):</strong> - Suitable for 1–30
+MHz - AL = 49 nH/turn² (approx.) - Better choice for 160m and 80m</p>
+<p><strong>Winding technique:</strong> 1. Use 24 AWG enameled wire. 2.
+Wind turns evenly spaced around core. 3. Leave 6 mm leads for soldering.
+4. Scrape insulation at lead ends with knife; tin with 60/40 solder. 5.
+Measure with LCR meter at test frequency; adjust turns ±1 for exact
+value. 6. Secure with a small bead of RTV silicone at 2 points (do not
+pot entirely).</p>
+<p><strong>Inductance verification:</strong> L = N² × AL (nH, with N in
+turns and AL in nH/turn²).</p>
+<h3 id="filter-alignment">6.4 Filter Alignment</h3>
+<p>See Chapter 11 for complete alignment procedures. Brief overview:</p>
+<ol type="1">
+<li>Set NanoVNA for S21 sweep from 0.1×f0 to 3×f0.</li>
+<li>Observe passband center frequency and bandwidth.</li>
+<li>Adjust shunt inductors (compress/expand windings) to shift f0.</li>
+<li>Adjust series coupling capacitor Cs to change bandwidth:
+<ul>
+<li>Larger Cs: wider BW, more loss</li>
+<li>Smaller Cs: narrower BW, less loss</li>
+</ul></li>
+<li>Target: center frequency ±5%, bandwidth ±20%, insertion loss &lt;
+1.5 dB.</li>
+</ol>
+<h3 id="band-switching">6.5 Band Switching</h3>
+<p>The 74HC154 decoder selects one of 16 relay outputs based on a 4-bit
+code from the ESP32. The decoder output is inverted (via 74HC04) and
+drives ULN2003A Darlington transistors that sink current through the
+relay coils.</p>
+<p><strong>Relay switching time:</strong> ~5 ms (coil energize +
+armature travel + contact settle). <strong>Software delay:</strong> 10
+ms delay after issuing new band code before proceeding. <strong>Glitch
+prevention:</strong> BPF_EN is deasserted before changing address bits
+(prevents partial decode activation), then reasserted after address
+settles.</p>
+<hr />
+<h2 id="chapter-7-attenuator-and-gain-control">CHAPTER 7 — ATTENUATOR
+AND GAIN CONTROL</h2>
+<h3 id="need-for-attenuation">7.1 Need for Attenuation</h3>
+<p>A strong signal overloads the mixer or ADC, producing intermodulation
+products that appear as spurious signals throughout the spectrum. The
+third-order intercept point (IP3) determines the signal level at which
+IMD becomes significant.</p>
+<p><strong>SA612A IP3 = −14 dBm input:</strong> Third-order
+intermodulation (IM3) products appear when two equal signals at levels
+P_in produce spurious signals at level:</p>
+<pre><code>IM3_level = 3×P_in − 2×IIP3</code></pre>
+<p>Example: Two broadcast signals at −20 dBm each into SA612A: IM3 =
+3×(−20) − 2×(−14) = −60 + 28 = −32 dBm (significant!)</p>
+<p>By inserting 10 dB attenuation before the mixer: Effective P_in = −30
+dBm IM3 = 3×(−30) − 2×(−14) = −90 + 28 = −62 dBm (much better)</p>
+<p><strong>Rule:</strong> Add attenuation until IMD spurs disappear from
+SDR display.</p>
+<h3 id="pe4302-operation">7.2 PE4302 Operation</h3>
+<p>The PE4302 is a 6-bit digital step attenuator. SPI word structure
+(LSB first):</p>
+<pre><code>Bit 0 (sent first): 0.5 dB
+Bit 1:              1.0 dB
+Bit 2:              2.0 dB
+Bit 3:              4.0 dB
+Bit 4:              8.0 dB
+Bit 5 (sent last):  16.0 dB</code></pre>
+<p>Setting 31.5 dB (all bits 1): 0b111111 = 0x3F. Setting 10 dB: 10 /
+0.5 = 20 steps = 0b010100 = 0x14.</p>
+<p>The latch enable (LE) pin must be pulsed HIGH for ≥1 µs after the 6
+bits are shifted in. See filter_switch.h <code>_setAttenuator()</code>
+for implementation.</p>
+<h3 id="automatic-level-control-alc">7.3 Automatic Level Control
+(ALC)</h3>
+<p>When enabled, the ESP32 periodically reads the AD8307 RSSI voltage
+and adjusts attenuation to maintain the SDR input near −30 dBm:</p>
+<pre><code>Target: −30 dBm ± 5 dB (−35 to −25 dBm range)
+Upper threshold: −25 dBm → increase ATT by 3 dB
+Lower threshold: −45 dBm → decrease ATT by 3 dB</code></pre>
+<p>The 5 dB hysteresis prevents hunting (oscillation between two
+states).</p>
+<p><strong>ALC behavior with strong signals:</strong> - Broadcast
+station (S9+40): ALC will drive ATT to maximum 31.5 dB. - If still
+overloaded: ALC disables LNA (reduces gain further). - If still
+overloaded: operator alert via OLED/CYD display.</p>
+<p><strong>ALC behavior with very weak signals:</strong> - DX signal
+(S1): ALC will enable LNA and set ATT to 0 dB. - Final sensitivity
+limited by system NF (2.9 dB with LNA).</p>
+<h3 id="noise-figure-and-minimum-detectable-signal">7.4 Noise Figure and
+Minimum Detectable Signal</h3>
+<p><strong>Friis cascade formula:</strong> NF_total(linear) = NF1 +
+(NF2−1)/G1 + (NF3−1)/(G1×G2) + …</p>
+<p>With LNA on (typical DX conditions): - BPF: NF=1.2× (0.7 dB), G=0.851
+(−0.7 dB) - PE4302 (0 dB): NF=1.4× (1.5 dB), G=0.708 (−1.5 dB) -
+SPF5189Z: NF=1.148× (0.6 dB), G=79.4× (+19 dB) - SA612A: NF=2.818× (4.5
+dB), G=0.631 (−2 dB)</p>
+<pre><code>NF_total = 1.2 + (1.4−1)/0.851 + (1.148−1)/0.602 + (2.818−1)/47.8
+         = 1.2 + 0.47 + 0.25 + 0.038 = 1.96 → NF = 2.93 dB</code></pre>
+<p><strong>Minimum Detectable Signal (MDS) at 500 Hz bandwidth:</strong>
+MDS = −174 dBm/Hz + NF + 10×log10(BW_Hz) = −174 + 2.93 + 10×log10(500) =
+−174 + 2.93 + 27.0 = −144 dBm</p>
+<p>This corresponds to approximately S0 (below S-meter noise floor) —
+excellent sensitivity for a receive-only front-end.</p>
+<hr />
+<h2 id="chapter-8-esp32-system-controller">CHAPTER 8 — ESP32 SYSTEM
+CONTROLLER</h2>
+<h3 id="software-architecture">8.1 Software Architecture</h3>
+<p>The ESP32 firmware (esp32_sdr_controller.ino) uses a cooperative
+multitasking architecture (no RTOS required):</p>
+<pre><code>setup(): Initialize hardware, load NVS preferences, start WiFi AP,
+         register web server routes, start Bluetooth Serial.
+
+loop(): Handle web client, parse BT commands, parse serial commands,
+        run ALC polling (every 100 ms), send BT status packets (every 2 s).</code></pre>
+<p><strong>FilterSwitch class (filter_switch.h):</strong> Encapsulates
+all hardware control. Public interface: selectBand(), setAttenuation(),
+setLNA(), setBiasT(), readRSSI_dBm().</p>
+<h3 id="wifi-web-interface">8.2 WiFi Web Interface</h3>
+<p>Connect to WiFi AP “SDR-Controller” (pass: sdrcontrol), then browse
+to http://192.168.4.1. The web UI provides:</p>
+<ul>
+<li><strong>Band grid:</strong> 16 buttons (4×4). Tap to select
+band.</li>
+<li><strong>ATT slider:</strong> 0–31 dB range. Drag to set.</li>
+<li><strong>Toggle buttons:</strong> LNA, Bypass, Bias-T, ALC.</li>
+<li><strong>RSSI bar:</strong> Real-time level display with 1-second
+refresh.</li>
+<li><strong>Status line:</strong> Current configuration summary.</li>
+</ul>
+<p>API endpoints (POST with JSON body):</p>
+<pre><code>POST /api/band     {&quot;band&quot;:&quot;40M&quot;}
+POST /api/att      {&quot;att&quot;:10}
+POST /api/lna      {&quot;on&quot;:true}
+POST /api/bypass   {&quot;on&quot;:false}
+POST /api/biastee  {&quot;on&quot;:true}
+POST /api/alc      {&quot;on&quot;:true}
+GET  /api/status   (returns JSON state)</code></pre>
+<h3 id="bluetooth-serial-protocol">8.3 Bluetooth Serial Protocol</h3>
+<p>The ESP32 broadcasts Bluetooth as “RF-SDRCtrl”. Commands are
+newline-terminated ASCII:</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BAND &lt;name&gt;</td>
+<td>Select ham band</td>
+<td>BAND 40M</td>
+</tr>
+<tr>
+<td>ATT &lt;0-31&gt;</td>
+<td>Set attenuation dB</td>
+<td>ATT 10</td>
+</tr>
+<tr>
+<td>LNA ON/OFF</td>
+<td>Enable/disable LNA</td>
+<td>LNA ON</td>
+</tr>
+<tr>
+<td>BYP ON/OFF</td>
+<td>Bypass upconverter</td>
+<td>BYP OFF</td>
+</tr>
+<tr>
+<td>BT ON/OFF</td>
+<td>Enable/disable bias-T</td>
+<td>BT ON</td>
+</tr>
+<tr>
+<td>ALC ON/OFF</td>
+<td>Enable/disable ALC</td>
+<td>ALC ON</td>
+</tr>
+<tr>
+<td>STATUS</td>
+<td>Request status packet</td>
+<td>STATUS</td>
+</tr>
+<tr>
+<td>RSSI</td>
+<td>Read instantaneous RSSI</td>
+<td>RSSI</td>
+</tr>
+<tr>
+<td>HELP</td>
+<td>List commands</td>
+<td>HELP</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Status packet format (sent every 2 s when CYD
+connected):</strong></p>
+<pre><code>BAND:40M,FREQ:7150000,ATT:0,LNA:1,BYP:0,BT:0,RSSI:-42.3</code></pre>
+<h3 id="nvs-persistent-storage">8.4 NVS Persistent Storage</h3>
+<p>The last-used band, attenuation, and LNA state are saved to NVS
+(Non-Volatile Storage, ESP32 flash) using the Preferences library. These
+values are restored on power-up, so the system remembers the last
+configuration.</p>
+<hr />
+<h2 id="chapter-9-cyd-touchscreen-display">CHAPTER 9 — CYD TOUCHSCREEN
+DISPLAY</h2>
+<h3 id="hardware-configuration">9.1 Hardware Configuration</h3>
+<p>The ESP32-2432S028R module uses: - ILI9341 controller: 320×240
+pixels, 16-bit color (RGB565) - XPT2046: 12-bit resistive touch, SPI -
+TFT_eSPI library (Bodmer): configured for CYD in User_Setup.h</p>
+<p>Required User_Setup.h settings for TFT_eSPI:</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#define USER_SETUP_ID </span><span class="dv">206</span><span class="pp">   </span><span class="co">// CYD specific</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#define ILI9341_DRIVER</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#define TFT_MOSI  </span><span class="dv">13</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="pp">#define TFT_SCLK  </span><span class="dv">14</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="pp">#define TFT_CS    </span><span class="dv">15</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="pp">#define TFT_DC    </span><span class="dv">2</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="pp">#define TFT_RST   </span><span class="op">-</span><span class="dv">1</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="pp">#define TFT_BL    </span><span class="dv">21</span><span class="pp">        </span><span class="co">// backlight</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="pp">#define TOUCH_CS  </span><span class="dv">33</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="pp">#define SPI_FREQUENCY  </span><span class="dv">40000000</span></span></code></pre></div>
+<h3 id="display-modes">9.2 Display Modes</h3>
+<p><strong>MODE_MAIN:</strong> Primary operating display. - Title bar
+with connection status indicator - Current band (large text) + center
+frequency - RSSI bar (color-coded: green/yellow/red) - RSSI history
+sparkline (80-sample rolling graph) - Controls row: ATT indicator,
+LNA/BYP/BT/ALC toggles - Button row: ATT−, ATT+, LNA, BYPASS, BIAS-T,
+BANDS button - Status bar: current configuration summary</p>
+<p><strong>MODE_BANDS:</strong> 4×4 band grid. - 16 band buttons with
+name and center frequency - Active band highlighted in accent color -
+Tap any band to select and return to MAIN mode - Tap title bar to return
+without changing band</p>
+<h3 id="bt-connection-management">9.3 BT Connection Management</h3>
+<p>The CYD operates as Bluetooth master. On startup it connects to
+“RF-SDRCtrl”. If the connection drops, it retries every 5 seconds. The
+green LED on the CYD illuminates when connected; blue LED blinks during
+reconnection attempts.</p>
+<p>Status packets from the controller update the display state. If no
+packets are received within 5 seconds, the display shows the connection
+indicator as red.</p>
+<hr />
+<h2 id="chapter-10-sdr-software-setup">CHAPTER 10 — SDR SOFTWARE
+SETUP</h2>
+<h3 id="gqrx-linux-macos">10.1 GQRX (Linux, macOS)</h3>
+<p>GQRX is recommended for portable Linux operation (works on Raspberry
+Pi 4, PC).</p>
+<p><strong>Installation (Debian/Ubuntu):</strong></p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install gqrx-sdr</span></code></pre></div>
+<p><strong>RTL-SDR with upconverter:</strong> 1. Launch GQRX. 2. File →
+I/O Devices → Select RTL-SDR (prefer rtlsdr-multi if multiple) 3. Device
+string: <code>rtl=0,offset_tune=1</code> 4. Input rate: 2.048 MHz or 2.4
+MHz 5. Input controls: LO offset = −125000000 (for 125 MHz LO) 6. File →
+Save configuration as <code>sdr_upconverter.conf</code></p>
+<p><strong>Direct sampling (RTL-SDR v3):</strong> 1. Device string:
+<code>rtl=0,direct_samp=2</code> 2. LO offset: 0 3. Input rate: 2.048
+MHz</p>
+<p><strong>Demodulation modes:</strong> - SSB: select USB or LSB; IF
+bandwidth 2.4 kHz; AGC fast - CW: select CW; IF bandwidth 500 Hz; CW
+offset 600 Hz - AM: select AM; IF bandwidth 6 kHz - FM narrow (2m):
+select NFM; IF bandwidth 12 kHz - WFM (broadcast): select WFM; IF
+bandwidth 200 kHz - Digital modes (FT8, WSPR): set USB demod; record IQ
+or use audio pipe to WSJT-X</p>
+<p><strong>Bookmarks:</strong> Use bookmarks for common frequencies.
+Import ARRL frequency allocation chart as CSV for automatic band plan
+overlay.</p>
+<h3 id="sdr-linux-windows-macos">10.2 SDR++ (Linux, Windows, macOS)</h3>
+<p>SDR++ provides a polished interface with direct SDR-control panel
+integration.</p>
+<p><strong>Installation:</strong> Download from GitHub (sdrpp):
+<code>sudo apt install sdrpp</code> (Debian repo) or AppImage.</p>
+<p><strong>RTL-SDR source configuration:</strong> 1. Source selector →
+RTL-SDR 2. Sample Rate: 2.048M 3. Direct Sampling: Q Branch (for HF
+direct sampling) OR: Direct Sampling: Off + Offset Tuning (for
+upconverter mode) 4. Frequency correction: enter TCXO ppm offset (see
+TCXO label)</p>
+<p><strong>Upconverter offset:</strong> 1. Module Manager → Frequency
+Manager 2. Add custom band with offset: −125.0 MHz 3. Select “Apply
+offset” checkbox in Source settings.</p>
+<p><strong>Band plan plugin:</strong> SDR++ includes ITU band plans. For
+ham-specific overlay: 1. Download hamQTH or ARRL band plan CSV. 2. Place
+in <code>~/.config/sdrpp/bands/</code>. 3. Enable “Band plan” in Module
+Manager.</p>
+<h3 id="wsjt-x-integration-ft8wsprjt65">10.3 WSJT-X Integration
+(FT8/WSPR/JT65)</h3>
+<p>WSJT-X receives decoded digital mode signals from the SDR audio
+output.</p>
+<p><strong>Setup chain:</strong> 1. GQRX or SDR++: demodulate USB at
+desired frequency. 2. Audio: route SDR audio output to virtual audio
+cable (PulseAudio sink/source). 3. WSJT-X: Input → virtual audio source.
+4. WSJT-X Mode: FT8 (or WSPR/JT65). 5. Set frequency in WSJT-X to match
+SDR display frequency.</p>
+<p><strong>Virtual audio on Linux:</strong></p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pactl</span> load-module module-null-sink sink_name=sdr_sink</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pactl</span> load-module module-loopback source=sdr_sink.monitor sink=<span class="op">&lt;</span>default_output<span class="op">&gt;</span></span></code></pre></div>
+<p>Then set GQRX audio output to “sdr_sink”; WSJT-X input to
+“sdr_sink.monitor”.</p>
+<h3 id="gnu-radio-sdr-pipeline">10.4 GNU Radio SDR Pipeline</h3>
+<p>For advanced signal processing, GNU Radio Companion (GRC) provides a
+flow-graph based signal processing environment.</p>
+<p><strong>Install:</strong></p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install gnuradio python3-osmosdr</span></code></pre></div>
+<p><strong>Minimal RTL-SDR receive flow graph:</strong></p>
+<pre><code>RTL-SDR Source → (sample rate 2.048M) →
+Low Pass Filter (cutoff 1.024M, transition 100k) →
+Rational Resampler (20/1) → Audio Sink (rate 48000)</code></pre>
+<p><strong>Upconverter in GNU Radio:</strong> Set
+<code>rtlsdr_source_0.set_center_freq(center_freq + 125e6)</code> in the
+flow graph to tune to the correct IF frequency when using the
+upconverter.</p>
+<h3 id="sdr-remote-operation-via-network">10.5 SDR Remote Operation via
+Network</h3>
+<p>The SDR Interface Hub WiFi AP provides basic web control. For full
+remote SDR:</p>
+<p><strong>SoapyRemote (network SDR):</strong></p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># On SDR server (Raspberry Pi or PC with dongle):</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install soapysdr-server</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="ex">SoapySDRServer</span> <span class="at">--bind</span><span class="op">=</span><span class="st">&quot;0.0.0.0:55132&quot;</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co"># On client (GQRX, SDR++):</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Device</span> string: soapy=0,driver=remote,remote=tcp://192.168.x.x:55132</span></code></pre></div>
+<p><strong>RTL-TCP:</strong></p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Server:</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="ex">rtl_tcp</span> <span class="at">-a</span> 0.0.0.0 <span class="at">-p</span> 1234</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Client GQRX device string:</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="va">rtl_tcp</span><span class="op">=</span>192.168.x.x:1234</span></code></pre></div>
+<p>Note: rtl_tcp does not support direct sampling over network.</p>
+<hr />
+<h2 id="chapter-11-filter-alignment-procedures">CHAPTER 11 — FILTER
+ALIGNMENT PROCEDURES</h2>
+<h3 id="required-equipment">11.1 Required Equipment</h3>
+<ul>
+<li>NanoVNA-H4 (or NanoVNA-F) with calibration kit (SOLT)</li>
+<li>50Ω SMA cables (×2), phase-matched ≤30 cm</li>
+<li>Plastic or non-metallic screwdriver for toroid adjustment</li>
+<li>Frequency counter (optional, for oscillator check)</li>
+<li>Spectrum analyzer or SDR for final verification</li>
+</ul>
+<h3 id="nanovna-calibration">11.2 NanoVNA Calibration</h3>
+<p>Perform SOLT calibration before each alignment session:</p>
+<ol type="1">
+<li>Connect SMA calibration kit to Port 1 and Port 2 cables.</li>
+<li>In NanoVNA app (NanoVNA-saver on PC):
+<ul>
+<li>Set frequency range: 0.1 × f_low to 3 × f_high of the filter being
+aligned.</li>
+<li>Calibrate: OPEN, SHORT, LOAD at Port 1; THRU across both ports.</li>
+<li>Save calibration.</li>
+</ul></li>
+<li>Verify: THRU connected = S21 near 0 dB ±0.2 dB across entire sweep
+range.</li>
+</ol>
+<h3 id="aligning-hf-bandpass-filters-160m10m">11.3 Aligning HF Bandpass
+Filters (160m–10m)</h3>
+<p>For each filter (F01–F09):</p>
+<p><strong>Step 1: Check resonance of individual shunt
+resonators.</strong> If accessible (before assembly), briefly check each
+Lp||Cp: Connect NanoVNA Port 1 to resonator; observe reflection dip at
+f0. Shunt resonator should show S11 minimum (minimum reflection) at
+f0.</p>
+<p><strong>Step 2: Set sweep range.</strong> For 40m filter (f0 = 7.15
+MHz): sweep 5 to 12 MHz.</p>
+<p><strong>Step 3: Observe S21.</strong> Initial response may be
+off-center or too narrow/wide.</p>
+<p><strong>Step 4: Center frequency correction.</strong> If passband is
+too high: add turns to shunt inductors (1 turn at a time). If passband
+is too low: remove turns from shunt inductors. Practical adjustment: ±1
+turn changes frequency approximately ±3–5%.</p>
+<p><strong>Step 5: Bandwidth adjustment.</strong> If bandwidth too
+narrow: increase coupling capacitor Cs by adding 10–20% parallel cap. If
+bandwidth too wide: reduce Cs by reducing capacitor value. Rule of
+thumb: doubling Cs doubles bandwidth; halving Cs halves bandwidth.</p>
+<p><strong>Step 6: Insertion loss check.</strong> Measure S21 at center
+frequency. Target: &lt; 1.0 dB. If loss &gt; 1.5 dB: suspect dirty
+solder joints, poor inductor Q, or mistuned filter.</p>
+<p><strong>Acceptance criteria (per band):</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 31%" />
+<col style="width: 43%" />
+</colgroup>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Specification</th>
+<th>Measurement method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Center frequency</td>
+<td>±5% of nominal f0</td>
+<td>S21 peak</td>
+</tr>
+<tr>
+<td>Bandwidth</td>
+<td>±20% of nominal BW</td>
+<td>−3 dB points</td>
+</tr>
+<tr>
+<td>Insertion loss</td>
+<td>&lt; 1.0 dB HF; &lt; 2.5 dB VHF</td>
+<td>S21 at f0</td>
+</tr>
+<tr>
+<td>Adjacent-band rejection</td>
+<td>&gt; 40 dB HF; &gt; 30 dB VHF</td>
+<td>S21 at adjacent band center</td>
+</tr>
+<tr>
+<td>Return loss</td>
+<td>&gt; 15 dB in passband</td>
+<td>S11</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 7: Log measured values.</strong> Record measured f0, BW,
+IL, and adjacent rejection in logbook. Date, ambient temperature, and
+final component values.</p>
+<h3 id="aligning-vhfuhf-filters-6m23cm">11.4 Aligning VHF/UHF Filters
+(6m–23cm)</h3>
+<p><strong>6m helical resonator filter (F10):</strong> 1. Coarse tune:
+compress or expand coil for approximate f0 near 52 MHz. 2. NanoVNA
+sweep: 45–60 MHz. Observe S21 passband. 3. Coupling loops: adjust loop
+size for desired bandwidth (4 MHz target). 4. Final: S21 &gt; −2 dB at
+52 MHz, &lt; −40 dB at 28 MHz, &lt; −30 dB at 144 MHz.</p>
+<p><strong>2m filter (F11) — lumped LC:</strong> 1. Sweep: 120–180 MHz.
+L = 22 nH, C = 47 pF (resonance ≈ 157 MHz — adjust C). 2. For 146 MHz:
+use 27 pF (f = 1/(2π√(22e-9 × 27e-12)) ≈ 206 MHz — too high). Use C = 53
+pF for 146 MHz: f = 1/(2π√(22e-9 × 53e-12)) = 147 MHz. Close. 3. Adjust
+by trimmer or parallel capacitor to center on 146 MHz. 4. Expected IL:
+2–4 dB at 146 MHz with SMD lumped components.</p>
+<p><strong>SAW filters (33cm, 23cm):</strong> No alignment required. SAW
+filters are fixed-frequency. Verify insertion loss only: install in
+circuit, measure S21 across passband. Typical: −2 to −4 dB IL, very
+sharp skirts.</p>
+<h3 id="full-system-verification">11.5 Full System Verification</h3>
+<p>After aligning all filters:</p>
+<ol type="1">
+<li><p><strong>Function test:</strong> Select each band via ESP32 web UI
+or BT. Listen to a known beacon or broadcast on each band. Verify signal
+present.</p></li>
+<li><p><strong>Relay switching test:</strong> Rapidly switch between
+bands 20 times. Verify no stuck contacts (if stuck, relay may need
+replacement or contacts cleaned with Caig DeOxit D5).</p></li>
+<li><p><strong>ALC function test:</strong></p>
+<ul>
+<li>Enable ALC.</li>
+<li>Connect a −10 dBm signal generator at the SMA input.</li>
+<li>Observe: attenuation increases to maintain RSSI near −30 dBm.</li>
+<li>Reduce signal to −80 dBm: attenuation decreases; LNA engages.</li>
+<li>Verify ALC response time: &lt; 500 ms to settle.</li>
+</ul></li>
+<li><p><strong>Spurious signal test:</strong></p>
+<ul>
+<li>Tune SDR to known quiet band (e.g., 40m, 14:00 UTC on weekday).</li>
+<li>Observe entire 0–30 MHz spectrum in panadapter.</li>
+<li>Note any persistent carriers, birdies, or digital noise.</li>
+<li>If present: identify source (switching supplies, TCXO harmonics,
+relay coil).</li>
+<li>Remediate: additional bypass capacitors, ferrite beads on supply
+lines, shielding.</li>
+</ul></li>
+</ol>
+<hr />
+<h2 id="chapter-12-operating-procedures">CHAPTER 12 — OPERATING
+PROCEDURES</h2>
+<h3 id="startup-procedure">12.1 Startup Procedure</h3>
+<ol type="1">
+<li>Power on SDR interface hub via USB (5V, minimum 500 mA
+capable).</li>
+<li>Observe CYD display: “Connecting BT…” → connection indicator turns
+green (~5 s).</li>
+<li>Observe OLED on hub: band, ATT, LNA state displayed.</li>
+<li>On CYD or web UI: select desired band.</li>
+<li>Confirm upconverter bypass state matches band:
+<ul>
+<li>160m–6m: bypass OFF (use direct sampling or upconverter per
+config)</li>
+<li>17m–10m: upconverter active (bypass OFF → upconverter in signal
+path)</li>
+<li>6m–23cm: bypass ON (direct to SDR, no upconverter)</li>
+</ul></li>
+<li>Start SDR software. Configure device string and LO offset (if
+upconverter in use).</li>
+<li>Confirm signal on known beacon (WWV 5/10/15 MHz, WWVH, etc.).</li>
+</ol>
+<h3 id="band-change-procedure">12.2 Band Change Procedure</h3>
+<ol type="1">
+<li>On CYD tap BANDS → select band. (Or: BT command “BAND 40M”.)</li>
+<li>Wait 10 ms for relay to settle (firmware handles this delay
+automatically).</li>
+<li>Re-tune SDR software to new band center frequency.</li>
+<li>If changing between HF-below-Nyquist and HF-above-Nyquist:
+<ul>
+<li>Check upconverter bypass state.</li>
+<li>20m and below: upconverter may be bypassed (direct sampling).</li>
+<li>17m and above: upconverter must be in path.</li>
+</ul></li>
+<li>Adjust ATT as needed (ALC handles this automatically if
+enabled).</li>
+</ol>
+<h3 id="strong-signal-environment-operation">12.3 Strong Signal
+Environment Operation</h3>
+<p>When operating near commercial broadcast transmitters, AM stations,
+or during contests:</p>
+<ol type="1">
+<li>Disable LNA: tap LNA button → OFF. (Or: “LNA OFF” via BT.)</li>
+<li>Enable ALC or manually set ATT: start at 20 dB; reduce until IMD
+spurs disappear.</li>
+<li>If RSSI bar shows red (≥ −20 dBm): increase ATT further.</li>
+<li>If SA612A overloads (wideband noise floor rises): add 3 dB ATT,
+observe improvement.</li>
+<li>For extreme overload (&gt;0 dBm antenna input): add external 30 dB
+pad before SMA IN.</li>
+</ol>
+<h3 id="weak-signal-and-dx-operation">12.4 Weak Signal and DX
+Operation</h3>
+<ol type="1">
+<li>Enable LNA: tap LNA button → ON.</li>
+<li>Set ATT to 0 dB.</li>
+<li>Enable ALC to prevent LNA overload from any transient strong
+signals.</li>
+<li>Select narrowest bandwidth in SDR software (500 Hz for CW, 2.4 kHz
+for SSB).</li>
+<li>Enable digital noise reduction or spectral subtraction if available
+(GQRX: DSP → NR).</li>
+<li>For WSPR monitoring: ensure PC clock synchronized (NTP) to within 1
+second.</li>
+</ol>
+<h3 id="remote-operation-over-network">12.5 Remote Operation Over
+Network</h3>
+<ol type="1">
+<li>Configure SoapyRemote or rtl_tcp on Raspberry Pi with SDR
+dongle.</li>
+<li>Ensure ESP32 SDR controller reachable on same network (static IP
+recommended).</li>
+<li>From remote PC: connect GQRX to SoapyRemote device string.</li>
+<li>Control preselector via http://192.168.x.x/ (ESP32 web UI).</li>
+<li>Alternatively: SSH to Pi; run GQRX headless; control via gqrx remote
+CLI.</li>
+</ol>
+<hr />
+<h2 id="chapter-13-troubleshooting">CHAPTER 13 — TROUBLESHOOTING</h2>
+<h3 id="no-signal-on-any-band">13.1 No Signal on Any Band</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 39%" />
+<col style="width: 35%" />
+</colgroup>
+<thead>
+<tr>
+<th>Check</th>
+<th>Procedure</th>
+<th>Expected</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Antenna connected?</td>
+<td>Visual inspection</td>
+<td>SMA properly seated</td>
+</tr>
+<tr>
+<td>Relay K1 functioning?</td>
+<td>Apply 5V to relay coil via bench supply</td>
+<td>Click heard; continuity at contacts</td>
+</tr>
+<tr>
+<td>RTL-SDR recognized?</td>
+<td><code>lsusb</code> shows RTL2832U</td>
+<td>USB device visible</td>
+</tr>
+<tr>
+<td>GQRX SDR gain set?</td>
+<td>Input controls → RF gain</td>
+<td>Set to 20–40 dB</td>
+</tr>
+<tr>
+<td>Direct sampling configured?</td>
+<td>Device string has direct_samp=2</td>
+<td>Per 10.1</td>
+</tr>
+<tr>
+<td>Signal present on antenna?</td>
+<td>Connect antenna directly to SDR (bypass everything)</td>
+<td>Signal visible</td>
+</tr>
+</tbody>
+</table>
+<h3 id="high-noise-floor">13.2 High Noise Floor</h3>
+<table>
+<colgroup>
+<col style="width: 37%" />
+<col style="width: 29%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Cause</th>
+<th>Remedy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Noise floor rises with hub connected</td>
+<td>SDR digital noise</td>
+<td>Improve shielding; ferrite bead on USB cable</td>
+</tr>
+<tr>
+<td>Periodic spurs every 1 MHz</td>
+<td>RTL-SDR TCXO birdie</td>
+<td>Normal; note and ignore; or switch to upconverter</td>
+</tr>
+<tr>
+<td>Switching transient when changing bands</td>
+<td>Relay arcing</td>
+<td>Add 100 nF across relay contacts</td>
+</tr>
+<tr>
+<td>50/60 Hz hum on audio</td>
+<td>Ground loop</td>
+<td>Use ferrite choke on audio cable; isolate DC supply</td>
+</tr>
+<tr>
+<td>TCXO harmonic at 125, 250, 375 MHz</td>
+<td>LO leakage</td>
+<td>Verify IF BPF attenuation; improve shielding</td>
+</tr>
+</tbody>
+</table>
+<h3 id="upconverter-issues">13.3 Upconverter Issues</h3>
+<table>
+<colgroup>
+<col style="width: 37%" />
+<col style="width: 29%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Cause</th>
+<th>Remedy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No signal 125–155 MHz on RTL-SDR</td>
+<td>K1 relay not set</td>
+<td>Verify GPIO_BYPASS LOW; check K1 coil voltage</td>
+</tr>
+<tr>
+<td>Signal present but frequency offset</td>
+<td>TCXO not 125.000 MHz</td>
+<td>Verify TCXO module; set software ppm correction</td>
+</tr>
+<tr>
+<td>IMD spurs visible</td>
+<td>SA612A overloaded</td>
+<td>Disable LNA; add 10 dB ATT</td>
+</tr>
+<tr>
+<td>Signal present but very low level</td>
+<td>LNA bypassed</td>
+<td>Enable LNA or reduce path loss</td>
+</tr>
+<tr>
+<td>Mirror image signals visible</td>
+<td>IF BPF misaligned</td>
+<td>Realign BPF per Ch.11; verify 125–155 MHz passband</td>
+</tr>
+</tbody>
+</table>
+<h3 id="preselector-issues">13.4 Preselector Issues</h3>
+<table>
+<colgroup>
+<col style="width: 37%" />
+<col style="width: 29%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Cause</th>
+<th>Remedy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Wrong band selected</td>
+<td>74HC154 address wrong</td>
+<td>Verify BPF_A0–A3 GPIO states match band table</td>
+</tr>
+<tr>
+<td>Relay click but no signal change</td>
+<td>Filter misaligned</td>
+<td>Align per Ch.11</td>
+</tr>
+<tr>
+<td>No relay click on band change</td>
+<td>ULN2003A not driving</td>
+<td>Check +5V relay supply; verify GPIO_BPF_EN HIGH</td>
+</tr>
+<tr>
+<td>Multiple bands active simultaneously</td>
+<td>Decoder enable stuck HIGH</td>
+<td>Verify BPF_EN deasserted before address change</td>
+</tr>
+<tr>
+<td>Filter insertion loss too high</td>
+<td>Mistuned or poor Q inductor</td>
+<td>Realign; check inductor winding; verify NP0 caps</td>
+</tr>
+</tbody>
+</table>
+<h3 id="esp32-controller-issues">13.5 ESP32 Controller Issues</h3>
+<table>
+<colgroup>
+<col style="width: 37%" />
+<col style="width: 29%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Cause</th>
+<th>Remedy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No WiFi AP visible</td>
+<td>ESP32 not powered or crashed</td>
+<td>Check 5V supply; press EN (reset) button</td>
+</tr>
+<tr>
+<td>Web UI loads but commands fail</td>
+<td>WiFi signal weak</td>
+<td>Move device or use direct connection</td>
+</tr>
+<tr>
+<td>BT not connecting</td>
+<td>Wrong BT name; CYD not in master mode</td>
+<td>Verify BT_NAME in config.h matches CYD target name</td>
+</tr>
+<tr>
+<td>Band changes not persistent</td>
+<td>NVS write fails</td>
+<td>Check flash wear (normal after &gt;100k writes); reflash</td>
+</tr>
+<tr>
+<td>ALC oscillating (hunts rapidly)</td>
+<td>ALC hysteresis too small</td>
+<td>Increase ALC_HYSTERESIS_DB to 8; reduce poll rate</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="appendix-a-band-table-and-element-dimensions">APPENDIX A — BAND
+TABLE AND ELEMENT DIMENSIONS</h2>
+<h3 id="a.1-ham-band-frequency-summary">A.1 Ham Band Frequency
+Summary</h3>
+<table>
+<thead>
+<tr>
+<th>Band</th>
+<th>Lower (MHz)</th>
+<th>Upper (MHz)</th>
+<th>Center (MHz)</th>
+<th>BPF Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>160M</td>
+<td>1.800</td>
+<td>2.000</td>
+<td>1.900</td>
+<td>0</td>
+</tr>
+<tr>
+<td>80M</td>
+<td>3.500</td>
+<td>4.000</td>
+<td>3.750</td>
+<td>1</td>
+</tr>
+<tr>
+<td>40M</td>
+<td>7.000</td>
+<td>7.300</td>
+<td>7.150</td>
+<td>2</td>
+</tr>
+<tr>
+<td>30M</td>
+<td>10.100</td>
+<td>10.150</td>
+<td>10.125</td>
+<td>3</td>
+</tr>
+<tr>
+<td>20M</td>
+<td>14.000</td>
+<td>14.350</td>
+<td>14.175</td>
+<td>4</td>
+</tr>
+<tr>
+<td>17M</td>
+<td>18.068</td>
+<td>18.168</td>
+<td>18.118</td>
+<td>5</td>
+</tr>
+<tr>
+<td>15M</td>
+<td>21.000</td>
+<td>21.450</td>
+<td>21.225</td>
+<td>6</td>
+</tr>
+<tr>
+<td>12M</td>
+<td>24.890</td>
+<td>24.990</td>
+<td>24.940</td>
+<td>7</td>
+</tr>
+<tr>
+<td>10M</td>
+<td>28.000</td>
+<td>29.700</td>
+<td>28.850</td>
+<td>8</td>
+</tr>
+<tr>
+<td>6M</td>
+<td>50.000</td>
+<td>54.000</td>
+<td>52.000</td>
+<td>9</td>
+</tr>
+<tr>
+<td>2M</td>
+<td>144.000</td>
+<td>148.000</td>
+<td>146.000</td>
+<td>10</td>
+</tr>
+<tr>
+<td>1.25M</td>
+<td>222.000</td>
+<td>225.000</td>
+<td>223.500</td>
+<td>11</td>
+</tr>
+<tr>
+<td>70cm</td>
+<td>420.000</td>
+<td>450.000</td>
+<td>435.000</td>
+<td>12</td>
+</tr>
+<tr>
+<td>33cm</td>
+<td>902.000</td>
+<td>928.000</td>
+<td>915.000</td>
+<td>13</td>
+</tr>
+<tr>
+<td>23cm</td>
+<td>1240.000</td>
+<td>1300.000</td>
+<td>1270.000</td>
+<td>14</td>
+</tr>
+<tr>
+<td>WIDE</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>15</td>
+</tr>
+</tbody>
+</table>
+<h3 id="a.2-if-frequency-table-with-125-mhz-lo">A.2 IF Frequency Table
+(with 125 MHz LO)</h3>
+<table>
+<thead>
+<tr>
+<th>Ham Band</th>
+<th>f_RF (MHz)</th>
+<th>f_IF = 125+f_RF</th>
+<th>SDR Tune (MHz)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>40M (7.15)</td>
+<td>7.150</td>
+<td>132.150</td>
+<td>132.150</td>
+</tr>
+<tr>
+<td>30M</td>
+<td>10.125</td>
+<td>135.125</td>
+<td>135.125</td>
+</tr>
+<tr>
+<td>20M</td>
+<td>14.175</td>
+<td>139.175</td>
+<td>139.175</td>
+</tr>
+<tr>
+<td>17M</td>
+<td>18.118</td>
+<td>143.118</td>
+<td>143.118</td>
+</tr>
+<tr>
+<td>15M</td>
+<td>21.225</td>
+<td>146.225</td>
+<td>146.225</td>
+</tr>
+<tr>
+<td>12M</td>
+<td>24.940</td>
+<td>149.940</td>
+<td>149.940</td>
+</tr>
+<tr>
+<td>10M</td>
+<td>28.850</td>
+<td>153.850</td>
+<td>153.850</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="appendix-b-filter-component-values">APPENDIX B — FILTER
+COMPONENT VALUES</h2>
+<h3 id="b.1-hf-bpf-component-summary">B.1 HF BPF Component Summary</h3>
+<table>
+<thead>
+<tr>
+<th>Band</th>
+<th>f0 (MHz)</th>
+<th>Lp (nH)</th>
+<th>Cp (pF)</th>
+<th>Cs (pF)</th>
+<th>Core</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>160M</td>
+<td>1.90</td>
+<td>22000</td>
+<td>320</td>
+<td>39</td>
+<td>T50-2</td>
+</tr>
+<tr>
+<td>80M</td>
+<td>3.75</td>
+<td>5600</td>
+<td>330</td>
+<td>100</td>
+<td>T50-6</td>
+</tr>
+<tr>
+<td>40M</td>
+<td>7.15</td>
+<td>2200</td>
+<td>220</td>
+<td>33</td>
+<td>T50-6</td>
+</tr>
+<tr>
+<td>30M</td>
+<td>10.125</td>
+<td>1800</td>
+<td>140</td>
+<td>18</td>
+<td>T50-6</td>
+</tr>
+<tr>
+<td>20M</td>
+<td>14.175</td>
+<td>1000</td>
+<td>120</td>
+<td>22</td>
+<td>T50-6</td>
+</tr>
+<tr>
+<td>17M</td>
+<td>18.118</td>
+<td>680</td>
+<td>110</td>
+<td>12</td>
+<td>T50-6</td>
+</tr>
+<tr>
+<td>15M</td>
+<td>21.225</td>
+<td>560</td>
+<td>100</td>
+<td>22</td>
+<td>T50-6</td>
+</tr>
+<tr>
+<td>12M</td>
+<td>24.940</td>
+<td>390</td>
+<td>100</td>
+<td>10</td>
+<td>T50-6</td>
+</tr>
+<tr>
+<td>10M</td>
+<td>28.85</td>
+<td>330</td>
+<td>82</td>
+<td>56</td>
+<td>T50-6</td>
+</tr>
+<tr>
+<td>6M</td>
+<td>52.0</td>
+<td>100</td>
+<td>82</td>
+<td>47</td>
+<td>0805CS</td>
+</tr>
+<tr>
+<td>2M</td>
+<td>146.0</td>
+<td>22</td>
+<td>53</td>
+<td>6.8</td>
+<td>0805CS</td>
+</tr>
+<tr>
+<td>1.25M</td>
+<td>223.5</td>
+<td>12</td>
+<td>39</td>
+<td>4.7</td>
+<td>0402CS</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="appendix-c-noise-figure-calculations">APPENDIX C — NOISE FIGURE
+CALCULATIONS</h2>
+<h3 id="c.1-friis-formula-derivation">C.1 Friis Formula Derivation</h3>
+<p><strong>Noise factor (linear):</strong> F = SNR_in / SNR_out =
+10^(NF_dB / 10)</p>
+<p><strong>Two-stage cascade:</strong> F_total = F1 + (F2 - 1) / G1</p>
+<p>where G1 is the linear gain of stage 1.</p>
+<p><strong>Full cascade (N stages):</strong> F_total = F1 + (F2-1)/G1 +
+(F3-1)/(G1·G2) + … + (FN-1)/(G1·G2·…·G(N-1))</p>
+<p><strong>Key insight:</strong> The first stage dominates. A high-gain,
+low-NF first stage (LNA) masks the noise of subsequent stages.</p>
+<h3 id="c.2-system-nf-under-different-configurations">C.2 System NF
+Under Different Configurations</h3>
+<table>
+<thead>
+<tr>
+<th>Configuration</th>
+<th>NF</th>
+<th>Gain</th>
+<th>Use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LNA on, ATT=0</td>
+<td>2.9 dB</td>
+<td>+14.5 dB</td>
+<td>DX, weak signals</td>
+</tr>
+<tr>
+<td>LNA off, ATT=0</td>
+<td>5.0 dB</td>
+<td>−4.5 dB</td>
+<td>General monitoring</td>
+</tr>
+<tr>
+<td>LNA off, ATT=10</td>
+<td>7.5 dB</td>
+<td>−14.5 dB</td>
+<td>Moderate strong signals</td>
+</tr>
+<tr>
+<td>LNA off, ATT=20</td>
+<td>12.0 dB</td>
+<td>−24.5 dB</td>
+<td>Strong signal, contest</td>
+</tr>
+<tr>
+<td>LNA off, ATT=31</td>
+<td>22.0 dB</td>
+<td>−35.5 dB</td>
+<td>Extreme strong signal</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="appendix-d-parts-list-and-procurement">APPENDIX D — PARTS LIST
+AND PROCUREMENT</h2>
+<h3 id="d.1-critical-components">D.1 Critical Components</h3>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 27%" />
+<col style="width: 25%" />
+<col style="width: 32%" />
+</colgroup>
+<thead>
+<tr>
+<th>Part</th>
+<th>Value/Type</th>
+<th>Supplier</th>
+<th>Approx. Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SA612AN</td>
+<td>DIP-8 DBM</td>
+<td>Mouser, DigiKey</td>
+<td>$2</td>
+</tr>
+<tr>
+<td>125 MHz TCXO</td>
+<td>±2.5 ppm 3.3V</td>
+<td>DigiKey (NDK)</td>
+<td>$5–8</td>
+</tr>
+<tr>
+<td>SPF5189Z</td>
+<td>LNA SOT-89</td>
+<td>Mouser, AliExpress</td>
+<td>$2–4</td>
+</tr>
+<tr>
+<td>PE4302</td>
+<td>DSA SOT-26</td>
+<td>Mouser</td>
+<td>$8–12</td>
+</tr>
+<tr>
+<td>AD8307</td>
+<td>Log amp SOIC-8</td>
+<td>DigiKey</td>
+<td>$6–10</td>
+</tr>
+<tr>
+<td>74HC154</td>
+<td>4:16 decoder DIP-24</td>
+<td>DigiKey</td>
+<td>$1</td>
+</tr>
+<tr>
+<td>ULN2003A</td>
+<td>Darlington DIP-16</td>
+<td>DigiKey</td>
+<td>$0.50</td>
+</tr>
+<tr>
+<td>AMS1117-3.3</td>
+<td>LDO SOT-223</td>
+<td>DigiKey</td>
+<td>$0.50</td>
+</tr>
+<tr>
+<td>T50-6 toroid</td>
+<td>iron powder yellow</td>
+<td>Kits and Parts, Amidon</td>
+<td>$0.50 ea</td>
+</tr>
+<tr>
+<td>T50-2 toroid</td>
+<td>iron powder red</td>
+<td>Kits and Parts, Amidon</td>
+<td>$0.50 ea</td>
+</tr>
+<tr>
+<td>FT-37-43</td>
+<td>ferrite toroid</td>
+<td>Amidon, Mouser</td>
+<td>$1</td>
+</tr>
+<tr>
+<td>NP0 capacitors</td>
+<td>10–330 pF 50V 0805</td>
+<td>DigiKey, bulk</td>
+<td>$0.05–0.10 ea</td>
+</tr>
+<tr>
+<td>Axicom V23105</td>
+<td>SPDT relay 5V</td>
+<td>Mouser, DigiKey</td>
+<td>$2–4</td>
+</tr>
+<tr>
+<td>RTL-SDR v3</td>
+<td>Direct sampling</td>
+<td>RTL-SDR Blog store</td>
+<td>$30–40</td>
+</tr>
+<tr>
+<td>ESP32 DevKit</td>
+<td>38-pin</td>
+<td>AliExpress, Amazon</td>
+<td>$5–8</td>
+</tr>
+<tr>
+<td>CYD (2432S028R)</td>
+<td>ESP32 CYD</td>
+<td>AliExpress</td>
+<td>$8–12</td>
+</tr>
+<tr>
+<td>NanoVNA-H4</td>
+<td>VNA</td>
+<td>Amazon, AliExpress</td>
+<td>$60–80</td>
+</tr>
+<tr>
+<td>SMA connectors</td>
+<td>Edge mount 50Ω</td>
+<td>Mouser, AliExpress</td>
+<td>$1–2 ea</td>
+</tr>
+</tbody>
+</table>
+<h3 id="d.2-estimated-build-cost">D.2 Estimated Build Cost</h3>
+<table>
+<thead>
+<tr>
+<th>Assembly</th>
+<th>Est. Component Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HF Upconverter</td>
+<td>$25–35</td>
+</tr>
+<tr>
+<td>Direct Sampling IF</td>
+<td>$15–20</td>
+</tr>
+<tr>
+<td>Bias-T (both)</td>
+<td>$10–15</td>
+</tr>
+<tr>
+<td>Preselector (16 filters)</td>
+<td>$60–90</td>
+</tr>
+<tr>
+<td>ATT/Gain board</td>
+<td>$25–35</td>
+</tr>
+<tr>
+<td>ESP32 controller</td>
+<td>$15–20</td>
+</tr>
+<tr>
+<td>CYD display</td>
+<td>$8–12</td>
+</tr>
+<tr>
+<td>Enclosures (3D printed filament)</td>
+<td>$8–12</td>
+</tr>
+<tr>
+<td>Miscellaneous (connectors, wire)</td>
+<td>$15–25</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td><strong>$181–264</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>End of Technical Manual TM-SDR-001 Rev A</em></p>
+<p><em>Document prepared for amateur radio field and station use.</em>
+<em>Not approved for classified or government applications.</em>
+<em>Verify all component values before construction.</em> <em>Perform
+complete alignment before operational use.</em></p>
+
+            </main>
+        </div>
+    </div>
+</body>
+</html>

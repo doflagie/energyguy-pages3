@@ -1,0 +1,4072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variable Capacitors - Merv's Dump</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Dump</h1>
+                    <p class="tagline">When you build it, it teaches.</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+            <nav>
+                <h3>Main Navigation</h3>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about/bio.html">About</a></li>
+                </ul>
+
+                <details class="nav-group">
+                    <summary>Antennas</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/antennas/phased_array_of_2/">2-Element Phased Array</a></li>
+                    <li><a href="/antennas/phased_array_of_4/">4-Element Phased Array</a></li>
+                    <li><a href="/antennas/active_receiving/">Active Receiving</a></li>
+                    <li><a href="/antennas/beverage_receiving/">Beverage (Receiving)</a></li>
+                    <li><a href="/antennas/cage_dipole/">Cage Dipole</a></li>
+                    <li><a href="/antennas/collinear_array/">Collinear Array</a></li>
+                    <li><a href="/antennas/compact-dipole/">Compact Dipole</a></li>
+                    <li><a href="/antennas/cross_polarized/">Cross-Polarized</a></li>
+                    <li><a href="/antennas/cubical_quad/">Cubical Quad</a></li>
+                    <li><a href="/antennas/delta_loop_40m/">Delta Loop (40m)</a></li>
+                    <li><a href="/antennas/dipole/">Dipole</a></li>
+                    <li><a href="/antennas/discone/">Discone</a></li>
+                    <li><a href="/antennas/double_bazooka/">Double Bazooka</a></li>
+                    <li><a href="/antennas/end_fed_half_wave/">EFHW</a></li>
+                    <li><a href="/antennas/end_fed_quarter_wave/">EFQW</a></li>
+                    <li><a href="/antennas/end_fed_random_wire/">EFRW</a></li>
+                    <li><a href="/antennas/elevated_radials/">Elevated Radials</a></li>
+                    <li><a href="/antennas/end_fed_zepp/">End-Fed Zepp</a></li>
+                    <li><a href="/antennas/extended_double_zepp/">Extended Double Zepp</a></li>
+                    <li><a href="/antennas/fan_dipole/">Fan Dipole</a></li>
+                    <li><a href="/antennas/flagpole/">Flagpole</a></li>
+                    <li><a href="/antennas/flower_pot/">Flowerpot</a></li>
+                    <li><a href="/antennas/folded_dipole/">Folded Dipole</a></li>
+                    <li><a href="/antennas/folded_dipole_2conductor/">Folded Dipole (2-cond)</a></li>
+                    <li><a href="/antennas/folded_dipole_3conductor/">Folded Dipole (3-cond)</a></li>
+                    <li><a href="/antennas/frame_loop/">Frame Loop</a></li>
+                    <li><a href="/antennas/full_wave_loop/">Full-Wave Loop</a></li>
+                    <li><a href="/antennas/g5rv/">G5RV</a></li>
+                    <li><a href="/antennas/gmrs_loaded_vertical/">GMRS Loaded Vertical</a></li>
+                    <li><a href="/antennas/ground_plane/">Ground Plane</a></li>
+                    <li><a href="/antennas/helical/">Helical</a></li>
+                    <li><a href="/antennas/helical_antenna_2m_satellite/">Helical (2m Satellite)</a></li>
+                    <li><a href="/antennas/hentenna/">Hentenna</a></li>
+                    <li><a href="/antennas/hex_loop/">Hex Loop</a></li>
+                    <li><a href="/antennas/inverted_l_40m/">Inverted-L (40m)</a></li>
+                    <li><a href="/antennas/inverted_vee_dipole/">Inverted-V</a></li>
+                    <li><a href="/antennas/j_pole/">J-Pole</a></li>
+                    <li><a href="/antennas/k9ay_loop_40m/">K9AY Loop (40m)</a></li>
+                    <li><a href="/antennas/kmr_400_magnetic_loop/">KMR-400 Mag Loop</a></li>
+                    <li><a href="/antennas/log_periodic_dipole_arrays_for_wideband_operation/">LPDA Wideband</a></li>
+                    <li><a href="/antennas/loaded_vertical_hf/">Loaded Vertical (HF)</a></li>
+                    <li><a href="/antennas/log_periodic/">Log Periodic</a></li>
+                    <li><a href="/antennas/magnetic_loop_antennas/">Magnetic Loop</a></li>
+                    <li><a href="/antennas/moxon/">Moxon Rectangle</a></li>
+                    <li><a href="/antennas/near_vertical_incidence_skywave/">NVIS</a></li>
+                    <li><a href="/antennas/ocfd_windom/">OCFD / Windom</a></li>
+                    <li><a href="/antennas/octal_loop/">Octal Loop</a></li>
+                    <li><a href="/antennas/off_center_fed_dipole/">Off-Center Fed</a></li>
+                    <li><a href="/antennas/patch_antenna_2.4_ghz/">Patch (2.4 GHz)</a></li>
+                    <li><a href="/antennas/portable_magnetic_loop/">Portable Mag Loop</a></li>
+                    <li><a href="/antennas/rhombic/">Rhombic</a></li>
+                    <li><a href="/antennas/rybakov/">Rybakov</a></li>
+                    <li><a href="/antennas/satellite_yagi_antenna/">Satellite Yagi</a></li>
+                    <li><a href="/antennas/screwdriver/">Screwdriver</a></li>
+                    <li><a href="/antennas/shunt_fed/">Shunt-Fed Vertical</a></li>
+                    <li><a href="/antennas/slim_jim/">Slim Jim</a></li>
+                    <li><a href="/antennas/slinky_antenna_20m_portable/">Slinky (20m)</a></li>
+                    <li><a href="/antennas/sloped_dipole/">Sloped Dipole</a></li>
+                    <li><a href="/antennas/slot_antenna_uhf/">Slot Antenna (UHF)</a></li>
+                    <li><a href="/antennas/t_antenna/">T-Antenna</a></li>
+                    <li><a href="/antennas/tilted_terminated_folded_dipole/">T2FD</a></li>
+                    <li><a href="/antennas/tape_antennas/">Tape Antennas</a></li>
+                    <li><a href="/antennas/tape_measure_yagi/">Tape Measure Yagi</a></li>
+                    <li><a href="/antennas/telescopic/">Telescopic</a></li>
+                    <li><a href="/antennas/telescopic_vertical/">Telescopic Vertical</a></li>
+                    <li><a href="/antennas/terminated_folded_dipole/">Terminated Folded Dipole</a></li>
+                    <li><a href="/antennas/terminated_sloper_receiving/">Terminated Sloper</a></li>
+                    <li><a href="/antennas/trap_dipole/">Trap Dipole</a></li>
+                    <li><a href="/antennas/traveling_wave_vertical/">Traveling Wave Vertical</a></li>
+                    <li><a href="/antennas/turnstile/">Turnstile</a></li>
+                    <li><a href="/antennas/v_beam/">V-Beam</a></li>
+                    <li><a href="/antennas/vertical_dipole/">Vertical Dipole</a></li>
+                    <li><a href="/antennas/yagi_uda/">Yagi-Uda</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group">
+                    <summary>Antenna Gear</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/antenna_gear/ant_switches/">Antenna Switches</a></li>
+                    <li><a href="/antenna_gear/audio_filters/">Audio Filters</a></li>
+                    <li><a href="/antenna_gear/baluns-and-ununs/">Baluns And Ununs</a></li>
+                    <li><a href="/antenna_gear/bms/">BMS</a></li>
+                    <li><a href="/antenna_gear/coax_traps/">Coax Traps</a></li>
+                    <li><a href="/antenna_gear/coil_winder/">Coil Winder</a></li>
+                    <li><a href="/antenna_gear/common_mode_chokes/">Common Mode Chokes</a></li>
+                    <li><a href="/antenna_gear/crystal_radio/">Crystal Radio</a></li>
+                    <li><a href="/antenna_gear/hybrids/">Hybrids</a></li>
+                    <li><a href="/antenna_gear/lightning_protection/">Lightning Protection</a></li>
+                    <li><a href="/antenna_gear/mast_tower/">Mast Tower</a></li>
+                    <li><a href="/antenna_gear/motorized_tuner/">Motorized Tuner</a></li>
+                    <li><a href="/antenna_gear/power_supplies/">Power Supplies</a></li>
+                    <li><a href="/antenna_gear/remote-element-switching/">Remote Element Switching</a></li>
+                    <li><a href="/antenna_gear/rf_couplers/">RF Couplers</a></li>
+                    <li><a href="/antenna_gear/rfi_mitigation/">RFI Mitigation</a></li>
+                    <li><a href="/antenna_gear/roller_inductors/">Roller Inductors</a></li>
+                    <li><a href="/antenna_gear/transmatch/">Transmatch</a></li>
+                    <li><a href="/antenna_gear/variable_caps/">Variable Capacitors</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group">
+                    <summary>Antenna Tools</summary>
+                <ul>
+                    <li><a href="/antenna_tools/adf_systems/">ADF Systems</a></li>
+                    <li><a href="/antenna_tools/antenna-analyzer/">Antenna Analyzer</a></li>
+                    <li><a href="/antenna_tools/antenna_modeling/">Antenna Modeling</a></li>
+                    <li><a href="/antenna_tools/dummy_loads/">Dummy Loads</a></li>
+                    <li><a href="/antenna_tools/field_strength_meter/">Field Strength Meter</a></li>
+                    <li><a href="/antenna_tools/noise_bridge/">Noise Bridge</a></li>
+                    <li><a href="/antenna_tools/rf_power_meter/">RF Power Meter</a></li>
+                    <li><a href="/antenna_tools/rf_power_meters/">RF Power Meters</a></li>
+                    <li><a href="/antenna_tools/sdr_interfaces/">SDR Interfaces</a></li>
+                    <li><a href="/antenna_tools/swr_meter/">SWR Meter</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group">
+                    <summary>Calibration</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/calibration/1013d-plus-oscilloscope/">1013D Plus Oscilloscope</a></li>
+                    <li><a href="/calibration/antenna-analyzer/">Antenna Analyzer</a></li>
+                    <li><a href="/calibration/audio-oscillator/">Audio Oscillator</a></li>
+                    <li><a href="/calibration/bm4070-digital-lcr-tester/">BM4070 Digital LCR Tester</a></li>
+                    <li><a href="/calibration/capacitance-meter/">Capacitance Meter</a></li>
+                    <li><a href="/calibration/current-source/">Current Source</a></li>
+                    <li><a href="/calibration/decade-capacitance-box/">Decade Capacitance Box</a></li>
+                    <li><a href="/calibration/decade-inductance-box/">Decade Inductance Box</a></li>
+                    <li><a href="/calibration/decade-resistance-box/">Decade Resistance Box</a></li>
+                    <li><a href="/calibration/dip-meter-grid-dip-oscillator/">Dip Meter Grid Dip Oscillator</a></li>
+                    <li><a href="/calibration/dso138-digital-oscilloscope/">DSO138 Digital Oscilloscope</a></li>
+                    <li><a href="/calibration/dummy-load-50-ohm/">Dummy Load 50 Ohm</a></li>
+                    <li><a href="/calibration/field-strength-meter/">Field Strength Meter</a></li>
+                    <li><a href="/calibration/fluke-15b-multimeter/">Fluke 15B Multimeter</a></li>
+                    <li><a href="/calibration/fm-broadcast/">Fm Broadcast</a></li>
+                    <li><a href="/calibration/frequency-counter/">Frequency Counter</a></li>
+                    <li><a href="/calibration/frequency-standard-gpsdo/">Frequency Standard GPSDO</a></li>
+                    <li><a href="/calibration/function-generator/">Function Generator</a></li>
+                    <li><a href="/calibration/gps-reference/">GPS Reference</a></li>
+                    <li><a href="/calibration/impedance-bridge/">Impedance Bridge</a></li>
+                    <li><a href="/calibration/inductance-meter/">Inductance Meter</a></li>
+                    <li><a href="/calibration/lcr-meter/">LCR Meter</a></li>
+                    <li><a href="/calibration/modulation-analyzer/">Modulation Analyzer</a></li>
+                    <li><a href="/calibration/multimeter-dmm/">Multimeter DMM</a></li>
+                    <li><a href="/calibration/nanovna/">Nanovna</a></li>
+                    <li><a href="/calibration/nanovna-vector-network-analyzer/">NanoVNA Vector Network Analyzer</a></li>
+                    <li><a href="/calibration/noise-figure-meter/">Noise Figure Meter</a></li>
+                    <li><a href="/calibration/oscilloscope/">Oscilloscope</a></li>
+                    <li><a href="/calibration/q-meter/">Q Meter</a></li>
+                    <li><a href="/calibration/radio-standards/">Radio Standards</a></li>
+                    <li><a href="/calibration/rf-attenuator-set/">RF Attenuator Set</a></li>
+                    <li><a href="/calibration/rf-power-meter/">RF Power Meter</a></li>
+                    <li><a href="/calibration/rf-probe-detector/">RF Probe Detector</a></li>
+                    <li><a href="/calibration/rf-signal-tracer/">RF Signal Tracer</a></li>
+                    <li><a href="/calibration/signal-generator/">Signal Generator</a></li>
+                    <li><a href="/calibration/simpson-260-series-3-analog-multimeter/">Simpson 260 Series 3 Analog Multimeter</a></li>
+                    <li><a href="/calibration/swr-meter/">SWR Meter</a></li>
+                    <li><a href="/calibration/tinysa-spectrum-analyzer/">TinySA Spectrum Analyzer</a></li>
+                    <li><a href="/calibration/verification/">Verification</a></li>
+                    <li><a href="/calibration/voltage-reference/">Voltage Reference</a></li>
+                </ul>
+                </details>
+
+                <details class="nav-group">
+                    <summary>Calibration Ideas</summary>
+                <ul class="nav-scroll">
+                    <li><a href="/Calibration_Ideas/ac_mains_reference/">AC Mains Reference</a></li>
+                    <li><a href="/Calibration_Ideas/attenuator_pad_standards/">Attenuator Pad Standards</a></li>
+                    <li><a href="/Calibration_Ideas/coax_capacitance_standard/">Coax Capacitance Standard</a></li>
+                    <li><a href="/Calibration_Ideas/dummy_load_power_standard/">Dummy Load Power Standard</a></li>
+                    <li><a href="/Calibration_Ideas/field_strength_reference/">Field Strength Reference</a></li>
+                    <li><a href="/Calibration_Ideas/fm_broadcast_reference/">FM Broadcast Reference</a></li>
+                    <li><a href="/Calibration_Ideas/gps_1pps_reference/">GPS 1PPS Reference</a></li>
+                    <li><a href="/Calibration_Ideas/gpsdo_reference/">GPSDO Reference</a></li>
+                    <li><a href="/Calibration_Ideas/kelvin_resistance_standard/">Kelvin Resistance Standard</a></li>
+                    <li><a href="/Calibration_Ideas/known_length_dipole_standard/">Known Length Dipole Standard</a></li>
+                    <li><a href="/Calibration_Ideas/lc_resonance_standard/">LC Resonance Standard</a></li>
+                    <li><a href="/Calibration_Ideas/precision_resistor_network/">Precision Resistor Network</a></li>
+                    <li><a href="/Calibration_Ideas/precision_voltage_reference/">Precision Voltage Reference</a></li>
+                    <li><a href="/Calibration_Ideas/rc_time_constant_standard/">RC Time Constant Standard</a></li>
+                    <li><a href="/Calibration_Ideas/wheatstone_bridge/">Wheatstone Bridge</a></li>
+                    <li><a href="/Calibration_Ideas/wwv_wwvh_reference/">WWV/WWVH Reference</a></li>
+                    <li><a href="/Calibration_Ideas/zener_divider_reference/">Zener Divider Reference</a></li>
+                </ul>
+                </details>
+
+<details class="nav-group" open>
+    <summary>Study & Training</summary>
+    <ul>
+                    <li><a href="/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                    <li><a href="/study/morse.html">Morse Code Practice</a></li>
+                </ul>
+</details>
+
+</nav>
+            <main>
+<h1 id="variable-capacitor-system">VARIABLE CAPACITOR SYSTEM</h1>
+<h2 id="technical-manual-tm-vcap-001-rev-a">Technical Manual TM-VCAP-001
+Rev A</h2>
+<h3
+id="motorized-air-variable-capacitor-for-hf-antenna-tuning-systems">Motorized
+Air Variable Capacitor for HF Antenna Tuning Systems</h3>
+<hr />
+<p><strong>Document Control</strong></p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Document Number</td>
+<td>TM-VCAP-001</td>
+</tr>
+<tr>
+<td>Revision</td>
+<td>A</td>
+</tr>
+<tr>
+<td>Date</td>
+<td>2026-05-01</td>
+</tr>
+<tr>
+<td>Author</td>
+<td>Merv Martin — KG6VJF</td>
+</tr>
+<tr>
+<td>Classification</td>
+<td>Amateur / Educational</td>
+</tr>
+<tr>
+<td>Applicability</td>
+<td>All TM-VCAP-001 series hardware</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<blockquote>
+<p><strong>WARNING</strong> This equipment operates at RF potentials of
+hundreds to thousands of volts during transmit. At 1 kW into a reactive
+load, the capacitor shaft and plates may be at 3,000–10,000 V RF.
+De-energize the transmitter before touching any internal component.
+Failure to observe this warning may result in RF burn injury or cardiac
+event.</p>
+</blockquote>
+<hr />
+<h2 id="table-of-contents">TABLE OF CONTENTS</h2>
+<ol type="1">
+<li><a href="#1-introduction">Introduction</a></li>
+<li><a href="#2-theory-of-operation">Theory of Operation</a></li>
+<li><a href="#3-variable-capacitor-design">Variable Capacitor
+Design</a></li>
+<li><a href="#4-butterfly-and-split-stator-configurations">Butterfly and
+Split-Stator Configurations</a></li>
+<li><a href="#5-vacuum-variable-capacitors">Vacuum Variable
+Capacitors</a></li>
+<li><a href="#6-drive-and-position-sensing-system">Drive and Position
+Sensing System</a></li>
+<li><a href="#7-high-voltage-isolation">High-Voltage Isolation</a></li>
+<li><a href="#8-construction-and-assembly">Construction and
+Assembly</a></li>
+<li><a href="#9-controller-firmware-architecture">Controller Firmware
+Architecture</a></li>
+<li><a href="#10-cyd-touchscreen-display">CYD Touchscreen
+Display</a></li>
+<li><a href="#11-calibration-procedures">Calibration Procedures</a></li>
+<li><a href="#12-operating-procedures">Operating Procedures</a></li>
+<li><a href="#13-maintenance">Maintenance</a></li>
+<li><a href="#14-troubleshooting">Troubleshooting</a></li>
+</ol>
+<p><strong>Appendices</strong> - <a href="#appendix-a-specifications">A:
+Specifications</a> - <a href="#appendix-b-bill-of-materials">B: Bill of
+Materials</a> - <a href="#appendix-c-capacitor-design-worksheet">C:
+Capacitor Design Worksheet</a> - <a
+href="#appendix-d-band-capacitance-reference">D: Band Capacitance
+Reference</a></p>
+<hr />
+<h2 id="introduction">1. INTRODUCTION</h2>
+<h3 id="purpose">1.1 Purpose</h3>
+<p>This manual provides technical description, construction guidance,
+calibration procedures, and operating instructions for the TM-VCAP-001
+Motorized Variable Capacitor System. The system is intended for use as
+the tuning element in HF antenna matching networks covering 1.8–30
+MHz.</p>
+<h3 id="scope">1.2 Scope</h3>
+<p>This manual covers:</p>
+<ol type="a">
+<li>Parallel-plate air variable capacitors, 10–500 pF range</li>
+<li>Butterfly (split-stator) configuration for balanced tuners</li>
+<li>Vacuum variable capacitors for &gt;1 kW applications</li>
+<li>10:1 reduction drive with motorized control</li>
+<li>ESP32 stepper motor controller firmware</li>
+<li>CYD touchscreen display interface</li>
+<li>High-voltage isolation requirements and techniques</li>
+</ol>
+<h3 id="related-documents">1.3 Related Documents</h3>
+<table>
+<thead>
+<tr>
+<th>Document</th>
+<th>Title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TM-RLIND-001</td>
+<td>Motorized Roller Inductor Manual</td>
+</tr>
+<tr>
+<td>TM-PWRMTR-001</td>
+<td>RF Power Meter System Manual</td>
+</tr>
+<tr>
+<td>TM-VCAP-ESP32-001</td>
+<td>Controller Firmware Release Notes</td>
+</tr>
+<tr>
+<td>TM-VCAP-CYD-001</td>
+<td>CYD Display Firmware Release Notes</td>
+</tr>
+</tbody>
+</table>
+<h3 id="system-overview">1.4 System Overview</h3>
+<p>The TM-VCAP-001 system consists of:</p>
+<ol type="1">
+<li><strong>Variable capacitor assembly</strong> — parallel plate air
+variable, 10–500 pF, 2–5 kV rating</li>
+<li><strong>Reduction drive</strong> — GT2 belt, 10:1 ratio, NEMA 17
+stepper input</li>
+<li><strong>HV insulating coupler</strong> — 50 mm Delrin, 5 kV
+isolation</li>
+<li><strong>Position sensor</strong> — 10 kΩ rotary potentiometer on
+capacitor shaft</li>
+<li><strong>Controller</strong> — ESP32-WROOM-32, DRV8825 driver, 1/16
+microstepping</li>
+<li><strong>Display</strong> — ESP32-2432S028 CYD touchscreen (optional
+remote display)</li>
+<li><strong>Enclosure</strong> — IP54 weatherproof PETG, 195×135×88
+mm</li>
+</ol>
+<hr />
+<h2 id="theory-of-operation">2. THEORY OF OPERATION</h2>
+<h3 id="parallel-plate-capacitance">2.1 Parallel Plate Capacitance</h3>
+<p>The capacitance of a parallel plate capacitor is given by:</p>
+<pre><code>C = ε₀ × εᵣ × A × (N − 1) / d</code></pre>
+<p>Where:</p>
+<table>
+<colgroup>
+<col style="width: 32%" />
+<col style="width: 40%" />
+<col style="width: 28%" />
+</colgroup>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Quantity</th>
+<th>Units</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C</td>
+<td>Capacitance</td>
+<td>farads</td>
+</tr>
+<tr>
+<td>ε₀</td>
+<td>Permittivity of free space</td>
+<td>8.854 × 10⁻¹² F/m</td>
+</tr>
+<tr>
+<td>εᵣ</td>
+<td>Relative permittivity of dielectric</td>
+<td>dimensionless (1.0 for air)</td>
+</tr>
+<tr>
+<td>A</td>
+<td>Area of one plate</td>
+<td>m²</td>
+</tr>
+<tr>
+<td>N</td>
+<td>Total number of plates (rotor + stator)</td>
+<td>dimensionless</td>
+</tr>
+<tr>
+<td>d</td>
+<td>Gap between adjacent plates</td>
+<td>meters</td>
+</tr>
+</tbody>
+</table>
+<p>For circular plates of diameter D:</p>
+<pre><code>A = π × (D/2)²</code></pre>
+<p>The (N − 1) factor accounts for the fact that N plates form (N − 1)
+capacitive gaps.</p>
+<h4 id="design-example">2.1.1 Design Example</h4>
+<p>For a typical HF tuner capacitor: - N = 41 plates (21 rotor + 20
+stator) - D = 50 mm (plate diameter) - d = 2.0 mm (plate gap) - εᵣ = 1.0
+(air dielectric)</p>
+<pre><code>A = π × (0.025)² = 1.963 × 10⁻³ m²
+C_max = (8.854×10⁻¹²) × 1.0 × (1.963×10⁻³) × (41−1) / (2.0×10⁻³)
+C_max = 347 pF</code></pre>
+<blockquote>
+<p><strong>NOTE</strong> This is the theoretical maximum with full plate
+overlap. Actual maximum capacitance is typically 70–80% of theoretical
+due to plate edge effects and rotor end-gap.</p>
+</blockquote>
+<h3 id="angular-variation-of-capacitance">2.2 Angular Variation of
+Capacitance</h3>
+<p>For semicircular vanes (the standard construction for air variables),
+the capacitance varies linearly with rotation angle:</p>
+<pre><code>C(θ) = C_min + (C_max − C_min) × (θ / 180°)</code></pre>
+<p>Where θ is the rotor angle from minimum engagement (0°) to maximum
+engagement (180°).</p>
+<p>This linear relationship is the fundamental reason semicircular vanes
+are used — it allows simple linear interpolation for firmware position
+control.</p>
+<blockquote>
+<p><strong>NOTE</strong> Non-semicircular vane shapes produce non-linear
+C vs. angle curves. Logarithmic-taper vanes are used in some transmitter
+applications for uniform reactance change per degree. The TM-VCAP-001
+design uses standard semicircular vanes.</p>
+</blockquote>
+<h3 id="reactance-and-impedance">2.3 Reactance and Impedance</h3>
+<p>Capacitive reactance at frequency f:</p>
+<pre><code>X_C = 1 / (2π × f × C)</code></pre>
+<p>At minimum capacitance (C_min), reactance is maximum — the capacitor
+presents the highest impedance. At maximum capacitance (C_max),
+reactance is minimum.</p>
+<h4 id="reactance-at-hf-bands-typical-values">2.3.1 Reactance at HF
+Bands (typical values)</h4>
+<table>
+<colgroup>
+<col style="width: 7%" />
+<col style="width: 14%" />
+<col style="width: 25%" />
+<col style="width: 26%" />
+<col style="width: 26%" />
+</colgroup>
+<thead>
+<tr>
+<th>Band</th>
+<th>Freq (MHz)</th>
+<th>X_C at 10 pF (Ω)</th>
+<th>X_C at 100 pF (Ω)</th>
+<th>X_C at 250 pF (Ω)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>160m</td>
+<td>1.9</td>
+<td>8,378</td>
+<td>838</td>
+<td>335</td>
+</tr>
+<tr>
+<td>80m</td>
+<td>3.6</td>
+<td>4,420</td>
+<td>442</td>
+<td>177</td>
+</tr>
+<tr>
+<td>40m</td>
+<td>7.1</td>
+<td>2,242</td>
+<td>224</td>
+<td>90</td>
+</tr>
+<tr>
+<td>30m</td>
+<td>10.1</td>
+<td>1,575</td>
+<td>158</td>
+<td>63</td>
+</tr>
+<tr>
+<td>20m</td>
+<td>14.2</td>
+<td>1,121</td>
+<td>112</td>
+<td>45</td>
+</tr>
+<tr>
+<td>17m</td>
+<td>18.1</td>
+<td>879</td>
+<td>88</td>
+<td>35</td>
+</tr>
+<tr>
+<td>15m</td>
+<td>21.2</td>
+<td>751</td>
+<td>75</td>
+<td>30</td>
+</tr>
+<tr>
+<td>12m</td>
+<td>24.9</td>
+<td>640</td>
+<td>64</td>
+<td>26</td>
+</tr>
+<tr>
+<td>10m</td>
+<td>28.5</td>
+<td>559</td>
+<td>56</td>
+<td>22</td>
+</tr>
+</tbody>
+</table>
+<h3 id="self-resonance">2.4 Self-Resonance</h3>
+<p>A variable capacitor has stray inductance from its plates, frame, and
+connections. Self-resonant frequency:</p>
+<pre><code>f_SRF = 1 / (2π × √(L_stray × C_max))</code></pre>
+<p>Typical stray inductance for a multi-plate air variable: 5–20 nH. For
+C_max = 250 pF and L_stray = 10 nH:</p>
+<pre><code>f_SRF = 1 / (2π × √(10×10⁻⁹ × 250×10⁻¹²))
+f_SRF ≈ 318 MHz</code></pre>
+<p>This is well above the HF range, so self-resonance is not a concern
+for frequencies below 30 MHz.</p>
+<h3 id="current-rating">2.5 Current Rating</h3>
+<p>The current through the capacitor at frequency f when connected in a
+tuner:</p>
+<pre><code>I = V_RF / X_C = V_RF × 2π × f × C</code></pre>
+<p>For a 50 Ω system at 1 kW:</p>
+<pre><code>V_rms = √(P × R) = √(1000 × 50) = 224 V_rms
+I_rms (at X_C = 50 Ω) = 224 / 50 = 4.5 A_rms
+I_peak = 4.5 × √2 = 6.4 A_peak</code></pre>
+<p>The primary current path is through the wiping contact between rotor
+and stator. Contact resistance must be minimized.</p>
+<h3 id="voltage-rating">2.6 Voltage Rating</h3>
+<h4 id="air-dielectric-breakdown">2.6.1 Air Dielectric Breakdown</h4>
+<p>Air breakdown field at sea level: approximately 3 kV/mm at 50 Hz. At
+radio frequencies, breakdown threshold is somewhat lower due to corona
+initiation.</p>
+<p>Conservative RF operating voltage rating:</p>
+<pre><code>V_operating = d_mm × 2.0 kV/mm (50% safety factor)</code></pre>
+<p>For d = 2.0 mm gap: V_operating = 4.0 kV peak</p>
+<h4 id="peak-rf-voltage-calculation">2.6.2 Peak RF Voltage
+Calculation</h4>
+<p>The peak voltage appearing across the capacitor depends on its
+reactance and the RF current:</p>
+<pre><code>V_peak = I_peak × X_C = I_peak / (2π × f × C)</code></pre>
+<p>Alternatively, from power and reactance:</p>
+<pre><code>V_peak = √(2 × P × X_C)</code></pre>
+<h4 id="voltage-rating-verification-procedure">2.6.3 Voltage Rating
+Verification Procedure</h4>
+<p>For each intended operating condition, verify:</p>
+<pre><code>V_peak &lt; V_operating_rating (with ≥2× safety margin preferred)</code></pre>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 11%" />
+<col style="width: 12%" />
+<col style="width: 15%" />
+<col style="width: 17%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr>
+<th>Power (W)</th>
+<th>Freq (MHz)</th>
+<th>C (pF)</th>
+<th>X_C (Ω)</th>
+<th>V_peak (V)</th>
+<th>Rating (kV)</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>100</td>
+<td>14.2</td>
+<td>250</td>
+<td>45</td>
+<td>95</td>
+<td>4.0</td>
+<td>SAFE</td>
+</tr>
+<tr>
+<td>100</td>
+<td>14.2</td>
+<td>10</td>
+<td>1,121</td>
+<td>474</td>
+<td>4.0</td>
+<td>SAFE</td>
+</tr>
+<tr>
+<td>1000</td>
+<td>14.2</td>
+<td>10</td>
+<td>1,121</td>
+<td>1,498</td>
+<td>4.0</td>
+<td>SAFE</td>
+</tr>
+<tr>
+<td>1000</td>
+<td>7.1</td>
+<td>10</td>
+<td>2,242</td>
+<td>2,117</td>
+<td>4.0</td>
+<td>CAUTION</td>
+</tr>
+<tr>
+<td>1000</td>
+<td>3.6</td>
+<td>10</td>
+<td>4,420</td>
+<td>2,974</td>
+<td>4.0</td>
+<td>WARNING</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>WARNING</strong> At 1 kW on 80m or 160m with a small
+capacitor value, voltage may approach or exceed the capacitor’s rating.
+Use the VTABLE command to verify voltage ratings before transmitting at
+high power. Exceeding the voltage rating causes visible arcing and
+immediate plate damage.</p>
+</blockquote>
+<hr />
+<h2 id="variable-capacitor-design">3. VARIABLE CAPACITOR DESIGN</h2>
+<h3 id="plate-geometry">3.1 Plate Geometry</h3>
+<h4 id="rotor-and-stator-configuration">3.1.1 Rotor and Stator
+Configuration</h4>
+<p>A standard variable capacitor consists of:</p>
+<ul>
+<li><strong>Stator plates</strong> — fixed to the frame, connected to
+one RF terminal</li>
+<li><strong>Rotor plates</strong> — mounted on the shaft (interleaved
+with stator), connected to the other RF terminal via the shaft bearing
+(wiping contact)</li>
+<li><strong>Vane shape</strong> — typically semicircular (D-shaped) for
+linear C vs. angle</li>
+</ul>
+<p>The rotor plates are offset from stator plates by half a pitch so
+that when they intermesh, there is equal gap on both sides of each rotor
+plate.</p>
+<h4 id="plate-thickness-and-spacing">3.1.2 Plate Thickness and
+Spacing</h4>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 24%" />
+<col style="width: 32%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Low Power (&lt;100W)</th>
+<th>Medium Power (100–500W)</th>
+<th>High Power (&gt;500W)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Plate material</td>
+<td>Aluminum 6061</td>
+<td>Aluminum 6061</td>
+<td>Aluminum 6061 or brass</td>
+</tr>
+<tr>
+<td>Plate thickness</td>
+<td>0.4–0.8 mm</td>
+<td>0.8–1.2 mm</td>
+<td>1.2–2.0 mm</td>
+</tr>
+<tr>
+<td>Plate gap</td>
+<td>1.0–1.5 mm</td>
+<td>1.5–2.5 mm</td>
+<td>2.5–5.0 mm</td>
+</tr>
+<tr>
+<td>Frame</td>
+<td>Aluminum</td>
+<td>Aluminum</td>
+<td>Heavy aluminum</td>
+</tr>
+<tr>
+<td>Shaft bearing</td>
+<td>Bronze or ball</td>
+<td>Stainless ball</td>
+<td>Heavy stainless ball</td>
+</tr>
+</tbody>
+</table>
+<h4 id="plate-count-selection">3.1.3 Plate Count Selection</h4>
+<p>More plates increase maximum capacitance but increase physical size.
+Typical selections:</p>
+<table>
+<thead>
+<tr>
+<th>Application</th>
+<th>N (plates)</th>
+<th>C_max (pF, 50mm dia, 2mm gap)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>QRP tuner</td>
+<td>11</td>
+<td>87 pF</td>
+</tr>
+<tr>
+<td>100W tuner</td>
+<td>21</td>
+<td>174 pF</td>
+</tr>
+<tr>
+<td>1 kW tuner</td>
+<td>41</td>
+<td>347 pF</td>
+</tr>
+<tr>
+<td>Transmatch</td>
+<td>61</td>
+<td>520 pF</td>
+</tr>
+</tbody>
+</table>
+<h3 id="frame-construction">3.2 Frame Construction</h3>
+<h4 id="commercial-vs.-homebrew-frames">3.2.1 Commercial vs. Homebrew
+Frames</h4>
+<p><strong>Commercial surplus capacitors</strong> (strongly recommended
+for most builders):</p>
+<ul>
+<li>Surplus military capacitors (Cardwell, Johnson, Hammarlund) are
+readily available</li>
+<li>Known voltage and current ratings</li>
+<li>Pre-aligned plates, precision bearings</li>
+<li>Available on eBay, surplus dealers, hamfests, $5–$50</li>
+</ul>
+<p><strong>Homebrew construction</strong> is appropriate when:</p>
+<ul>
+<li>Specific capacitance range or form factor is required</li>
+<li>Commercial units are unavailable</li>
+<li>Educational exercise</li>
+</ul>
+<h4 id="frame-material">3.2.2 Frame Material</h4>
+<ul>
+<li>Aluminum alloy 6061-T6 for frame and plates (nonmagnetic, low RF
+loss)</li>
+<li>Stainless steel shaft (nonmagnetic, corrosion resistant)</li>
+<li>Bronze or stainless ball bearings at shaft support points</li>
+<li>Nylon standoffs or PTFE washers where RF isolation from chassis is
+required</li>
+</ul>
+<h4 id="plate-alignment">3.2.3 Plate Alignment</h4>
+<p>Plate alignment is critical. Misaligned plates reduce capacitance,
+increase corona onset voltage, and may cause mechanical contact between
+rotor and stator.</p>
+<ul>
+<li>Stator spacing set by threaded spacer rods</li>
+<li>Rotor plate spacing set by shaft-mounted spacers</li>
+<li>Total stack deflection must be &lt; 0.1 mm under maximum torque</li>
+</ul>
+<h3 id="wiper-contact-design">3.3 Wiper Contact Design</h3>
+<p>The rotor connection to the RF circuit is made through a wiping
+contact bearing on the rotor shaft. This is the highest-loss element in
+the capacitor at high current.</p>
+<h4 id="contact-materials">3.3.1 Contact Materials</h4>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 28%" />
+<col style="width: 31%" />
+<col style="width: 24%" />
+</colgroup>
+<thead>
+<tr>
+<th>Material</th>
+<th>Contact Resistance</th>
+<th>Corrosion Resistance</th>
+<th>Current Rating</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Phosphor bronze</td>
+<td>1–5 mΩ</td>
+<td>Good</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>Beryllium copper</td>
+<td>0.5–2 mΩ</td>
+<td>Excellent</td>
+<td>High</td>
+</tr>
+<tr>
+<td>Silver-plated Be-Cu</td>
+<td>0.1–0.5 mΩ</td>
+<td>Excellent</td>
+<td>High</td>
+</tr>
+<tr>
+<td>Gold-plated</td>
+<td>0.1–0.3 mΩ</td>
+<td>Excellent</td>
+<td>Low-medium</td>
+</tr>
+</tbody>
+</table>
+<p>For &gt;500W operation: silver-plated beryllium copper spring
+contact.</p>
+<h4 id="contact-force">3.3.2 Contact Force</h4>
+<p>Contact force must be sufficient to maintain low resistance without
+causing excessive shaft torque or wear.</p>
+<ul>
+<li>Minimum spring force: 2–5 N for RF power to 1 kW</li>
+<li>Too little force → intermittent contact, arcing at high current</li>
+<li>Too much force → excessive bearing wear, increased drive torque</li>
+</ul>
+<h4 id="contact-cleaning">3.3.3 Contact Cleaning</h4>
+<p>Silver contacts tarnish in air, forming silver sulfide (Ag₂S).
+Although Ag₂S has higher resistivity than silver, contact pressure
+usually maintains adequate conductivity in normal operation.</p>
+<p>Clean contacts with: - Caig DeoxIT Gold G5 contact cleaner
+(preferred) - Isopropyl alcohol (90%+ purity) - Do NOT use abrasive
+cleaners — they remove silver plating</p>
+<hr />
+<h2 id="butterfly-and-split-stator-configurations">4. BUTTERFLY AND
+SPLIT-STATOR CONFIGURATIONS</h2>
+<h3 id="balanced-tuner-requirements">4.1 Balanced Tuner
+Requirements</h3>
+<p>In balanced (antenna tuner) and ladder-line applications, neither
+conductor should be at RF ground. A conventional single-section variable
+capacitor grounds one terminal through the frame and chassis,
+unbalancing the circuit.</p>
+<p>A <strong>split-stator</strong> capacitor has: - Rotor (shaft): at RF
+ground or isolated - Stator section A: connected to balanced line
+terminal 1 - Stator section B: connected to balanced line terminal 2</p>
+<p>Both stator sections are electrically isolated from the frame.</p>
+<h3 id="butterfly-capacitor-construction">4.2 Butterfly Capacitor
+Construction</h3>
+<p>The <strong>butterfly</strong> or <strong>double-section</strong>
+variable capacitor provides equal capacitance on both sides of the
+rotor:</p>
+<pre><code>                Section A    Section B
+Stator A  ─────┤            ├───── Stator B
+               │  ← Rotor → │
+Shaft/GND ─────┘            └───── (or float)</code></pre>
+<p>Both sections track simultaneously as the shaft rotates. For a
+balanced tuner, connect the two stator sections to the balanced
+transmission line. The rotor/shaft may be at circuit ground or left
+floating with a shaft-isolating coupler.</p>
+<h3 id="differential-capacitance">4.3 Differential Capacitance</h3>
+<p>In some tuner designs, the two sections are wired in series or with
+opposite phase to provide differential capacitance — as one section
+increases, the other decreases. This extends the useful capacitance
+range and improves symmetry.</p>
+<p>Differential connection:</p>
+<pre><code>Line 1 → Stator A → [series path] → Stator B → Line 2</code></pre>
+<p>Mid-rotation (90°): both sections at C_max/2. At full rotation:
+maximum asymmetry.</p>
+<h3 id="motor-drive-for-split-stator">4.4 Motor Drive for
+Split-Stator</h3>
+<p>The split-stator capacitor uses the same drive system as the
+single-section capacitor. The shaft rotation produces equal and
+simultaneous change in both sections.</p>
+<blockquote>
+<p><strong>CAUTION</strong> In a split-stator capacitor driven by a
+motor, the shaft may be at RF potential on both sides if the rotor is
+connected to neither ground nor any circuit node. The insulating shaft
+coupler requirement (Section 7) still applies unless the rotor is
+intentionally grounded.</p>
+</blockquote>
+<hr />
+<h2 id="vacuum-variable-capacitors">5. VACUUM VARIABLE CAPACITORS</h2>
+<h3 id="principles">5.1 Principles</h3>
+<p>Vacuum variable capacitors replace the air dielectric with vacuum
+(&lt; 10⁻⁶ torr), which provides:</p>
+<ul>
+<li>Dielectric strength: ~30 kV/mm (vs. ~3 kV/mm for air)</li>
+<li>No corona, no arcing at operating voltages</li>
+<li>No atmospheric contamination</li>
+<li>Lower RF loss (no gas molecules to ionize)</li>
+</ul>
+<p>Vacuum variables are used for: - Power levels &gt;1 kW where air
+variables are marginal - High-VSWR environments where voltage swing is
+unpredictable - Compact high-voltage tuners</p>
+<h3 id="construction">5.2 Construction</h3>
+<p>A vacuum variable consists of two coaxial metal cylinders (usually
+copper or Kovar) sealed in a glass or ceramic envelope with the interior
+evacuated. Capacitance is varied by a bellows mechanism that changes the
+depth of engagement of the inner cylinder.</p>
+<p>Typical vacuum variables: - Range: 7–500 pF (various types) - Voltage
+rating: 5–30 kV - Current rating: 25–50 A continuous - Adjustment
+travel: 12–25 mm linear (bellows stroke)</p>
+<h3 id="drive-adaptation-for-vacuum-variables">5.3 Drive Adaptation for
+Vacuum Variables</h3>
+<p>Vacuum variables require <strong>linear actuation</strong> (not
+rotary), and their adjustment force is higher than air variables due to
+the bellows spring force.</p>
+<p>Adaptation for TM-VCAP-001 motorized drive:</p>
+<ol type="1">
+<li>Replace rotary reduction drive with leadscrew linear actuator</li>
+<li>Use NEMA 17 stepper + 8mm T8 leadscrew (2mm pitch)</li>
+<li>Position sensing: replace rotary pot with linear pot or optical
+encoder strip</li>
+<li>Modify firmware: steps → mm travel (not degrees)</li>
+<li>Insulating coupler: Delrin leadscrew nut block, minimum 25 mm length
+between metal parts</li>
+</ol>
+<blockquote>
+<p><strong>WARNING</strong> Never attempt to disassemble a vacuum
+variable capacitor or drill into the glass/ceramic envelope. Loss of
+vacuum renders the device worthless and may cause implosion with ceramic
+shards. Vacuum variables damaged by overvoltage (internal arcing) must
+be replaced, not repaired.</p>
+</blockquote>
+<h3 id="handling-and-mounting">5.4 Handling and Mounting</h3>
+<ul>
+<li>Handle vacuum variables by the metal end fittings only, never the
+glass/ceramic body</li>
+<li>Mount vertically if possible (bellows at bottom) to prevent
+condensation in the bellows groove</li>
+<li>Insulate the lower (fixed) terminal from chassis if it is at RF
+potential</li>
+<li>Connect RF with short, heavy-gauge leads to minimize stray
+inductance</li>
+<li>Maximum lead length from vacuum variable to circuit node: 25 mm</li>
+</ul>
+<hr />
+<h2 id="drive-and-position-sensing-system">6. DRIVE AND POSITION SENSING
+SYSTEM</h2>
+<h3 id="reduction-drive-belt-system">6.1 Reduction Drive — Belt
+System</h3>
+<p>The TM-VCAP-001 uses a GT2 belt reduction drive for the following
+reasons:</p>
+<ul>
+<li><strong>No backlash</strong> (zero-backlash with proper
+tension)</li>
+<li><strong>Low noise</strong> compared to gear drives</li>
+<li><strong>Simple construction</strong> — two pulleys and a belt</li>
+<li><strong>Easy ratio change</strong> — swap pulleys for different
+ratio</li>
+</ul>
+<p>Standard ratio: 10:1 - Motor pulley: 20T GT2 (13 mm OD) - Output
+pulley: 200T GT2 (127 mm OD) — OR two stages: 20T → 60T (3:1) + 20T →
+60T (3:1) = 9:1</p>
+<blockquote>
+<p><strong>NOTE</strong> A 200T single pulley (127 mm OD) barely fits in
+the enclosure. The two-stage approach (two belt runs, two intermediate
+shafts) is mechanically complex. The recommended approach is a
+commercial worm gear set for exactly 10:1 with no backlash and a smaller
+footprint. Commercial source: SDP/SI P/N L1Z6-LGF10-200, McMaster
+6236K48.</p>
+</blockquote>
+<h4 id="belt-drive-vs.-worm-gear-comparison">6.1.1 Belt Drive vs. Worm
+Gear Comparison</h4>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>GT2 Belt</th>
+<th>Worm Gear</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Backlash</td>
+<td>~0 (with tension)</td>
+<td>~0.5–2° at output</td>
+</tr>
+<tr>
+<td>Self-locking</td>
+<td>NO</td>
+<td>YES (if lead angle &lt; friction angle)</td>
+</tr>
+<tr>
+<td>Motor hold required</td>
+<td>YES</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>Efficiency</td>
+<td>95%</td>
+<td>50–70%</td>
+</tr>
+<tr>
+<td>Construction</td>
+<td>Simple</td>
+<td>Moderate</td>
+</tr>
+<tr>
+<td>Noise</td>
+<td>Low</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>Cost</td>
+<td>Low</td>
+<td>Moderate</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>CAUTION</strong> Unlike a worm gear drive, the GT2 belt is
+NOT self-locking. If motor power is removed, the capacitor shaft will
+drift under its own return spring (if present). The firmware #ifdef
+CAP_GEAR_SELF_LOCKING guard determines whether the motor current is
+removed after movement. With belt drive: this flag must NOT be defined —
+the motor must remain energized at hold current to maintain
+position.</p>
+</blockquote>
+<h3 id="angular-resolution">6.2 Angular Resolution</h3>
+<p>With NEMA 17 (200 steps/rev), 1/16 microstepping, and 10:1
+reduction:</p>
+<pre><code>Steps per revolution at cap shaft = 200 × 16 × 10 = 32,000
+Degrees per step = 360 / 32,000 = 0.01125°/step
+Steps for full 180° travel = 180 / 0.01125° = 16,000 steps</code></pre>
+<p>This provides approximately 0.01° angular resolution at the capacitor
+shaft, which corresponds to a capacitance resolution of:</p>
+<pre><code>ΔC per step = (C_max − C_min) / (steps for 180°)
+           = (250 − 10) / 16,000 = 0.015 pF/step</code></pre>
+<p>This resolution is more than adequate for all HF antenna tuning
+applications.</p>
+<h3 id="position-sensing-potentiometer">6.3 Position Sensing —
+Potentiometer</h3>
+<p>The TM-VCAP-001 uses a 10 kΩ rotary potentiometer coupled to the
+capacitor shaft (NOT to the motor shaft, and NOT to the intermediate
+drive) for absolute position sensing.</p>
+<h4 id="pot-coupling">6.3.1 Pot Coupling</h4>
+<p>The pot shaft is coupled to the capacitor shaft via a flexible
+coupler (see <code>shaft_coupler.scad</code>, <code>pot_coupler()</code>
+module). This coupler: - Compensates for slight misalignment - Must be
+fabricated from insulating material (Delrin or PETG) - Must NOT be from
+metal if the capacitor shaft is at RF potential</p>
+<h4 id="adc-reading">6.3.2 ADC Reading</h4>
+<p>ESP32 ADC (12-bit, 0–3.3V): - Pot wiper voltage: V_wiper = V_supply ×
+(θ / 360°) - Raw count: 0–4095 (12-bit) - Calibration maps raw_min (at
+C_min) and raw_max (at C_max) to angular position</p>
+<p>Angle from calibrated pot:</p>
+<pre><code>θ = (raw − raw_min) / (raw_max − raw_min) × 180°</code></pre>
+<p>Capacitance from angle:</p>
+<pre><code>C(θ) = C_min + (C_max − C_min) × (θ / 180°)</code></pre>
+<h4 id="dual-position-verification">6.3.3 Dual Position
+Verification</h4>
+<p>The firmware maintains two independent position estimates: 1.
+<strong>Stepper position</strong> — accumulated step count, converted to
+angle and C 2. <strong>Pot position</strong> — ADC reading, converted to
+angle and C</p>
+<p>If these differ by more than 5°, the firmware issues a warning. This
+catches: - Missed steps (motor overloaded or speed too high) - Belt slip
+(broken or loose belt) - Pot coupling failure - Firmware position
+corruption after power cycle</p>
+<p>Use <code>CALPOT</code> command to re-synchronize the step counter to
+the pot reading.</p>
+<h3 id="limit-switches">6.4 Limit Switches</h3>
+<p>Two optical or mechanical limit switches detect the mechanical travel
+limits:</p>
+<ul>
+<li><strong>MIN switch</strong> — triggered at full minimum capacitance
+(0° plate engagement)</li>
+<li><strong>MAX switch</strong> — triggered at full maximum capacitance
+(180° plate engagement)</li>
+</ul>
+<p>Switch operation: - During homing: motor drives toward MIN switch at
+reduced speed (HOMING_SPEED) - When MIN switch triggers: stop, zero step
+counter, set state = IDLE - During normal operation: if MAX switch
+triggers unexpectedly, set FAULT state</p>
+<blockquote>
+<p><strong>CAUTION</strong> Do not rely on limit switches as the primary
+mechanical stop. If a limit switch fails, the motor will continue to
+drive the plates into the mechanical stop, potentially bending plates or
+stripping the drive. Set software position limits in firmware 5–10 steps
+inside the hardware limits.</p>
+</blockquote>
+<hr />
+<h2 id="high-voltage-isolation">7. HIGH-VOLTAGE ISOLATION</h2>
+<h3 id="the-rf-voltage-problem">7.1 The RF Voltage Problem</h3>
+<p>During transmit, the capacitor plates are at RF potential. In many
+matching network topologies, neither end of the capacitor is at DC or RF
+ground. The capacitor shaft, being connected to the rotor plates, is at
+RF potential.</p>
+<p>If the motor shaft (grounded through the driver circuit to the
+controller PCB) is mechanically coupled to the capacitor shaft without
+isolation, RF current will flow through the coupling, the motor shaft,
+the motor windings, and the driver circuit. This can: - Destroy the
+DRV8825 stepper driver - Damage the ESP32 - Create dangerous RF voltage
+on the controller housing - Create common-mode RF interference in the
+control wiring</p>
+<h3 id="insulating-shaft-coupler-requirements">7.2 Insulating Shaft
+Coupler Requirements</h3>
+<p>The insulating coupler (see <code>shaft_coupler.scad</code>) must
+provide:</p>
+<p><strong>Minimum electrical isolation:</strong> &gt; 10 MΩ (measured
+with 500V ohmmeter between motor and cap shaft ends)</p>
+<p><strong>Minimum dielectric withstand:</strong> Must not arc over at
+operating RF voltage plus safety margin.</p>
+<p>Required coupler length:</p>
+<pre><code>L_min = V_operating_kV / E_material_kV_per_mm</code></pre>
+<p>For Delrin (POM-C): E = 20 kV/mm</p>
+<table>
+<thead>
+<tr>
+<th>Voltage Rating</th>
+<th>Minimum Length</th>
+<th>TM-VCAP-001 Length</th>
+<th>Margin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2 kV</td>
+<td>0.1 mm</td>
+<td>50 mm</td>
+<td>500×</td>
+</tr>
+<tr>
+<td>5 kV</td>
+<td>0.25 mm</td>
+<td>50 mm</td>
+<td>200×</td>
+</tr>
+<tr>
+<td>10 kV</td>
+<td>0.5 mm</td>
+<td>50 mm</td>
+<td>100×</td>
+</tr>
+</tbody>
+</table>
+<p>The 50 mm coupler length provides extreme margin for the bulk
+dielectric. The limiting factor in practice is <strong>surface creepage
+path length</strong>, not bulk breakdown.</p>
+<h3 id="surface-creepage">7.3 Surface Creepage</h3>
+<p>Surface creepage refers to the path along the surface of the
+insulator. Moisture, salt, and contamination dramatically reduce surface
+breakdown voltage. The insulating coupler incorporates anti-creepage
+grooves (ring grooves in the center section) which extend the creepage
+path length.</p>
+<p>Creepage path length for TM-VCAP-001 coupler: - Straight path: 10 mm
+(gap between metal hubs) - With 2 grooves (3 mm deep): 10 + 4 × 3 = 22
+mm creepage path</p>
+<p>IEC 60664-1 creepage requirements for Pollution Degree 2
+(condensation possible), 5 kV: - Minimum creepage: approximately 14 mm
+for CTI &gt; 400</p>
+<p>The TM-VCAP-001 coupler meets this requirement.</p>
+<h3 id="material-selection">7.4 Material Selection</h3>
+<blockquote>
+<p><strong>WARNING</strong> Carbon-filled, graphite-filled, or other
+conductive filaments must NOT be used for the insulating coupler. These
+materials conduct RF current at high frequencies even if they appear
+resistive at DC. Use only Delrin (POM-C), PETG, or ABS (in order of
+preference). PLA is not acceptable due to hygroscopic properties.</p>
+</blockquote>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 30%" />
+<col style="width: 30%" />
+<col style="width: 24%" />
+</colgroup>
+<thead>
+<tr>
+<th>Material</th>
+<th>Dielectric Strength</th>
+<th>Moisture Absorption</th>
+<th>Recommendation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Delrin POM-C</td>
+<td>20 kV/mm</td>
+<td>0.2%</td>
+<td>FIRST CHOICE</td>
+</tr>
+<tr>
+<td>PETG</td>
+<td>15–20 kV/mm</td>
+<td>0.1%</td>
+<td>ACCEPTABLE</td>
+</tr>
+<tr>
+<td>ABS</td>
+<td>14–16 kV/mm</td>
+<td>0.3%</td>
+<td>ACCEPTABLE</td>
+</tr>
+<tr>
+<td>Nylon PA12</td>
+<td>12 kV/mm</td>
+<td>0.25%</td>
+<td>MARGINAL</td>
+</tr>
+<tr>
+<td>PLA</td>
+<td>10–12 kV/mm</td>
+<td>0.5–1.5%</td>
+<td>NOT ACCEPTABLE</td>
+</tr>
+<tr>
+<td>Nylon PA6</td>
+<td>12 kV/mm</td>
+<td>1.5–3.5%</td>
+<td>NOT ACCEPTABLE</td>
+</tr>
+</tbody>
+</table>
+<h3 id="potentiometer-isolation">7.5 Potentiometer Isolation</h3>
+<p>The potentiometer coupled to the capacitor shaft is also at RF
+potential. The pot body must be isolated from the chassis, or an optical
+encoder used instead.</p>
+<p>Options in order of preference:</p>
+<ol type="1">
+<li><p><strong>Optical encoder</strong> (best): No electrical path
+between capacitor shaft and controller PCB. Use optical encoder module
+with slotted disc on capacitor shaft. Zero RF current path through
+encoder.</p></li>
+<li><p><strong>Isolated pot mounting</strong>: Mount pot body on
+insulating standoffs (Delrin or PTFE), use insulating flexible shaft
+coupler (see <code>shaft_coupler.scad</code>). Install RF bypass
+capacitor (1 nF, 2 kV rating) on pot wiper wire at the PCB end to
+decouple RF from ADC input.</p></li>
+<li><p><strong>RF choke on pot wiring</strong>: Add ferrite bead
+(Fair-Rite 2661023801) on each pot lead at pot body end. Provides ~500 Ω
+RF impedance. May not be sufficient for &gt;2 kV applications.</p></li>
+</ol>
+<hr />
+<h2 id="construction-and-assembly">8. CONSTRUCTION AND ASSEMBLY</h2>
+<h3 id="tools-and-materials-required">8.1 Tools and Materials
+Required</h3>
+<table>
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 71%" />
+</colgroup>
+<thead>
+<tr>
+<th>Item</th>
+<th>Specification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3D printer</td>
+<td>200 × 200 × 200 mm minimum build volume</td>
+</tr>
+<tr>
+<td>Filament</td>
+<td>PETG (enclosure, brackets); Delrin rod or PETG (insulating
+coupler)</td>
+</tr>
+<tr>
+<td>Drill and bits</td>
+<td>3.0, 3.3, 4.3, 5.0, 6.5 mm</td>
+</tr>
+<tr>
+<td>Tap set</td>
+<td>M3, M4</td>
+</tr>
+<tr>
+<td>Ohmmeter</td>
+<td>Capable of 10 MΩ measurement range</td>
+</tr>
+<tr>
+<td>Soldering iron</td>
+<td>Temperature controlled</td>
+</tr>
+<tr>
+<td>Thread-locking compound</td>
+<td>Loctite 222 (low strength) for set screws</td>
+</tr>
+</tbody>
+</table>
+<h3 id="printed-parts-inventory">8.2 Printed Parts Inventory</h3>
+<table>
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 22%" />
+<col style="width: 37%" />
+<col style="width: 18%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>Part</th>
+<th>Material</th>
+<th>Qty</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cap_enclosure.scad</code> → box_body()</td>
+<td>Main enclosure body</td>
+<td>PETG</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>cap_enclosure.scad</code> → box_lid()</td>
+<td>Enclosure lid</td>
+<td>PETG</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>cap_mounting_bracket.scad</code></td>
+<td>Capacitor mounting bracket</td>
+<td>PETG</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>reduction_drive.scad</code> → gt2_pulley()</td>
+<td>Output drive pulley</td>
+<td>PETG</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>reduction_drive.scad</code> → motor_plate()</td>
+<td>Motor mounting plate</td>
+<td>PETG</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>reduction_drive.scad</code> → housing_cover()</td>
+<td>Belt drive cover</td>
+<td>PETG</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>reduction_drive.scad</code> → shaft_bearing_block()</td>
+<td>Shaft bearing support</td>
+<td>PETG</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>shaft_coupler.scad</code> → insulating_coupler()</td>
+<td>HV insulating coupler</td>
+<td>Delrin or PETG</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>shaft_coupler.scad</code> → pot_coupler()</td>
+<td>Pot coupling</td>
+<td>PETG</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>shaft_coupler.scad</code> → pot_bracket()</td>
+<td>Pot body mount</td>
+<td>PETG</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>shaft_coupler.scad</code> → shaft_collar()</td>
+<td>Shaft retention collar</td>
+<td>PETG</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<h3 id="mechanical-assembly-sequence">8.3 Mechanical Assembly
+Sequence</h3>
+<h4 id="capacitor-mounting">8.3.1 Capacitor Mounting</h4>
+<p><strong>Procedure 8.3.1 — Install Capacitor in Bracket</strong></p>
+<ol type="1">
+<li><p>Insert M4 nylon vibration isolation grommets into base plate
+counterbores. Press fit from below.</p></li>
+<li><p>Position capacitor frame on side wall ledges of
+<code>cap_mounting_bracket</code>.</p></li>
+<li><p>Verify shaft centerline height matches bracket shaft collar
+height.</p></li>
+<li><p>Install M4 × 8 screws through bracket side walls into capacitor
+frame.</p>
+<blockquote>
+<p><strong>CAUTION</strong> If the capacitor frame is at RF potential
+(floating, not grounded to chassis), use M4 nylon insulating washers and
+nylon screws at ALL mounting points. Metal fasteners from bracket to
+frame create a direct RF path to chassis.</p>
+</blockquote></li>
+<li><p>Check that the capacitor shaft rotates freely through full 180°
+travel.</p></li>
+<li><p>Install anti-rotation tab against frame side. Tighten M3 set
+screw finger-tight.</p></li>
+<li><p>Mount bracket to enclosure floor with M4 × 12 screws through
+grommets.</p></li>
+</ol>
+<h4 id="drive-assembly">8.3.2 Drive Assembly</h4>
+<p><strong>Procedure 8.3.2 — Install Belt Drive</strong></p>
+<ol type="1">
+<li>Press output pulley (200T or 60T GT2, printed) onto capacitor shaft.
+Align with set screw.</li>
+<li>Apply Loctite 222 to set screw threads. Tighten M3 set screw firmly
+(2 N·m).</li>
+<li>Install shaft bearing block (<code>shaft_bearing_block</code>) to
+enclosure floor with M3 × 8 screws. Press-fit 624ZZ bearing (4 mm bore,
+13 mm OD) into block.</li>
+<li>Install motor plate (<code>motor_plate</code>) to enclosure. Thread
+four M3 × 8 screws into tensioner slots. Do not fully tighten yet.</li>
+<li>Install NEMA 17 motor on motor plate. Fasten with M3 × 8
+screws.</li>
+<li>Install 20T GT2 pulley on motor shaft. Tighten set screw.</li>
+<li>Install GT2 6 mm belt over both pulleys.</li>
+<li>Shift motor back in tensioner slots until belt deflection (midspan)
+= 2–3 mm with 1N finger push.</li>
+<li>Tighten motor plate screws.</li>
+<li>Install belt drive housing cover.</li>
+</ol>
+<h4 id="insulating-coupler-installation">8.3.3 Insulating Coupler
+Installation</h4>
+<p><strong>Procedure 8.3.3 — Install HV Insulating Coupler</strong></p>
+<blockquote>
+<p><strong>WARNING</strong> The insulating coupler is safety-critical.
+Verify all steps before applying RF power.</p>
+</blockquote>
+<ol type="1">
+<li>File or sand the motor shaft key flat if not already present. Verify
+the flat engages the coupler set screw alignment.</li>
+<li>Press the motor shaft into the bottom hub of the insulating coupler.
+Push in until the shaft end is flush with the internal stop.</li>
+<li>Tighten the motor-side M3 set screw to 1.5 N·m. Apply Loctite
+222.</li>
+<li>File or verify the capacitor shaft key flat.</li>
+<li>Insert the capacitor shaft into the top hub of the coupler. Push in
+until 2 mm of shaft protrudes beyond the coupler body.</li>
+<li>Tighten the cap-side M3 set screw to 1.5 N·m. Apply Loctite
+222.</li>
+</ol>
+<p><strong>Verification — Electrical Isolation Test:</strong></p>
+<ol start="7" type="1">
+<li><p>Using an ohmmeter set to the 10 MΩ range: measure resistance from
+motor shaft (accessible at motor body) to capacitor shaft (accessible
+beyond coupler).</p></li>
+<li><p>Required reading: &gt; 10 MΩ.</p></li>
+<li><p>If reading is &lt; 10 MΩ: inspect for metal chips, metal filings
+in coupler bore, metallic contamination of coupler surface, or incorrect
+material (conductive filament).</p>
+<blockquote>
+<p><strong>WARNING</strong> DO NOT apply RF power if isolation test
+fails. Identify and correct the cause.</p>
+</blockquote></li>
+</ol>
+<h4 id="potentiometer-installation">8.3.4 Potentiometer
+Installation</h4>
+<p><strong>Procedure 8.3.4 — Install Position Potentiometer</strong></p>
+<ol type="1">
+<li>Mount pot bracket (<code>pot_bracket</code>) to capacitor frame rear
+using M3 × 8 screws through nylon standoffs.</li>
+<li>Insert pot body through bracket hole. Secure with panel nut (wrench
+to 1 N·m, do not overtighten).</li>
+<li>Slide pot coupler (<code>pot_coupler</code>) onto capacitor shaft.
+Push to within 5 mm of pot bracket face.</li>
+<li>Align pot shaft with coupler top bore. Slide coupler onto pot
+shaft.</li>
+<li>Tighten both set screws.</li>
+<li>Rotate capacitor shaft through full travel. Verify pot shaft rotates
+freely without binding.</li>
+<li>If the capacitor shaft is at RF potential, verify pot body is
+mounted with nylon standoffs and that no metal contact exists between
+pot body and chassis or bracket.</li>
+</ol>
+<h4 id="controller-pcb-and-wiring">8.3.5 Controller PCB and Wiring</h4>
+<p><strong>Procedure 8.3.5 — Install Controller PCB</strong></p>
+<ol type="1">
+<li>Install M3 × 5 mm brass heat-set inserts in PCB standoffs (if
+threaded inserts used) OR install M3 × 6 press-fit inserts.</li>
+<li>Place controller PCB on standoffs. Secure with M3 × 6 screws.</li>
+<li>Connect stepper motor cable (4-conductor) to DRV8825 output
+terminals.</li>
+<li>Connect MIN limit switch to PIN_LIM_MIN and GND. (Normally open,
+closes at minimum position.)</li>
+<li>Connect MAX limit switch to PIN_LIM_MAX and GND.</li>
+<li>Connect pot wiper to PIN_POT_WIPER (ADC input). Connect pot ends to
+3.3V and GND.</li>
+<li>Install 1 nF 2 kV capacitor from pot wiper wire to GND, as close to
+PCB as possible.</li>
+<li>Connect OLED SDA/SCL to PIN_I2C_SDA/SCL.</li>
+<li>Connect LED to PIN_STATUS_LED with 330 Ω series resistor.</li>
+<li>Connect 12V DC power to PCB power input.</li>
+</ol>
+<h4 id="rf-connector-installation">8.3.6 RF Connector Installation</h4>
+<ol type="1">
+<li>Install SO-239 or N-type connectors in enclosure wall holes (left
+wall, per <code>cap_enclosure.scad</code>).</li>
+<li>Use silver-plated solder lugs or copper strap for RF connections —
+avoid long wire runs.</li>
+<li>Maximum lead length from RF connector to capacitor terminal: 50
+mm.</li>
+<li>Use RG-316 or silver-plated coax for leads inside enclosure.</li>
+</ol>
+<h3 id="weatherproofing">8.4 Weatherproofing</h3>
+<p><strong>Procedure 8.4 — Weatherproof the Enclosure</strong></p>
+<ol type="1">
+<li>Measure the gasket groove path length around the lid mating
+surface.</li>
+<li>Cut 3 mm EPDM O-cord (McMaster 5233K72 or equivalent) to this length
+plus 2%.</li>
+<li>Join cord ends with cyanoacrylate (Loctite 495 or equivalent). Allow
+5 minutes cure.</li>
+<li>Press cord into gasket groove. It should sit slightly proud of the
+groove.</li>
+<li>Install PG9 cable gland (rear wall) for motor/pot cable bundle.
+Torque to 5 N·m.</li>
+<li>Install sealed barrel jack (DC input, rear wall).</li>
+<li>Install Teflon seal rings on RF connectors.</li>
+<li>Place 5 g silica gel packet inside enclosure before closing
+lid.</li>
+<li>Apply RTV silicone (Permatex 81730 or equivalent) to all interior
+wire feedthroughs through glands.</li>
+<li>Install lid with 6× M4 × 12 stainless screws. Torque evenly in
+crossing pattern to 2.5 N·m.</li>
+</ol>
+<hr />
+<h2 id="controller-firmware-architecture">9. CONTROLLER FIRMWARE
+ARCHITECTURE</h2>
+<h3 id="file-structure">9.1 File Structure</h3>
+<pre><code>esp32_cap_tuner/
+├── config.h          — Hardware constants, pin definitions, capacitor parameters
+├── position.h        — PotSensor, CapCalc, CapPositionManager classes
+├── tuning.h          — Band presets, CapAutoTuner, CapCommandParser
+└── esp32_cap_tuner.ino — Main setup() and loop(), BT, OLED, LED, buttons</code></pre>
+<h3 id="config.h-key-constants">9.2 config.h — Key Constants</h3>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Capacitor parameters</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#define CAP_C_MIN_PF        </span><span class="fl">10.0</span><span class="bu">f</span><span class="pp">     </span><span class="co">// Minimum capacitance (full mesh out)</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#define CAP_C_MAX_PF        </span><span class="fl">250.0</span><span class="bu">f</span><span class="pp">    </span><span class="co">// Maximum capacitance (full mesh in)</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="pp">#define CAP_ROTATION_DEG    </span><span class="fl">180.0</span><span class="bu">f</span><span class="pp">    </span><span class="co">// Total shaft rotation</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co">// Motor and drive</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="pp">#define STEPS_PER_REV       </span><span class="dv">200</span><span class="pp">       </span><span class="co">// NEMA 17 steps/revolution</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="pp">#define MICROSTEP_DIV       </span><span class="dv">16</span><span class="pp">        </span><span class="co">// DRV8825 1/16 microstepping</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="pp">#define GEAR_RATIO          </span><span class="dv">10</span><span class="pp">        </span><span class="co">// Drive reduction ratio</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="co">// Derived</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="pp">#define DEG_PER_STEP        </span><span class="op">(</span><span class="fl">360.0</span><span class="bu">f</span><span class="pp"> </span><span class="op">/</span><span class="pp"> </span><span class="op">(</span>STEPS_PER_REV<span class="pp"> </span><span class="op">*</span><span class="pp"> </span>MICROSTEP_DIV<span class="pp"> </span><span class="op">*</span><span class="pp"> </span>GEAR_RATIO<span class="op">))</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="co">// = 360 / 32000 = 0.01125°/step</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="pp">#define STEPS_FULL_ROT      </span><span class="op">((</span><span class="dt">long</span><span class="op">)(</span>CAP_ROTATION_DEG<span class="pp"> </span><span class="op">/</span><span class="pp"> </span>DEG_PER_STEP<span class="op">))</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="co">// = 180 / 0.01125 = 16000 steps</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a><span class="co">// Plate geometry (for calculated C_max verification)</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a><span class="pp">#define CAP_PLATE_N         </span><span class="dv">41</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a><span class="pp">#define CAP_PLATE_DIA_MM    </span><span class="fl">50.0</span><span class="bu">f</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a><span class="pp">#define CAP_PLATE_GAP_MM    </span><span class="fl">2.0</span><span class="bu">f</span></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a><span class="pp">#define CAP_VOLTAGE_KV      </span><span class="fl">5.0</span><span class="bu">f</span><span class="pp">      </span><span class="co">// Operating voltage rating</span></span></code></pre></div>
+<h3 id="capcalc-class-position.h">9.3 CapCalc Class (position.h)</h3>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CapCalc <span class="op">{</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Convert shaft angle to capacitance (linear interpolation)</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">static</span> <span class="dt">float</span> angleToC<span class="op">(</span><span class="dt">float</span> deg<span class="op">,</span> <span class="dt">float</span> c_min<span class="op">,</span> <span class="dt">float</span> c_max<span class="op">,</span> <span class="dt">float</span> rot_deg<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> c_min <span class="op">+</span> <span class="op">(</span>c_max <span class="op">-</span> c_min<span class="op">)</span> <span class="op">*</span> <span class="op">(</span>deg <span class="op">/</span> rot_deg<span class="op">);</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Convert capacitance to shaft angle</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">static</span> <span class="dt">float</span> cToAngle<span class="op">(</span><span class="dt">float</span> c_pf<span class="op">,</span> <span class="dt">float</span> c_min<span class="op">,</span> <span class="dt">float</span> c_max<span class="op">,</span> <span class="dt">float</span> rot_deg<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="op">(</span>c_pf <span class="op">-</span> c_min<span class="op">)</span> <span class="op">/</span> <span class="op">(</span>c_max <span class="op">-</span> c_min<span class="op">)</span> <span class="op">*</span> rot_deg<span class="op">;</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Convert capacitance to motor steps</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">static</span> <span class="dt">long</span> cToSteps<span class="op">(</span><span class="dt">float</span> c_pf<span class="op">,</span> <span class="dt">float</span> c_min<span class="op">,</span> <span class="dt">float</span> c_max<span class="op">,</span> <span class="dt">float</span> rot_deg<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="op">(</span><span class="dt">long</span><span class="op">)(</span>cToAngle<span class="op">(</span>c_pf<span class="op">,</span> c_min<span class="op">,</span> c_max<span class="op">,</span> rot_deg<span class="op">)</span> <span class="op">/</span> DEG_PER_STEP<span class="op">);</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Capacitive reactance in ohms</span></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">static</span> <span class="dt">float</span> reactanceOhm<span class="op">(</span><span class="dt">float</span> freq_hz<span class="op">,</span> <span class="dt">float</span> c_pf<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="fl">1.0</span><span class="bu">f</span> <span class="op">/</span> <span class="op">(</span><span class="fl">2.0</span><span class="bu">f</span> <span class="op">*</span> M_PI <span class="op">*</span> freq_hz <span class="op">*</span> c_pf <span class="op">*</span> <span class="fl">1e-12</span><span class="bu">f</span><span class="op">);</span></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Parallel plate theoretical C from geometry</span></span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">static</span> <span class="dt">float</span> calcPlateCapPF<span class="op">(</span><span class="dt">float</span> dia_mm<span class="op">,</span> <span class="dt">int</span> n_plates<span class="op">,</span> <span class="dt">float</span> gap_mm<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>        <span class="dt">float</span> eps0 <span class="op">=</span> <span class="fl">8.854e-12</span><span class="bu">f</span><span class="op">;</span></span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>        <span class="dt">float</span> r <span class="op">=</span> <span class="op">(</span>dia_mm <span class="op">/</span> <span class="fl">2.0</span><span class="bu">f</span><span class="op">)</span> <span class="op">/</span> <span class="fl">1000.0</span><span class="bu">f</span><span class="op">;</span></span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>        <span class="dt">float</span> area <span class="op">=</span> M_PI <span class="op">*</span> r <span class="op">*</span> r<span class="op">;</span></span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>        <span class="dt">float</span> gap_m <span class="op">=</span> gap_mm <span class="op">/</span> <span class="fl">1000.0</span><span class="bu">f</span><span class="op">;</span></span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> eps0 <span class="op">*</span> area <span class="op">*</span> <span class="op">(</span>n_plates <span class="op">-</span> <span class="dv">1</span><span class="op">)</span> <span class="op">/</span> gap_m <span class="op">*</span> <span class="fl">1e12</span><span class="bu">f</span><span class="op">;</span></span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Voltage rating from gap</span></span>
+<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">static</span> <span class="dt">float</span> voltageRatingKV<span class="op">(</span><span class="dt">float</span> gap_mm<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> gap_mm <span class="op">*</span> <span class="fl">2.0</span><span class="bu">f</span><span class="op">;</span>  <span class="co">// 2 kV/mm operating (50% of 3 kV/mm breakdown)</span></span>
+<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Peak RF voltage at given power and reactance</span></span>
+<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">static</span> <span class="dt">float</span> peakVoltsRF<span class="op">(</span><span class="dt">float</span> power_w<span class="op">,</span> <span class="dt">float</span> xc_ohm<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb23-39"><a href="#cb23-39" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> sqrtf<span class="op">(</span><span class="fl">2.0</span><span class="bu">f</span> <span class="op">*</span> power_w <span class="op">*</span> xc_ohm<span class="op">);</span></span>
+<span id="cb23-40"><a href="#cb23-40" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb23-41"><a href="#cb23-41" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
+<h3 id="calibration-workflow">9.4 Calibration Workflow</h3>
+<p>The potentiometer calibration sequence is mandatory before the
+capacitor can be used:</p>
+<pre><code>Step 1: Send CALMIN
+        → Manually set capacitor to minimum C (full unmesh)
+        → Press Enter to confirm
+        → Firmware records pot raw_min and zeros step counter
+
+Step 2: Send CALMAX
+        → Manually set capacitor to maximum C (full mesh)
+        → Press Enter to confirm
+        → Firmware records pot raw_max
+
+Step 3: Send CALPOT
+        → Firmware reads current pot position
+        → Synchronizes step counter to pot-derived angle
+        → Sets homed = true</code></pre>
+<p>After calibration, <code>STATUS</code> will show both pot and stepper
+positions in agreement.</p>
+<h3 id="command-reference">9.5 Command Reference</h3>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Arguments</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HOME</td>
+<td>—</td>
+<td>Move to minimum C (homing sequence)</td>
+</tr>
+<tr>
+<td>CALMIN</td>
+<td>—</td>
+<td>Record pot value at minimum C</td>
+</tr>
+<tr>
+<td>CALMAX</td>
+<td>—</td>
+<td>Record pot value at maximum C</td>
+</tr>
+<tr>
+<td>CALPOT</td>
+<td>—</td>
+<td>Sync stepper to pot (re-calibrate after slip)</td>
+</tr>
+<tr>
+<td>SETC</td>
+<td>pF</td>
+<td>Move to specified capacitance</td>
+</tr>
+<tr>
+<td>GOTO</td>
+<td>steps</td>
+<td>Move to absolute step position</td>
+</tr>
+<tr>
+<td>GOSTEP</td>
+<td>±steps</td>
+<td>Move relative number of steps</td>
+</tr>
+<tr>
+<td>BAND</td>
+<td>name</td>
+<td>Move to band preset (e.g., BAND 20m)</td>
+</tr>
+<tr>
+<td>FREQ</td>
+<td>MHz</td>
+<td>Calculate and move to series-resonant C for frequency</td>
+</tr>
+<tr>
+<td>SWEEP</td>
+<td>—</td>
+<td>Sweep from min to max C, report</td>
+</tr>
+<tr>
+<td>TABLE</td>
+<td>—</td>
+<td>Print C vs. angle table</td>
+</tr>
+<tr>
+<td>VTABLE</td>
+<td>—</td>
+<td>Print peak voltage vs. band table</td>
+</tr>
+<tr>
+<td>STATUS</td>
+<td>—</td>
+<td>Full JSON status dump</td>
+</tr>
+<tr>
+<td>INFO</td>
+<td>—</td>
+<td>Firmware version, hardware constants</td>
+</tr>
+<tr>
+<td>STOP</td>
+<td>—</td>
+<td>Halt motor immediately</td>
+</tr>
+<tr>
+<td>RESET</td>
+<td>—</td>
+<td>Restart firmware</td>
+</tr>
+</tbody>
+</table>
+<h3 id="state-machine">9.6 State Machine</h3>
+<pre><code>    ┌─────────────────────────────────────────────────────┐
+    │                                                     │
+    ▼                                                     │
+  UNCAL ──[CALMIN+CALMAX]──► IDLE ──[HOME cmd]──► HOMING ─┤
+    ▲                          │                          │
+    │                    [SETC/BAND/GOTO]                 │
+    │                          │                          │
+    │                       MOVING ──[done]──► IDLE       │
+    │                          │                          │
+    │                     [limit fail]                    │
+    │                          │                          │
+    └──────────────────── FAULT ◄─────────────────────────┘</code></pre>
+<p>States 0–4: IDLE, MOVING, HOMING, FAULT, UNCAL</p>
+<hr />
+<h2 id="cyd-touchscreen-display">10. CYD TOUCHSCREEN DISPLAY</h2>
+<h3 id="hardware">10.1 Hardware</h3>
+<p>The CYD (ESP32-2432S028) display connects to the controller via
+Bluetooth SPP. The CYD acts as the Bluetooth master and initiates
+connection to “RF-CapTuner”.</p>
+<table>
+<thead>
+<tr>
+<th>CYD Component</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ILI9341 320×240 TFT</td>
+<td>Main display</td>
+</tr>
+<tr>
+<td>XPT2046 touch controller</td>
+<td>Touch input</td>
+</tr>
+<tr>
+<td>ESP32 Bluetooth</td>
+<td>BT SPP master</td>
+</tr>
+<tr>
+<td>RGB LED</td>
+<td>Status indicator</td>
+</tr>
+</tbody>
+</table>
+<h3 id="display-modes">10.2 Display Modes</h3>
+<p><strong>LIVE mode</strong> — Normal operating display: - Large
+capacitance readout (3× text, color-coded by C range) - Arc indicator
+showing rotor rotation position (0–180°) - Pot vs. stepper comparison
+(two data lines) - Sparkline — 60-point C history (last 30 seconds) -
+Reactance and estimated peak voltage line (changes color at warning
+thresholds)</p>
+<p><strong>BAND mode</strong> — Band preset grid: - 10-band grid
+(160m–10m) - Tap band to highlight, tap LOAD to send BAND command to
+controller - Shows typical series capacitance for each band</p>
+<p><strong>SWEEP mode</strong> — Capacitance sweep chart: - XY plot:
+time (X) vs. capacitance (Y) - Collects up to 200 points during a SWEEP
+command - Color-codes plot points by C value (blue → cyan → green →
+yellow → red)</p>
+<p><strong>INFO mode</strong> — Technical data: - Current C, angle, pot
+reading, position error, step count - Voltage ratings table: X_C and
+V_peak at 100W for all HF bands, color-coded by safety margin - Firmware
+version</p>
+<h3 id="voltage-warning-color-coding">10.3 Voltage Warning Color
+Coding</h3>
+<p>The CYD display uses three colors for voltage safety indication:</p>
+<table>
+<thead>
+<tr>
+<th>Color</th>
+<th>Condition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Green</td>
+<td>V_peak &lt; 50% of voltage rating</td>
+</tr>
+<tr>
+<td>Orange</td>
+<td>V_peak 50–80% of voltage rating — caution</td>
+</tr>
+<tr>
+<td>Red</td>
+<td>V_peak &gt; 80% of voltage rating — WARNING</td>
+</tr>
+</tbody>
+</table>
+<p>This warning is shown in LIVE mode (bottom line) and INFO mode
+(table).</p>
+<blockquote>
+<p><strong>NOTE</strong> The voltage estimate in the display uses 100W
+as a reference power. For actual power levels, the estimate scales as
+√P. At 1 kW, multiply displayed V_peak by √10 ≈ 3.16.</p>
+</blockquote>
+<h3 id="touch-zones">10.4 Touch Zones</h3>
+<table>
+<thead>
+<tr>
+<th>Zone</th>
+<th>Area</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tab bar</td>
+<td>Bottom 30 px strip, full width</td>
+<td>Switch display mode</td>
+</tr>
+<tr>
+<td>Button bar</td>
+<td>Bottom 30 px (very bottom)</td>
+<td>Mode-dependent commands</td>
+</tr>
+<tr>
+<td>Band grid</td>
+<td>BAND mode main area</td>
+<td>Select band preset</td>
+</tr>
+</tbody>
+</table>
+<p>Button bar assignments:</p>
+<table>
+<thead>
+<tr>
+<th>Button</th>
+<th>LIVE</th>
+<th>BAND</th>
+<th>SWEEP</th>
+<th>INFO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 (leftmost)</td>
+<td>HOME</td>
+<td>HOME</td>
+<td>HOME</td>
+<td>HOME</td>
+</tr>
+<tr>
+<td>1</td>
+<td>C- (fine)</td>
+<td>◄◄</td>
+<td>SWEEP START</td>
+<td>RESET</td>
+</tr>
+<tr>
+<td>2</td>
+<td>C+ (fine)</td>
+<td>►►</td>
+<td>SWEEP STOP</td>
+<td>STATUS</td>
+</tr>
+<tr>
+<td>3</td>
+<td>STOP</td>
+<td>LOAD</td>
+<td>CLEAR</td>
+<td>CALPOT</td>
+</tr>
+<tr>
+<td>4 (rightmost)</td>
+<td>CAL</td>
+<td>BACK</td>
+<td>BACK</td>
+<td>BACK</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="calibration-procedures">11. CALIBRATION PROCEDURES</h2>
+<h3 id="initial-calibration">11.1 Initial Calibration</h3>
+<p><strong>Procedure 11.1 — Initial Potentiometer
+Calibration</strong></p>
+<p>This procedure must be performed before first use and after any
+mechanical changes to the drive system.</p>
+<p>Required equipment: - PC with serial terminal (115200 baud) or BT SPP
+terminal - Ohmmeter (optional, for isolation verification)</p>
+<p><strong>Step 1</strong> — Verify isolation (first time only): 1. With
+power OFF, measure resistance between motor shaft and capacitor shaft.
+2. Verify &gt; 10 MΩ. If not, see Section 7.4.</p>
+<p><strong>Step 2</strong> — Power on: 1. Apply 12V DC to controller. 2.
+Connect to controller via serial or BT. 3. Observe startup message:
+<code>RF-CapTuner fw=X.X.X</code> 4. Observe prompt:
+<code>&gt;&gt;&gt; Send CALMIN (at min C) then CALMAX (at max C) to calibrate pot &lt;&lt;&lt;</code></p>
+<p><strong>Step 3</strong> — Calibrate minimum position: 1. Manually
+rotate the capacitor shaft to minimum capacitance (plates fully
+unmeshed, rotor perpendicular to stator). 2. Send: <code>CALMIN</code>
+3. Observe response: <code>CAL: min set, raw=XXXX</code></p>
+<p><strong>Step 4</strong> — Calibrate maximum position: 1. Manually
+rotate the capacitor shaft to maximum capacitance (plates fully meshed).
+2. Send: <code>CALMAX</code> 3. Observe response:
+<code>CAL: max set, raw=XXXX  C range: 10.0-250.0 pF  rotation: 180 deg</code></p>
+<p><strong>Step 5</strong> — Sync stepper to pot: 1. Send:
+<code>CALPOT</code> 2. Observe response:
+<code>CALPOT: steps synced to pot angle XX.X deg</code> 3. Observe:
+state changes from UNCAL to IDLE</p>
+<p><strong>Step 6</strong> — Verify: 1. Send: <code>STATUS</code> 2.
+Verify pot_c and c_pf agree within 5 pF. 3. If they disagree
+significantly, repeat from Step 2.</p>
+<p><strong>Step 7</strong> — Test homing: 1. Send: <code>HOME</code> 2.
+Observe motor movement, state = HOMING. 3. Observe stop when MIN limit
+switch triggers or minimum steps reached. 4. Observe state = IDLE. 5.
+Send: <code>STATUS</code> — verify c_pf ≈ CAP_C_MIN_PF.</p>
+<h3 id="periodic-verification">11.2 Periodic Verification</h3>
+<p>Verify calibration annually or after any of the following events: -
+Mechanical disassembly and reassembly - Belt replacement or retensioning
+- Power failure during movement - FAULT state occurrence</p>
+<p><strong>Procedure 11.2 — Calibration Verification</strong></p>
+<ol type="1">
+<li>Send: <code>HOME</code> — move to minimum position.</li>
+<li>Send: <code>STATUS</code> — record c_pf and pot_c. Verify both ≈
+C_min (±5%).</li>
+<li>Send: <code>SETC 125</code> — move to approximately midrange.</li>
+<li>Send: <code>STATUS</code> — verify c_pf ≈ 125 pF (±10 pF), pot_c
+agrees within 5 pF.</li>
+<li>Send: <code>SETC 250</code> — move to maximum.</li>
+<li>Send: <code>STATUS</code> — verify c_pf ≈ C_max (±10 pF).</li>
+<li>If any step fails, perform full calibration (Procedure 11.1).</li>
+</ol>
+<h3 id="wheeler-formula-verification-calculated-vs.-measured">11.3
+Wheeler Formula Verification (Calculated vs. Measured)</h3>
+<p>The firmware reports calculated C_max from plate geometry at startup.
+Verify against measured value:</p>
+<ol type="1">
+<li>Connect NanoVNA or impedance analyzer to capacitor terminals.</li>
+<li>Set capacitor to full mesh (maximum).</li>
+<li>Measure capacitance at 1 MHz.</li>
+<li>Compare measured to firmware-calculated value (startup
+message).</li>
+<li>If measured value differs by &gt; 20%, update
+<code>CAP_C_MAX_PF</code> in config.h.</li>
+</ol>
+<blockquote>
+<p><strong>NOTE</strong> Measured capacitance at full mesh typically
+reads 70–85% of the theoretical plate calculation due to edge effects
+and the end gap (space at each end of the plate stack). The
+<code>CAP_C_MAX_PF</code> value should be set to the measured value, not
+the calculated plate value.</p>
+</blockquote>
+<hr />
+<h2 id="operating-procedures">12. OPERATING PROCEDURES</h2>
+<h3 id="normal-operating-procedure">12.1 Normal Operating Procedure</h3>
+<p><strong>Procedure 12.1 — Normal Tuning Operation</strong></p>
+<p>Prerequisites: - Calibration complete (Procedure 11.1 or 11.2) -
+Transmitter connected, power OFF - Dummy load or known antenna
+connected</p>
+<ol type="1">
+<li>Power on controller.</li>
+<li>Send: <code>HOME</code> or press HOME button — wait for IDLE
+state.</li>
+<li>Select band using BAND command or CYD BAND mode.</li>
+<li>Enable low-power transmit (10W).</li>
+<li>Observe SWR (via external meter or power meter system).</li>
+<li>Trim capacitance using <code>SETC</code> command or CYD C+/C-
+buttons until SWR is minimized.</li>
+<li>Save position: <code>SAVE bandname</code></li>
+<li>Increase to full power and verify SWR.</li>
+</ol>
+<blockquote>
+<p><strong>CAUTION</strong> Do not adjust the capacitor while
+transmitting at high power. Although the motor drive is isolated from
+the RF circuit, motor movement during high-power TX may cause arcing at
+the wiper contact. Always reduce to 10W or less before adjusting.</p>
+</blockquote>
+<h3 id="voltage-safety-check-procedure">12.2 Voltage Safety Check
+Procedure</h3>
+<p><strong>Procedure 12.2 — Pre-Transmit Voltage Safety
+Verification</strong></p>
+<p>Before transmitting at power levels &gt; 100W, or on 160m/80m at any
+power level:</p>
+<ol type="1">
+<li><p>Send: <code>VTABLE</code></p></li>
+<li><p>Read the voltage table output.</p></li>
+<li><p>For the operating band and power level, calculate expected
+V_peak:</p>
+<pre><code>V_peak(actual) = V_peak(100W from table) × √(P_actual / 100)</code></pre></li>
+<li><p>Verify V_peak(actual) &lt; 80% of CAP_VOLTAGE_KV × 1000.</p></li>
+</ol>
+<p><strong>Example:</strong> Operating on 40m at 500W, C = 80 pF. -
+VTABLE shows V_peak at 100W = 316 V for 80 pF at 7.1 MHz. - At 500W:
+V_peak = 316 × √(500/100) = 316 × 2.24 = 708 V. - Cap rating = 5 kV, 80%
+= 4,000 V. - 708 V &lt;&lt; 4,000 V → SAFE.</p>
+<h3 id="emergency-stop">12.3 Emergency Stop</h3>
+<p>If arcing is heard (crackling or buzzing in received audio, visible
+spark inside enclosure):</p>
+<ol type="1">
+<li>Immediately reduce transmit power to zero.</li>
+<li>Send: <code>STOP</code> command or press STOP button on CYD.</li>
+<li>Do not transmit again until the cause is identified.</li>
+<li>Inspect capacitor for carbon tracks, burned plates, or plate
+contact.</li>
+</ol>
+<hr />
+<h2 id="maintenance">13. MAINTENANCE</h2>
+<h3 id="scheduled-maintenance">13.1 Scheduled Maintenance</h3>
+<table>
+<colgroup>
+<col style="width: 62%" />
+<col style="width: 37%" />
+</colgroup>
+<thead>
+<tr>
+<th>Interval</th>
+<th>Task</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Monthly</td>
+<td>Inspect wiper contact, clean if tarnished (Procedure 13.1)</td>
+</tr>
+<tr>
+<td>Quarterly</td>
+<td>Check belt tension, adjust if needed (Procedure 13.2)</td>
+</tr>
+<tr>
+<td>Annually</td>
+<td>Replace desiccant pack, inspect O-cord, verify isolation (Procedure
+13.3)</td>
+</tr>
+<tr>
+<td>As needed</td>
+<td>Clean and lubricate shaft bearings (Procedure 13.4)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="wiper-contact-cleaning">13.2 Wiper Contact Cleaning</h3>
+<p><strong>Procedure 13.1 — Clean Wiper Contact</strong></p>
+<ol type="1">
+<li>Remove RF power. De-energize controller.</li>
+<li>Remove enclosure lid.</li>
+<li>Apply 2 drops Caig DeoxIT Gold G5 to wiper contact area.</li>
+<li>Rotate capacitor shaft through full travel 10 times.</li>
+<li>Remove excess contact cleaner with cotton swab.</li>
+<li>Allow 15 minutes to dry.</li>
+<li>Reinstall lid.</li>
+</ol>
+<h3 id="belt-tension-check">13.3 Belt Tension Check</h3>
+<p><strong>Procedure 13.2 — Belt Tension Adjustment</strong></p>
+<ol type="1">
+<li>Remove enclosure lid.</li>
+<li>With motor de-energized, press belt midspan with 1 N finger
+force.</li>
+<li>Belt should deflect 2–3 mm. If deflection &gt; 5 mm: belt is
+loose.</li>
+<li>Loosen four motor plate screws.</li>
+<li>Push motor away from output pulley until correct tension is
+achieved.</li>
+<li>Retighten motor plate screws.</li>
+<li>Check that belt does not rub on housing cover.</li>
+</ol>
+<h3 id="annual-maintenance">13.4 Annual Maintenance</h3>
+<p><strong>Procedure 13.3 — Annual Overhaul</strong></p>
+<ol type="1">
+<li>Remove lid. Remove and weigh old desiccant pack.</li>
+<li>If pack weighs &gt; 110% of original weight: discard, install new 5
+g silica gel pack.</li>
+<li>Inspect O-cord gasket for cracks, compression set, or hardening.
+Replace if cord no longer round in cross-section.</li>
+<li>Check all M4 lid screws for looseness. Retorque to 2.5 N·m.</li>
+<li>Re-verify electrical isolation: motor shaft to capacitor shaft &gt;
+10 MΩ.</li>
+<li>Verify calibration (Procedure 11.2).</li>
+<li>Inspect all RF connections for corrosion. Recoat with NoOx-ID A
+Special grease.</li>
+</ol>
+<h3 id="bearing-lubrication">13.5 Bearing Lubrication</h3>
+<p><strong>Procedure 13.4 — Shaft Bearing Lubrication</strong></p>
+<p>Interval: every 2 years, or if motor audibly strains.</p>
+<ol type="1">
+<li>Access the capacitor shaft bearing (main rotor bearing of the air
+variable).</li>
+<li>Apply 1 drop synthetic bearing oil (Nye Lubricants Fluorocarbon FG
+series or equivalent RF-safe oil) to bearing races.</li>
+<li>Apply 1 drop to pot shaft bearing.</li>
+<li>Work oil in by rotating shaft through full travel.</li>
+<li>Wipe excess.</li>
+</ol>
+<blockquote>
+<p><strong>CAUTION</strong> Do not use petroleum-based lubricants,
+WD-40, or petroleum grease near the capacitor plates. Contamination of
+the air gap dielectric will reduce voltage rating and cause premature
+arcing. Use only fluorocarbon or synthetic ester lubricants.</p>
+</blockquote>
+<hr />
+<h2 id="troubleshooting">14. TROUBLESHOOTING</h2>
+<h3 id="diagnostic-flowchart">14.1 Diagnostic Flowchart</h3>
+<pre><code>Problem reported
+     │
+     ├─ No movement ──────────────────────────────────────────────┐
+     │                                                            │
+     ├─ Incorrect position (pos_err &gt; 5°) ────────────────────────┤
+     │                                                            │
+     ├─ FAULT state ───────────────────────────────────────────────┤
+     │                                                            │
+     ├─ Arcing / RF burn ──────────────────────────────────────────┤
+     │                                                            │
+     ├─ No BT connection ─────────────────────────────────────────┤
+     │                                                            │
+     └─ UNCAL state ───────────────────────────────────────────────┘</code></pre>
+<h3 id="no-motor-movement">14.2 No Motor Movement</h3>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 34%" />
+<col style="width: 44%" />
+</colgroup>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Probable Cause</th>
+<th>Corrective Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No movement, no error</td>
+<td>FAULT state, cleared but not homed</td>
+<td>Send HOME</td>
+</tr>
+<tr>
+<td>No movement, FAULT</td>
+<td>Limit switch stuck closed</td>
+<td>Inspect limit switch wiring</td>
+</tr>
+<tr>
+<td>Motor moves but cap doesn’t</td>
+<td>Drive coupler set screw loose</td>
+<td>Retighten, apply Loctite</td>
+</tr>
+<tr>
+<td>Motor hums but doesn’t turn</td>
+<td>Motor current too low (DRV8825 Vref)</td>
+<td>Adjust Vref: 0.5–0.8V</td>
+</tr>
+<tr>
+<td>Motor stutters</td>
+<td>Microstepping set incorrect</td>
+<td>Verify MS1/MS2/MS3 → 1/1/1 for 1/16</td>
+</tr>
+</tbody>
+</table>
+<h3 id="position-error-pos_err-5">14.3 Position Error (pos_err &gt;
+5°)</h3>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 34%" />
+<col style="width: 44%" />
+</colgroup>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Probable Cause</th>
+<th>Corrective Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pos_err increases after each move</td>
+<td>Missed steps — speed too high</td>
+<td>Reduce MAX_SPEED in config.h</td>
+</tr>
+<tr>
+<td>pos_err appears at power-on</td>
+<td>Homing needed, pot offset</td>
+<td>Send HOME, then CALPOT</td>
+</tr>
+<tr>
+<td>pos_err large, pot_c reads 0 or max</td>
+<td>Pot wiper disconnected or pot damaged</td>
+<td>Check pot wiring; replace pot</td>
+</tr>
+<tr>
+<td>pos_err random, no pattern</td>
+<td>Electrical noise on pot signal</td>
+<td>Add 10 nF cap from pot wiper to GND at PCB</td>
+</tr>
+<tr>
+<td>pos_err consistent, same direction</td>
+<td>Calibration error</td>
+<td>Re-run CALMIN / CALMAX</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fault-state">14.4 FAULT State</h3>
+<p>The controller enters FAULT state when: - MAX limit switch triggered
+during movement - Step counter exceeds software limits - Pot reading
+goes out of range (pot disconnected or failed)</p>
+<p><strong>Procedure 14.1 — Clear FAULT State</strong></p>
+<ol type="1">
+<li>Send: <code>STATUS</code> — read fault cause from output.</li>
+<li>Identify and correct physical cause (limit switch, mechanical
+obstruction).</li>
+<li>Send: <code>RESET</code> — firmware restart.</li>
+<li>Send: <code>HOME</code> — re-home to known position.</li>
+<li>If FAULT immediately recurs, send: <code>TABLE</code> — verify step
+counts correspond to expected C range.</li>
+</ol>
+<h3 id="arcing-inside-enclosure">14.5 Arcing Inside Enclosure</h3>
+<blockquote>
+<p><strong>WARNING</strong> Do not attempt to clear arcing by increasing
+transmitter drive. Reduce power immediately.</p>
+</blockquote>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 34%" />
+<col style="width: 44%" />
+</colgroup>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Probable Cause</th>
+<th>Corrective Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Continuous arc, burning smell</td>
+<td>Plates shorted (mechanical contact)</td>
+<td>Inspect plates, re-align</td>
+</tr>
+<tr>
+<td>Intermittent crackle</td>
+<td>Contamination on plates (dust, oil film)</td>
+<td>Clean plates with IPA, dry thoroughly</td>
+</tr>
+<tr>
+<td>Arc at min C only</td>
+<td>Plate end gap too small</td>
+<td>Adjust end-stop to prevent full unmesh</td>
+</tr>
+<tr>
+<td>Arc at max C only</td>
+<td>Plate gap too small, plates bent</td>
+<td>Inspect plate spacing, re-space if needed</td>
+</tr>
+<tr>
+<td>Arc on wiper contact</td>
+<td>Insufficient contact pressure</td>
+<td>Adjust wiper spring preload</td>
+</tr>
+</tbody>
+</table>
+<h3 id="no-bt-connection-cyd">14.6 No BT Connection (CYD)</h3>
+<ol type="1">
+<li>Verify controller is powered and advertising (“BT: advertising as
+‘RF-CapTuner’” in serial).</li>
+<li>Verify CYD is within 10 m of controller.</li>
+<li>On CYD: if “Connecting…” persists &gt; 30 s, cycle CYD power.</li>
+<li>Check that only one BT client is connected (two simultaneous BT SPP
+clients not supported).</li>
+<li>If controller serial terminal is connected via BT, disconnect before
+CYD attempts connection.</li>
+</ol>
+<h3 id="uncal-state-after-power-cycle">14.7 UNCAL State After Power
+Cycle</h3>
+<p>The controller saves calibration data (raw_min, raw_max) in NVS
+(non-volatile storage). After power cycle, these values are
+restored.</p>
+<p>If UNCAL appears after power cycle: 1. Send: <code>STATUS</code> —
+check if <code>pot.calibrated = false</code>. 2. Check NVS namespace in
+config.h (<code>NVS_NAMESPACE = "cap_tuner"</code>). 3. If NVS is
+erased: re-run full calibration (Procedure 11.1). 4. If problem recurs
+after each power cycle: NVS partition may be corrupted — reflash
+firmware with <code>nvs_erase</code> sketch first.</p>
+<hr />
+<h2 id="appendix-a-specifications">APPENDIX A: SPECIFICATIONS</h2>
+<h3 id="a.1-electrical-specifications">A.1 Electrical
+Specifications</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+<th>Units</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Capacitance range</td>
+<td>10–250 (standard) or 5–500 (large)</td>
+<td>pF</td>
+</tr>
+<tr>
+<td>Capacitance accuracy</td>
+<td>±5% of set value (post-calibration)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Capacitance resolution</td>
+<td>0.015 pF/step</td>
+<td>pF</td>
+</tr>
+<tr>
+<td>Frequency range</td>
+<td>1.8–30</td>
+<td>MHz</td>
+</tr>
+<tr>
+<td>Operating voltage (standard)</td>
+<td>5 kV peak</td>
+<td>V</td>
+</tr>
+<tr>
+<td>Operating voltage (HV option)</td>
+<td>10 kV peak</td>
+<td>V</td>
+</tr>
+<tr>
+<td>Continuous current</td>
+<td>10 A RMS</td>
+<td>A</td>
+</tr>
+<tr>
+<td>Peak current</td>
+<td>25 A</td>
+<td>A</td>
+</tr>
+<tr>
+<td>RF connectors</td>
+<td>2× SO-239 or N-type</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Motor supply</td>
+<td>12 V DC, 1.5 A max</td>
+<td>V/A</td>
+</tr>
+<tr>
+<td>Control supply (ESP32)</td>
+<td>3.3 V regulated from 12V</td>
+<td>V</td>
+</tr>
+</tbody>
+</table>
+<h3 id="a.2-mechanical-specifications">A.2 Mechanical
+Specifications</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+<th>Units</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Capacitor shaft diameter</td>
+<td>6.35 (1/4 inch standard)</td>
+<td>mm</td>
+</tr>
+<tr>
+<td>Drive reduction ratio</td>
+<td>10:1</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Steps per degree (cap shaft)</td>
+<td>88.9</td>
+<td>steps/°</td>
+</tr>
+<tr>
+<td>Angular resolution</td>
+<td>0.01125</td>
+<td>°/step</td>
+</tr>
+<tr>
+<td>Travel</td>
+<td>180</td>
+<td>degrees</td>
+</tr>
+<tr>
+<td>Homing speed</td>
+<td>100 (steps/sec at motor)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Maximum slew speed</td>
+<td>2000 (steps/sec at motor)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Enclosure dimensions</td>
+<td>195 × 135 × 88 + 12 (lid)</td>
+<td>mm</td>
+</tr>
+<tr>
+<td>Enclosure rating</td>
+<td>IP54 (with EPDM gasket)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Print material (enclosure)</td>
+<td>PETG</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Print material (coupler)</td>
+<td>Delrin (POM-C) or PETG</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Insulating coupler length</td>
+<td>50</td>
+<td>mm</td>
+</tr>
+<tr>
+<td>Insulating coupler isolation</td>
+<td>&gt; 10 MΩ @ 500 V DC</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h3 id="a.3-controller-specifications">A.3 Controller
+Specifications</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Controller</td>
+<td>ESP32-WROOM-32</td>
+</tr>
+<tr>
+<td>Stepper driver</td>
+<td>DRV8825, 1/16 microstepping</td>
+</tr>
+<tr>
+<td>Position sensor</td>
+<td>10 kΩ rotary pot, 12-bit ADC</td>
+</tr>
+<tr>
+<td>Limit switches</td>
+<td>2× optical or micro-switch</td>
+</tr>
+<tr>
+<td>Display</td>
+<td>SSD1306 OLED 128×64 (local)</td>
+</tr>
+<tr>
+<td>Remote display</td>
+<td>CYD ESP32-2432S028 (Bluetooth)</td>
+</tr>
+<tr>
+<td>Communication</td>
+<td>Bluetooth SPP, USB serial</td>
+</tr>
+<tr>
+<td>Data persistence</td>
+<td>ESP32 NVS (non-volatile)</td>
+</tr>
+<tr>
+<td>Firmware</td>
+<td>TM-VCAP-ESP32-001 Rev A</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="appendix-b-bill-of-materials">APPENDIX B: BILL OF MATERIALS</h2>
+<h3 id="b.1-electronics">B.1 Electronics</h3>
+<table>
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 58%" />
+<col style="width: 10%" />
+<col style="width: 17%" />
+</colgroup>
+<thead>
+<tr>
+<th>Item</th>
+<th>Part Number / Description</th>
+<th>Qty</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ESP32</td>
+<td>ESP32-WROOM-32 DevKit</td>
+<td>1</td>
+<td>AliExpress, Mouser</td>
+</tr>
+<tr>
+<td>Stepper driver</td>
+<td>DRV8825 module</td>
+<td>1</td>
+<td>AliExpress</td>
+</tr>
+<tr>
+<td>Stepper motor</td>
+<td>NEMA 17, 1.7A, 4000 g·cm</td>
+<td>1</td>
+<td>StepperOnline 17HS19-2004S1</td>
+</tr>
+<tr>
+<td>OLED</td>
+<td>SSD1306 128×64 I2C</td>
+<td>1</td>
+<td>AliExpress</td>
+</tr>
+<tr>
+<td>CYD display</td>
+<td>ESP32-2432S028</td>
+<td>1 (optional)</td>
+<td>AliExpress</td>
+</tr>
+<tr>
+<td>Rotary pot</td>
+<td>10 kΩ panel pot, 6 mm shaft</td>
+<td>1</td>
+<td>Bourns PTV09A-4030F-B103</td>
+</tr>
+<tr>
+<td>Limit switches</td>
+<td>SPST NO micro-switch</td>
+<td>2</td>
+<td>Omron SS-5GL</td>
+</tr>
+<tr>
+<td>Capacitors</td>
+<td>1 nF 2 kV (pot bypass)</td>
+<td>2</td>
+<td>Vishay BC Components</td>
+</tr>
+<tr>
+<td>Status LED</td>
+<td>3 mm green LED</td>
+<td>1</td>
+<td>any</td>
+</tr>
+<tr>
+<td>LED resistor</td>
+<td>330 Ω 1/4W</td>
+<td>1</td>
+<td>any</td>
+</tr>
+<tr>
+<td>Decoupling caps</td>
+<td>100 nF MLCC, 10 µF electrolytic</td>
+<td>several</td>
+<td>any</td>
+</tr>
+<tr>
+<td>PCB</td>
+<td>Fabricate from KiCad files</td>
+<td>1</td>
+<td>JLCPCB, PCBWay</td>
+</tr>
+<tr>
+<td>DC barrel jack</td>
+<td>5.5/2.1 mm, sealed</td>
+<td>1</td>
+<td>Amphenol PPPK-02P</td>
+</tr>
+<tr>
+<td>Cable gland</td>
+<td>PG9 nylon, EPDM insert</td>
+<td>2</td>
+<td>McMaster 69915K310</td>
+</tr>
+</tbody>
+</table>
+<h3 id="b.2-mechanical">B.2 Mechanical</h3>
+<table>
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 44%" />
+<col style="width: 14%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr>
+<th>Item</th>
+<th>Specification</th>
+<th>Qty</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Variable capacitor</td>
+<td>Surplus air variable, 250 pF, 5 kV</td>
+<td>1</td>
+<td>eBay / surplus</td>
+</tr>
+<tr>
+<td>GT2 belt</td>
+<td>6 mm × 500 mm loop</td>
+<td>1</td>
+<td>AliExpress</td>
+</tr>
+<tr>
+<td>GT2 pulley (motor)</td>
+<td>20T, 5 mm bore</td>
+<td>1</td>
+<td>AliExpress</td>
+</tr>
+<tr>
+<td>GT2 pulley (output)</td>
+<td>200T or 60T, 6.35 mm bore</td>
+<td>1</td>
+<td>Print or AliExpress</td>
+</tr>
+<tr>
+<td>624ZZ bearing</td>
+<td>4 mm ID, 13 mm OD, 5 mm</td>
+<td>2</td>
+<td>VXB or AliExpress</td>
+</tr>
+<tr>
+<td>EPDM O-cord</td>
+<td>3 mm diameter</td>
+<td>1 m</td>
+<td>McMaster 5233K72</td>
+</tr>
+<tr>
+<td>Silica gel</td>
+<td>5 g packet</td>
+<td>1</td>
+<td>any</td>
+</tr>
+<tr>
+<td>Insulating coupler</td>
+<td>Print in Delrin/PETG</td>
+<td>1</td>
+<td>Self-fabricated</td>
+</tr>
+<tr>
+<td>M3 screws</td>
+<td>Stainless, 6–12 mm</td>
+<td>assorted</td>
+<td>any</td>
+</tr>
+<tr>
+<td>M4 screws</td>
+<td>Stainless, 8–16 mm</td>
+<td>assorted</td>
+<td>any</td>
+</tr>
+<tr>
+<td>M4 nylon grommets</td>
+<td>McMaster 90131A151</td>
+<td>4</td>
+<td>McMaster</td>
+</tr>
+<tr>
+<td>M3 set screws</td>
+<td>M3 × 5 mm socket</td>
+<td>6</td>
+<td>any</td>
+</tr>
+<tr>
+<td>RF connectors</td>
+<td>SO-239 panel mount</td>
+<td>2</td>
+<td>Amphenol 83-1R</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="appendix-c-capacitor-design-worksheet">APPENDIX C: CAPACITOR
+DESIGN WORKSHEET</h2>
+<h3 id="c.1-plate-geometry-calculator">C.1 Plate Geometry
+Calculator</h3>
+<pre><code>Input parameters:
+  Plate diameter:    D = _____ mm
+  Plate gap:         d = _____ mm
+  Number of plates:  N = _____
+
+Derived:
+  Plate area:      A = π × (D/2000)²  = _____ m²
+  Plate gaps:      N-1               = _____
+  C_max (calc):    ε₀ × A × (N-1) / (d/1000) × 1e12  = _____ pF
+
+  Voltage rating:  V = d × 2 kV/mm = _____ kV
+
+  Current rating: (estimate)
+    At P = 1000 W, f = 7 MHz, C = 10 pF:
+    X_C = 1 / (2π × 7e6 × 10e-12) = 2274 Ω
+    V_peak = √(2 × 1000 × 2274) = 2132 V
+    I_peak = V_peak / X_C = 0.94 A
+    I_rms  = I_peak / √2 = 0.66 A</code></pre>
+<h3 id="c.2-angular-resolution-calculator">C.2 Angular Resolution
+Calculator</h3>
+<pre><code>Input parameters:
+  Steps per revolution:   STEPS_PER_REV = 200
+  Microstepping divisor:  MICROSTEP_DIV = 16
+  Gear reduction ratio:   GEAR_RATIO    = 10
+
+Derived:
+  Steps per revolution at output: 200 × 16 × 10 = 32,000
+  Degrees per step:               360 / 32,000 = 0.01125°/step
+  Steps for 180°:                 16,000 steps
+  ΔC per step (250 pF range):     240 / 16,000 = 0.015 pF/step</code></pre>
+<hr />
+<h2 id="appendix-d-band-capacitance-reference">APPENDIX D: BAND
+CAPACITANCE REFERENCE</h2>
+<h3 id="d.1-typical-tuner-capacitance-values">D.1 Typical Tuner
+Capacitance Values</h3>
+<p>The following capacitance values are starting points. Exact values
+depend on antenna impedance and tuner topology. Use <code>BAND</code>
+command to load presets; trim with <code>SETC</code> or C+/C- for
+minimum SWR.</p>
+<table>
+<colgroup>
+<col style="width: 8%" />
+<col style="width: 15%" />
+<col style="width: 30%" />
+<col style="width: 28%" />
+<col style="width: 17%" />
+</colgroup>
+<thead>
+<tr>
+<th>Band</th>
+<th>Freq (MHz)</th>
+<th>C_series typical (pF)</th>
+<th>C_shunt typical (pF)</th>
+<th>Voltage risk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>160m</td>
+<td>1.8–2.0</td>
+<td>150–250</td>
+<td>200–400</td>
+<td>HIGH (high Xc at low C)</td>
+</tr>
+<tr>
+<td>80m</td>
+<td>3.5–4.0</td>
+<td>100–200</td>
+<td>150–300</td>
+<td>MODERATE</td>
+</tr>
+<tr>
+<td>60m</td>
+<td>5.3–5.4</td>
+<td>80–150</td>
+<td>100–200</td>
+<td>MODERATE</td>
+</tr>
+<tr>
+<td>40m</td>
+<td>7.0–7.3</td>
+<td>60–120</td>
+<td>80–150</td>
+<td>LOW-MODERATE</td>
+</tr>
+<tr>
+<td>30m</td>
+<td>10.1–10.15</td>
+<td>45–90</td>
+<td>60–120</td>
+<td>LOW</td>
+</tr>
+<tr>
+<td>20m</td>
+<td>14.0–14.35</td>
+<td>35–75</td>
+<td>45–100</td>
+<td>LOW</td>
+</tr>
+<tr>
+<td>17m</td>
+<td>18.068–18.168</td>
+<td>28–60</td>
+<td>35–80</td>
+<td>LOW</td>
+</tr>
+<tr>
+<td>15m</td>
+<td>21.0–21.45</td>
+<td>22–50</td>
+<td>28–65</td>
+<td>LOW</td>
+</tr>
+<tr>
+<td>12m</td>
+<td>24.89–24.99</td>
+<td>18–40</td>
+<td>22–55</td>
+<td>LOW</td>
+</tr>
+<tr>
+<td>10m</td>
+<td>28.0–29.7</td>
+<td>15–35</td>
+<td>18–45</td>
+<td>LOW</td>
+</tr>
+</tbody>
+</table>
+<h3 id="d.2-reactance-at-band-edges-pf-reference-values">D.2 Reactance
+at Band Edges (pF reference values)</h3>
+<p>X_C in ohms for three representative capacitances:</p>
+<table>
+<thead>
+<tr>
+<th>Band</th>
+<th>Freq</th>
+<th>20 pF</th>
+<th>80 pF</th>
+<th>200 pF</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>160m</td>
+<td>1.9 MHz</td>
+<td>4,188</td>
+<td>1,047</td>
+<td>419</td>
+</tr>
+<tr>
+<td>80m</td>
+<td>3.6 MHz</td>
+<td>2,210</td>
+<td>553</td>
+<td>221</td>
+</tr>
+<tr>
+<td>40m</td>
+<td>7.1 MHz</td>
+<td>1,121</td>
+<td>280</td>
+<td>112</td>
+</tr>
+<tr>
+<td>30m</td>
+<td>10.1 MHz</td>
+<td>788</td>
+<td>197</td>
+<td>79</td>
+</tr>
+<tr>
+<td>20m</td>
+<td>14.2 MHz</td>
+<td>561</td>
+<td>140</td>
+<td>56</td>
+</tr>
+<tr>
+<td>17m</td>
+<td>18.1 MHz</td>
+<td>440</td>
+<td>110</td>
+<td>44</td>
+</tr>
+<tr>
+<td>15m</td>
+<td>21.2 MHz</td>
+<td>375</td>
+<td>94</td>
+<td>38</td>
+</tr>
+<tr>
+<td>12m</td>
+<td>24.9 MHz</td>
+<td>320</td>
+<td>80</td>
+<td>32</td>
+</tr>
+<tr>
+<td>10m</td>
+<td>28.5 MHz</td>
+<td>280</td>
+<td>70</td>
+<td>28</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="appendix-e-vhf-and-uhf-capacitor-designs">APPENDIX E: VHF AND
+UHF CAPACITOR DESIGNS</h2>
+<h3 id="e.1-overview">E.1 Overview</h3>
+<p>The TM-VCAP system is extended by two additional variable capacitor
+designs optimized for VHF (50–225 MHz) and UHF (430–1296 MHz) operation.
+These designs differ fundamentally from HF capacitors in four
+respects:</p>
+<ol type="1">
+<li><strong>Smaller plate area</strong> — lower capacitance range (2–47
+pF and 0.5–12 pF respectively)</li>
+<li><strong>Critical lead length</strong> — stray inductance from wiring
+dominates above 100 MHz</li>
+<li><strong>Self-resonant frequency</strong> — SRF must be well above
+the operating frequency</li>
+<li><strong>Mechanical accuracy</strong> — plate tolerances of ±0.1 mm
+critical at UHF</li>
+</ol>
+<h3 id="e.2-vc-vhf-design-parameters">E.2 VC-VHF Design Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Capacitance range</td>
+<td>2–47 pF</td>
+</tr>
+<tr>
+<td>Plate radius</td>
+<td>15 mm</td>
+</tr>
+<tr>
+<td>Plate spacing</td>
+<td>1.0 mm</td>
+</tr>
+<tr>
+<td>Number of rotor plates</td>
+<td>8</td>
+</tr>
+<tr>
+<td>Number of stator plates</td>
+<td>9</td>
+</tr>
+<tr>
+<td>Total capacitive gaps</td>
+<td>15</td>
+</tr>
+<tr>
+<td>Working voltage</td>
+<td>500 V peak</td>
+</tr>
+<tr>
+<td>Breakdown voltage</td>
+<td>3.0 kV (6× safety)</td>
+</tr>
+<tr>
+<td>Q at 146 MHz</td>
+<td>≈400 (brass plates, short leads)</td>
+</tr>
+<tr>
+<td>Self-resonant frequency</td>
+<td>≈519 MHz</td>
+</tr>
+<tr>
+<td>Frame dimensions</td>
+<td>40×40×35 mm (PETG)</td>
+</tr>
+<tr>
+<td>Shaft diameter</td>
+<td>4 mm brass</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Construction notes:</strong> - Use PTFE stator rod bushings;
+no PETG in the RF path - Minimize all wiring: semi-rigid coax stubs
+directly soldered to terminal pads - SRF at 519 MHz leaves only 3.5×
+margin at 146 MHz — adequate if leads &lt; 5 mm - Mount on PCB with
+minimal trace inductance; avoid through-hole to top-side paths</p>
+<h3 id="e.3-vc-uhf-design-parameters">E.3 VC-UHF Design Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Capacitance range</td>
+<td>0.5–12 pF</td>
+</tr>
+<tr>
+<td>Plate radius</td>
+<td>8 mm</td>
+</tr>
+<tr>
+<td>Plate spacing</td>
+<td>0.5 mm</td>
+</tr>
+<tr>
+<td>Number of rotor plates</td>
+<td>4</td>
+</tr>
+<tr>
+<td>Number of stator plates</td>
+<td>5</td>
+</tr>
+<tr>
+<td>Total capacitive gaps</td>
+<td>7</td>
+</tr>
+<tr>
+<td>Working voltage</td>
+<td>200 V peak</td>
+</tr>
+<tr>
+<td>Breakdown voltage</td>
+<td>1.5 kV (7.5× safety)</td>
+</tr>
+<tr>
+<td>Q at 432 MHz</td>
+<td>≈200 (brass, PCB mount)</td>
+</tr>
+<tr>
+<td>Self-resonant frequency</td>
+<td>≈1453 MHz</td>
+</tr>
+<tr>
+<td>Frame dimensions</td>
+<td>25×25×20 mm (PETG)</td>
+</tr>
+<tr>
+<td>Shaft diameter</td>
+<td>3 mm brass</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>CRITICAL — UHF LEAD LENGTH</strong> The SRF of the VC-UHF is
+1453 MHz, only 12% above 1296 MHz (23cm band). Any parasitic inductance
+from leads lowers the effective SRF further. Lead inductance:
+approximately 1 nH/mm. At 1296 MHz, X_L of 3 mm lead = 2π × 1296 MHz × 3
+nH = 24 Ω. This is comparable to X_C of the capacitor and will detune
+the matching network. <strong>Stator-to-circuit connections must be ≤ 3
+mm total trace length.</strong> Direct PCB soldering is mandatory. No
+clip-lead, turret, or through-hole mounting.</p>
+</blockquote>
+<h3 id="e.4-vhfuhf-impedance-matching-theory">E.4 VHF/UHF Impedance
+Matching Theory</h3>
+<p>At VHF and UHF frequencies, the variable capacitor is used in:</p>
+<p><strong>Stub matching networks</strong> — the capacitor tunes the
+susceptance of a short-circuited or open-circuited stub:</p>
+<pre><code>B_stub(f, l) = (1/Z₀) × tan(2πfl/v_p)  [siemens, short-circuit stub]</code></pre>
+<p>Tune capacitor in parallel to cancel the reactive part of the antenna
+impedance:</p>
+<pre><code>B_cap = 2πfC = -Im(Y_ant)  ← condition for resonance
+C_required = -Im(Y_ant) / (2πf)</code></pre>
+<p><strong>L-network at VHF (series C, shunt L):</strong></p>
+<pre><code>Q_net = √(R_high/R_low − 1)
+X_C_series = R_high / Q_net
+X_L_shunt  = R_low × Q_net
+C = 1 / (2π × f × X_C_series)</code></pre>
+<p>Example: Match 200 Ω to 50 Ω at 146 MHz:</p>
+<pre><code>Q = √(200/50 − 1) = √3 = 1.73
+X_C = 200/1.73 = 115.6 Ω → C = 1/(2π×146e6×115.6) = 9.4 pF (VC-VHF range)</code></pre>
+<h3 id="e.5-calibration-at-vhfuhf">E.5 Calibration at VHF/UHF</h3>
+<p>Standard pot-based position calibration applies to VC-VHF and VC-UHF
+(see Section 11). However, due to the small capacitance values, NanoVNA
+verification is especially important:</p>
+<p><strong>VHF calibration (NanoVNA):</strong> 1. Connect NanoVNA Port 1
+to capacitor; terminate Port 2 in 50 Ω 2. Set span: 50–600 MHz 3. Note
+the null in S11 at each calibration angle — corresponds to capacitor in
+parallel resonance with a known inductance</p>
+<p><strong>UHF calibration:</strong> - Use NanoVNA in S11 mode, 800
+MHz–2 GHz sweep - At each capacitor position, the series resonance with
+a 5 nH reference inductor gives C = 1/(4π²f_res²×L) - Measure at 5
+angles and fit a line: C = C_min + (C_max − C_min)×θ/180° - Enter
+calibrated C_max via <code>SETC</code> command:
+<code>SETC CALMAX &lt;measured_pF&gt;</code></p>
+<h3 id="e.6-band-preset-table-vhfuhf">E.6 Band Preset Table —
+VHF/UHF</h3>
+<table>
+<colgroup>
+<col style="width: 8%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 21%" />
+<col style="width: 28%" />
+<col style="width: 13%" />
+</colgroup>
+<thead>
+<tr>
+<th>Band</th>
+<th>Freq (MHz)</th>
+<th>Cap Design</th>
+<th>C_nominal (pF)</th>
+<th>C_search range (pF)</th>
+<th>V_rating</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>6m</td>
+<td>51.0</td>
+<td>VC-VHF</td>
+<td>18.0</td>
+<td>8–35</td>
+<td>500 V pk</td>
+</tr>
+<tr>
+<td>2m</td>
+<td>146.0</td>
+<td>VC-VHF</td>
+<td>8.5</td>
+<td>3–20</td>
+<td>500 V pk</td>
+</tr>
+<tr>
+<td>1.25m</td>
+<td>222.0</td>
+<td>VC-VHF</td>
+<td>5.5</td>
+<td>2–12</td>
+<td>500 V pk</td>
+</tr>
+<tr>
+<td>70cm</td>
+<td>446.0</td>
+<td>VC-UHF</td>
+<td>4.0</td>
+<td>1–10</td>
+<td>200 V pk</td>
+</tr>
+<tr>
+<td>33cm</td>
+<td>906.0</td>
+<td>VC-UHF</td>
+<td>2.5</td>
+<td>0.5–6</td>
+<td>200 V pk</td>
+</tr>
+<tr>
+<td>20cm</td>
+<td>1296.0</td>
+<td>VC-UHF</td>
+<td>1.5</td>
+<td>0.5–4</td>
+<td>200 V pk</td>
+</tr>
+</tbody>
+</table>
+<h3 id="e.7-summary-five-design-comparison">E.7 Summary — Five-Design
+Comparison</h3>
+<table>
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 15%" />
+<col style="width: 14%" />
+<col style="width: 12%" />
+<col style="width: 22%" />
+<col style="width: 8%" />
+<col style="width: 12%" />
+</colgroup>
+<thead>
+<tr>
+<th>Design</th>
+<th>C range</th>
+<th>V_work</th>
+<th>Power</th>
+<th>Primary use</th>
+<th>SRF</th>
+<th>Frame</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VC-QRP</td>
+<td>8–345 pF</td>
+<td>200 V</td>
+<td>10 W</td>
+<td>QRP tuner, receiver</td>
+<td>156 MHz</td>
+<td>PETG 50mm</td>
+</tr>
+<tr>
+<td>VC-HF100</td>
+<td>10–225 pF</td>
+<td>1500 V</td>
+<td>100 W</td>
+<td>HF portable tuner</td>
+<td>150 MHz</td>
+<td>PETG/Delrin 80mm</td>
+</tr>
+<tr>
+<td>VC-TX</td>
+<td>5–84 pF</td>
+<td>4000 V</td>
+<td>500 W</td>
+<td>HF pi-net tank</td>
+<td>173 MHz</td>
+<td>Aluminum 120mm</td>
+</tr>
+<tr>
+<td>VC-VHF</td>
+<td>2–47 pF</td>
+<td>500 V</td>
+<td>50 W</td>
+<td>VHF matching</td>
+<td>519 MHz</td>
+<td>PETG 40mm</td>
+</tr>
+<tr>
+<td>VC-UHF</td>
+<td>0.5–12 pF</td>
+<td>200 V</td>
+<td>10 W</td>
+<td>UHF matching, PCB</td>
+<td>1453 MHz</td>
+<td>PETG 25mm</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="appendix-f-pvc-pipe-sliding-variable-capacitor">Appendix F: PVC
+Pipe Sliding Variable Capacitor</h2>
+<p><strong>TM-VCAP-SCH-004 / TM-VCAP-CAL-005 companion text</strong></p>
+<h3 id="f.1-operating-principle">F.1 Operating Principle</h3>
+<p>The PVC pipe sliding capacitor forms a coaxial capacitor: two
+concentric cylindrical conductors separated by a thin polymer
+dielectric. Sliding the inner pipe deeper into the outer sleeve
+increases the conductor overlap length and thus the capacitance.</p>
+<p><strong>Thin-dielectric cylindrical approximation:</strong></p>
+<p>When the dielectric thickness <em>d</em> is much smaller than the
+inner conductor radius <em>a</em> (d/a &lt; 0.02), the curved geometry
+“unrolls” to a flat-plate equivalent:</p>
+<pre><code>C(x) = ε₀ × εᵣ × (2πa) / d × x    [F, x in meters]</code></pre>
+<p>Where: - <code>2πa</code> = circumference of inner conductor -
+<code>d</code> = dielectric thickness - <code>x</code> = overlap
+(insertion) depth</p>
+<p>In practical units:</p>
+<pre><code>K [pF/mm] = ε₀ × εᵣ × 2π × a_m / d_m × 0.001
+C(x) = C_min + K × x     [pF, x in mm]</code></pre>
+<p><code>C_min</code> is the stray capacitance at zero insertion
+(typically 2–5 pF).</p>
+<p><strong>Validation — PIPE-HF:</strong> - a = 10.77 mm, d = 0.130 mm,
+εᵣ = 3.40 (Kapton) - K = 8.854×10⁻¹² × 3.40 × 2π × 0.01077 / 1.30×10⁻⁴ ×
+0.001 ≈ <strong>15.7 pF/mm</strong> - Table value 17.7 pF/mm accounts
+for copper foil OD increase; use calibrated value</p>
+<p><strong>Exact coaxial formula (large air gap):</strong></p>
+<p>For air-dielectric designs without polymer fill:</p>
+<pre><code>C(x) = 2π × ε₀ × x / ln(b/a)</code></pre>
+<p>Where b = outer conductor inner radius. This gives lower C/mm for the
+same geometry; polymer dielectric improves this by a factor of εᵣ.</p>
+<h3 id="f.2-design-variants">F.2 Design Variants</h3>
+<table>
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr>
+<th>Design ID</th>
+<th>Inner pipe</th>
+<th>Dielectric</th>
+<th>K (pF/mm)</th>
+<th>Max depth</th>
+<th>C_max (pF)</th>
+<th>V_work</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PIPE-HF</td>
+<td>1/2” Sch 40 PVC</td>
+<td>2× Kapton 0.065mm</td>
+<td>17.7</td>
+<td>150 mm</td>
+<td>2658</td>
+<td>5200 V</td>
+</tr>
+<tr>
+<td>PIPE-HF-HV</td>
+<td>1/2” Sch 40 PVC</td>
+<td>PTFE tape 8×</td>
+<td>4.9</td>
+<td>200 mm</td>
+<td>980</td>
+<td>7333 V</td>
+</tr>
+<tr>
+<td>PIPE-VHF</td>
+<td>3/8” nominal PVC</td>
+<td>Kapton single layer</td>
+<td>22.9</td>
+<td>20 mm</td>
+<td>458</td>
+<td>2600 V</td>
+</tr>
+<tr>
+<td>PIPE-QRP</td>
+<td>1/2” Sch 40 PVC</td>
+<td>OHP transparency</td>
+<td>21.7</td>
+<td>50 mm</td>
+<td>1085</td>
+<td>1500 V</td>
+</tr>
+<tr>
+<td>PIPE-UHF</td>
+<td>1/4” PVC tubing</td>
+<td>Kapton single layer</td>
+<td>17.3</td>
+<td>8 mm</td>
+<td>139</td>
+<td>2600 V</td>
+</tr>
+</tbody>
+</table>
+<p><strong>PIPE-HF</strong> is the primary design for HF portable field
+use. PIPE-HF-HV handles higher-power applications (200 W). PIPE-QRP
+requires no 3D printing — the flexible vinyl sleeve grips the pipe
+without a machined bore.</p>
+<h3 id="f.3-materials-and-parts-list">F.3 Materials and Parts List</h3>
+<p><strong>Inner pipe (PIPE-HF):</strong> - 1/2” Schedule 40 PVC pipe
+(OD = 21.34 mm), cut to max_depth + 60 mm - 0.10 mm copper foil tape
+with conductive adhesive (6 mm or wider roll) - Kapton (polyimide) tape,
+0.065 mm thickness, 8–10 mm wide - 18 AWG stranded hookup wire (T₁
+terminal lead), 400 mm minimum - Thumb knob (3D-print TM-VCAP-ENC-006
+thumb_knob) or PETG rod turned to suit</p>
+<p><strong>Outer sleeve (PIPE-HF):</strong> - 3D-printed PETG sleeve
+(TM-VCAP-ENC-006 outer_sleeve), ID = 22.0 mm - OR: 1” garden soaker
+hose/vinyl tubing, ID ≈ 20 mm (relaxed), stretches to grip - 0.10 mm
+copper foil tape for inner bore surface - End caps (3D-print
+TM-VCAP-ENC-006 endcap_fixed, endcap_guide) - M3 × 8 mm screws × 4
+(chassis mounting)</p>
+<p><strong>Motorized version only:</strong> - NEMA14 stepper motor, 200
+steps/rev - M6 × 1.0 mm threaded rod, length = max_depth + 50 mm - M6
+nut × 2 (one in inner pipe nut adapter, one as anti-backlash jam nut) -
+3D-print nut adapter (TM-VCAP-ENC-006 nut_adapter_inner) - 3D-print
+motor mount plate (TM-VCAP-ENC-006 motor_mount_plate) - DRV8825 driver;
+see TM-VCAP-SCH-002 for wiring</p>
+<h3 id="f.4-construction-inner-pipe">F.4 Construction — Inner Pipe</h3>
+<p><strong>Step 1 — Clean the pipe surface.</strong> Wipe the outer
+surface of the PVC pipe with IPA. Remove all mold release agents, ink
+markings, and grease. The foil tape adhesive will not bond to
+contaminated surfaces.</p>
+<p><strong>Step 2 — Apply copper foil tape.</strong> Using 0.10 mm
+copper foil tape with conductive adhesive, wrap helically along the pipe
+from the wire-end to the knob-end: - Overlap each turn by 50% of tape
+width to ensure conductivity between turns - Length of copper coverage =
+max_depth + 30 mm - Leave the knob end 15 mm bare (no foil — this is the
+grip area) - At the wire end, leave a 25 mm tab extending beyond the
+pipe end (this is the T₁ terminal tab)</p>
+<p>Burnish the foil flat with a fingernail tool or credit card edge.
+Eliminate air bubbles at seams. Verify electrical continuity end-to-end
+with an ohmmeter: resistance should be &lt; 0.5 Ω along the full copper
+length.</p>
+<p><strong>Step 3 — Apply polymer dielectric.</strong> <em>For Kapton
+tape (preferred for PIPE-HF):</em> Wrap a single layer helically with 2
+mm overlap per turn. Maintain uniform tension — overtightening stretches
+Kapton. For double-layer (PIPE-HF-HV), apply a second pass in the same
+direction. No wrinkles or folds: wrinkles create voltage hotspots that
+will arc first.</p>
+<p><em>For OHP transparency film (PIPE-QRP):</em> Cut a strip, width = π
+× pipe_OD + 5 mm. Wrap one revolution around the pipe. Secure at start
+and end with one small piece of Scotch tape. Check: no trapped air
+bubbles in center of plate overlap area.</p>
+<p><em>For PTFE plumber’s tape (PIPE-HF-HV):</em> Wrap 8 tight turns,
+stretching tape slightly as you go. Total thickness ≈ 0.61 mm. PTFE
+tape’s low εᵣ (2.1) reduces C/mm but greatly increases voltage
+rating.</p>
+<p><strong>Step 4 — Quality check.</strong> Before inserting the inner
+pipe into the sleeve, check dielectric integrity: press a metal tool
+firmly against the outer surface of the dielectric over the copper foil
+area. Ohmmeter reading between the tool and the T₁ terminal foil tab
+must be <strong>&gt; 10 MΩ</strong>. If it reads &lt; 1 MΩ, there is a
+pinhole or fold — find and repair it. RF at 100 W will immediately punch
+through a compromised dielectric.</p>
+<p><strong>Step 5 — Guide strips (optional, improves sliding
+feel).</strong> Apply three 3 mm × 50 mm strips of PTFE plumber’s tape
+to the dielectric-covered pipe, positioned at 0°, 120°, and 240° around
+the circumference. These act as low-friction glide pads against the
+3D-printed sleeve bore.</p>
+<h3 id="f.5-construction-outer-sleeve">F.5 Construction — Outer
+Sleeve</h3>
+<p><strong>Option A — 3D-Printed PETG Sleeve (standard):</strong> 1.
+Print TM-VCAP-ENC-006 <code>outer_sleeve()</code> in PETG at 40% infill.
+Bore ID = 22.0 mm. 2. Sand the bore with 220-grit wrapped around a 21 mm
+dowel. Bore must be smooth. 3. Before inserting inner pipe, apply copper
+foil tape to the inside bore: - Cut one strip = π × 22 mm wide ×
+sleeve_length long - Roll around a smaller rod, slide into bore, press
+against wall, burnish - The tape must lay flat — creases in the outer
+conductor cause C non-linearity 4. Check: ohmmeter continuity along full
+length of sleeve bore foil &lt; 1 Ω.</p>
+<p><strong>Option B — Flexible Vinyl Sleeve (no 3D printing):</strong>
+1. Use 1” garden soaker hose or soft vinyl tubing. Relaxed ID ≈ 20 mm
+(stretches to 21.3 mm when inner pipe is inserted). 2. Turn inside-out.
+Apply copper foil tape to the section that will be active: length =
+max_depth mm. Burnish. 3. Turn right-side-out. Trim ends. 4. Advantage:
+the tubing self-centers and grips the inner pipe without clearance gap.
+Consistent intimate contact. No printed tolerance issues. 5.
+Disadvantage: more friction; best for hand-tuned QRP use.</p>
+<p><strong>Option C — Flat Sheet Variant:</strong> Instead of round
+pipe, use a flat PVC sheet (60 × max_depth+30 mm) as the inner plate.
+Apply copper foil to both faces with polymer sheet between. Slide into a
+PVC channel (slotted guide from flat PVC). This uses the same flat-plate
+formula C = ε₀εᵣWx/d and may be easier to fabricate at large scale.</p>
+<h3 id="f.6-electrical-connections">F.6 Electrical Connections</h3>
+<p><strong>T₁ (inner pipe / moving conductor):</strong> Solder an 18 AWG
+flexible stranded wire to the copper foil tab at the far end of the
+inner pipe. Wire must be at minimum 400 mm long — long enough to remain
+slack throughout the full 150 mm insertion range. Use coiled wire
+(stretch telephone cord) for compact storage.</p>
+<p><strong>CRITICAL:</strong> As the inner pipe moves in and out, this
+wire curls and uncoils. If the wire is under tension at full insertion,
+it will pull the inner pipe out of position, causing calibration drift.
+Plan slack carefully. Route the wire inside the sleeve body through a
+slot in the end cap.</p>
+<p><strong>T₂ (outer sleeve / fixed conductor):</strong> Solder wire to
+the outer conductor foil through the access slot in the fixed end cap
+(TM-VCAP-ENC-006). Alternatively, extend the foil tape as a tab past the
+sleeve end and solder there.</p>
+<p><strong>HV terminal isolation:</strong> At working voltages &gt; 500
+V (any transmitter use), keep T₁ and T₂ leads physically separated:</p>
+<table>
+<thead>
+<tr>
+<th>Voltage</th>
+<th>Minimum air gap between leads</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>500 V</td>
+<td>5 mm</td>
+</tr>
+<tr>
+<td>1500 V</td>
+<td>15 mm</td>
+</tr>
+<tr>
+<td>5000 V</td>
+<td>50 mm</td>
+</tr>
+<tr>
+<td>7500 V (PIPE-HF-HV)</td>
+<td>75 mm</td>
+</tr>
+</tbody>
+</table>
+<p>Insulate the thumb knob from the inner pipe with a PTFE sleeve if
+operating above 200 V.</p>
+<h3 id="f.7-firmware-integration">F.7 Firmware Integration</h3>
+<p>The ESP32 firmware (TM-VCAP-FW-001) supports the pipe cap in LINEAR
+drive mode. Enable it in <code>config.h</code>:</p>
+<div class="sourceCode" id="cb37"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Uncomment the linear drive mode and comment out rotary:</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="co">// #define CAP_DRIVE_MODE_ROTARY</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#define CAP_DRIVE_MODE_LINEAR</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="co">// Set pipe design parameters:</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="pp">#define PIPE_C_PER_MM     </span><span class="fl">17.7</span><span class="bu">f</span><span class="pp">   </span><span class="co">// pF/mm (calibrated value from SETC PIPE_K)</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="pp">#define PIPE_C_MIN_PF      </span><span class="fl">3.0</span><span class="bu">f</span><span class="pp">   </span><span class="co">// stray C at zero insertion</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a><span class="pp">#define PIPE_MAX_DEPTH_MM </span><span class="fl">150.0</span><span class="bu">f</span><span class="pp">  </span><span class="co">// maximum travel</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a><span class="pp">#define MM_PER_MICROSTEP  </span><span class="fl">0.000625</span><span class="bu">f</span><span class="pp">  </span><span class="co">// M6×1mm, 1/8 µstep</span></span></code></pre></div>
+<p><strong>Serial commands (same parser as rotary mode):</strong> -
+<code>HOME</code> — drive to limit switch at x = 0 mm (minimum
+insertion) - <code>GOTO &lt;pF&gt;</code> — calculate required depth x =
+(C_target − C_min) / K, drive there - <code>STEP +&lt;n&gt;</code> or
+<code>STEP -&lt;n&gt;</code> — advance or retract n microsteps -
+<code>SETC PIPE_K &lt;value&gt;</code> — store calibrated K (pF/mm) in
+NVS, replaces #define - <code>STATUS</code> — prints current position in
+mm and pF - <code>BAND &lt;name&gt;</code> — move to band preset using
+pipe cap target C</p>
+<p><strong>Position sensing:</strong> The lead-screw motor counts
+microsteps from the hardware home limit switch. No separate encoder is
+needed at HF. If missed steps are a concern (motor overloaded), add a
+rotary potentiometer on the lead screw shaft and use it for coarse
+verification.</p>
+<h3 id="f.8-calibration-procedure">F.8 Calibration Procedure</h3>
+<ol type="1">
+<li><p><strong>Set zero.</strong> Issue <code>HOME</code> command. The
+motor drives to the minimum limit switch. This is x = 0 mm, C = C_min.
+Note the position marker alignment on the inner pipe scale.</p></li>
+<li><p><strong>Insert to 10 mm.</strong> Issue <code>GOTO 180</code>
+(C_target = C_min + K×10 ≈ 3 + 177 = 180 pF). Wait for motor to stop.
+Measure with LCR meter at 1 kHz.</p></li>
+<li><p><strong>Compare to expected.</strong> Expected ≈ C_min + K × 10
+mm. If measured value differs by more than 10%:</p>
+<ul>
+<li>Low reading: air gaps in dielectric wrap — re-wrap more tightly,
+re-test</li>
+<li>High reading: tube deformation reducing gap d — inspect pipe for
+ovality or dents</li>
+</ul></li>
+<li><p><strong>Update K.</strong> Calculate calibrated K = (C_measured −
+C_min) / 10. Issue: <code>SETC PIPE_K &lt;K&gt;</code>. This value is
+stored in NVS and used for all subsequent GOTO and BAND
+commands.</p></li>
+<li><p><strong>Verify linearity.</strong> Drive to 50 mm, 100 mm, 150
+mm. Measure C at each. Plot C vs. x. Should be linear ± 5%.
+Non-linearity &gt; 10% indicates:</p>
+<ul>
+<li>Gradual buildup of wrinkles in dielectric (re-wrap)</li>
+<li>Sleeve bore not uniform diameter (replace sleeve)</li>
+</ul></li>
+<li><p><strong>Mark scale.</strong> At each verified position, mark the
+inner pipe with a Sharpie: both mm value and pF value. Reference:
+TM-VCAP-SCH-004 Section 3 position scale table.</p></li>
+</ol>
+<h3 id="f.9-hybrid-operation">F.9 Hybrid Operation</h3>
+<p>The pipe cap is designed to work in series with the stack-on modular
+units (Appendix G). The stack-on units provide coarse C (large steps per
+band change); the pipe cap provides fine continuous tuning within the
+band.</p>
+<p>Firmware: issue <code>SETCSM &lt;pF&gt;</code> to set the base
+capacitance from installed stack-on units. Subsequent <code>GOTO</code>
+and <code>BAND</code> commands target the residual C (fine-tune portion)
+on the pipe cap. Example:</p>
+<pre><code>SETCSM 54        ← installed CSM-E (54 pF)
+BAND 20m         ← firmware targets total 60 pF → pipe cap goes to ~6 pF
+SETCSM 0         ← removed all stack-on units
+BAND 20m         ← pipe cap goes to full 60 pF</code></pre>
+<hr />
+<h2
+id="appendix-g-stack-on-modular-flat-plate-capacitor-units-csm-series">Appendix
+G: Stack-On Modular Flat-Plate Capacitor Units (CSM Series)</h2>
+<p><strong>TM-VCAP-CAL-006 / TM-VCAP-SCH-005 companion text</strong></p>
+<h3 id="g.1-concept-and-applications">G.1 Concept and Applications</h3>
+<p>Stack-on capacitor units (CSM = Compact Stack-on Module) are small
+flat-plate capacitors made from copper foil tape, overhead transparency
+film, and a PVC or foam-core backing. They connect in parallel by
+aligning their foil tabs — adding units increases total capacitance in
+discrete steps.</p>
+<p><strong>Why stack-on units?</strong></p>
+<p>A variable capacitor covers a limited range. The PIPE-HF covers
+0–2658 pF continuously, but at HF (3–30 MHz) typical L-network capacitor
+values range from 18 pF (10 m) to 250 pF (160 m) — a 14:1 range.
+Covering this range with the pipe cap alone requires 150 mm of travel,
+and fine control at one end is mechanically coarser at the other.</p>
+<p>By pre-setting a base C with stack-on units (coarse), the pipe cap
+only needs to cover ±25–50 pF for fine tuning on any given band. This
+gives: - Faster band changes (snap on/off a unit vs. large motor travel)
+- Better fine-tuning resolution (small pipe travel = precise control) -
+Redundancy — if the motor or electronics fail, you can manually adjust
+stack-on units and tune by ear</p>
+<p><strong>Typical field workflow:</strong> 1. Look up recommended stack
+for desired band in the band selection table (Section G.6) 2. Snap the
+correct unit(s) onto the velcro panel 3. Set
+<code>SETCSM &lt;C_base&gt;</code> in firmware (or set manually in
+analog tuners) 4. Use pipe cap or rotary trim cap for final SWR dip</p>
+<h3 id="g.2-flat-plate-capacitance-theory">G.2 Flat-Plate Capacitance
+Theory</h3>
+<p>A flat-plate capacitor with two parallel conductors separated by a
+dielectric:</p>
+<pre><code>C = ε₀ × εᵣ × A / d</code></pre>
+<p>Where: - A = overlap area in m² (plate_W × plate_L) - d = dielectric
+thickness in m - εᵣ = relative permittivity of dielectric</p>
+<p><strong>For overhead transparency film (OHP):</strong> - εᵣ = 3.20, d
+= 0.100 mm - C = 8.854×10⁻¹² × 3.20 × A_mm² × 10⁻⁶ / 0.0001 - C [pF] =
+<strong>0.2833 × A_mm²</strong></p>
+<p>This is the fundamental sizing equation. Each mm² of plate area =
+0.2833 pF. A 16×12 mm plate gives A = 192 mm² → C = 54 pF.</p>
+<p><strong>Multiple dielectric layers (series capacitors):</strong></p>
+<p>Stacking N identical dielectric sheets halves C with each additional
+layer: - 1 layer (0.1 mm): C = 0.2833 pF/mm² - 2 layers (0.2 mm): C =
+0.1417 pF/mm² - 3 layers (0.3 mm): C = 0.0944 pF/mm²</p>
+<p>Two-layer construction doubles the voltage rating (3000 V vs. 1500 V)
+at the cost of halved capacitance — appropriate for 500 W
+transmitters.</p>
+<p><strong>Voltage rating per layer:</strong> - E_breakdown (OHP) ≈ 45
+MV/m - V_breakdown per layer = 45 × 10⁶ × 0.0001 = 4500 V - V_working
+(3× safety factor) = <strong>1500 V per layer</strong> - Two layers:
+V_working = 3000 V</p>
+<p>At 100 W into a Q = 5 tuner tank, V_peak across the capacitor ≈ 500
+V. A single OHP layer (1500 V rating) provides 3× margin. Adequate for
+100 W. For 500 W with Q = 10, V_peak ≈ 3000 V — use two-layer
+construction.</p>
+<h3 id="g.3-csm-unit-specifications">G.3 CSM Unit Specifications</h3>
+<table>
+<colgroup>
+<col style="width: 6%" />
+<col style="width: 17%" />
+<col style="width: 12%" />
+<col style="width: 9%" />
+<col style="width: 9%" />
+<col style="width: 9%" />
+<col style="width: 6%" />
+<col style="width: 12%" />
+<col style="width: 15%" />
+</colgroup>
+<thead>
+<tr>
+<th>Unit</th>
+<th>Plate W×L (mm)</th>
+<th>Area (mm²)</th>
+<th>Layers</th>
+<th>C (pF)</th>
+<th>V_work</th>
+<th>Mass</th>
+<th>Fastening</th>
+<th>Primary band</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CSM-A2</td>
+<td>50 × 35</td>
+<td>1750</td>
+<td>2</td>
+<td>248</td>
+<td>3000 V</td>
+<td>9 g</td>
+<td>25mm velcro</td>
+<td>160 m</td>
+</tr>
+<tr>
+<td>CSM-B2</td>
+<td>40 × 28</td>
+<td>1120</td>
+<td>2</td>
+<td>159</td>
+<td>3000 V</td>
+<td>6 g</td>
+<td>20mm velcro</td>
+<td>80 m</td>
+</tr>
+<tr>
+<td>CSM-C2</td>
+<td>32 × 22</td>
+<td>704</td>
+<td>2</td>
+<td>100</td>
+<td>3000 V</td>
+<td>4 g</td>
+<td>20mm velcro</td>
+<td>40 m</td>
+</tr>
+<tr>
+<td>CSM-D</td>
+<td>22 × 16</td>
+<td>352</td>
+<td>1</td>
+<td>100</td>
+<td>1500 V</td>
+<td>2 g</td>
+<td>12mm velcro</td>
+<td>30 m</td>
+</tr>
+<tr>
+<td>CSM-E</td>
+<td>16 × 12</td>
+<td>192</td>
+<td>1</td>
+<td>54</td>
+<td>1500 V</td>
+<td>1 g</td>
+<td>12mm velcro</td>
+<td>20 m</td>
+</tr>
+<tr>
+<td>CSM-F</td>
+<td>12 × 9</td>
+<td>108</td>
+<td>1</td>
+<td>31</td>
+<td>1500 V</td>
+<td>0.5 g</td>
+<td>Rubber band</td>
+<td>15 m</td>
+</tr>
+<tr>
+<td>CSM-G</td>
+<td>9 × 7</td>
+<td>63</td>
+<td>1</td>
+<td>18</td>
+<td>1500 V</td>
+<td>0.3 g</td>
+<td>Rubber band</td>
+<td>10 m</td>
+</tr>
+<tr>
+<td>CSM-VHF</td>
+<td>7 × 5</td>
+<td>35</td>
+<td>1</td>
+<td>10</td>
+<td>1500 V</td>
+<td>0.2 g</td>
+<td>Rubber band</td>
+<td>VHF</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Notes on single-layer (CSM-D through CSM-VHF):</strong> These
+smaller units use single OHP layers (1500 V). At HF (7 MHz and up), 100
+W transmitters develop maximum ~500 V peak across the tank capacitor at
+Q = 5. The 1500 V rating gives 3× headroom, which is adequate for field
+use. However, do not use single-layer units in a 500 W station without
+verifying that Q × V_peak &lt; 1500 V.</p>
+<h3 id="g.4-fabrication-procedure">G.4 Fabrication Procedure</h3>
+<p><strong>Materials per unit:</strong> - PVC backing strip: cut from
+flat PVC sheet (0.5–1.0 mm thick), OR use FR4 PCB laminate
+(copper-free), foam-core board, or ABS sheet. Dimensions: plate_W ×
+plate_L. - Copper foil tape (0.10 mm, conductive adhesive): two pieces
+per unit, each plate_W × (plate_L + 8 mm) for tab extension. - OHP
+transparency film (0.10 mm): one or two sheets, plate_W × plate_L. -
+Self-adhesive velcro (hook side on tray, loop side on adjacent unit or
+chassis), or rubber bands. - 20 AWG insulated wire, 50 mm leads.</p>
+<p><strong>Construction sequence:</strong></p>
+<ol type="1">
+<li><p><strong>Backing.</strong> Cut PVC or FR4 backing to plate_W ×
+plate_L. Sand edges smooth.</p></li>
+<li><p><strong>Bottom conductor.</strong> Apply copper foil tape to the
+bottom face of the backing. Extend 5 mm past the front (left) edge for
+the bottom terminal tab. Burnish completely flat.</p></li>
+<li><p><strong>Dielectric.</strong> Place OHP sheet on top of the bottom
+foil. The sheet covers only the plate area (plate_W × plate_L) — it must
+NOT extend to the tab area. This ensures the tab is bare copper for
+soldering.</p>
+<ul>
+<li>For 2-layer construction: stack a second OHP sheet on top of the
+first.</li>
+</ul></li>
+<li><p><strong>Top conductor.</strong> Apply copper foil tape to the top
+face of the OHP sheet. Extend 5 mm past the front edge for the top
+terminal tab, but offset this tab 3 mm down from the plate edge (see
+below). This physical offset prevents the top and bottom tabs from
+accidentally shorting when units are aligned in a stack.</p></li>
+<li><p><strong>Tab geometry.</strong> Looking at the front edge of the
+unit:</p>
+<pre><code>┌─ TOP TAB ─┐  ← 5mm copper extension, at TOP of front edge
+─▓▓▓▓▓▓▓▓▓▓
+  ─────────────▓▓▓▓▓▓▓▓▓▓▓  ← BOTTOM TAB, 3mm lower (no accidental short)
+└─ BOT TAB ─┘</code></pre></li>
+<li><p><strong>Wire leads.</strong> Solder a 50 mm 20 AWG lead to each
+tab. Use flux and low heat — copper foil tape adhesive softens above
+80°C. Tin the wire and the tab separately before joining.</p></li>
+<li><p><strong>Velcro.</strong> Apply 12–25 mm self-adhesive velcro hook
+strip to the long face (back) of the backing. The matching loop strip
+goes on the adjacent unit or on the tuner chassis panel.</p></li>
+<li><p><strong>Label.</strong> Write unit ID, C value (pF), and band
+with Sharpie on the backing, or apply Dymo label. Format: “CSM-E / 54 pF
+/ 20m”</p></li>
+<li><p><strong>Tray (optional).</strong> For organized storage and
+robust tab protection, print TM-VCAP-ENC-007
+<code>stackon_cap_unit.scad</code> tray (set <code>UNIT_ID</code> to
+match your unit). The tray includes terminal posts for strain relief,
+compression ridge for foil contact, and velcro slot on the back
+face.</p></li>
+</ol>
+<h3 id="g.5-stacking-and-parallel-connection">G.5 Stacking and Parallel
+Connection</h3>
+<p>CSM units stack in <strong>parallel</strong>: all top-foil tabs
+connect to one terminal (T₁); all bottom-foil tabs connect to the other
+(T₂). Total capacitance = sum of all installed unit capacitances.</p>
+<p><strong>Mechanical fastening:</strong> - <strong>Velcro method
+(CSM-A2 through CSM-E):</strong> Apply hook velcro to each unit’s
+backing. Matching loop velcro on the adjacent unit back and on the tuner
+chassis panel. Units can be added or removed in seconds; position is
+maintained when peeled apart. Stack vertically (foil tabs all at the
+same end). - <strong>Rubber band method (CSM-F, CSM-G,
+CSM-VHF):</strong> Wrap two rubber bands around the stack in
+perpendicular directions (one lengthwise, one widthwise). Use an
+alligator clip to grab the combined tab stack. Fast, simple, works for
+bench use.</p>
+<p><strong>Electrical contact:</strong></p>
+<p>The copper foil tabs are the electrical bus. When units are stacked
+with tabs aligned: - All top tabs in contact = top conductor bus - All
+bottom tabs in contact = bottom conductor bus</p>
+<p>For reliable contact in field conditions, add a <strong>spring
+contact strip</strong>: a 0.15 mm phosphor-bronze strip (3 mm wide),
+bent into a slight arc, crimped onto the tab stack with a small binder
+clip. This ensures low-resistance contact (&lt; 0.1 Ω) regardless of
+unit count or velcro tension variation.</p>
+<p><strong>Verify total C.</strong> After assembling the desired stack,
+measure with an LCR meter. The total should be within ±15% of the sum of
+individual unit values. Larger deviations indicate poor contact between
+tabs — check alignment, add spring strip.</p>
+<h3 id="g.6-band-selection-guide">G.6 Band Selection Guide</h3>
+<p>The following table gives recommended starting stacks for each HF and
+VHF/UHF band, using a typical L-network tuner configuration (series C to
+antenna, shunt L to ground). Fine-tune with the pipe cap (Appendix F) or
+a small rotary trimmer in series.</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 8%" />
+<col style="width: 15%" />
+<col style="width: 19%" />
+<col style="width: 26%" />
+<col style="width: 18%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr>
+<th>Band</th>
+<th>Freq (MHz)</th>
+<th>Target C (pF)</th>
+<th>Recommended stack</th>
+<th>Stack C (pF)</th>
+<th>V_work</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>160 m</td>
+<td>1.8</td>
+<td>200–250</td>
+<td>1× CSM-A2</td>
+<td>248</td>
+<td>3000 V</td>
+</tr>
+<tr>
+<td>80 m</td>
+<td>3.5</td>
+<td>130–160</td>
+<td>1× CSM-B2</td>
+<td>159</td>
+<td>3000 V</td>
+</tr>
+<tr>
+<td>40 m</td>
+<td>7.0</td>
+<td>80–120</td>
+<td>1× CSM-C2</td>
+<td>100</td>
+<td>3000 V</td>
+</tr>
+<tr>
+<td>30 m</td>
+<td>10.1</td>
+<td>55–85</td>
+<td>1× CSM-C2 <strong>or</strong> 1× CSM-D + 1× CSM-E</td>
+<td>100 or 154</td>
+<td>3000 V</td>
+</tr>
+<tr>
+<td>20 m</td>
+<td>14.0</td>
+<td>30–60</td>
+<td>1× CSM-E</td>
+<td>54</td>
+<td>1500 V</td>
+</tr>
+<tr>
+<td>17 m</td>
+<td>18.1</td>
+<td>22–40</td>
+<td>1× CSM-F + 1× CSM-G</td>
+<td>49</td>
+<td>1500 V</td>
+</tr>
+<tr>
+<td>15 m</td>
+<td>21.0</td>
+<td>18–35</td>
+<td>2× CSM-F</td>
+<td>62</td>
+<td>1500 V</td>
+</tr>
+<tr>
+<td>12 m</td>
+<td>24.9</td>
+<td>12–22</td>
+<td>1× CSM-F + 1× CSM-G</td>
+<td>49</td>
+<td>1500 V</td>
+</tr>
+<tr>
+<td>10 m</td>
+<td>28.0</td>
+<td>10–18</td>
+<td>1× CSM-G</td>
+<td>18</td>
+<td>1500 V</td>
+</tr>
+<tr>
+<td>6 m</td>
+<td>50.0</td>
+<td>8–20</td>
+<td>2× CSM-VHF</td>
+<td>20</td>
+<td>1500 V</td>
+</tr>
+<tr>
+<td>2 m</td>
+<td>146.0</td>
+<td>4–10</td>
+<td>1× CSM-VHF</td>
+<td>10</td>
+<td>1500 V</td>
+</tr>
+<tr>
+<td>VHF trim</td>
+<td>—</td>
+<td>1–5</td>
+<td>1× CSM-VHF — partial insertion</td>
+<td>variable</td>
+<td>1500 V</td>
+</tr>
+</tbody>
+</table>
+<p><strong>NOTE:</strong> These are starting points, not exact settings.
+Antenna impedance varies with height, ground conductivity, nearby
+conductors, and frequency within the band. Always fine-tune with the
+pipe cap or a trimmer cap after installing the stack-on base.</p>
+<p><strong>Finding the right stack in the field without a
+table:</strong></p>
+<p>Recall: C is roughly proportional to 1/f² for a fixed-length resonant
+antenna. If you know the correct C for one band: - Halving the frequency
+(doubling wavelength) requires ~4× the capacitance - Doubling the
+frequency requires ~¼ the capacitance</p>
+<p>Example: 20 m at 60 pF → 10 m at ~15 pF → 40 m at ~240 pF. This
+mental arithmetic gets you to within one unit of the right stack.</p>
+<h3 id="g.7-hybrid-system-stack-on-pipe-cap">G.7 Hybrid System —
+Stack-On + Pipe Cap</h3>
+<p>This is the primary intended operating mode for field HF
+operation.</p>
+<pre><code>Stack-on units          Pipe cap        Antenna feed
+T₁ ─────┤├──────────────┬──────── ||slide|| ───────── to load
+          (coarse C)    │          (fine C)
+                         └── RF ground via tuner shunt path</code></pre>
+<p><strong>Operating procedure:</strong></p>
+<ol type="1">
+<li><p><strong>Select band preset.</strong> Look up the band in the
+selection table above. Install the recommended stack-on unit(s) on the
+velcro panel. Announce the base C to the firmware:
+<code>SETCSM &lt;C_base_pF&gt;</code>.</p></li>
+<li><p><strong>Zero the pipe cap.</strong> Issue <code>HOME</code>
+command. Motor drives to x = 0.</p></li>
+<li><p><strong>Request band tune.</strong> Issue <code>BAND 20m</code>
+(or the desired band). Firmware calculates required C_fine =
+C_band_nominal − C_base, converts to mm depth, drives the pipe
+cap.</p></li>
+<li><p><strong>Monitor SWR.</strong> Check SWR meter. If SWR &gt; 1.5:1,
+issue <code>STEP +100</code> or <code>STEP -100</code> to nudge the pipe
+cap in 0.0625 mm increments. Most antennas reach 1.2:1 within ±20
+steps.</p></li>
+<li><p><strong>Lock and save.</strong> Issue <code>SAVE</code> to store
+the current pipe position in NVS. On next startup, the firmware will
+return to this position when <code>BAND 20m</code> is issued.</p></li>
+</ol>
+<p><strong>Fine-tuning across a wide band:</strong></p>
+<p>For a band like 80 m (3.5–4.0 MHz), the required C changes by ~15–20
+pF across the band. The pipe cap covers this continuously. Use
+<code>STEP</code> commands to track SWR as you QSY. The pipe cap travels
+approximately 1 mm (18 steps of MOTOR_SPEED_SLOW) for a 17.7 pF change —
+less than a quarter turn of the thumb knob.</p>
+<h3 id="g.8-voltage-and-power-ratings">G.8 Voltage and Power
+Ratings</h3>
+<p>At 100 W into a 50 Ω resistive load: - V_rms = √(P × R) = √(100 × 50)
+= 70.7 V - V_peak = 70.7 × √2 = 100 V</p>
+<p>At 100 W into an HF tuner tank (typical Q = 3–8): - V_C_peak = Q ×
+V_peak = 5 × 100 = <strong>500 V peak</strong> (Q = 5 case)</p>
+<p>Single-layer OHP (V_work = 1500 V) provides <strong>3×
+margin</strong> over this figure. Adequate for 100 W at any Q ≤ 15.</p>
+<table>
+<thead>
+<tr>
+<th>Power</th>
+<th>Q_tank</th>
+<th>V_C_peak</th>
+<th>Required V_work</th>
+<th>CSM layer count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10 W</td>
+<td>5</td>
+<td>158 V</td>
+<td>≥ 200 V</td>
+<td>Single layer OK</td>
+</tr>
+<tr>
+<td>100 W</td>
+<td>5</td>
+<td>500 V</td>
+<td>≥ 600 V</td>
+<td>Single layer OK</td>
+</tr>
+<tr>
+<td>100 W</td>
+<td>10</td>
+<td>1000 V</td>
+<td>≥ 1200 V</td>
+<td>Single layer (marginal)</td>
+</tr>
+<tr>
+<td>500 W</td>
+<td>5</td>
+<td>1118 V</td>
+<td>≥ 1500 V</td>
+<td>2-layer required</td>
+</tr>
+<tr>
+<td>500 W</td>
+<td>10</td>
+<td>2236 V</td>
+<td>≥ 2700 V</td>
+<td>2-layer required</td>
+</tr>
+</tbody>
+</table>
+<p><strong>CAUTION:</strong> High-Q tuner with mismatched antenna can
+produce unexpected high voltage. When tuning across a mismatch (SWR &gt;
+3:1 presented to tuner), the tank voltage can be much higher than
+steady-state calculations suggest. When initially tuning into an unknown
+or damaged antenna, use reduced power (&lt; 10 W) until an SWR minimum
+is found.</p>
+<p><strong>Visual inspection:</strong> Before each field session,
+inspect CSM units: - Hold each unit to the light and check the OHP
+dielectric for carbonization (black or brown spots) - Check tab solder
+joints for corrosion or cold solder - Check foil tape edges for lifting
+or delamination - Replace any unit showing carbonization — it has
+experienced voltage breakdown and its rating is compromised</p>
+<h3 id="g.9-storage-and-field-organization">G.9 Storage and Field
+Organization</h3>
+<p><strong>Pill organizer method:</strong> A weekly pill organizer (7
+days × 4 compartments = 28 slots) holds the complete CSM set twice over.
+Organize by descending capacitance (A2 first compartment, VHF last). A
+second organizer holds backup units.</p>
+<p><strong>Small Pelican case:</strong> A Pelican 1010 micro case (4.9 ×
+3.3 × 1.7 inches) holds the 8-unit set in a 4×2 grid using foam-cut
+slots sized to each unit’s dimensions.</p>
+<p><strong>Labeling:</strong> Dymo label on each unit: unit ID, C in pF,
+primary band. Example: <code>A2 / 248pF / 160m</code>. If using Sharpie
+directly on the PVC backing, overcoat with clear fingernail polish to
+prevent smearing.</p>
+<p><strong>Field replacement:</strong> If a unit is lost or damaged,
+fabricate a replacement from materials found in most hardware stores:
+OHP transparency from an office supply store, copper foil tape from a
+hardware store (plumbing section uses it for slug barriers), and PVC
+trim board or foam-core board. Construction time per unit: approximately
+15 minutes. Capacitance tolerance from hand-built units is typically
+±10–15% — measure and re-label.</p>
+<hr />
+<p><em>End of Document — TM-VCAP-001 Rev A (revised: VHF/UHF, PVC pipe
+cap, stack-on units)</em></p>
+<p><em>For corrections or additions, contact:
+d.ecaudata@gmail.com</em></p>
+
+            </main>
+        </div>
+    </div>
+</body>
+</html>

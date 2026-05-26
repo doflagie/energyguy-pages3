@@ -1,7 +1,0 @@
-band,freq_mhz,active_arm_length_m,total_dipole_m,traps_active,trap_positions_from_center_m,loading_coil_uH,loading_coil_turns,efficiency_pct,notes
-40m,7.150,5.0,10.0,none,n/a,24.17,23,77.4,Outermost section; arms extend full 5m; all traps transparent
-30m,10.125,4.0,8.0,40m-trap at 4.0m,4.0,13.61,16,83.9,40m trap blocks outer 1m each side; inner 4m + coil active
-20m,14.175,3.0,6.0,40m+30m traps,3.0,8.61,12,86.3,Two traps each side; inner 3m section + coil resonates 20m
-17m,18.118,2.5,5.0,40m+30m+20m traps,2.5,5.83,10,88.8,Three traps each side; 2.5m inner section + coil
-15m,21.225,2.2,4.4,40m+30m+20m+17m traps,2.2,4.60,8,90.0,Four traps each side; 2.2m section
-10m,28.500,1.5,3.0,40m+30m+20m+17m+15m traps,1.5,3.87,8,87.6,Five traps each side; 1.5m innermost section
