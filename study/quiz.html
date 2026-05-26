@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARRL Technician Flash Card Quiz - Merv's Brain Dump</title>
-    <meta name="description" content="ARRL Technician question pool flash card quiz machine">
+    <title>Ham Radio Flash Card Quiz - Merv's Brain Dump</title>
+    <meta name="description" content="Ham radio question pool flash card quiz machine">
     <link rel="stylesheet" href="css/quiz-styles.css">
 </head>
 <body>
     <div class="quiz-container">
         <!-- Header -->
         <div class="quiz-header">
-            <h1>ARRL Technician Flash Card Quiz</h1>
-            <p>ARRL Technician Pool Practice - Navy Training Style</p>
+            <h1 id="quizTitle">Ham Radio Flash Card Quiz</h1>
+            <p id="quizSubtitle">Question Pool Practice - Navy Training Style</p>
         </div>
 
         <!-- Main Quiz Layout -->
@@ -22,7 +22,7 @@
                 <div class="flash-card">
                     <div class="question-header">
                         <span class="question-number" id="questionNumber">Question 1 / 35</span>
-                        <span class="question-section" id="questionSection">Frequency Privileges</span>
+                        <span class="question-section" id="questionSection">Section</span>
                     </div>
 
                     <div class="question-text" id="questionText">
@@ -128,7 +128,7 @@
 
             <div class="results-details">
                 <div class="result-stat">
-                    <div class="result-stat-value" id="resultTotal">35</div>
+                    <div class="result-stat-value" id="resultTotal">0</div>
                     <div class="result-stat-label">Total Questions</div>
                 </div>
                 <div class="result-stat">
@@ -149,14 +149,11 @@
         </div>
     </div>
 
-    <!-- Load JavaScript modules -->
     <script src="js/audio-manager.js"></script>
     <script src="js/progress-manager.js"></script>
     <script src="js/quiz-engine.js"></script>
 
-    <!-- Main Quiz Application -->
     <script>
-        // Global instances
         let audioManager;
         let progressManager;
         let quizEngine;
@@ -165,112 +162,98 @@
         let elapsedSeconds = 0;
         let questionPool;
 
-        // Initialize on load
+        const POOL_CONFIG = {
+            technician: {
+                file: 'https://assets.doflagie.com/ham-radio/technician-pool.json',
+                title: 'ARRL Technician Flash Card Quiz',
+                subtitle: 'ARRL Technician Pool Practice - Navy Training Style',
+                defaultCount: 35
+            },
+            general: {
+                file: 'https://assets.doflagie.com/ham-radio/general-pool.json',
+                title: 'General Class Flash Card Quiz',
+                subtitle: 'General Class Pool Practice - Navy Training Style',
+                defaultCount: 35
+            },
+            extra: {
+                file: 'https://assets.doflagie.com/ham-radio/extra-pool.json',
+                title: 'Extra Class Flash Card Quiz',
+                subtitle: 'Extra Class Pool Practice - Navy Training Style',
+                defaultCount: 50
+            }
+        };
+
         document.addEventListener('DOMContentLoaded', async () => {
             await init();
         });
 
+        function getParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const set = urlParams.get('set') || 'technician';
+            const mode = urlParams.get('mode') || 'study';
+            const countParam = urlParams.get('count');
+            return { set, mode, countParam };
+        }
+
         async function init() {
             try {
-                console.log('=== QUIZ INITIALIZATION START ===');
-
-                // Step 1: Initialize managers
-                console.log('Step 1: Creating AudioManager...');
                 audioManager = new AudioManager();
-                console.log('  ✓ AudioManager created');
-
-                console.log('Step 2: Creating ProgressManager...');
                 progressManager = new ProgressManager();
-                console.log('  ✓ ProgressManager created');
 
-                // Step 2: Load question pool
-                console.log('Step 3: Fetching question pool...');
-                const urlParams = new URLSearchParams(window.location.search);
-                const questionSet = urlParams.get('set') || 'technician';
-                const poolUrls = {
-                    technician: 'https://assets.doflagie.com/ham-radio/technician-pool.json',
-                    general:    'https://assets.doflagie.com/ham-radio/general-pool.json',
-                    extra:      'https://assets.doflagie.com/ham-radio/extra-pool.json'
-                };
-                const poolUrl = poolUrls[questionSet] || poolUrls.technician;
-                const response = await fetch(poolUrl);
-                console.log(`  Response: ${response.status} ${response.statusText}`);
+                const { set, mode, countParam } = getParams();
+                const config = POOL_CONFIG[set] || POOL_CONFIG.technician;
 
+                document.getElementById('quizTitle').textContent = config.title;
+                document.getElementById('quizSubtitle').textContent = config.subtitle;
+                document.title = `${config.title} - Merv's Brain Dump`;
+
+                const response = await fetch(config.file);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
 
-                console.log('Step 4: Parsing JSON...');
                 questionPool = await response.json();
-                console.log(`  ✓ Loaded ${questionPool.totalQuestions} questions`);
-
                 if (!questionPool.questions || questionPool.questions.length === 0) {
                     throw new Error('No questions found in pool');
                 }
 
-                // Step 3: Get quiz settings
-                console.log('Step 5: Getting URL parameters...');
-                const questionCount = parseInt(urlParams.get('count')) || 35;
-                const mode = urlParams.get('mode') || 'study';
-                console.log(`  count=${questionCount}, mode=${mode}`);
+                let questionCount = config.defaultCount;
+                if (countParam === 'all') {
+                    questionCount = questionPool.questions.length;
+                } else if (countParam) {
+                    const parsed = parseInt(countParam, 10);
+                    if (!Number.isNaN(parsed)) {
+                        questionCount = parsed;
+                    }
+                }
 
-                // Step 4: Initialize quiz engine
-                console.log('Step 6: Creating QuizEngine...');
                 quizEngine = new QuizEngine(questionPool, {
                     count: questionCount,
                     shuffle: true,
                     shuffleAnswers: false
                 });
-                console.log('  ✓ QuizEngine created');
-
-                console.log('Step 7: Initializing QuizEngine...');
                 quizEngine.init();
-                console.log('  ✓ QuizEngine initialized');
 
-                // Step 5: Start session tracking
-                console.log('Step 8: Starting session...');
-                progressManager.startSession(questionSet, mode, questionCount);
-                console.log('  ✓ Session started');
+                progressManager.startSession(set, mode, questionCount);
 
-                // Step 6: Initialize UI
-                console.log('Step 9: Setting up event listeners...');
                 setupEventListeners();
-                console.log('  ✓ Event listeners set up');
-
-                console.log('Step 10: Loading settings...');
                 loadSettings();
-                console.log('  ✓ Settings loaded');
-
-                console.log('Step 11: Starting timer...');
                 startTimer();
-                console.log('  ✓ Timer started');
-
-                console.log('Step 12: Displaying first question...');
                 displayQuestion();
-                console.log('  ✓ First question displayed');
-
-                console.log('=== QUIZ INITIALIZATION COMPLETE ===');
-
             } catch (error) {
-                console.error('=== INITIALIZATION FAILED ===');
-                console.error('Error:', error);
-                console.error('Stack:', error.stack);
-                alert(`Failed to load quiz: ${error.message}\n\nCheck browser console (F12) for details.\n\nMake sure you're using: http://127.0.0.1:8080/study/quiz.html`);
-                return;
+                console.error('Initialization error:', error);
+                alert('Error loading quiz. Please try again.');
             }
         }
 
         function setupEventListeners() {
-            // Answer buttons
             document.querySelectorAll('.answer-button').forEach(button => {
                 button.addEventListener('click', () => handleAnswer(button.dataset.letter));
             });
 
-            // Navigation
             document.getElementById('prevButton').addEventListener('click', goToPrevious);
             document.getElementById('nextButton').addEventListener('click', goToNext);
 
-            // Settings
             document.getElementById('audioToggle').addEventListener('change', (e) => {
                 audioManager.setEnabled(e.target.checked);
                 progressManager.setSetting('audioEnabled', e.target.checked);
@@ -280,7 +263,6 @@
                 progressManager.setSetting('showExplanations', e.target.checked);
             });
 
-            // Control buttons
             document.getElementById('finishButton').addEventListener('click', finishQuiz);
             document.getElementById('restartButton').addEventListener('click', restartQuiz);
             document.getElementById('reviewButton').addEventListener('click', reviewAnswers);
@@ -288,7 +270,6 @@
                 window.location.href = 'index.html';
             });
 
-            // Keyboard shortcuts
             document.addEventListener('keydown', (e) => {
                 if (e.key >= '1' && e.key <= '4') {
                     const letters = ['A', 'B', 'C', 'D'];
@@ -322,13 +303,11 @@
                 return;
             }
 
-            // Update question display
             document.getElementById('questionNumber').textContent =
                 `Question ${question.number} / ${question.total}`;
             document.getElementById('questionSection').textContent = question.section || '';
             document.getElementById('questionText').textContent = question.text;
 
-            // Update answer buttons
             const buttons = ['A', 'B', 'C', 'D'];
             buttons.forEach((letter, index) => {
                 const answer = question.answers[index];
@@ -347,10 +326,8 @@
                 button.classList.remove('correct', 'incorrect', 'dimmed');
             });
 
-            // Hide explanation
             document.getElementById('explanationBox').classList.remove('show');
 
-            // Update diagram
             const diagramContainer = document.getElementById('diagramContainer');
             const diagramImage = document.getElementById('diagramImage');
             if (question.image) {
@@ -361,17 +338,14 @@
                 diagramContainer.classList.remove('show');
             }
 
-            // Check if question was already answered
             const currentQ = quizEngine.questions[quizEngine.currentIndex];
             if (currentQ.userAnswer) {
                 highlightAnswer(currentQ.userAnswer, currentQ.isCorrect);
                 showExplanation(question.explanation);
             }
 
-            // Update progress
             updateProgress();
 
-            // Update navigation buttons
             document.getElementById('prevButton').disabled = quizEngine.currentIndex === 0;
             document.getElementById('nextButton').disabled =
                 quizEngine.currentIndex >= quizEngine.questions.length - 1;
@@ -379,20 +353,15 @@
 
         function handleAnswer(letter) {
             const currentQ = quizEngine.questions[quizEngine.currentIndex];
-
-            // Don't allow re-answering
             if (currentQ.userAnswer) return;
 
-            // Initialize audio context on first interaction
             if (!audioManager.initialized) {
                 audioManager.init();
             }
 
-            // Submit answer
             const result = quizEngine.selectAnswer(letter);
             if (!result) return;
 
-            // Record in progress manager
             const question = quizEngine.getCurrentQuestion();
             progressManager.recordAnswer(
                 question.id,
@@ -401,30 +370,24 @@
                 result.correctLetter
             );
 
-            // Visual feedback
             highlightAnswer(letter, result.correct);
 
-            // Audio feedback
             if (result.correct) {
                 audioManager.playCorrect();
             } else {
                 audioManager.playIncorrect();
             }
 
-            // Show explanation
             if (progressManager.getSetting('showExplanations')) {
                 showExplanation(result.explanation);
             }
 
-            // Update progress
             updateProgress();
 
-            // Auto-advance after 2 seconds
             setTimeout(() => {
                 if (quizEngine.currentIndex < quizEngine.questions.length - 1) {
                     goToNext();
                 } else {
-                    // Quiz complete
                     document.getElementById('finishButton').classList.add('pulse');
                 }
             }, 2000);
@@ -511,28 +474,18 @@
 
             stopTimer();
 
-            // Get results
             const results = quizEngine.getResults();
-
-            // End session
             progressManager.endSession(elapsedSeconds);
-
-            // Play completion sound
             audioManager.playComplete();
-
-            // Show results
             showResults(results);
         }
 
         function showResults(results) {
-            // Hide quiz layout
             document.getElementById('quizLayout').classList.add('hidden');
 
-            // Show results container
             const resultsContainer = document.getElementById('resultsContainer');
             resultsContainer.classList.remove('hidden');
 
-            // Update results display
             const scoreDisplay = document.getElementById('scoreDisplay');
             scoreDisplay.textContent = `${results.score}%`;
             scoreDisplay.classList.add(results.passing ? 'passing' : 'failing');
@@ -540,8 +493,6 @@
             document.getElementById('resultTotal').textContent = results.total;
             document.getElementById('resultCorrect').textContent = results.correct;
             document.getElementById('resultIncorrect').textContent = results.incorrect;
-
-            console.log('Quiz completed:', results);
         }
 
         function reviewAnswers() {
