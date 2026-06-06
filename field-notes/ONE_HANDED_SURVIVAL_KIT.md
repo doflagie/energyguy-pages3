@@ -629,6 +629,29 @@ mount holds the fishing pole vertically off the wheelchair arm or frame.
   operator and chair move together
 - More stable than walking — less vibration, smoother motion
 
+### Counterpoise for 5.6m Whip — Wheelchair and Walker
+
+Ideal counterpoise is λ/4 per band. Frame provides 1–2m effective
+conductor — covers most of 10m/12m; supplemental wire needed below that.
+
+| Band | λ/4 Counterpoise |
+|---|---|
+| 40m | 10.5m (34.4 ft) |
+| 20m | 5.03m (16.5 ft) |
+| 17m | 3.9m (12.8 ft) |
+| 15m | 3.35m (11 ft) |
+| 12m | 2.83m (9.3 ft) |
+| 10m | 2.51m (8.2 ft) |
+
+**Linked counterpoise (recommended):**
+- One wire with alligator clip break points at each band's λ/4 length
+- Matches fishing reel band change — change band, clip counterpoise to match
+- Trails along ground from frame base while moving
+- Pre-clipped, coiled in pouch — one-handed deploy
+
+**40m fixed position:** 10.5m trailing wire is awkward in tight spaces —
+2–3 radials staked around position is cleaner.
+
 ### Ground System from a Wheelchair
 
 The wheelchair frame is metal but small — not the ground plane a car
@@ -652,6 +675,51 @@ provides. Compensate with:
   Rolling         Loaded whip 1.5m         20–35%       None
   Fixed, minimal  Random wire + 9:1 unun   ~70%         3 min
 
+### Mode 3: Fishing Reel Band Selector (Ham Jazz RAS Episode 4, KG7LLR)
+
+The fishing reel replaces fixed tap points — unreel to resonant length, reel IS the band selector.
+
+**Mount — frame boss screws or tube clamp:**
+- Flat blade clamp onto any threaded frame insert bonded to wheelchair frame
+- "3824 coupler" (portable whip adapter, PL-259) on clamp — feedpoint
+- Jewelry wire (enamel scraped at tip) on bait-caster reel — runs up to tree or support
+- Frame = counterpoise through metal clamp contact
+
+**SWR achieved on bicycle (maps directly to wheelchair):**
+
+| Band | Freq | SWR | Notes |
+|---|---|---|---|
+| 10m | ~28 MHz | 1.2:1 | Short unreel |
+| 12m | 24.3 MHz | ~1:1 | |
+| 15m | 21.5 MHz | ~1:1 | |
+| 20m | 14.0 MHz | 1.19:1 | |
+| 40m | 7.15 MHz | 1.2:1 | ~65 ft full extension |
+| 80m | 3.729 MHz | 1.52:1 | 65 ft + 18 ft cap hat |
+
+**40m:** Unreel to ~65 ft — natural resonance, no extra loading.
+**80m:** 18 ft wire at feedpoint as capacity hat, clips to push handles. High Q, tune for net frequency.
+
+No tuner. One-handed band change. 10m through 80m from one reel.
+
+### Mode 4: Frame as Antenna (Ham Jazz Bicycle Technique)
+
+Ham Jazz RAS series demonstrates making a bicycle frame resonant from
+10m to 80m with no tuner — same technique applies directly to a
+wheelchair frame.
+
+- Metal frame is a significant conductor — load it as the radiating element
+- Wire element or loading coil attached to frame upright
+- Tap points at each band's resonant length — banana clips, no tuner
+- Frame acts as partial ground plane + radiator simultaneously
+- Counterpoise wire clipped to frame base or trailing on ground
+- BNC pigtail from tap point to rig
+
+**Wheelchair frame advantage:** consistent geometry means tap points
+stay calibrated — mark them once, clip to the right tap for the band.
+
+*See Ham Jazz Rubbish Antenna Series (RAS) bicycle episode for technique
+detail — maps directly to wheelchair frame dimensions.*
+
 ### Key Hardware
 
 - **RAM mount**: B-size ball, tube clamp base — fits standard wheelchair
@@ -661,6 +729,213 @@ provides. Compensate with:
 - **Tent pegs**: push in with heel of hand or boot toe
 - **Pre-clipped radials**: radial wires with alligator clips already
   attached, coiled in pouch — deploy and clip without tools
+
+---
+
+## 20. WALKER ANTENNA
+
+A walker is an overlooked antenna platform — metal frame, naturally
+vertical, moves with the operator, non-threatening appearance.
+
+### Platform Advantages
+- Already in hand for stability — no additional support needed
+- Metal frame is a consistent conductor and partial ground plane
+- Naturally vertical orientation — correct for a vertical antenna element
+- Tennis ball feet are non-conductive — natural RF isolation at base
+- Fold-flat walkers collapse for transport, deploy in seconds
+- Front basket or pouch carries the rig and battery
+- Higher feedpoint than wheelchair — element clears the operator's body
+
+### Mode 1: Fishing Reel Band Selector (Ham Jazz RAS Episode 4, KG7LLR)
+
+The fishing reel replaces fixed tap points — unreel to resonant length, reel IS the band selector.
+
+- Flat blade clamp onto any threaded walker frame insert or tube clamp on metal frame
+- "3824 coupler" (portable whip adapter, PL-259) on clamp — feedpoint
+- Jewelry wire (enamel scraped at tip) on bait-caster reel, runs up to overhead support
+- Frame = counterpoise through metal clamp contact
+- Band change: crank reel — one hand, seconds, no tuner
+
+**SWR achieved on bicycle (maps directly to walker):**
+
+| Band | Freq | SWR | Notes |
+|---|---|---|---|
+| 10m | ~28 MHz | 1.2:1 | Short unreel |
+| 12m | 24.3 MHz | ~1:1 | |
+| 15m | 21.5 MHz | ~1:1 | |
+| 20m | 14.0 MHz | 1.19:1 | |
+| 40m | 7.15 MHz | 1.2:1 | ~65 ft full extension |
+| 80m | 3.729 MHz | 1.52:1 | 65 ft + 18 ft cap hat |
+
+**40m:** Unreel to ~65 ft — natural resonance, no loading needed.
+**80m:** 18 ft wire at feedpoint as capacity hat, clips to walker crossbar. High Q.
+
+### Mode 2: Fishing Pole on Walker Frame
+
+- RAM mount or hose clamp mounts 6–7m fishing pole to walker upright
+- Linked EFHW from pole tip — near-full efficiency on linked bands
+- 49:1 unun at frame level, coax to rig in basket
+- More efficient than frame-as-antenna but requires pole
+
+### Operating Position
+- Stand behind walker, key on leg clamp, rig in basket
+- Walker provides stability — frees operating hand for key
+- Completely self-contained, self-supported HF station
+- Operable anywhere the operator can stand
+
+### Comparison
+
+| Mode | Antenna | Efficiency | Setup |
+|---|---|---|---|
+| Tapped frame upright | Frame + wire taps | 30–60% | 2 min |
+| Fishing pole on walker | Linked EFHW | ~85% | 5 min |
+| Rolling with whip | Loaded whip 1.5m | 20–35% | None |
+
+*See Ham Jazz Rubbish Antenna Series (RAS) bicycle episode for frame
+resonance technique — maps directly to walker frame geometry.*
+
+---
+
+## 21. CAT5/6 + RJ-45 FIELD ANTENNA SYSTEM
+
+A complete multiband wire antenna that fits in a jacket pocket.
+
+### The Cable
+- Cat5e/6 patch cable — 8 conductors in 4 twisted pairs, 24 AWG solid copper
+- 50-foot patch cable covers dipole on 40m, random wire on 20m, NVIS on 80m
+- QRP power only — 24 AWG handles up to ~25W; fine for all (tr)uSDX operation
+- Solid core breaks with repeated sharp bending — temporary field use, not permanent
+
+### RJ-45 as Antenna Connector
+- 8 contacts map directly to 4 twisted pairs — one contact pair per antenna element
+- Keyed connector — no wrong orientation possible
+- Locking tab — won't pull out accidentally
+- Cheap, common, field-replaceable everywhere
+- Weatherproof panel-mount versions available for junction box
+
+**Wiring scheme:**
+- Both conductors of each pair paralleled at the jack = one feedpoint per element
+- Junction box with panel-mount RJ-45 at feedpoint — patch cable plugs straight in
+- At antenna end: untwist jacket, spread pairs to respective elements
+
+### Multiband Options
+
+**Single-band dipole (cleanest):**
+- Parallel all 4 pairs on each side = 8 conductors per leg, more current capacity
+- Cut to EFHW or dipole length for target band
+- One feedpoint, one transformer, predictable behavior
+
+**Fan dipole (multiband, recommended):**
+- One pair per leg per band — 4 bands, 4 element pairs
+- All pairs feed from single RJ-45 jack
+- Each pair cut to a different band's half-element length
+- More predictable than multiband EFHW — no separate transformers needed
+
+**Multiband EFHW (possible but complex):**
+- Each pair cut to a different EFHW length
+- Each element needs its own 49:1 transformer — shared feedpoint causes impedance interaction
+- Fan dipole is simpler for the same result
+
+### Twisted Pair as Feedline
+- Cat5 twisted pair: ~100–120Ω impedance, VF ~0.65
+- Z-match tuner handles 100–120Ω directly — no additional matching needed
+- Untwist pair at both ends to minimize conductor coupling at feedpoint and load
+- Loss negligible vs proper ladder line at 40m/20m QRP power levels
+- Best use: fan dipole fed with twisted pair from RJ-45 junction box to rig — entire system is one Cat5 cable
+
+| Type | Impedance | VF |
+|---|---|---|
+| 450Ω window line | 450Ω | 0.91 |
+| 300Ω twin-lead | 300Ω | 0.82 |
+| Cat5 twisted pair | ~100–120Ω | 0.65 |
+
+### One-Handed Deployment
+1. Throw weighted end over tree branch (1/2 oz weight on monofilament pilot line)
+2. Haul up patch cable using pilot line
+3. Plug RJ-45 into junction box at feedpoint
+4. Connect twisted pair feedline from junction box to Z-match tuner
+5. Connect rig to tuner
+- Entire setup requires one hand and takes under 5 minutes
+
+### Limits
+- RJ-45 contacts not optimized for RF — minor loss, acceptable at QRP
+- 24 AWG marginal above 25W
+- Not UV-resistant long term — temporary/field use only
+
+---
+
+## 22. RF CONNECTOR ADAPTER BAG
+
+### Container
+
+Makeup bag with clear zipper pouches. Clear windows — identify contents without opening, one-handed. Semi-rigid base prevents folding and crushing SMA center pins.
+
+**What to look for:**
+- Multiple individual pouches, not one large pocket
+- Zipper pulls large enough for one-handed operation
+- Mesh or clear on both sides of each pouch
+
+### Bag Contents — KO6NNH Field Kit
+
+Sized for this gear: (tr)uSDX (BNC), H4M / NanoVNA / TinySA / RTL-SDR (SMA), Z-match / ATU-100 (SO-239).
+
+**Must have:**
+
+| Adapter | Qty | Use |
+|---|---|---|
+| SMA M-M barrel | 2 | Extend SMA cables; H4M accessories |
+| SMA F-F barrel | 1 | Join two SMA male cables |
+| SMA right-angle M-F | 1 | H4M/RTL-SDR body — lever protection |
+| BNC M to SMA F | 2 | (tr)uSDX or BNC coax ↔ H4M / NanoVNA / TinySA |
+| BNC F to SMA M | 1 | Reverse path |
+| SO-239 to BNC M | 1 | Z-match / ATU-100 ↔ BNC coax |
+| SO-239 to SMA M | 1 | Z-match / ATU-100 ↔ SMA coax |
+| BNC M-M barrel | 1 | Join two BNC cables |
+
+**Nice to have:**
+
+| Adapter | Why |
+|---|---|
+| N M to SMA F | Weatherproof outdoor connectors ↔ SDR gear |
+| N M to BNC M | Outdoor ↔ (tr)uSDX chain |
+| 10 dB SMA attenuator | Finer control when 30 dB is too much |
+| BNC T-splitter | NanoVNA monitor while transmitting into dummy load |
+
+**Leave out:** F-connector, RCA, MCX — nothing in this kit uses them.
+
+### Pouch Layout
+
+| Pouch | Contents |
+|---|---|
+| SMA | M-M barrels, F-F barrel, right-angle |
+| BNC | BNC-SMA ×3, BNC barrel |
+| SO-239 / N | SO-239→BNC, SO-239→SMA, N adapters |
+| Attenuators | 30 dB SMA, 10 dB SMA — labeled, separate from barrels |
+
+Attenuators get their own slot — a 30 dB attenuator looks identical to a barrel until you key up.
+
+### SMA Center Pin Protection
+
+Cut craft foam squares to line each pouch. SMA barrels catch pins on each other and bend them. One layer of foam stops this.
+
+### Connector Chaining Rules
+
+- **1 adapter:** fine
+- **2 adapters:** acceptable with care
+- **3 adapters in series:** stop — source a direct adapter instead
+
+Chain caps at the weakest link: cheap BNC limits to ~1 GHz, blocks ADS-B (1090 MHz). Each junction adds 0.1–0.3 dB loss and a VSWR bump.
+
+**Right-angle SMA at H4M body:** lever stress runs parallel to the PCB, not against the solder joint. A bump with a straight adapter chain can crack a PCB pad.
+
+**BNC bayonet:** finger-tighten after every move. Works loose without visible indication.
+
+### Pre-Field Check — Four Critical Paths
+
+1. H4M SMA → antenna in use
+2. NanoVNA SMA → feedpoint under test
+3. (tr)uSDX BNC → Z-match SO-239
+4. H4M SMA → 30 dB attenuator → dummy load coupling point
 
 ---
 
@@ -703,14 +978,42 @@ provides. Compensate with:
 | Cordage | Drop spindle | 2 oz | Cordage making |
 | Cordage | Netting needle | 0.5 oz | Net weaving |
 | CW | KY-116/U leg clamp + J-37/J-38 key | 8 oz | One-handed HF CW, no table needed; body-coupled — rock steady on rough roads; Signal Corps design WWII through Vietnam; proven in Hueys; operable in all three field positions: vehicle, foxhole, standing |
+| Radio | UV-5R Mini | 4 oz | Compact dual-band VHF/UHF FM; ~2W; Bluetooth app programming; SMA female; 2m/70cm voice, repeaters, weather, APRS monitor; field reprogram from phone — no cable; see baofeng_uv5r_mini.md |
+| Radio | UV-5R (standard) | 9 oz | Dual-band VHF/UHF FM; 4–8W; CHIRP programmable; SMA female; more range than Mini; channel plan: baofeng_UV5R_general_channels.md; purity test: baofeng_UV5R_purity_test.md |
+| Radio | (tr)uSDX lo-band | 6 oz | 40m/80m QRP transceiver; assembled and running; BNC antenna connector; 5W CW/SSB; primary field rig |
+| Radio | (tr)uSDX hi-band | 6 oz | 20/17/15/12/10m QRP transceiver; kit on hand, unassembled; same form factor as lo-band |
+| Radio | H4M PortaPack | 8 oz | SDR RX/TX 1 MHz–6 GHz; Mayhem firmware; 10–30 mW TX max; HF RX, APRS, ADS-B, band survey, signal capture; SMA female; use (tr)uSDX for real contacts; menu reference: portapack_h4m_menu.md |
+| RF Test | TinySA Ultra | 4 oz | Spectrum analyzer 100 kHz–5.3 GHz; SMA female; measures dBm, harmonics, spurious; LOW port: 5.6m whip or random wire; HIGH port: ANT500; TX harmonic check: dummy load + 30 dB att — never via antenna; menu reference: tinysa_ultra_menu.md |
+| Tuner | Z-match | 4 oz | Preferred field tuner — passive, instant, no power; two-cap tune; handles 15–35Ω whip feedpoint; harmonic suppression bonus; pre-characterize feedpoint Z at home for fast field setup |
+| Tuner | ATU-100 | 6 oz | Backup auto-tuner; stores memories; 2–5 sec tune sequence; handles 10:1 SWR; use after antenna is resonant, not instead of tuning |
+| Power | Battery box (12V 20Ah LiFePO4) | ~6 lbs | SEFEPODER in .50 cal ammo box; 240Wh; 6-port fused distribution; 12V→5V buck converter + USB-A; Powerpole outputs; see 12v_battery_box.md |
+| Power | Jackery Explorer 160 | 3.9 lbs | 167Wh; covers tablets, RPi stack; barrel jack DC output (~6mm, TBD); no USB-C PD |
+| Feedline | RG-174 coax pigtail (6 ft) | 1 oz | Lightweight field feedline; BNC ends; low loss adequate at QRP; flexible, small diameter — fits connector bag |
 | Antenna | 6–7m fiberglass fishing pole | 5 oz | EFHW mast — pedestrian (sec 18) and wheelchair (sec 19); collapses to 60cm |
 | Antenna | Linked EFHW wire + 49:1 unun | 4 oz | Near-full efficiency on linked bands; pairs with fishing pole |
 | Antenna | RAM mount (B-size, tube clamp) | 3 oz | Wheelchair/pack frame mount for pole or whip; locks one-handed |
 | Antenna | Pre-clipped radials (4× 10m) | 3 oz | Ground system for fixed position; alligator clips, push-peg stakes |
+| Antenna | 2.5mm banana plug link kit | 0.5 oz | K6ARK method: 2.5mm male + female banana plugs, adhesive heat shrink (~3"), CA glue; female parks in heat shrink sleeve at link point when open — never lose a connector in the field; one-handed band change on EFHW and linked dipoles |
+| Antenna | 30 AWG PTFE wire (field antennas) | 1 oz/50 ft | EFHW elements, dipole legs, counterpoise runs ≤20W; 600V insulation covers EFHW tip voltage (~224V peak at 20W); PTFE outlasts PVC outdoors; wind on card winder; slippery — bight knots or crimp at terminals; avoid for loaded whip element itself (use 22 AWG) |
+| Antenna | Linked counterpoise wire (10-band) | 1 oz | Single 20.53m wire; K6ARK 2.5mm banana plug taps at λ/4 from feedpoint for each band (6m=1.49m, 10m=2.63m, 12m=3.01m, 15m=3.53m, 17m=4.14m, 20m=5.29m, 30m=7.40m, 40m=10.48m, 60m=13.96m, 80m=20.53m); disconnect at band tap, fold back excess; 30 AWG PTFE |
+| Antenna | Cat5/6 patch cable 50ft + RJ-45 junction box | 4 oz | Multiband wire antenna; fan dipole or random wire; entire system in jacket pocket; 24 AWG QRP only |
+| Platform | Walker (metal frame) | 0 oz | Frame-as-antenna platform; tapped vertical 10m–80m no tuner; basket carries rig; tennis ball feet = RF isolation; see sec 20 |
 | Antenna | Loaded whip 1.5m | 4 oz | Rolling/pedestrian mobile; mounts on RAM; ATU-100 required |
-| RF Research | NanoVNA + short pigtail | 4 oz | R_ground measurement at field sites; compare to M3 map; build local σ map by season |
-| RF Research | Site log cards (laminated) | 0.5 oz | Structured R_ground entries: date, location, soil condition, σ, M3 delta; four seasonal windows |
-| Miscellaneous | Notebook + pencil | 1 oz | Logging, notes |
+| Antenna | 5.6m telescoping whip | 8 oz | Primary HF field antenna; 10m–20m bare (shorten from top only, never base); 80m–30m with multiband slider coil at 2.8m; SMA male base — use adapter for (tr)uSDX (BNC) or Z-match (SO-239); feedpoint Z 15–35Ω normal; tune with NanoVNA |
+| Antenna | Multiband slider loading coil | 4 oz | Center load at 2.8m on 5.6m whip; slider moves along winding — more turns = lower band, fewer = higher; covers 80m (80–130 µH), 60m, 40m (22–33 µH), 30m; tune with NanoVNA, mark band positions on form; work slider back and forth occasionally, DeOxit contact to prevent oxidation |
+| Antenna | Loading coil lens case | 0.5 oz | Neoprene camera lens pouch — 100–135mm prime or 70–200mm zoom size; label pouch; leave slack in leads |
+| Antenna | Pocket rocket / slingshot | 4 oz | Line into trees for wire antennas; 1/2 oz weight + monofilament pilot line; legal CA; pocket rocket looks more official at POTA sites |
+| Antenna | Arborist throw bag + throw line | 4 oz | 8–12 oz Sherrill bag + 1.5–2mm braided throw line; better than monofilament above 40 ft or in wind; retrieves cleanly over branch |
+| RF Research | NanoVNA + short pigtail | 4 oz | Antenna tuning: SOLT cal at feedpoint, SWR dip + Smith chart (left=inductive, right=capacitive, centerline=resonance); R_ground measurement; menu reference: nanovna_menu.md |
+| RF | 30 dB SMA attenuator | 0.5 oz | H4M receiver protection — 20W TX = +43 dBm, H4M max +10 dBm; inline on H4M SMA port for transmitter testing; protects during band surveys near active TX |
+| RF | Common mode choke | 1 oz | Suppress RF on coax shield; Option A: 4× mix 31 snap-on clamps at feedpoint (instant, no tools); Option B: FT-140-31 wound 7T RG-174 inline (more effective); needed when SWR shifts on touching coax or RF gets into rig audio |
+| RF | Connector adapter bag | 2 oz | Makeup bag with clear zipper pouches; sort by family: SMA pouch (barrels, right-angle, M-M/F-F), BNC pouch (BNC-SMA, barrels), N pouch (N-SMA, N-BNC), misc (attenuators, PL-259); foam lining protects SMA center pins; keep right-angle SMA in bag — use at H4M body to protect PCB-mounted connector from lever stress |
+| RF Research | Site log cards (laminated) | 0.5 oz | Structured R_ground entries: date, location, soil condition, σ, M3 delta; four seasonal windows — made with thermal laminator + 5–7 mil pouches |
+| Home Prep | Thermal laminator | — | Apache AL13P (~$35, handles 3–10 mil) or Fellowes Neptune 3 125 (12.5" throat, 10 mil rated, hot/cold, faster warm-up); use 5 mil min for field cards, 7 mil for stiff card-like stock; grease pencil works on any smooth laminate surface |
+| Home Prep | Field card workflow | — | 1) Print draft on RITR #8511; 2) field test — pencil corrections in conditions; 3) revise and reprint; 4) repeat until right; 5) laminate final at 7 mil for grease pencil reuse — don't laminate until form has been used in the field |
+| Field Log | POTA naturalist log (laminated) | 0.5 oz | One sheet: POTA activation log + astrolabe→latitude/mag decl/gray line + phenology + bird point count + soil σ; grease pencil; field_notebook/POTA_naturalist_log.pdf |
+| Miscellaneous | Notebook + pencil | 1 oz | Logging, notes — pencil works on Rite in the Rain paper; ballpoint and Sharpie also work; rollerball/gel/fountain pen do not |
+| Miscellaneous | Rite in the Rain #8511 sheets (pre-printed) | 0.5 oz | Laser-printed field log templates on synthetic paper; survives soaking; write with pencil or ballpoint in rain; not inkjet compatible; prototype phase before laminating final version |
 | Miscellaneous | Matches backup in vial | 0.2 oz | Fire backup storage |
 
 **Total: ~6.68 lbs** (distributed in canvas field bag, belt system, or backpack)
@@ -747,6 +1050,10 @@ Before field use, practice:
        M3 delta) for each of the four seasonal windows — wet, declining, dry, recovering
 19. ✓ Print R_ground_site_log_card.pdf on card stock, laminate, verify grease pencil
        writes and wipes cleanly — card ready before first field session
+
+20. ✓ Deploy Cat5/6 patch cable fan dipole one-handed — throw line, haul cable, plug RJ-45, connect coax, confirm SWR on NanoVNA — complete setup under 5 minutes
+
+21. ✓ Verify all four critical connector paths before field session — H4M→antenna, NanoVNA→feedpoint, (tr)uSDX BNC→Z-match, H4M→30dB att→dummy load — all paths covered without hunting
 
 Once competent with these, you're genuinely self-sufficient in field scenarios.
 
