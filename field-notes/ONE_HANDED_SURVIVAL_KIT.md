@@ -2120,7 +2120,7 @@ Write your SKCC exchange on the POTA naturalist log sheet before starting — av
 | Antenna | Cat5/6 patch cable 50ft + RJ-45 junction box | 4 oz | Multiband wire antenna; fan dipole or random wire; entire system in jacket pocket; 24 AWG QRP only |
 | Platform | Walker (metal frame) | 0 oz | Frame-as-antenna platform; tapped vertical 10m–80m no tuner; basket carries rig; tennis ball feet = RF isolation; see sec 20 |
 | Antenna | Loaded whip 1.5m | 4 oz | Rolling/pedestrian mobile; mounts on RAM; ATU-100 required |
-| Antenna | 5.6m telescoping whip | 8 oz | Primary HF field antenna; 10m–20m bare (shorten from top only, never base); 80m–30m with multiband slider coil at 2.8m; SMA male base — use adapter for (tr)uSDX (BNC) or Z-match (SO-239); feedpoint Z 15–35Ω normal; tune with NanoVNA |
+| Antenna | 5.6m telescoping whip | 8 oz | Primary HF field antenna; 10m–20m bare (shorten from top only, never base); 80m–30m with multiband slider coil at 2.8m; M10 screw thread base — M10→SMA adapter for H4M/instruments, M10→BNC for (tr)uSDX, M10→SO-239 for Z-match; feedpoint Z 15–35Ω normal; tune with NanoVNA |
 | Antenna | Multiband slider loading coil | 4 oz | Center load at 2.8m on 5.6m whip; slider moves along winding — more turns = lower band, fewer = higher; covers 80m (80–130 µH), 60m, 40m (22–33 µH), 30m; tune with NanoVNA, mark band positions on form; work slider back and forth occasionally, DeOxit contact to prevent oxidation |
 | Antenna | Loading coil lens case | 0.5 oz | Neoprene camera lens pouch — 100–135mm prime or 70–200mm zoom size; label pouch; leave slack in leads |
 | Antenna | Pocket rocket / slingshot | 4 oz | Line into trees for wire antennas; 1/2 oz weight + monofilament pilot line; legal CA; pocket rocket looks more official at POTA sites |
@@ -2214,7 +2214,7 @@ Verify before leaving home. All items should be confirmed working, not just pack
 - [ ] 30 dB SMA attenuator + field dummy load: both in connector bag
 
 **Antennas:**
-- [ ] 5.6m whip: extends and collapses fully; SMA base threads clean
+- [ ] 5.6m whip: extends and collapses fully; M10 base threads clean; M10 adapter bases in connector bag
 - [ ] Slider coil: slider moves freely; leads intact; in lens case; band positions marked
 - [ ] Linked counterpoise (10-band): all taps present; 80m end intact
 - [ ] EFHW wire + K6ARK unun: wire fully linked; all band connectors mate cleanly
