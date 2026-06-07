@@ -939,6 +939,603 @@ Chain caps at the weakest link: cheap BNC limits to ~1 GHz, blocks ADS-B (1090 M
 
 ---
 
+## 23. WATER PURIFICATION
+
+The 2L collapsible bladder stores water; it does not make it safe. Three methods ranked by field practicality:
+
+### Method 1: Chemical Tablets (Lightest, Recommended)
+
+**Aquatabs (NaDCC — sodium dichloroisocyanurate):** preferred over iodine. No taste, effective against bacteria and viruses, shelf-stable 5+ years.
+
+- 1 tablet per 1L water; wait 30 minutes before drinking
+- Works down to 2°C (not effectively below freezing)
+- Does **not** remove Cryptosporidium at standard dose — add a second tablet and wait 4 hours if source is suspect (standing water, animal activity upstream)
+- Iodine alternative: 5–10 drops 2% tincture per liter; 20–30 min wait; effective but leaves taste
+
+**One-handed use:** drop tablet in bladder, cap, wait. Nothing to squeeze or assemble.
+
+**Weight:** ~0.5 oz for 20 tablets (one 30-day supply)
+
+### Method 2: Filtration (Sawyer Squeeze, 3 oz)
+
+Removes bacteria and protozoa (including Cryptosporidium) to 0.1 micron. Does not remove viruses — pair with a tablet for unknown sources.
+
+- Squeeze dirty water pouch through filter into clean container
+- One-handed: brace filter against knee, squeeze with one hand
+- Backflush with clean water after each use to maintain flow rate
+- Works when frozen if thawed before use
+
+**Weight:** 3 oz filter + 2 oz squeeze pouch = 5 oz; recommended addition for multi-day trips.
+
+### Method 3: Boiling
+
+1 minute rolling boil at elevations below 2,000m (valley floor and foothills). 3 minutes above 2,000m.
+
+- Most reliable against all pathogens including Cryptosporidium
+- Requires fuel (alcohol stove or hexamine); uses kit resources
+- Let cool before drinking — obvious but worth stating one-handed pour is safer at lower temp
+
+### Water Source Priority
+
+Running water > clear standing water with inlet > murky standing water. Look upstream before collecting: dead animals, outhouses, road runoff = avoid or double-treat. Clear alpine streams still carry Giardia.
+
+**For day trips:** 2L in bladder from home tap + 5 Aquatabs as backup. No filter needed.
+
+---
+
+## 24. FIRST AID — ONE-HANDED
+
+Solo operation means self-treatment. Design every skill for single-hand application.
+
+### Bleeding Control
+
+**Minor wounds:** apply pressure with heel of hand; hold 5 minutes without lifting to check. Wound closure strips (Steri-strips) one-handed: dry the skin first, place strip across the wound with one hand while bracing the wound against a knee or hard surface.
+
+**Serious bleeding (arterial or won't stop in 10 minutes):**
+- CAT (Combat Application Tourniquet) self-application: thread through loop, route over limb, hook, cinch with windlass one-handed — specifically designed for self-application. Practice at home before field use.
+- High and tight: above the wound, as high as the limb allows
+- Write the time on tourniquet with grease pencil or ballpoint — responders need it
+
+**Wound closure:** Israeli bandage wraps one-handed by bracing the end with foot or teeth while wrapping; pressure applicator pad clamps over wound without held tension.
+
+### Blisters
+
+Leave the roof intact — it is a sterile cover. Clean the area; apply moleskin donut (cut a hole the size of the blister) around (not over) the blister with one hand. This protects the surface from friction. If blister is broken and raw: clean, cover with non-stick dressing, tape edges.
+
+### Burns
+
+Immediately cool with water for 10 minutes — not ice, not butter. Cover loosely with non-stick dressing. Blistering is a second-degree burn: cover and keep clean. Charring or no pain = third-degree; requires evacuation.
+
+### Sprains
+
+RICE: Rest (stop using it), Ice (water-soaked cloth from bladder), Compression (ACE bandage or strip cut from clothing), Elevation. Ankle wrap one-handed: brace the end under your heel, wrap spiraling upward, tuck end. If you can bear weight with pain, you can usually walk out slowly.
+
+### Heat Illness
+
+- **Heat cramps:** salty water or electrolyte; rest in shade; not an emergency
+- **Heat exhaustion:** cool skin, pale, nauseous, heavy sweat; move to shade, hydrate, wet skin with water from bladder, lie with feet elevated; rest 30–60 min before attempting to move
+- **Heat stroke:** hot skin, dry or minimally sweaty, confusion, very high body temp — this is a 911 call; while waiting, drench with water and fan aggressively
+
+From Merced CA in summer: heat exhaustion is the primary risk for full-day POTA. Start before 0900, finish by 1300 June–September.
+
+### Cold Injury
+
+**Hypothermia warning signs:** shivering, confusion, poor coordination, slurred speech. Treatment: get dry, get insulated, add heat (body heat from sleeping bag, hot drink if conscious). Remove wet clothing — cut with knife if necessary. Do not rub extremities.
+
+**Frostbite (unlikely in Merced area but possible at Sierra elevation):** do not rewarm if there's any risk of re-freezing. Protect from further cold and pressure; evacuate.
+
+### When to Self-Rescue vs Call for Help
+
+**Call immediately (146.520):**
+- Uncontrolled bleeding despite tourniquet
+- Suspected spinal injury (fall impact, can't move limbs)
+- Signs of stroke (FAST: face droop, arm weakness, speech slur, time to call)
+- Heart attack symptoms (chest pain, left arm pain, sweating, nausea)
+- Unconsciousness (yours — set up APRS beacon before losing consciousness is impossible; tell someone where you are before going remote)
+- Core temperature crisis (heat stroke, hypothermia with confusion)
+
+**Self-rescue first:**
+- Minor sprain you can walk on
+- Surface cuts controlled with pressure and closure strips
+- Heat exhaustion with water and shade available
+- Equipment failure of any kind
+
+### First Aid Kit Items to Add
+
+| Item | Weight | Use |
+|---|---|---|
+| CAT tourniquet | 3 oz | Self-apply arterial bleed; windlass type |
+| Steri-strips (10) + moleskin sheet | 0.5 oz | Wound closure, blister prevention |
+| Israeli bandage 4" | 2 oz | Pressure dressing, limb wrap |
+| Nitrile gloves (2 pair) | 0.3 oz | Universal precautions; improvised water carrier |
+| Electrolyte packets (4) | 0.5 oz | Heat cramps, dehydration recovery |
+
+---
+
+## 25. SOLO FIELD SAFETY PROTOCOL
+
+Operating alone in remote areas requires a system, not just intent. The radio is the response; the protocol is the prevention.
+
+### Before Leaving Home
+
+**File a trip plan (written, left at home):**
+```
+Going to: [park name, address, GPS if known]
+Parking: [description of vehicle location]
+Expected return: [time + date]
+If not home by [return time + 2 hours]: call [contact name, phone]
+If no contact by [return time + 4 hours]: call Merced County Sheriff, (209) 385-7472
+```
+
+**Text a contact:** "Going to [park]. Back by [time]. Text me by [time + 30 min] to confirm OK."
+
+**Vehicle:** fuel above ½ tank; 1 gallon water in car; jump pack or cables.
+
+**Weather:** check NWS Hanford (serves San Joaquin Valley) and forecast.weather.gov for operating site zip code. No thunderstorm development expected = proceed.
+
+### At the Site
+
+1. Log GPS coordinates on POTA naturalist log at the parking area
+2. Note entrance number, nearest named road intersection
+3. Activate H4M APRS beacon (KO6NNH-7) before leaving the vehicle if hiking more than 200m from car
+4. Carry in pocket: phone (even with no signal — 911 routes on any carrier if tower present), ID card, emergency contact card (laminated, 0.1 oz)
+
+### Check-In Discipline
+
+**Day trip:** departure text + return text = minimum. Set phone alarm for planned return time.
+
+**Overnight:** scheduled radio contact with a known station at a fixed time. Missing two consecutive check-ins = initiate rescue protocol.
+
+**APRS as passive check-in:** if phone/voice contact fails, someone with aprs.fi can see your last-known position and timestamp.
+
+### Abort Criteria
+
+Leave the site immediately if:
+- Thunder audible (30/30 rule — within 6 miles = danger zone)
+- Injury makes walking/rolling painful enough to slow movement significantly
+- Water exhausted with no purification available and no known clean source within reach
+- Confusion, dizziness, or nausea not resolved by rest and water in 20 minutes
+- Temperature above 100°F (38°C) with no shade available
+- Unexpected loss of radio contact with any station for 2+ hours during planned operating session
+
+---
+
+## 26. NIGHT OPERATION
+
+### Headlamp
+
+A headlamp is the right tool for one-handed field work — frees the operating hand, points where you look. A handheld torch requires the hand.
+
+**What to look for:**
+- Knob or rocker switch (not touch-only — tactile in cold or dark)
+- Red light mode for night-vision preservation; white for task work
+- USB-A rechargeable (same charging chain as rest of kit — battery box or Li-ion pack)
+- Weight: 2–3 oz typical
+
+**Setup:** wear on forehead or on cap brim; tilt nose-down for near work (rig, log), level for walking.
+
+### Operating the Rig in the Dark
+
+**J-37 on leg clamp by feel:** the key is entirely tactile — you don't need to see it. Spring tension and the plunger are identifiable by touch. After a few sessions, sending CW in complete darkness is normal.
+
+**(tr)uSDX display:** backlit; readable at night. Reduce backlight brightness (menu) to preserve night vision and save power. White-on-blue display is visible from arm's length in complete darkness.
+
+**NanoVNA:** backlit color display; readable in dark. Check SWR on the dim setting.
+
+**Logging in the dark:** RITR paper + pencil > laminated card + grease pencil. Pencil on RITR is tactile enough to write without seeing. Pre-print log template so you know which field to fill without reading headers.
+
+### Packing and Connector Work
+
+Consistent pouch organization matters more at night than in daylight — same place every session:
+- Connector bag: always in the front left pocket of field bag
+- Key cable: coiled and clipped to (tr)uSDX antenna connector when not in use
+- SMA adapters: tactile difference between barrel, right-angle, and attenuator (attenuator is heavier and longer)
+
+Leaving luminescent/glow tape on the Powerpole connectors and knife sheath button is optional but worth considering for frequent night operation.
+
+---
+
+## 27. (tr)uSDX FIELD OPERATION — CW
+
+The (tr)uSDX runs Firmware Version 7. All settings persist across power cycles.
+
+### Power On / Off
+
+Press and hold the encoder knob for 2 seconds. Display shows firmware version briefly, then the operating frequency.
+
+### Key Menu Settings for Field CW
+
+| Setting | Path | Field value | Notes |
+|---|---|---|---|
+| Band | Main display | 40m (7.000–7.200) | Set before leaving home |
+| Mode | Menu → Mode | CW | CW for straight key |
+| Power | Menu → TX → Power | 5W | Start at 5W; reduce to 2W for battery conservation if needed |
+| Keyer speed | Menu → CW → Speed | 15–20 WPM | Match your sending speed; keyer controls internal Iambic |
+| Sidetone vol | Menu → CW → Side | Comfortable | Verify at home — should hear clear tone each dit/dah |
+| AGC | Menu → RX → AGC | Fast | Fast is fine for CW; reduces pump from strong signals |
+
+**Straight key vs Iambic keyer:** the (tr)uSDX key jack uses a 3.5mm TRS plug. Tip = key, sleeve = ground. The J-37 cable (J-37 ¼" → 3.5mm TRS) connects the straight key directly. The (tr)uSDX detects straight key if only one conductor is driven — no need to change a menu setting.
+
+### RIT — Receive Incremental Tuning
+
+RIT shifts the receive frequency without changing the transmit frequency. Use it to zero-beat a station that is slightly off your TX frequency:
+1. Hear the other station; note their tone pitch relative to your sidetone pitch
+2. Rotate the RIT control (right knob on some firmware versions; check display for RIT indicator)
+3. Adjust until their pitch matches your sidetone = zero-beat
+4. Your TX stays on frequency; your RX follows the other station
+
+Always zero RIT before calling CQ on a new frequency.
+
+### Making a Contact — CW Sequence
+
+1. **Tune antenna:** NanoVNA SWR < 2:1; Z-match adjusted; counterpoise deployed
+2. **Listen:** monitor target frequency 60 seconds — confirm clear
+3. **Call CQ:** `CQ CQ DE KO6NNH KO6NNH K`
+4. **Wait:** listen 10–15 seconds; if no response repeat CQ
+5. **Response:** station calls you — `[THEIRCALL] DE KO6NNH K`
+6. **Exchange:** send RST + name + QTH (+ SKCC number if applicable)
+7. **Close:** `73 DE KO6NNH SK`
+
+Sending speed should match your slowest comfortable rate. 12–15 WPM is fine for casual QSOs.
+
+### Answering a CQ
+
+1. Hear `CQ CQ DE [CALL] K`
+2. Send `[THEIRCALL] DE KO6NNH KO6NNH K`
+3. If no response after two tries, move on — they may have worked another station
+4. If they respond to you: complete the exchange as above
+
+### Power and SWR Check Before First TX
+
+- (tr)uSDX → dummy load → TinySA (if available): key up, verify RF on TinySA display
+- Read SWR on (tr)uSDX display if firmware shows it; otherwise rely on NanoVNA pre-check
+- At SWR > 3:1 the firmware reduces output power — tune antenna before this point
+
+---
+
+## 28. QSO PROCEDURE AND RST
+
+### RST System
+
+| Code | R (Readability) | S (Signal Strength) | T (Tone, CW only) |
+|---|---|---|---|
+| 1 | Unreadable | Barely perceptible | Extremely rough clicks |
+| 3 | Readable with difficulty | Weak | Rough AC ripple |
+| 5 | Perfectly readable | Fairly good | Perfectly shaped tone |
+| 7 | — | Moderately strong | Near-perfect tone |
+| 9 | — | Extremely strong | Perfect tone |
+
+**Common reports:**
+- `599` — perfect in all three (often sent by custom even when not)
+- `559` — readable, good signal, good tone — honest report for a solid contact
+- `339` — readable with effort, weak, good tone — honest QRP report in poor conditions
+- Voice (no T): `59` = perfect; `55` = readable + medium strength
+
+### CW QSO Template
+
+**Calling CQ:**
+```
+CQ CQ CQ DE KO6NNH KO6NNH K
+```
+
+**Answering a CQ from W1ABC:**
+```
+W1ABC DE KO6NNH KO6NNH K
+```
+
+**Exchange:**
+```
+[THEIRCALL] DE KO6NNH
+UR 559 559
+NAME MERV MERV
+QTH MERCED CA MERCED CA
+[SKCC: NR 12345 K HW CPY?]
+K
+```
+
+**Closing:**
+```
+TNX FER QSO [NAME]
+73 DE KO6NNH SK
+```
+
+### Abbreviations for Field Use
+
+| Abbreviation | Meaning |
+|---|---|
+| UR | Your |
+| NR / NM | Number / Name |
+| QTH | Location |
+| HW | How (how copy?) |
+| CPY | Copy |
+| ES | And |
+| FB | Fine business (good, affirmative) |
+| PSE | Please |
+| AGN | Again |
+| QRM | Interference |
+| QSB | Fading |
+| QRN | Static |
+| QRZ | Who is calling? |
+| BK | Break (quick back-and-forth, no DE required) |
+| SK | End of transmission |
+| AR | End of message |
+| K | Any station invited to respond |
+| KN | Only the addressed station invited to respond |
+
+### Voice QSO on UV-5R (FM)
+
+**Monitor:** 146.520 MHz (national 2m simplex calling)
+
+**Calling:** `"KO6NNH MONITORING [location]"` — announce presence
+
+**Responding to a CQ:** `"[CALL SIGN] THIS IS KILO OSCAR SIX NOVEMBER NOVEMBER HOTEL, HOW DO YOU READ? OVER"`
+
+**Signal report:** `"You're five by nine"` or `"You're loud and clear"` — both are correct
+
+**NATO Phonetic Alphabet:**
+```
+A=ALPHA   B=BRAVO   C=CHARLIE  D=DELTA   E=ECHO
+F=FOXTROT G=GOLF    H=HOTEL    I=INDIA   J=JULIET
+K=KILO    L=LIMA    M=MIKE     N=NOVEMBER O=OSCAR
+P=PAPA    Q=QUEBEC  R=ROMEO    S=SIERRA  T=TANGO
+U=UNIFORM V=VICTOR  W=WHISKEY  X=XRAY    Y=YANKEE
+Z=ZULU
+```
+
+Callsign KO6NNH spoken: "KILO OSCAR SIX NOVEMBER NOVEMBER HOTEL"
+
+---
+
+## 29. POTA ACTIVATION PROCEDURE
+
+POTA (Parks on the Air) requires 10 or more QSOs from a designated park. Activator = you operating from the park. Hunter = station contacting you from anywhere.
+
+### Before Leaving Home
+
+1. Look up park number at parks.radio (search by state → California → park name)
+   - Yosemite NP = K-2764; San Luis NWR = K-8155; Stanislaus NF = K-4564
+2. Confirm the park boundary — you must be physically inside
+3. Program the park number on your log sheet
+
+### At the Site — Setup Sequence
+
+1. Deploy antenna, tune with NanoVNA, verify SWR < 2:1
+2. Set (tr)uSDX: 40m CW, 5W, sidetone audible
+3. Listen on 7.030 MHz (QRP watering hole) for 2 minutes — is it clear?
+4. Self-spot on pota.app or parksnpeaks.net: callsign, park number (K-xxxx), frequency (7.030), mode (CW)
+5. Begin logging (open POTA naturalist log, note UTC time)
+
+### CW Calling Sequence
+
+```
+CQ POTA CQ POTA DE KO6NNH KO6NNH K
+```
+
+Repeat every 20–30 seconds until response. If no response in 5 minutes, move to 14.057 MHz or update your spot.
+
+### Minimal Exchange (POTA)
+
+**Hunter calls you:**
+```
+KO6NNH DE W1ABC W1ABC K
+```
+
+**Your response:**
+```
+W1ABC DE KO6NNH
+UR 559 TNX POTA
+73 SK
+```
+
+Log: time (UTC), band (40m), mode (CW), W1ABC, 559 sent/received
+
+**The exchange is intentionally short.** Hunters want fast contacts. You need 10 unique callsigns — not 10 minutes per contact.
+
+### Logging
+
+Minimum log fields per contact:
+- UTC date/time (watch or phone in airplane mode for clock)
+- Band (40m, 20m, etc.)
+- Mode (CW)
+- Their callsign
+- RST sent / RST received (often both 599 by convention)
+- Park number (same for all contacts in the activation)
+
+POTA naturalist log has POTA log section. Fill during the session; transcribe to digital after.
+
+### After the Activation
+
+1. Count contacts — need 10 unique callsigns
+2. Convert log to ADIF format (manual entry at pota.app/activator or via logging software)
+3. Upload to pota.app within 24–48 hours
+4. Certificate generated automatically for successful activations
+
+### If You Can't Get 10
+
+- Move to a different band (try 20m mid-morning, 40m afternoon/evening)
+- Update your spot with new frequency
+- Ask on 146.520: `"KO6NNH activating K-xxxx, looking for POTA contacts on 7030 CW"`
+- Phone a known CW operator to check into the log — counts as a valid contact
+
+---
+
+## 30. EMERGENCY COMMUNICATION PROCEDURE
+
+### Three Tiers
+
+**Tier 1 — Life Safety:** Activate immediately. Someone is in danger.
+
+**Tier 2 — Urgent:** Non-life-threatening but requires outside assistance within hours.
+
+**Tier 3 — Self-Rescue:** You can handle it; radio is backup confirmation.
+
+### Primary: 146.520 MHz (UV-5R Mini or UV-5R)
+
+1. Select 146.520 MHz on UV-5R Mini (nationwide 2m FM simplex calling)
+2. Listen 10 seconds for traffic
+3. Key up: `"MAYDAY MAYDAY MAYDAY KO6NNH"` (life safety)
+   — or: `"BREAK BREAK KO6NNH, MEDICAL EMERGENCY"` (Tier 2)
+4. Wait 30 seconds; repeat if no response
+5. State: who / where / what / what you need:
+   ```
+   "KO6NNH — located at [park name], near [road/landmark], GPS [lat/lon from H4M or POTA log]
+    — [describe situation] — requesting [medical/evacuation/search and rescue]"
+   ```
+6. Stay on frequency; respond every time someone keys up
+
+**No answer after 5 attempts:** try a local repeater. MARA (Merced Amateur Radio Association) — check for local 2m repeater pair; currently unknown; research before next field season and add here.
+
+### Backup: (tr)uSDX on 40m
+
+If 2m fails (no one monitoring, dead battery in handheld):
+- 40m CW: 7.290 MHz SSB (voice) or 7.030 MHz CW — announce emergency by sending `SOS` (··· --- ···) repeatedly
+- ARES/RACES: Merced County RACES frequency — research and add here before next activation
+
+### H4M APRS as Passive Emergency Beacon
+
+Before entering any remote area:
+1. Set H4M APRS TX on 144.390 MHz with your callsign (KO6NNH-7)
+2. Set comment: current park name + date
+3. Leave TX running at 10-min beacon interval
+4. If you are unable to make voice contact, APRS packets visible on aprs.fi give your last-known position and timestamp to anyone searching
+
+**Practical range:** 10–30 mW is enough to hit a digipeater within 5–15 miles. San Joaquin Valley has good APRS digipeater coverage. Sierra foothills: spotty above 2,000m elevation — verify coverage before relying on it.
+
+### When to Call 911 Directly
+
+If you have cellular signal (even 1 bar): 911 routes on any carrier regardless of your plan. Direct call to Merced County Sheriff dispatch: (209) 385-7472.
+
+**Do both:** 911 by phone if possible + 146.520 by radio. Radio establishes contact with hams in the area who can assist before formal rescue arrives.
+
+---
+
+## 31. BATTERY CONSERVATION FOR EXTENDED SESSIONS
+
+### Instrument Power Draw (Reference)
+
+| Item | Supply | Draw | Notes |
+|---|---|---|---|
+| (tr)uSDX TX 5W | 12V | ~700 mA | Heaviest draw; minimize TX time |
+| (tr)uSDX RX | 12V | ~100 mA | Leave on during operating session |
+| H4M PortaPack | 5V USB | ~500 mA | Off when not actively using |
+| TinySA Ultra | 5V USB | ~200 mA | Off except measurement sessions |
+| NanoVNA | 5V USB | ~250 mA | Off after antenna is tuned |
+| UV-5R Mini | Internal | — | Internal LiPo; USB-charge from kit |
+| Headlamp | USB | ~100–200 mA | Use red mode (lower current) |
+
+### Single Day — No Conservation Needed
+
+Battery box (240Wh) at typical POTA draw (~2.4W avg, 20% TX): runtime > 50 hours. One day POTA session is 4–6 hours. Conservation unnecessary.
+
+Li-ion pack (79Wh) at same draw: ~33 hours. Day trip is comfortably covered.
+
+### Multi-Day — Discipline Applies
+
+**Session start:** note battery box voltage. 13.2V = full; 12.8V = ~60%; below 12.4V = near empty.
+
+**Power-down when not operating:**
+- H4M: off unless specifically needed for band survey or APRS
+- TinySA: off after antenna check; only on for harmonic measurements
+- NanoVNA: off after initial site setup
+
+**Reduce TX power:** 2–3W CW works fine for POTA and SKCC contacts; 5W is rarely needed for domestic contacts. Power reduction from 5W to 2W cuts TX draw by ~60%, significantly extending multi-day life.
+
+**Turn (tr)uSDX off when leaving the operating position.** 100 mA RX draw × 8 hrs away = 8 mAh × 12V = 9.6 Wh wasted if you leave it running overnight.
+
+**USB instrument rotation:** when using NanoVNA or TinySA, turn off H4M. One 5V instrument at a time from the buck converter.
+
+### Reserve Rule
+
+Below 12.4V battery box: stop non-essential use. Reserve remaining capacity for:
+1. Emergency comms (UV-5R charges from USB-A on battery box)
+2. (tr)uSDX for emergency digital message if ARES is activated
+3. H4M APRS beacon
+
+---
+
+## 32. H4M APRS FOR POSITION REPORTING
+
+APRS (Automatic Packet Reporting System) transmits your GPS position, callsign, and a comment on 144.390 MHz. Local digipeaters relay the packet to the internet. Anyone can see your position on aprs.fi.
+
+### Use Cases
+
+- **Safety:** let your trip contact see your last-known position if you don't check in
+- **ARES check-in:** automated position report during emergency activation
+- **POTA:** let hunters know you're operating from the field (comment includes park + frequency)
+
+### Setup on H4M (Mayhem Firmware)
+
+1. Ensure GPS lock (check GPS app in Utilities → GPS; wait for fix — takes 1–5 min cold start)
+2. Navigate: **TX Apps → APRS TX**
+3. Set fields:
+   - Callsign: `KO6NNH-7` (SSID -7 = hand-held portable)
+   - Comment: `POTA K-2764 7.030 CW QRP` (update park + freq each session)
+   - Frequency: 144.390 MHz (North America)
+   - TX interval: 10 min (static position); 2 min (if moving)
+   - Power: maximum (10–30 mW); enough for local digipeater coverage
+4. Activate TX
+5. Verify: check aprs.fi on phone → search KO6NNH-7 → your position should appear within 10–30 min
+
+### SSID Conventions
+
+| SSID | Meaning |
+|---|---|
+| KO6NNH (none) | Fixed home station |
+| KO6NNH-7 | Handheld portable (field kit default) |
+| KO6NNH-9 | Mobile in vehicle |
+
+### Coverage Notes
+
+San Joaquin Valley floor (Merced, Patterson, Turlock): good digipeater coverage; packets relay reliably.
+
+Sierra foothills above ~1,500m: spotty; verify with a test beacon before relying on it for safety.
+
+When in doubt: activate APRS and tell your contact to check aprs.fi rather than phone. If your phone has no signal, APRS still works via 144 MHz RF.
+
+---
+
+## 33. WEATHER READING WITHOUT INSTRUMENTS
+
+### Signs of Developing Thunderstorm (Abort Criteria)
+
+Watch for these from 1000–1800 local, June–September in the Merced/foothill area:
+
+- **Cumulus building vertically:** flat-bottomed clouds with cauliflower tops growing upward throughout the morning = afternoon thunderstorm likely
+- **Anvil top:** upper portion of a cloud spreads sideways in a flat anvil shape = mature thunderstorm; leave now if within hearing range
+- **Sudden calm:** after a period of wind, a sudden complete calm before a storm gust front
+- **Wind shift:** wind direction changes from W/NW to S/SE = warm moist air advection = possible storm development
+- **Green-tinted sky:** large hail potential; rare but decisive — leave immediately
+- **Temperature drop:** 10°F (6°C) drop in minutes = cold front or gust front passage; storm already nearby
+
+Apply the 30/30 rule: if flash-to-thunder interval is less than 30 seconds (~6 miles), you are in the danger zone. Pack out.
+
+### Signs of Improving Conditions
+
+- Wind shifts to west or northwest
+- Clouds rise and thin; towering cumulus flattens
+- Blue sky visible to the west and expanding
+- Air feels drier (dew point dropping)
+- Pressure rising (if you have a phone barometer app, watch for upward trend)
+
+### California/San Joaquin Valley Patterns
+
+**Summer (June–September):** Valley floor reaches 100–110°F. Heat exhaustion risk peaks 1200–1600. Afternoon thunderstorms build over Sierra foothills east of Merced, rarely reaching the valley floor — but ridgeline and foothill sites (Stanislaus NF, Yosemite approaches) are directly in the storm track.
+
+**Tule fog (October–February):** Ground-level fog fills the valley floor; can reduce visibility to 0. Not a field emergency but affects drive-in safety. Fog usually lifts by 1000–1200 in winter.
+
+**Delta breeze:** Afternoon northwest wind June–September is normal, cooling, not a storm sign. Consistent 15–20 mph northwest wind from the Bay Delta is a good sign — it suppresses afternoon thunderstorm development in the valley.
+
+### Temperature Decision Chart
+
+| Condition | Action |
+|---|---|
+| Above 100°F (38°C) | Start by 0800; finish by 1130; 1L water/hr; stay shaded during setup |
+| 85–100°F (29–38°C) | Normal summer ops; 0.5L water/hr; take shade breaks |
+| Below 45°F (7°C) | Gloves on; key speed decreases as fingers cool; pre-warm hands before sessions |
+| Wet + below 55°F (13°C) | Hypothermia risk; wind accelerates it; treat as cold injury scenario |
+
+---
+
 ## SUMMARY: THE COMPLETE KIT
 
 | Category | Item | Weight | Purpose |
@@ -1022,8 +1619,16 @@ Chain caps at the weakest link: cheap BNC limits to ~1 GHz, blocks ADS-B (1090 M
 | CW | Key cable — J-37 to (tr)uSDX | 0.5 oz | 1/4" mono plug → 3.5mm TRS; straight key: tip=key, sleeve=ground; required connection from J-37/J-38 to (tr)uSDX key jack; carry a spare |
 | Field Log | Propagation reference card (laminated) | 0.2 oz | Band guide (80m–6m: hours/range/conditions from Merced CA), solar indices (SFI/A/K thresholds), gray line window, QRP CW calling frequencies; grease pencil for session notes; from field_antennas.md Propagation section |
 | Miscellaneous | Grease pencil | 0.5 oz | Write on all laminated cards (site log, POTA log, propagation ref, band chart); wipe clean with dry cloth; carry 2 — one in field log pouch, one backup in connector bag |
+| Water | Aquatabs (NaDCC, 20 tablets) | 0.5 oz | 1 tablet per 1L, 30 min wait; bacteria + viruses; not Cryptosporidium at single dose — double dose + 4 hr for suspect sources; lightest purification option |
+| Water | Sawyer Squeeze micro filter | 3 oz | 0.1 micron; removes bacteria + protozoa including Cryptosporidium; squeeze one-handed bracing against knee; backflush after use; multi-day trips |
+| Medical | CAT tourniquet | 3 oz | Self-apply one-handed; windlass type; arterial bleeding; high and tight; write time on tourniquet with grease pencil |
+| Medical | Steri-strips (10) + moleskin sheet | 0.5 oz | Wound closure one-handed; moleskin donut around blister — not over it |
+| Medical | Israeli bandage 4" | 2 oz | Pressure dressing, limb wrap; brace end with foot while wrapping one-handed |
+| Medical | Nitrile gloves (2 pair) + electrolyte packets (4) | 0.8 oz | Universal precautions; heat cramp/dehydration recovery |
+| Field ops | Headlamp (rechargeable USB-A) | 2.5 oz | Free the operating hand; red mode for night-vision; knob/rocker switch; charges from battery box USB-A |
+| Field ops | Emergency contact card (laminated) | 0.1 oz | Name, callsign, emergency contact, trip plan location, Merced Sheriff (209) 385-7472; carry in pocket — not in pack |
 
-**Total: ~7.6 lbs** (full kit with battery box; swap Li-ion pack for battery box = ~2.2 lbs day-trip config)
+**Total: ~8.2 lbs** (full kit with battery box; swap Li-ion pack for battery box = ~2.8 lbs day-trip config; medical/water additions ~10 oz)
 
 ---
 
@@ -1102,6 +1707,13 @@ Verify before leaving home. All items should be confirmed working, not just pack
 - [ ] Site log cards: laminated; grease pencil available
 - [ ] Propagation reference card: laminated; in field log pouch
 
+**Safety:**
+- [ ] Trip plan filed (written note left at home or texted to contact)
+- [ ] Emergency contact card: in pocket (not in pack)
+- [ ] 146.520 MHz programmed and confirmed on UV-5R Mini
+- [ ] Water: 2L in bladder + Aquatabs in kit
+- [ ] Medical pouch: CAT tourniquet, Steri-strips, Israeli bandage present
+
 ---
 
 ## TESTING ONE-HANDED COMPETENCE
@@ -1144,6 +1756,18 @@ Before field use, practice:
 23. ✓ Connect (tr)uSDX → dummy load → 30 dB att → TinySA; key up; confirm fundamental visible; check 2nd and 3rd harmonic levels vs FCC 43 dBc limit — harmonic check complete before any antenna TX
 
 24. ✓ Deploy 2m J-pole on fishing pole one-handed; plug Baofeng with Nagoya; access local repeater or simplex contact — VHF deploy verified before ARES/RACES activation
+
+25. ✓ Purify 1L water using Aquatabs one-handed — tablet in, cap, wait 30 min, drink; then boil 1L using alcohol stove one-handed — confirms both methods before field use
+
+26. ✓ Apply wound closure strips (Steri-strips) to your own forearm one-handed, using knee as brace — then wrap the Israeli bandage around your non-dominant arm using only the dominant hand
+
+27. ✓ Power on (tr)uSDX, navigate to 40m CW mode, set power 5W, confirm sidetone fires on each dit — do it by memory without reading this document
+
+28. ✓ Call CQ on 7.030 MHz, complete a QSO exchange (RST + name + QTH sent and received), send 73 SK — first real CW QSO on the air; log the contact in POTA naturalist log
+
+29. ✓ Complete a valid POTA activation: 10 unique callsigns logged with UTC time/band/mode; upload ADIF to pota.app — first successful activation
+
+30. ✓ Activate emergency comms drill: select 146.520 on UV-5R Mini, transmit emergency format (callsign + park name + GPS + situation) to a known contact; verify H4M APRS packet visible on aprs.fi — system confirmed before it's needed
 
 Once competent with these, you're genuinely self-sufficient in field scenarios.
 
