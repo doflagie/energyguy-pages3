@@ -1536,6 +1536,529 @@ Apply the 30/30 rule: if flash-to-thunder interval is less than 30 seconds (~6 m
 
 ---
 
+## 34. FT8/DIGITAL FIELD OPERATIONS
+
+### Hardware Chain
+- **(tr)uSDX hi-band** (20/17/15/12/10m) + **Lenovo Tab 8** (or any Android device)
+- **USB-OTG cable:** USB-A → USB-C (or micro-USB) — connects (tr)uSDX USB port to tablet; provides audio + CAT control + 5V charging simultaneously
+- **WSJT-X Android (or FLDIGI):** handles waterfall, TX/RX timing, auto-logging
+
+### Why FT8
+- −22 dB S/N threshold: 20+ dB below what SSB can decode; works when band "sounds dead"
+- **100% duty cycle:** (tr)uSDX hi-band runs hot — cap TX power at 2–3W to avoid thermal shutdown during 15-second TX intervals
+- **QSO rate:** 10 POTA contacts in 30–45 minutes on a good band
+- **No exchange:** grid square only; less overhead than CW/SSB
+
+### UTC Sync — Critical
+FT8 fails if clock is off by more than ±1 second. Sync sources in priority order:
+1. **GPS lock on H4M** — share time via hotspot + NTP to Android
+2. **Internet NTP** (if cellular available) — Android auto-syncs
+3. **WWV on H4M RX** — decode audio time pips manually
+4. H4M GPS cold start takes 1–5 min — enable GPS before any other setup
+
+### WSJT-X Setup (Android)
+1. Connect USB-OTG cable; allow audio routing when Android prompts
+2. CAT: USB serial port, 9600 baud, no flow control
+3. Set TX power: TX Drive start 2 in (tr)uSDX menu (= ~2–3W)
+4. Verify waterfall scrolling and TX/RX indicator cycling on 15-sec boundaries
+5. Monitor ALC: if red, reduce Drive
+
+### Operating Procedure
+1. Set frequency: 40m = 7.074 MHz, 20m = 14.074 MHz (USB dial; FT8 signal is ~1500 Hz above)
+2. Spot on pota.app: `KO6NNH K-xxxx 7.074 FT8`
+3. CQ: `CQ POTA KO6NNH DM06` — WSJT-X sends automatically
+4. Double-click a caller's callsign in waterfall to respond
+5. Export ADIF after session; upload to pota.app within 24 hours
+
+---
+
+## 35. (TR)USDX SSB PHONE FIELD OPERATIONS
+
+### When to Use Phone
+- POTA hunters who don't copy CW
+- Emergency comms when CW proficiency on other end is uncertain
+- ARES/RACES voice nets
+- DX phone openings on 20m/10m USB
+
+### Hardware
+- **(tr)uSDX** with correct band installed (lo-band for 40m LSB, hi-band for 20m USB)
+- **K6ARK MicroMic Mini** — compact, 3.5mm TRS plug, no separate PTT needed with VOX
+
+### Menu Settings (Set Before Field Use)
+
+| Setting | Value | Why |
+|---|---|---|
+| TX Drive (start) | 2–3 | Prevents splatter; cleaner signal |
+| Mic Gain | 2 | Higher = ALC saturation = distorted TX |
+| BFO mode | LSB below 10 MHz / USB above | Sideband convention |
+| VOX | Enabled | Voice activates TX; silence = RX |
+| TX timeout | 3 min | Safety; prevents accidental long TX |
+
+### Sideband Convention
+- **LSB:** 40m, 80m, 160m (all below 10 MHz)
+- **USB:** 20m, 17m, 15m, 12m, 10m (10 MHz and above)
+
+### POTA Phone Procedure
+1. Confirm SWR < 2:1 on NanoVNA
+2. Listen 30 sec — confirm frequency clear
+3. Call: `"CQ CQ Parks on the Air, this is Kilo Oscar Six November November Hotel, QRZ?"`
+4. Exchange: `"[callsign], you're 59, thanks for the call, 73"` — keep it brief
+5. Log: callsign + UTC time + band + mode (USB or LSB)
+
+### RF Caution
+Phone = 100% duty cycle at voice peaks. Limit to 2–3W SSB for extended operation. If rig hot to touch: reduce power or pause. CW can run 5W; SSB should not.
+
+---
+
+## 36. GRAY LINE AND DX TIMING
+
+### What Is Gray Line
+The terminator sweeping around Earth. At the gray line, the D layer (daytime absorber) collapses while the F layer (DX reflector) remains intact — creating a brief window of low absorption + good propagation.
+
+**Window:** ±20–30 minutes around your local sunrise and sunset.
+
+### Using the Astrolabe for Gray Line Timing (ties to §1)
+1. Shoot sun at horizon (0° altitude) = exact sunrise/sunset time
+2. Gray line window: 20 min before sunrise, 20 min after; same at sunset
+3. **Sunrise:** work EU/AF/AS (east) coming out of night
+4. **Sunset:** work Pacific/JA/Asia (west) going into night
+
+### Band Selection During Gray Line
+
+| Window | Best Band | Target Regions |
+|---|---|---|
+| Sunrise ±20 min | 40m | Europe, Africa, Middle East |
+| Sunrise ±20 min | 80m | West Coast + closer DX |
+| Sunset ±20 min | 40m | Japan, Pacific, Hawaii |
+| Sunset ±20 min | 80m | Pacific coast DX |
+| Mid-day | 20m, 15m, 10m (SFI ≥ 80) | Global (no gray line needed) |
+
+### QRP DX Reality
+- 5W CW + resonant antenna + gray line: EU from CA is achievable when SFI > 90, K ≤ 2
+- FT8 improves odds significantly (−22 dB threshold vs CW ~−10 dB)
+- Check solar indices before gray line session: SFI, A-index, K-index
+
+---
+
+## 37. PROPAGATION QUICK REFERENCE — FROM MERCED CA (DM06)
+
+Grid: **DM06** — San Joaquin Valley, 37.3°N 120.5°W.
+
+### Band Selection by Time of Day
+
+| Band | Day | Night | Best Use from DM06 | QRP Range |
+|---|---|---|---|---|
+| 80m | Poor (D absorption) | Good | Regional CA/NV/OR; DX at gray line | 500–2000 km night |
+| 40m | Moderate | Excellent | NVIS day; DX at gray line | 1000–12000 km night |
+| 30m | Good all day | Good | WARC: reliable; no phone | 1000–6000 km |
+| 20m | Best daytime | Marginal | Primary POTA; coast-to-coast | 2000–12000 km day |
+| 17m | Very good mid-day | Poor | DX when SFI ≥ 80 | 3000–15000 km |
+| 15m | Good (high solar) | Poor | DX on rising/high solar cycle | 3000–20000 km |
+| 12m | Opens high solar only | Poor | Cycle peak; rare | 5000–20000 km |
+| 10m | Best at cycle peak | Closed | Sporadic-E May–Jul; 50.313 FT8 | Local–20000+ km |
+| 6m | E-skip May–Jul | Closed | Sporadic-E only; watch 50.313 | E-skip only |
+
+### Solar Index Thresholds
+
+| Index | Threshold | Meaning |
+|---|---|---|
+| SFI | < 70 poor / 70–90 fair / >100 good / >150 excellent | Higher = high bands open longer |
+| A-index | ≤ 7 stable / 8–15 unsettled / ≥ 30 storm | High = 40m/80m DX disrupted |
+| K-index | 0–1 quiet / 2–3 unsettled / ≥ 4 disturbed | K ≥ 5 = low bands only |
+
+**Quick rule:** K ≥ 4 → skip 20m/15m/10m DX, work 40m domestic. SFI < 70 → don't expect 15m/12m/10m to open.
+
+### Seasonal Notes for DM06
+- **Summer (Jun–Sep):** 10m E-skip common; 40m noisy from storms; best: morning 20m before valley heat
+- **Winter (Nov–Feb):** 40m/80m excellent; best season for gray line DX
+- **Transition (Mar–May, Oct):** 20m all day + 15m some afternoons; best all-around season
+
+### Check Before Field Session
+1. Space weather: wwv.gov broadcasts SFI/A/K at :18 and :45 past each hour on 5/10/15 MHz
+2. If SFI ≥ 100 + K ≤ 2: excellent; plan FT8 on 15m or 20m
+3. If SFI < 70 + K ≤ 2: work 40m CW/FT8 regional; realistic POTA expectations
+
+---
+
+## 38. MORSE CODE REFERENCE CARD
+
+International Morse Code (ITU). (·) = dit, (–) = dah.
+
+### Letters
+
+| | | | | | |
+|---|---|---|---|---|---|
+| A · – | B – · · · | C – · – · | D – · · | E · | F · · – · |
+| G – – · | H · · · · | I · · | J · – – – | K – · – | L · – · · |
+| M – – | N – · | O – – – | P · – – · | Q – – · – | R · – · |
+| S · · · | T – | U · · – | V · · · – | W · – – | X – · · – |
+| Y – · – – | Z – – · · | | | | |
+
+### Numbers
+
+| | | | | | |
+|---|---|---|---|---|---|
+| 0 – – – – – | 1 · – – – – | 2 · · – – – | 3 · · · – – | 4 · · · · – | 5 · · · · · |
+| 6 – · · · · | 7 – – · · · | 8 – – – · · | 9 – – – – · | | |
+
+### Punctuation and Procedural Signals
+
+| | | | |
+|---|---|---|---|
+| . · – · – · – | , – – · · – – | ? · · – – · · | / – · · – · |
+| AR · – · – · (end of message) | SK · · · – · – (end of contact) | BT – · · · – (paragraph/break) | KN – · – – · (go named station only) |
+| K – · – (any station go ahead) | CQ – · – · – – · – (general call) | 73 – – · · · – – (best regards) | R · – · (received) |
+
+### QSO Shorthand
+
+| Abbr | Meaning | Abbr | Meaning |
+|---|---|---|---|
+| RST | Readability/Strength/Tone (e.g., 579) | QRZ | Who is calling me? |
+| UR | Your | QTH | My location |
+| NR | Number | QRP | Low power (< 5W) |
+| TU | Thank you | 73 | Best regards |
+| DE | From | AGN | Again / repeat |
+| ES | And | FB | Fine business (excellent) |
+| HW | How copy? | WX | Weather |
+| GL | Good luck | HI | Laughter |
+
+### Standard POTA CW Exchange
+
+```
+CQ POTA CQ POTA DE KO6NNH KO6NNH K
+
+[caller: KO6NNH DE W1ABC]
+
+W1ABC DE KO6NNH UR 569 569 NR 1 NR 1 NAME MERV ES QTH CA CA TU 73 SK
+
+[caller: TU 73 GL SK]
+```
+
+RST 599 = perfect; 569 = strong but slight noise; use honest RST. NR = contact number within activation.
+
+---
+
+## 39. POTA ACTIVATION — FT8 MODE
+
+### Why FT8 for POTA
+- 10 contacts in 20–40 minutes on an active band
+- Works non-prime hours (weekday mornings) when CW hunter count is low
+- FT8 hunters constantly monitoring — auto-spotted via PSKReporter
+- 100% POTA-valid; counts equally with CW/SSB
+
+### Gear Required
+- (tr)uSDX hi-band assembled and bench tested (kit version)
+- Lenovo Tab 8 with USB-OTG cable (USB-A to USB-C or micro-USB)
+- WSJT-X Android installed, CAT configured
+- UTC time sync confirmed before leaving home
+
+### FT8 Exchange — POTA Format
+
+```
+CQ POTA KO6NNH DM06      ← your CQ (WSJT-X sends "CQ POTA" automatically)
+W1ABC KO6NNH -05          ← hunter replies with signal report
+KO6NNH W1ABC R-07         ← you confirm receipt; send your report
+W1ABC KO6NNH RR73         ← hunter confirms; QSO complete
+```
+
+WSJT-X handles the sequence automatically. Double-click caller's callsign in waterfall.
+
+### Activation Checklist — FT8
+- [ ] hi-band (tr)uSDX assembled and running
+- [ ] USB-OTG cable: audio + CAT confirmed working
+- [ ] WSJT-X: waterfall scrolling, TX cycle visible
+- [ ] UTC sync: ±1 sec from GPS or NTP
+- [ ] TX power: 2–3W (thermal protection at 100% duty cycle)
+- [ ] Antenna resonant on chosen band
+- [ ] Spotted on pota.app before operating
+
+### Logging
+WSJT-X auto-logs ADIF. Export after session. Upload to pota.app: `My Activations → Import ADIF`.
+
+---
+
+## 40. UV-5R EMERGENCY MANUAL PROGRAMMING
+
+Use when: radio factory reset, Bluetooth app unavailable, CHIRP cable unavailable.
+
+### Step 1 — Program 146.520 Simplex
+
+1. Press `[VFO/MR]` to enter VFO mode
+2. Press `[A/B]` to select the A (top) display
+3. Enter: `1 4 6 5 2 0` → display reads 146.520
+4. `[MENU]` → item **27 (MEM-CH)** → `[MENU]` → enter channel number (e.g., 20) → `[MENU]`
+5. Confirm: switch to MR mode → go to channel 20 → 146.520 displayed
+
+### Step 2 — Program a Repeater (e.g., 146.940 output, –600 kHz offset)
+
+1. VFO mode; enter output frequency: `1 4 6 9 4 0`
+2. Set offset direction: `[MENU]` → item **26 (SFT-D)** → select `–` → `[MENU]`
+3. Set offset amount: `[MENU]` → item **25 (OFFSET)** → enter `00600` → `[MENU]`
+4. Set CTCSS: `[MENU]` → item **13 (T-CTCS)** → find tone (e.g., 100.0 Hz) → `[MENU]`
+5. Store: `[MENU]` → item **27 (MEM-CH)** → channel number → `[MENU]`
+
+### Step 3 — Verify
+Switch to memory mode; select channel; confirm offset frequency shows during TX.
+
+### CTCSS Tones for Local Repeaters
+Research MARA (Merced Amateur Radio Association) repeater frequency and CTCSS tone; add here before next activation season.
+
+### UV-5R Mini Notes
+- Identical menu structure; same item numbers
+- Bluetooth programming available when app is working; fall back to manual if not
+- Both use the same CHIRP channel file format
+
+---
+
+## 41. RADIO INTERFERENCE IDENTIFICATION
+
+### Common Noise Sources in Field
+
+| Source | Sound | Mitigation |
+|---|---|---|
+| Electric fence | Regular tick ~1–2 Hz | Move antenna; orient wire null end-on toward fence |
+| Power lines | 60 Hz hum + harmonics | Move > 200m; orient EFHW off-axis to line |
+| Generator | Broadband hash + 120 Hz modulation | > 50m away upwind; or turn engine off |
+| Solar charge controller (PWM) | Switching buzz | Turn off PWM controllers; use linear regulators near rig |
+| LED lighting | 30–50 kHz hash | Turn off LED lights within 20m of operating position |
+| Vehicle ignition | Click/buzz increasing with RPM | Engine off during operation |
+
+### Noise Floor Diagnostic
+
+1. **Identify:** tune to empty frequency; note S-meter reading
+2. **Rotate antenna:** if noise drops ≥ 2 S-units with heading change → directional → locate source
+3. **Switch-off test:** turn off gear one at a time; note S-meter change
+4. **Distance test:** move operating position 50m; if noise drops → fixed source
+5. **Common mode test:** if noise only on RX (not on TinySA via antenna port) → RF on coax shield → add Mix 31 snap-on chokes at feedpoint
+
+### Antenna Orientation for Nulling
+Wire antennas (EFHW, dipole) have a null off each end of the wire. Rotate wire end-on toward noise source to reduce pickup.
+
+Whip antennas are omnidirectional — no rotational null. For whips: distance is the only option.
+
+### Terminology
+- **QRM** = man-made interference (stations, power lines)
+- **QRN** = natural noise (static, lightning crashes)
+- **QRI** = interference you are causing to others — check your own gear if reported
+
+---
+
+## 42. FREQUENCY AGILITY — BAND-CHANGE DECISION TREE
+
+Use when your current band is not producing contacts after 15+ minutes.
+
+### Decision Tree
+
+```
+No contacts after 15 minutes?
+│
+├── Spotted on pota.app? → If no, spot now; wait 5 more minutes
+│
+├── Another station on your frequency? → QSY 2 kHz; re-spot
+│
+├── Try a second band:
+│   ├── On 40m → try 20m (14.057 CW or 14.074 FT8)
+│   ├── On 20m → try 40m (7.030 CW or 7.074 FT8) or 15m (21.060 CW, SFI > 80)
+│   └── On 80m → try 40m (evening/night)
+│
+├── Try a different mode:
+│   ├── On CW → try FT8 (requires hi-band (tr)uSDX + tablet)
+│   └── On FT8 → try CW or SSB phone
+│
+└── Try VHF:
+    └── 146.520 FM: "KO6NNH at K-xxxx, looking for POTA contact, 146.520 simplex"
+```
+
+### Band Conditions by Time (Pacific)
+
+| Time | Best Band | Notes |
+|---|---|---|
+| 0600–0900 | 20m, 40m | 40m still open; 20m rising |
+| 0900–1400 | 20m | Primary POTA hours; widest hunter pool |
+| 1400–1800 | 20m, 15m (SFI > 80) | Peak hours; 15m some afternoons |
+| 1800–2100 | 40m | Long haul; 20m fading; 40m building |
+| 2100–0600 | 40m, 80m | DX windows; domestic medium range |
+
+### Propagation Check (Without Internet)
+- Hear other stations working DX → band is open
+- FT8 waterfall: signals visible → band is viable
+- WWV on H4M at 2.5/5/10/15 MHz: loud signal = propagation cooperating on that path
+
+### The 45-Minute Rule
+Zero contacts after 45 minutes trying two bands: conditions or location are the issue.
+1. Activate with VHF contacts via 146.520
+2. Reserve the park for a better-conditions day
+3. Submit 0-QSO log — POTA records the attempt; hunters understand
+
+---
+
+## 43. CALLSIGN AND LICENSE REFERENCE CARD
+
+Laminate this card. Carry in pocket alongside emergency contact card (§30).
+
+```
+┌─────────────────────────────────────────────────────┐
+│  CALLSIGN:    KO6NNH                                 │
+│  CLASS:       Amateur Extra                          │
+│  LICENSED:    2026-05 (10-year; expires 2036)        │
+│  FCC ULS:     fcc.gov/uls — search KO6NNH            │
+│  GRID:        DM06  (37.3°N 120.5°W, Merced CA)      │
+│  CLUB:        SKCC #[number] / LICW member           │
+│                                                      │
+│  EMERGENCY CONTACT:  [name] [phone]                  │
+│                                                      │
+│  IF FOUND: Merced Sheriff (209) 385-7472             │
+│  ARRL emergency line: (860) 594-0200                 │
+└─────────────────────────────────────────────────────┘
+```
+
+### What Operators Need From You
+- **ID requirement:** callsign at end of each QSO and every 10 minutes during extended ops (Part 97.119)
+- **License:** not required to carry a printed copy; digital copy on phone is sufficient (FCC 2013)
+- **Extra class:** full privileges on all bands — no Extra-specific segment restrictions
+- **Before CQ:** confirm you are within your licensed segment (use extra_band_plan.md)
+
+### Vanity Callsign Target: K6NN
+- **30-day waiting period** after KO6NNH issuance before application window opens
+- Check availability: fcc.gov/uls → license search → K6NN
+- On grant: update pota.app, SKCC, APRS config (H4M), Baofeng channels, LoTW certificate, WSJT-X
+
+---
+
+## 44. OPERATING POSTURE AND FATIGUE (WHEELCHAIR/PEDESTRIAN)
+
+### Key Clamp — Arm Position
+KY-116/U clamp on right thigh, knee bent ~90°:
+- **Elbow at ~90°** above key — avoids wrist extension; reduces fatigue
+- Arm resting on thigh or chair arm — not held up unsupported
+- At 5–15 WPM (field operating speed), fatigue is minimal
+- Problems appear above 20 WPM or during >45 min continuous sends
+
+### Wheelchair Layout
+- **Radio/tablet:** RAM mount on right armrest, at chest height
+- **Key:** KY-116/U on right thigh, same side as dominant hand
+- **Pack:** behind seat or in basket; accessible from sides — avoid leaning forward
+- **Coax:** route over armrest, not across lap (prevents cable tug on operating hand)
+- **Battery:** in lap tray or under-seat basket; keep cable run short
+
+### Pedestrian (Walking With Cane/Walker)
+- Deploy EFHW on fishing pole before sitting, from standing position using walker frame
+- All operation from seated/resting position once setup complete
+- Pack on walker basket or shoulder; weight toward back to prevent tip
+- Full setup reachable without standing — this is the design goal
+
+### Fatigue Schedule
+- **CW sessions:** 30–45 min maximum; rest hand; stretch, rotate wrist between sessions
+- **FT8 sessions:** no hand fatigue during TX (software sends); watch screen glare + neck angle
+- **Cold (< 45°F / 7°C):** fine motor control degrades; pre-warm hands; mitts between contacts
+- **Heat (> 95°F / 35°C):** cognitive fatigue increases errors; shorten sessions; hydrate aggressively
+
+### Minimize Search Time
+Every item has one place. Connector bag → same pocket. Keys → same hook. Coax → same pouch. Hunting for gear wastes fatigue budget that belongs to operating.
+
+---
+
+## 45. PORTABLE SOLAR CHARGING
+
+### When Solar Is Actually Needed
+- Single-day sessions (≤ 8 hours): battery box (240Wh) is sufficient without any charging
+- Li-ion pack (79Wh): sufficient for a 6-hour day trip
+- **Solar is only needed for:** multi-day trips (2+ days from shore power) or base camp setups with multiple radios
+
+### Current Kit — No Solar Needed
+Daily consumption estimate (current kit):
+- (tr)uSDX 2–3W average × 8 hr session = ~24 Wh
+- Instruments (NanoVNA, TinySA, intermittent) = ~4 Wh
+- Total: ~28–30 Wh/day
+
+Battery box = 240 Wh → **~8 full session days without charging**. Solar is not justified for current use pattern.
+
+### If You Add Solar — Minimum Viable
+When field sessions regularly exceed 6 hours or become multi-day:
+- **Panel:** 10–20W folding monocrystalline; ~1.5–2 lbs
+- **Output required:** 14.4–14.6V DC for battery box (LiFePO4 charge voltage) — verify panel/charger compatibility
+- **Realistic charge time:** 10W panel in 6 hr good sun = 60 Wh → replaces ~2 days of light use
+- **Add solar when:** multi-day camping activations become regular practice
+
+### Current State
+No solar panel in kit. Shore power and vehicle charging between field days is current plan. Revisit when multi-day activations begin.
+
+---
+
+## 46. QSL AND LOTW CONFIRMATION WORKFLOW
+
+### What QSLs Are For
+QSL cards (paper or digital) confirm a QSO occurred — both operators confirm the same contact. Required for DXCC award, WAS (Worked All States), some POTA challenges.
+
+### Logbook of the World (LoTW) — ARRL
+LoTW matches your uploaded log against other stations' uploads. When both parties upload the same QSO, the contact is confirmed.
+
+**One-time setup (from home):**
+1. Download TQSL from lotw.arrl.org
+2. Generate callsign certificate for KO6NNH (FCC license verification required)
+3. Install certificate in TQSL; this signs your ADIF exports
+
+**Field workflow:**
+1. Log contacts in WSJT-X (FT8) or POTA naturalist log (CW/SSB)
+2. At home: export ADIF → sign with TQSL → upload to LoTW
+3. Confirmations accumulate as matching logs appear
+
+### POTA vs LoTW — Two Separate Systems
+- POTA upload (pota.app ADIF) confirms your activation on POTA's system
+- LoTW upload confirms contacts for award credit in ARRL's system
+- Same ADIF file, two separate uploads; neither feeds the other automatically
+
+### Paper QSL Cards
+- Required by some DX operators for DXCC credits
+- Send via ARRL QSL Bureau (cheapest/slowest) or direct mail
+- Design KO6NNH cards when vanity callsign is settled (avoid reprinting if K6NN is granted)
+
+### Current State
+LoTW setup: **pending** — do before first DX operation targeting award credit. Paper QSL cards: not yet designed. POTA logging: active via pota.app.
+
+---
+
+## 47. SKCC EXCHANGE PROCEDURE IN FIELD
+
+SKCC (Straight Key Century Club) promotes straight key CW. Exchange includes your member number.
+
+### Key Legality for SKCC
+- Straight key only — no paddles, bugs, or keyers during SKCC QSOs
+- **KY-116/U** (leg clamp) and **J-37/J-38** are both legal straight keys for SKCC
+
+### Standard SKCC CW Exchange
+
+```
+CQ SKCC DE KO6NNH K
+
+[W1ABC responds: KO6NNH DE W1ABC K]
+
+W1ABC DE KO6NNH GM ES TU UR 579 579
+NAME MERV MERV QTH CA CA
+SKCC NR [your number] [your number] HW?
+
+[W1ABC sends his exchange]
+
+TU 73 GL SK DE KO6NNH
+```
+
+- GM = good morning (GD = good day, GA = good afternoon, GE = good evening)
+- HW = how copy?
+- Your SKCC number is required — without it, the other operator cannot count the contact toward their awards
+
+### SKCC Number
+Assigned at registration on skccgroup.com. **Enter your number above once confirmed.** Keep a note of it on the callsign reference card (§43).
+
+### SKCC Operating Events
+- **WES (Weekend Sprintathon):** first full weekend of each month, 24-hour event
+- **T/T/S:** regular operating sessions Tuesday, Thursday, Saturday
+- **Dual logging:** activate a POTA park during WES — contacts count for both POTA and SKCC simultaneously
+
+### Field Preparation
+Write your SKCC exchange on the POTA naturalist log sheet before starting — avoids fumbling for your number mid-QSO. Pre-write: `NR [xxxx] NAME MERV QTH CA` ready to send.
+
+---
+
 ## SUMMARY: THE COMPLETE KIT
 
 | Category | Item | Weight | Purpose |
@@ -1768,6 +2291,34 @@ Before field use, practice:
 29. ✓ Complete a valid POTA activation: 10 unique callsigns logged with UTC time/band/mode; upload ADIF to pota.app — first successful activation
 
 30. ✓ Activate emergency comms drill: select 146.520 on UV-5R Mini, transmit emergency format (callsign + park name + GPS + situation) to a known contact; verify H4M APRS packet visible on aprs.fi — system confirmed before it's needed
+
+31. ✓ Complete a POTA FT8 activation: hi-band (tr)uSDX + tablet + USB-OTG; UTC sync confirmed; 10 contacts logged in WSJT-X; ADIF uploaded to pota.app — digital mode activation complete
+
+32. ✓ Make a POTA phone contact on (tr)uSDX SSB: TX Drive 2, Mic Gain 2, correct sideband for band selected; call CQ with full callsign; exchange RST + name + QTH; log contact — SSB phone confirmed field-ready
+
+33. ✓ Predict gray line window for tomorrow using astrolabe: calculate local sunrise/sunset time, mark ±20-min gray line windows, identify which band and target regions — timing ready before field departure
+
+34. ✓ Check solar indices before a field session: read SFI/A/K from wwv.gov broadcast on H4M or from spaceweather.com; select operating band based on index thresholds from §37; state why you chose that band
+
+35. ✓ Send and receive the complete Morse alphabet from memory (A–Z, 0–9) at ≥ 5 WPM using KY-116/U — reference card (§38) not needed; characters committed to muscle memory
+
+36. ✓ Manually program 146.520 and one local repeater into UV-5R Mini from scratch (factory reset or blank channel): VFO entry, menu 25/26/27 navigation, CTCSS set, channel stored, MR mode confirmed — no phone, no cable
+
+37. ✓ Identify the noise source in a simulated interference scenario: rotate antenna, switch-off test, distance test; identify whether noise is QRM/QRN/common mode; state the mitigation applied
+
+38. ✓ Execute the band-change decision tree (§42) at a simulated POTA activation: 15 min no contacts → spot check → try second band → try second mode → VHF fallback — no contacts required, decision process is the test
+
+39. ✓ Recite your callsign/class/grid/SKCC number from memory (§43 card not in hand): KO6NNH, Extra, DM06, SKCC number — information you need instantly in any QSO
+
+40. ✓ Complete a 45-minute CW operating session with no fatigue-related key errors in the last 15 minutes: arm position per §44; rest between contacts; wrist stretch after session — posture protocol confirmed
+
+41. ✓ Complete a full SKCC QSO exchange from memory: call CQ SKCC, receive response, send RST + name + QTH + SKCC number, receive exchange, close with 73 SK — SKCC number in exchange without reference card
+
+42. ✓ Export ADIF from WSJT-X and upload to pota.app; then sign same ADIF with TQSL and upload to LoTW — both confirmation systems updated from one log export
+
+43. ✓ Check battery box voltage at session start; calculate remaining field time from §31 runtime table; state the reserve threshold voltage and what to shut down first — battery management by memory, not guessing
+
+44. ✓ Give a 30-second verbal summary of your current kit's propagation capability: which bands the current antennas cover, when those bands are usable from DM06, and what solar index threshold applies — situational awareness before any activation
 
 Once competent with these, you're genuinely self-sufficient in field scenarios.
 
