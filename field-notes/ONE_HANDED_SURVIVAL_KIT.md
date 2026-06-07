@@ -987,6 +987,7 @@ Chain caps at the weakest link: cheap BNC limits to ~1 GHz, blocks ADS-B (1090 M
 | Tuner | Z-match | 4 oz | Preferred field tuner — passive, instant, no power; two-cap tune; handles 15–35Ω whip feedpoint; harmonic suppression bonus; pre-characterize feedpoint Z at home for fast field setup |
 | Tuner | ATU-100 | 6 oz | Backup auto-tuner; stores memories; 2–5 sec tune sequence; handles 10:1 SWR; use after antenna is resonant, not instead of tuning |
 | Power | Battery box (12V 20Ah LiFePO4) | ~6 lbs | SEFEPODER in .50 cal ammo box; 240Wh; 6-port fused distribution; 12V→5V buck converter + USB-A; Powerpole outputs; see 12v_battery_box.md |
+| Power | Li-ion pack (12V 6600mAh / 5V 13200mAh) | ~9 oz | 79Wh; 12V DC barrel output → barrel-to-Powerpole pigtail for (tr)uSDX; 5V USB output for H4M/NanoVNA/TinySA/Baofeng charge; lightweight day-trip option — replaces battery box for single sessions; Li-ion (not LiFePO4) — charges via standard input |
 | Power | Jackery Explorer 160 | 3.9 lbs | 167Wh; covers tablets, RPi stack; barrel jack DC output (~6mm, TBD); no USB-C PD |
 | Feedline | RG-174 coax pigtail (6 ft) | 1 oz | Lightweight field feedline; BNC ends; low loss adequate at QRP; flexible, small diameter — fits connector bag |
 | Antenna | 6–7m fiberglass fishing pole | 5 oz | EFHW mast — pedestrian (sec 18) and wheelchair (sec 19); collapses to 60cm |
@@ -1022,7 +1023,7 @@ Chain caps at the weakest link: cheap BNC limits to ~1 GHz, blocks ADS-B (1090 M
 | Field Log | Propagation reference card (laminated) | 0.2 oz | Band guide (80m–6m: hours/range/conditions from Merced CA), solar indices (SFI/A/K thresholds), gray line window, QRP CW calling frequencies; grease pencil for session notes; from field_antennas.md Propagation section |
 | Miscellaneous | Grease pencil | 0.5 oz | Write on all laminated cards (site log, POTA log, propagation ref, band chart); wipe clean with dry cloth; carry 2 — one in field log pouch, one backup in connector bag |
 
-**Total: ~7.0 lbs** (distributed in canvas field bag, belt system, or backpack)
+**Total: ~7.6 lbs** (full kit with battery box; swap Li-ion pack for battery box = ~2.2 lbs day-trip config)
 
 ---
 
@@ -1030,6 +1031,7 @@ Chain caps at the weakest link: cheap BNC limits to ~1 GHz, blocks ADS-B (1090 M
 
 **Sources:**
 - **Battery box** (12V 20Ah LiFePO4, 240Wh) — primary for (tr)uSDX and 12V gear; 6-port Powerpole outputs; 12V→5V USB-A buck converter onboard
+- **Li-ion pack** (12V 6600mAh / 5V 13200mAh, 79Wh) — lightweight day-trip; 12V barrel → barrel-to-Powerpole pigtail for (tr)uSDX; 5V USB-A for H4M/NanoVNA/TinySA/Baofeng charge; replaces battery box for single sessions — saves ~5 lbs
 - **Jackery Explorer 160** (167Wh) — tablets, RPi stack; barrel jack DC; no USB-C PD
 
 **Runtime estimates:**
@@ -1044,14 +1046,19 @@ Chain caps at the weakest link: cheap BNC limits to ~1 GHz, blocks ADS-B (1090 M
 | TinySA Ultra | USB (5V) from battery box | ~200 mA | ~100 hrs |
 | UV-5R Mini | Internal LiPo | — | ~8–12 hrs per charge; USB charge |
 | UV-5R standard | Internal LiPo | — | ~12–16 hrs per charge; USB charge |
+| (tr)uSDX — RX only | 12V Li-ion pack | ~100 mA | ~66 hrs |
+| (tr)uSDX — POTA (20% TX duty) | 12V Li-ion pack | ~200 mA avg | ~33 hrs / ~3–4 field days |
+| H4M PortaPack | USB (5V) from Li-ion pack | ~500 mA | ~32 hrs |
 
 **Session rules:**
 - Battery box for all (tr)uSDX operation — Powerpole direct; 20 AWG minimum wire
+- Li-ion pack for day trips — 12V barrel → Powerpole pigtail for (tr)uSDX; 5V USB-A for instruments; 9 oz vs 6 lbs for battery box; one session capacity
 - Jackery for tablets, H4M USB charge, H4M PortaPack if preferred
 - Jackery has no USB-C PD — verify cable types before field session
 - Battery box voltage display: 13.2V = charged; holds flat to ~20% then drops fast
 - Below 12.4V: LiFePO4 near empty — switch to Jackery or wrap up
 - Battery box requires dedicated 14.4–14.6V LiFePO4 charger — not standard wall brick
+- Li-ion pack charges via standard barrel input — use included cable
 
 **No solar panel in current kit.** Plan charging from shore power or vehicle between field days.
 
@@ -1068,7 +1075,8 @@ Verify before leaving home. All items should be confirmed working, not just pack
 - [ ] H4M PortaPack: SD card seated; Mayhem firmware boots; SMA connector clean
 
 **Power:**
-- [ ] Battery box: voltage display ≥13.0V; Powerpole outputs functional
+- [ ] Battery box: voltage display ≥13.0V; Powerpole outputs functional (full kit)
+- [ ] Li-ion pack: charge indicator full; barrel-to-Powerpole pigtail in bag (day-trip swap)
 - [ ] Jackery: charge indicator ≥3 bars
 - [ ] Correct charging cables in bag for UV-5R Mini and H4M
 
