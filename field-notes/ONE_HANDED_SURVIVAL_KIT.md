@@ -1015,8 +1015,84 @@ Chain caps at the weakest link: cheap BNC limits to ~1 GHz, blocks ADS-B (1090 M
 | Miscellaneous | Notebook + pencil | 1 oz | Logging, notes — pencil works on Rite in the Rain paper; ballpoint and Sharpie also work; rollerball/gel/fountain pen do not |
 | Miscellaneous | Rite in the Rain #8511 sheets (pre-printed) | 0.5 oz | Laser-printed field log templates on synthetic paper; survives soaking; write with pencil or ballpoint in rain; not inkjet compatible; prototype phase before laminating final version |
 | Miscellaneous | Matches backup in vial | 0.2 oz | Fire backup storage |
+| RF | Field dummy load (QRPGuys Mini SMA) | 0.5 oz | 10W continuous, 20W peak; SMA connector; harmonic check: (tr)uSDX → dummy load → 30 dB att → TinySA; sidetone practice at power without RF on antenna; store with attenuators in connector bag |
+| Antenna | Nagoya NA-771 | 1 oz | 15" SMA male dual-band whip; fits UV-5R and UV-5R Mini; significant improvement over stock duck on 2m; carry mounted on active radio or in pouch as swap |
+| Antenna | 2m J-pole (rollup) | 1 oz | 155 cm total; 450Ω twin-lead (or window line); ~3 dBi; haul up on fishing pole; for ARES/RACES or POTA VHF fixed position — beats rubber duck by ~1 S-unit; coils flat in bag |
+| CW | Key cable — J-37 to (tr)uSDX | 0.5 oz | 1/4" mono plug → 3.5mm TRS; straight key: tip=key, sleeve=ground; required connection from J-37/J-38 to (tr)uSDX key jack; carry a spare |
+| Field Log | Propagation reference card (laminated) | 0.2 oz | Band guide (80m–6m: hours/range/conditions from Merced CA), solar indices (SFI/A/K thresholds), gray line window, QRP CW calling frequencies; grease pencil for session notes; from field_antennas.md Propagation section |
+| Miscellaneous | Grease pencil | 0.5 oz | Write on all laminated cards (site log, POTA log, propagation ref, band chart); wipe clean with dry cloth; carry 2 — one in field log pouch, one backup in connector bag |
 
-**Total: ~6.68 lbs** (distributed in canvas field bag, belt system, or backpack)
+**Total: ~7.0 lbs** (distributed in canvas field bag, belt system, or backpack)
+
+---
+
+## POWER MANAGEMENT — FIELD SESSIONS
+
+**Sources:**
+- **Battery box** (12V 20Ah LiFePO4, 240Wh) — primary for (tr)uSDX and 12V gear; 6-port Powerpole outputs; 12V→5V USB-A buck converter onboard
+- **Jackery Explorer 160** (167Wh) — tablets, RPi stack; barrel jack DC; no USB-C PD
+
+**Runtime estimates:**
+
+| Item | Supply | Typical draw | Estimated runtime |
+|---|---|---|---|
+| (tr)uSDX — RX only | 12V battery box | ~100 mA | >80 hrs |
+| (tr)uSDX — POTA (20% TX duty) | 12V battery box | ~200 mA avg | ~50 hrs / 5–6 field days |
+| (tr)uSDX — TX 5W | 12V battery box | ~700 mA | ~28 hrs at 100% TX |
+| H4M PortaPack | USB (5V) from battery box | ~500 mA | ~40 hrs |
+| NanoVNA | USB (5V) from battery box | ~250 mA | ~80 hrs |
+| TinySA Ultra | USB (5V) from battery box | ~200 mA | ~100 hrs |
+| UV-5R Mini | Internal LiPo | — | ~8–12 hrs per charge; USB charge |
+| UV-5R standard | Internal LiPo | — | ~12–16 hrs per charge; USB charge |
+
+**Session rules:**
+- Battery box for all (tr)uSDX operation — Powerpole direct; 20 AWG minimum wire
+- Jackery for tablets, H4M USB charge, H4M PortaPack if preferred
+- Jackery has no USB-C PD — verify cable types before field session
+- Battery box voltage display: 13.2V = charged; holds flat to ~20% then drops fast
+- Below 12.4V: LiFePO4 near empty — switch to Jackery or wrap up
+- Battery box requires dedicated 14.4–14.6V LiFePO4 charger — not standard wall brick
+
+**No solar panel in current kit.** Plan charging from shore power or vehicle between field days.
+
+---
+
+## PRE-FIELD GEAR CHECK
+
+Verify before leaving home. All items should be confirmed working, not just packed.
+
+**Radio and CW:**
+- [ ] (tr)uSDX lo-band: power on; display shows frequency; sidetone audible
+- [ ] Key cable (J-37 → 3.5mm TRS): connected and keying confirmed — sidetone fires on each dit/dah
+- [ ] Baofeng UV-5R Mini: charged; channels spot-checked; Nagoya NA-771 mounted
+- [ ] H4M PortaPack: SD card seated; Mayhem firmware boots; SMA connector clean
+
+**Power:**
+- [ ] Battery box: voltage display ≥13.0V; Powerpole outputs functional
+- [ ] Jackery: charge indicator ≥3 bars
+- [ ] Correct charging cables in bag for UV-5R Mini and H4M
+
+**Test equipment:**
+- [ ] NanoVNA: powers on; SOLT cal kit in connector bag; short pigtail present
+- [ ] TinySA Ultra: powers on
+- [ ] 30 dB SMA attenuator + field dummy load: both in connector bag
+
+**Antennas:**
+- [ ] 5.6m whip: extends and collapses fully; SMA base threads clean
+- [ ] Slider coil: slider moves freely; leads intact; in lens case; band positions marked
+- [ ] Linked counterpoise (10-band): all taps present; 80m end intact
+- [ ] EFHW wire + K6ARK unun: wire fully linked; all band connectors mate cleanly
+- [ ] 2m J-pole rollup: in bag; coax tail connector clean
+- [ ] Arborist throw bag + line: packed and accessible
+- [ ] Pocket rocket + monofilament: in bag
+
+**Connector bag:**
+- [ ] Four critical paths verified: (tr)uSDX BNC→Z-match, H4M SMA→antenna, NanoVNA→feedpoint, H4M SMA→30dB att→dummy load
+
+**Field logs:**
+- [ ] POTA naturalist log: laminated; grease pencil in pouch
+- [ ] Site log cards: laminated; grease pencil available
+- [ ] Propagation reference card: laminated; in field log pouch
 
 ---
 
@@ -1054,6 +1130,12 @@ Before field use, practice:
 20. ✓ Deploy Cat5/6 patch cable fan dipole one-handed — throw line, haul cable, plug RJ-45, connect coax, confirm SWR on NanoVNA — complete setup under 5 minutes
 
 21. ✓ Verify all four critical connector paths before field session — H4M→antenna, NanoVNA→feedpoint, (tr)uSDX BNC→Z-match, H4M→30dB att→dummy load — all paths covered without hunting
+
+22. ✓ Deploy 5.6m whip + 4 staked radials; SOLT calibrate NanoVNA at feedpoint; tune slider to 40m resonance; read R_feed; log to site card — complete R_ground procedure one-handed start to finish
+
+23. ✓ Connect (tr)uSDX → dummy load → 30 dB att → TinySA; key up; confirm fundamental visible; check 2nd and 3rd harmonic levels vs FCC 43 dBc limit — harmonic check complete before any antenna TX
+
+24. ✓ Deploy 2m J-pole on fishing pole one-handed; plug Baofeng with Nagoya; access local repeater or simplex contact — VHF deploy verified before ARES/RACES activation
 
 Once competent with these, you're genuinely self-sufficient in field scenarios.
 
