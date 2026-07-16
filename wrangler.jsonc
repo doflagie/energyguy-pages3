@@ -1,5 +1,16 @@
 {
   "name": "energyguy-pages3",
   "compatibility_date": "2026-01-18",
-  "pages_build_output_dir": "."
+  "pages_build_output_dir": ".",
+  // functions/api/gauntlet-scores.js reads/writes env.GAUNTLET_SCORES.
+  // Replace "id" below with a real namespace id before deploying:
+  //   wrangler kv namespace create GAUNTLET_SCORES
+  // then paste the returned id here (or configure the binding in the
+  // Cloudflare Pages dashboard under Settings > Functions > KV namespace bindings).
+  "kv_namespaces": [
+    {
+      "binding": "GAUNTLET_SCORES",
+      "id": "REPLACE_WITH_REAL_KV_NAMESPACE_ID"
+    }
+  ]
 }
