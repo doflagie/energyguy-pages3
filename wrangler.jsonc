@@ -3,14 +3,10 @@
   "compatibility_date": "2026-01-18",
   "pages_build_output_dir": ".",
   // functions/api/gauntlet-scores.js reads/writes env.GAUNTLET_SCORES.
-  // Replace "id" below with a real namespace id before deploying:
-  //   wrangler kv namespace create GAUNTLET_SCORES
-  // then paste the returned id here (or configure the binding in the
-  // Cloudflare Pages dashboard under Settings > Functions > KV namespace bindings).
   "kv_namespaces": [
     {
       "binding": "GAUNTLET_SCORES",
-      "id": "REPLACE_WITH_REAL_KV_NAMESPACE_ID"
+      "id": "d78f007fbc9b4d94bada2ad0f4a65576"
     }
   ]
 }
