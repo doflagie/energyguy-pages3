@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transmitter Spectral Purity Testing (TinySA) - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">When you build it, it teaches.</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+                        <nav>
+                            <h3>Main Navigation</h3>
+                            <ul>
+                                <li><a href="/">Home</a></li>
+                                <li><a href="../about/bio.html">About</a></li>
+                            </ul>
+
+                            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul>
+                                <li><a href="../antennas/index.html">Antenna Library</a></li>
+                            </ul>
+            </details>
+
+                            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul>
+                                <li><a href="../test_gear/index.html">Test Equipment Library</a></li>
+                            </ul>
+            </details>
+
+                            <h3>Standards</h3>
+                            <ul>
+                                <li><a href="/Calibration_Ideas/index.html">Calibration Standards</a></li>
+                                <li><a href="../Calibration_Ideas/index.html">NIST-Traceable Standards</a></li>
+                            </ul>
+
+                            <details class="nav-group" open>
+                <summary>Study & Training</summary>
+                <ul>
+                                <li><a href="https://assets.doflagie.com/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                                <li><a href="https://assets.doflagie.com/study/morse.html">Morse Code Practice</a></li>
+                            </ul>
+            </details>
+
+                            <h3>Resources</h3>
+                            <ul>
+                                <li><a href="https://assets.doflagie.com/study/morse.html">Morse Practice Library</a></li>
+                                <li><a href="https://assets.doflagie.com/study/index.html">Study Machine</a></li>
+                            </ul>
+                        </nav>
+<main>
+                <h1 id="transmitter-spectral-purity-testing-tinysa">Transmitter Spectral Purity Testing (TinySA)</h1>
+                <h2 id="overview">Overview</h2>
+                <p>Spectral purity testing checks a transmitter's harmonics and spurious emissions against its fundamental — verifying the rig isn't radiating significant energy outside the intended signal. The TinySA is purpose-built for this: real spectrum analyzer architecture, calibrated, with the dynamic range to resolve spurs well below the fundamental.</p>
+                <hr />
+                <h2 id="mandatory-protection-chain">Mandatory Protection Chain</h2>
+                <p><strong>Never connect a transmitter directly to the TinySA input.</strong> Its front-end is not rated for TX power and will be destroyed instantly. Build this chain every time:</p>
+                <ol>
+                <li><strong>Dummy load</strong> — TX output terminates here, rated for full TX power.</li>
+                <li><strong>Sampling port — prefer loose coupling.</strong> A loosely-coupled directional (tandem match) coupler, high coupling factor (e.g., -30 to -50 dB), is the preferred method: it taps off only a tiny fraction of forward power, often reducing or eliminating the need for a separate attenuator pad, and adds minimal insertion loss to the main TX path. Because harmonic testing is a <em>relative</em> measurement (dBc), the exact coupling factor doesn't need to be precisely known — it applies equally to the fundamental and its harmonics and cancels out of the ratio. <strong>This only holds if the coupling is reasonably flat across the frequency range being swept</strong> (fundamental through the harmonics of interest). A proper transmission-line-style tandem coupler is flat over a wide band; an ad hoc proximity tap (bare wire laid near the feedline) can have coupling that shifts noticeably with frequency, skewing dBc readings even though spur presence/absence is still valid. Use a real tandem coupler when precise dBc numbers matter; a proximity tap is fine only for a quick go/no-go check.</li>
+                <li><strong>Fixed attenuator pad</strong> — add if the loose coupling alone doesn't bring the sample comfortably under the TinySA's safe input, rated for the actual power hitting it. Check your specific TinySA model's max safe input (basic TinySA and TinySA Ultra differ).</li>
+                <li><strong>TinySA input</strong> (LOW port for RX/SA measurements).</li>
+                </ol>
+                <p><strong>Math check before every session:</strong> TX power (dBm) − coupler (dB) − pad (dB, if used) = power at TinySA input. Confirm this stays well under the max safe input with margin.</p>
+                <p><strong>Verify with a wattmeter/power meter first</strong> — don't trust the calculation alone on the first connection of a new setup, and don't rely on TinySA's own internal attenuator as your only protection against full TX power.</p>
+                <hr />
+                <h2 id="procedure">Procedure</h2>
+                <ol>
+                <li>Connect the transmitter through the full protection chain above into the TinySA LOW input.</li>
+                <li>Set span to cover the fundamental plus at least the 2nd through 4th harmonics (e.g., for 7 MHz, span 0-30+ MHz).</li>
+                <li>Set RBW appropriately narrow to resolve close-in spurs without making the sweep too slow (TinySA auto-RBW is a reasonable starting point).</li>
+                <li>Set reference level (top of screen) just above the expected fundamental peak so it doesn't clip, and set scale (dB/div) to keep both the fundamental and the noise floor visible.</li>
+                <li>Key the transmitter at a known, low power level into the dummy load.</li>
+                <li>Note the fundamental peak amplitude and frequency (use MARKER to place a marker directly on the peak).</li>
+                <li>Use the DELTA marker function: place the reference marker on the fundamental, then move a second marker to each harmonic to read dBc (dB relative to carrier) directly.</li>
+                <li>Step through 2nd, 3rd, 4th (and higher, if of interest) harmonics, recording frequency and dBc for each.</li>
+                <li>Widen the span and sweep well above and below the harmonic series for unrelated spurs — mixing products, switching power supply noise, VFO/PLL spurs, etc.</li>
+                <li>Record: fundamental frequency/power, each harmonic's frequency and dBc, any unexplained spurs and their dBc.</li>
+                </ol>
+                <h3 id="tips">Tips</h3>
+                <ul>
+                <li>Use MAX HOLD while keying the transmitter a few times to catch intermittent spurs.</li>
+                <li>If a peak looks suspicious, key down and confirm it disappears — anything present with the TX off is TinySA's own noise floor or ambient RF, not a transmitter spur.</li>
+                <li>Repeat at more than one TX power level (e.g., low and full power) — some spurs only appear near saturation.</li>
+                </ul>
+                <hr />
+                <h2 id="interpreting-results">Interpreting Results</h2>
+                <p>FCC Part 97.307 sets spurious emission limits, which vary by power level and by whether the fundamental is below or above 30 MHz — check the current table rather than relying on a remembered figure. As a general health-check baseline, hams typically look for:</p>
+                <ul>
+                <li>Harmonics at least 40 dB down from the fundamental at minimum</li>
+                <li>A clean rig typically shows 50-60+ dB down</li>
+                <li>No unexplained spurs above the noise floor outside the harmonic series</li>
+                </ul>
+                <hr />
+                <h2 id="quick-reference">Quick Reference</h2>
+                <p><strong>Protection chain:</strong> Dummy load → loosely-coupled tandem coupler (preferred) → attenuator pad (if needed) → TinySA LOW input (verify math with wattmeter first)</p>
+                <p><strong>Key markers:</strong> Fundamental = reference marker; harmonics = delta marker readings in dBc</p>
+                <p><strong>Catch intermittent spurs:</strong> MAX HOLD across several keying cycles</p>
+                <p><strong>Never:</strong> Connect a transmitter directly to the TinySA input</p>
+            </main>
+        </div>
+    </div>
+    <!-- Footer / Address Block -->
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>GMRS Callsign: WRXN788</p>
+            <p>Merced, California 95340</p>
+
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation and designs shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a> unless otherwise noted.</p>
+
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
