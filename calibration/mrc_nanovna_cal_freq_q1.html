@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NanoVNA Frequency Calibration MRC - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">When you build it, it teaches.</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+                        <nav>
+                            <h3>Main Navigation</h3>
+                            <ul>
+                                <li><a href="/">Home</a></li>
+                                <li><a href="../about/bio.html">About</a></li>
+                            </ul>
+
+                            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul>
+                                <li><a href="../antennas/index.html">Antenna Library</a></li>
+                            </ul>
+            </details>
+
+                            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul>
+                                <li><a href="../test_gear/index.html">Test Equipment Library</a></li>
+                            </ul>
+            </details>
+
+                            <h3>Standards</h3>
+                            <ul>
+                                <li><a href="/Calibration_Ideas/index.html">Calibration Standards</a></li>
+                                <li><a href="../Calibration_Ideas/index.html">NIST-Traceable Standards</a></li>
+                            </ul>
+
+                            <details class="nav-group" open>
+                <summary>Study & Training</summary>
+                <ul>
+                                <li><a href="https://assets.doflagie.com/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                                <li><a href="https://assets.doflagie.com/study/morse.html">Morse Code Practice</a></li>
+                            </ul>
+            </details>
+
+                            <h3>Resources</h3>
+                            <ul>
+                                <li><a href="https://assets.doflagie.com/study/morse.html">Morse Practice Library</a></li>
+                                <li><a href="https://assets.doflagie.com/study/index.html">Study Machine</a></li>
+                            </ul>
+                        </nav>
+<main>
+                <h1 id="maintenance-requirement-card-mrc">MAINTENANCE REQUIREMENT CARD (MRC)</h1>
+                <p><strong>SYSCOM MRC CONTROL NUMBER:</strong> NVNA-CAL-FREQ-Q1-N<br>
+                <strong>DATE:</strong> August 2026<br>
+                <strong>PERIODICITY:</strong> Q-1 (Quarterly)<br>
+                <strong>LOCATION:</strong> RF Test Bench<br>
+                <strong>EQUIPMENT:</strong> NanoVNA (Vector Network Analyzer) — Frequency Reference</p>
+                <h2 id="maintenance-requirement-description">MAINTENANCE REQUIREMENT DESCRIPTION:</h2>
+                <ol>
+                <li>Verify NanoVNA's internal frequency reference against a known-accurate external standard.</li>
+                <li>Apply frequency correction if drift exceeds acceptable tolerance.</li>
+                <li>Log the measured error (ppm) to track long-term aging/drift trend.</li>
+                </ol>
+                <h2 id="safety-precautions">SAFETY PRECAUTIONS:</h2>
+                <ol>
+                <li>Allow NanoVNA to warm up (10-15 minutes, running a sweep) before calibrating — crystal reference drifts during warm-up.</li>
+                <li>Keep injected signal levels within the unit's safe input rating.</li>
+                </ol>
+                <h2 id="tpmte">TOOLS, PARTS, MATERIALS, TEST EQUIPMENT (TPMTE):</h2>
+                <ol>
+                <li>[IV] GPS-Disciplined Field Calibration System (GPSDO — NEO-M8N + Si5351 + ESP32) — primary reference</li>
+                <li>[IV] Frequency counter (from calibration system), for cross-check</li>
+                <li>[IV] Alternate off-air reference if GPSDO unavailable: WWV/WWVH/CHU time-standard broadcast, or a known FM broadcast pilot tone</li>
+                <li>[IV] Coax jumpers/adapters to connect reference source to NanoVNA input</li>
+                </ol>
+                <h2 id="procedure">PROCEDURE:</h2>
+                <ol>
+                <li><strong>Warm-Up:</strong> Power on NanoVNA, run a sweep, let it run 10-15 minutes before proceeding.</li>
+                <li><strong>Generate Reference Signal:</strong>
+                <ul>
+                <li>Set the GPSDO (Si5351 output) to a known frequency in NanoVNA's range (e.g., 10 MHz), or tune to an off-air standard (WWV 5/10/15 MHz, CHU 3.330/7.850/14.670 MHz) if the GPSDO isn't set up.</li>
+                </ul>
+                </li>
+                <li><strong>Measure on NanoVNA:</strong>
+                <ul>
+                <li>Use the receiver/spectrum-style measurement (or feed the reference into CH0 and observe the response) with a narrow span centered on the reference frequency.</li>
+                <li>Place a marker on the peak and read the displayed frequency.</li>
+                </ul>
+                </li>
+                <li><strong>Calculate Error:</strong>
+                <ul>
+                <li>Error (ppm) = (displayed freq − reference freq) / reference freq × 1,000,000.</li>
+                </ul>
+                </li>
+                <li><strong>Apply Correction (if needed):</strong>
+                <ul>
+                <li>If error exceeds tolerance (baseline: within the unit's rated TCXO spec, typically low single-digit ppm), apply the frequency correction setting in the config/expert menu per current firmware documentation.</li>
+                <li>Re-measure after correction to confirm.</li>
+                </ul>
+                </li>
+                <li><strong>Log Result:</strong>
+                <ul>
+                <li>Record date, measured ppm error (pre- and post-correction), and reference source used.</li>
+                <li>Compare against prior quarter's log entry to watch for accelerating drift.</li>
+                <li><strong>Note:</strong> A drifted frequency reference on the NanoVNA shifts where markers/resonances appear (e.g., an antenna's measured resonant frequency), so this check matters even though SOLT calibration corrects amplitude/phase errors — it does not correct a frequency reference error.</li>
+                </ul>
+                </li>
+                </ol>
+                <hr />
+                <p><strong>NET STATUS: SAT / UNSAT</strong> — mark SAT if within tolerance (post-correction if applied); mark UNSAT and flag for annual external verification (NVNA-CAL-EXT-A1-N) if drift is unusually large or accelerating.</p>
+            </main>
+        </div>
+    </div>
+    <!-- Footer / Address Block -->
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>GMRS Callsign: WRXN788</p>
+            <p>Merced, California 95340</p>
+
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation and designs shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a> unless otherwise noted.</p>
+
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

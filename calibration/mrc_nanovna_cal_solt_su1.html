@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NanoVNA SOLT Port Calibration MRC - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">When you build it, it teaches.</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+                        <nav>
+                            <h3>Main Navigation</h3>
+                            <ul>
+                                <li><a href="/">Home</a></li>
+                                <li><a href="../about/bio.html">About</a></li>
+                            </ul>
+
+                            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul>
+                                <li><a href="../antennas/index.html">Antenna Library</a></li>
+                            </ul>
+            </details>
+
+                            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul>
+                                <li><a href="../test_gear/index.html">Test Equipment Library</a></li>
+                            </ul>
+            </details>
+
+                            <h3>Standards</h3>
+                            <ul>
+                                <li><a href="/Calibration_Ideas/index.html">Calibration Standards</a></li>
+                                <li><a href="../Calibration_Ideas/index.html">NIST-Traceable Standards</a></li>
+                            </ul>
+
+                            <details class="nav-group" open>
+                <summary>Study & Training</summary>
+                <ul>
+                                <li><a href="https://assets.doflagie.com/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                                <li><a href="https://assets.doflagie.com/study/morse.html">Morse Code Practice</a></li>
+                            </ul>
+            </details>
+
+                            <h3>Resources</h3>
+                            <ul>
+                                <li><a href="https://assets.doflagie.com/study/morse.html">Morse Practice Library</a></li>
+                                <li><a href="https://assets.doflagie.com/study/index.html">Study Machine</a></li>
+                            </ul>
+                        </nav>
+<main>
+                <h1 id="maintenance-requirement-card-mrc">MAINTENANCE REQUIREMENT CARD (MRC)</h1>
+                <p><strong>SYSCOM MRC CONTROL NUMBER:</strong> NVNA-CAL-SOLT-SU1-N<br>
+                <strong>DATE:</strong> August 2026<br>
+                <strong>PERIODICITY:</strong> SU-1 (Pre-Session)<br>
+                <strong>LOCATION:</strong> RF Test Bench<br>
+                <strong>EQUIPMENT:</strong> NanoVNA (Vector Network Analyzer) — Port Calibration</p>
+                <h2 id="maintenance-requirement-description">MAINTENANCE REQUIREMENT DESCRIPTION:</h2>
+                <ol>
+                <li>Perform SOL (1-port) or SOLT (2-port) calibration before every measurement session.</li>
+                <li>Calibrate only the exact frequency range that will be measured.</li>
+                <li>Verify calibration quality against a known-good load before trusting results.</li>
+                </ol>
+                <p><strong>Perform before:</strong> every measurement session — this is not an occasional check, it's required each time the frequency range or setup changes.</p>
+                <h2 id="safety-precautions">SAFETY PRECAUTIONS:</h2>
+                <ol>
+                <li>Let the NanoVNA warm up (10-15 minutes, running any sweep) before calibrating — crystal frequency drifts while warming up.</li>
+                <li>Clean all connectors with isopropyl alcohol before calibrating; finger-tighten only, no cross-threading.</li>
+                </ol>
+                <h2 id="tpmte">TOOLS, PARTS, MATERIALS, TEST EQUIPMENT (TPMTE):</h2>
+                <ol>
+                <li>[IV] NanoVNA</li>
+                <li>[IV] SOLT calibration kit (Short, Open, Load standards; Thru adapter for 2-port)</li>
+                <li>[II] Isopropyl alcohol (99%), for connector cleaning</li>
+                <li>[IV] Microfiber cloth / connector brush</li>
+                </ol>
+                <h2 id="procedure">PROCEDURE:</h2>
+                <ol>
+                <li><strong>Set Frequency Range:</strong> Set START/STOP to exactly the range you intend to measure — do not calibrate wider than needed, and never measure outside a calibrated range.</li>
+                <li><strong>1-Port (SOL) Calibration — antennas, impedance, SWR:</strong>
+                <ul>
+                <li>CAL → CALIBRATE → S11.</li>
+                <li>Connect SHORT to CH0 → press SHORT, wait for sweep.</li>
+                <li>Remove SHORT, connect OPEN to CH0 → press OPEN, wait for sweep.</li>
+                <li>Remove OPEN, connect 50Ω LOAD to CH0 → press LOAD, wait for sweep.</li>
+                <li>Press DONE/APPLY. Save to a cal slot (CAL → SAVE → slot 0-4).</li>
+                </ul>
+                </li>
+                <li><strong>2-Port (SOLT) Calibration — filters, amplifiers, attenuators, cables:</strong>
+                <ul>
+                <li>CAL → CALIBRATE → S11+S21+S22+S12 (full 2-port).</li>
+                <li>CH0 (PORT1): SHORT → OPEN → LOAD, as above.</li>
+                <li>Connect CH0 to CH1 via THRU adapter → press THRU.</li>
+                <li>Disconnect THRU. CH1 (PORT2): SHORT → OPEN → LOAD.</li>
+                <li>Press APPLY, save calibration.</li>
+                </ul>
+                </li>
+                <li><strong>Verify:</strong>
+                <ul>
+                <li>Connect the 50Ω LOAD standard.</li>
+                <li>Confirm SWR reads 1.00:1 and impedance reads 50Ω +j0 (Smith chart dead center).</li>
+                <li>If not near-perfect, re-clean connectors and re-calibrate before proceeding.</li>
+                </ul>
+                </li>
+                </ol>
+                <hr />
+                <p><strong>NET STATUS: SAT / UNSAT</strong> — mark SAT if the LOAD verification is clean; mark UNSAT and re-calibrate (checking standards quality and connector condition) if not.</p>
+            </main>
+        </div>
+    </div>
+    <!-- Footer / Address Block -->
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>GMRS Callsign: WRXN788</p>
+            <p>Merced, California 95340</p>
+
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation and designs shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a> unless otherwise noted.</p>
+
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
