@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TinySA External Calibration Verification MRC - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">When you build it, it teaches.</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+                        <nav>
+                            <h3>Main Navigation</h3>
+                            <ul>
+                                <li><a href="/">Home</a></li>
+                                <li><a href="../about/bio.html">About</a></li>
+                            </ul>
+
+                            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul>
+                                <li><a href="../antennas/index.html">Antenna Library</a></li>
+                            </ul>
+            </details>
+
+                            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul>
+                                <li><a href="../test_gear/index.html">Test Equipment Library</a></li>
+                            </ul>
+            </details>
+
+                            <h3>Standards</h3>
+                            <ul>
+                                <li><a href="/Calibration_Ideas/index.html">Calibration Standards</a></li>
+                                <li><a href="../Calibration_Ideas/index.html">NIST-Traceable Standards</a></li>
+                            </ul>
+
+                            <details class="nav-group" open>
+                <summary>Study & Training</summary>
+                <ul>
+                                <li><a href="https://assets.doflagie.com/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                                <li><a href="https://assets.doflagie.com/study/morse.html">Morse Code Practice</a></li>
+                            </ul>
+            </details>
+
+                            <h3>Resources</h3>
+                            <ul>
+                                <li><a href="https://assets.doflagie.com/study/morse.html">Morse Practice Library</a></li>
+                                <li><a href="https://assets.doflagie.com/study/index.html">Study Machine</a></li>
+                            </ul>
+                        </nav>
+<main>
+                <h1 id="maintenance-requirement-card-mrc">MAINTENANCE REQUIREMENT CARD (MRC)</h1>
+                <p><strong>SYSCOM MRC CONTROL NUMBER:</strong> TSA-CAL-EXT-A1-N<br>
+                <strong>DATE:</strong> August 2026<br>
+                <strong>PERIODICITY:</strong> A-1 (Annual)<br>
+                <strong>LOCATION:</strong> RF Test Bench<br>
+                <strong>EQUIPMENT:</strong> TinySA (Spectrum Analyzer) — Full External Verification</p>
+                <h2 id="maintenance-requirement-description">MAINTENANCE REQUIREMENT DESCRIPTION:</h2>
+                <ol>
+                <li>Verify frequency accuracy at multiple spot frequencies across the full operating range (not just one reference point).</li>
+                <li>Verify amplitude accuracy against a known reference level.</li>
+                <li>Sanity-check RBW/filter shape and noise floor against prior-year baseline.</li>
+                <li>Document year-over-year drift trend for the unit.</li>
+                </ol>
+                <h2 id="safety-precautions">SAFETY PRECAUTIONS:</h2>
+                <ol>
+                <li>Warm up TinySA 10-15 minutes before starting.</li>
+                <li>Keep all injected signal levels within the TinySA's safe input rating — use the calibration system's signal/level reference output, not a raw high-power source.</li>
+                </ol>
+                <h2 id="tpmte">TOOLS, PARTS, MATERIALS, TEST EQUIPMENT (TPMTE):</h2>
+                <ol>
+                <li>[IV] GPS-Disciplined Field Calibration System (GPSDO + frequency counter + signal/level reference)</li>
+                <li>[IV] SOLT calibration kit (for any associated port/connector verification)</li>
+                <li>[IV] NanoVNA, as an independent secondary reference source (see TSA-CAL-XCHK-R1-N for the dedicated cross-check card)</li>
+                <li>[IV] Coax jumpers/adapters</li>
+                </ol>
+                <h2 id="procedure">PROCEDURE:</h2>
+                <ol>
+                <li><strong>Warm-Up:</strong> Power on, wait 10-15 minutes.</li>
+                <li><strong>Multi-Point Frequency Check:</strong>
+                <ul>
+                <li>Using the GPSDO/signal reference, generate known signals at low, mid, and high points of the TinySA's usable range (e.g., ~1 MHz, ~150 MHz, near top of range).</li>
+                <li>Measure and log ppm error at each point. A frequency-dependent error pattern (not just a flat offset) indicates something beyond simple ppm correction — note for further investigation.</li>
+                </ul>
+                </li>
+                <li><strong>Amplitude Accuracy Check:</strong>
+                <ul>
+                <li>Inject a known reference level (from the calibration system's signal/level reference) at one or more frequencies.</li>
+                <li>Compare TinySA's displayed amplitude (dBm) against the known reference value; log the offset.</li>
+                </ul>
+                </li>
+                <li><strong>Noise Floor / RBW Sanity Check:</strong>
+                <ul>
+                <li>With no input signal (terminated in 50Ω), record the displayed noise floor at a standard RBW setting.</li>
+                <li>Compare against last year's baseline — a rising noise floor can indicate front-end degradation.</li>
+                </ul>
+                </li>
+                <li><strong>Cross-Check Against NanoVNA (optional but recommended):</strong>
+                <ul>
+                <li>Run TSA-CAL-XCHK-R1-N as part of this annual check if not already done recently.</li>
+                </ul>
+                </li>
+                <li><strong>Log and Compare:</strong>
+                <ul>
+                <li>Record all figures (frequency error at 3 points, amplitude offset, noise floor) with date.</li>
+                <li>Compare against the prior year's TSA-CAL-EXT-A1-N log entry for trend.</li>
+                </ul>
+                </li>
+                </ol>
+                <hr />
+                <p><strong>NET STATUS: SAT / UNSAT</strong> — mark SAT if all figures are within the unit's rated tolerances and consistent with the historical trend; mark UNSAT and consider service/replacement if drift has become erratic or noise floor has risen significantly.</p>
+            </main>
+        </div>
+    </div>
+    <!-- Footer / Address Block -->
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>GMRS Callsign: WRXN788</p>
+            <p>Merced, California 95340</p>
+
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation and designs shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a> unless otherwise noted.</p>
+
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

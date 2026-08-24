@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TinySA Cross-Tool Calibration Check MRC - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">When you build it, it teaches.</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+                        <nav>
+                            <h3>Main Navigation</h3>
+                            <ul>
+                                <li><a href="/">Home</a></li>
+                                <li><a href="../about/bio.html">About</a></li>
+                            </ul>
+
+                            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul>
+                                <li><a href="../antennas/index.html">Antenna Library</a></li>
+                            </ul>
+            </details>
+
+                            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul>
+                                <li><a href="../test_gear/index.html">Test Equipment Library</a></li>
+                            </ul>
+            </details>
+
+                            <h3>Standards</h3>
+                            <ul>
+                                <li><a href="/Calibration_Ideas/index.html">Calibration Standards</a></li>
+                                <li><a href="../Calibration_Ideas/index.html">NIST-Traceable Standards</a></li>
+                            </ul>
+
+                            <details class="nav-group" open>
+                <summary>Study & Training</summary>
+                <ul>
+                                <li><a href="https://assets.doflagie.com/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                                <li><a href="https://assets.doflagie.com/study/morse.html">Morse Code Practice</a></li>
+                            </ul>
+            </details>
+
+                            <h3>Resources</h3>
+                            <ul>
+                                <li><a href="https://assets.doflagie.com/study/morse.html">Morse Practice Library</a></li>
+                                <li><a href="https://assets.doflagie.com/study/index.html">Study Machine</a></li>
+                            </ul>
+                        </nav>
+<main>
+                <h1 id="maintenance-requirement-card-mrc">MAINTENANCE REQUIREMENT CARD (MRC)</h1>
+                <p><strong>SYSCOM MRC CONTROL NUMBER:</strong> TSA-CAL-XCHK-R1-N<br>
+                <strong>DATE:</strong> August 2026<br>
+                <strong>PERIODICITY:</strong> R-1 (Situational)<br>
+                <strong>LOCATION:</strong> RF Test Bench<br>
+                <strong>EQUIPMENT:</strong> TinySA (Spectrum Analyzer) — Cross-Tool Check vs. NanoVNA</p>
+                <h2 id="maintenance-requirement-description">MAINTENANCE REQUIREMENT DESCRIPTION:</h2>
+                <ol>
+                <li>Cross-check TinySA frequency/amplitude readings against the NanoVNA using a common signal.</li>
+                <li>Use as a quick confidence check anytime one instrument's calibration is in doubt (after a drop, before a critical measurement session, after firmware update, or when the two units disagree on a field measurement).</li>
+                </ol>
+                <p><strong>Perform after:</strong> any physical shock/drop to either instrument, any firmware update to either instrument, or whenever field results from the two units don't agree and you need to know which one to trust.</p>
+                <h2 id="safety-precautions">SAFETY PRECAUTIONS:</h2>
+                <ol>
+                <li>Keep signal levels within both instruments' safe input ratings.</li>
+                <li>Warm up both instruments 10-15 minutes before comparing.</li>
+                </ol>
+                <h2 id="tpmte">TOOLS, PARTS, MATERIALS, TEST EQUIPMENT (TPMTE):</h2>
+                <ol>
+                <li>[IV] NanoVNA</li>
+                <li>[IV] TinySA</li>
+                <li>[IV] Coax jumpers/adapters, T-connector or splitter if comparing both instruments against one source simultaneously</li>
+                </ol>
+                <h2 id="procedure">PROCEDURE:</h2>
+                <ol>
+                <li><strong>Warm-Up:</strong> Power on both instruments, wait 10-15 minutes.</li>
+                <li><strong>Common Signal Source:</strong>
+                <ul>
+                <li>Use the NanoVNA's internal source (a known, set frequency) as the reference, or use the calibration system's GPSDO/signal reference feeding both instruments via a splitter.</li>
+                </ul>
+                </li>
+                <li><strong>Measure on TinySA:</strong>
+                <ul>
+                <li>If using the NanoVNA as the source, connect its output directly to the TinySA input at a safe level.</li>
+                <li>Sweep a narrow span on TinySA centered on the source frequency; record displayed frequency and amplitude.</li>
+                </ul>
+                </li>
+                <li><strong>Compare:</strong>
+                <ul>
+                <li>Compare TinySA's reading against the NanoVNA's set/known value.</li>
+                <li>A small, consistent offset is normal instrument-to-instrument variance; a large or erratic disagreement flags one (or both) units as needing the full annual verification (TSA-CAL-EXT-A1-N) or the NanoVNA's own calibration check.</li>
+                </ul>
+                </li>
+                <li><strong>Log Result:</strong>
+                <ul>
+                <li>Record date, trigger reason (drop/firmware update/field disagreement/routine), and the measured offset.</li>
+                </ul>
+                </li>
+                </ol>
+                <hr />
+                <p><strong>NET STATUS: SAT / UNSAT</strong> — mark SAT if the two instruments agree within normal variance; mark UNSAT and escalate to TSA-CAL-EXT-A1-N (or the NanoVNA's own calibration procedure) if they disagree significantly.</p>
+            </main>
+        </div>
+    </div>
+    <!-- Footer / Address Block -->
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>GMRS Callsign: WRXN788</p>
+            <p>Merced, California 95340</p>
+
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation and designs shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a> unless otherwise noted.</p>
+
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

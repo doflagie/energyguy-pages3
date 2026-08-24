@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TinySA Output Power Calibration MRC - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">When you build it, it teaches.</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+                        <nav>
+                            <h3>Main Navigation</h3>
+                            <ul>
+                                <li><a href="/">Home</a></li>
+                                <li><a href="../about/bio.html">About</a></li>
+                            </ul>
+
+                            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul>
+                                <li><a href="../antennas/index.html">Antenna Library</a></li>
+                            </ul>
+            </details>
+
+                            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul>
+                                <li><a href="../test_gear/index.html">Test Equipment Library</a></li>
+                            </ul>
+            </details>
+
+                            <h3>Standards</h3>
+                            <ul>
+                                <li><a href="/Calibration_Ideas/index.html">Calibration Standards</a></li>
+                                <li><a href="../Calibration_Ideas/index.html">NIST-Traceable Standards</a></li>
+                            </ul>
+
+                            <details class="nav-group" open>
+                <summary>Study & Training</summary>
+                <ul>
+                                <li><a href="https://assets.doflagie.com/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                                <li><a href="https://assets.doflagie.com/study/morse.html">Morse Code Practice</a></li>
+                            </ul>
+            </details>
+
+                            <h3>Resources</h3>
+                            <ul>
+                                <li><a href="https://assets.doflagie.com/study/morse.html">Morse Practice Library</a></li>
+                                <li><a href="https://assets.doflagie.com/study/index.html">Study Machine</a></li>
+                            </ul>
+                        </nav>
+<main>
+                <h1 id="maintenance-requirement-card-mrc">MAINTENANCE REQUIREMENT CARD (MRC)</h1>
+                <p><strong>SYSCOM MRC CONTROL NUMBER:</strong> TSA-CAL-PWR-A1-N<br>
+                <strong>DATE:</strong> August 2026<br>
+                <strong>PERIODICITY:</strong> A-1 (Annual)<br>
+                <strong>LOCATION:</strong> RF Test Bench<br>
+                <strong>EQUIPMENT:</strong> TinySA (Spectrum Analyzer) — Signal Generator Output</p>
+                <h2 id="maintenance-requirement-description">MAINTENANCE REQUIREMENT DESCRIPTION:</h2>
+                <ol>
+                <li>Verify the TinySA's built-in signal generator (LOW/HIGH output) delivers the power level it reports.</li>
+                <li>Record any offset between commanded and actual output level.</li>
+                <li>Check output level consistency across the frequency range used for signal-source work.</li>
+                </ol>
+                <h2 id="safety-precautions">SAFETY PRECAUTIONS:</h2>
+                <ol>
+                <li>Confirm the external power meter's input rating before connecting — don't exceed its max safe input.</li>
+                <li>Warm up TinySA 10-15 minutes before calibrating.</li>
+                <li>Use good-quality, known-loss cables/adapters between TinySA output and the power meter; a lossy or damaged jumper will masquerade as an output error.</li>
+                </ol>
+                <h2 id="tpmte">TOOLS, PARTS, MATERIALS, TEST EQUIPMENT (TPMTE):</h2>
+                <ol>
+                <li>[IV] External power meter (or the calibration system's power reference)</li>
+                <li>[IV] Known-loss coax jumper(s) and adapters (characterize their loss first if not already known)</li>
+                <li>[IV] GPS-Disciplined Field Calibration System, for frequency reference during the sweep</li>
+                </ol>
+                <h2 id="procedure">PROCEDURE:</h2>
+                <ol>
+                <li><strong>Warm-Up:</strong> Power on TinySA, wait 10-15 minutes.</li>
+                <li><strong>Baseline Cable Loss:</strong>
+                <ul>
+                <li>If not already known, measure/record the loss of the jumper(s) connecting TinySA's output to the power meter (via NanoVNA S21 or prior characterization).</li>
+                </ul>
+                </li>
+                <li><strong>Set Known Output:</strong>
+                <ul>
+                <li>Command the TinySA's signal generator to a known frequency and power level (e.g., 0 dBm at a representative low, mid, and high frequency you commonly use as a source).</li>
+                </ul>
+                </li>
+                <li><strong>Measure Actual Output:</strong>
+                <ul>
+                <li>Connect to the power meter through the characterized jumper.</li>
+                <li>Record the measured power, correct for jumper loss, and compare to the commanded level.</li>
+                </ul>
+                </li>
+                <li><strong>Log Offset:</strong>
+                <ul>
+                <li>Record the offset (dB) at each test frequency and power level.</li>
+                <li>If the offset is consistent, note it as a standing correction factor for future use of the signal generator.</li>
+                <li>If the offset varies significantly with frequency, log the full offset curve rather than a single number.</li>
+                </ul>
+                </li>
+                <li><strong>Repeat at a Second Power Level (optional but recommended):</strong>
+                <ul>
+                <li>Check at least one additional commanded level (e.g., -20 dBm) to confirm the offset holds across the working range, not just at one point.</li>
+                </ul>
+                </li>
+                </ol>
+                <hr />
+                <p><strong>NET STATUS: SAT / UNSAT</strong> — mark SAT if offsets are small and consistent with prior years (or successfully characterized as a correction factor); mark UNSAT if the output has become erratic, level-dependent in an unpredictable way, or has drifted well beyond the unit's rated accuracy.</p>
+            </main>
+        </div>
+    </div>
+    <!-- Footer / Address Block -->
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>GMRS Callsign: WRXN788</p>
+            <p>Merced, California 95340</p>
+
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation and designs shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a> unless otherwise noted.</p>
+
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TinySA Spectral Purity MRC - Merv's Brain Dump</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="banner">
+                <div>
+                    <h1>Merv's Brain Dump</h1>
+                    <p class="tagline">When you build it, it teaches.</p>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+                        <nav>
+                            <h3>Main Navigation</h3>
+                            <ul>
+                                <li><a href="/">Home</a></li>
+                                <li><a href="../about/bio.html">About</a></li>
+                            </ul>
+
+                            <details class="nav-group" open>
+                <summary>Antenna Library</summary>
+                <ul>
+                                <li><a href="../antennas/index.html">Antenna Library</a></li>
+                            </ul>
+            </details>
+
+                            <details class="nav-group" open>
+                <summary>Test Equipment Library</summary>
+                <ul>
+                                <li><a href="../test_gear/index.html">Test Equipment Library</a></li>
+                            </ul>
+            </details>
+
+                            <h3>Standards</h3>
+                            <ul>
+                                <li><a href="/Calibration_Ideas/index.html">Calibration Standards</a></li>
+                                <li><a href="../Calibration_Ideas/index.html">NIST-Traceable Standards</a></li>
+                            </ul>
+
+                            <details class="nav-group" open>
+                <summary>Study & Training</summary>
+                <ul>
+                                <li><a href="https://assets.doflagie.com/study/index.html">Ham Radio Flash Card Quiz</a></li>
+                                <li><a href="https://assets.doflagie.com/study/morse.html">Morse Code Practice</a></li>
+                            </ul>
+            </details>
+
+                            <h3>Resources</h3>
+                            <ul>
+                                <li><a href="https://assets.doflagie.com/study/morse.html">Morse Practice Library</a></li>
+                                <li><a href="https://assets.doflagie.com/study/index.html">Study Machine</a></li>
+                            </ul>
+                        </nav>
+<main>
+                <h1 id="maintenance-requirement-card-mrc">MAINTENANCE REQUIREMENT CARD (MRC)</h1>
+                <p><strong>SYSCOM MRC CONTROL NUMBER:</strong> TSA-SPUR-R1-N<br>
+                <strong>DATE:</strong> August 2026<br>
+                <strong>PERIODICITY:</strong> R-1 (Situational) / A-1 (Annual)<br>
+                <strong>LOCATION:</strong> RF Test Bench<br>
+                <strong>EQUIPMENT:</strong> TinySA (Spectrum Analyzer) — Transmitter Spurious Emission Check</p>
+                <h2 id="maintenance-requirement-description">MAINTENANCE REQUIREMENT DESCRIPTION:</h2>
+                <ol>
+                <li>Build protection chain (dummy load, coupler, pad) before connecting any transmitter to the TinySA.</li>
+                <li>Sweep fundamental plus 2nd-4th harmonics, record dBc for each.</li>
+                <li>Sweep wide for unrelated spurs (mixing products, supply noise, PLL spurs).</li>
+                <li>Compare results against FCC Part 97.307 and prior baseline.</li>
+                </ol>
+                <p><strong>Perform after:</strong> any transmitter or amplifier repair/modification, new/repaired antenna or feedline install, or as an annual station compliance check.</p>
+                <h2 id="safety-precautions">SAFETY PRECAUTIONS:</h2>
+                <ol>
+                <li><strong>Never connect a transmitter directly to the TinySA input</strong> — front-end is not rated for TX power and will be destroyed instantly.</li>
+                <li>Terminate the transmitter into a dummy load rated for full TX power before keying.</li>
+                <li>Verify the sample level reaching the TinySA with a wattmeter/power meter before the first connection of any new setup — do not trust the coupler/pad math alone.</li>
+                <li>Do not rely on the TinySA's internal attenuator as the only protection against full TX power.</li>
+                <li>Key the transmitter only long enough to capture the reading — avoid unnecessary dwell time into the dummy load.</li>
+                </ol>
+                <h2 id="tpmte">TOOLS, PARTS, MATERIALS, TEST EQUIPMENT (TPMTE):</h2>
+                <ol>
+                <li>[IV] TinySA (Basic or Ultra)</li>
+                <li>[IV] Dummy load, rated for full TX power</li>
+                <li>[IV] Loosely-coupled tandem (directional) coupler, -30 to -50 dB coupling factor</li>
+                <li>[IV] Fixed attenuator pad (rated for actual power), as needed if coupling alone is insufficient</li>
+                <li>[IV] Wattmeter/power meter, for pre-connection verification</li>
+                <li>[IV] Coax jumpers and adapters matching connector types in the chain</li>
+                </ol>
+                <h2 id="procedure">PROCEDURE:</h2>
+                <ol>
+                <li><strong>Build the Protection Chain:</strong>
+                <ul>
+                <li>Dummy load → loosely-coupled tandem coupler (preferred) → attenuator pad (if needed) → TinySA LOW input.</li>
+                <li>Calculate: TX power (dBm) − coupler (dB) − pad (dB, if used) = power at TinySA input. Confirm well under the TinySA's safe input rating.</li>
+                <li>Verify with the wattmeter before connecting the TinySA.</li>
+                </ul>
+                </li>
+                <li><strong>Set Up the Sweep:</strong>
+                <ul>
+                <li>Set span to cover the fundamental plus at least the 2nd through 4th harmonics.</li>
+                <li>Set RBW narrow enough to resolve close-in spurs (auto-RBW is a reasonable start).</li>
+                <li>Set reference level just above the expected fundamental peak; set scale to keep fundamental and noise floor both visible.</li>
+                </ul>
+                </li>
+                <li><strong>Measure the Fundamental:</strong>
+                <ul>
+                <li>Key the transmitter at a known, low power level into the dummy load.</li>
+                <li>Place a marker on the fundamental peak; note frequency and amplitude.</li>
+                </ul>
+                </li>
+                <li><strong>Measure Harmonics:</strong>
+                <ul>
+                <li>Use DELTA marker mode: reference marker on the fundamental, second marker on each harmonic.</li>
+                <li>Record frequency and dBc for the 2nd, 3rd, and 4th harmonics (and higher, if of interest).</li>
+                </ul>
+                </li>
+                <li><strong>Sweep for Unrelated Spurs:</strong>
+                <ul>
+                <li>Widen span well above and below the harmonic series.</li>
+                <li>Use MAX HOLD across several keying cycles to catch intermittent spurs.</li>
+                <li>Key down and confirm any suspicious peak disappears — anything present with TX off is TinySA noise floor or ambient RF, not a transmitter spur.</li>
+                </ul>
+                </li>
+                <li><strong>Repeat at Full Power:</strong>
+                <ul>
+                <li>Some spurs only appear near saturation — repeat steps 3-5 at full rated TX power.</li>
+                </ul>
+                </li>
+                <li><strong>Record and Compare:</strong>
+                <ul>
+                <li>Log fundamental frequency/power, each harmonic's frequency and dBc, and any unexplained spurs.</li>
+                <li>Compare against FCC Part 97.307 (verify current table — limits vary by power level and by fundamental above/below 30 MHz) and against this equipment's prior baseline reading.</li>
+                </ul>
+                </li>
+                </ol>
+                <hr />
+                <p><strong>NET STATUS: SAT / UNSAT</strong> — mark SAT if all harmonics and spurs meet Part 97.307 limits and are consistent with baseline; mark UNSAT and inspect the transmitter/amplifier before further use if not.</p>
+            </main>
+        </div>
+    </div>
+    <!-- Footer / Address Block -->
+    <footer>
+        <div class="address-block">
+            <h3>Merv's Brain Dump</h3>
+            <p>Mervyn Martin (Merv), Proprietor</p>
+            <p>Amateur Callsign: KO6NNH</p>
+            <p>GMRS Callsign: WRXN788</p>
+            <p>Merced, California 95340</p>
+
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>Email:</strong><br>
+                    <a href="mailto:d.ecaudata@gmail.com">d.ecaudata@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>Website:</strong><br>
+                    <a href="http://www.doflagie.com">www.doflagie.com</a>
+                </div>
+                <div class="contact-item">
+                    <strong>GitHub:</strong><br>
+                    <a href="https://github.com/doflagie" target="_blank">github.com/doflagie</a>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2026 Merv's Brain Dump. All rights reserved.</p>
+                <p>Documentation and designs shared under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a> unless otherwise noted.</p>
+
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
