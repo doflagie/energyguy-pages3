@@ -20,48 +20,27 @@ CM  This model: single element active (E1), others parasitic.
 CM  To simulate Doppler switching: run 4 separate models with
 CM  different active element each time, compare far-field phase.
 CM ============================================================
-CE
 CM
 CM --- E1 (North): vertical monopole ---
-GW 1 10 0.0 0.5135 0.0 0.0 0.5135 0.514 0.0025
 CM --- E2 (East) ---
-GW 2 10 0.5135 0.0 0.0 0.5135 0.0 0.514 0.0025
 CM --- E3 (South) ---
-GW 3 10 0.0 -0.5135 0.0 0.0 -0.5135 0.514 0.0025
 CM --- E4 (West) ---
-GW 4 10 -0.5135 0.0 0.0 -0.5135 0.0 0.514 0.0025
 CM
 CM Radial ground plane (8 radials, λ/4 each = 0.514m)
 CM Each at z=0, from near origin (0.02m clearance) outward
-GW 5  8  0.02 0.0  0.0  0.53  0.0  0.0  0.001
-GW 6  8 -0.02 0.0  0.0 -0.53  0.0  0.0  0.001
-GW 7  8  0.0  0.02 0.0  0.0   0.53 0.0  0.001
-GW 8  8  0.0 -0.02 0.0  0.0  -0.53 0.0  0.001
-GW 9  8  0.014 0.014 0.0  0.374  0.374 0.0  0.001
-GW 10 8 -0.014 0.014 0.0 -0.374  0.374 0.0  0.001
-GW 11 8  0.014 -0.014 0.0  0.374 -0.374 0.0  0.001
-GW 12 8 -0.014 -0.014 0.0 -0.374 -0.374 0.0  0.001
 CM
 CM End geometry, real ground
-GE 1
 CM
 CM Average ground
-GN 2 0 0 0 13.0 0.005
 CM
 CM Frequency: 146 MHz
-FR 0 1 0 0 146.0 0
 CM
 CM Source on E1 (North element) base
-EX 0 1 1 0 1.0 0.0
 CM
 CM Azimuth pattern (elevation=10°, azimuth 0–360°, 5° steps)
-RP 0 1 73 1000 10.0 0.0 0.0 5.0
 CM
 CM Elevation pattern (azimuth=0°, elevation 0–90°, 2° steps)
-RP 0 46 1 1000 0.0 0.0 2.0 0.0
 CM
-EN
-
 CM ============================================================
 CM  DOPPLER SIMULATION PROCEDURE:
 CM
@@ -85,3 +64,31 @@ CM    When 4 elements switch at 1kHz, the received signal carries a
 CM    1kHz AM/PM modulation whose phase = bearing of transmitter.
 CM    Phase measured by Goertzel algorithm in ESP32 firmware.
 CM ============================================================
+CM NOTE (2026-09-02): Radials were originally modeled flat at Z=0 (buried
+CM   radial approximation), which nec2c rejects -- a segment cannot lie exactly
+CM   in the ground plane under real (Sommerfeld) ground. Radials raised to
+CM   Z=0.02m to clear the ground plane; electrically negligible at this scale.
+CM   This is a common practical workaround, not a rigorous buried-radial model --
+CM   for true buried-radial physics, use the GN cards radial ground screen
+CM   parameters (NRADL/SCRWLT/SCRWRAD) instead of explicit on-ground GW wires.
+CE
+GW 1 10 0.0 0.5135 0.0 0.0 0.5135 0.514 0.0025
+GW 2 10 0.5135 0.0 0.0 0.5135 0.0 0.514 0.0025
+GW 3 10 0.0 -0.5135 0.0 0.0 -0.5135 0.514 0.0025
+GW 4 10 -0.5135 0.0 0.0 -0.5135 0.0 0.514 0.0025
+GW 5  8  0.02 0.0  0.02  0.53  0.0  0.02  0.001
+GW 6  8 -0.02 0.0  0.02 -0.53  0.0  0.02  0.001
+GW 7  8  0.0  0.02 0.02  0.0   0.53 0.02  0.001
+GW 8  8  0.0 -0.02 0.02  0.0  -0.53 0.02  0.001
+GW 9  8  0.014 0.014 0.02  0.374  0.374 0.02  0.001
+GW 10 8 -0.014 0.014 0.02 -0.374  0.374 0.02  0.001
+GW 11 8  0.014 -0.014 0.02  0.374 -0.374 0.02  0.001
+GW 12 8 -0.014 -0.014 0.02 -0.374 -0.374 0.02  0.001
+GE 1
+GN 2 0 0 0 13.0 0.005
+FR 0 1 0 0 146.0 0
+EX 0 1 1 0 1.0 0.0
+RP 0 1 73 1000 10.0 0.0 0.0 5.0
+RP 0 46 1 1000 0.0 0.0 2.0 0.0
+EN
+

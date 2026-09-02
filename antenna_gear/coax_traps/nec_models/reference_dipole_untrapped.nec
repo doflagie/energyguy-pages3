@@ -9,16 +9,6 @@ CM ============================================================
 CM REF 1: 40M DIPOLE (7.15 MHz) at 15m AGL
 CM Half-length = 10.05m, total = 20.1m
 CM ============================================================
-CE
-
-GW  1  20  -10.05  0.0  15.0  10.05  0.0  15.0  0.00095
-GE  1
-GN  2  0  0  0  13.0  0.005
-EX  0  1  10  0  1.0  0.0
-FR  0  13  0  0  7.0  0.025
-RP  0  37  73  1000  0.0  0.0  5.0  5.0
-EN
-
 CM ============================================================
 CM REF 2: 20M DIPOLE (14.175 MHz) at 15m AGL
 CM Half-length = 5.26m, total = 10.52m
@@ -31,7 +21,6 @@ CM EX  0  1  10  0  1.0  0.0
 CM FR  0  15  0  0  14.0  0.025
 CM RP  0  37  73  1000  0.0  0.0  5.0  5.0
 CM EN
-
 CM ============================================================
 CM REF 3: 10M DIPOLE (28.5 MHz) at 15m AGL
 CM Half-length = 2.64m, total = 5.28m
@@ -44,7 +33,6 @@ CM EX  0  1  10  0  1.0  0.0
 CM FR  0  17  0  0  28.0  0.1
 CM RP  0  37  73  1000  0.0  0.0  5.0  5.0
 CM EN
-
 CM ============================================================
 CM REF 4: 80M DIPOLE (3.75 MHz) at 15m AGL
 CM Half-length = 20.1m, total = 40.2m
@@ -57,7 +45,6 @@ CM EX  0  1  20  0  1.0  0.0
 CM FR  0  11  0  0  3.5  0.025
 CM RP  0  37  73  1000  0.0  0.0  5.0  5.0
 CM EN
-
 CM ============================================================
 CM PERFORMANCE COMPARISON GUIDE:
 CM
@@ -79,3 +66,16 @@ CM
 CM NOTE: Pattern shape should be nearly identical to reference dipole.
 CM Traps do NOT significantly alter radiation pattern at design frequencies.
 CM ============================================================
+CE
+
+GW  1  20  -10.05  0.0  15.0  10.05  0.0  15.0  0.00095
+GE  1
+GN  2  0  0  0  13.0  0.005
+EX  0  1  10  0  1.0  0.0
+FR  0  13  0  0  7.0  0.025
+RP  0  37  73  1000  0.0  0.0  5.0  5.0
+EN
+
+
+
+

@@ -8,17 +8,15 @@ CM Wire: AWG 16 (0.0508 in)
 CM Height above ground: 5.0 m (approx 0.5λ at lower HF bands)
 CE
 
-' Dipole arms, center-fed
 GW 1 11 -4.986014 0.000 5.000  0.000 0.000 5.000  0.00064542
 GW 2 11  0.000 0.000 5.000  4.986014 0.000 5.000  0.00064542
 
-' Loading coil inductances (LD 4 = series RL)
-LD 4 1 6 6 2.0900000000e-05 0 0.50
-LD 4 2 6 6 2.0900000000e-05 0 0.50
 
 GE 0
 GN 2 0 0 0 13 0.005
 EX 0 1 11 0 1 0
+LD 4 1 6 6 2.0900000000e-05 0 0.50
+LD 4 2 6 6 2.0900000000e-05 0 0.50
 FR 0 11 0 0 7.000 0.025
 RP 0 91 360 1000 -90 0 1.0 1.0
 EN

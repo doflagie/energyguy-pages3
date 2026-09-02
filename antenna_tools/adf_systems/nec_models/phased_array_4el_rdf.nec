@@ -22,44 +22,28 @@ CM  This model: NORTH BEAM phasing
 CM  Expected: cardioid pattern, peak North, null South
 CM  F/B ratio: expect 10–15 dB
 CM ============================================================
-CE
 CM
 CM E1 (Northwest element): tag 1
-GW 1 20 -5.25 5.25 0.0 -5.25 5.25 10.15 0.001
 CM E2 (Northeast element): tag 2
-GW 2 20 5.25 5.25 0.0 5.25 5.25 10.15 0.001
 CM E3 (Southeast element): tag 3
-GW 3 20 5.25 -5.25 0.0 5.25 -5.25 10.15 0.001
 CM E4 (Southwest element): tag 4
-GW 4 20 -5.25 -5.25 0.0 -5.25 -5.25 10.15 0.001
 CM
 CM End geometry, real ground
-GE 1
 CM
 CM Average ground (σ=0.005 S/m, ε=13)
-GN 2 0 0 0 13.0 0.005
 CM
 CM Frequency: 7.15 MHz
-FR 0 1 0 0 7.15 0
 CM
 CM ── NORTH BEAM PHASING ─────────────────────────────────────
 CM E1: 0° phase = (1.0 + j0.0)
-EX 0 1 1 0 1.0 0.0
 CM E2: 90° phase = (0.0 - j1.0) = rotate 90° CW
-EX 0 2 1 0 0.0 -1.0
 CM E3: 180° phase = (-1.0 + j0.0)
-EX 0 3 1 0 -1.0 0.0
 CM E4: 270° phase = (0.0 + j1.0)
-EX 0 4 1 0 0.0 1.0
 CM
 CM Azimuth radiation pattern (elevation=10°, azimuth 0–360°, 5°)
-RP 0 1 73 1000 10.0 0.0 0.0 5.0
 CM
 CM Elevation pattern (azimuth=0°/North, elevation 0–90°, 2°)
-RP 0 46 1 1000 0.0 0.0 2.0 0.0
 CM
-EN
-
 CM ============================================================
 CM  TO MODEL EAST BEAM: change phasing to:
 CM    E1: 270° = EX 0 1 1 0  0.0 1.0
@@ -81,3 +65,19 @@ CM    Expect: driven element Z ≈ 36+j21Ω (vs. isolated monopole 36+j21Ω)
 CM    Detuning due to mutual coupling: 5–15% change in beam peak direction.
 CM    Calibrate by measuring actual RSSI vs. bearing angle in field.
 CM ============================================================
+CE
+GW 1 20 -5.25 5.25 0.0 -5.25 5.25 10.15 0.001
+GW 2 20 5.25 5.25 0.0 5.25 5.25 10.15 0.001
+GW 3 20 5.25 -5.25 0.0 5.25 -5.25 10.15 0.001
+GW 4 20 -5.25 -5.25 0.0 -5.25 -5.25 10.15 0.001
+GE 1
+GN 2 0 0 0 13.0 0.005
+FR 0 1 0 0 7.15 0
+EX 0 1 1 0 1.0 0.0
+EX 0 2 1 0 0.0 -1.0
+EX 0 3 1 0 -1.0 0.0
+EX 0 4 1 0 0.0 1.0
+RP 0 1 73 1000 10.0 0.0 0.0 5.0
+RP 0 46 1 1000 0.0 0.0 2.0 0.0
+EN
+

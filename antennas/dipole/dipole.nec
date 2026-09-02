@@ -5,7 +5,6 @@ CM Compaction: 0%
 CM Special parameters: Inverted vee or horizontal, 50Ω feed, 1:1 balun
 CE
 
-' Antenna geometry (type-specific)
 GW 1 11 -5.0 0.0 10.0  0.0 0.0 10.0  0.003
 GW 2 11  0.0 0.0 10.0  5.0 0.0 10.0  0.003
 

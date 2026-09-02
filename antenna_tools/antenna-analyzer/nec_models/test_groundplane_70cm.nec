@@ -2,11 +2,18 @@ CM 70CM GROUND PLANE VERTICAL (432 MHz) - UHF REFERENCE
 CM 70cm ground plane with 4 radial elements at 5m AGL
 CM Tests analyzer on UHF band, validates impedance algorithm
 CM
+CM NOTE (2026-09-02): Radial GW cards (tags 2-5) were corrupted -- each was
+CM   missing its base-point field (0,0,5, the mounting point shared with the
+CM   vertical element), which shifted every later column and produced a
+CM   zero-length wire on tag 2 and malformed cards on tags 3-5. Reconstructed
+CM   from the surviving tip coordinates (+-0.325m out on X/Y at z=5) plus the
+CM   base point and 5-segment count already used correctly on tag 2.
+CE
 GW 1 9 0 0 5 0 0 5.17 0.0032
-GW 2 5 0.325 0 5 0.325 0 5 0.0016
-GW 3 0 0.325 5 0 0.325 5 0.0016
-GW 4 -0.325 0 5 -0.325 0 5 0.0016
-GW 5 0 -0.325 5 0 -0.325 5 0.0016
+GW 2 5 0 0 5 0.325 0 5 0.0016
+GW 3 5 0 0 5 0 0.325 5 0.0016
+GW 4 5 0 0 5 -0.325 0 5 0.0016
+GW 5 5 0 0 5 0 -0.325 5 0.0016
 GE 0
 GN 2 0 0 0 13.0 0.005
 EX 0 1 5 0 1.0 0.0

@@ -4,17 +4,17 @@ CM Antenna: 200-foot non-resonant longwire @ 35 feet height
 CM Unun: FT-240-43, 4:12 turns (9:1 impedance transformation)
 CM Counterpoise: 30-foot ground wire (return path)
 CM Expected: 450Ω→50Ω transformation, high takeoff angle for NVIS
-CE
 CM Longwire antenna (200 feet at 35 feet height)
-GW 1 30 0.0 0.0 35.0 200.0 0.0 35.0 0.00641
 CM Counterpoise (30 feet ground return, minimal height)
+CM Frequency sweep: 1.8 MHz (160M)
+CM Voltage source at feedpoint
+CM Radiation pattern (high takeoff angle expected)
+CE
+GW 1 30 0.0 0.0 35.0 200.0 0.0 35.0 0.00641
 GW 2 10 0.0 0.0 2.0 30.0 0.0 2.0 0.00641
 GE 0
 EK
-CM Frequency sweep: 1.8 MHz (160M)
 FR 0 1 0 0 1.8 1.0
-CM Voltage source at feedpoint
 EX 0 1 1 0 1.0 0.0
-CM Radiation pattern (high takeoff angle expected)
 RP 1 91 91 1111 -90.0 0.0 1.0 1.0
 EN

@@ -27,45 +27,21 @@ CM λ at 146 MHz = c/f = 2.055 m
 CM
 CM Center height: 3m (low portable stack; adjust for actual installation)
 CM ============================================================
-CE
-
 CM === DIPOLE H (horizontal, along X-axis) ===
 CM Half-elements: from (−0.503, 0, 3) to (0.503, 0, 3)
-GW 1 21 -0.503 0.000 3.000 0.503 0.000 3.000 0.00075
 CM  Radius = 0.75mm (3/16" aluminum rod or 14AWG wire)
-
 CM === DIPOLE V (second polarization, along Y-axis) ===
 CM Half-elements: from (0, −0.503, 3) to (0, 0.503, 3)
-GW 2 21 0.000 -0.503 3.000 0.000 0.503 3.000 0.00075
-
 CM === GROUND: Average (realistic) ===
-GE 1
-GN 2 0 0 0 13.0 0.005
-
 CM === EXCITATIONS ===
 CM Dipole H: reference phase 0°
-EX 0 1 11 0 1.000  0.000
 CM Dipole V: −90° phase (quadrature hybrid coupled port)
-EX 0 2 11 0 0.000 -1.000
-
 CM === FREQUENCY ===
-FR 0 1 0 0 146.000 0
-
 CM === RADIATION PATTERNS ===
 CM Elevation pattern in phi=0° plane (along X/H dipole)
-RP 0 91 1 1000 0.0 0.0 1.0 1.0
-
 CM Elevation pattern in phi=90° plane (along Y/V dipole)
-RP 0 91 1 1000 0.0 90.0 1.0 1.0
-
 CM Azimuth pattern at elevation 90° (zenith, looking up for satellite)
-RP 0 1 361 1000 90.0 0.0 1.0 1.0
-
 CM Full 3D pattern for polarization analysis
-RP 0 37 73 1000 0.0 0.0 5.0 5.0
-
-EN
-
 CM ============================================================
 CM EXPECTED RESULTS:
 CM   Gain (above average ground): ≈ 7.5 dBi at zenith
@@ -98,3 +74,27 @@ CM   For circular polarization analysis, use the RP card output and
 CM   examine LHCP/RHCP components separately.
 CM   In 4nec2: Geometry > Azimuth/Elevation plot > select "RHCP gain" dBic.
 CM ============================================================
+CE
+
+GW 1 21 -0.503 0.000 3.000 0.503 0.000 3.000 0.00075
+
+GW 2 21 0.000 -0.503 3.000 0.000 0.503 3.000 0.00075
+
+GE 1
+GN 2 0 0 0 13.0 0.005
+
+EX 0 1 11 0 1.000  0.000
+EX 0 2 11 0 0.000 -1.000
+
+FR 0 1 0 0 146.000 0
+
+RP 0 91 1 1000 0.0 0.0 1.0 1.0
+
+RP 0 91 1 1000 0.0 90.0 1.0 1.0
+
+RP 0 1 361 1000 90.0 0.0 1.0 1.0
+
+RP 0 37 73 1000 0.0 0.0 5.0 5.0
+
+EN
+

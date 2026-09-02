@@ -2,6 +2,7 @@ CM 10M REFERENCE DIPOLE (28.1 MHz) - HF CALIBRATION TEST
 CM Half-wave dipole at 10m AGL over average soil
 CM Expected: ~45-55Ω impedance, low reactance
 CM
+CE
 GW 1 11 -5.34 0 10 5.34 0 10 0.006
 GE 0
 GN 2 0 0 0 13.0 0.005

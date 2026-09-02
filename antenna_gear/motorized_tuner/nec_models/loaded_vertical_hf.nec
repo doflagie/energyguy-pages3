@@ -33,45 +33,30 @@ CM
 CM Coordinate system:
 CM   Vertical element: x=0, y=0, z=0 to 5m
 CM   Radials at z=0: 4 directions, each 5m
-CE
 CM --- GEOMETRY ---
 CM Wire 1: Vertical element (0 to 5m)
 CM GW  tag  nseg  x1    y1    z1    x2    y2    z2    radius
-GW  1   20   0.0   0.0   0.0   0.0   0.0   5.0   0.002
 CM
 CM Radials (4 × 5m, z=0, 90 deg spacing)
 CM Wire 2: Radial at 0 deg (+x)
-GW  2   10   0.0   0.0   0.0   5.0   0.0   0.0   0.001
 CM Wire 3: Radial at 90 deg (+y)
-GW  3   10   0.0   0.0   0.0   0.0   5.0   0.0   0.001
 CM Wire 4: Radial at 180 deg (-x)
-GW  4   10   0.0   0.0   0.0  -5.0   0.0   0.0   0.001
 CM Wire 5: Radial at 270 deg (-y)
-GW  5   10   0.0   0.0   0.0   0.0  -5.0   0.0   0.001
 CM
-GE  1
 CM --- GROUND ---
-GN  2   0   0   0   13.0   0.005
 CM --- LOADING (Lumped Inductance at segment 5 of wire 1) ---
 CM LD  type  tag  seg  seg  R_ohms  L_henries  C_farads
 CM type 0 = series RLC; R=0, C=0 (pure inductance)
 CM 15 µH = 15e-6 H for 40m operation
-LD  0   1   5   5   0.0   15.0e-6   0.0
 CM --- EXCITATION ---
 CM Voltage source at segment 1 (base, z=0 to z=0.25m)
-EX  0   1   1   00   1.0   0.0
 CM --- FREQUENCY ---
 CM Single frequency: 7.15 MHz (40m)
 CM To evaluate 80m: change FR to 3.65 and LD to 60e-6
-FR  0   1   0   0   7.15   0.0
 CM --- CURRENT DISTRIBUTION ---
-PQ  0   0   0   0
 CM --- RADIATION PATTERN ---
 CM Elevation cut, theta 0-90 deg, step 2 deg
-RP  0   46   1   1001   0.0   0.0   2.0   0.0
 CM Azimuth cut at elevation 20 deg (theta=70)
-RP  0   1   73   1001   70.0   0.0   0.0   5.0
-EN
 CM ============================================================
 CM LOADED VERTICAL THEORY:
 CM   A 5m whip at 7.15 MHz is 5/41.96m = 0.119 lambda (43 deg).
@@ -112,3 +97,25 @@ CM   Wire 3: radial 90 deg (tags 31–40)
 CM   Wire 4: radial 180 deg (tags 41–50)
 CM   Wire 5: radial 270 deg (tags 51–60)
 CM ============================================================
+CM NOTE (2026-09-02): Radials were originally modeled flat at Z=0 (buried
+CM   radial approximation), which nec2c rejects -- a segment cannot lie exactly
+CM   in the ground plane under real (Sommerfeld) ground. Radials raised to
+CM   Z=0.02m to clear the ground plane; electrically negligible at this scale.
+CM   This is a common practical workaround, not a rigorous buried-radial model --
+CM   for true buried-radial physics, use the GN cards radial ground screen
+CM   parameters (NRADL/SCRWLT/SCRWRAD) instead of explicit on-ground GW wires.
+CE
+GW  1   20   0.0   0.0   0.0   0.0   0.0   5.0   0.002
+GW  2   10   0.0   0.0   0.02   5.0   0.0   0.02   0.001
+GW  3   10   0.0   0.0   0.02   0.0   5.0   0.02   0.001
+GW  4   10   0.0   0.0   0.02  -5.0   0.0   0.02   0.001
+GW  5   10   0.0   0.0   0.02   0.0  -5.0   0.02   0.001
+GE  1
+GN  2   0   0   0   13.0   0.005
+LD  0   1   5   5   0.0   15.0e-6   0.0
+EX  0   1   1   00   1.0   0.0
+FR  0   1   0   0   7.15   0.0
+PQ  0   0   0   0
+RP  0   46   1   1001   0.0   0.0   2.0   0.0
+RP  0   1   73   1001   70.0   0.0   0.0   5.0
+EN

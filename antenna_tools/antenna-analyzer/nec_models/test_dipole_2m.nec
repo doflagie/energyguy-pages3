@@ -2,6 +2,7 @@ CM 2M REFERENCE DIPOLE (144.2 MHz) - VHF CALIBRATION TEST
 CM Half-wave dipole in free space at 6m AGL
 CM Expected: ~50Ω impedance, minimal reactance
 CM
+CE
 GW 1 11 -0.985 0 6 0.985 0 6 0.003175
 GE 0
 GN 2 0 0 0 13.0 0.005

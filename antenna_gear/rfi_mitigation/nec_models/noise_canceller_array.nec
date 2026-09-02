@@ -19,52 +19,27 @@ CM  If noise source is at 0° azimuth and desired signal at 90°:
 CM    - Can noise be cancelled while preserving signal?
 CM    - What is the "signal preserved to noise cancelled" ratio?
 CM ============================================================
-CE
-
 CM ── MAIN ANTENNA: λ/4 vertical at origin ─────────────────────
 CM Height: 10.15m (λ/4 at 7.15 MHz)
 CM Tag 1: main vertical
-GW 1 20 0.0 0.0 0.0 0.0 0.0 10.15 0.001
-
 CM ── REFERENCE ANTENNA: short vertical 2m north ───────────────
 CM Height: 2.1m (λ/20 at 7.15 MHz — typical short noise whip)
 CM Tag 2: reference antenna
-GW 2 10 0.0 2.0 0.0 0.0 2.0 2.1 0.001
-
 CM ── RADIAL GROUND PLANE (4 × λ/4 radials for main antenna) ───
-GW 3 10  0.01  0.0  0.0  10.5   0.0  0.0 0.001
-GW 4 10 -0.01  0.0  0.0 -10.5   0.0  0.0 0.001
-GW 5 10  0.0   0.01 0.0  0.0   10.5  0.0 0.001
-GW 6 10  0.0  -0.01 0.0  0.0  -10.5  0.0 0.001
-
 CM ── REAL GROUND ───────────────────────────────────────────────
-GE 1
-GN 2 0 0 0 13.0 0.005
-
 CM ── FREQUENCY ──────────────────────────────────────────────────
-FR 0 1 0 0 7.15 0
-
 CM ── EXCITATION ─────────────────────────────────���───────────────
 CM MODEL 1: Main antenna only (excite tag 1)
-EX 0 1 1 0 1.0 0.0
-
 CM MODEL 2: Reference antenna only (uncomment, comment out above):
 CM EX 0 2 1 0 1.0 0.0
-
 CM MODEL 3: Both with cancellation phasing (uncomment, comment out above):
 CM Main fed normally: EX 0 1 1 0 1.0 0.0
 CM Reference fed 180° out of phase with scaling factor 0.5 (amplitude match to noise):
 CM EX 0 2 1 0 -0.5 0.0
 CM (In practice, phase and amplitude set by noise canceller hardware)
-
 CM ── RADIATION PATTERNS ─────────────────────────────────────────
 CM Azimuth: noise often arrives from specific bearing; check full 360°
-RP 0 1 73 1000 10.0 0.0 0.0 5.0
 CM Elevation: low-angle DX arrives at 5–20°; noise often at high angles
-RP 0 46 1 1000 0.0 0.0 2.0 0.0
-
-EN
-
 CM ============================================================
 CM  EXPECTED RESULTS:
 CM
@@ -101,3 +76,28 @@ CM    (one lobe of cardioid has 3 dB less gain than omnidirectional maximum)
 CM    Net gain: +20 dB improvement in S/N if noise was 20 dB above signal
 CM    Net gain less 3 dB signal: +17 dB net S/N improvement. Excellent result.
 CM ============================================================
+CE
+
+GW 1 20 0.0 0.0 0.0 0.0 0.0 10.15 0.001
+
+GW 2 10 0.0 2.0 0.0 0.0 2.0 2.1 0.001
+
+GW 3 10  0.01  0.0  0.0  10.5   0.0  0.0 0.001
+GW 4 10 -0.01  0.0  0.0 -10.5   0.0  0.0 0.001
+GW 5 10  0.0   0.01 0.0  0.0   10.5  0.0 0.001
+GW 6 10  0.0  -0.01 0.0  0.0  -10.5  0.0 0.001
+
+GE 1
+GN 2 0 0 0 13.0 0.005
+
+FR 0 1 0 0 7.15 0
+
+EX 0 1 1 0 1.0 0.0
+
+
+
+RP 0 1 73 1000 10.0 0.0 0.0 5.0
+RP 0 46 1 1000 0.0 0.0 2.0 0.0
+
+EN
+

@@ -3,16 +3,16 @@ CM Purpose: Demonstrate UHF CM suppression
 CM Antenna: 19.7-inch vertical dipole (2M resonant) @ 10 feet height
 CM Balun: Air-core RG-58 on 3.5" PVC, 8 turns
 CM Expected: Minimal ferrite loss at 145 MHz, clean vertical pattern
-CE
 CM Antenna geometry (2M vertical dipole, 19.7 inches total)
+CM Frequency sweep: 145 MHz (2M)
+CM Voltage source at feedpoint
+CM Radiation pattern
+CE
 GW 1 3 0.0 0.0 10.0 0.0 0.0 10.82 0.00191
 GW 1 3 0.0 0.0 10.0 0.0 0.0 9.18 0.00191
 GE 0
 EK
-CM Frequency sweep: 145 MHz (2M)
 FR 0 1 0 0 145.0 1.0
-CM Voltage source at feedpoint
 EX 0 1 5 0 1.0 0.0
-CM Radiation pattern
 RP 1 91 91 1111 -90.0 0.0 1.0 1.0
 EN

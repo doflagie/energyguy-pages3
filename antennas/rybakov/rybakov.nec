@@ -5,7 +5,6 @@ CM Compaction: 30%
 CM Special parameters: 2 elements, 30cm spacing, 50Ω feed
 CE
 
-' Antenna geometry (type-specific)
 GW 1 11 -5.0 0.0 8.0  0.0 0.0 8.0  0.002
 GW 2 11  0.0 0.0 8.0  5.0 0.0 8.0  0.002
 

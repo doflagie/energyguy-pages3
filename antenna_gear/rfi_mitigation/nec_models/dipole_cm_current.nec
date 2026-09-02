@@ -20,51 +20,30 @@ CM    Feed line stub: vertical wire from feed point down 3m (representing
 CM                    unshielded portion of coax braid with CM current)
 CM    Feed point: center of dipole at (0, 0, 10m)
 CM ============================================================
-CE
-
 CM ── DIPOLE ELEMENTS ──────────────────────────────────────────
 CM West half of dipole: tag 1
-GW 1 20 -10.05 0.0 10.0 0.0 0.0 10.0 0.001
 CM East half of dipole: tag 2
-GW 2 20 0.0 0.0 10.0 10.05 0.0 10.0 0.001
-
 CM ── FEEDLINE STUB (uncomment for Model B — with common-mode current) ──
 CM This simulates 3m of exposed coax braid with CM current flowing on it.
 CM Tag 3 — comment out for ideal balanced Model A:
-GW 3 15 0.0 0.0 10.0 0.0 0.0 7.0 0.001
-
 CM ── GROUND ─────────────────────────────────────────────────────
 CM Sommerfeld-Norton real ground (average soil)
-GE 1
-GN 2 0 0 0 13.0 0.005
-
 CM ── FREQUENCY ──────────────────────────────────────────────────
-FR 0 1 0 0 7.15 0
-
 CM ── EXCITATION ─────────────────────────────────────────────────
 CM MODEL A (balanced, no CM current):
 CM Excite at center of tag 1 (segment 20, the end closest to feed) — or use
 CM split feed: one EX card on each half with equal and opposite phases.
 CM Simple method: excite center segment of tag 1 (segment 20 = feed end)
-EX 0 1 20 0 1.0 0.0
-
 CM MODEL B (with CM current on feed line stub):
 CM Comment out MODEL A excitation; use MODEL B excitation:
 CM Excite dipole center AND add partial CM current to stub
 CM (EX on stub tag 3 segment 1, with fraction of main feed):
 CM EX 0 1 20 0 1.0 0.0
 CM EX 0 3 1 0 0.3 0.0   ← 30% of feed current = common-mode current on stub
-
 CM ── RADIATION PATTERNS ─────────────────────────────────────────
 CM Azimuth pattern at 10° elevation (horizontal component dominates):
-RP 0 1 73 1000 10.0 0.0 0.0 5.0
 CM Elevation pattern broadside (azimuth = 90°):
-RP 0 46 1 1000 0.0 90.0 2.0 0.0
 CM Elevation pattern endfire (azimuth = 0°):
-RP 0 46 1 1000 0.0 0.0 2.0 0.0
-
-EN
-
 CM ============================================================
 CM  EXPECTED RESULTS:
 CM
@@ -93,3 +72,24 @@ CM    - Nearby wiring in house (the braid is an antenna for house wiring noise)
 CM    - Computer equipment (CM current couples from USB, Ethernet, PSU ground)
 CM    Choke at antenna feed point breaks CM path → noise reduction of 10–30 dB
 CM ============================================================
+CE
+
+GW 1 20 -10.05 0.0 10.0 0.0 0.0 10.0 0.001
+GW 2 20 0.0 0.0 10.0 10.05 0.0 10.0 0.001
+
+GW 3 15 0.0 0.0 10.0 0.0 0.0 7.0 0.001
+
+GE 1
+GN 2 0 0 0 13.0 0.005
+
+FR 0 1 0 0 7.15 0
+
+EX 0 1 20 0 1.0 0.0
+
+
+RP 0 1 73 1000 10.0 0.0 0.0 5.0
+RP 0 46 1 1000 0.0 90.0 2.0 0.0
+RP 0 46 1 1000 0.0 0.0 2.0 0.0
+
+EN
+

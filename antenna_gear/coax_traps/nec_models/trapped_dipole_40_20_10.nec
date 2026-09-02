@@ -32,26 +32,11 @@ CM        10M element adjust: wire 1 and 4 length
 CM        20M element adjust: wire 2 and 5 length
 CM        40M element adjust: wire 3 and 6 length
 CM ============================================================
-CE
-
 CM --- Geometry ---
 CM Tag Segs  X1      Y1    Z1      X2      Y2    Z2      Radius(m)
-GW  1  3    -2.64   0.0   10.0     0.0    0.0   10.0    0.00095
-GW  2  3    -5.26   0.0   10.0    -2.64   0.0   10.0    0.00095
-GW  3  5   -10.05   0.0   10.0    -5.26   0.0   10.0    0.00095
-GW  4  3     0.0    0.0   10.0     2.64   0.0   10.0    0.00095
-GW  5  3     2.64   0.0   10.0     5.26   0.0   10.0    0.00095
-GW  6  5     5.26   0.0   10.0    10.05   0.0   10.0    0.00095
-
 CM --- Ground (real earth, medium: ep=13, sig=0.005 S/m) ---
-GE  1
-
 CM --- Ground parameters ---
-GN  2  0  0  0  13.0  0.005
-
 CM --- Excitation at center of dipole (wire 1, segment 2) ---
-EX  0  1  2  0  1.0  0.0
-
 CM === LOADING CARDS ===
 CM Trap loads modeled as parallel RLC at resonance using series equivalent
 CM
@@ -63,26 +48,14 @@ CM --- 10M TRAPS (RG-213, 30mm former, 7 turns) ---
 CM   f0=28.5 MHz, L=0.50uH, C=63pF, Q=55, Rp=4863 ohm
 CM   Series equiv at 28.5 MHz: Rs=Rp/Q^2=1.61 ohm, Ls=0.50uH, Cs=63pF
 CM   Wire 1 (left), last segment (closest to trap point = seg 3)
-LD  0  1  3  3  1.61  5.0e-7  6.3e-11
 CM   Wire 4 (right), first segment (seg 1)
-LD  0  4  1  1  1.61  5.0e-7  6.3e-11
-
 CM --- 20M TRAPS (RG-213, 50mm former, 7 turns) ---
 CM   f0=14.175 MHz, L=1.23uH, C=103pF, Q=77, Rp=8452 ohm
 CM   Series equiv: Rs=Rp/Q^2=1.43 ohm, Ls=1.23uH, Cs=103pF
 CM   Wire 2 (left), last segment (seg 3)
-LD  0  2  3  3  1.43  1.23e-6  1.03e-10
 CM   Wire 5 (right), first segment (seg 1)
-LD  0  5  1  1  1.43  1.23e-6  1.03e-10
-
 CM === FREQUENCY SWEEP: 10M BAND ===
-FR  0  15  0  0  28.0  0.1
-
 CM === RADIATION PATTERN at 28.5 MHz ===
-RP  0  37  73  1000  0.0  0.0  5.0  5.0
-
-EN
-
 CM ============================================================
 CM NOTE: Run three separate frequency sweeps for full multiband analysis:
 CM
@@ -104,3 +77,30 @@ CM   20M too low:  shorten wires 2 and 5
 CM   40M too high: lengthen wires 3 and 6
 CM   40M too low:  shorten wires 3 and 6
 CM ============================================================
+CE
+
+GW  1  3    -2.64   0.0   10.0     0.0    0.0   10.0    0.00095
+GW  2  3    -5.26   0.0   10.0    -2.64   0.0   10.0    0.00095
+GW  3  5   -10.05   0.0   10.0    -5.26   0.0   10.0    0.00095
+GW  4  3     0.0    0.0   10.0     2.64   0.0   10.0    0.00095
+GW  5  3     2.64   0.0   10.0     5.26   0.0   10.0    0.00095
+GW  6  5     5.26   0.0   10.0    10.05   0.0   10.0    0.00095
+
+GE  1
+
+GN  2  0  0  0  13.0  0.005
+
+EX  0  1  2  0  1.0  0.0
+
+LD  0  1  3  3  1.61  5.0e-7  6.3e-11
+LD  0  4  1  1  1.61  5.0e-7  6.3e-11
+
+LD  0  2  3  3  1.43  1.23e-6  1.03e-10
+LD  0  5  1  1  1.43  1.23e-6  1.03e-10
+
+FR  0  15  0  0  28.0  0.1
+
+RP  0  37  73  1000  0.0  0.0  5.0  5.0
+
+EN
+

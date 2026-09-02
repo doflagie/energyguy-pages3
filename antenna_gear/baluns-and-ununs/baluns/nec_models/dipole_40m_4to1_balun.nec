@@ -3,19 +3,19 @@ CM Purpose: Demonstrate 4:1 impedance transformation and CM suppression
 CM Antenna: Symmetric dipole, feedpoint impedance ~200Ω (tuned for 4:1 input)
 CM Balun: 2× FT-140-43 stacked, 8 turns bifilar, #16 enameled wire
 CM Expected: 200Ω→50Ω transformation, 20+ dB CM suppression
-CE
 CM Antenna geometry (67-foot dipole @ 35 feet height)
 CM Dipole spans from -33.5 to +33.5 feet horizontally
+CM Frequency sweep: 7.15 MHz (40M fundamental)
+CM Voltage source: 1V at feedpoint (center)
+CM Radiation pattern
+CE
 GW 1 10 -33.5 0.0 35.0 -17.1 0.0 35.0 0.00641
 GW 1 10 -17.1 0.0 35.0 0.0 0.0 35.0 0.00641
 GW 1 10 0.0 0.0 35.0 17.1 0.0 35.0 0.00641
 GW 1 10 17.1 0.0 35.0 33.5 0.0 35.0 0.00641
 GE 0
 EK
-CM Frequency sweep: 7.15 MHz (40M fundamental)
 FR 0 1 0 0 7.15 1.0
-CM Voltage source: 1V at feedpoint (center)
 EX 0 1 19 0 1.0 0.0
-CM Radiation pattern
 RP 1 91 91 1111 -90.0 0.0 1.0 1.0
 EN

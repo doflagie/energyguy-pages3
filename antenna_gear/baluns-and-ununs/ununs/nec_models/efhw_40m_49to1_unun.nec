@@ -4,17 +4,17 @@ CM Antenna: 135-foot EFHW, fed at end via 49:1 unun
 CM Balun: FT-240-43, 3:21 turns (exact EFHW ratio)
 CM Counterpoise: 25-foot element at 45° angle, 8 feet high
 CM Expected: Excellent impedance match @ 40M, clean end-fire pattern
-CE
 CM EFHW antenna (135 feet length, end-fed)
-GW 1 20 0.0 0.0 40.0 135.0 0.0 40.0 0.00641
 CM Counterpoise (25 feet, 45° angle, 8 feet height)
+CM Frequency sweep: 7.15 MHz (40M, EFHW fundamental)
+CM Voltage source at antenna end (feedpoint)
+CM Radiation pattern (end-fire dominant)
+CE
+GW 1 20 0.0 0.0 40.0 135.0 0.0 40.0 0.00641
 GW 2 10 0.0 0.0 8.0 17.7 17.7 8.0 0.00641
 GE 0
 EK
-CM Frequency sweep: 7.15 MHz (40M, EFHW fundamental)
 FR 0 1 0 0 7.15 1.0
-CM Voltage source at antenna end (feedpoint)
 EX 0 1 1 0 1.0 0.0
-CM Radiation pattern (end-fire dominant)
 RP 1 91 91 1111 -90.0 0.0 1.0 1.0
 EN

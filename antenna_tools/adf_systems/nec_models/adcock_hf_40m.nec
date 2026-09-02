@@ -19,36 +19,36 @@ CM  For RDF analysis: compare patterns of N-S sum vs. E-W sum
 CM  Reference: Watson (1928), Keen (1947), Gething (1991)
 CM  Analyze: impedance, radiation pattern, mutual coupling
 CM ============================================================
-CE
 CM --- N element: tag 1 ---
-GW 1 20 0.0 5.25 0.0 0.0 5.25 10.15 0.001
 CM --- S element: tag 2 ---
-GW 2 20 0.0 -5.25 0.0 0.0 -5.25 10.15 0.001
 CM --- E element: tag 3 ---
-GW 3 20 5.25 0.0 0.0 5.25 0.0 10.15 0.001
 CM --- W element: tag 4 ---
-GW 4 20 -5.25 0.0 0.0 -5.25 0.0 10.15 0.001
 CM --- SENSE element (short vertical at center): tag 5 ---
-GW 5 10 0.0 0.0 0.0 0.0 0.0 5.0 0.001
 CM
 CM End geometry, real ground (Sommerfeld-Norton)
-GE 1
 CM
 CM Ground parameters: average ground (σ=0.005 S/m, ε=13)
-GN 2 0 0 0 13.0 0.005
 CM
 CM Frequency sweep: 7.0 to 7.3 MHz, 7 steps
-FR 0 7 0 0 7.0 0.05
 CM
 CM Excitation: source on N element (tag 1, segment 1, base)
-EX 0 1 1 0 1.0 0.0
 CM
 CM Radiation pattern: elevation cut, azimuth=0, 0–90° elevation, 2° step
-RP 0 46 1 1000 0.0 0.0 2.0 0.0
 CM
 CM Also run with source on E element (tag 3) for E-W pattern
 CM (Comment out above EX card and uncomment below):
 CM EX 0 3 1 0 1.0 0.0
 CM
 CM Near-field not computed (PQ not needed for RDF analysis)
+CE
+GW 1 20 0.0 5.25 0.0 0.0 5.25 10.15 0.001
+GW 2 20 0.0 -5.25 0.0 0.0 -5.25 10.15 0.001
+GW 3 20 5.25 0.0 0.0 5.25 0.0 10.15 0.001
+GW 4 20 -5.25 0.0 0.0 -5.25 0.0 10.15 0.001
+GW 5 10 0.0 0.0 0.0 0.0 0.0 5.0 0.001
+GE 1
+GN 2 0 0 0 13.0 0.005
+FR 0 7 0 0 7.0 0.05
+EX 0 1 1 0 1.0 0.0
+RP 0 46 1 1000 0.0 0.0 2.0 0.0
 EN

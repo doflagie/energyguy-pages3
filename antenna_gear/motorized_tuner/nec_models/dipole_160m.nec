@@ -27,37 +27,26 @@ CM Expected results:
 CM   Feed impedance near resonance (~1.9 MHz): ~70 + j0 ohms
 CM   Gain: ~5.5 dBi broadside, ~2.1 dBi end-fire
 CM   Elevation angle of maximum radiation: ~25 deg at 15m height
-CE
 CM --- GEOMETRY ---
 CM GW  tag  nseg  x1        y1    z1     x2       y2    z2     radius
 CM Left half of dipole: x = -39.45m to x = 0
-GW  1   20  -39.45  0.0   15.0   0.0    0.0   15.0   0.001
 CM Right half of dipole: x = 0 to x = +39.45m
-GW  2   20   0.0    0.0   15.0   39.45  0.0   15.0   0.001
 CM Ground plane (uses GE card for real ground — no GW radials needed)
-GE  1
 CM --- GROUND PARAMETERS ---
 CM GN  type  nrad  dummy  dummy  eps    sigma
-GN  2   0     0     0      13.0   0.005
 CM --- EXCITATION ---
 CM EX  type  tag  seg  dummy  voltage_real  voltage_imag
 CM Source at last segment of wire 1 (segment 20) = center of dipole
-EX  0   1   20   00   1.0   0.0
 CM --- FREQUENCY SWEEP ---
 CM FR  ifrq  nfrq  dummy  dummy  fmhz_start  fmhz_step
 CM 5 frequencies: 1.800, 1.850, 1.900, 1.950, 2.000 MHz
-FR  0   5   0   0   1.800   0.050
 CM --- CURRENT DISTRIBUTION PRINT ---
-PQ  0   0   0   0
 CM --- NEAR FIELD (not computed — skip NE card) ---
 CM --- RADIATION PATTERN ---
 CM RP  mode  ntheta  nphi  output  theta_start  phi_start  delta_theta  delta_phi
 CM Elevation pattern (phi=0, theta from 0 to 90 deg, step 2 deg)
 CM theta=0 is zenith; theta=90 is horizon
-RP  0   46   1   1001   0.0   0.0   2.0   0.0
 CM Azimuth pattern at low elevation (theta=75 deg = 15 deg above horizon)
-RP  0   1   73   1001   75.0   0.0   0.0   5.0
-EN
 CM ============================================================
 CM NOTES ON NEC-2 CARD FORMAT:
 CM   GW  tag nseg x1 y1 z1 x2 y2 z2 radius  (all metres)
@@ -74,3 +63,14 @@ CM   Gain (max): ~5.5 dBi (over real ground)
 CM   Max elev:   ~25 degrees above horizon at 15m
 CM   F/B ratio:  ~0 dB (omni broadside, figure-8 pattern)
 CM ============================================================
+CE
+GW  1   20  -39.45  0.0   15.0   0.0    0.0   15.0   0.001
+GW  2   20   0.0    0.0   15.0   39.45  0.0   15.0   0.001
+GE  1
+GN  2   0     0     0      13.0   0.005
+EX  0   1   20   00   1.0   0.0
+FR  0   5   0   0   1.800   0.050
+PQ  0   0   0   0
+RP  0   46   1   1001   0.0   0.0   2.0   0.0
+RP  0   1   73   1001   75.0   0.0   0.0   5.0
+EN

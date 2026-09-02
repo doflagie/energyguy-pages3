@@ -5,13 +5,12 @@ CM Compaction: 0%
 CM Special parameters: 120–240m length, 600Ω terminator, ~10 dB gain
 CE
 
-' Antenna geometry (type-specific)
 GW 1 50 0.0 0.0 8.0  50.0 0.0 8.0  0.001
-LD 4 1 51 51 0 0 300
 
 GE 0
 GN 2 0 0 0 13 0.005
 EX 0 1 6 0 1 0
+LD 4 1 51 51 0 0 300
 FR 0 1 0 0 100 0
 RP 0 91 360 1000 -90 0 1.0 1.0
 EN

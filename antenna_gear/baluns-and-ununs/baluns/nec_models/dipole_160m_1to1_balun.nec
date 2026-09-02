@@ -3,20 +3,20 @@ CM Purpose: Demonstrate common-mode suppression effect of 1:1 ferrite choke
 CM Antenna: Symmetric dipole, feedpoint impedance ~73Ω (resonant)
 CM Balun: FT-240-43×2 stacked, 14 turns RG-58 through core
 CM Expected: 20+ dB CM suppression, clean radiation pattern
-CE
 CM Antenna geometry (270-foot dipole @ 50 feet height)
 CM Dipole spans from -135 to +135 feet horizontally
+CM Feedpoint impedance source at center (segment near 0,0,50)
+CM Frequency sweep: 1.8 MHz (160M fundamental)
+CM Voltage source: 1V applied at feedpoint
+CM Radiation pattern calculation
+CE
 GW 1 13 -135.0 0.0 50.0 -69.2 0.0 50.0 0.00641
 GW 1 13 -69.2 0.0 50.0 0.0 0.0 50.0 0.00641
 GW 1 13 0.0 0.0 50.0 69.2 0.0 50.0 0.00641
 GW 1 13 69.2 0.0 50.0 135.0 0.0 50.0 0.00641
-CM Feedpoint impedance source at center (segment near 0,0,50)
 GE 0
 EK
-CM Frequency sweep: 1.8 MHz (160M fundamental)
 FR 0 1 0 0 1.8 1.0
-CM Voltage source: 1V applied at feedpoint
 EX 0 1 27 0 1.0 0.0
-CM Radiation pattern calculation
 RP 1 91 91 1111 -90.0 0.0 1.0 1.0
 EN

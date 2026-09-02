@@ -22,42 +22,30 @@ CM    L ≈ 2.2 µH (for 400mm square, 4mm tube)
 CM    C_resonate = 1/(ω²L) = 1/((2π×7.15e6)² × 2.2e-6) ≈ 225 pF
 CM    NEC models bare loop; tuning cap is external
 CM ============================================================
-CE
 CM
 CM Square loop in XZ plane, 4 wire segments (one per side)
 CM Loop center at origin, starts at lower-left corner
 CM
 CM Bottom side (z=0, from x=-0.2 to x=+0.2)
-GW 1 10 -0.2 0.0 0.0 0.2 0.0 0.0 0.002
 CM Right side (x=+0.2, from z=0 to z=0.4)
-GW 2 10 0.2 0.0 0.0 0.2 0.0 0.4 0.002
 CM Top side (z=0.4, from x=+0.2 to x=-0.2)
-GW 3 10 0.2 0.0 0.4 -0.2 0.0 0.4 0.002
 CM Left side (x=-0.2, from z=0.4 to z=0) — feed gap at bottom of this segment
-GW 4 10 -0.2 0.0 0.4 -0.2 0.0 0.0 0.002
 CM
 CM Free space (GE 0) — loop is elevated, not ground-mounted
-GE 0
 CM
 CM No ground (free space analysis for loop pattern)
 CM
 CM Frequency: 7.15 MHz (40m band center)
-FR 0 1 0 0 7.15 0
 CM
 CM Source at lower segment of tag 4 (feed gap at bottom of left side)
-EX 0 4 10 0 1.0 0.0
 CM
 CM Azimuth radiation pattern (elevation=0°, azimuth 0–360°, 5° steps)
-RP 0 1 73 1000 0.0 0.0 0.0 5.0
 CM
 CM Elevation pattern (azimuth=0°, elevation 0–90°)
-RP 0 46 1 1000 0.0 0.0 2.0 0.0
 CM
 CM Also compute at 14.175 MHz (20m) for comparison:
 CM FR 0 1 0 0 14.175 0
 CM
-EN
-
 CM ============================================================
 CM  EXPECTED RESULTS:
 CM
@@ -78,3 +66,15 @@ CM    Rotate loop until minimum signal (null) is heard
 CM    Null direction = 90° from transmitter bearing (or ±90° ambiguous)
 CM    Add sense antenna to resolve 180° ambiguity
 CM ============================================================
+CE
+GW 1 10 -0.2 0.0 0.0 0.2 0.0 0.0 0.002
+GW 2 10 0.2 0.0 0.0 0.2 0.0 0.4 0.002
+GW 3 10 0.2 0.0 0.4 -0.2 0.0 0.4 0.002
+GW 4 10 -0.2 0.0 0.4 -0.2 0.0 0.0 0.002
+GE 0
+FR 0 1 0 0 7.15 0
+EX 0 4 10 0 1.0 0.0
+RP 0 1 73 1000 0.0 0.0 0.0 5.0
+RP 0 46 1 1000 0.0 0.0 2.0 0.0
+EN
+

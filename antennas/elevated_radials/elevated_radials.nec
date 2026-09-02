@@ -5,7 +5,6 @@ CM Compaction: 30%
 CM Special parameters: 8–16 radials at 1.5–2m height, shortening coils
 CE
 
-' Antenna geometry (type-specific)
 GW 1 11 -5.0 0.0 8.0  0.0 0.0 8.0  0.002
 GW 2 11  0.0 0.0 8.0  5.0 0.0 8.0  0.002
 

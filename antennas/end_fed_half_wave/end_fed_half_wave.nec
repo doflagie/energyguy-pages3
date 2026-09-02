@@ -6,11 +6,11 @@ CM Special parameters: 86-ft wire, high impedance end feed, 9:1 unun
 CE
 
 GW 1 40 0.0 0.0 2.0  40.0 0.0 2.0  0.001
-LD 1 1 41 41 0 0 0
 
 GE 0
 GN 2 0 0 0 13 0.005
 EX 0 1 6 0 1 0
+LD 1 1 41 41 0 0 0
 FR 0 1 0 0 100 0
 RP 0 91 360 1000 -90 0 1.0 1.0
 EN

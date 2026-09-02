@@ -27,48 +27,21 @@ CM This creates a broadside array with circular symmetry.
 CM Pattern: bidirectional broadside beam (perpendicular to array plane)
 CM Alternatively: use Wilkinson + quadrature hybrids for rotating beam.
 CM ============================================================
-CE
-
 CM === ELEMENT 1 (0°) at (0, 0, 10) ===
-GW 1 21 0.000 -5.235 10.000 0.000 5.235 10.000 0.001
-
 CM === ELEMENT 2 (−90°) at (0, 10.584, 10) ===
-GW 2 21 0.000 5.349 10.000 0.000 15.919 10.000 0.001
-
 CM === ELEMENT 3 (−180°) at (10.584, 10.584, 10) ===
-GW 3 21 10.584 5.349 10.000 10.584 15.919 10.000 0.001
-
 CM === ELEMENT 4 (−270°) at (10.584, 0, 10) ===
-GW 4 21 10.584 -5.235 10.000 10.584 5.235 10.000 0.001
-
 CM === GROUND: Average ===
-GE 1
-GN 2 0 0 0 13.0 0.005
-
 CM === EXCITATIONS (sequential phase, equal amplitude) ===
-EX 0 1 11 0 1.000  0.000
-EX 0 2 11 0 0.000 -1.000
-EX 0 3 11 0 -1.000 0.000
-EX 0 4 11 0 0.000  1.000
-
 CM PHASE ENCODING:
 CM  El.1:  1.0+j0.0   = 1∠0°
 CM  El.2:  0.0−j1.0   = 1∠−90°
 CM  El.3: −1.0+j0.0   = 1∠−180°
 CM  El.4:  0.0+j1.0   = 1∠−270° = 1∠+90°
-
 CM === FREQUENCY ===
-FR 0 1 0 0 14.175 0
-
 CM === RADIATION PATTERNS ===
 CM Full azimuth/elevation pattern
-RP 0 91 361 1000 0.0 0.0 1.0 1.0
-
 CM Azimuth at 20° elevation (DX angle)
-RP 0 1 361 1000 20.0 0.0 1.0 1.0
-
-EN
-
 CM ============================================================
 CM EXPECTED RESULTS (broadside pattern):
 CM   Gain: ≈ 8 dBi (≈6 dBd) above average ground at 20°
@@ -94,3 +67,30 @@ CM     L = 50/(2π×14.175e6) = 561 nH (T-50-6, 9t, #22 AWG)
 CM     C = 1/(2π×14.175e6×50) = 225 pF (C0G)
 CM   Three cascaded sections give 270° shift for El.4.
 CM ============================================================
+CE
+
+GW 1 21 0.000 -5.235 10.000 0.000 5.235 10.000 0.001
+
+GW 2 21 0.000 5.349 10.000 0.000 15.919 10.000 0.001
+
+GW 3 21 10.584 5.349 10.000 10.584 15.919 10.000 0.001
+
+GW 4 21 10.584 -5.235 10.000 10.584 5.235 10.000 0.001
+
+GE 1
+GN 2 0 0 0 13.0 0.005
+
+EX 0 1 11 0 1.000  0.000
+EX 0 2 11 0 0.000 -1.000
+EX 0 3 11 0 -1.000 0.000
+EX 0 4 11 0 0.000  1.000
+
+
+FR 0 1 0 0 14.175 0
+
+RP 0 91 361 1000 0.0 0.0 1.0 1.0
+
+RP 0 1 361 1000 20.0 0.0 1.0 1.0
+
+EN
+

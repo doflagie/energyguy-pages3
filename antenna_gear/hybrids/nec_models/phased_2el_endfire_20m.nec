@@ -22,42 +22,21 @@ CM  Z-axis: height above ground
 CM
 CM Endfire direction: +X axis
 CM ============================================================
-CE
-
 CM === ELEMENT 1 (0°, at x=0) ===
 CM Half-wave dipole: length = 0.495 × λ = 0.495 × 21.145m = 10.47m
 CM Wire: 2mm diameter copper (#14 AWG equivalent)
-
-GW 1 21 0.000 -5.235 10.000 0.000 5.235 10.000 0.001
 CM  Tag=1, Segs=21, x1=0,y1=-5.235,z1=10m, x2=0,y2=+5.235,z2=10m, rad=1mm
-
 CM === ELEMENT 2 (−90°, at x=λ/4=5.29m) ===
-GW 2 21 5.292 -5.235 10.000 5.292 5.235 10.000 0.001
 CM  Tag=2, Segs=21, λ/4 spacing = c/(4×14.175e6) = 5.292 m
-
 CM === GROUND: Average (σ=0.005 S/m, εr=13) ===
-GE 1
-GN 2 0 0 0 13.0 0.005
-
 CM === EXCITATIONS ===
 CM Element 1: magnitude=1, phase=0°
-EX 0 1 11 0 1.0 0.0
 CM Element 2: magnitude=1, phase=−90° (quadrature hybrid)
-EX 0 2 11 0 0.0 -1.0
 CM Note: (0.0 + j×−1.0) = 1∠−90°
-
 CM === FREQUENCY ===
-FR 0 1 0 0 14.175 0
-
 CM === RADIATION PATTERN (azimuth and elevation) ===
 CM Azimuth sweep at elevation 20° (typical low-angle DX)
-RP 0 1 361 1000 20.0 0.0 1.0 1.0
-
 CM Elevation sweep in endfire direction (phi=0°)
-RP 0 91 1 1000 0.0 0.0 1.0 1.0
-
-EN
-
 CM ============================================================
 CM EXPECTED RESULTS:
 CM   Gain (endfire, 20° el): approximately 7.5 dBi (≈5.5 dBd)
@@ -73,3 +52,24 @@ CM   Use current-forcing feed method OR add matching network.
 CM   Quadrature hybrid provides inherent port isolation which
 CM   forces equal currents regardless of element impedance variation.
 CM ============================================================
+CE
+
+
+GW 1 21 0.000 -5.235 10.000 0.000 5.235 10.000 0.001
+
+GW 2 21 5.292 -5.235 10.000 5.292 5.235 10.000 0.001
+
+GE 1
+GN 2 0 0 0 13.0 0.005
+
+EX 0 1 11 0 1.0 0.0
+EX 0 2 11 0 0.0 -1.0
+
+FR 0 1 0 0 14.175 0
+
+RP 0 1 361 1000 20.0 0.0 1.0 1.0
+
+RP 0 91 1 1000 0.0 0.0 1.0 1.0
+
+EN
+
