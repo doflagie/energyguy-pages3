@@ -2279,6 +2279,20 @@ IRF510 MOSFET finals are damage-sensitive to high reflected power. Firmware fold
 
 NanoVNA reads SWR at the SOLT calibration plane. Calibrate at the rig port: measures what the rig sees (tuner output). Calibrate at the antenna feedpoint: measures the true antenna SWR (usually what you want). Feedline loss between these two points can make a bad antenna look better when measured from the rig end — lossy cable "absorbs" the reflected wave.
 
+### Line Length and SWR — Why They're Independent
+
+Changing a feedline's length changes the phase of the signal at the feedpoint — but on a lossless, uniform line, it does **not** change SWR. This surprises most people.
+
+SWR depends only on the magnitude of the reflection coefficient, |Γ|: SWR = (1 + |Γ|) / (1 − |Γ|). Moving along a transmission line transforms Γ as Γ(l) = Γ_load × e^(−j2βl) — a pure phase rotation. |Γ| never changes with length, only its angle. On a Smith chart this is a rotation at constant radius: constant radius = constant |Γ| = constant SWR, at every point along the line, including back at the rig.
+
+What *does* change with length: the complex impedance (R + jX) presented at that point — which is exactly why trimming feedline length can turn a reactive, hard-to-match load into a resistive, easy one for the tuner, without the antenna's actual SWR ever changing. This is the same phase-rotation mechanism that makes a λ/4 stub (sleeve balun, matching section) a useful transformer.
+
+**Why SWR still appears to change with line length in the field:**
+- **Line loss** — a lossy run attenuates the reflected wave more over distance; longer lossy coax reads a lower SWR at the rig than the true antenna SWR, same effect as the SOLT calibration-plane issue above, scaling with length
+- **Using length as a transformer** — a deliberate λ/4 or λ/2 section (stub, matching section, sleeve balun) exploits this same rotation to present a different Z to the next stage; the antenna's own mismatch relative to the line's Z0 hasn't changed, only where you're sampling it
+
+**Field Rule:** adding more of the same matched coax never fixes or worsens a true SWR problem — only antenna/ground work at the feedpoint does that. Changing line length only rotates the complex impedance the tuner has to handle.
+
 ---
 
 ## First-Transmit Site Checklist
@@ -3230,6 +3244,7 @@ Extra-only CW corners are quieter and preferred for DX.
 | T/R switching — T-60 + SW-7800 | Same antenna for TX and RX | MFJ-1702C 2-port coax switch; T-60 → PORT 1, SW-7800 → PORT 2, antenna → COMMON; manual lever; zero-beat: tune SW-7800 to target, match T-60 VFO pitch to received tone, switch to TX |
 | Feedline coax selection | Field cable trade-offs | Loss per 100 ft: RG-174 (0.6/0.9/1.4 dB at 7/14/28 MHz, 0.5 oz/ft); RG-58A (0.35/0.5/0.75 dB, 1.2 oz/ft); RG-8X (0.2/0.3/0.45 dB, 1.6 oz/ft); RG-174 fine ≤25 ft HF; RG-58 for 25–50 ft; RG-8X for shack runs; at 5W, 1 dB = 20% power — keep runs short |
 | SWR effect on (tr)uSDX | When SWR matters | With tuner: rig sees 50Ω regardless of antenna SWR; without tuner: 2:1 = 89% power, 3:1 = 75%, 5:1 triggers fold-back; put ATU-100 physically at rig port; tune antenna first, tuner second |
+| Line length vs SWR | Why trimming coax doesn't fix a bad match | SWR depends only on \|Γ\|, which is unchanged by line length on a lossless uniform line — length only rotates phase (Γ(l) = Γ_load × e^(−j2βl)), changing the complex Z seen at that point, not the SWR; apparent SWR drop with longer lossy coax is loss eating the reflected wave, not a real improvement; a λ/4 or λ/2 section used deliberately as a transformer (stub, sleeve balun) exploits this same rotation — only feedpoint/antenna/ground work changes true SWR |
 | Fiber-optic RF link (RFoF) | Noise-floor-critical receive antennas (Beverage, phased-array element) | Galvanic isolation — no ground loop/lightning path/shield current; fiber radiates and picks up nothing; digital RFoF (SDR at feedpoint + fiber Ethernet) is the practical DIY path; analog RFoF (CATV return-path modules, 5–42 MHz) works for HF RX only, not TX power; feedpoint box needs its own battery/solar supply — fiber carries no power; TX needs a PA at the feedpoint fed separately |
 | First-transmit site checklist | Pre-key verification at new site | Coax connections tight → NanoVNA SWR < 2:1 at feedpoint → counterpoise deployed → choke at feedpoint → tuner adjusted → frequency clear 60s → sidetone fires → no thunder audible |
 | DX azimuths from Merced CA | Pointing directional antennas | Europe: 28° NE; Japan/Korea: 314° WNW; Australia: 237° WSW; Hawaii: 244°; South America: 130° SE; dipole wire runs perpendicular to target bearing |
