@@ -10,11 +10,13 @@ THEORY OF THE SLEEVE BALUN
 A sleeve balun consists of a conductive sleeve (tube or foil cylinder) mounted
 coaxially around the outer conductor of the feed coax, connected to the outer
 conductor at one end.  The sleeve and the outer conductor of the coax form a
-λ/4 coaxial stub, shorted at the antenna end.
+λ/4 coaxial stub, shorted at the transmitter end (λ/4 back from the feedpoint).
 
 A shorted λ/4 stub appears as OPEN CIRCUIT at the free end (the end facing
-the transmitter/receiver).  This open circuit blocks common-mode current from
-flowing back along the outer shield toward the shack.
+the antenna/feedpoint).  This puts the open circuit — and the resulting high
+impedance — right at the feedpoint, blocking common-mode current where it
+would otherwise originate, instead of a quarter-wave down the shield toward
+the shack.
 
 Impedance at the free end of a λ/4 shorted stub:
   Z_input = Z₀² / Z_load = Z₀² / 0 → ∞ (ideal: blocked, open circuit)
@@ -59,13 +61,15 @@ MATERIALS:
   Sleeve: copper tube 19mm ID × 0.5mm wall (fits over RG-8X with 0.5mm gap)
         or: 2.5cm wide copper foil tape wound over foam spacer
   Sleeve length: 500mm ± 5mm
-  Connection: solder sleeve to outer conductor at ANTENNA end (feedpoint)
+  Connection: solder sleeve to outer conductor at the TRANSMITTER-facing end,
+              λ/4 back from the antenna feedpoint. Feedpoint end stays free.
 
 CONSTRUCTION — COPPER TUBE METHOD:
   1. Cut 500mm length of 19mm copper or brass tube.
-  2. Slide over RG-8X feed cable; one end should be at the antenna feedpoint.
-  3. Solder ONE END of tube to the outer conductor of coax at feedpoint.
-     The OTHER END (facing transmitter) is OPEN (floating electrically).
+  2. Slide over RG-8X feed cable; one end should sit at the antenna feedpoint.
+  3. Solder ONE END of tube to the outer conductor of coax at the end facing
+     the transmitter (λ/4 back from the feedpoint).
+     The OTHER END (at the feedpoint) is OPEN (floating electrically).
   4. The tube-coax combination is the sleeve balun.
 
 CONSTRUCTION — COPPER FOIL TAPE METHOD:
@@ -73,8 +77,9 @@ CONSTRUCTION — COPPER FOIL TAPE METHOD:
      This creates the spacing for the λ/4 stub cavity.
   2. Wrap 1.5" wide copper foil tape tightly over foam.
      Length: 500mm; overlap first and last wrap for electrical continuity.
-  3. Solder one end of copper foil to outer conductor at feedpoint.
-  4. The other end is the open (free) end toward transmitter.
+  3. Solder one end of copper foil to outer conductor at the end facing the
+     transmitter (λ/4 back from the feedpoint).
+  4. The other end is the open (free) end at the feedpoint.
 
 COPPER FOIL SLEEVE BALUN — CROSS-SECTION:
 
@@ -88,15 +93,15 @@ COPPER FOIL SLEEVE BALUN — CROSS-SECTION:
 Side view:
 
   Tx/Rx end ◄─────────────────────────────────────► Antenna
-  (open end of sleeve)                       (shorted end)
+  (shorted end)                               (open end of sleeve)
 
   ══════════════════════════════════════════════════ coax center
   ┌──────────────────────────────────────────────┐
-  │  sleeve (shorted at right, open at left)     │
+  │  sleeve (shorted at left, open at right)     │
   └──────────────────────────────────────────────┘
   ←────────── l = λ/4 = 500mm at 144 MHz ────────→
   │                                              │
-  ├─ OPEN (high Z, blocks CM current) ────── SHORT (solder here to coax shield)
+  SHORT (solder here to coax shield) ────── OPEN (high Z, blocks CM current — at feedpoint)
 
 ================================================================================
 DESIGN 2: 70cm SLEEVE BALUN (432 MHz, 167mm)

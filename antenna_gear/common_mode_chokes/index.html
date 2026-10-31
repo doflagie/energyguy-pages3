@@ -997,12 +997,13 @@ field-serviceable installation.</p>
 λ/4 shorted coaxial stub formed by an outer conductive sleeve around the
 feed coax.</p>
 <p><strong>The sleeve and the outer surface of the coax form a
-transmission line stub:</strong> - Shorted at the ANTENNA END
-(electrically bonded to outer conductor) - Open at the TRANSMITTER END
-(free end of sleeve)</p>
-<p>A λ/4 shorted stub presents infinite impedance at the open end. This
-infinite impedance blocks common-mode current at the operating
-frequency.</p>
+transmission line stub:</strong> - Shorted at the TRANSMITTER END
+(electrically bonded to outer conductor, λ/4 back from the feedpoint) -
+Open at the ANTENNA END (free end of sleeve, right at the feedpoint)</p>
+<p>A λ/4 shorted stub presents infinite impedance at the open end.
+Putting the open end at the feedpoint places that infinite impedance
+exactly where common-mode current would otherwise originate, blocking
+it at the source rather than a quarter-wave down the line.</p>
 <h3 id="band-specific-sleeve-lengths">7.2 Band-Specific Sleeve
 Lengths</h3>
 <p>Using velocity factor 0.96 (air-spaced sleeve with end
@@ -1065,10 +1066,11 @@ between coax outer conductor and sleeve.</li>
 <li>Apply 1.5”-wide (38mm) copper foil tape over foam. Wrap around
 cable, length = sleeve length. Overlap seams for electrical
 continuity.</li>
-<li>At the antenna end: connect copper foil sleeve to coax outer
-conductor with a solder bridge — remove jacket for 5mm, tin copper foil
-edge, solder to braid.</li>
-<li>Transmitter end of sleeve: simply leave free (open circuit).</li>
+<li>At the transmitter-facing end (λ/4 back from the feedpoint): connect
+copper foil sleeve to coax outer conductor with a solder bridge — remove
+jacket for 5mm, tin copper foil edge, solder to braid.</li>
+<li>Antenna end of sleeve (at the feedpoint): simply leave free (open
+circuit).</li>
 <li>Seal with self-amalgamating tape (2 layers), then UV-resistant vinyl
 tape.</li>
 </ol>
@@ -1079,7 +1081,8 @@ installation):</strong></p>
 <li>Tube ID must be ≥ coax OD + 3mm for slip fit.</li>
 <li>Slide tube over coax before connector installation.</li>
 <li>Center tube at desired position; solder tube end to coax outer braid
-at the antenna end.</li>
+at the transmitter-facing end, λ/4 back from the feedpoint. Leave the
+antenna end free (open circuit).</li>
 <li>Weatherproof with self-amalgamating tape.</li>
 </ol>
 <h3 id="bandwidth">7.4 Bandwidth</h3>
